@@ -1,0 +1,35 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-28T04:20:00Z"
+  },
+  "lists": "css",
+  "title": "터미널 기초, 눈으로 보기",
+  "order": [
+    "cover", "toc", "why", "prompt", "tree-map",
+    "s1-pwd", "s2-ls", "s3-mkdir", "s4-cd",
+    "s5-touch", "s6-echo", "s7-mkdir2",
+    "paths", "special", "s8-cd-rel", "s9-cd-up", "s10-cd-abs", "s11-cd-home",
+    "s12-mv", "s13-cp", "s14-rename", "warn", "s15-rm", "s16-rm-r",
+    "s17-ls-a", "keys",
+    "err-cd", "err-cmd", "err-space",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {"description": "오늘의 순서", "start": "cover"},
+    "concepts": {"description": "터미널, 프롬프트, 폴더 트리", "start": "why"},
+    "look": {"description": "pwd, ls, mkdir, cd", "start": "s1-pwd"},
+    "make": {"description": "touch, echo, cat", "start": "s5-touch"},
+    "path": {"description": "절대 경로와 상대 경로, 기호 . .. ~ /", "start": "paths"},
+    "move": {"description": "mv, cp, rm, rm -r", "start": "s12-mv"},
+    "extra": {"description": "숨김 파일과 단축키", "start": "s17-ls-a"},
+    "help": {"description": "자주 보는 에러 3가지", "start": "err-cd"},
+    "summary": {"description": "한 장 요약", "start": "cheatsheet"}
+  },
+  "faces": {
+    "noto-sans-kr": {"family": "Noto Sans KR", "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"},
+    "jetbrains-mono": {"family": "JetBrains Mono", "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"}
+  },
+  "designSystems": []
+}
