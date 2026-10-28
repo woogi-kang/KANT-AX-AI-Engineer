@@ -30,8 +30,15 @@
     "d3-back",
     "d4-main",
     "d5-merge",
-    "d6-delete",
     "merge-kinds",
+    "u1-oops",
+    "u2-soft",
+    "u3-mixed",
+    "u4-hard",
+    "u5-again",
+    "reset-compare",
+    "undo-when",
+    "d6-delete",
     "conflict-when",
     "c1-korean",
     "c2-main",
@@ -82,6 +89,10 @@
     "diverge": {
       "description": "갈라진 길과 merge 커밋",
       "start": "d1-create"
+    },
+    "undo": {
+      "description": "merge 되돌리기: reset --soft, --mixed, --hard",
+      "start": "u1-oops"
     },
     "conflict": {
       "description": "충돌 읽고 풀기, merge --abort",

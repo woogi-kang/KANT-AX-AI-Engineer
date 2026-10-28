@@ -83,7 +83,7 @@ def graph(nodes, edges, tags, head=None, off=0, ghost_edges=()):
         cb, lb, colour_b, kb = nodes[b]
         x1, y1, x2, y2 = cx(ca, off), LANE[la], cx(cb, off), LANE[lb]
         light = COL[colour_a if (lb == "main" and la != "main") else colour_b][1]
-        dashed = (a, b) in ghost_edges or kb in ("ghost", "far")
+        dashed = (a, b) in ghost_edges or kb in ("ghost", "far", "gone")
         if y1 == y2:
             st = f"border-top:6px dashed {light}" if dashed else f"background:{light}"
             o.append(f'<div id="e-{a}-{b}" style="position:absolute;left:{x1 + R}px;top:{y1 - 3}px;width:{x2 - x1 - 2 * R}px;height:6px;{st}"></div>')
@@ -95,10 +95,11 @@ def graph(nodes, edges, tags, head=None, off=0, ghost_edges=()):
         fill = COL[colour][0]
         st = {"merge": f"background:#FFFFFF;border:9px solid {fill}",
               "ghost": f"background:#FDFCF9;border:5px dashed {fill}",
-              "far": f"background:#FDFCF9;border:5px dashed {fill}"}.get(kind, f"background:{fill};border:4px solid {fill}")
+              "far": f"background:#FDFCF9;border:5px dashed {fill}",
+              "gone": "background:#FDFCF9;border:5px dashed #C3C8D2"}.get(kind, f"background:{fill};border:4px solid {fill}")
         o.append(f'<div id="n-{h}" style="position:absolute;left:{x - R}px;top:{y - R}px;width:{2 * R}px;height:{2 * R}px;border-radius:50%;{st}"></div>')
         label = "?" if kind == "ghost" else h
-        hc = "#6A7180" if kind in ("ghost", "far") else "#1D2330"
+        hc = "#6A7180" if kind in ("ghost", "far", "gone") else "#1D2330"
         o.append(p(f"position:absolute;left:{x - 70}px;top:{y + R + 2}px;width:140px;font-family:{MONO};font-size:24px;font-weight:700;text-align:center;color:{hc}", e(label), f' id="h-{h}"'))
     stack = {}
     for name, h, kind in tags:
@@ -126,6 +127,24 @@ def card(title, lines, top=470):
         deco = ";text-decoration:line-through" if k == "x" else ""
         o.append(p(f"font-family:{MONO};font-size:26px;line-height:1.4;white-space:nowrap;color:{c[k]}{extra}{deco}", e(text)))
     o.append('</div>')
+    return o
+
+
+ZONES = [("③ 내 저장소", "#F0F5FE", "#9DB8F2", "#1E3F8F"), ("② 대기실", "#F1FAF4", "#9ED3B4", "#1A7340"),
+         ("① 작업 폴더", "#FFFFFF", "#D5D9E0", "#3A4150")]
+CHIP = {0: "background:#DCE7FB;color:#1E3F8F", 1: "background:#DDF2E5;color:#1A7340", 2: "background:#FBE4E2;color:#A33131"}
+
+
+def zones(where=None, text=""):
+    """Three zones at the right of the graph panel. where: 0 repo, 1 staging, 2 working dir, None = the change is gone."""
+    o = []
+    for i, (name, bg, bd, fg) in enumerate(ZONES):
+        top = 456 + i * 132
+        o.append(f'<div id="z{i}" style="position:absolute;left:1330px;top:{top}px;width:474px;height:118px;background:{bg};border:2px solid {bd};border-radius:16px"></div>')
+        o.append(p(f"position:absolute;left:1352px;top:{top + 10}px;width:430px;font-size:22px;font-weight:700;color:{fg}", e(name), f' id="zl{i}"'))
+    if where is not None:
+        top = 456 + where * 132 + 50
+        o.append(p(f"position:absolute;left:1352px;top:{top}px;width:430px;font-family:{MONO};font-size:24px;font-weight:700;line-height:1.6;padding:0 12px;border-radius:8px;{CHIP[where]}", e(text), ' id="z-chip"'))
     return o
 
 
@@ -237,10 +256,49 @@ o = scene("d5-merge", EB4, "merge 커밋이 두 길을 이어요", [("$", f"git 
 o += graph(n11, e11, [("main", M, "main"), (DU, F, "orange")], head="main")
 write("d5-merge", o, "양쪽에 새 커밋이 있으니 Git이 둘을 합친 커밋을 새로 만들어요. 부모가 둘인 커밋이에요. 편집기에 Merge branch 'docs/login-guide'가 미리 적혀 있어요. vim이 열리면 Esc를 누른 뒤 :wq 와 Enter를 쳐요. 출력의 파일 목록 줄은 뺐어요.")
 
-o = scene("d6-delete", EB4, f"{DU}도 지우기", [("$", f"git branch -d {DU}"), ("o", f"Deleted branch {DU} (was {F}).")],
-          "이름표만 사라지고 커밋은 main 기록 안에 남아요.")
+# ---------- 5. merge 되돌리기 ----------
+EBU = "merge 되돌리기"
+UC = "#8A5200"
+CHG = "README.md · 로그인 안내"
+nu = {k: v for k, v in n11.items() if k not in (A, B, C)}
+nu_gone = dict(nu); nu_gone[M] = (6, "main", "main", "gone")
+eu = [(D, E_), (E_, F), (E_, G), (G, M), (F, M)]
+o = scene("u1-oops", EBU, "merge했는데 아직 push 전이에요", [("$", "git log --oneline"), ("o", f"{M} (HEAD -> main) Merge branch '{DU}'"),
+          ("o", f"{G} feat: 반가움 인사 추가"), ("o", f"{F} ({DU}) docs: README에 로그인 안내 추가")],
+          "merge 커밋을 없던 일로 하고 싶을 땐 git reset을 써요.", eyebrow_color=UC)
+o += graph(nu, eu, [("main", M, "main"), (DU, F, "orange")], head="main", off=3)
+o += zones(0, CHG)
+write("u1-oops", o, f"d5에서 merge한 직후예요. 아직 push하지 않았으니 merge 커밋 {M}은 내 저장소에만 있어요. 오른쪽 세 칸은 02에서 본 작업 폴더, 대기실, 내 저장소예요. merge로 들어온 README.md의 로그인 안내 줄이 지금 어느 칸에 있는지 봐요. 다음 세 장은 모두 이 상태에서 옵션만 바꿔 실행한 결과예요. log 출력 아래쪽 줄은 뺐어요.")
+
+o = scene("u2-soft", EBU, "--soft: 변경이 대기실에 남아요", [("$", "git reset --soft HEAD~1"), ("$", "git status"), ("g", "Changes to be committed:"), ("g", "\tmodified:   README.md")],
+          "main은 merge 전 커밋으로 돌아가고, 합쳐 온 변경은 대기실에 있어요.", eyebrow_color=UC)
+o += graph(nu_gone, eu, [("main", G, "main"), (DU, F, "orange")], head="main", off=3)
+o += zones(1, CHG)
+write("u2-soft", o, f"HEAD~1은 지금보다 한 칸 아래 커밋이에요. merge 커밋의 첫 번째 부모인 {G}로 main이 돌아가요. 점선 {M}은 이제 어느 이름표도 가리키지 않아요. 변경은 이미 add된 상태라 바로 커밋할 수 있어요. git status 출력의 On branch main 줄과 괄호 안내 줄은 뺐어요.")
+
+o = scene("u3-mixed", EBU, "--mixed (기본값): 변경이 작업 폴더에 남아요", [("$", "git reset HEAD~1"), ("o", "Unstaged changes after reset:"), ("r", "M\tREADME.md")],
+          "옵션을 안 쓰면 --mixed예요. 고친 내용은 파일에 그대로 있어요.", eyebrow_color=UC)
+o += graph(nu_gone, eu, [("main", G, "main"), (DU, F, "orange")], head="main", off=3)
+o += zones(2, CHG)
+write("u3-mixed", o, "02 되돌리기 파트에서 쓴 git reset HEAD~1과 같은 명령이에요. main은 똑같이 한 칸 돌아가고, 대기실은 비워요. README.md는 Modified 상태로 작업 폴더에 남아요. 다시 담으려면 git add부터 해요.")
+
+o = scene("u4-hard", EBU, "--hard: 변경까지 지워요", [("$", "git reset --hard HEAD~1"), ("o", f"HEAD is now at {G} feat: 반가움 인사 추가"), ("$", "git status"), ("g", "nothing to commit, working tree clean")],
+          "--hard는 커밋하지 않은 변경까지 지워요. 쓰기 전에 git status가 깨끗한지 봐요.", eyebrow_color="#A33131")
+o += graph(nu_gone, eu, [("main", G, "main"), (DU, F, "orange")], head="main", off=3)
+o += zones(None)
+write("u4-hard", o, f"세 칸 모두 merge 전 모습이에요. 작업 폴더에 커밋하지 않은 다른 변경이 있었다면 그것도 같이 사라지고 되찾을 수 없어요. 그래서 --hard 앞에는 꼭 git status를 봐요. 로그인 안내 커밋 {F}는 {DU} 이름표가 아직 가리키고 있어서 잃어버리지 않았어요. git status 출력의 On branch main 줄은 뺐어요.")
+
+nu_back = dict(nu)
+o = scene("u5-again", EBU, "브랜치가 남아 있으면 다시 합칠 수 있어요", [("$", f"git merge {DU}"), ("o", "Merge made by the 'ort' strategy.")],
+          f"{DU}를 지우기 전이라 merge를 몇 번이든 다시 할 수 있어요.", eyebrow_color=UC)
+o += graph(nu_back, eu, [("main", M, "main"), (DU, F, "orange")], head="main", off=3)
+o += zones(0, CHG)
+write("u5-again", o, f"merge를 다시 하면 merge 커밋이 새로 만들어져요. 그래서 보통은 해시가 처음과 달라요. 이 덱은 날짜를 고정해서 같은 {M}이 나왔어요. 출력의 파일 목록 줄은 뺐어요.")
+
+o = scene("d6-delete", EBU, f"확인이 끝나면 {DU} 지우기", [("$", f"git branch -d {DU}"), ("o", f"Deleted branch {DU} (was {F}).")],
+          "이름표만 사라지고 커밋은 main 기록 안에 남아요.", eyebrow_color=UC)
 o += graph(n11, e11, [("main", M, "main")], head="main")
-write("d6-delete", o, f"합친 브랜치는 지워서 목록을 깔끔하게 둬요. 커밋 {F}는 merge 커밋을 통해 main 기록에 그대로 있어요.")
+write("d6-delete", o, f"되돌릴 일이 없는지 확인한 뒤에 지워요. 합친 브랜치는 지워서 목록을 깔끔하게 둬요. 커밋 {F}는 merge 커밋을 통해 main 기록에 그대로 있어요.")
 
 # ---------- 5. 충돌 ----------
 EB5 = "충돌 시나리오 1 · 같은 줄"
