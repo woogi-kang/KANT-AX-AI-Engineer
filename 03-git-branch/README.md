@@ -14,7 +14,7 @@
 | --- | --- |
 | 점 | 커밋 하나 |
 | 흰 점 | 두 줄기를 합친 merge 커밋 |
-| 색 이름표 (`main`, `feat/greeting`) | 브랜치. 커밋을 가리키는 이름표예요 |
+| 색 이름표 (`main`, `feature/login`) | 브랜치. 커밋을 가리키는 이름표예요 |
 | 검은 `HEAD` | 지금 내가 있는 브랜치 |
 
 ## 슬라이드 순서
@@ -40,11 +40,11 @@
 
 ```bash
 git branch                          # 브랜치 목록, * 가 지금 있는 곳
-git branch feat/greeting            # 만들기만
-git checkout feat/greeting          # 옮겨 가기 (위 두 줄 = git checkout -b feat/greeting)
-echo "nice to meet you" >> hello.md
-git add hello.md
-git commit -m "feat: 반가움 인사 추가"
+git branch feature/login            # 만들기만
+git checkout feature/login          # 옮겨 가기 (위 두 줄 = git checkout -b feature/login)
+printf "# 로그인\n아이디\n" > login.md
+git add login.md
+git commit -m "feat: 로그인 화면 추가"
 ```
 
 **main으로 합치기**
@@ -53,18 +53,18 @@ merge는 받는 쪽에서 해요. 먼저 main으로 가고, 가져올 브랜치 
 
 ```bash
 git checkout main
-git merge feat/greeting
-git branch -d feat/greeting         # 다 쓴 브랜치 지우기
+git merge feature/login
+git branch -d feature/login         # 다 쓴 브랜치 지우기
 git log --oneline --graph --all
 ```
 
 **GitHub에서 Pull Request로 합치기**
 
 ```bash
-git checkout -b feat/emoji
-git add bye.md
-git commit -m "feat: 끝인사 하나 더"
-git push origin feat/emoji
+git checkout -b feature/login-button
+git add login.md
+git commit -m "feat: 로그인 버튼 추가"
+git push origin feature/login-button
 ```
 
 GitHub에서 Pull Request를 만들고 Merge 버튼으로 합쳐요. 그다음 내 컴퓨터의 main도 맞춰요.
@@ -72,7 +72,7 @@ GitHub에서 Pull Request를 만들고 Merge 버튼으로 합쳐요. 그다음 �
 ```bash
 git checkout main
 git pull origin main
-git branch -d feat/emoji
+git branch -d feature/login-button
 ```
 
 ## merge가 끝나는 두 모습
@@ -111,19 +111,19 @@ git config --global pull.rebase false
 
 ## 브랜치 이름 규칙
 
-`타입/하는-일` 형식으로 소문자와 하이픈만 써요. 타입은 커밋 메시지와 같은 말을 써요.
+`타입/하는-일` 형식으로 소문자와 하이픈만 써요. 새 기능은 `feature/`, 버그 수정은 `fix/`, 문서는 `docs/`로 시작해요. 커밋 메시지 타입은 그대로 `feat:`예요.
 
 | 이렇게 | 피해요 |
 | --- | --- |
-| `feat/login-button` | `test`, `내작업`, `final2` |
-| `fix/12-signup-error` | `Feat/Login Button` |
+| `feature/login-button` | `login`, `내작업`, `final2` |
+| `fix/12-login-error` | `Feature/Login Button` |
 
 ## 막혔을 때
 
 | 이런 메시지가 나오면 | 이렇게 해요 |
 | --- | --- |
-| `pathspec 'feat/nope' did not match` | 없는 브랜치예요. `git branch`로 이름 확인, 새로 만들 땐 `git checkout -b` |
-| `a branch named 'feat/a' already exists` | 이미 있어요. `-b` 없이 `git checkout feat/a` |
+| `pathspec 'feature/nope' did not match` | 없는 브랜치예요. `git branch`로 이름 확인, 새로 만들 땐 `git checkout -b` |
+| `a branch named 'feature/login' already exists` | 이미 있어요. `-b` 없이 `git checkout feature/login` |
 | `would be overwritten by checkout` | 고친 내용이 남아 있어요. `git add`, `git commit` 뒤에 옮기기 |
 | `is not fully merged` | 아직 합치지 않은 커밋이 있어요. `git checkout main`, `git merge 브랜치` 뒤에 지우기 |
 
