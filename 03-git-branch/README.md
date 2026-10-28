@@ -2,14 +2,11 @@
 
 커밋을 점으로, 브랜치를 그 점에 붙은 이름표로 그려서 명령마다 그래프가 어떻게 바뀌는지 봐요. 브랜치를 만들고, 합치고, 충돌을 풀고, GitHub에서 Pull Request로 합치는 데까지 이어서 해요. 02에서 만든 `hello-git` 저장소로 이어서 실습해요.
 
-## 슬라이드 받기
+## 슬라이드 보기
 
-| 형식 | 받기 | 이럴 때 |
-| --- | --- | --- |
-| HTML (애니메이션 포함) | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 키보드 →, ← 로 넘기고 N은 발표자 노트, F는 전체 화면이에요 |
-| PDF (30장) | [바로 받기](https://github.com/woogi-kang/KANT-AX-AI-Engineer/raw/main/03-git-branch/git-branch-slides.pdf) · [GitHub에서 보기](./git-branch-slides.pdf) | 인쇄하거나 휴대폰으로 볼 때 |
+[브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html)
 
-PDF에는 애니메이션이 끝난 모습이 한 장씩 담겨 있어요.
+키보드 →, ← 로 넘겨요. N을 누르면 발표자 노트, F를 누르면 전체 화면이에요.
 
 ## 그래프 읽는 법
 
