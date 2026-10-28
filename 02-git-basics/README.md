@@ -6,10 +6,10 @@
 
 | 형식 | 받기 | 이럴 때 |
 | --- | --- | --- |
-| HTML (애니메이션 포함) | [바로 받기](https://github.com/woogi-kang/TeamSparta-KANT-AX-AI-Engineer/raw/main/02-git-basics/git-basics-slides.html) | 링크를 오른쪽 클릭해서 "다른 이름으로 링크 저장"으로 받아요. 받은 파일을 더블클릭하면 브라우저에서 열리고, 키보드 →, ← 로 넘겨요 |
+| HTML (애니메이션 포함) | [브라우저로 열기](https://woogi-kang.github.io/TeamSparta-KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) | 키보드 →, ← 로 넘기고 N은 발표자 노트, F는 전체 화면이에요. 파일로 받아 두면 인터넷 없이도 열려요(글꼴만 기본 글꼴로 바뀌어요) |
 | PDF (43장) | [바로 받기](https://github.com/woogi-kang/TeamSparta-KANT-AX-AI-Engineer/raw/main/02-git-basics/git-basics-slides.pdf) · [GitHub에서 보기](./git-basics-slides.pdf) | 인쇄하거나 휴대폰으로 볼 때 |
 
-HTML은 인터넷에 연결돼 있어야 글꼴이 제대로 보여요. PDF에는 애니메이션이 끝난 모습이 한 장씩 담겨 있어요.
+PDF에는 애니메이션이 끝난 모습이 한 장씩 담겨 있어요.
 
 ## 먼저 네 칸을 기억해요
 
