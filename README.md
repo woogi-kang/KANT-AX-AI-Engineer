@@ -6,5 +6,6 @@
 | --- | --- | --- | --- |
 | 01 | [01-linux-terminal](./01-linux-terminal) | 터미널 기초: pwd, ls, cd, mkdir, touch, mv, cp, rm, 경로 | [HTML](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) · [PDF](https://github.com/woogi-kang/KANT-AX-AI-Engineer/raw/main/01-linux-terminal/linux-terminal-slides.pdf) |
 | 02 | [02-git-basics](./02-git-basics) | Git 기본 흐름: init, add, commit, push, pull, clone, 되돌리기 | [HTML](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) · [PDF](https://github.com/woogi-kang/KANT-AX-AI-Engineer/raw/main/02-git-basics/git-basics-slides.pdf) |
+| 03 | [03-git-branch](./03-git-branch) | Git 브랜치: branch, checkout, merge, 충돌, Pull Request | [HTML](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) · [PDF](https://github.com/woogi-kang/KANT-AX-AI-Engineer/raw/main/03-git-branch/git-branch-slides.pdf) |
 
 HTML 링크를 누르면 브라우저에서 바로 열려요. 키보드 →, ← 로 애니메이션과 함께 넘겨 봐요. 폴더에 들어가면 `README.md`에 따라 칠 명령과 막혔을 때 볼 표가 있어요.
