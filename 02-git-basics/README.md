@@ -1,4 +1,4 @@
-# 01. Git 기본 흐름
+# 02. Git 기본 흐름
 
 명령을 칠 때마다 파일이 어디로 가는지 따라가면서 Git을 익혀요. 내 컴퓨터에 저장소를 만들고, GitHub에 올리고, 팀원과 주고받고, 실수를 되돌리는 데까지 한 번에 이어서 봐요.
 
@@ -6,7 +6,7 @@
 
 | 형식 | 링크 |
 | --- | --- |
-| PDF (43장, 2.6MB) | [바로 받기](https://github.com/woogi-kang/TeamSparta-KANT-AX-AI-Engineer/raw/main/01-git-basics/git-basics-slides.pdf) · [GitHub에서 보기](./git-basics-slides.pdf) |
+| PDF (43장, 2.6MB) | [바로 받기](https://github.com/woogi-kang/TeamSparta-KANT-AX-AI-Engineer/raw/main/02-git-basics/git-basics-slides.pdf) · [GitHub에서 보기](./git-basics-slides.pdf) |
 | 온라인 발표용 | [Git 기본 흐름, 눈으로 보기](https://claude.ai/artifact/9Ng96bQJJporFMth1tdkcQ) (강사가 공유한 경우에만 열려요) |
 
 PDF는 애니메이션이 끝난 마지막 모습으로 한 장씩 담겨 있어요.
