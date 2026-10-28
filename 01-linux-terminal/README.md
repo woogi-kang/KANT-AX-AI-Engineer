@@ -2,14 +2,9 @@
 
 명령을 칠 때마다 폴더 지도가 어떻게 바뀌는지 따라가면서 터미널을 익혀요. 홈 폴더에 `kant` 폴더를 만들고, 그 안에서 파일을 만들고 옮기고 지우는 데까지 한 번에 이어서 봐요.
 
-## 슬라이드 받기
+## 슬라이드 보기
 
-| 형식 | 받기 | 이럴 때 |
-| --- | --- | --- |
-| HTML (애니메이션 포함) | [브라우저에서 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) | 클릭하면 바로 열려요. 키보드 →, ← 로 넘겨요 |
-| PDF (34장) | [바로 받기](https://github.com/woogi-kang/KANT-AX-AI-Engineer/raw/main/01-linux-terminal/linux-terminal-slides.pdf) · [GitHub에서 보기](./linux-terminal-slides.pdf) | 인쇄하거나 휴대폰으로 볼 때 |
-
-HTML은 인터넷에 연결돼 있어야 글꼴이 제대로 보여요. PDF에는 애니메이션이 끝난 모습이 한 장씩 담겨 있어요.
+[터미널 기초, 눈으로 보기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html)를 누르면 브라우저에서 바로 열려요. 키보드 →, ← 로 애니메이션과 함께 넘겨요. 인터넷에 연결돼 있어야 글꼴이 제대로 보여요.
 
 ## 터미널 열기
 
