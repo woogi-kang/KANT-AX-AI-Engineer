@@ -110,14 +110,14 @@ git clone https://github.com/kim/hello-git.git   # 처음 받을 때
 cd hello-git
 
 git fetch origin                                  # 받아만 오기
-git log --oneline --graph --all
+git log --oneline origin/main                     # GitHub 쪽 기록 보기
 git pull origin main                              # 받아서 합치기
 ```
 
-GitHub과 비교할 땐 `git fetch origin` 뒤에 `git log --oneline --graph --all`을 봐요.
+GitHub과 비교할 땐 `git fetch origin` 뒤에 기록을 봐요.
 
-- `main`이 위에 있으면 `git push origin main`
-- `origin/main`이 위에 있으면 `git pull origin main`
+- `git log --oneline`에서 `main`이 `origin/main`보다 위에 있으면 `git push origin main`
+- `git log --oneline origin/main`에서 `origin/main`이 `main`보다 위에 있으면 `git pull origin main`
 
 이 과정은 `git push -u`를 쓰지 않아요. 그래서 `git status`는 GitHub보다 앞섰는지 뒤처졌는지 알려 주지 않아요.
 

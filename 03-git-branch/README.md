@@ -88,7 +88,7 @@ merge는 받는 쪽에서 해요. 먼저 main으로 가서 가져올 브랜치 �
 git checkout main
 git merge feature/login
 git branch -d feature/login         # 다 쓴 브랜치 지우기
-git log --oneline --graph --all
+git log --oneline
 ```
 
 ### 3. Pull Request로 합치기
@@ -147,7 +147,7 @@ git config --global pull.rebase false
 | `git branch -d 이름` | 합친 브랜치 지우기 |
 | `git merge --abort` | 충돌 난 merge 취소 |
 | `git push origin 이름` | 브랜치를 GitHub에 올리기 |
-| `git log --oneline --graph --all` | 브랜치 그래프 보기 |
+| `git log --oneline` | 커밋 기록과 브랜치 이름표 보기 |
 
 ## 문제 해결
 

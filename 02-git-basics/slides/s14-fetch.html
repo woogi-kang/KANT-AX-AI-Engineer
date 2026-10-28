@@ -55,16 +55,16 @@
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git fetch origin</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">From https://github.com/kim/hello-git</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">&#160;&#160;&#160;3f9a2c1..e73617d  main       -&gt; origin/main</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline --graph --all</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* e73617d (origin/main) docs: README 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* 3f9a2c1 (HEAD -&gt; main) feat: 끝인사 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* a7c21f4 feat: 인사말 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* 538dd06 feat: 인사 파일 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline origin/main</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">e73617d (origin/main) docs: README 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">3f9a2c1 (HEAD -&gt; main) feat: 끝인사 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">a7c21f4 feat: 인사말 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">538dd06 feat: 인사 파일 추가</p>
 </div>
 <div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:676px;width:546px;height:348px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
 <x-icon name="Search" style="width:56px;height:56px;color:#6B47D6"></x-icon>
 <p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">받아만 왔어요</p>
 <p style="font-size:26px;line-height:1.45;color:#4A5262">origin/main만 이동<br>작업 폴더는 그대로</p>
 </div>
-<aside>fetch는 GitHub의 새 소식을 받아 origin/main 꼬리표만 옮겨요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.</aside>
+<aside>fetch는 GitHub의 새 소식을 받아 origin/main 꼬리표만 옮겨요. 내 main보다 앞선 커밋은 git log --oneline origin/main으로 봐요. 그냥 git log --oneline에는 내 main까지만 나와요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.</aside>
 </section>

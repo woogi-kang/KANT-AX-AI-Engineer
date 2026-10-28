@@ -13,7 +13,8 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 ## 수업 규칙 (자료 내용)
 
 - `git push -u`, `--set-upstream`, `push.autoSetupRemote`는 쓰지 않아요. push와 pull은 항상 `git push origin main`, `git pull origin main`처럼 끝까지 적어요.
-- GitHub과 비교할 땐 `git fetch origin` 뒤 `git log --oneline --graph --all`을 봐요.
+- GitHub과 비교할 땐 `git fetch origin` 뒤 `git log --oneline`과 `git log --oneline origin/main`을 봐요.
+- `git log`에 `--graph`, `--all` 옵션은 쓰지 않아요. 자료, README, 슬라이드 모두 같아요.
 - `git restore`는 아직 배우지 않았으니 자료에 넣지 않아요.
 - 커밋 메시지는 Conventional Commits 형식(`feat:`, `fix:`, `docs:` …)으로 써요. 이 레포에 커밋할 때도 같아요.
 - 터미널 출력은 실제 git으로 실행해 보고 그대로 옮겨요. 지어낸 출력은 넣지 않아요.

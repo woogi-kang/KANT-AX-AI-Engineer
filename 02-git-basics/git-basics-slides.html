@@ -1207,9 +1207,9 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">Writing objects: 100% (6/6), 466 bytes | 466.00 KiB/s, done.</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">To https://github.com/kim/hello-git.git</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">&nbsp;* [new branch]      main -&gt; main</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline --graph --all</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* a7c21f4 (HEAD -&gt; main, origin/main) feat: 인사말 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* 538dd06 feat: 인사 파일 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">a7c21f4 (HEAD -&gt; main, origin/main) feat: 인사말 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">538dd06 feat: 인사 파일 추가</p>
 </div>
 <div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:676px;width:546px;height:348px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
 <x-icon name="PaperPlane" style="width:56px;height:56px;color:#6B47D6"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1296,10 +1296,10 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">[main 3f9a2c1] feat: 끝인사 추가</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git status</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">nothing to commit, working tree clean</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline --graph --all</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* 3f9a2c1 (HEAD -&gt; main) feat: 끝인사 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* a7c21f4 (origin/main) feat: 인사말 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* 538dd06 feat: 인사 파일 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">3f9a2c1 (HEAD -&gt; main) feat: 끝인사 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">a7c21f4 (origin/main) feat: 인사말 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">538dd06 feat: 인사 파일 추가</p>
 </div>
 <div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:676px;width:546px;height:348px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
 <x-icon name="Warning" style="width:56px;height:56px;color:#A33131"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1310,7 +1310,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">status는 clean,<br>그래도 GitHub엔 없음</p>
 <p style="font-size:26px;line-height:1.45;color:#4A5262">main이 origin/main보다 위</p>
 </div>
-<aside>-u 없이 작업하면 git status가 GitHub과 비교해 주지 않아요. 그래서 clean이라고만 나와요. 안 보낸 커밋은 git log --oneline --graph --all에서 main이 origin/main보다 위에 있는지로 확인해요.</aside>
+<aside>-u 없이 작업하면 git status가 GitHub과 비교해 주지 않아요. 그래서 clean이라고만 나와요. 안 보낸 커밋은 git log --oneline에서 main이 origin/main보다 위에 있는지로 확인해요.</aside>
 </section>
 <section id="s12-push2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:472px;border:2px dashed #B9BDC6;border-radius:28px"></div>
@@ -1385,10 +1385,10 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git push origin main</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">To https://github.com/kim/hello-git.git</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">&nbsp;&nbsp;&nbsp;a7c21f4..3f9a2c1  main -&gt; main</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline --graph --all</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* 3f9a2c1 (HEAD -&gt; main, origin/main) feat: 끝인사 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* a7c21f4 feat: 인사말 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* 538dd06 feat: 인사 파일 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">3f9a2c1 (HEAD -&gt; main, origin/main) feat: 끝인사 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">a7c21f4 feat: 인사말 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">538dd06 feat: 인사 파일 추가</p>
 </div>
 <div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:676px;width:546px;height:348px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
 <x-icon name="CheckCircle" style="width:56px;height:56px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1569,11 +1569,11 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git fetch origin</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">From https://github.com/kim/hello-git</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">&nbsp;&nbsp;&nbsp;3f9a2c1..e73617d  main       -&gt; origin/main</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline --graph --all</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* e73617d (origin/main) docs: README 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* 3f9a2c1 (HEAD -&gt; main) feat: 끝인사 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* a7c21f4 feat: 인사말 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* 538dd06 feat: 인사 파일 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline origin/main</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">e73617d (origin/main) docs: README 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">3f9a2c1 (HEAD -&gt; main) feat: 끝인사 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">a7c21f4 feat: 인사말 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">538dd06 feat: 인사 파일 추가</p>
 </div>
 <div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:676px;width:546px;height:348px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
 <x-icon name="Search" style="width:56px;height:56px;color:#6B47D6"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1583,7 +1583,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">받아만 왔어요</p>
 <p style="font-size:26px;line-height:1.45;color:#4A5262">origin/main만 이동<br>작업 폴더는 그대로</p>
 </div>
-<aside>fetch는 GitHub의 새 소식을 받아 origin/main 꼬리표만 옮겨요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.</aside>
+<aside>fetch는 GitHub의 새 소식을 받아 origin/main 꼬리표만 옮겨요. 내 main보다 앞선 커밋은 git log --oneline origin/main으로 봐요. 그냥 git log --oneline에는 내 main까지만 나와요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.</aside>
 </section>
 <section id="s15-pull" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:472px;border:2px dashed #B9BDC6;border-radius:28px"></div>
@@ -1856,9 +1856,9 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git commit -m "feat: 실수한 커밋"</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">[main b81d4e2] feat: 실수한 커밋</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">&nbsp;1 file changed, 1 insertion(+)</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline --graph --all</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* b81d4e2 (HEAD -&gt; main) feat: 실수한 커밋</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* e73617d (origin/main) docs: README 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">b81d4e2 (HEAD -&gt; main) feat: 실수한 커밋</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">e73617d (origin/main) docs: README 추가</p>
 </div>
 <div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:676px;width:546px;height:348px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
 <x-icon name="Warning" style="width:56px;height:56px;color:#A33131"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1949,9 +1949,9 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git reset HEAD~1</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">Unstaged changes after reset:</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hello.md</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline --graph --all</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* e73617d (HEAD -&gt; main, origin/main) docs: README 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">* 3f9a2c1 feat: 끝인사 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">e73617d (HEAD -&gt; main, origin/main) docs: README 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">3f9a2c1 feat: 끝인사 추가</p>
 <p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#9AA3B5"># HEAD~1 = 지금보다 한 칸 아래 커밋</p>
 </div>
 <div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:676px;width:546px;height:348px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
@@ -2196,7 +2196,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 </svg></x-icon>
 <div style="display:flex;flex-direction:column;gap:8px">
 <p style="font-size:26px;font-weight:700;color:#F6F5F1">GitHub과 비교는 log로</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;color:#F2C46D">git fetch origin → git log --oneline --graph --all</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;color:#F2C46D">git fetch origin → git log --oneline origin/main</p>
 </div>
 <div style="flex:1"></div>
 <div style="display:flex;flex-direction:column;gap:8px">

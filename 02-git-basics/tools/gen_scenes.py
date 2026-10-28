@@ -282,8 +282,8 @@ o.append(pop("rm", 500, "해시가 같아요 = 같은 커밋", color="#4A2FA8", 
 o += terminal([("$", "git push origin main"), ("o", "Enumerating objects: 6, done."),
                ("o", "Writing objects: 100% (6/6), 466 bytes | 466.00 KiB/s, done."),
                ("o", "To https://github.com/kim/hello-git.git"), ("o", " * [new branch]      main -> main"),
-               ("$", "git log --oneline --graph --all"), ("o", f"* {H2} (HEAD -> main, origin/main) feat: 인사말 추가"),
-               ("o", f"* {H1} feat: 인사 파일 추가")])
+               ("$", "git log --oneline"), ("o", f"{H2} (HEAD -> main, origin/main) feat: 인사말 추가"),
+               ("o", f"{H1} feat: 인사 파일 추가")])
 o += callout("PaperPlane", "origin으로<br>main을 보냄", "push 뒤에 어디로(origin)<br>무엇을(main)", icolor="#6B47D6")
 write("s10-push", o, "우리 과정에서는 -u를 쓰지 않고 매번 git push origin main처럼 어디로(origin), 무엇을(main) 둘 다 적어요. origin/main 꼬리표는 내 컴퓨터가 기억하는 GitHub의 main 위치예요. 처음 push 할 때 GitHub 로그인이나 토큰 입력 창이 뜰 수 있어요.")
 
@@ -299,10 +299,10 @@ o.append(tag("rt-main", "rm", 0, 0, "main", "rmain"))
 o.append(pop("lr", 540, "1개 앞서 있음 (안 보냄)", color="#1E3F8F"))
 o += terminal([("$", "git add hello.md"), ("$", 'git commit -m "feat: 끝인사 추가"'), ("o", f"[main {H3}] feat: 끝인사 추가"),
                ("$", "git status"), ("o", "nothing to commit, working tree clean"),
-               ("$", "git log --oneline --graph --all"), ("o", f"* {H3} (HEAD -> main) feat: 끝인사 추가"),
-               ("o", f"* {H2} (origin/main) feat: 인사말 추가"), ("o", f"* {H1} feat: 인사 파일 추가")])
+               ("$", "git log --oneline"), ("o", f"{H3} (HEAD -> main) feat: 끝인사 추가"),
+               ("o", f"{H2} (origin/main) feat: 인사말 추가"), ("o", f"{H1} feat: 인사 파일 추가")])
 o += callout("Warning", "status는 clean,<br>그래도 GitHub엔 없음", "main이 origin/main보다 위", icolor="#A33131")
-write("s11-ahead", o, "-u 없이 작업하면 git status가 GitHub과 비교해 주지 않아요. 그래서 clean이라고만 나와요. 안 보낸 커밋은 git log --oneline --graph --all에서 main이 origin/main보다 위에 있는지로 확인해요.")
+write("s11-ahead", o, "-u 없이 작업하면 git status가 GitHub과 비교해 주지 않아요. 그래서 clean이라고만 나와요. 안 보낸 커밋은 git log --oneline에서 main이 origin/main보다 위에 있는지로 확인해요.")
 
 o = frame("s12-push2", "실습 12 · GitHub과 연결하기", "git push origin main", paths=P_GH, remote_label=RM_LBL)
 o += [placeholder("st", "비어 있음")]
@@ -314,9 +314,9 @@ o.append(tag("lt-origin", "lr", 0, 1, "origin/main", "origin"))
 o.append(tag("rt-main", "rm", 0, 0, "main", "rmain"))
 o.append(arrow("lr-rm", color="#6B47D6"))
 o += terminal([("$", "git push origin main"), ("o", "To https://github.com/kim/hello-git.git"),
-               ("o", f"   {H2}..{H3}  main -> main"), ("$", "git log --oneline --graph --all"),
-               ("o", f"* {H3} (HEAD -> main, origin/main) feat: 끝인사 추가"), ("o", f"* {H2} feat: 인사말 추가"),
-               ("o", f"* {H1} feat: 인사 파일 추가")])
+               ("o", f"   {H2}..{H3}  main -> main"), ("$", "git log --oneline"),
+               ("o", f"{H3} (HEAD -> main, origin/main) feat: 끝인사 추가"), ("o", f"{H2} feat: 인사말 추가"),
+               ("o", f"{H1} feat: 인사 파일 추가")])
 o += callout("CheckCircle", "main = origin/main<br>이제 같아요", None, icolor="#1A7340")
 write("s12-push2", o, f"두 번째 push부터는 바뀐 커밋만 보내요. {H2}..{H3}는 그 사이 커밋을 보냈다는 뜻이에요.")
 
@@ -358,11 +358,11 @@ o.append(tag("lt-main", "lr", 1, 0, "main", "main"))
 o.append(tag("rt-main", "rm", 0, 0, "main", "rmain"))
 o.append(arrow("lr-rm", "left", color="#6B47D6"))
 o += terminal([("$", "git fetch origin"), ("o", "From https://github.com/kim/hello-git"),
-               ("o", f"   {H3}..{H4}  main       -> origin/main"), ("$", "git log --oneline --graph --all"),
-               ("o", f"* {H4} (origin/main) docs: README 추가"), ("o", f"* {H3} (HEAD -> main) feat: 끝인사 추가"),
-               ("o", f"* {H2} feat: 인사말 추가"), ("o", f"* {H1} feat: 인사 파일 추가")])
+               ("o", f"   {H3}..{H4}  main       -> origin/main"), ("$", "git log --oneline origin/main"),
+               ("o", f"{H4} (origin/main) docs: README 추가"), ("o", f"{H3} (HEAD -> main) feat: 끝인사 추가"),
+               ("o", f"{H2} feat: 인사말 추가"), ("o", f"{H1} feat: 인사 파일 추가")])
 o += callout("Search", "받아만 왔어요", "origin/main만 이동<br>작업 폴더는 그대로", icolor="#6B47D6")
-write("s14-fetch", o, "fetch는 GitHub의 새 소식을 받아 origin/main 꼬리표만 옮겨요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.")
+write("s14-fetch", o, "fetch는 GitHub의 새 소식을 받아 origin/main 꼬리표만 옮겨요. 내 main보다 앞선 커밋은 git log --oneline origin/main으로 봐요. 그냥 git log --oneline에는 내 main까지만 나와요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.")
 
 o = frame("s15-pull", "실습 15 · 받아서 합치기", "git pull origin main", paths=P_GH, remote_label=RM_LBL)
 o += [placeholder("st", "비어 있음")]
@@ -397,8 +397,8 @@ o.append(tag("lt-origin", "lr", 1, 1, "origin/main", "origin"))
 o.append(tag("rt-main", "rm", 0, 0, "main", "rmain"))
 o += terminal([("$", 'echo "oops" >> hello.md'), ("$", "git add hello.md"), ("$", 'git commit -m "feat: 실수한 커밋"'),
                ("o", f"[main {H5}] feat: 실수한 커밋"), ("o", " 1 file changed, 1 insertion(+)"),
-               ("$", "git log --oneline --graph --all"), ("o", f"* {H5} (HEAD -> main) feat: 실수한 커밋"),
-               ("o", f"* {H4} (origin/main) docs: README 추가")])
+               ("$", "git log --oneline"), ("o", f"{H5} (HEAD -> main) feat: 실수한 커밋"),
+               ("o", f"{H4} (origin/main) docs: README 추가")])
 o += callout("Warning", "앗, 잘못 커밋했다", "아직 push 전이에요", icolor="#A33131")
 write("s16-oops", o, "실수로 커밋을 하나 만든 상황이에요. 아직 push하지 않았으니 이 커밋은 내 저장소에만 있어요.")
 
@@ -414,8 +414,8 @@ o.append(tag("rt-main", "rm", 0, 0, "main", "rmain"))
 o.append(arrow("wd-st", "left", top=560, color="#A33131"))
 o.append(arrow("st-lr", "left", top=560, color="#A33131"))
 o += terminal([("$", "git reset HEAD~1"), ("o", "Unstaged changes after reset:"), ("o", "M\thello.md"),
-               ("$", "git log --oneline --graph --all"), ("o", f"* {H4} (HEAD -> main, origin/main) docs: README 추가"),
-               ("o", f"* {H3} feat: 끝인사 추가"), ("#", "# HEAD~1 = 지금보다 한 칸 아래 커밋")])
+               ("$", "git log --oneline"), ("o", f"{H4} (HEAD -> main, origin/main) docs: README 추가"),
+               ("o", f"{H3} feat: 끝인사 추가"), ("#", "# HEAD~1 = 지금보다 한 칸 아래 커밋")])
 o += callout("Clock", "main을<br>한 칸 뒤로", "고친 내용은 작업 폴더에 남아요", icolor="#A33131")
 write("s17-reset", o, "reset은 main 꼬리표를 예전 커밋으로 옮겨서 그 위 커밋을 기록에서 빼요. 옵션 없이 쓰면 --mixed라서, 커밋했던 변경은 작업 폴더에 Modified로 남아요. 다시 고쳐서 커밋하면 돼요.")
 
