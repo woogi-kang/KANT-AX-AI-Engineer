@@ -4,12 +4,12 @@
 
 ## 슬라이드 받기
 
-| 형식 | 링크 |
-| --- | --- |
-| PDF (30장, 1.3MB) | [바로 받기](https://github.com/woogi-kang/TeamSparta-KANT-AX-AI-Engineer/raw/main/01-linux-terminal/linux-terminal-slides.pdf) · [GitHub에서 보기](./linux-terminal-slides.pdf) |
-| 온라인 발표용 | [터미널 기초, 눈으로 보기](https://claude.ai/artifact/S8mW8PdeMBC2mcjGThhhQu) (강사가 공유한 경우에만 열려요) |
+| 형식 | 받기 | 이럴 때 |
+| --- | --- | --- |
+| HTML (애니메이션 포함) | [브라우저에서 열기](https://woogi-kang.github.io/TeamSparta-KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) | 클릭하면 바로 열려요. 키보드 →, ← 로 넘겨요 |
+| PDF (30장) | [바로 받기](https://github.com/woogi-kang/TeamSparta-KANT-AX-AI-Engineer/raw/main/01-linux-terminal/linux-terminal-slides.pdf) · [GitHub에서 보기](./linux-terminal-slides.pdf) | 인쇄하거나 휴대폰으로 볼 때 |
 
-PDF는 애니메이션이 끝난 마지막 모습으로 한 장씩 담겨 있어요.
+HTML은 인터넷에 연결돼 있어야 글꼴이 제대로 보여요. PDF에는 애니메이션이 끝난 모습이 한 장씩 담겨 있어요.
 
 ## 터미널 열기
 
@@ -113,7 +113,10 @@ tools/
   gen_scenes.py    터미널과 폴더 지도 장면을 만드는 스크립트
   check.js         글자 넘침, 겹침, 여백을 검사하고 스크린샷을 남기는 스크립트
   export.js        deck.json 순서대로 전체 슬라이드를 PDF 한 파일로 뽑는 스크립트
-  icons/           PDF에 넣는 아이콘 (Lucide, ISC 라이선스)
+  build_player.js  애니메이션째 넘겨 보는 HTML 한 파일을 만드는 스크립트
+  deckrender.js    export.js와 build_player.js가 같이 쓰는 그리기 코드
+  icons/           HTML과 PDF에 넣는 아이콘 (Lucide, ISC 라이선스)
+linux-terminal-slides.html  수강생 배포용 HTML
 linux-terminal-slides.pdf   수강생 배포용 PDF
 ```
 
@@ -123,7 +126,8 @@ linux-terminal-slides.pdf   수강생 배포용 PDF
 python3 tools/gen_scenes.py slides
 node tools/check.js slides shots           # 전체 검사 (Playwright 필요)
 node tools/check.js slides shots s12-mv    # 특정 장만
-node tools/export.js slides linux-terminal-slides.pdf   # 슬라이드를 고친 뒤 PDF 다시 만들기
+node tools/build_player.js slides linux-terminal-slides.html   # 슬라이드를 고친 뒤 HTML 다시 만들기
+node tools/export.js slides linux-terminal-slides.pdf          # PDF 다시 만들기
 ```
 
 터미널 출력은 bash 5.2, GNU coreutils 9.4에서 실제로 실행해 확인했어요. 프롬프트는 화면을 아끼려고 `~/kant $`처럼 위치만 남긴 모양으로 바꿨어요.
