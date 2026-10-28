@@ -31,6 +31,11 @@
     "d4-main",
     "d5-merge",
     "merge-kinds",
+    "r0-what",
+    "r1-oops",
+    "r2-soft",
+    "r3-mixed",
+    "r4-hard",
     "u1-oops",
     "u2-soft",
     "u3-mixed",
@@ -91,8 +96,8 @@
       "start": "d1-create"
     },
     "undo": {
-      "description": "merge 되돌리기: reset --soft, --mixed, --hard",
-      "start": "u1-oops"
+      "description": "되돌리기: git reset --soft, --mixed, --hard (일반 커밋, merge 커밋)",
+      "start": "r0-what"
     },
     "conflict": {
       "description": "충돌 읽고 풀기, merge --abort",

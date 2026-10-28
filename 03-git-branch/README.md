@@ -4,7 +4,7 @@
 
 | 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
 | --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 61장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 66장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | 준비 중 |
 
 ## 학습 목표
 
@@ -13,7 +13,7 @@
 - 커밋 그래프에서 커밋, 브랜치, `HEAD`가 무엇을 가리키는지 읽어요.
 - `branch`, `checkout`으로 브랜치를 만들고 옮겨 다니며 작업해요.
 - `merge`로 브랜치를 합치고 fast-forward와 merge 커밋을 구분해요.
-- push 전에 merge를 `reset --soft`, `--mixed`, `--hard`로 되돌리고 셋의 차이를 설명해요.
+- push 전에 커밋과 merge를 `reset --soft`, `--mixed`, `--hard`로 되돌리고 셋의 차이를 설명해요.
 - 충돌 메시지를 보고 종류를 알아낸 뒤 직접 풀어요.
 - 브랜치를 GitHub에 올리고 Pull Request로 합쳐요.
 
@@ -27,12 +27,12 @@
 | 2. 만들고 옮기기 | 7–13 | `branch` `checkout`, 브랜치에서 커밋, 폴더 파일이 바뀌는 모습 |
 | 3. 합치기 | 14–18 | merge는 받는 쪽에서, fast-forward, `branch -d`, 이름 규칙 |
 | 4. 갈라진 길 | 19–24 | `checkout -b`, merge 커밋 |
-| 5. merge 되돌리기 | 25–32 | `reset --soft` `--mixed` `--hard`, 다시 merge, 브랜치 지우기 |
-| 6. 충돌 풀기 | 33–39 | 충돌이 나는 때, 표시 읽기, 고치고 커밋, `merge --abort` |
-| 7. GitHub에서 함께 | 40–45 | `push origin 브랜치`, Pull Request, GitHub Flow |
-| 8. 충돌 시나리오 | 46–57 | 바로 옆 줄, 지움 vs 고침, 같은 이름 새 파일, pull, Pull Request |
-| 9. 문제 해결 | 58–60 | 자주 나는 에러 |
-| 요약 | 61 | 한 장 요약 |
+| 5. 되돌리기 | 25–37 | `reset --soft` `--mixed` `--hard`, 일반 커밋과 merge 커밋 두 경우, 다시 merge |
+| 6. 충돌 풀기 | 38–44 | 충돌이 나는 때, 표시 읽기, 고치고 커밋, `merge --abort` |
+| 7. GitHub에서 함께 | 45–50 | `push origin 브랜치`, Pull Request, GitHub Flow |
+| 8. 충돌 시나리오 | 51–62 | 바로 옆 줄, 지움 vs 고침, 같은 이름 새 파일, pull, Pull Request |
+| 9. 문제 해결 | 63–65 | 자주 나는 에러 |
+| 요약 | 66 | 한 장 요약 |
 
 ## 핵심 개념
 
@@ -55,11 +55,11 @@
 
 merge 커밋을 만들 때 메시지 편집기가 열려요. 그대로 저장하고 닫으면 돼요. vim이면 Esc를 누르고 `:wq`, Enter를 쳐요.
 
-### merge 되돌리기
+### 되돌리기 (git reset)
 
-merge 커밋을 push 전에 없던 일로 할 땐 `git reset 옵션 HEAD~1`을 써요. 세 옵션 모두 main을 merge 전 커밋으로 돌리고, 차이는 합쳐 온 변경이 어디에 남는지예요.
+push 전에 커밋을 없던 일로 할 땐 `git reset 옵션 HEAD~1`을 써요. 지금 브랜치 이름표를 한 칸 아래 커밋으로 옮겨요. 일반 커밋이든 merge 커밋이든 명령은 같아요. 옵션은 빠진 커밋의 변경을 어디에 남길지 정해요.
 
-| 옵션 | 합쳐 온 변경 | 브랜치 |
+| 옵션 | 빠진 커밋의 변경 | merge를 되돌렸을 때 브랜치 |
 | --- | --- | --- |
 | `--soft` | 대기실에 남아요 | 그대로 |
 | `--mixed` (기본값) | 작업 폴더에 남아요 | 그대로 |
@@ -67,7 +67,7 @@ merge 커밋을 push 전에 없던 일로 할 땐 `git reset 옵션 HEAD~1`을 �
 
 > **주의** `--hard`는 커밋하지 않은 다른 변경까지 지우고 되찾을 수 없어요. 쓰기 전에 `git status`가 깨끗한지 봐요.
 
-브랜치가 남아 있으면 `git merge 브랜치`로 다시 합칠 수 있어요. 그래서 브랜치는 되돌릴 일이 없는지 확인한 뒤에 지워요. 이미 push한 merge는 혼자 되돌리지 않고 팀에 먼저 알려요.
+일반 커밋을 `--hard`로 지우면 그 변경은 남는 곳이 없어요. merge는 브랜치가 남아 있으면 `git merge 브랜치`로 다시 합칠 수 있어요. 그래서 브랜치는 되돌릴 일이 없는지 확인한 뒤에 지워요. 이미 push한 커밋은 `git revert`로 되돌리고, push한 merge는 팀에 먼저 알려요.
 
 ### 브랜치 이름
 
@@ -162,6 +162,7 @@ git config --global pull.rebase false
 | `git merge 이름` | 지금 브랜치로 합치기 |
 | `git branch -d 이름` | 합친 브랜치 지우기 |
 | `git merge --abort` | 충돌 난 merge 취소 |
+| `git reset HEAD~1` | push 전 커밋 취소, 변경은 작업 폴더에 |
 | `git reset --hard HEAD~1` | push 전에 끝낸 merge 되돌리기 |
 | `git push origin 이름` | 브랜치를 GitHub에 올리기 |
 | `git log --oneline` | 커밋 기록과 브랜치 이름표 보기 |
@@ -185,7 +186,7 @@ slides/
   deck.json        슬라이드 순서와 파트 구분
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen_branch.py    커밋 그래프 장면(g, b, d, u, c, p로 시작하는 장) 생성
+  gen_branch.py    커밋 그래프 장면(g, b, d, r, u, c, p로 시작하는 장) 생성
   gen_pages.py     표지, 목차, 개념, 충돌 시나리오, PR, 에러 장 생성
   check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
   deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드

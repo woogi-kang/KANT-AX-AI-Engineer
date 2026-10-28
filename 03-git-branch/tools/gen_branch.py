@@ -257,18 +257,50 @@ o += graph(n11, e11, [("main", M, "main"), (DU, F, "orange")], head="main")
 write("d5-merge", o, "양쪽에 새 커밋이 있으니 Git이 둘을 합친 커밋을 새로 만들어요. 부모가 둘인 커밋이에요. 편집기에 Merge branch 'docs/login-guide'가 미리 적혀 있어요. vim이 열리면 Esc를 누른 뒤 :wq 와 Enter를 쳐요. 출력의 파일 목록 줄은 뺐어요.")
 
 # ---------- 5. merge 되돌리기 ----------
-EBU = "merge 되돌리기"
+EBR = "되돌리기 · 케이스 1 일반 커밋"
+EBU = "되돌리기 · 케이스 2 merge 커밋"
 UC = "#8A5200"
 CHG = "README.md · 로그인 안내"
 nu = {k: v for k, v in n11.items() if k not in (A, B, C)}
 nu_gone = dict(nu); nu_gone[M] = (6, "main", "main", "gone")
 eu = [(D, E_), (E_, F), (E_, G), (G, M), (F, M)]
-o = scene("u1-oops", EBU, "merge했는데 아직 push 전이에요", [("$", "git log --oneline"), ("o", f"{M} (HEAD -> main) Merge branch '{DU}'"),
+
+# 케이스 1: merge 뒤 main에 실수 커밋 하나 (hashes from a real run)
+X = "42209fe"
+OOPS = "hello.md · oops 줄"
+nx = dict(nu); nx[X] = (7, "main", "main", "n")
+nx_gone = dict(nu); nx_gone[X] = (7, "main", "main", "gone")
+ex = eu + [(M, X)]
+o = scene("r1-oops", EBR, "실수로 커밋했어요, 아직 push 전이에요", [("$", 'git commit -am "feat: 실수한 커밋"'), ("o", f"[main {X}] feat: 실수한 커밋")],
+          "이 커밋 하나를 없던 일로 해 볼게요.", eyebrow_color=UC)
+o += graph(nx, ex, [("main", X, "main"), (DU, F, "orange")], head="main", off=3)
+o += zones(0, OOPS)
+write("r1-oops", o, f"merge 직후 main에서 hello.md에 oops 한 줄을 넣고 커밋했어요. 아직 push 전이라 {X}는 내 저장소에만 있어요. 오른쪽 세 칸은 02에서 본 작업 폴더, 대기실, 내 저장소예요. 다음 세 장은 모두 이 상태에서 옵션만 바꿔 실행한 결과예요. 따라 할 땐 한 옵션을 해 본 뒤 다시 커밋하고 다음 옵션을 해요. 출력의 1 file changed 줄은 뺐어요.")
+
+o = scene("r2-soft", EBR, "--soft: 변경이 대기실에 남아요", [("$", "git reset --soft HEAD~1"), ("$", "git status"), ("g", "Changes to be committed:"), ("g", "\tmodified:   hello.md")],
+          "main이 한 칸 뒤로 가고, oops 줄은 add된 채로 남아요.", eyebrow_color=UC)
+o += graph(nx_gone, ex, [("main", M, "main"), (DU, F, "orange")], head="main", off=3)
+o += zones(1, OOPS)
+write("r2-soft", o, f"HEAD~1은 지금보다 한 칸 아래 커밋이에요. main 이름표가 {X}에서 {M}로 돌아가요. 커밋 메시지만 고쳐서 다시 커밋하고 싶을 때 써요. git status 출력의 On branch main 줄과 괄호 안내 줄은 뺐어요.")
+
+o = scene("r3-mixed", EBR, "--mixed (기본값): 변경이 작업 폴더에 남아요", [("$", "git reset HEAD~1"), ("o", "Unstaged changes after reset:"), ("r", "M\thello.md")],
+          "옵션을 안 쓰면 --mixed예요. oops 줄은 파일에 그대로 있어요.", eyebrow_color=UC)
+o += graph(nx_gone, ex, [("main", M, "main"), (DU, F, "orange")], head="main", off=3)
+o += zones(2, OOPS)
+write("r3-mixed", o, "02 되돌리기 파트에서 쓴 git reset HEAD~1과 같은 명령이에요. 대기실은 비우고 고친 내용은 파일에 남겨요. 파일을 더 고친 뒤 add부터 다시 하고 싶을 때 써요.")
+
+o = scene("r4-hard", EBR, "--hard: 변경까지 지워요", [("$", "git reset --hard HEAD~1"), ("o", f"HEAD is now at {M} Merge branch '{DU}'"), ("$", "git status"), ("g", "nothing to commit, working tree clean")],
+          "oops 줄이 파일에서도 사라졌어요. 이 변경은 다른 곳에 남아 있지 않아요.", eyebrow_color="#A33131")
+o += graph(nx_gone, ex, [("main", M, "main"), (DU, F, "orange")], head="main", off=3)
+o += zones(None)
+write("r4-hard", o, f"세 칸 모두 {X} 전 모습으로 돌아갔어요. 일반 커밋은 이 변경을 가진 브랜치가 따로 없어서 --hard로 지우면 파일에서 되찾기 어려워요. 02에서 본 git reflog로 해시를 찾는 방법만 남아요. 작업 폴더에 커밋하지 않은 다른 변경이 있었다면 그것도 같이 사라져요. 그래서 --hard 앞에는 git status를 봐요. git status 출력의 On branch main 줄은 뺐어요.")
+
+o = scene("u1-oops", EBU, "이번엔 merge 커밋을 되돌려요", [("$", "git log --oneline"), ("o", f"{M} (HEAD -> main) Merge branch '{DU}'"),
           ("o", f"{G} feat: 반가움 인사 추가"), ("o", f"{F} ({DU}) docs: README에 로그인 안내 추가")],
-          "merge 커밋을 없던 일로 하고 싶을 땐 git reset을 써요.", eyebrow_color=UC)
+          "merge 커밋도 같은 명령으로 한 칸 뒤로 가요.", eyebrow_color=UC)
 o += graph(nu, eu, [("main", M, "main"), (DU, F, "orange")], head="main", off=3)
 o += zones(0, CHG)
-write("u1-oops", o, f"d5에서 merge한 직후예요. 아직 push하지 않았으니 merge 커밋 {M}은 내 저장소에만 있어요. 오른쪽 세 칸은 02에서 본 작업 폴더, 대기실, 내 저장소예요. merge로 들어온 README.md의 로그인 안내 줄이 지금 어느 칸에 있는지 봐요. 다음 세 장은 모두 이 상태에서 옵션만 바꿔 실행한 결과예요. log 출력 아래쪽 줄은 뺐어요.")
+write("u1-oops", o, f"케이스 1을 --hard로 끝내서 다시 merge 직후 모습이에요. 아직 push하지 않았으니 merge 커밋 {M}은 내 저장소에만 있어요. 오른쪽 세 칸은 02에서 본 작업 폴더, 대기실, 내 저장소예요. merge로 들어온 README.md의 로그인 안내 줄이 지금 어느 칸에 있는지 봐요. 다음 세 장은 모두 이 상태에서 옵션만 바꿔 실행한 결과예요. log 출력 아래쪽 줄은 뺐어요.")
 
 o = scene("u2-soft", EBU, "--soft: 변경이 대기실에 남아요", [("$", "git reset --soft HEAD~1"), ("$", "git status"), ("g", "Changes to be committed:"), ("g", "\tmodified:   README.md")],
           "main은 merge 전 커밋으로 돌아가고, 합쳐 온 변경은 대기실에 있어요.", eyebrow_color=UC)
@@ -295,7 +327,7 @@ o += graph(nu_back, eu, [("main", M, "main"), (DU, F, "orange")], head="main", o
 o += zones(0, CHG)
 write("u5-again", o, f"merge를 다시 하면 merge 커밋이 새로 만들어져요. 그래서 보통은 해시가 처음과 달라요. 이 덱은 날짜를 고정해서 같은 {M}이 나왔어요. 출력의 파일 목록 줄은 뺐어요.")
 
-o = scene("d6-delete", EBU, f"확인이 끝나면 {DU} 지우기", [("$", f"git branch -d {DU}"), ("o", f"Deleted branch {DU} (was {F}).")],
+o = scene("d6-delete", "되돌리기 · 정리", f"확인이 끝나면 {DU} 지우기", [("$", f"git branch -d {DU}"), ("o", f"Deleted branch {DU} (was {F}).")],
           "이름표만 사라지고 커밋은 main 기록 안에 남아요.", eyebrow_color=UC)
 o += graph(n11, e11, [("main", M, "main")], head="main")
 write("d6-delete", o, f"되돌릴 일이 없는지 확인한 뒤에 지워요. 합친 브랜치는 지워서 목록을 깔끔하게 둬요. 커밋 {F}는 merge 커밋을 통해 main 기록에 그대로 있어요.")

@@ -48,11 +48,11 @@ parts = [("Lightbulb", "#3A4150", "브랜치란?", "점, 이름표, HEAD", "3–
          ("Link", "#1A7340", "만들고 옮기기", "branch · checkout", "7–13쪽"),
          ("Activity", "#2459C9", "합치기", "merge · 이름 규칙", "14–18쪽"),
          ("Activity", "#8A5200", "갈라진 길", "merge 커밋", "19–24쪽"),
-         ("Wrench", "#8A5200", "merge 되돌리기", "reset 옵션 세 가지", "25–32쪽"),
-         ("Warning", "#A33131", "충돌 풀기", "표시 읽고 고치기", "33–39쪽"),
-         ("Cloud", "#5A3BB8", "GitHub에서 함께", "push · Pull Request", "40–45쪽"),
-         ("Warning", "#A33131", "충돌 시나리오", "다섯 가지 상황", "46–57쪽"),
-         ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "58–60쪽")]
+         ("Wrench", "#8A5200", "되돌리기", "git reset 옵션 세 가지", "25–37쪽"),
+         ("Warning", "#A33131", "충돌 풀기", "표시 읽고 고치기", "38–44쪽"),
+         ("Cloud", "#5A3BB8", "GitHub에서 함께", "push · Pull Request", "45–50쪽"),
+         ("Warning", "#A33131", "충돌 시나리오", "다섯 가지 상황", "51–62쪽"),
+         ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "63–65쪽")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      '<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>',
      '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;flex:1">']
@@ -63,7 +63,7 @@ for i, (ic, c, h, sub, pg) in enumerate(parts, 1):
              f'<h3 style="font-size:32px;font-weight:700;color:#1D2330">{h}</h3>'
              f'<p style="font-size:26px;line-height:1.4;color:#4A5262">{sub}</p><div style="flex:1"></div>'
              f'<p style="font-size:24px;color:#6A7180">{pg}</p></div>')
-t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 61쪽은 한 장 요약이에요.</p>',
+t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 66쪽은 한 장 요약이에요.</p>',
       '<aside>02와 같은 hello-git 저장소로 이어서 실습해요. 2~6부는 커밋 그래프 하나가 계속 자라는 이야기예요. 7부는 충돌이 나는 다른 상황을 따로 모았어요.</aside>', '</section>']
 W("toc", "\n".join(t))
 
@@ -559,41 +559,72 @@ cs.append(takeaway("어떤 충돌이든 막히면 git merge --abort로 처음으
 page("conflict-sum", EBS, "메시지로 충돌 종류를 알아봐요", cs,
      "메시지 첫 단어만 봐도 무엇을 할지 알 수 있어요. 충돌을 푼 뒤에는 git status로 남은 충돌 파일이 없는지 확인하고 커밋해요.")
 
-# ---------- merge 되돌리기 ----------
+# ---------- 되돌리기 ----------
 UC = "#8A5200"
+rz = []
+for i, (title, sub) in enumerate([("케이스 1 · 일반 커밋", "실수한 커밋 하나를 빼요"), ("케이스 2 · merge 커밋", "합친 것을 없던 일로 해요")]):
+    L = 96 + i * 888
+    rz.append(f'<div data-build-in="fade order {i+1}" style="position:absolute;left:{L}px;top:250px;width:840px;height:470px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:24px"></div>')
+    rz.append(f'<p data-build-in="fade order {i+1}" style="position:absolute;left:{L+40}px;top:280px;width:760px;font-size:34px;font-weight:700;color:{UC}">{title}</p>')
+    rz.append(f'<p data-build-in="fade order {i+1}" style="position:absolute;left:{L+40}px;top:336px;width:760px;font-size:28px;color:#4A5262">{sub}</p>')
+ym, yu, o0 = 560, 450, 96
+rz += [hline(o0 + 100, o0 + 560, ym, BLL)]
+for x in (100, 300, 500):
+    rz.append(node(o0 + x, ym, BL, 22))
+rz.append(f'<div style="position:absolute;left:{o0+560}px;top:{ym-3}px;width:140px;height:6px;border-top:6px dashed #C3C8D2"></div>')
+rz.append(f'<div style="position:absolute;left:{o0+678}px;top:{ym-22}px;width:44px;height:44px;border-radius:50%;background:#FDFCF9;border:5px dashed #C3C8D2"></div>')
+rz.append(f'<p style="position:absolute;left:{o0+640}px;top:{ym+30}px;width:120px;font-family:{MONO};font-size:24px;font-weight:700;text-align:center;color:#6A7180">실수</p>')
+rz.append(pill(o0 + 500, ym + 36, "main", "main"))
+o1 = 984
+rz += [hline(o1 + 100, o1 + 500, ym, BLL), conn(o1 + 300, ym, o1 + 400, yu, ORL), conn(o1 + 400, yu, o1 + 700, ym, ORL)]
+rz.append(f'<div style="position:absolute;left:{o1+522}px;top:{ym-3}px;width:156px;height:6px;border-top:6px dashed #C3C8D2"></div>')
+for x in (100, 300, 500):
+    rz.append(node(o1 + x, ym, BL, 22))
+rz.append(node(o1 + 400, yu, OR, 22))
+rz.append(f'<div style="position:absolute;left:{o1+678}px;top:{ym-22}px;width:44px;height:44px;border-radius:50%;background:#FDFCF9;border:5px dashed #C3C8D2"></div>')
+rz.append(f'<p style="position:absolute;left:{o1+640}px;top:{ym+30}px;width:120px;font-family:{MONO};font-size:24px;font-weight:700;text-align:center;color:#6A7180">merge</p>')
+rz.append(pill(o1 + 500, ym + 36, "main", "main"))
+rz.append(pill(o1 + 400, yu - 64, "docs/login-guide", "orange"))
+rz.append(f'<div style="position:absolute;left:96px;top:760px;width:1728px;background:#1D2330;border-radius:20px;padding:24px 40px;display:flex;flex-direction:row;gap:32px;align-items:center">'
+          f'<p style="font-family:{MONO};font-size:34px;font-weight:700;color:#F2C46D">git reset 옵션 HEAD~1</p>'
+          f'<p style="font-size:28px;color:#D8DEE9">지금 브랜치 이름표를 한 칸 아래 커밋으로 옮겨요</p></div>')
+page("r0-what", "되돌리기", "reset은 이름표를 뒤로 옮겨요", rz,
+     "reset은 merge와 상관없이 쓰는 명령이에요. 지금 있는 브랜치의 이름표를 예전 커밋으로 옮겨서, 그 위 커밋을 기록에서 빼요. HEAD~1은 지금보다 한 칸 아래 커밋이에요. merge 커밋도 커밋 하나라서 똑같이 한 칸 뒤로 가요. 두 경우 모두 push 전에만 써요. 옵션 --soft, --mixed, --hard는 빠진 커밋의 변경을 어느 칸에 남길지 정해요.",
+     color=UC)
 cell = "font-size:26px;text-align:center;padding:24px 16px;border-radius:14px"
 gone, keep, empty, same = ("color:#A33131;font-weight:700;background:#FBE4E2", "color:#1A7340;font-weight:700;background:#DDF2E5",
                            "color:#A33131;font-weight:700;background:#FBE4E2", "color:#4A5262;background:#FDFCF9")
-rows = [("--soft", "#1D2330", [("merge 취소", gone), ("변경이 여기 남음", keep), ("그대로", same), ("그대로", same)]),
-        ("--mixed<br><span style=\"color:#6A7180\">(기본)</span>", "#1D2330", [("merge 취소", gone), ("비움", empty), ("변경이 여기 남음", keep), ("그대로", same)]),
-        ("--hard", RED, [("merge 취소", gone), ("비움", empty), ("변경이 사라짐", "color:#FFFFFF;font-weight:700;background:#A33131"), ("그대로", same)])]
+rows = [("--soft", "#1D2330", [("커밋 취소", gone), ("변경이 여기 남음", keep), ("그대로", same), ("그대로", same)]),
+        ("--mixed<br><span style=\"color:#6A7180\">(기본)</span>", "#1D2330", [("커밋 취소", gone), ("비움", empty), ("변경이 여기 남음", keep), ("그대로", same)]),
+        ("--hard", RED, [("커밋 취소", gone), ("비움", empty), ("변경이 사라짐", "color:#FFFFFF;font-weight:700;background:#A33131"), ("그대로", same)])]
 rc = ['<div style="position:absolute;left:96px;top:250px;width:1728px;display:grid;grid-template-columns:260px 1fr 1fr 1fr 1fr;gap:12px">', '<div></div>']
-for t, fg, bg in [("③ 내 저장소", "#1E3F8F", "#F0F5FE"), ("② 대기실", "#1A7340", "#F1FAF4"), ("① 작업 폴더", "#3A4150", "#FDFCF9"), ("docs/login-guide", "#8A5200", "#FBF1E1")]:
-    ff = f"font-family:{MONO};" if t.startswith("docs") else ""
+for t, fg, bg in [("③ 내 저장소", "#1E3F8F", "#F0F5FE"), ("② 대기실", "#1A7340", "#F1FAF4"), ("① 작업 폴더", "#3A4150", "#FDFCF9"), ("merge한 브랜치", "#8A5200", "#FBF1E1")]:
+    ff = ""
     rc.append(f'<p style="{ff}font-size:28px;font-weight:700;text-align:center;color:{fg};background:{bg};padding:16px;border-radius:14px">{t}</p>')
 for k, (opt, col, cells) in enumerate(rows):
     rc.append(f'<p data-build-in="fade order {k+1}" style="font-family:{MONO};font-size:30px;font-weight:700;color:{col};padding:24px 8px">{opt}</p>')
     for text, st in cells:
         rc.append(f'<p data-build-in="fade order {k+1}" style="{cell};{st}">{text}</p>')
 rc.append('</div>')
-rc.append(takeaway("세 옵션 모두 main만 merge 전으로 돌려요. 브랜치는 그대로 남아요.", 820))
-page("reset-compare", EBU := "merge 되돌리기", "세 옵션, 무엇이 어디에 남을까?", rc,
-     "02 되돌리기 파트의 reset 옵션 표와 같은 그림에 브랜치 칸을 하나 더했어요. 어떤 옵션이든 docs/login-guide 이름표는 움직이지 않아요. 그래서 merge를 되돌려도 브랜치에서 한 작업은 잃지 않아요.",
+rc.append(takeaway("--hard로 지운 변경은 일반 커밋이면 남는 곳이 없고, merge면 브랜치에 남아요.", 820))
+page("reset-compare", EBU := "되돌리기 · 정리", "세 옵션, 무엇이 어디에 남을까?", rc,
+     "02 되돌리기 파트의 reset 옵션 표와 같은 그림에 브랜치 칸을 하나 더했어요. 마지막 칸은 merge를 되돌릴 때만 해당해요. 어떤 옵션이든 docs/login-guide 이름표는 움직이지 않아서 브랜치에서 한 작업은 잃지 않아요. 일반 커밋은 그런 브랜치가 없으니 --hard를 더 조심해요.",
      color=UC, bg="#ECEAE3")
 
 uw = [("충돌이 나서 merge가 멈췄어요", "git merge --abort", "합치기 전으로 돌아가요", "#3A4150"),
+      ("커밋했는데 아직 push 전이에요", "git reset HEAD~1", "고친 내용은 작업 폴더에 남아요", "#1A7340"),
       ("merge를 끝냈고, 아직 push 전이에요", "git reset --hard HEAD~1", "git status가 깨끗한지 먼저 봐요", UC),
-      ("merge하고 push까지 했어요", "혼자 되돌리지 않아요", "팀에 먼저 알리고 함께 정해요", RED)]
-wb = ['<div style="position:absolute;left:96px;top:260px;width:1728px;display:flex;flex-direction:column;gap:20px">']
+      ("push까지 했어요", "git revert 커밋", "merge 커밋이면 팀에 먼저 알려요", RED)]
+wb = ['<div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column;gap:16px">']
 for k, (sit, cmd, tip, col) in enumerate(uw):
-    wb.append(f'<div data-build-in="rise order {k+1}" style="display:flex;flex-direction:row;gap:32px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid {col};border-radius:20px;padding:30px 40px">'
+    wb.append(f'<div data-build-in="rise order {k+1}" style="display:flex;flex-direction:row;gap:32px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid {col};border-radius:20px;padding:22px 40px">'
               f'<p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">{sit}</p>'
               f'<div style="display:flex;flex-direction:column;gap:8px"><p style="font-family:{MONO};font-size:32px;font-weight:700;color:{col}">{cmd}</p>'
               f'<p style="font-size:26px;color:#4A5262">{tip}</p></div></div>')
 wb.append('</div>')
-wb.append(takeaway("merge를 되돌릴 일이 없을 때 브랜치를 지워요.", 820))
+wb.append(takeaway("기준은 하나예요. push 전이면 reset, push 후면 revert.", 900))
 page("undo-when", EBU, "언제 무엇으로 되돌릴까?", wb,
-     "merge를 되돌릴 땐 --hard가 가장 깔끔해요. 브랜치에 작업이 그대로 있으니 다시 merge하면 되기 때문이에요. 단, 작업 폴더에 커밋하지 않은 변경이 있으면 같이 지워지니 git status부터 봐요. 이미 push한 merge를 reset으로 지우면 팀원 기록과 어긋나서 push가 거절돼요. 그때는 강사나 팀과 먼저 이야기해요.",
+     "일반 커밋은 기본값 --mixed가 가장 안전해요. 고친 내용이 파일에 남아요. merge를 되돌릴 땐 --hard가 깔끔해요. 브랜치에 작업이 그대로 있으니 다시 merge하면 되기 때문이에요. 단, 작업 폴더에 커밋하지 않은 변경이 있으면 같이 지워지니 git status부터 봐요. push한 일반 커밋은 02에서 배운 git revert로 되돌려요. push한 merge 커밋을 되돌리는 방법은 이 과정에서 다루지 않으니 강사나 팀과 먼저 이야기해요.",
      color=UC)
 
 print("pages ok")
