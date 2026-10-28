@@ -1,0 +1,99 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-28T01:55:00Z"
+  },
+  "lists": "css",
+  "title": "Git 기본 흐름, 눈으로 보기",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "map",
+    "analogy",
+    "terms",
+    "terms2",
+    "lifecycle",
+    "s0-config",
+    "s1-init",
+    "s2-create",
+    "s3-add",
+    "s4-commit",
+    "s5-edit",
+    "s6-mixed",
+    "s7-commit2",
+    "commit-why",
+    "commit-convention",
+    "s8-github",
+    "s9-remote",
+    "s10-push",
+    "s11-ahead",
+    "s12-push2",
+    "s13-clone",
+    "s14-fetch",
+    "s15-pull",
+    "pull-concept",
+    "clone-vs-init",
+    "undo-map",
+    "s16-oops",
+    "s17-reset",
+    "reset-modes",
+    "reflog",
+    "s18-revert",
+    "reset-vs-revert",
+    "status-table",
+    "err-lock",
+    "err-lock-fix",
+    "err-nothing",
+    "err-remote",
+    "err-upstream",
+    "err-rejected",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "Git이 왜 필요한지, 오늘의 순서",
+      "start": "cover"
+    },
+    "concepts": {
+      "description": "4개의 공간과 파일 상태 용어",
+      "start": "map"
+    },
+    "solo": {
+      "description": "init, add, commit과 커밋 메시지 규칙",
+      "start": "s0-config"
+    },
+    "github": {
+      "description": "GitHub 저장소 만들고 remote add, push origin main",
+      "start": "s8-github"
+    },
+    "team": {
+      "description": "clone, fetch, pull origin main",
+      "start": "s13-clone"
+    },
+    "undo": {
+      "description": "reset, reflog, revert",
+      "start": "undo-map"
+    },
+    "help": {
+      "description": "git status 읽기와 자주 나는 에러",
+      "start": "status-table"
+    },
+    "summary": {
+      "description": "한 장 요약",
+      "start": "cheatsheet"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

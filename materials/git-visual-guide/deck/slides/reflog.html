@@ -1,0 +1,50 @@
+<section id="reflog" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p style="position:absolute;left:96px;top:72px;width:1728px;font-size:26px;font-weight:700;color:#A33131">되돌리기 · 지운 커밋 다시 찾기</p>
+<h2 style="position:absolute;left:96px;top:122px;width:1728px;font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">reset으로 지운 커밋, git reflog로 찾아요</h2>
+<div style="position:absolute;left:96px;top:308px;width:560px;height:452px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:24px 28px;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;flex-direction:row;gap:12px;align-items:center">
+<x-icon name="Database" style="width:36px;height:36px;color:#1E3F8F"></x-icon>
+<p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p>
+</div>
+</div>
+<div style="position:absolute;left:150px;top:440px;width:4px;height:240px;background:#9DB8F2"></div>
+<div style="position:absolute;left:136px;top:412px;width:32px;height:32px;background:#F0F5FE;border:3px dashed #5B8DEF;border-radius:16px"></div>
+<p style="position:absolute;left:192px;top:408px;width:150px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#8FA6D6">b81d4e2</p>
+<p data-build-in="fade order 1" style="position:absolute;left:352px;top:410px;width:270px;font-size:24px;font-weight:700;color:#A33131">log엔 안 보여요</p>
+<div style="position:absolute;left:136px;top:492px;width:32px;height:32px;background:#2459C9;border-radius:16px"></div>
+<p style="position:absolute;left:192px;top:488px;width:150px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1E3F8F">e73617d</p>
+<p style="position:absolute;left:352px;top:488px;width:90px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:8px">main</p>
+<div style="position:absolute;left:136px;top:572px;width:32px;height:32px;background:#2459C9;border-radius:16px"></div>
+<p style="position:absolute;left:192px;top:568px;width:150px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1E3F8F">3f9a2c1</p>
+<div style="position:absolute;left:136px;top:652px;width:32px;height:32px;background:#2459C9;border-radius:16px"></div>
+<p style="position:absolute;left:192px;top:648px;width:150px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1E3F8F">a7c21f4</p>
+<div data-build-in="rise order 3" style="position:absolute;left:120px;top:396px;width:512px;height:64px;background:#E3F5EA;border:3px solid #1F8A4C;border-radius:14px;padding:0 20px;display:flex;flex-direction:row;gap:16px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1A7340">b81d4e2</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#FFFFFF;background:#2459C9;border-radius:8px;padding:0 12px">main</p>
+<p style="font-size:24px;font-weight:700;color:#1A7340">다시 찾음</p>
+</div>
+<div style="position:absolute;left:704px;top:308px;width:1120px;height:300px;background:#1B2029;border-radius:20px;padding:24px 32px;display:flex;flex-direction:column;gap:4px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
+<p style="font-size:24px;line-height:1.5;color:#F2C46D">$ git reflog</p>
+<p style="font-size:24px;line-height:1.5;color:#D8DEE9">e73617d HEAD@{0}: reset: moving to HEAD~1</p>
+<p style="font-size:24px;line-height:1.5;color:#D8DEE9">b81d4e2 HEAD@{1}: commit: feat: 실수한 커밋</p>
+<p style="font-size:24px;line-height:1.5;color:#D8DEE9">e73617d HEAD@{2}: pull origin main: Fast-forward</p>
+<p style="font-size:24px;line-height:1.5;color:#D8DEE9">3f9a2c1 HEAD@{3}: commit: feat: 끝인사 추가</p>
+</div>
+<div data-build-in="fade order 2" style="position:absolute;left:716px;top:408px;width:1096px;height:44px;border:3px solid #7FD18B;border-radius:10px"></div>
+<div data-build-in="fade order 3" style="position:absolute;left:346px;top:484px;width:104px;height:44px;background:#F0F5FE"></div>
+<div data-build-in="rise order 3" style="position:absolute;left:704px;top:640px;width:1120px;height:120px;background:#1B2029;border-radius:20px;padding:20px 32px;display:flex;flex-direction:column;gap:4px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
+<p style="font-size:24px;line-height:1.5;color:#F2C46D">$ git reset --hard b81d4e2</p>
+<p style="font-size:24px;line-height:1.5;color:#D8DEE9">HEAD is now at b81d4e2 feat: 실수한 커밋</p>
+</div>
+<div style="position:absolute;left:96px;top:808px;width:1728px;display:flex;flex-direction:row;gap:20px">
+<div style="flex:1;display:flex;flex-direction:row;gap:16px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:16px;padding:20px 24px">
+<x-icon name="Clock" style="width:40px;height:40px;color:#1E3F8F"></x-icon>
+<p style="font-size:26px;font-weight:700;color:#1D2330">HEAD가 움직인 기록이 순서대로 남아요</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:row;gap:16px;align-items:center;background:#FBE4E2;border:2px solid #E07A7A;border-radius:16px;padding:20px 24px">
+<x-icon name="Warning" style="width:40px;height:40px;color:#A33131"></x-icon>
+<p style="font-size:26px;font-weight:700;color:#A33131">내 컴퓨터에만 있고, GitHub엔 없어요</p>
+</div>
+</div>
+<aside>앞 장의 reset HEAD~1로 b81d4e2가 log에서 사라졌어요. 그래도 커밋은 바로 지워지지 않고 .git 안에 남아 있습니다. reflog는 HEAD가 지나간 자리를 최신순으로 보여 주는 기록이라, reset 직전 커밋(HEAD@{1})의 해시를 찾을 수 있어요. 그 해시로 reset --hard 하면 main이 다시 그 커밋을 가리킵니다. --hard는 작업 폴더의 고친 내용을 지우니, 실행 전에 git status로 남은 변경이 없는지 확인하세요. reflog 기록은 기본 90일 정도 지나면 정리됩니다. clone 받은 팀원 컴퓨터에는 내 reflog가 없어요.</aside>
+</section>

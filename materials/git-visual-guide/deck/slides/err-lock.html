@@ -1,0 +1,33 @@
+<section id="err-lock" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;font-weight:700;color:#A33131">에러 1 · index.lock</p>
+<h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">index.lock = Git의 ‘사용 중’ 팻말</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:16px;background:#FDFCF9;border:2px solid #4DB57A;border-radius:20px;padding:32px 24px">
+<x-icon name="Lock" style="width:72px;height:72px;color:#1A7340"></x-icon>
+<p style="font-size:28px;font-weight:700;color:#1A7340">명령 시작</p>
+<p style="font-size:24px;color:#4A5262">팻말 걸기</p>
+</div>
+<p style="font-size:40px;color:#6A7180">→</p>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:16px;background:#FDFCF9;border:2px solid #4DB57A;border-radius:20px;padding:32px 24px">
+<x-icon name="Clock" style="width:72px;height:72px;color:#1A7340"></x-icon>
+<p style="font-size:28px;font-weight:700;color:#1A7340">작업 중</p>
+<p style="font-size:24px;color:#4A5262">다른 명령은 대기</p>
+</div>
+<p style="font-size:40px;color:#6A7180">→</p>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:16px;background:#FDFCF9;border:2px solid #4DB57A;border-radius:20px;padding:32px 24px">
+<x-icon name="CheckCircle" style="width:72px;height:72px;color:#1A7340"></x-icon>
+<p style="font-size:28px;font-weight:700;color:#1A7340">명령 끝</p>
+<p style="font-size:24px;color:#4A5262">팻말 떼기</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px;align-items:center;background:#FBE4E2;border:2px solid #E07A7A;border-radius:20px;padding:28px 36px">
+<x-icon name="Warning" style="width:56px;height:56px;color:#A33131"></x-icon>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:30px;font-weight:700;color:#A33131">끝나기 전에 멈추면 팻말이 남아요</p>
+<p style="font-size:24px;color:#7A3B3B">창 강제 종료 · 안 닫은 커밋 에디터 · VS Code가 동시에 git 실행</p>
+</div>
+</div>
+<aside>index는 대기실의 정식 이름이에요. add, commit, pull처럼 대기실을 고치는 명령이 일하는 동안 다른 명령이 끼어들지 못하게 Git이 스스로 잠가 둡니다. 정상이라면 명령이 끝날 때 저절로 사라지고, 비정상 종료됐을 때만 남아서 에러를 냅니다.</aside>
+</section>

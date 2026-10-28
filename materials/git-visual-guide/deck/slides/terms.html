@@ -1,0 +1,15 @@
+<section id="terms" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">용어 ① 파일의 상태</h2>
+<table style="font-size:28px;color:#1D2330">
+<tr style="background:#1D2330"><th style="width:28%;color:#F6F5F1">상태</th><th style="width:32%;color:#F6F5F1">뜻</th><th style="width:40%;color:#F6F5F1">git status에 보이는 말</th></tr>
+<tr style="background:#FDFCF9"><td style="color:#A33131">Untracked</td><td>처음 보는 새 파일</td><td style="color:#A33131">Untracked files:</td></tr>
+<tr style="background:#F2F0EA"><td style="color:#A33131">Modified</td><td>고쳤지만 add 전</td><td style="color:#A33131">Changes not staged for commit:</td></tr>
+<tr style="background:#FDFCF9"><td style="color:#1A7340">Staged</td><td>대기실에 올라감</td><td style="color:#1A7340">Changes to be committed:</td></tr>
+<tr style="background:#F2F0EA"><td>Committed</td><td>마지막 커밋과 같음</td><td>working tree clean</td></tr>
+</table>
+<div style="display:flex;flex-direction:row;gap:24px">
+<p style="flex:1;font-size:28px;font-weight:700;color:#A33131;background:#FBE4E2;padding:20px 28px;border-radius:16px">빨간 글씨 = 대기실 밖</p>
+<p style="flex:1;font-size:28px;font-weight:700;color:#1A7340;background:#DDF2E5;padding:20px 28px;border-radius:16px">초록 글씨 = 대기실 안</p>
+</div>
+<aside>Untracked와 Modified는 둘 다 빨간색이지만 달라요. Untracked는 Git이 처음 보는 파일, Modified는 이미 아는 파일이 바뀐 것. 둘 다 git add로 대기실에 올립니다. 한 번이라도 커밋된 파일을 Tracked(추적 중)라고 불러요.</aside>
+</section>

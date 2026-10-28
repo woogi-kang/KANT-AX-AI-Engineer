@@ -1,0 +1,29 @@
+<section id="err-lock-fix" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;font-weight:700;color:#A33131">에러 1 · index.lock</p>
+<h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">이 메시지가 보이면</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;background:#1B2029;border-radius:20px;padding:28px 36px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
+<p style="font-size:24px;line-height:1.4;color:#F2C46D">$ git add hello.txt</p>
+<p style="font-size:24px;line-height:1.4;color:#F28B82">fatal: Unable to create '/Users/kim/hello-git/.git/index.lock': File exists.</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">Another git process seems to be running in this repository, ...</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border-radius:20px;padding:28px">
+<p style="font-size:44px;font-weight:900;line-height:1.15;color:#2459C9">1</p>
+<p style="font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">다른 git 작업<br>끝났는지 확인</p>
+</div>
+<div style="flex:1.6;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border-radius:20px;padding:28px">
+<p style="font-size:44px;font-weight:900;line-height:1.15;color:#2459C9">2</p>
+<p style="font-size:28px;font-weight:700;color:#1D2330">팻말 떼기</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;color:#1D2330;background:#EEEFF2;padding:8px 14px;border-radius:10px">Mac: rm .git/index.lock</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;color:#1D2330;background:#EEEFF2;padding:8px 14px;border-radius:10px">Windows: del .git\index.lock</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border-radius:20px;padding:28px">
+<p style="font-size:44px;font-weight:900;line-height:1.15;color:#2459C9">3</p>
+<p style="font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">아까 명령<br>다시 실행</p>
+</div>
+</div>
+<p style="font-size:26px;font-weight:700;color:#A33131">지우는 건 index.lock 하나만. index나 .git 폴더는 절대 지우지 않아요.</p>
+<aside>1번은 열려 있는 커밋 에디터, 다른 터미널 창, VS Code의 Git 작업을 확인하는 단계예요. 이걸 건너뛰고 지우면 실제로 돌던 작업과 부딪힐 수 있어요. 명령은 .git 폴더가 있는 저장소 맨 위에서 실행합니다. 메시지 원문 뒷부분은 "다른 git이 실행 중인 것 같다, 예전에 비정상 종료됐다면 파일을 직접 지워라"라는 뜻이에요.</aside>
+</section>

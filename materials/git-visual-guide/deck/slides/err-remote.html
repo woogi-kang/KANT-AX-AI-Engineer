@@ -1,0 +1,23 @@
+<section id="err-remote" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;font-weight:700;color:#A33131">에러 3 · origin 설정</p>
+<h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">origin이 이미 있대요, 혹은 없대요</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FDFCF9;border-radius:20px;padding:32px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="Link" style="width:48px;height:48px;color:#A33131"></x-icon><h3 style="font-size:30px;font-weight:700;color:#1D2330">두 번 등록함</h3></div>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.4;color:#F28B82;background:#1B2029;padding:16px 20px;border-radius:12px">error: remote origin already exists.</p>
+<div style="flex:1"></div>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;color:#1D2330;background:#EEEFF2;padding:10px 16px;border-radius:10px">git remote -v</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;color:#1D2330;background:#EEEFF2;padding:10px 16px;border-radius:10px">git remote set-url origin 새주소</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FDFCF9;border-radius:20px;padding:32px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="Search" style="width:48px;height:48px;color:#A33131"></x-icon><h3 style="font-size:30px;font-weight:700;color:#1D2330">등록 안 함</h3></div>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.4;color:#F28B82;background:#1B2029;padding:16px 20px;border-radius:12px">fatal: 'origin' does not appear to be a git repository</p>
+<div style="flex:1"></div>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;color:#1D2330;background:#EEEFF2;padding:10px 16px;border-radius:10px">git remote add origin 주소</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;color:#1D2330;background:#EEEFF2;padding:10px 16px;border-radius:10px">git push origin main</p>
+</div>
+</div>
+<aside>이미 있다는 에러는 remote add를 두 번 했거나 clone 받은 저장소에서 또 등록하려 할 때 나요. 주소를 잘못 넣었으면 set-url로 고칩니다. 없다는 에러는 init으로 시작해 놓고 remote add를 빠뜨렸을 때 나요. 어느 쪽이든 git remote -v로 지금 등록된 걸 먼저 확인하세요.</aside>
+</section>
