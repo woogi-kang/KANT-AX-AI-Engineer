@@ -44,23 +44,26 @@ cov += ['<aside>02 Git 기본 흐름에서 쓰던 hello-git 저장소로 이어�
 W("cover", "\n".join(cov))
 
 # ---------- toc ----------
-parts = [("Lightbulb", "#3A4150", "#3A4150", "브랜치란?", "왜 쓰는지<br>이름표와 HEAD", "3–4쪽"),
-         ("Link", "#1F8A4C", "#1A7340", "만들고 합치기", "checkout -b · merge<br>이름 규칙", "5–13쪽"),
-         ("Activity", "#B26A00", "#8A5200", "갈라진 길 합치기", "merge 커밋", "14–17쪽"),
-         ("Warning", "#A33131", "#A33131", "충돌 풀기", "충돌 표시 읽기<br>해결하고 커밋", "18–21쪽"),
-         ("Cloud", "#6B47D6", "#5A3BB8", "GitHub에서 함께", "push · Pull Request<br>GitHub Flow", "22–26쪽"),
-         ("Wrench", "#2459C9", "#1E3F8F", "막힐 때", "자주 나는 에러", "27–29쪽")]
-t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:128px;display:flex;flex-direction:column;gap:56px">',
-     '<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>', '<div style="display:flex;flex-direction:row;gap:20px;flex:1">']
-for i, (ic, top, c, h, sub, pg) in enumerate(parts, 1):
-    t.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:2px solid #E1DED6;border-top:12px solid {top};border-radius:20px;padding:28px 24px">'
-             f'<x-icon name="{ic}" style="width:48px;height:48px;color:{c}"></x-icon>'
-             f'<p style="font-size:64px;font-weight:900;line-height:1.15;color:{c}">{i}</p>'
-             f'<h3 style="font-size:28px;font-weight:700;color:#1D2330">{h}</h3>'
-             f'<p style="font-size:24px;line-height:1.5;color:#4A5262">{sub}</p><div style="flex:1"></div>'
+parts = [("Lightbulb", "#3A4150", "브랜치란?", "점, 이름표, HEAD", "3–6쪽"),
+         ("Link", "#1A7340", "만들고 옮기기", "branch · checkout", "7–13쪽"),
+         ("Activity", "#2459C9", "합치기", "merge · 이름 규칙", "14–18쪽"),
+         ("Activity", "#8A5200", "갈라진 길", "merge 커밋", "19–25쪽"),
+         ("Warning", "#A33131", "충돌 풀기", "표시 읽고 고치기", "26–32쪽"),
+         ("Cloud", "#5A3BB8", "GitHub에서 함께", "push · Pull Request", "33–38쪽"),
+         ("Warning", "#A33131", "충돌 시나리오", "다섯 가지 상황", "39–50쪽"),
+         ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "51–53쪽")]
+t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
+     '<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>',
+     '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;flex:1">']
+for i, (ic, c, h, sub, pg) in enumerate(parts, 1):
+    t.append(f'<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid {c};border-radius:20px;padding:24px 28px">'
+             f'<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:52px;font-weight:900;line-height:1.1;color:{c}">{i}</p>'
+             f'<x-icon name="{ic}" style="width:40px;height:40px;color:{c}"></x-icon></div>'
+             f'<h3 style="font-size:32px;font-weight:700;color:#1D2330">{h}</h3>'
+             f'<p style="font-size:26px;line-height:1.4;color:#4A5262">{sub}</p><div style="flex:1"></div>'
              f'<p style="font-size:24px;color:#6A7180">{pg}</p></div>')
-t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 30쪽은 한 장 요약이에요.</p>',
-      '<aside>02와 같은 hello-git 저장소로 이어서 실습해요. 2~5부는 커밋 그래프 하나가 계속 자라는 이야기예요.</aside>', '</section>']
+t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 54쪽은 한 장 요약이에요.</p>',
+      '<aside>02와 같은 hello-git 저장소로 이어서 실습해요. 2~6부는 커밋 그래프 하나가 계속 자라는 이야기예요. 7부는 충돌이 나는 다른 상황을 따로 모았어요.</aside>', '</section>']
 W("toc", "\n".join(t))
 
 # ---------- why ----------
@@ -96,7 +99,7 @@ w.append('<aside>왼쪽은 세 사람이 main 하나에 번갈아 커밋한 모�
 W("why", "\n".join(w))
 
 # ---------- naming ----------
-n = [sec("naming"), head("만들고 합치기 · 이름 짓기", "브랜치 이름은 타입/하는 일")]
+n = [sec("naming"), head("합치기 · 브랜치 이름", "브랜치 이름은 타입/하는 일")]
 n.append(f'<div style="position:absolute;left:96px;top:250px;width:1728px;height:150px;background:#1D2330;border-radius:24px;display:flex;flex-direction:row;align-items:center;gap:8px;padding:0 48px">'
          f'<p style="font-family:{MONO};font-size:56px;font-weight:700;color:#7FD18B">feat</p>'
          f'<p style="font-family:{MONO};font-size:56px;font-weight:700;color:#BFC6D4">/</p>'
@@ -112,18 +115,23 @@ for a, b, c, col in types:
              f'<p style="font-size:26px;font-weight:700;color:#1D2330">{b}</p>'
              f'<p style="font-family:{MONO};font-size:24px;color:#4A5262">{c}</p></div>')
 n.append('</div>')
-n.append('<div style="position:absolute;left:96px;top:700px;width:1728px;display:flex;flex-direction:row;gap:24px">')
-n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:18px;padding:24px 28px">'
-         f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><x-icon name="CheckCircle" style="width:36px;height:36px;color:#1A7340"></x-icon><p style="font-size:28px;font-weight:700;color:#1A7340">이렇게</p></div>'
-         f'<p style="font-family:{MONO};font-size:26px;color:#1D2330">feat/login-button</p>'
-         f'<p style="font-family:{MONO};font-size:26px;color:#1D2330">fix/12-signup-error <span style="color:#6A7180">(이슈 12번)</span></p></div>')
-n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FBE4E2;border:2px solid #E07A7A;border-radius:18px;padding:24px 28px">'
-         f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><x-icon name="Warning" style="width:36px;height:36px;color:#A33131"></x-icon><p style="font-size:28px;font-weight:700;color:#A33131">이건 피해요</p></div>'
-         f'<p style="font-family:{MONO};font-size:26px;color:#1D2330">test, 내작업, final2 <span style="color:#6A7180">(무슨 일인지 모름)</span></p>'
-         f'<p style="font-family:{MONO};font-size:26px;color:#1D2330">Feat/Login Button <span style="color:#6A7180">(대문자, 띄어쓰기)</span></p></div>')
-n.append('</div>')
-n.append('<aside>앞부분 타입은 커밋 메시지 규칙(feat, fix, docs …)과 같은 말을 써요. 브랜치 이름만 봐도 무슨 작업인지 알 수 있어요. 띄어쓰기는 명령어에서 이름이 끊기니 하이픈(-)으로 이어요. 대문자는 운영체제에 따라 헷갈릴 수 있어 소문자로 통일해요. 이슈 번호를 쓰는 팀이면 fix/12-signup-error처럼 앞에 붙여요. 팀에 정해진 규칙이 있으면 그걸 따라요.</aside></section>')
+n.append('<p style="position:absolute;left:96px;top:760px;width:1728px;font-size:34px;font-weight:700;color:#1D2330">타입은 커밋 메시지(feat, fix, docs …)와 같은 말을 써요.</p>')
+n.append('<aside>앞부분 타입은 커밋 메시지 규칙과 같은 말이라 브랜치 이름만 봐도 무슨 작업인지 알 수 있어요. 팀에 정해진 규칙이 있으면 그걸 따라요.</aside></section>')
 W("naming", "\n".join(n))
+n = [sec("naming-ok"), head("합치기 · 브랜치 이름", "이렇게 짓고, 이건 피해요")]
+n.append('<div style="position:absolute;left:96px;top:300px;width:1728px;display:flex;flex-direction:row;gap:24px">')
+n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:18px;padding:40px 44px">'
+         f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><x-icon name="CheckCircle" style="width:36px;height:36px;color:#1A7340"></x-icon><p style="font-size:28px;font-weight:700;color:#1A7340">이렇게</p></div>'
+         f'<p style="font-family:{MONO};font-size:34px;line-height:1.6;color:#1D2330">feat/login-button</p>'
+         f'<p style="font-family:{MONO};font-size:34px;line-height:1.6;color:#1D2330">fix/12-signup-error <span style="color:#6A7180">(이슈 12번)</span></p></div>')
+n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FBE4E2;border:2px solid #E07A7A;border-radius:18px;padding:40px 44px">'
+         f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><x-icon name="Warning" style="width:36px;height:36px;color:#A33131"></x-icon><p style="font-size:28px;font-weight:700;color:#A33131">이건 피해요</p></div>'
+         f'<p style="font-family:{MONO};font-size:34px;line-height:1.6;color:#1D2330">test, 내작업, final2 <span style="color:#6A7180">(무슨 일인지 모름)</span></p>'
+         f'<p style="font-family:{MONO};font-size:34px;line-height:1.6;color:#1D2330">Feat/Login Button <span style="color:#6A7180">(대문자, 띄어쓰기)</span></p></div>')
+n.append('</div>')
+n.append('<p style="position:absolute;left:96px;top:760px;width:1728px;font-size:34px;font-weight:700;color:#1D2330">소문자와 하이픈(-)만 쓰고, 무슨 일인지 이름에 적어요.</p>')
+n.append('<aside>띄어쓰기는 명령어에서 이름이 끊기니 하이픈(-)으로 이어요. 대문자는 운영체제에 따라 헷갈릴 수 있어 소문자로 통일해요. 이슈 번호를 쓰는 팀이면 fix/12-signup-error처럼 앞에 붙여요. 팀에 정해진 규칙이 있으면 그걸 따라요.</aside></section>')
+W("naming-ok", "\n".join(n))
 
 # ---------- merge-kinds ----------
 m = [sec("merge-kinds", "#ECEAE3"), head("개념 정리", "merge는 두 가지 모습으로 끝나요")]
@@ -151,7 +159,7 @@ m.append(node(o0 + 664, ym, BL, 22, "merge", ' data-build-in="pop order 2"'))
 m.append(pill(o0 + 544, yu - 66, "docs", "orange"))
 m.append(pill(o0 + 664, ym + 40, "main", "main", ' data-build-in="rise order 2"'))
 m.append('<p style="position:absolute;left:96px;top:900px;width:1728px;font-size:28px;font-weight:700;color:#1D2330">명령은 똑같이 git merge 브랜치이름. 어느 쪽이 될지는 Git이 정해요.</p>')
-m.append('<aside>왼쪽은 실습 7, 오른쪽은 실습 11의 모습이에요. merge 커밋(흰 점)은 부모가 둘이라 두 줄기의 기록을 모두 품고 있어요. 팀 작업에서는 GitHub의 Pull Request로 합칠 때 대부분 오른쪽처럼 merge 커밋이 생겨요.</aside></section>')
+m.append('<aside>왼쪽은 feat/greeting, 오른쪽은 docs/usage를 합친 모습이에요. merge 커밋(흰 점)은 부모가 둘이라 두 줄기의 기록을 모두 품고 있어요. 팀 작업에서는 GitHub의 Pull Request로 합칠 때 대부분 오른쪽처럼 merge 커밋이 생겨요.</aside></section>')
 W("merge-kinds", "\n".join(m))
 
 # ---------- conflict-read ----------
@@ -283,9 +291,9 @@ errpage("err-unmerged", "에러 3 · 브랜치 지우기", "브랜치가 안 지
 # ---------- cheatsheet ----------
 ch = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:112px 128px;display:flex;flex-direction:column;gap:40px">',
       '<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">한 장 요약</h2>', '<div style="display:flex;flex-direction:row;gap:24px;flex:1">']
-cards = [("브랜치", "#1A7340", "#FFFFFF", "#1D2330", "git branch<br>git checkout -b 이름<br>git checkout 이름<br>git branch -d 이름"),
+cards = [("브랜치", "#1A7340", "#FFFFFF", "#1D2330", "git branch<br>git branch 이름<br>git checkout 이름<br>git checkout -b 이름<br>git branch -d 이름"),
          ("합치기", "#2459C9", "#FFFFFF", "#1D2330", "git checkout main<br>git merge 이름"),
-         ("충돌", "#A33131", "#FFFFFF", "#1D2330", "파일에서 고르기<br>표시 세 줄 지우기<br>git add 파일<br>git commit -m &quot;...&quot;"),
+         ("충돌", "#A33131", "#FFFFFF", "#1D2330", "파일에서 고르기<br>표시 세 줄 지우기<br>git add 파일<br>git commit -m &quot;...&quot;<br>막히면 git merge --abort"),
          ("GitHub과 함께", "#F6F5F1", "#1D2330", "#F2C46D", "git push origin 이름<br>→ Pull Request<br>→ Merge<br>git checkout main<br>git pull origin main")]
 for h, hc, bg, tc, body in cards:
     bd = "" if bg == "#1D2330" else "border:2px solid #E1DED6;"
@@ -295,10 +303,9 @@ for h, hc, bg, tc, body in cards:
 ch += ['</div>', f'<p style="font-size:28px;font-weight:700;color:#1D2330">브랜치 이름: <span style="color:#1A7340">feat/login-button</span> · main에는 직접 커밋하지 않기</p>',
        '<aside>수업 끝에 이 장을 띄워 두고, 칠판에 그래프를 그리며 명령마다 이름표와 HEAD가 어디로 가는지 학생이 직접 말해 보게 하세요.</aside>', '</section>']
 W("cheatsheet", "\n".join(ch))
-print("pages ok")
 
 # ---------- merge-how ----------
-h = [sec("merge-how"), head("만들고 합치기 · merge", "merge는 받는 쪽에서 해요")]
+h = [sec("merge-how"), head("합치기", "merge는 받는 쪽에서 해요")]
 h.append('<div style="position:absolute;left:96px;top:240px;width:1728px;height:400px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>')
 ym, yu = 500, 360
 h += [hline(240, 600, ym, BLL), conn(600, ym, 760, yu, GRL), hline(760, 940, yu, GRL)]
@@ -331,3 +338,224 @@ h.append('</div>')
 h.append('<p style="position:absolute;left:96px;top:900px;width:1728px;font-size:28px;font-weight:700;color:#1D2330">02에서 본 git pull origin main도 받아 온 커밋을 이 방식으로 merge해요.</p>')
 h.append('<aside>git merge 이름은 그 이름의 커밋을 지금 내가 있는 브랜치로 가져와요. 그래서 순서가 중요해요. 먼저 받을 쪽(main)으로 checkout하고, 그다음 가져올 브랜치 이름을 적어요. 반대로 feat/greeting에 있는 채로 git merge main을 치면 main의 커밋이 feat/greeting으로 들어가요. 02에서 git pull origin main을 배울 때 merge는 03에서 본다고 했죠. pull은 GitHub의 main을 받아 온 뒤 지금 브랜치로 merge해요.</aside></section>')
 W("merge-how", "\n".join(h))
+
+# ---------- shared pieces for the conflict pages ----------
+RED = "#A33131"
+LINE_ST = {"o": "color:#1D2330", "g": "color:#1A7340;background:#DDF2E5", "b": "color:#1E3F8F;background:#DCE7FB",
+           "x": "color:#9AA0AB;text-decoration:line-through"}
+TERM_ST = {"$": "#F2C46D", "o": "#D8DEE9", "r": "#F28B82", "g": "#7FD18B", "h": "#9AA3B5"}
+MARK_ST = {"m": "#F28B82", "b": "#8FB3FF", "g": "#7FD18B", "o": "#D8DEE9"}
+
+
+def filecard(L, top, w, h, branch, kind, fname, lines, attrs=""):
+    o = [f'<div{attrs} style="position:absolute;left:{L}px;top:{top}px;width:{w}px;height:{h}px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:28px 36px;display:flex;flex-direction:column;gap:12px">']
+    o.append(f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center">{pill_inline(branch, kind)}'
+             f'<p style="font-size:26px;font-weight:700;color:#4A5262">{fname}</p></div>')
+    for text, k in lines:
+        o.append(f'<p style="font-family:{MONO};font-size:34px;line-height:1.4;padding:0 10px;border-radius:6px;{LINE_ST[k]}">{text}</p>')
+    o.append('</div>')
+    return "".join(o)
+
+
+def pill_inline(text, kind):
+    st = {"main": "background:#2459C9;color:#FFFFFF", "green": "background:#1F8A4C;color:#FFFFFF", "orange": "background:#B26A00;color:#FFFFFF",
+          "origin": "background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA", "gray": "background:#E1DED6;color:#1D2330"}[kind]
+    return f'<p style="font-family:{MONO};font-size:26px;font-weight:700;line-height:1.5;padding:0 14px;border-radius:8px;{st}">{text}</p>'
+
+
+def term(L, top, w, lines, attrs="", size=28):
+    o = [f'<div{attrs} style="position:absolute;left:{L}px;top:{top}px;width:{w}px;background:#1B2029;border-radius:20px;padding:24px 32px;display:flex;flex-direction:column;gap:6px;font-family:{MONO}">']
+    for k, text in lines:
+        t = ("$ " + text) if k == "$" else text
+        wgt = "700" if k == "$" else "400"
+        o.append(f'<p style="font-size:{size}px;font-weight:{wgt};line-height:1.35;white-space:nowrap;color:{TERM_ST[k]}">{t}</p>')
+    o.append('</div>')
+    return "".join(o)
+
+
+def markers(L, top, w, h, fname, lines, size=34):
+    o = [f'<div style="position:absolute;left:{L}px;top:{top}px;width:{w}px;height:{h}px;background:#1B2029;border-radius:22px;padding:28px 36px;display:flex;flex-direction:column;gap:6px">']
+    o.append(f'<p style="font-size:24px;color:#9AA3B5">{fname}</p>')
+    for text, k in lines:
+        o.append(f'<p style="font-family:{MONO};font-size:{size}px;font-weight:700;line-height:1.4;white-space:nowrap;color:{MARK_ST[k]}">{text}</p>')
+    o.append('</div>')
+    return "".join(o)
+
+
+def arrow(L, top):
+    return f'<x-shape kind="arrow-right" style="position:absolute;left:{L}px;top:{top}px;width:72px;height:64px;background:#C3C8D2"></x-shape>'
+
+
+def takeaway(text, top=900, color="#1D2330"):
+    return f'<p data-build-in="rise" style="position:absolute;left:96px;top:{top}px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{color}">{text}</p>'
+
+
+def page(i, eyebrow, title, body, aside, color=RED, bg="#F6F5F1"):
+    W(i, "\n".join([sec(i, bg), head(eyebrow, title, color)] + body + [f'<aside>{aside}</aside></section>']))
+
+
+def scen(i, eyebrow, title, left, right, lines, take, aside):
+    body = [filecard(96, 250, 840, 320, *left), filecard(984, 250, 840, 320, *right),
+            term(96, 610, 1728, lines, ' data-build-in="fade"'), takeaway(take)]
+    page(i, eyebrow, title, body, aside)
+
+
+# ---------- folder-switch ----------
+fs = [filecard(96, 260, 780, 420, "feat/greeting", "green", "작업 폴더", [("hello.md", "o"), ("README.md", "o"), ("bye.md", "g")]),
+      arrow(924, 440),
+      filecard(1044, 260, 780, 420, "main", "main", "작업 폴더", [("hello.md", "o"), ("README.md", "o"), ("bye.md", "x")], ' data-build-in="fade"'),
+      '<p style="position:absolute;left:890px;top:520px;width:140px;font-family:' + MONO + ';font-size:24px;font-weight:700;text-align:center;color:#6A7180">checkout<br>main</p>',
+      takeaway("bye.md는 사라진 게 아니에요. feat/greeting으로 가면 다시 보여요.", 760)]
+page("folder-switch", "만들고 옮기기", "브랜치를 옮기면 폴더 파일도 바뀌어요", fs,
+     "checkout은 HEAD를 옮기면서 작업 폴더 파일도 그 브랜치의 마지막 커밋 모습으로 바꿔요. ls를 쳐 보면 README.md와 hello.md만 보여요. bye.md가 안 보여 당황하는 학생이 많아요. 커밋하지 않은 변경이 있으면 checkout이 막힐 수 있어요(막힐 때 파트).",
+     color="#2459C9")
+
+# ---------- conflict-when ----------
+cases = [("CheckCircle", "#1A7340", "#F1FAF4", "#4DB57A", "다른 파일을 고침", "알아서 합쳐요"),
+         ("CheckCircle", "#1A7340", "#F1FAF4", "#4DB57A", "같은 파일, 멀리 떨어진 줄", "알아서 합쳐요"),
+         ("Warning", RED, "#FBE4E2", "#E07A7A", "같은 줄, 바로 옆 줄", "충돌: 사람이 골라요"),
+         ("Warning", RED, "#FBE4E2", "#E07A7A", "한쪽은 지우고, 한쪽은 고침", "충돌: 사람이 골라요")]
+cw = ['<div style="position:absolute;left:96px;top:260px;width:1728px;display:grid;grid-template-columns:1fr 1fr;gap:24px">']
+for k, (ic, col, bg, bd, h, r) in enumerate(cases):
+    cw.append(f'<div data-build-in="rise order {k+1}" style="display:flex;flex-direction:row;gap:24px;align-items:center;background:{bg};border:2px solid {bd};border-radius:22px;padding:36px 40px">'
+              f'<x-icon name="{ic}" style="width:56px;height:56px;color:{col}"></x-icon>'
+              f'<div style="display:flex;flex-direction:column;gap:8px"><p style="font-size:34px;font-weight:700;color:#1D2330">{h}</p>'
+              f'<p style="font-size:28px;font-weight:700;color:{col}">{r}</p></div></div>')
+cw.append('</div>')
+cw.append(takeaway("충돌은 Git이 고를 수 없는 곳만 사람에게 물어보는 거예요.", 760))
+page("conflict-when", "충돌 풀기", "충돌은 언제 나요?", cw,
+     "양쪽 브랜치가 같은 곳을 다르게 고쳤을 때만 충돌이 나요. 다른 파일이나 멀리 떨어진 줄은 Git이 알아서 합쳐요. 바로 옆 줄도 한 덩어리로 봐서 충돌이 나요(시나리오 2). 충돌은 고장이 아니에요.")
+
+# ---------- abort ----------
+ab = [term(96, 260, 1728, [("$", "git merge feat/korean"), ("r", "CONFLICT (content): Merge conflict in hello.md"),
+                           ("o", "Automatic merge failed; fix conflicts and then commit the result."),
+                           ("$", "git merge --abort"), ("$", "git status"), ("o", "On branch main"), ("g", "nothing to commit, working tree clean")]),
+      takeaway("merge --abort는 합치기 전 모습으로 돌려놔요. 천천히 다시 해도 돼요.", 760)]
+page("abort", "충돌 풀기", "헷갈리면 merge 전으로 돌아가요", ab,
+     "충돌을 풀다 꼬였거나 지금 풀 시간이 없으면 git merge --abort를 쳐요. 출력은 없고, git status가 깨끗해져요. pull 하다 난 충돌도 똑같이 git merge --abort로 돌아가요. 출력 중 Auto-merging 줄은 뺐어요.")
+
+# ---------- 시나리오 2: 바로 옆 줄 ----------
+EBS = "충돌 시나리오"
+scen("sc-adjacent", EBS + " 2 · 바로 옆 줄", "다른 줄인데도 충돌이 나요",
+     ("main", "main", "hello.md", [("hello", "o"), ("세상", "b")]),
+     ("feat/korean", "green", "hello.md", [("안녕", "g"), ("world", "o")]),
+     [("$", "git merge feat/korean"), ("r", "CONFLICT (content): Merge conflict in hello.md"), ("o", "Automatic merge failed; fix conflicts and then commit the result.")],
+     "붙어 있는 줄을 각자 고치면 Git은 한 덩어리로 봐요.",
+     "main은 둘째 줄 world를 세상으로, feat/korean은 첫째 줄 hello를 안녕으로 고쳤어요. 서로 다른 줄이지만 바로 붙어 있어서 Git이 어떻게 섞을지 정하지 못해요. 출력 중 Auto-merging 줄은 뺐어요.")
+page("rs-adjacent", EBS + " 2 · 바로 옆 줄", "둘 다 남기면 돼요", [
+    markers(96, 250, 800, 440, "hello.md (충돌 표시)", [("&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD", "m"), ("hello", "b"), ("세상", "b"), ("=======", "m"),
+                                                    ("안녕", "g"), ("world", "g"), ("&gt;&gt;&gt;&gt;&gt;&gt;&gt; feat/korean", "m")], size=32),
+    arrow(920, 440),
+    filecard(1016, 250, 808, 440, "main", "main", "고친 hello.md", [("안녕", "g"), ("세상", "b")], ' data-build-in="fade order 1"'),
+    term(96, 714, 1728, [("$", "git add hello.md"), ("$", 'git commit -m "fix: 인사 충돌 해결"'), ("o", "[main 1d3e1ba] fix: 인사 충돌 해결")], ' data-build-in="fade order 2"'),
+    takeaway("양쪽에서 바뀐 줄을 하나씩 가져와 합치고, 표시 세 줄은 지워요.", 920)],
+    "위 덩어리는 main의 두 줄, 아래 덩어리는 feat/korean의 두 줄이에요. 둘 다 살리려면 바뀐 줄만 골라 안녕, 세상으로 만들어요. 고친 뒤 add, commit은 시나리오 1과 같아요.")
+
+# ---------- 시나리오 3: 지움 vs 고침 ----------
+scen("sc-delete", EBS + " 3 · 지움 vs 고침", "한쪽은 파일을 지우고, 한쪽은 고쳤어요",
+     ("main", "main", "bye.md", [("see you", "o"), ("bye", "b")]),
+     ("chore/remove-bye", "orange", "bye.md", [("파일 삭제", "x")]),
+     [("$", "git merge chore/remove-bye"), ("r", "CONFLICT (modify/delete): bye.md deleted in chore/remove-bye and modified in HEAD."),
+      ("o", "Automatic merge failed; fix conflicts and then commit the result.")],
+     "파일 안에 충돌 표시가 없어요. 지울지 남길지만 정하면 돼요.",
+     "main은 bye.md에 bye 한 줄을 더했고, chore/remove-bye는 bye.md를 지웠어요(git rm). CONFLICT 줄 끝의 Version HEAD of bye.md left in tree.는 화면 폭 때문에 뺐어요. main 쪽 bye.md가 폴더에 남아 있다는 뜻이에요.")
+choice = lambda L, ic, col, bg, bd, h, cmd, out, k: (
+    f'<div data-build-in="rise order {k}" style="position:absolute;left:{L}px;top:520px;width:840px;height:300px;background:{bg};border:2px solid {bd};border-radius:22px;padding:32px 40px;display:flex;flex-direction:column;gap:16px">'
+    f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="{ic}" style="width:44px;height:44px;color:{col}"></x-icon><p style="font-size:34px;font-weight:700;color:{col}">{h}</p></div>'
+    f'<p style="font-family:{MONO};font-size:32px;font-weight:700;color:#1D2330">{cmd}</p>'
+    f'<p style="font-family:{MONO};font-size:32px;font-weight:700;color:#1D2330">{out}</p></div>')
+page("rs-delete", EBS + " 3 · 지움 vs 고침", "지울지 남길지 골라요", [
+    term(96, 250, 1728, [("$", "git status"), ("o", "Unmerged paths:"), ("h", '  (use "git add/rm &lt;file&gt;..." as appropriate to mark resolution)'),
+                         ("r", "&#160;&#160;&#160;&#160;deleted by them: bye.md")]),
+    choice(96, "Warning", RED, "#FBE4E2", "#E07A7A", "지우기로 하면", "git rm bye.md", 'git commit -m "..."', 1),
+    choice(984, "CheckCircle", "#1A7340", "#F1FAF4", "#4DB57A", "남기기로 하면", "git add bye.md", 'git commit -m "..."', 2),
+    takeaway("deleted by them은 합치려는 브랜치(them)가 지웠다는 뜻이에요.", 880)],
+    "git status 앞뒤 안내 줄은 뺐어요. 이번 실습에서는 git rm bye.md로 지우기를 골랐고 출력은 rm 'bye.md'였어요. 이어서 git commit -m \"chore: bye.md 삭제 반영\"을 하면 [main 8541c5d] chore: bye.md 삭제 반영이 나와요. 내가 지운 쪽이면 deleted by us로 보여요.")
+
+# ---------- 시나리오 4: 같은 이름 새 파일 ----------
+scen("sc-addadd", EBS + " 4 · 같은 이름 새 파일", "둘 다 todo.md를 새로 만들었어요",
+     ("main", "main", "todo.md (새 파일)", [("- 운동", "b")]),
+     ("feat/todo", "green", "todo.md (새 파일)", [("- 장보기", "g")]),
+     [("$", "git merge feat/todo"), ("r", "CONFLICT (add/add): Merge conflict in todo.md"), ("o", "Automatic merge failed; fix conflicts and then commit the result.")],
+     "처음부터 내용이 달라서, 파일 전체가 충돌 표시로 묶여요.",
+     "두 사람이 같은 이름의 파일을 따로 만든 상황이에요. git status에는 both added: todo.md로 나와요. 출력 중 Auto-merging 줄은 뺐어요.")
+page("rs-addadd", EBS + " 4 · 같은 이름 새 파일", "목록이면 둘 다 살려요", [
+    markers(96, 250, 800, 340, "todo.md (충돌 표시)", [("&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD", "m"), ("- 운동", "b"), ("=======", "m"), ("- 장보기", "g"),
+                                                  ("&gt;&gt;&gt;&gt;&gt;&gt;&gt; feat/todo", "m")]),
+    arrow(920, 390),
+    filecard(1016, 250, 808, 340, "main", "main", "고친 todo.md", [("- 운동", "b"), ("- 장보기", "g")], ' data-build-in="fade order 1"'),
+    term(96, 640, 1728, [("$", "git add todo.md"), ("$", 'git commit -m "fix: 할 일 합치기"'), ("o", "[main fcf74a9] fix: 할 일 합치기")], ' data-build-in="fade order 2"'),
+    takeaway("푸는 방법은 시나리오 1과 같아요. 고르고, 표시 지우고, add, commit.", 880)],
+    "할 일 목록처럼 둘 다 필요한 내용이면 두 줄을 모두 남겨요. 한쪽만 맞는 내용이면 그쪽만 남겨요.")
+
+# ---------- 시나리오 5: pull 할 때 ----------
+EBP = EBS + " 5 · pull 할 때"
+scen("sc-pull", EBP, "팀원이 먼저 같은 줄을 push했어요",
+     ("origin/main", "origin", "GitHub의 hello.md (팀원)", [("hi", "g"), ("world", "o")]),
+     ("main", "main", "내 hello.md", [("안녕", "b"), ("world", "o")]),
+     [("$", "git push origin main"), ("r", " ! [rejected]        main -&gt; main (fetch first)"),
+      ("$", "git pull origin main"), ("r", "fatal: Need to specify how to reconcile divergent branches.")],
+     "갈라진 상태에서 pull하면 어떻게 합칠지 정해 달라며 멈춰요.",
+     "push가 거절돼서 pull했더니 fatal로 멈췄어요. 내 main과 GitHub main에 서로 모르는 커밋이 하나씩 있어서예요. 출력 중 error, hint 줄과 From 줄은 뺐어요. git 2.27부터 이렇게 물어봐요.")
+page("pull-config", EBP, "처음 한 번만 설정해요", [
+    f'<div style="position:absolute;left:96px;top:260px;width:1728px;height:150px;background:#1D2330;border-radius:24px;display:flex;flex-direction:row;align-items:center;padding:0 48px">'
+    f'<p style="font-family:{MONO};font-size:48px;font-weight:700;color:#F2C46D">git config --global pull.rebase false</p></div>',
+    '<div style="position:absolute;left:96px;top:460px;width:1728px;display:flex;flex-direction:row;gap:24px;align-items:center">'
+    + "".join(f'<div data-build-in="rise order {k+1}" style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:32px 36px">'
+              f'<p style="font-family:{MONO};font-size:36px;font-weight:700;color:{c}">{a}</p><p style="font-size:28px;color:#4A5262">{b}</p></div>'
+              for k, (a, b, c) in enumerate([("git pull", "pull은 두 단계예요", "#1D2330"), ("= fetch", "GitHub 커밋을 받아 오고", "#6B47D6"),
+                                              ("+ merge", "내 main과 합쳐요", "#2459C9")]))
+    + '</div>',
+    takeaway("pull.rebase false는 pull할 때 merge로 합치라는 뜻이에요. 설정한 뒤 다시 pull해요.", 760)],
+    "출력은 없어요. --global이라 내 컴퓨터의 모든 저장소에 한 번에 적용돼요. rebase는 이 과정에서 다루지 않아요. 02의 처음 설정(user.name, user.email)과 같이 해 두면 좋아요.")
+page("rs-pull", EBP, "다시 pull하면 익숙한 충돌이에요", [
+    term(96, 250, 1060, [("$", "git pull origin main"), ("r", "CONFLICT (content): Merge conflict in hello.md")], size=26),
+    markers(96, 400, 1060, 320, "hello.md (충돌 표시)", [("&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD", "m"), ("안녕", "b"), ("=======", "m"), ("hi", "g"),
+                                                    ("&gt;&gt;&gt;&gt;&gt;&gt;&gt; 27dcbf520a13a80a5291bda2068065ad3623b989", "m")], size=26),
+    term(1196, 250, 628, [("$", "git add hello.md"), ("$", "git commit -m"), ("o", '  "fix: 팀원과 인사 충돌 해결"'), ("$", "git push origin main"),
+                          ("g", "   27dcbf5..d524032  main -&gt; main")], ' data-build-in="fade"', size=26),
+    takeaway("pull 충돌은 아래쪽 이름이 브랜치 대신 커밋 해시예요. 푸는 법은 같아요.", 780)],
+    "GitHub에서 받아 온 커밋은 브랜치 이름이 없어서 &gt;&gt;&gt;&gt;&gt;&gt;&gt; 뒤에 해시가 나와요. 위쪽 HEAD가 내 것, 아래쪽이 팀원 것이에요. 고치고 add, commit 한 다음 push하면 이번엔 올라가요. pull, commit, push 출력 일부는 뺐어요.")
+
+# ---------- 시나리오 6: PR 충돌 ----------
+EBR = EBS + " 6 · Pull Request"
+pr = ['<div style="position:absolute;left:96px;top:250px;width:1728px;height:520px;background:#FFFFFF;border:2px solid #D0D7DE;border-radius:20px"></div>',
+      f'<p style="position:absolute;left:144px;top:290px;width:1600px;font-size:38px;font-weight:700;color:#1D2330">feat: 인사를 한국어로 <span style="color:#6A7180">#2</span></p>',
+      f'<div style="position:absolute;left:144px;top:364px;width:1600px;display:flex;flex-direction:row;gap:12px;align-items:center">'
+      f'<p style="font-size:26px;font-weight:700;color:#FFFFFF;background:#1F8A4C;padding:4px 16px;border-radius:20px">Open</p>'
+      f'<p style="font-family:{MONO};font-size:26px;color:#1D2330;background:#DCE7FB;padding:4px 12px;border-radius:8px">main</p>'
+      f'<p style="font-size:28px;color:#6A7180">←</p>'
+      f'<p style="font-family:{MONO};font-size:26px;color:#1D2330;background:#DDF2E5;padding:4px 12px;border-radius:8px">feat/korean</p></div>',
+      f'<div data-build-in="fade" style="position:absolute;left:144px;top:450px;width:1632px;height:260px;background:#FFF8F0;border:2px solid #E4C08A;border-radius:14px;padding:32px 36px;display:flex;flex-direction:column;gap:20px">'
+      f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="Warning" style="width:44px;height:44px;color:#B26A00"></x-icon>'
+      f'<p style="font-size:34px;font-weight:700;color:#1D2330">This branch has conflicts that must be resolved</p></div>'
+      f'<p style="font-family:{MONO};font-size:28px;color:#4A5262">Conflicting files: hello.md</p>'
+      f'<p style="font-size:28px;font-weight:700;color:#9AA0AB;background:#F0F1F3;border-radius:10px;padding:10px 24px;width:330px">Merge pull request</p></div>',
+      takeaway("내가 PR을 올린 사이 main이 같은 줄을 바꿨어요. Merge 버튼이 막혀요.", 820)]
+page("sc-pr", EBR, "PR 화면에 충돌이 떠요", pr,
+     "feat/korean을 push하고 PR을 만들었는데, 그 사이 팀원이 main의 같은 줄을 hi로 바꿔 합쳤어요. GitHub 화면 문구와 모양은 업데이트에 따라 조금 다를 수 있어요. GitHub에서 Resolve conflicts 버튼으로 웹에서 풀 수도 있지만, 수업에서는 내 컴퓨터에서 푸는 법을 써요.")
+page("rs-pr", EBR, "내 브랜치에서 main을 받아 풀고, 다시 push", [
+    term(96, 250, 1728, [("$", "git checkout feat/korean"), ("$", "git pull origin main"), ("r", "CONFLICT (content): Merge conflict in hello.md"),
+                         ("h", "# hello.md 충돌 표시 지우고 저장"), ("$", "git add hello.md"), ("$", 'git commit -m "fix: main과 인사 충돌 해결"'),
+                         ("$", "git push origin feat/korean"), ("g", "   900b045..2aeefa6  feat/korean -&gt; feat/korean")]),
+    takeaway("push하면 PR 화면이 다시 Merge 할 수 있는 상태로 바뀌어요.", 820)],
+    "main을 내 브랜치로 먼저 가져와서 충돌을 풀어요. 그래서 checkout feat/korean 다음에 pull origin main이에요. 받는 쪽이 feat/korean이라는 점이 merge와 같아요. pull, commit 출력 일부는 뺐어요.")
+
+# ---------- conflict-sum ----------
+rows = [("CONFLICT (content)", "같은 줄, 옆 줄", "고르고, 표시 지우고, add, commit"),
+        ("CONFLICT (modify/delete)", "지움 vs 고침", "git rm 또는 git add, commit"),
+        ("CONFLICT (add/add)", "같은 이름 새 파일", "고르고, 표시 지우고, add, commit"),
+        ("fatal: Need to specify how to reconcile ...", "갈라진 채 pull", "git config --global pull.rebase false"),
+        ("This branch has conflicts ...", "PR 충돌", "내 브랜치에서 pull origin main, 풀고 push")]
+cs = ['<div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column;gap:14px">']
+for k, (msg, sit, fix) in enumerate(rows):
+    cs.append(f'<div data-build-in="fade order {k+1}" style="display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:22px 32px">'
+              f'<p style="width:720px;flex:none;font-family:{MONO};font-size:26px;font-weight:700;color:{RED}">{msg}</p>'
+              f'<p style="width:280px;flex:none;font-size:28px;font-weight:700;color:#1D2330">{sit}</p>'
+              f'<p style="font-size:28px;color:#4A5262">{fix}</p></div>')
+cs.append('</div>')
+cs.append(takeaway("어떤 충돌이든 막히면 git merge --abort로 처음으로 돌아갈 수 있어요.", 900))
+page("conflict-sum", EBS, "메시지로 충돌 종류를 알아봐요", cs,
+     "메시지 첫 단어만 봐도 무엇을 할지 알 수 있어요. 충돌을 푼 뒤에는 git status로 남은 충돌 파일이 없는지 확인하고 커밋해요.")
+
+print("pages ok")
