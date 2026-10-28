@@ -2,7 +2,14 @@
 
 명령을 칠 때마다 파일이 어디로 가는지 따라가면서 Git을 익혀요. 내 컴퓨터에 저장소를 만들고, GitHub에 올리고, 팀원과 주고받고, 실수를 되돌리는 데까지 한 번에 이어서 봐요.
 
-**슬라이드:** [Git 기본 흐름, 눈으로 보기](https://claude.ai/artifact/9Ng96bQJJporFMth1tdkcQ) (43장)
+## 슬라이드 받기
+
+| 형식 | 링크 |
+| --- | --- |
+| PDF (43장, 2.6MB) | [바로 받기](https://github.com/woogi-kang/TeamSparta-KANT-AX-AI-Engineer/raw/main/01-git-basics/git-basics-slides.pdf) · [GitHub에서 보기](./git-basics-slides.pdf) |
+| 온라인 발표용 | [Git 기본 흐름, 눈으로 보기](https://claude.ai/artifact/9Ng96bQJJporFMth1tdkcQ) (강사가 공유한 경우에만 열려요) |
+
+PDF는 애니메이션이 끝난 마지막 모습으로 한 장씩 담겨 있어요.
 
 ## 먼저 네 칸을 기억해요
 
@@ -139,6 +146,9 @@ slides/
 tools/
   gen_scenes.py    네 칸 실습 장면(s1~s18)을 만드는 스크립트
   check.js         글자 넘침, 겹침, 여백을 검사하고 스크린샷을 남기는 스크립트
+  export.js        deck.json 순서대로 전체 슬라이드를 PDF 한 파일로 뽑는 스크립트
+  icons/           PDF에 넣는 아이콘 (Lucide, ISC 라이선스)
+git-basics-slides.pdf   수강생 배포용 PDF
 ```
 
 실습 장면은 `slides/s*.html`을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
@@ -147,6 +157,7 @@ tools/
 python3 tools/gen_scenes.py slides
 node tools/check.js slides shots           # 전체 검사 (Playwright 필요)
 node tools/check.js slides shots reflog    # 특정 장만
+node tools/export.js slides git-basics-slides.pdf   # 슬라이드를 고친 뒤 PDF 다시 만들기
 ```
 
 터미널 출력은 git 2.43에서 실제로 실행해 확인했어요. 해시는 이야기 흐름에 맞춰 고정한 값이라 내 화면과 달라요.
