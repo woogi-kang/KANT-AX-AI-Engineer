@@ -318,7 +318,17 @@ o += terminal([("$", "~/kant|rm notes"), ("r", "rm: cannot remove 'notes': Is a 
                ("$", "~/kant|rm -r notes"), ("$", "~/kant|ls"), ("#", "# 아무것도 없어요")])
 o += explain("Warning", "폴더는 rm -r로 지워요", "안에 든 파일까지 한꺼번에 사라져요.", icolor="#A33131")
 o += tree(GH_NOTES, cwd="kant", badges={"notes": [("사라짐", "del")], "memo": [("같이 사라짐", "del")]})
-write("s16-rm-r", o, "폴더에 rm만 치면 Is a directory 에러로 막아 줘요. -r은 recursive, 안쪽까지 전부라는 뜻이에요. rm -rf처럼 f를 붙이면 묻지도 막지도 않아요. 수업에서는 쓰지 않아요.")
+write("s16-rm-r", o, "폴더에 rm만 치면 Is a directory 에러로 막아 줘요. -r은 recursive, 안쪽까지 전부라는 뜻이에요. rm -rf는 다음 장에서 봐요.")
+
+GH_OLD = KANT + [("old", "old", "ghost", 4), ("a", "a.md", "ghost", 5), ("b", "b.md", "ghost", 5)]
+o = head("s16b-rm-rf", "move", "실습 16-2 · 옮기고 지우기", "rm -rf old")
+o += terminal([("$", "~/kant|mkdir old"), ("$", "~/kant|touch old/a.md old/b.md"), ("$", "~/kant|ls old"), ("o", "a.md  b.md"),
+               ("$", "~/kant|rm -rf old"), ("$", "~/kant|ls"), ("#", "# 아무것도 없어요"),
+               ("$", "~/kant|rm -r old"), ("r", "rm: cannot remove 'old': No such file or directory"),
+               ("$", "~/kant|rm -rf old"), ("#", "# 없어도 아무 말 없어요")], size=24)
+o += explain("Warning", "묻지도 알리지도 않고 지워요", f"{code('-r')}은 폴더 안까지 전부, {code('-f')}는 force, 강제로예요. 경고와 에러를 모두 건너뛰어요.", icolor="#A33131")
+o += tree(GH_OLD, cwd="kant", badges={"old": [("사라짐", "del")], "a": [("같이 사라짐", "del")], "b": [("같이 사라짐", "del")]})
+write("s16b-rm-rf", o, "rm -rf는 -r과 -f를 합친 거예요. -f가 붙으면 없는 파일을 지워도 에러가 나지 않고, 지우기 어려운 파일도 묻지 않고 지워요. 그래서 실수해도 아무 신호가 없어요. 개발하다 보면 node_modules 같은 큰 폴더를 지울 때 자주 써요. 쓰기 전에 pwd와 ls로 위치와 이름을 꼭 확인해요.")
 
 # ---------- 더 편하게 ----------
 o = head("s17-ls-a", "extra", "실습 17 · 숨김 파일", "ls -a")

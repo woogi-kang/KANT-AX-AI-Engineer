@@ -32,6 +32,8 @@
     "warn",
     "s15-rm",
     "s16-rm-r",
+    "s16b-rm-rf",
+    "warn-rf",
     "s17-ls-a",
     "s18-ls-al",
     "keys",
@@ -62,7 +64,7 @@
       "start": "paths"
     },
     "move": {
-      "description": "mv, cp, rm, rm -r",
+      "description": "mv, cp, rm, rm -r, rm -rf",
       "start": "s12-mv"
     },
     "extra": {

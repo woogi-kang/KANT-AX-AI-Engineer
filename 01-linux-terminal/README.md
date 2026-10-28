@@ -7,7 +7,7 @@
 | 형식 | 받기 | 이럴 때 |
 | --- | --- | --- |
 | HTML (애니메이션 포함) | [브라우저에서 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) | 클릭하면 바로 열려요. 키보드 →, ← 로 넘겨요 |
-| PDF (32장) | [바로 받기](https://github.com/woogi-kang/KANT-AX-AI-Engineer/raw/main/01-linux-terminal/linux-terminal-slides.pdf) · [GitHub에서 보기](./linux-terminal-slides.pdf) | 인쇄하거나 휴대폰으로 볼 때 |
+| PDF (34장) | [바로 받기](https://github.com/woogi-kang/KANT-AX-AI-Engineer/raw/main/01-linux-terminal/linux-terminal-slides.pdf) · [GitHub에서 보기](./linux-terminal-slides.pdf) | 인쇄하거나 휴대폰으로 볼 때 |
 
 HTML은 인터넷에 연결돼 있어야 글꼴이 제대로 보여요. PDF에는 애니메이션이 끝난 모습이 한 장씩 담겨 있어요.
 
@@ -56,11 +56,11 @@ HTML은 인터넷에 연결돼 있어야 글꼴이 제대로 보여요. PDF에�
 | 2. 둘러보기 | 6–9 | `pwd`, `ls`, `mkdir`, `cd` |
 | 3. 파일 만들기 | 10–13 | `touch`, `echo`, `cat`, 마크다운 |
 | 4. 경로 | 14–19 | 절대 경로와 상대 경로, `cd ..`, `cd ~` |
-| 5. 옮기고 지우기 | 20–25 | `mv`, `cp`, `rm`, `rm -r` |
-| 6. 더 편하게 | 26–28 | `ls -a`, `ls -al`, Tab, 위 화살표, Ctrl + C, `clear` |
-| 7. 막힐 때 | 29–31 | 자주 보는 에러 3가지 |
+| 5. 옮기고 지우기 | 20–27 | `mv`, `cp`, `rm`, `rm -r`, `rm -rf` |
+| 6. 더 편하게 | 28–30 | `ls -a`, `ls -al`, Tab, 위 화살표, Ctrl + C, `clear` |
+| 7. 막힐 때 | 31–33 | 자주 보는 에러 3가지 |
 
-마지막 32쪽은 한 장 요약이에요.
+마지막 34쪽은 한 장 요약이에요.
 
 ## 따라 해 보기
 
@@ -114,6 +114,8 @@ ls -al                    # 숨김까지 자세히. 맨 앞이 d면 폴더, -면
 ```
 
 `rm`은 휴지통을 거치지 않아요. 지우기 전에 `pwd`와 `ls`로 위치와 이름을 확인해요.
+
+`rm -rf 폴더`는 `-r`(폴더 안까지 전부)과 `-f`(강제로, 묻지도 알리지도 않음)를 합친 명령이에요. 없는 이름을 지워도 에러가 나지 않아서 실수해도 아무 신호가 없어요. `rm -rf ~`, `rm -rf /`, `rm -rf *`는 홈 폴더, 컴퓨터 전체, 지금 폴더 안을 통째로 지우니 절대 치지 않아요.
 
 ## 막혔을 때
 
