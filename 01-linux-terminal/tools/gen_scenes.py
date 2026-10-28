@@ -125,6 +125,9 @@ def terminal(lines, size=28, height=500):
             where, cmd = text.split("|", 1)
             t = f'<span style="color:#8FB3FF">{e(where)} $</span> {e(cmd)}'
             o.append(p(f"font-size:{size}px;line-height:{lh};white-space:nowrap;color:#F2C46D", t))
+        elif kind == "l":
+            t = f'<span style="color:#7FD18B">{e(text[0])}</span>' + e(text[1:]).replace("  ", "&#160;&#160;")
+            o.append(p(f"font-size:{size}px;line-height:{lh};white-space:nowrap;color:#D8DEE9", t))
         else:
             t = e(text).replace("  ", "&#160;&#160;") if text else "&#160;"
             o.append(p(f"font-size:{size}px;line-height:{lh};white-space:nowrap;color:{col[kind]}", t))
@@ -324,6 +327,15 @@ o += terminal([("$", "~/kant|git init"), ("o", "Initialized empty Git repository
 o += explain("Search", "점(.)으로 시작하는 이름은 숨겨져요", "ls -a를 쳐야 보여요. Git의 .git 폴더도 숨김이에요.", icolor="#1D6B70")
 o += tree(KANT + [("git", ".git", "hidden", 4)], cwd="kant", badges={"git": [("숨김 폴더", "hide")]})
 write("s17-ls-a", o, "-a는 all이에요. 맨 앞의 . 과 .. 은 지금 폴더와 한 칸 위 폴더를 뜻하는 기호예요. git init은 다음 단원에서 배울 Git 명령이에요. 여기서는 숨김 폴더를 하나 만드는 데만 써요. git init이 만든 .git 폴더는 숨김이라 그냥 ls로는 안 보여요.")
+
+o = head("s18-ls-al", "extra", "실습 18 · 숨김 파일", "ls -al")
+o += terminal([("$", "~/kant|touch README.md"), ("$", "~/kant|ls"), ("o", "README.md"), ("$", "~/kant|ls -al"),
+               ("o", "total 12"), ("l", "drwxr-xr-x 3 kim kim 4096 Oct 28 04:28 ."), ("l", "drwxr-xr-x 5 kim kim 4096 Oct 28 04:28 .."),
+               ("l", "drwxr-xr-x 7 kim kim 4096 Oct 28 04:28 .git"), ("l", "-rw-r--r-- 1 kim kim    0 Oct 28 04:28 README.md")], size=26)
+o += explain("Search", "숨김까지 자세히 보여 줘요", f"{code('-a')}는 숨김까지, {code('-l')}은 자세히예요. 맨 앞이 {code('d')}면 폴더, {code('-')}면 파일이에요.", icolor="#1D6B70")
+o += tree(KANT + [("git", ".git", "hidden", 4), ("readme", "README.md", "file", 4)], cwd="kant",
+          badges={"git": [("d · 폴더", "hide")], "readme": [("- · 파일", "new")]})
+write("s18-ls-al", o, "ls -al은 ls -a -l을 합친 거예요. 순서를 바꿔 ls -la로 쳐도 같아요. 한 줄에 권한, 주인, 크기, 고친 시각, 이름이 나와요. 지금은 맨 앞 글자로 폴더와 파일을 구분하는 것만 알면 돼요. 빈 파일인 README.md는 크기가 0이에요. 날짜와 시각은 실행한 때에 따라 달라요.")
 
 # ---------- 막힐 때 ----------
 o = head("err-cd", "help", "막힐 때 1", "No such file or directory")

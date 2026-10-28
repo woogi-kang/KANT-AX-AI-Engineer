@@ -33,6 +33,7 @@
     "s15-rm",
     "s16-rm-r",
     "s17-ls-a",
+    "s18-ls-al",
     "keys",
     "err-cd",
     "err-cmd",
@@ -65,7 +66,7 @@
       "start": "s12-mv"
     },
     "extra": {
-      "description": "숨김 파일과 단축키",
+      "description": "숨김 파일(ls -a, ls -al)과 단축키",
       "start": "s17-ls-a"
     },
     "help": {
