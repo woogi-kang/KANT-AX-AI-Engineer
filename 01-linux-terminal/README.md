@@ -7,7 +7,7 @@
 | 형식 | 받기 | 이럴 때 |
 | --- | --- | --- |
 | HTML (애니메이션 포함) | [브라우저에서 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) | 클릭하면 바로 열려요. 키보드 →, ← 로 넘겨요 |
-| PDF (30장) | [바로 받기](https://github.com/woogi-kang/KANT-AX-AI-Engineer/raw/main/01-linux-terminal/linux-terminal-slides.pdf) · [GitHub에서 보기](./linux-terminal-slides.pdf) | 인쇄하거나 휴대폰으로 볼 때 |
+| PDF (31장) | [바로 받기](https://github.com/woogi-kang/KANT-AX-AI-Engineer/raw/main/01-linux-terminal/linux-terminal-slides.pdf) · [GitHub에서 보기](./linux-terminal-slides.pdf) | 인쇄하거나 휴대폰으로 볼 때 |
 
 HTML은 인터넷에 연결돼 있어야 글꼴이 제대로 보여요. PDF에는 애니메이션이 끝난 모습이 한 장씩 담겨 있어요.
 
@@ -32,19 +32,35 @@ HTML은 인터넷에 연결돼 있어야 글꼴이 제대로 보여요. PDF에�
 
 `/`로 시작하는 경로는 절대 경로예요. 어디서 쳐도 같은 곳을 가리켜요. 그 밖의 경로는 지금 위치에서 출발하는 상대 경로예요.
 
+## 마크다운 기호
+
+실습 파일은 `.md`(마크다운)로 만들어요. 마크다운은 글자 사이에 기호 몇 개를 넣어 꾸미는 텍스트 파일이에요. GitHub과 VS Code 미리보기에서 꾸며진 모습으로 보여요. 이 README도 마크다운이에요.
+
+| 이렇게 쓰면 | 이렇게 보여요 |
+| --- | --- |
+| `# 제목` | 큰 제목 |
+| `## 작은 제목` | 작은 제목 |
+| `- 항목` | 점 목록 |
+| `1. 항목` | 번호 목록 |
+| `**굵게**` | **굵게** |
+| `` `코드` `` | `코드` |
+| `[글자](주소)` | 누르면 주소로 가는 링크 |
+
+기호 뒤에는 띄어쓰기를 한 칸 넣어요. `#제목`처럼 붙이면 제목이 되지 않아요.
+
 ## 슬라이드 순서
 
 | 파트 | 쪽 | 다루는 것 |
 | --- | --- | --- |
 | 1. 개념 잡기 | 3–5 | 터미널, 프롬프트, 폴더 트리 |
 | 2. 둘러보기 | 6–9 | `pwd`, `ls`, `mkdir`, `cd` |
-| 3. 파일 만들기 | 10–12 | `touch`, `echo`, `cat` |
-| 4. 경로 | 13–18 | 절대 경로와 상대 경로, `cd ..`, `cd ~` |
-| 5. 옮기고 지우기 | 19–24 | `mv`, `cp`, `rm`, `rm -r` |
-| 6. 더 편하게 | 25–26 | `ls -a`, Tab, 위 화살표, Ctrl + C, `clear` |
-| 7. 막힐 때 | 27–29 | 자주 보는 에러 3가지 |
+| 3. 파일 만들기 | 10–13 | `touch`, `echo`, `cat`, 마크다운 |
+| 4. 경로 | 14–19 | 절대 경로와 상대 경로, `cd ..`, `cd ~` |
+| 5. 옮기고 지우기 | 20–25 | `mv`, `cp`, `rm`, `rm -r` |
+| 6. 더 편하게 | 26–27 | `ls -a`, Tab, 위 화살표, Ctrl + C, `clear` |
+| 7. 막힐 때 | 28–30 | 자주 보는 에러 3가지 |
 
-마지막 30쪽은 한 장 요약이에요.
+마지막 31쪽은 한 장 요약이에요.
 
 ## 따라 해 보기
 
@@ -62,9 +78,9 @@ cd kant                   # 들어가기
 **파일 만들기**
 
 ```bash
-touch memo.txt
-echo "hello" > memo.txt
-cat memo.txt
+touch memo.md
+echo "# hello" > memo.md
+cat memo.md
 mkdir notes
 ls
 ```
@@ -82,10 +98,10 @@ cd kant
 **옮기고 지우기**
 
 ```bash
-mv memo.txt notes/        # 옮기기
-cp notes/memo.txt plan.txt
-mv plan.txt todo.txt      # 이름 바꾸기
-rm todo.txt               # 파일 지우기
+mv memo.md notes/        # 옮기기
+cp notes/memo.md plan.md
+mv plan.md todo.md      # 이름 바꾸기
+rm todo.md               # 파일 지우기
 rm -r notes               # 폴더 지우기
 ls
 ```

@@ -157,11 +157,11 @@ def code(s):
 BASE = [("root", "/", "dir", 0), ("home", "home", "dir", 1), ("kim", "kim", "dir", 2),
         ("desk", "Desktop", "dir", 3), ("docs", "Documents", "dir", 3)]
 KANT = BASE + [("kant", "kant", "dir", 3)]
-MEMO = KANT + [("memo", "memo.txt", "file", 4)]
-NOTES = KANT + [("memo", "memo.txt", "file", 4), ("notes", "notes", "dir", 4)]
-MOVED = KANT + [("notes", "notes", "dir", 4), ("memo", "memo.txt", "file", 5)]
-COPY = MOVED + [("plan", "plan.txt", "file", 4)]
-RENAMED = MOVED + [("plan", "todo.txt", "file", 4)]
+MEMO = KANT + [("memo", "memo.md", "file", 4)]
+NOTES = KANT + [("memo", "memo.md", "file", 4), ("notes", "notes", "dir", 4)]
+MOVED = KANT + [("notes", "notes", "dir", 4), ("memo", "memo.md", "file", 5)]
+COPY = MOVED + [("plan", "plan.md", "file", 4)]
+RENAMED = MOVED + [("plan", "todo.md", "file", 4)]
 
 # ---------- 개념 ----------
 o = head("tree-map", "concept", "개념 3 · 폴더 트리", "폴더 안에 폴더, 거꾸로 선 나무", mono=False, transition="fade")
@@ -213,23 +213,23 @@ o += tree(KANT, cwd="kant")
 write("s4-cd", o, "cd는 change directory예요. 파란 현재 위치 표시가 kant로 내려가는 걸 보여 주세요. 프롬프트 앞부분이 바뀐 것도 함께 짚어요. 명령을 치기 전에 프롬프트로 지금 위치를 확인하는 습관을 들이면 실수가 줄어요.")
 
 # ---------- 만들기 ----------
-o = head("s5-touch", "make", "실습 5 · 파일 만들기", "touch memo.txt")
-o += terminal([("$", "~/kant|touch memo.txt"), ("$", "~/kant|ls"), ("o", "memo.txt")])
+o = head("s5-touch", "make", "실습 5 · 파일 만들기", "touch memo.md")
+o += terminal([("$", "~/kant|touch memo.md"), ("$", "~/kant|ls"), ("o", "memo.md")])
 o += explain("Star", "빈 파일을 만들어요", "내용이 하나도 없는 0바이트 파일이에요.", icolor="#1A7340")
 o += tree(MEMO, cwd="kant", badges={"memo": [("새로 생김", "new")]})
-write("s5-touch", o, "touch는 현재 위치에 파일을 만들어요. 그래서 memo.txt는 kant 안에 생겨요. 이미 있는 파일에 touch를 쳐도 내용은 지워지지 않아요.")
+write("s5-touch", o, "touch는 현재 위치에 파일을 만들어요. 그래서 memo.md는 kant 안에 생겨요. 이미 있는 파일에 touch를 쳐도 내용은 지워지지 않아요.")
 
-o = head("s6-echo", "make", "실습 6 · 파일 만들기", 'echo "hello" &gt; memo.txt')
-o += terminal([("$", '~/kant|echo "hello" > memo.txt'), ("$", "~/kant|cat memo.txt"), ("o", "hello")])
+o = head("s6-echo", "make", "실습 6 · 파일 만들기", 'echo "# hello" &gt; memo.md')
+o += terminal([("$", '~/kant|echo "# hello" > memo.md'), ("$", "~/kant|cat memo.md"), ("o", "# hello")])
 o += explain("Book", "파일에 글자를 쓰고 읽어요", f"{code('>')} 는 파일 내용을 지우고 새로 써요. {code('cat')}은 내용을 화면에 보여 줘요.", icolor="#1E3F8F")
-o += tree(MEMO, cwd="kant", badges={"memo": [("hello", "text")]})
-write("s6-echo", o, "echo는 글자를 화면에 그대로 출력하는 명령이에요. 뒤에 > 파일이름을 붙이면 화면 대신 파일로 보내요. > 는 기존 내용을 덮어쓰니 중요한 파일에는 쓰지 않아요. 실제 수업에서는 파일 내용을 VS Code 같은 에디터로 고치는 일이 더 많아요.")
+o += tree(MEMO, cwd="kant", badges={"memo": [("# hello", "text")]})
+write("s6-echo", o, "echo는 글자를 화면에 그대로 출력하는 명령이에요. 뒤에 > 파일이름을 붙이면 화면 대신 파일로 보내요. > 는 기존 내용을 덮어쓰니 중요한 파일에는 쓰지 않아요. # 은 마크다운에서 제목을 뜻하는 기호예요. 다음 장에서 봐요. 실제 수업에서는 파일 내용을 VS Code 같은 에디터로 고치는 일이 더 많아요.")
 
 o = head("s7-mkdir2", "make", "실습 7 · 파일 만들기", "mkdir notes")
-o += terminal([("$", "~/kant|mkdir notes"), ("$", "~/kant|ls"), ("o", "memo.txt  notes")])
+o += terminal([("$", "~/kant|mkdir notes"), ("$", "~/kant|ls"), ("o", "memo.md  notes")])
 o += explain("Star", "폴더 안에 폴더를 또 만들어요", "ls에는 파일과 폴더가 함께 보여요.", icolor="#1A7340")
 o += tree(NOTES, cwd="kant", badges={"notes": [("새로 생김", "new")]})
-write("s7-mkdir2", o, "ls 출력만으로는 무엇이 파일이고 무엇이 폴더인지 구분하기 어려워요. 터미널에 따라 폴더를 다른 색으로 보여 주기도 해요. 이름에 .txt 같은 확장자가 있으면 대개 파일이에요.")
+write("s7-mkdir2", o, "ls 출력만으로는 무엇이 파일이고 무엇이 폴더인지 구분하기 어려워요. 터미널에 따라 폴더를 다른 색으로 보여 주기도 해요. 이름에 .md 같은 확장자가 있으면 대개 파일이에요.")
 
 # ---------- 경로 ----------
 o = head("paths", "path", "경로 1", "절대 경로와 상대 경로", mono=False, transition="fade")
@@ -282,34 +282,34 @@ o += tree(NOTES, cwd="kim")
 write("s11-cd-home", o, "cd 뒤에 아무것도 적지 않아도 홈 폴더로 가요. 두 방법 모두 결과가 같아요. 다음 장면은 cd kant로 다시 들어간 뒤 이어져요.")
 
 # ---------- 옮기고 지우기 ----------
-o = head("s12-mv", "move", "실습 12 · 옮기고 지우기", "mv memo.txt notes/")
-o += terminal([("$", "~|cd kant"), ("$", "~/kant|mv memo.txt notes/"), ("$", "~/kant|ls"), ("o", "notes"),
-               ("$", "~/kant|ls notes"), ("o", "memo.txt")])
+o = head("s12-mv", "move", "실습 12 · 옮기고 지우기", "mv memo.md notes/")
+o += terminal([("$", "~|cd kant"), ("$", "~/kant|mv memo.md notes/"), ("$", "~/kant|ls"), ("o", "notes"),
+               ("$", "~/kant|ls notes"), ("o", "memo.md")])
 o += explain("PaperPlane", "파일을 다른 폴더로 옮겨요", "원래 자리에는 남지 않아요. mv 무엇을 어디로 순서로 적어요.", icolor="#8A5200")
 o += tree(MOVED, cwd="kant", badges={"memo": [("옮겨짐", "move")]})
 write("s12-mv", o, "mv는 move예요. 첫 번째가 옮길 것, 두 번째가 도착할 곳이에요. ls notes처럼 ls 뒤에 폴더 이름을 주면 들어가지 않고도 그 안을 볼 수 있어요.")
 
-o = head("s13-cp", "move", "실습 13 · 옮기고 지우기", "cp notes/memo.txt plan.txt")
-o += terminal([("$", "~/kant|cp notes/memo.txt plan.txt"), ("$", "~/kant|ls"), ("o", "notes  plan.txt"),
-               ("$", "~/kant|cat plan.txt"), ("o", "hello")])
-o += explain("Book", "파일을 하나 더 복사해요", "원본 notes/memo.txt는 그대로 있어요.", icolor="#8A5200")
+o = head("s13-cp", "move", "실습 13 · 옮기고 지우기", "cp notes/memo.md plan.md")
+o += terminal([("$", "~/kant|cp notes/memo.md plan.md"), ("$", "~/kant|ls"), ("o", "notes  plan.md"),
+               ("$", "~/kant|cat plan.md"), ("o", "# hello")])
+o += explain("Book", "파일을 하나 더 복사해요", "원본 notes/memo.md는 그대로 있어요.", icolor="#8A5200")
 o += tree(COPY, cwd="kant", badges={"plan": [("복사본", "move")], "memo": [("원본", "info")]})
-write("s13-cp", o, "cp는 copy예요. 순서는 mv와 같아요. notes/memo.txt는 notes 폴더 안의 memo.txt라는 상대 경로예요. 폴더를 통째로 복사할 땐 cp -r을 써요.")
+write("s13-cp", o, "cp는 copy예요. 순서는 mv와 같아요. notes/memo.md는 notes 폴더 안의 memo.md라는 상대 경로예요. 폴더를 통째로 복사할 땐 cp -r을 써요.")
 
-o = head("s14-rename", "move", "실습 14 · 옮기고 지우기", "mv plan.txt todo.txt")
-o += terminal([("$", "~/kant|mv plan.txt todo.txt"), ("$", "~/kant|ls"), ("o", "notes  todo.txt")])
+o = head("s14-rename", "move", "실습 14 · 옮기고 지우기", "mv plan.md todo.md")
+o += terminal([("$", "~/kant|mv plan.md todo.md"), ("$", "~/kant|ls"), ("o", "notes  todo.md")])
 o += explain("PaperPlane", "같은 자리에서 mv 하면 이름이 바뀌어요", "이름 바꾸기 명령이 따로 없어요. mv 원래이름 새이름으로 해요.", icolor="#8A5200")
 o += tree(RENAMED, cwd="kant", badges={"plan": [("이름 바뀜", "move")]})
 write("s14-rename", o, "두 번째 자리에 폴더가 아니라 새 파일 이름을 주면 그 이름으로 옮겨져요. 결국 이름이 바뀐 것과 같아요. 같은 이름의 파일이 이미 있으면 묻지 않고 덮어쓰니 주의해요.")
 
-GH_TODO = MOVED + [("plan", "todo.txt", "ghost", 4)]
-o = head("s15-rm", "move", "실습 15 · 옮기고 지우기", "rm todo.txt")
-o += terminal([("$", "~/kant|rm todo.txt"), ("$", "~/kant|ls"), ("o", "notes")])
+GH_TODO = MOVED + [("plan", "todo.md", "ghost", 4)]
+o = head("s15-rm", "move", "실습 15 · 옮기고 지우기", "rm todo.md")
+o += terminal([("$", "~/kant|rm todo.md"), ("$", "~/kant|ls"), ("o", "notes")])
 o += explain("Warning", "파일을 지워요", "휴지통에 가지 않고 바로 사라져요.", icolor="#A33131")
 o += tree(GH_TODO, cwd="kant", badges={"plan": [("사라짐", "del")]})
 write("s15-rm", o, "rm은 remove예요. 지웠다고 아무 말도 하지 않아요. 지운 뒤에는 ls로 확인해요.")
 
-GH_NOTES = KANT + [("notes", "notes", "ghost", 4), ("memo", "memo.txt", "ghost", 5)]
+GH_NOTES = KANT + [("notes", "notes", "ghost", 4), ("memo", "memo.md", "ghost", 5)]
 o = head("s16-rm-r", "move", "실습 16 · 옮기고 지우기", "rm -r notes")
 o += terminal([("$", "~/kant|rm notes"), ("r", "rm: cannot remove 'notes': Is a directory"),
                ("$", "~/kant|rm -r notes"), ("$", "~/kant|ls"), ("#", "# 아무것도 없어요")])
@@ -327,21 +327,21 @@ write("s17-ls-a", o, "-a는 all이에요. 맨 앞의 . 과 .. 은 지금 폴더�
 
 # ---------- 막힐 때 ----------
 o = head("err-cd", "help", "막힐 때 1", "No such file or directory")
-o += terminal([("$", "~/kant|cd notse"), ("r", "bash: cd: notse: No such file or directory"), ("$", "~/kant|ls"), ("o", "notes  todo.txt")])
+o += terminal([("$", "~/kant|cd notse"), ("r", "bash: cd: notse: No such file or directory"), ("$", "~/kant|ls"), ("o", "notes  todo.md")])
 o += explain("Warning", "그 이름이 지금 위치에 없어요", "오타인지, 다른 폴더에 있는지 ls로 확인해요.", icolor="#A33131")
 o += tree(RENAMED, cwd="kant", badges={"notes": [("진짜 이름", "info")]})
 write("err-cd", o, "가장 많이 보는 에러예요. 원인은 둘 중 하나예요. 이름 오타이거나, 지금 위치가 생각과 달라요. pwd와 ls로 위치와 이름을 확인하고, 이름은 Tab으로 자동 완성해요.")
 
 o = head("err-cmd", "help", "막힐 때 2", "command not found")
-o += terminal([("$", "~/kant|sl"), ("r", "bash: sl: command not found"), ("$", "~/kant|ls"), ("o", "notes  todo.txt")])
+o += terminal([("$", "~/kant|sl"), ("r", "bash: sl: command not found"), ("$", "~/kant|ls"), ("o", "notes  todo.md")])
 o += explain("Warning", "명령 이름이 틀렸어요", "ls를 sl로 치는 오타가 흔해요. 설치하지 않은 프로그램을 불러도 같은 메시지가 나와요.", icolor="#A33131")
 o += tree(RENAMED, cwd="kant")
 write("err-cmd", o, "명령 이름 자체를 못 찾았다는 뜻이에요. 철자를 먼저 확인해요. 철자가 맞는데도 나오면 그 프로그램이 설치되지 않은 거예요. 예를 들어 Python을 설치하기 전에 python3을 치면 이 메시지가 나와요.")
 
 SPACE = KANT + [("folder", "folder", "dir", 4), ("my", "my", "dir", 4), ("notes", "notes", "dir", 4),
-                ("memo", "memo.txt", "file", 5), ("plan", "todo.txt", "file", 4)]
+                ("memo", "memo.md", "file", 5), ("plan", "todo.md", "file", 4)]
 o = head("err-space", "help", "막힐 때 3", "mkdir my folder")
-o += terminal([("$", "~/kant|mkdir my folder"), ("$", "~/kant|ls"), ("o", "folder  my  notes  todo.txt"),
+o += terminal([("$", "~/kant|mkdir my folder"), ("$", "~/kant|ls"), ("o", "folder  my  notes  todo.md"),
                ("#", ""), ("#", "# 이렇게 고쳐요"), ("$", '~/kant|mkdir "my folder"'), ("$", "~/kant|ls"), ("o", "'my folder'")])
 o += explain("Warning", "띄어쓰기는 이름을 둘로 나눠요", "따옴표로 묶거나, 처음부터 my-folder처럼 띄어쓰기 없이 지어요.", icolor="#A33131")
 o += tree(SPACE, cwd="kant", badges={"folder": [("따로 생김", "del")], "my": [("따로 생김", "del")]})
