@@ -1,0 +1,21 @@
+<section id="clone-vs-init" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
+<h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">init으로 시작? clone으로 시작?</h2>
+<div style="display:flex;flex-direction:row;gap:40px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FDFCF9;border:2px solid #5B8DEF;border-radius:20px;padding:32px 36px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="Home" style="width:48px;height:48px;color:#1E3F8F"></x-icon><h3 style="font-size:32px;font-weight:700;color:#1E3F8F">GitHub에 아직 없음</h3></div>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#DCE7FB;padding:10px 18px;border-radius:10px">git init</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;color:#1D2330;background:#EEEFF2;padding:10px 18px;border-radius:10px">add → commit</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#DCE7FB;padding:10px 18px;border-radius:10px">git remote add origin 주소</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;color:#1D2330;background:#EEEFF2;padding:10px 18px;border-radius:10px">git push origin main</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FDFCF9;border:2px solid #9A7BF0;border-radius:20px;padding:32px 36px">
+<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="Cloud" style="width:48px;height:48px;color:#5A3BB8"></x-icon><h3 style="font-size:32px;font-weight:700;color:#5A3BB8">GitHub에 이미 있음</h3></div>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#E7DEFC;padding:10px 18px;border-radius:10px">git clone 주소</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#E7DEFC;padding:10px 18px;border-radius:10px">cd 폴더이름</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;color:#1D2330;background:#EEEFF2;padding:10px 18px;border-radius:10px">add → commit</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;color:#1D2330;background:#EEEFF2;padding:10px 18px;border-radius:10px">git push origin main</p>
+</div>
+</div>
+<p style="font-size:28px;font-weight:700;line-height:1.4;background:#1D2330;color:#F6F5F1;padding:22px 32px;border-radius:16px">둘 중 하나만. 시작한 뒤에는 똑같아요.</p>
+<aside>판단 기준은 하나예요. GitHub에 저장소가 이미 있나? 있으면 clone, 없으면 init. 과제 템플릿이나 팀 프로젝트는 대부분 clone이에요. clone한 폴더에서 init이나 remote add를 또 하면 error: remote origin already exists. 가 나요.</aside>
+</section>

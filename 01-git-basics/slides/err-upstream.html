@@ -1,0 +1,32 @@
+<section id="err-upstream" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;font-weight:700;color:#A33131">에러 4 · 어디로 보낼지 안 적음</p>
+<h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">git push만 쳤더니 거절돼요</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;background:#1B2029;border-radius:20px;padding:28px 36px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
+<p style="font-size:24px;line-height:1.4;color:#F2C46D">$ git push</p>
+<p style="font-size:24px;line-height:1.4;color:#F28B82">fatal: The current branch main has no upstream branch.</p>
+<p style="font-size:24px;line-height:1.4;color:#F2C46D">$ git pull</p>
+<p style="font-size:24px;line-height:1.4;color:#F28B82">There is no tracking information for the current branch.</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FDFCF9;border:2px solid #4DB57A;border-radius:20px;padding:32px">
+<p style="font-size:28px;font-weight:700;color:#1A7340">우리 과정 규칙: 어디로, 무엇을 항상 적기</p>
+<div style="display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1D2330">git push</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#5A3BB8;background:#E7DEFC;padding:4px 14px;border-radius:10px">origin</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1E3F8F;background:#DCE7FB;padding:4px 14px;border-radius:10px">main</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:12px;align-items:center">
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1D2330">git pull</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#5A3BB8;background:#E7DEFC;padding:4px 14px;border-radius:10px">origin</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1E3F8F;background:#DCE7FB;padding:4px 14px;border-radius:10px">main</p>
+</div>
+</div>
+<div style="flex:0.6;display:flex;flex-direction:column;justify-content:center;gap:12px;background:#FBE4E2;border-radius:20px;padding:32px">
+<x-icon name="Warning" style="width:48px;height:48px;color:#A33131"></x-icon>
+<p style="font-size:26px;font-weight:700;line-height:1.4;color:#A33131">--set-upstream(-u) 안내가 떠도 쓰지 않아요</p>
+</div>
+</div>
+<aside>-u로 짝을 지어 두지 않았기 때문에 git push, git pull만 치면 Git이 어디로 보낼지 몰라서 멈춰요. 우리 과정에서는 -u를 쓰지 않기로 했으니, 에러 메시지가 git push --set-upstream origin main을 권해도 따르지 말고 git push origin main처럼 끝까지 적어요.</aside>
+</section>

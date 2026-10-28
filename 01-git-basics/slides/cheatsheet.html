@@ -1,0 +1,40 @@
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px 128px;display:flex;flex-direction:column">
+<h2 style="position:absolute;left:128px;top:80px;width:1664px;font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">한 장 요약</h2>
+<div style="position:absolute;left:128px;top:196px;width:368px;height:96px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:18px;padding:16px 24px;display:flex;flex-direction:row;gap:14px;align-items:center">
+<x-icon name="Code" style="width:40px;height:40px;color:#3A4150"></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더</p>
+</div>
+<div style="position:absolute;left:560px;top:196px;width:368px;height:96px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:18px;padding:16px 24px;display:flex;flex-direction:row;gap:14px;align-items:center">
+<x-icon name="CheckCircle" style="width:40px;height:40px;color:#1A7340"></x-icon><p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실</p>
+</div>
+<div style="position:absolute;left:992px;top:196px;width:368px;height:96px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:18px;padding:16px 24px;display:flex;flex-direction:row;gap:14px;align-items:center">
+<x-icon name="Database" style="width:40px;height:40px;color:#1E3F8F"></x-icon><p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p>
+</div>
+<div style="position:absolute;left:1424px;top:196px;width:368px;height:96px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:18px;padding:16px 24px;display:flex;flex-direction:row;gap:14px;align-items:center">
+<x-icon name="Cloud" style="width:40px;height:40px;color:#5A3BB8"></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ GitHub</p>
+</div>
+<x-connector x1="312" y1="344" x2="744" y2="344" head="end" style="color:#1F8A4C;border-width:4px"></x-connector>
+<x-connector x1="744" y1="344" x2="1176" y2="344" head="end" style="color:#2459C9;border-width:4px"></x-connector>
+<x-connector x1="1176" y1="344" x2="1608" y2="344" head="end" style="color:#6B47D6;border-width:4px"></x-connector>
+<p style="position:absolute;left:398px;top:356px;width:260px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;text-align:center;color:#1A7340">add</p>
+<p style="position:absolute;left:830px;top:356px;width:260px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;text-align:center;color:#1E3F8F">commit</p>
+<p style="position:absolute;left:1242px;top:356px;width:300px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;text-align:center;color:#5A3BB8">push origin main</p>
+<x-connector x1="1608" y1="430" x2="312" y2="430" head="end" style="color:#6B47D6;border-width:4px;border-style:dashed"></x-connector>
+<p style="position:absolute;left:660px;top:442px;width:600px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;text-align:center;color:#5A3BB8">pull origin main</p>
+<div style="position:absolute;left:128px;top:530px;width:400px;height:430px;background:#FFFFFF;border:2px solid #5B8DEF;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:28px;font-weight:700;color:#1E3F8F">새로 시작</h3>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.6;color:#1D2330">git init<br>add → commit<br>git remote add<br>&#160;&#160;origin 주소<br>git push origin main</p>
+</div>
+<div style="position:absolute;left:560px;top:530px;width:400px;height:430px;background:#FFFFFF;border:2px solid #9A7BF0;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:28px;font-weight:700;color:#5A3BB8">GitHub에서 받기</h3>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.6;color:#1D2330">git clone 주소<br>cd 폴더이름</p>
+</div>
+<div style="position:absolute;left:992px;top:530px;width:400px;height:430px;background:#1D2330;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:28px;font-weight:700;color:#F6F5F1">매일 반복</h3>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.6;color:#F2C46D">git pull origin main<br>(작업)<br>git status<br>git add .<br>git commit -m<br>&#160;&#160;"feat: ..."<br>git push origin main</p>
+</div>
+<div style="position:absolute;left:1424px;top:530px;width:368px;height:430px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:28px;font-weight:700;color:#A33131">되돌리기</h3>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.6;color:#1D2330">git reset HEAD~1<br>git revert 커밋<br>git reflog</p>
+</div>
+<aside>수업 끝에 이 장을 띄워 두고, 지금 내 파일이 몇 번 칸에 있는지 학생이 직접 말해 보게 하세요. 막히면 git status, GitHub과 비교할 땐 fetch 후 log 그래프. 이 두 가지만 기억해도 대부분 풀려요.</aside>
+</section>

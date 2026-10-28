@@ -1,0 +1,33 @@
+<section id="s0-config" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;font-weight:700;color:#2459C9">실습 0 · 컴퓨터마다 처음 한 번만</p>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">Git에게 내 이름표 알려주기</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:40px;flex:1">
+<div style="flex:1.5;display:flex;flex-direction:column;gap:8px;background:#1B2029;border-radius:20px;padding:36px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
+<p style="font-size:24px;line-height:1.4;color:#F2C46D">$ git config --global user.name "홍길동"</p>
+<p style="font-size:24px;line-height:1.4;color:#F2C46D">$ git config --global user.email "gildong@example.com"</p>
+<p style="font-size:24px;line-height:1.4;color:#F2C46D">$ git config --global init.defaultBranch main</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">&#160;</p>
+<p style="font-size:24px;line-height:1.4;color:#F2C46D">$ git config --global --list</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">user.name=홍길동</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">user.email=gildong@example.com</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">init.defaultbranch=main</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:24px 28px">
+<x-icon name="Users" style="width:48px;height:48px;color:#2459C9"></x-icon>
+<p style="font-size:26px;line-height:1.4;color:#1D2330">커밋마다 붙는<br><b>작성자 이름표</b></p>
+</div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:24px 28px">
+<x-icon name="Verified" style="width:48px;height:48px;color:#2459C9"></x-icon>
+<p style="font-size:26px;line-height:1.4;color:#1D2330">이메일은<br><b>GitHub 가입 메일</b>과 같게</p>
+</div>
+<div style="display:flex;flex-direction:row;gap:20px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:24px 28px">
+<x-icon name="Settings" style="width:48px;height:48px;color:#2459C9"></x-icon>
+<p style="font-size:26px;line-height:1.4;color:#1D2330">기본 브랜치 이름을<br><b>main</b>으로</p>
+</div>
+</div>
+</div>
+<aside>설정은 컴퓨터마다 한 번만 하면 돼요. 안 하면 첫 커밋 때 "Author identity unknown *** Please tell me who you are." 에러가 나요. --global은 이 컴퓨터 전체에 적용한다는 뜻. init.defaultBranch main을 해 두면 git init으로 만든 저장소의 브랜치 이름이 GitHub과 같은 main이 돼요.</aside>
+</section>

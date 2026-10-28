@@ -1,0 +1,31 @@
+<section id="err-nothing" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;font-weight:700;color:#A33131">에러 2 · add 없이 commit</p>
+<h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">commit 했는데 아무 일도 없어요</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px;flex:1">
+<div style="flex:1.3;display:flex;flex-direction:column;gap:4px;background:#1B2029;border-radius:20px;padding:28px 32px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
+<p style="font-size:24px;line-height:1.4;color:#F2C46D">$ git commit -m "feat: 새 파일"</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">Untracked files:</p>
+<p style="font-size:24px;line-height:1.4;color:#F28B82">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;new.txt</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">nothing added to commit but untracked</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">files present</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">&#160;</p>
+<p style="font-size:24px;line-height:1.4;color:#F2C46D">$ git commit -m "fix: 오타 수정"</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">Changes not staged for commit:</p>
+<p style="font-size:24px;line-height:1.4;color:#F28B82">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;modified:&#160;&#160;&#160;hello.txt</p>
+<p style="font-size:24px;line-height:1.4;color:#D8DEE9">no changes added to commit</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#F1FAF4;border:3px dashed #4DB57A;border-radius:20px;padding:32px;flex:1">
+<x-icon name="CheckCircle" style="width:64px;height:64px;color:#1A7340"></x-icon>
+<p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실이 비어 있어요</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border-radius:20px;padding:28px">
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#DDF2E5;padding:10px 16px;border-radius:10px">git add 파일</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#DCE7FB;padding:10px 16px;border-radius:10px">git commit -m "..."</p>
+</div>
+</div>
+</div>
+<aside>commit은 대기실에 있는 것만 기록해요. 빨간 글씨가 보이면 아직 대기실 밖이라는 뜻이니 add부터. 출력 끝의 (use "git add" to track) 같은 안내 문구는 화면 폭 때문에 줄였어요.</aside>
+</section>
