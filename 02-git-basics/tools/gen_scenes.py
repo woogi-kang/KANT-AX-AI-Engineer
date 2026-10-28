@@ -180,75 +180,75 @@ o += terminal([("$", "mkdir hello-git && cd hello-git"), ("$", "git init"),
 o += callout("Database", "이 폴더를 Git이<br>지켜보기 시작", "숨김 폴더 .git = ②③의 실체")
 write("s1-init", o, "git init은 저장소마다 한 번만 해요. 홈 폴더나 바탕화면에서 실행하지 않도록 주의. .git 폴더가 안 보이면 macOS Finder에서 Cmd+Shift+. 을 누르세요.")
 
-o = frame("s2-create", "실습 2 · 혼자 기록하기", 'echo "hello" &gt; hello.txt', paths=P_INIT, rm_dim=True)
+o = frame("s2-create", "실습 2 · 혼자 기록하기", 'echo "hello" &gt; hello.md', paths=P_INIT, rm_dim=True)
 o += [placeholder("st", "비어 있음"), placeholder("lr", "커밋 없음"), placeholder("rm", "연결 전")]
-o.append(file_card("snap-1", "st", 0, "hello.txt", "Staged · 새 파일", "green", hidden=True, at="wd"))
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Untracked · 새 파일", "red"))
-o += terminal([("$", 'echo "hello" > hello.txt'), ("$", "git status"), ("o", "On branch main"), ("o", "No commits yet"),
+o.append(file_card("snap-1", "st", 0, "hello.md", "Staged · 새 파일", "green", hidden=True, at="wd"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Untracked · 새 파일", "red"))
+o += terminal([("$", 'echo "hello" > hello.md'), ("$", "git status"), ("o", "On branch main"), ("o", "No commits yet"),
                ("o", "Untracked files:"), ("h", '  (use "git add <file>..." to include in what will be committed)'),
-               ("r", "\thello.txt"), ("o", "nothing added to commit but untracked files present")])
+               ("r", "\thello.md"), ("o", "nothing added to commit but untracked files present")])
 o += callout("Search", "Git이 처음 보는 파일", "빨간 글씨 = 아직 기록 대상 아님", icolor="#A33131")
 write("s2-create", o, "에디터에서 새 파일을 저장해도 같은 상태예요. Git은 파일을 저절로 기록하지 않아요. 마지막 줄 끝의 (use \"git add\" to track) 안내는 화면 폭 때문에 생략했어요.")
 
-o = frame("s3-add", "실습 3 · 혼자 기록하기", "git add hello.txt", paths=P_INIT, rm_dim=True)
+o = frame("s3-add", "실습 3 · 혼자 기록하기", "git add hello.md", paths=P_INIT, rm_dim=True)
 o += [placeholder("lr", "커밋 없음"), placeholder("rm", "연결 전")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "원본은 그대로", "ghost"))
-o.append(file_card("snap-1", "st", 0, "hello.txt", "Staged · 새 파일", "green"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "원본은 그대로", "ghost"))
+o.append(file_card("snap-1", "st", 0, "hello.md", "Staged · 새 파일", "green"))
 o.append(arrow("wd-st", color="#1F8A4C"))
-o += terminal([("$", "git add hello.txt"), ("#", "# 아무 출력이 없으면 성공"), ("$", "git status"), ("o", "On branch main"),
+o += terminal([("$", "git add hello.md"), ("#", "# 아무 출력이 없으면 성공"), ("$", "git status"), ("o", "On branch main"),
                ("o", "No commits yet"), ("o", "Changes to be committed:"),
-               ("h", '  (use "git rm --cached <file>..." to unstage)'), ("g", "\tnew file:   hello.txt")])
+               ("h", '  (use "git rm --cached <file>..." to unstage)'), ("g", "\tnew file:   hello.md")])
 o += callout("CheckCircle", "지금 모습을 찍어<br>대기실에 올림", "초록 글씨 = 커밋 준비 끝", icolor="#1A7340")
 write("s3-add", o, "add는 파일을 옮기는 게 아니라 그 순간의 사진을 대기실에 올리는 것. 그래서 작업 폴더 원본은 그대로 있어요. 여러 파일을 한 번에 올릴 땐 git add . 을 써요.")
 
 o = frame("s4-commit", "실습 4 · 혼자 기록하기", 'git commit -m "feat: 인사 파일 추가"', paths=P_INIT, rm_dim=True)
 o += [placeholder("st", "비어 있음"), placeholder("rm", "연결 전")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Committed · 변경 없음", "gray"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
 o.append(flyer("snap-1", "lr", 0))
 o += commits("lr", [(H1, False)], "lc")
 o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
 o.append(arrow("st-lr"))
 o += terminal([("$", 'git commit -m "feat: 인사 파일 추가"'), ("o", f"[main (root-commit) {H1}] feat: 인사 파일 추가"),
-               ("o", " 1 file changed, 1 insertion(+)"), ("o", " create mode 100644 hello.txt"),
+               ("o", " 1 file changed, 1 insertion(+)"), ("o", " create mode 100644 hello.md"),
                ("$", "git status"), ("o", "On branch main"), ("o", "nothing to commit, working tree clean")])
 o += callout("Database", f"{H1} 번으로<br>기록 완료", "GitHub엔 아직 없음", icolor="#2459C9")
 write("s4-commit", o, "메시지 앞의 feat: 는 지금은 그대로 따라 쓰고, 두 번째 커밋 뒤에 자세히 봐요. 대기실에 있던 모습이 커밋 538dd06으로 저장됐어요. 해시는 사람마다 다르게 나와요. main 꼬리표는 지금 가장 최신 커밋을 가리켜요. -m을 빼먹어 vim이 열리면 Esc → :q! → Enter로 나온 뒤 다시 실행하세요.")
 
-o = frame("s5-edit", "실습 5 · 혼자 기록하기", 'echo "world" &gt;&gt; hello.txt', paths=P_INIT, rm_dim=True)
+o = frame("s5-edit", "실습 5 · 혼자 기록하기", 'echo "world" &gt;&gt; hello.md', paths=P_INIT, rm_dim=True)
 o += [placeholder("st", "비어 있음"), placeholder("rm", "연결 전")]
-o.append(file_card("snap-2", "st", 0, "hello.txt", "Staged · 수정", "green", hidden=True, at="wd"))
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Modified · 수정됨", "red"))
+o.append(file_card("snap-2", "st", 0, "hello.md", "Staged · 수정", "green", hidden=True, at="wd"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Modified · 수정됨", "red"))
 o += commits("lr", [(H1, False)], "lc")
 o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
-o += terminal([("$", 'echo "world" >> hello.txt'), ("$", "git status"), ("o", "On branch main"),
+o += terminal([("$", 'echo "world" >> hello.md'), ("$", "git status"), ("o", "On branch main"),
                ("o", "Changes not staged for commit:"),
                ("h", '  (use "git add <file>..." to update what will be committed)'),
-               ("r", "\tmodified:   hello.txt"), ("o", 'no changes added to commit (use "git add" and/or "git commit -a")')])
+               ("r", "\tmodified:   hello.md"), ("o", 'no changes added to commit (use "git add" and/or "git commit -a")')])
 o += callout("Search", "마지막 커밋과<br>달라진 걸 발견", "다음: git add", icolor="#A33131")
 write("s5-edit", o, "Untracked는 처음 보는 파일, Modified는 이미 아는 파일이 바뀐 것. 실제 status에는 안내 문구가 한 줄 더 나오지만 여기선 뺐어요.")
 
-o = frame("s6-mixed", "실습 6 · 헷갈림 주의", 'git add hello.txt → echo "more" &gt;&gt; hello.txt', cmd_size=46, paths=P_INIT, rm_dim=True)
+o = frame("s6-mixed", "실습 6 · 헷갈림 주의", 'git add hello.md → echo "more" &gt;&gt; hello.md', cmd_size=46, paths=P_INIT, rm_dim=True)
 o += [placeholder("rm", "연결 전")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Modified · more 추가", "red"))
-o.append(file_card("snap-2", "st", 0, "hello.txt", "Staged · world까지", "green"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Modified · more 추가", "red"))
+o.append(file_card("snap-2", "st", 0, "hello.md", "Staged · world까지", "green"))
 o += commits("lr", [(H1, False)], "lc")
 o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
 o.append(arrow("wd-st", color="#1F8A4C"))
 o.append(pop("wd", 476, "같은 파일, 다른 내용", color="#A33131", bg="#FFFFFF", bd="#E07A7A", width=728))
-o += terminal([("$", "git add hello.txt"), ("$", 'echo "more" >> hello.txt'), ("$", "git status"),
-               ("o", "Changes to be committed:"), ("g", "\tmodified:   hello.txt"),
-               ("o", "Changes not staged for commit:"), ("r", "\tmodified:   hello.txt"), ("#", "# 안내 문구(use ...)는 생략")])
+o += terminal([("$", "git add hello.md"), ("$", 'echo "more" >> hello.md'), ("$", "git status"),
+               ("o", "Changes to be committed:"), ("g", "\tmodified:   hello.md"),
+               ("o", "Changes not staged for commit:"), ("r", "\tmodified:   hello.md"), ("#", "# 안내 문구(use ...)는 생략")])
 o += callout("Warning", "지금 commit 하면<br>more는 빠져요", "커밋 직전에 한 번 더 add", icolor="#A33131")
 write("s6-mixed", o, "초록 줄과 빨간 줄에 같은 파일이 동시에 나오는 장면. add는 그 순간의 사진이라는 걸 다시 짚어 주세요. 커밋 직전에 git status를 보고 빨간 글씨가 남아 있으면 add부터.")
 
-o = frame("s7-commit2", "실습 7 · 혼자 기록하기", 'git add hello.txt → git commit -m "feat: 인사말 추가"', cmd_size=44, paths=P_INIT, rm_dim=True)
+o = frame("s7-commit2", "실습 7 · 혼자 기록하기", 'git add hello.md → git commit -m "feat: 인사말 추가"', cmd_size=44, paths=P_INIT, rm_dim=True)
 o += [placeholder("st", "비어 있음"), placeholder("rm", "연결 전")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Committed · 변경 없음", "gray"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
 o.append(flyer("snap-2", "lr", 0))
 o += commits("lr", [(H2, False), (H1, False)], "lc")
 o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
 o.append(arrow("st-lr"))
-o += terminal([("$", "git add hello.txt"), ("$", 'git commit -m "feat: 인사말 추가"'),
+o += terminal([("$", "git add hello.md"), ("$", 'git commit -m "feat: 인사말 추가"'),
                ("o", f"[main {H2}] feat: 인사말 추가"), ("o", " 1 file changed, 2 insertions(+)"),
                ("$", "git log --oneline"), ("o", f"{H2} (HEAD -> main) feat: 인사말 추가"), ("o", f"{H1} feat: 인사 파일 추가")])
 o += callout("Activity", "커밋이 줄줄이<br>쌓여요", "main은 늘 최신 커밋을 가리켜요", icolor="#2459C9")
@@ -257,7 +257,7 @@ write("s7-commit2", o, "커밋은 점, 점을 잇는 선은 순서예요. 위가
 # ---------- GitHub 연결 ----------
 o = frame("s9-remote", "실습 9 · GitHub과 연결하기", "git remote add origin https://github.com/kim/hello-git.git", cmd_size=46, paths=P_GH, remote_label=RM_LBL)
 o += [placeholder("st", "비어 있음"), placeholder("rm", "빈 저장소")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Committed · 변경 없음", "gray"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
 o += commits("lr", [(H2, False), (H1, False)], "lc")
 o += commits("lr", [(H2, False, True), (H1, False, True)], "rc")
 o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
@@ -271,7 +271,7 @@ write("s9-remote", o, "전화번호부에 번호를 저장한 것과 같아요. 
 
 o = frame("s10-push", "실습 10 · GitHub과 연결하기", "git push origin main", paths=P_GH, remote_label=RM_LBL)
 o += [placeholder("st", "비어 있음")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Committed · 변경 없음", "gray"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
 o += commits("lr", [(H2, False), (H1, False)], "lc")
 o += commits("rm", [(H2, False), (H1, False)], "rc")
 o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
@@ -289,7 +289,7 @@ write("s10-push", o, "우리 과정에서는 -u를 쓰지 않고 매번 git push
 
 o = frame("s11-ahead", "실습 11 · 커밋만 하고 push 안 하면?", 'git commit -m "feat: 끝인사 추가"', paths=P_GH, remote_label=RM_LBL)
 o += [placeholder("st", "비어 있음")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Committed · 변경 없음", "gray"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
 o += commits("lr", [(H3, False), (H2, False), (H1, False)], "lc")
 o += commits("rm", [(H2, False), (H1, False)], "rc")
 o.append(f'<div id="rc-{H3}" style="position:absolute;left:932px;top:{ROW0}px;width:150px;height:36px;opacity:0"></div>')
@@ -297,7 +297,7 @@ o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
 o.append(tag("lt-origin", "lr", 1, 1, "origin/main", "origin"))
 o.append(tag("rt-main", "rm", 0, 0, "main", "rmain"))
 o.append(pop("lr", 540, "1개 앞서 있음 (안 보냄)", color="#1E3F8F"))
-o += terminal([("$", "git add hello.txt"), ("$", 'git commit -m "feat: 끝인사 추가"'), ("o", f"[main {H3}] feat: 끝인사 추가"),
+o += terminal([("$", "git add hello.md"), ("$", 'git commit -m "feat: 끝인사 추가"'), ("o", f"[main {H3}] feat: 끝인사 추가"),
                ("$", "git status"), ("o", "nothing to commit, working tree clean"),
                ("$", "git log --oneline --graph --all"), ("o", f"* {H3} (HEAD -> main) feat: 끝인사 추가"),
                ("o", f"* {H2} (origin/main) feat: 인사말 추가"), ("o", f"* {H1} feat: 인사 파일 추가")])
@@ -306,7 +306,7 @@ write("s11-ahead", o, "-u 없이 작업하면 git status가 GitHub과 비교해 
 
 o = frame("s12-push2", "실습 12 · GitHub과 연결하기", "git push origin main", paths=P_GH, remote_label=RM_LBL)
 o += [placeholder("st", "비어 있음")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Committed · 변경 없음", "gray"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
 o += commits("lr", [(H3, False), (H2, False), (H1, False)], "lc")
 o += commits("rm", [(H3, False), (H2, False), (H1, False)], "rc")
 o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
@@ -338,18 +338,18 @@ lr.append(f'<p style="position:absolute;left:218px;top:0px;width:166px;font-fami
 lr.append('</div>')
 o += lr
 o.append(f'<div data-build-in="left order 3" style="position:absolute;left:116px;top:{CARD_TOP}px;width:320px;height:{CARD_H}px;background:#EEEFF2;border:2px solid #B4B9C3;border-radius:16px;padding:14px 18px;display:flex;flex-direction:column;gap:4px">'
-         + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:#1D2330", "hello.txt")
+         + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:#1D2330", "hello.md")
          + p("font-size:24px;font-weight:700;color:#3A4150", "최신 커밋 모습") + '</div>')
 o.append(pop("lr", 540, "origin 등록도 자동", color="#4A2FA8", bg="#E7DEFC", bd="#8E6FEA", order=4))
 o += terminal([("$", "cd ~/projects"), ("$", "git clone https://github.com/kim/hello-git.git"),
                ("o", "Cloning into 'hello-git'..."), ("o", "Receiving objects: 100% (9/9), done."),
-               ("$", "cd hello-git"), ("#", "# 새로 생긴 폴더로 꼭 들어가기"), ("$", "ls"), ("o", "hello.txt")])
+               ("$", "cd hello-git"), ("#", "# 새로 생긴 폴더로 꼭 들어가기"), ("$", "ls"), ("o", "hello.md")])
 o += callout("Users", "GitHub 저장소를<br>통째로 복사", "init + remote add + 받기를 한 번에", icolor="#6B47D6")
 write("s13-clone", o, "팀원이 이 저장소에 합류하는 장면이에요. clone은 폴더 만들기, git init, remote add origin, 커밋 받기를 한 번에 해요. clone한 폴더에서 init이나 remote add를 다시 하지 않아요. 팀원은 이어서 README.md를 만들고 add → commit → push 해요(docs: README 추가).")
 
 o = frame("s14-fetch", "실습 14 · 다시 내 컴퓨터 (팀원이 README를 push함)", "git fetch origin", paths=P_GH, remote_label=RM_LBL, transition="magic")
 o += [placeholder("st", "비어 있음")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Committed · 변경 없음", "gray"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
 o.append(file_card("wd-readme", "wd", 1, "README.md", "pull로 생김", "new", hidden=True, at="lr"))
 o += commits("lr", [(H4, True), (H3, False), (H2, False), (H1, False)], "lc")
 o += commits("rm", [(H4, False), (H3, False), (H2, False), (H1, False)], "rc")
@@ -366,7 +366,7 @@ write("s14-fetch", o, "fetch는 GitHub의 새 소식을 받아 origin/main 꼬�
 
 o = frame("s15-pull", "실습 15 · 받아서 합치기", "git pull origin main", paths=P_GH, remote_label=RM_LBL)
 o += [placeholder("st", "비어 있음")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Committed · 변경 없음", "gray"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
 o.append(file_card("wd-readme", "wd", 1, "README.md", "pull로 생김", "new"))
 o += commits("lr", [(H4, False), (H3, False), (H2, False), (H1, False)], "lc")
 o += commits("rm", [(H4, False), (H3, False), (H2, False), (H1, False)], "rc")
@@ -385,7 +385,7 @@ write("s15-pull", o, "pull = fetch(받기) + merge(합치기). main 꼬리표가
 
 # ---------- 되돌리기 ----------
 H5, H6 = "b81d4e2", "c4e9a07"
-WD2 = [file_card("wd-hello", "wd", 0, "hello.txt", "Committed · 변경 없음", "gray"),
+WD2 = [file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"),
        file_card("wd-readme", "wd", 1, "README.md", "Committed · 변경 없음", "gray")]
 
 o = frame("s16-oops", "실습 16 · 되돌리기", 'git commit -m "feat: 실수한 커밋"', paths=P_GH, remote_label=RM_LBL, transition="magic")
@@ -395,7 +395,7 @@ o += commits("rm", [(H4, False), (H3, False), (H2, False), (H1, False)], "rc")
 o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
 o.append(tag("lt-origin", "lr", 1, 1, "origin/main", "origin"))
 o.append(tag("rt-main", "rm", 0, 0, "main", "rmain"))
-o += terminal([("$", 'echo "oops" >> hello.txt'), ("$", "git add hello.txt"), ("$", 'git commit -m "feat: 실수한 커밋"'),
+o += terminal([("$", 'echo "oops" >> hello.md'), ("$", "git add hello.md"), ("$", 'git commit -m "feat: 실수한 커밋"'),
                ("o", f"[main {H5}] feat: 실수한 커밋"), ("o", " 1 file changed, 1 insertion(+)"),
                ("$", "git log --oneline --graph --all"), ("o", f"* {H5} (HEAD -> main) feat: 실수한 커밋"),
                ("o", f"* {H4} (origin/main) docs: README 추가")])
@@ -404,7 +404,7 @@ write("s16-oops", o, "실수로 커밋을 하나 만든 상황이에요. 아직 
 
 o = frame("s17-reset", "실습 17 · 되돌리기 (push 전)", "git reset HEAD~1", paths=P_GH, remote_label=RM_LBL, transition="fade")
 o += [placeholder("st", "비어 있음")]
-o.append(file_card("wd-hello", "wd", 0, "hello.txt", "Modified · oops 남음", "red"))
+o.append(file_card("wd-hello", "wd", 0, "hello.md", "Modified · oops 남음", "red"))
 o.append(file_card("wd-readme", "wd", 1, "README.md", "Committed · 변경 없음", "gray"))
 o += commits("lr", [(H5, True, False, True), (H4, False), (H3, False), (H2, False), (H1, False)], "lc")
 o += commits("rm", [(H4, False), (H3, False), (H2, False), (H1, False)], "rc")
@@ -413,7 +413,7 @@ o.append(tag("lt-origin", "lr", 1, 1, "origin/main", "origin"))
 o.append(tag("rt-main", "rm", 0, 0, "main", "rmain"))
 o.append(arrow("wd-st", "left", top=560, color="#A33131"))
 o.append(arrow("st-lr", "left", top=560, color="#A33131"))
-o += terminal([("$", "git reset HEAD~1"), ("o", "Unstaged changes after reset:"), ("o", "M\thello.txt"),
+o += terminal([("$", "git reset HEAD~1"), ("o", "Unstaged changes after reset:"), ("o", "M\thello.md"),
                ("$", "git log --oneline --graph --all"), ("o", f"* {H4} (HEAD -> main, origin/main) docs: README 추가"),
                ("o", f"* {H3} feat: 끝인사 추가"), ("#", "# HEAD~1 = 지금보다 한 칸 아래 커밋")])
 o += callout("Clock", "main을<br>한 칸 뒤로", "고친 내용은 작업 폴더에 남아요", icolor="#A33131")
