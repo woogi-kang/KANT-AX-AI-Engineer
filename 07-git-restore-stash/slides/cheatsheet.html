@@ -1,0 +1,11 @@
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">한 장 요약</h2>
+<div style="display:flex;flex-direction:row;gap:24px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #A33131;border-radius:20px;padding:32px 28px"><h3 style="font-size:32px;font-weight:700;color:#A33131">버리기</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.7;color:#1D2330">git restore 파일<br><br>먼저 git diff<br>되찾을 수 없음</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1A7340;border-radius:20px;padding:32px 28px"><h3 style="font-size:32px;font-weight:700;color:#1A7340">add 취소</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.7;color:#1D2330">git restore --staged 파일<br><br>내용은 그대로</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:32px 28px"><h3 style="font-size:32px;font-weight:700;color:#B26A00">잠깐 치우기</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.7;color:#1D2330">git stash<br>git stash list<br>git stash pop</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #A33131;border-radius:20px;padding:32px 28px"><h3 style="font-size:32px;font-weight:700;color:#A33131">pop 충돌</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.7;color:#1D2330">파일 고치기<br>git add 파일<br>git stash drop</p></div>
+</div>
+<p style="font-size:28px;font-weight:700;color:#1D2330">막히면 git status의 괄호 안 안내부터 읽어요. 팀에서는 stash, pull, pop, commit, push 순서예요.</p>
+<aside>수업 끝에 이 장을 띄워 두고, 팀 레포에서 pull이 막힌 상황을 한 번 더 만들어 직접 풀어 보게 하세요. 세 명령 모두 커밋하기 전의 변경만 다뤄요. 커밋한 뒤의 되돌리기는 02와 03의 reset, revert를 써요.</aside>
+</section>

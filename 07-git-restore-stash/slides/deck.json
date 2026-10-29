@@ -1,0 +1,76 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-29T00:30:00Z"
+  },
+  "lists": "css",
+  "title": "restore와 stash, 눈으로 보기",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "map",
+    "r1",
+    "r2",
+    "r3",
+    "r-warn",
+    "s1",
+    "s2",
+    "s3",
+    "reset-vs",
+    "st0",
+    "st1",
+    "st-read",
+    "st2",
+    "st3",
+    "st-co",
+    "team-flow",
+    "pop-c",
+    "pop-r",
+    "choose",
+    "t-1",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "언제 쓰는지, 네 칸 그림에서 보기",
+      "start": "cover"
+    },
+    "restore": {
+      "description": "git restore",
+      "start": "r1"
+    },
+    "staged": {
+      "description": "git restore --staged",
+      "start": "s1"
+    },
+    "reset": {
+      "description": "reset과 무엇이 달라요",
+      "start": "reset-vs"
+    },
+    "stash": {
+      "description": "git stash",
+      "start": "st0"
+    },
+    "team": {
+      "description": "팀에서 쓰기",
+      "start": "team-flow"
+    },
+    "errors": {
+      "description": "막힐 때와 요약",
+      "start": "t-1"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

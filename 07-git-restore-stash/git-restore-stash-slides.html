@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>restore와 stash, 눈으로 보기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>section{position:relative;width:1920px;height:1080px;box-sizing:border-box;overflow:hidden}
+section *{box-sizing:border-box}
+p,h1,h2,h3,ul,ol{margin:0}
+h1{font-size:96px;font-weight:600;line-height:1.1} h2{font-size:64px;font-weight:600;line-height:1.15} h3{font-size:44px;font-weight:600;line-height:1.2} p{font-size:32px;line-height:1.4}
+x-icon,x-shape{display:block;flex:none}
+x-icon svg,x-shape svg{display:block;width:100%;height:100%}
+x-shape[kind=ellipse]{border-radius:50%}
+table{border-collapse:collapse;width:100%}
+td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
+aside{display:none}
+html,body{margin:0;height:100%;background:#0E1117;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
+#stage>section{position:absolute;left:0;top:0;visibility:hidden}
+#stage>section.on{visibility:visible}
+[data-build-in]{transition:opacity .45s ease,transform .45s ease}
+.pending{opacity:0!important}
+.pending.rise{transform:translateY(40px)!important}
+.pending.pop{transform:scale(.85)!important}
+#bar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:16px;padding:8px 16px;color:#C9CED8;font-size:14px;background:rgba(14,17,23,.85);opacity:0;transition:opacity .2s}
+body:hover #bar,#bar:focus-within{opacity:1}
+#bar button{background:#252B36;color:#E6E9EF;border:0;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
+#bar .grow{flex:1}
+#notes{position:fixed;left:16px;right:16px;bottom:52px;max-height:30vh;overflow:auto;padding:16px 20px;border-radius:10px;background:rgba(255,255,255,.96);color:#1D2330;font-size:18px;line-height:1.6;display:none}
+#notes.show{display:block}</style></head>
+<body>
+<div id="stage">
+<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-size:28px;font-weight:700;color:#8FB3FF;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>
+<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">restore와 stash,<br>눈으로 보기</h1>
+<p style="font-size:40px;line-height:1.4;color:#BFC6D4">고친 걸 버리거나<br>잠깐 치워 두는 법</p>
+<div style="position:absolute;left:1120px;top:330px;width:640px;height:420px;background:#252B36;border-radius:24px;padding:40px 44px;display:flex;flex-direction:column;gap:12px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
+<p style="font-size:34px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git restore login.md</p>
+<p style="font-size:34px;line-height:1.4;white-space:pre;font-weight:700;color:#8C95A6">  고친 것 버리기</p>
+<p style="font-size:34px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git stash</p>
+<p style="font-size:34px;line-height:1.4;white-space:pre;font-weight:700;color:#8C95A6">  서랍에 넣기</p>
+<p style="font-size:34px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git stash pop</p>
+<p style="font-size:34px;line-height:1.4;white-space:pre;font-weight:700;color:#8C95A6">  서랍에서 꺼내기</p>
+</div>
+<aside>02의 네 칸 그림과 hello-git 저장소, login.md로 이어서 실습해요. 오늘 배울 명령은 셋이에요. 고친 걸 버리는 git restore, add를 취소하는 git restore --staged, 고치던 걸 잠깐 치우는 git stash예요. 팀 레포에서 pull이 막힐 때 바로 쓰는 명령이에요.</aside>
+</section>
+<section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px 128px;display:flex;flex-direction:column;gap:40px">
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;flex:1">
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #A33131;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#A33131">1</p><x-icon name="Wrench" style="width:40px;height:40px;color:#A33131"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+</svg></x-icon></div><h3 style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1D2330">git restore</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">고친 걸 버리기</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">5–8쪽</p></div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1A7340;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#1A7340">2</p><x-icon name="CheckCircle" style="width:40px;height:40px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon></div><h3 style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1D2330">git restore --staged</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">add 취소하기</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">9–11쪽</p></div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #2459C9;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#2459C9">3</p><x-icon name="Activity" style="width:40px;height:40px;color:#2459C9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path>
+</svg></x-icon></div><h3 style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:32px;font-weight:700;color:#1D2330">reset과 무엇이 달라요</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">파일과 이름표</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">12쪽</p></div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#B26A00">4</p><x-icon name="Archive" style="width:40px;height:40px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="3" rx="1"></rect>
+  <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
+  <path d="M10 12h4"></path>
+</svg></x-icon></div><h3 style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1D2330">git stash</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">고치던 걸 서랍에 잠깐</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">13–18쪽</p></div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #5A3BB8;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#5A3BB8">5</p><x-icon name="Users" style="width:40px;height:40px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+  <circle cx="9" cy="7" r="4"></circle>
+  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+</svg></x-icon></div><h3 style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:32px;font-weight:700;color:#1D2330">팀에서 쓰기</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">pull 전에 치우고 꺼내기</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">19–22쪽</p></div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1E3F8F;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#1E3F8F">6</p><x-icon name="Warning" style="width:40px;height:40px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+  <path d="M12 9v4"></path>
+  <path d="M12 17h.01"></path>
+</svg></x-icon></div><h3 style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:32px;font-weight:700;color:#1D2330">막힐 때</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">자주 나오는 메시지</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">23쪽</p></div>
+</div>
+<p style="font-size:26px;color:#4A5262">마지막 24쪽은 한 장 요약이에요.</p>
+<aside>1~4부는 02의 네 칸 그림 위에서 진행해요. 4부부터는 그림 오른쪽 아래에 서랍이 하나 더 생겨요. 5부는 오늘 팀 레포에서 pull이 막혔을 때 쓰는 순서예요.</aside>
+</section>
+<section id="why" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">들어가기</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">이럴 때 쓰는 명령이에요</h2>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:270px;width:544px;height:560px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #A33131;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:20px"><x-icon name="Warning" style="width:64px;height:64px;color:#A33131"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+  <path d="M12 9v4"></path>
+  <path d="M12 17h.01"></path>
+</svg></x-icon><p style="font-size:38px;font-weight:700;line-height:1.3;color:#1D2330">파일을 망쳤어요</p><p style="font-size:28px;line-height:1.5;color:#4A5262">&gt;&gt; 대신 &gt; 를 쳐서<br>내용이 다 사라졌어요</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#A33131;background:#F6F5F1;padding:14px 18px;border-radius:12px">git restore</p></div>
+<div data-build-in="rise order 2" style="position:absolute;left:688px;top:270px;width:544px;height:560px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1A7340;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:20px"><x-icon name="CheckCircle" style="width:64px;height:64px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:38px;font-weight:700;line-height:1.3;color:#1D2330">엉뚱한 파일까지 올렸어요</p><p style="font-size:28px;line-height:1.5;color:#4A5262">git add . 로<br>개인 메모까지 올렸어요</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1A7340;background:#F6F5F1;padding:14px 18px;border-radius:12px">git restore --staged</p></div>
+<div data-build-in="rise order 3" style="position:absolute;left:1280px;top:270px;width:544px;height:560px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:20px"><x-icon name="Archive" style="width:64px;height:64px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="3" rx="1"></rect>
+  <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
+  <path d="M10 12h4"></path>
+</svg></x-icon><p style="font-size:38px;font-weight:700;line-height:1.3;color:#1D2330">pull이 막혀요</p><p style="font-size:28px;line-height:1.5;color:#4A5262">고치던 게 있는데<br>팀원이 push했대요</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#B26A00;background:#F6F5F1;padding:14px 18px;border-radius:12px">git stash</p></div>
+<p data-build-in="fade order 4" style="position:absolute;left:96px;top:880px;width:1728px;font-size:30px;line-height:1.4;color:#4A5262">셋 다 아직 커밋하지 않은 변경을 다뤄요.</p>
+<aside>셋 다 수업 중에 실제로 자주 나오는 장면이에요. 첫째는 01에서 배운 &gt; 와 &gt;&gt; 를 헷갈린 경우예요. &gt; 는 파일을 새로 덮어쓰고, &gt;&gt; 는 끝에 붙여요. 둘째는 git add . 이 폴더 안 모든 파일을 올려서 생겨요. 셋째는 오늘 팀 실습에서 가장 많이 막히는 곳이에요. 커밋한 뒤의 되돌리기는 02와 03에서 배운 reset과 revert가 맡아요.</aside>
+</section>
+<section id="map" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">들어가기</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">네 칸 그림에서 보면</h2>
+<div style="position:absolute;left:96px;top:380px;width:360px;height:170px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:36px;height:36px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="16 18 22 12 16 6"></polyline>
+  <polyline points="8 6 2 12 8 18"></polyline>
+</svg></x-icon><p style="font-size:34px;font-weight:700;color:#3A4150">① 작업 폴더</p></div><p style="font-size:24px;line-height:1.4;color:#4A5262">지금 고치는 파일</p></div>
+<div style="position:absolute;left:504px;top:380px;width:360px;height:170px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="CheckCircle" style="width:36px;height:36px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:34px;font-weight:700;color:#1A7340">② 대기실</p></div><p style="font-size:24px;line-height:1.4;color:#4A5262">add로 올린 모습</p></div>
+<div style="position:absolute;left:912px;top:380px;width:432px;height:170px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Database" style="width:36px;height:36px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:34px;font-weight:700;color:#1E3F8F">③ 내 저장소</p></div><p style="font-size:24px;line-height:1.4;color:#4A5262">commit한 기록</p></div>
+<div style="position:absolute;left:1392px;top:380px;width:432px;height:170px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:14px;opacity:0.4"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Cloud" style="width:36px;height:36px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon><p style="font-size:34px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div><p style="font-size:24px;line-height:1.4;color:#4A5262">이번엔 거의 안 써요</p></div>
+<div data-build-in="fade order 1" style="position:absolute;left:303px;top:320px;width:384px;height:58px;border:6px solid #1A7340;border-bottom:none;border-radius:14px 14px 0 0"></div>
+<svg data-build-in="fade order 1" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="306" y1="354" x2="306" y2="358.8" stroke="rgb(26, 115, 64)" stroke-width="6"></line><polygon points="306,378 295.56082718133047,356.38926954353576 316.43917281866953,356.38926954353576" fill="rgb(26, 115, 64)"></polygon></svg>
+<p data-build-in="fade order 1" style="position:absolute;left:321px;top:296px;width:348px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.6;text-align:center;border-radius:10px;background:#1A7340;color:#FFFFFF">git restore --staged</p>
+<div data-build-in="fade order 2" style="position:absolute;left:243px;top:256px;width:888px;height:122px;border:6px solid #A33131;border-bottom:none;border-radius:14px 14px 0 0"></div>
+<svg data-build-in="fade order 2" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="246" y1="354" x2="246" y2="358.8" stroke="rgb(163, 49, 49)" stroke-width="6"></line><polygon points="246,378 235.56082718133047,356.38926954353576 256.43917281866953,356.38926954353576" fill="rgb(163, 49, 49)"></polygon></svg>
+<p data-build-in="fade order 2" style="position:absolute;left:583px;top:232px;width:208px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.6;text-align:center;border-radius:10px;background:#A33131;color:#FFFFFF">git restore</p>
+<div data-build-in="fade order 3" style="position:absolute;left:96px;top:700px;width:768px;height:200px;background:#FFF7EA;border:3px solid #E3A64A;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:12px"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Archive" style="width:36px;height:36px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="3" rx="1"></rect>
+  <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
+  <path d="M10 12h4"></path>
+</svg></x-icon><p style="font-size:34px;font-weight:700;color:#B26A00">서랍 (stash)</p></div><p style="font-size:24px;line-height:1.4;color:#8A5A12">고치던 걸 잠깐 넣어 두는 곳</p></div>
+<svg data-build-in="fade order 3" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="236" y1="554" x2="236" y2="676.8" stroke="rgb(178, 106, 0)" stroke-width="6"></line><polygon points="236,696 225.56082718133047,674.3892695435358 246.43917281866953,674.3892695435358" fill="rgb(178, 106, 0)"></polygon></svg>
+<svg data-build-in="fade order 3" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="316" y1="696" x2="316" y2="573.2" stroke="rgb(178, 106, 0)" stroke-width="6"></line><polygon points="316,554 326.43917281866953,575.6107304564642 305.56082718133047,575.6107304564642" fill="rgb(178, 106, 0)"></polygon></svg>
+<p data-build-in="fade order 3" style="position:absolute;left:350px;top:600px;width:500px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#B26A00">↓ git stash   ↑ git stash pop</p>
+<div data-build-in="rise order 4" style="position:absolute;left:912px;top:620px;width:912px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:column;gap:6px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #A33131;border-radius:16px;padding:14px 24px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#A33131">git restore 파일</p><p style="font-size:26px;font-weight:700;color:#1D2330">③ 마지막 커밋 모습으로 ①을 덮어요</p></div>
+<div style="display:flex;flex-direction:column;gap:6px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #1A7340;border-radius:16px;padding:14px 24px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1A7340">git restore --staged 파일</p><p style="font-size:26px;font-weight:700;color:#1D2330">②에서 내려요. ① 내용은 그대로</p></div>
+<div style="display:flex;flex-direction:column;gap:6px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #B26A00;border-radius:16px;padding:14px 24px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#B26A00">git stash</p><p style="font-size:26px;font-weight:700;color:#1D2330">①② 변경을 서랍에 넣고 ③ 모습으로</p></div>
+</div>
+<aside>02의 네 칸 그림이에요. 오늘 명령은 모두 ① 작업 폴더나 ② 대기실을 바꿔요. ③ 내 저장소의 커밋은 건드리지 않아요. restore는 위쪽 화살표처럼 ③이나 ②의 모습을 ①로 가져와요. stash는 ① ②의 변경을 아래 서랍에 넣었다가 pop으로 다시 꺼내요. 서랍도 내 컴퓨터 안에 있어서 GitHub에는 올라가지 않아요.</aside>
+</section>
+<section id="r1" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:388px;border:2px dashed #B9BDC6;border-radius:28px"></div>
+<p id="eyebrow" style="position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">실습 1 · 파일을 망쳤어요</p>
+<h2 id="cmd" style="position:absolute;left:96px;top:86px;width:1728px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:48px;font-weight:700;line-height:1.15;color:#1D2330">echo "로그인 버튼" &gt; login.md</h2>
+<x-icon id="ic-local" name="Home" style="position:absolute;left:100px;top:196px;width:28px;height:28px;color:#6A7180"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg></x-icon>
+<p id="lbl-local" style="position:absolute;left:136px;top:193px;width:600px;font-size:24px;font-weight:700;color:#6A7180">내 컴퓨터</p>
+<x-icon id="ic-remote" name="Globe" style="position:absolute;left:1392px;top:196px;width:28px;height:28px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+  <path d="M2 12h20"></path>
+</svg></x-icon>
+<p id="lbl-remote" style="position:absolute;left:1428px;top:193px;width:396px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub</p>
+<div id="z-wd" style="position:absolute;left:96px;top:236px;width:360px;height:320px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:32px;height:32px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="16 18 22 12 16 6"></polyline>
+  <polyline points="8 6 2 12 8 18"></polyline>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더</p></div></div>
+<div id="z-st" style="position:absolute;left:504px;top:236px;width:360px;height:320px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="CheckCircle" style="width:32px;height:32px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실</p></div></div>
+<div id="z-lr" style="position:absolute;left:912px;top:236px;width:432px;height:320px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Database" style="width:32px;height:32px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p></div></div>
+<div id="z-rm" style="position:absolute;left:1392px;top:236px;width:432px;height:320px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column;opacity:0.4"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Cloud" style="width:32px;height:32px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
+<p id="ph-rm" style="position:absolute;left:1412px;top:300px;width:392px;font-size:24px;color:#5A4A8F;opacity:0.6">이번엔 쓰지 않아요</p>
+<div id="wd-doc" style="position:absolute;left:116px;top:300px;width:320px;height:240px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#A33131">덮어씀</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#DDF2E5;color:#14532D">로그인 버튼</p></div>
+<div id="note-st" style="position:absolute;left:524px;top:300px;width:320px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#1A7340">비어 있음</p></div>
+<div id="lc-e12ffc2" style="position:absolute;left:932px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#2459C9;border:3px solid #2459C9"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">e12ffc2</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.4;padding:0 10px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p></div>
+<div id="lr-doc" style="position:absolute;left:932px;top:348px;width:392px;height:192px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#3A4150">마지막 커밋</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p></div>
+<div id="term" style="position:absolute;left:96px;top:650px;width:1150px;height:374px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:21px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ echo "로그인 버튼" &gt; login.md</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git status</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#D8DEE9">On branch main</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#D8DEE9">Changes not staged for commit:</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#8C95A6">  (use "git add &lt;file&gt;..." to update what will be committed)</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;font-weight:700;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;color:#FFE7A8">  (use "git restore &lt;file&gt;..." to discard changes in working directory)</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#F28B82">        modified:   login.md</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#D8DEE9"> </p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#D8DEE9">no changes added to commit (use "git add" and/or "git commit -a")</p>
+</div>
+<div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+<x-icon name="Lightbulb" style="width:56px;height:56px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
+  <path d="M9 18h6"></path>
+  <path d="M10 22h4"></path>
+</svg></x-icon>
+<p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">status가 방법을<br>알려 주고 있어요</p>
+<p style="font-size:26px;line-height:1.45;color:#4A5262">노란 줄: git restore로<br>고친 걸 버려요</p>
+</div>
+<aside>&gt;&gt; 대신 &gt; 를 쳐서 login.md 세 줄이 사라지고 로그인 버튼 한 줄만 남았어요. 01에서 &gt; 는 덮어쓰기, &gt;&gt; 는 끝에 붙이기라고 배웠어요. git status를 보면 Git이 다음에 칠 명령을 괄호 안에 알려 줘요. 둘째 줄이 git restore예요. 앞 모듈에서는 화면 때문에 이 안내 줄을 자주 뺐어요. 오늘은 이 줄을 읽어요.</aside>
+</section>
+<section id="r2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:388px;border:2px dashed #B9BDC6;border-radius:28px"></div>
+<p id="eyebrow" style="position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">실습 1 · 버리기 전에 확인</p>
+<h2 id="cmd" style="position:absolute;left:96px;top:86px;width:1728px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:52px;font-weight:700;line-height:1.15;color:#1D2330">git diff</h2>
+<x-icon id="ic-local" name="Home" style="position:absolute;left:100px;top:196px;width:28px;height:28px;color:#6A7180"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg></x-icon>
+<p id="lbl-local" style="position:absolute;left:136px;top:193px;width:600px;font-size:24px;font-weight:700;color:#6A7180">내 컴퓨터</p>
+<x-icon id="ic-remote" name="Globe" style="position:absolute;left:1392px;top:196px;width:28px;height:28px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+  <path d="M2 12h20"></path>
+</svg></x-icon>
+<p id="lbl-remote" style="position:absolute;left:1428px;top:193px;width:396px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub</p>
+<div id="z-wd" style="position:absolute;left:96px;top:236px;width:360px;height:320px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:32px;height:32px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="16 18 22 12 16 6"></polyline>
+  <polyline points="8 6 2 12 8 18"></polyline>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더</p></div></div>
+<div id="z-st" style="position:absolute;left:504px;top:236px;width:360px;height:320px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="CheckCircle" style="width:32px;height:32px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실</p></div></div>
+<div id="z-lr" style="position:absolute;left:912px;top:236px;width:432px;height:320px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Database" style="width:32px;height:32px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p></div></div>
+<div id="z-rm" style="position:absolute;left:1392px;top:236px;width:432px;height:320px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column;opacity:0.4"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Cloud" style="width:32px;height:32px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
+<p id="ph-rm" style="position:absolute;left:1412px;top:300px;width:392px;font-size:24px;color:#5A4A8F;opacity:0.6">이번엔 쓰지 않아요</p>
+<div id="wd-doc" style="position:absolute;left:116px;top:300px;width:320px;height:240px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#A33131">덮어씀</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#DDF2E5;color:#14532D">로그인 버튼</p></div>
+<div id="note-st" style="position:absolute;left:524px;top:300px;width:320px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#1A7340">비어 있음</p></div>
+<div id="lc-e12ffc2" style="position:absolute;left:932px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#2459C9;border:3px solid #2459C9"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">e12ffc2</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.4;padding:0 10px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p></div>
+<div id="lr-doc" style="position:absolute;left:932px;top:348px;width:392px;height:192px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#3A4150">마지막 커밋</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#FBE4E2;color:#7A1F1F"># 로그인</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#FBE4E2;color:#7A1F1F">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#FBE4E2;color:#7A1F1F">비밀번호</p></div>
+<div id="term" style="position:absolute;left:96px;top:650px;width:1150px;height:374px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git diff</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#FFFFFF">diff --git a/login.md b/login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#FFFFFF">index ef88ce3..b4b694b 100644</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#FFFFFF">--- a/login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#FFFFFF">+++ b/login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#7CC7E8">@@ -1,3 +1 @@</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#F28B82">-# 로그인</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#F28B82">-아이디</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#F28B82">-비밀번호</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#7FD18B">+로그인 버튼</p>
+</div>
+<div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+<x-icon name="Search" style="width:56px;height:56px;color:#A33131"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <path d="m21 21-4.3-4.3"></path>
+</svg></x-icon>
+<p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">무엇이 바뀌는지<br>먼저 봐요</p>
+<p style="font-size:26px;line-height:1.45;color:#4A5262">restore하면 + 줄이 사라지고<br>- 줄이 돌아와요</p>
+</div>
+<aside>04에서 배운 git diff로 지금 고친 내용을 봐요. - 세 줄이 원래 있던 줄, + 한 줄이 새로 생긴 줄이에요. restore를 치면 + 줄은 사라지고 - 줄이 돌아와요. 사라지는 + 줄 중에 남길 게 있는지 꼭 확인하고 넘어가요.</aside>
+</section>
+<section id="r3" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:388px;border:2px dashed #B9BDC6;border-radius:28px"></div>
+<p id="eyebrow" style="position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">실습 1 · git restore</p>
+<h2 id="cmd" style="position:absolute;left:96px;top:86px;width:1728px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:52px;font-weight:700;line-height:1.15;color:#1D2330">git restore login.md</h2>
+<x-icon id="ic-local" name="Home" style="position:absolute;left:100px;top:196px;width:28px;height:28px;color:#6A7180"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg></x-icon>
+<p id="lbl-local" style="position:absolute;left:136px;top:193px;width:600px;font-size:24px;font-weight:700;color:#6A7180">내 컴퓨터</p>
+<x-icon id="ic-remote" name="Globe" style="position:absolute;left:1392px;top:196px;width:28px;height:28px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+  <path d="M2 12h20"></path>
+</svg></x-icon>
+<p id="lbl-remote" style="position:absolute;left:1428px;top:193px;width:396px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub</p>
+<div id="z-wd" style="position:absolute;left:96px;top:236px;width:360px;height:320px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:32px;height:32px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="16 18 22 12 16 6"></polyline>
+  <polyline points="8 6 2 12 8 18"></polyline>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더</p></div></div>
+<div id="z-st" style="position:absolute;left:504px;top:236px;width:360px;height:320px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="CheckCircle" style="width:32px;height:32px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실</p></div></div>
+<div id="z-lr" style="position:absolute;left:912px;top:236px;width:432px;height:320px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Database" style="width:32px;height:32px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p></div></div>
+<div id="z-rm" style="position:absolute;left:1392px;top:236px;width:432px;height:320px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column;opacity:0.4"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Cloud" style="width:32px;height:32px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
+<p id="ph-rm" style="position:absolute;left:1412px;top:300px;width:392px;font-size:24px;color:#5A4A8F;opacity:0.6">이번엔 쓰지 않아요</p>
+<div id="wd-doc" style="position:absolute;left:116px;top:300px;width:320px;height:240px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#3A4150">되돌림</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p></div>
+<div id="note-st" style="position:absolute;left:524px;top:300px;width:320px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#1A7340">비어 있음</p></div>
+<div id="lc-e12ffc2" style="position:absolute;left:932px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#2459C9;border:3px solid #2459C9"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">e12ffc2</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.4;padding:0 10px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p></div>
+<div id="lr-doc" style="position:absolute;left:932px;top:348px;width:392px;height:192px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#3A4150">마지막 커밋</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p></div>
+<div id="bar" style="position:absolute;left:273px;top:574px;width:858px;height:26px;border:6px solid #A33131;border-top:none;border-radius:0 0 14px 14px"></div><svg id="bar-head" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="276" y1="580" x2="276" y2="577.2" stroke="rgb(163, 49, 49)" stroke-width="6"></line><polygon points="276,558 286.43917281866953,579.6107304564642 265.56082718133047,579.6107304564642" fill="rgb(163, 49, 49)"></polygon></svg><p id="bar-lbl" style="position:absolute;left:598px;top:576px;width:208px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.6;text-align:center;border-radius:10px;background:#A33131;color:#FFFFFF">git restore</p>
+<div id="term" style="position:absolute;left:96px;top:650px;width:1150px;height:374px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git restore login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ cat login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9"># 로그인</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">아이디</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">비밀번호</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git status</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">On branch main</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">nothing to commit, working tree clean</p>
+</div>
+<div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+<x-icon name="CheckCircle" style="width:56px;height:56px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon>
+<p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">마지막 커밋 모습으로<br>돌아왔어요</p>
+<p style="font-size:26px;line-height:1.45;color:#4A5262">③ 커밋 e12ffc2는 그대로예요</p>
+</div>
+<aside>git restore 파일이름은 ③ 마지막 커밋의 모습으로 ① 작업 폴더의 파일을 덮어써요. 아무 출력도 없이 끝나요. cat으로 보면 세 줄이 돌아왔어요. git status도 깨끗해요. 커밋 기록은 하나도 바뀌지 않았어요. 정확히는 ② 대기실의 모습으로 돌아가요. 대기실이 비어 있으면 마지막 커밋과 같은 모습이에요.</aside>
+</section>
+<section id="r-warn" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#A33131">git restore · 주의</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">restore로 버린 건 되찾을 수 없어요</h2>
+<div style="position:absolute;left:96px;top:250px;width:760px;height:640px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:40px;display:flex;flex-direction:column;gap:24px"><x-icon name="Warning" style="width:64px;height:64px;color:#A33131"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+  <path d="M12 9v4"></path>
+  <path d="M12 17h.01"></path>
+</svg></x-icon><p style="font-size:36px;font-weight:700;line-height:1.4;color:#1D2330">커밋하지 않은 변경은<br>Git에 기록이 없어요</p><p style="font-size:28px;line-height:1.5;color:#4A5262">reset이나 revert는 커밋을 다뤄서 기록이 남아요. restore로 버린 줄은 휴지통에도 가지 않아요.</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#A33131;background:#FBE4E2;padding:16px 20px;border-radius:12px">git restore . 은 특히 조심</p></div>
+<div style="position:absolute;left:904px;top:250px;width:920px;height:640px;display:flex;flex-direction:column;gap:24px">
+<div data-build-in="rise order 1" style="flex:1;display:flex;flex-direction:row;gap:28px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:20px 32px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#A33131;border-radius:28px">1</p><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-size:30px;font-weight:700;color:#1D2330">git diff 먼저</p><p style="font-size:24px;color:#4A5262">사라질 줄을 눈으로 확인해요</p></div><p style="width:360px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 16px;border-radius:12px">git diff</p></div>
+<div data-build-in="rise order 2" style="flex:1;display:flex;flex-direction:row;gap:28px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:20px 32px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#A33131;border-radius:28px">2</p><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-size:30px;font-weight:700;color:#1D2330">남길 게 있으면 커밋</p><p style="font-size:24px;color:#4A5262">커밋해 두면 나중에 되돌릴 수 있어요</p></div><p style="width:360px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 16px;border-radius:12px">git add 파일<br>git commit -m "..."</p></div>
+<div data-build-in="rise order 3" style="flex:1;display:flex;flex-direction:row;gap:28px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:20px 32px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#A33131;border-radius:28px">3</p><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-size:30px;font-weight:700;color:#1D2330">파일 이름을 꼭 적기</p><p style="font-size:24px;color:#4A5262">git restore . 은 모든 파일을 한 번에 버려요</p></div><p style="width:360px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 16px;border-radius:12px">git restore login.md</p></div>
+</div>
+<aside>restore는 고친 내용을 지우는 명령이라 되돌릴 수 없어요. 02에서 본 reflog도 커밋만 기억해서 여기엔 소용없어요. 그래서 세 가지를 지켜요. 먼저 git diff로 보고, 남길 줄이 있으면 커밋부터 하고, 파일 이름을 꼭 적어요. git restore . 처럼 점을 쓰면 폴더 안 모든 파일의 변경이 한 번에 사라져요.</aside>
+</section>
+<section id="s1" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:388px;border:2px dashed #B9BDC6;border-radius:28px"></div>
+<p id="eyebrow" style="position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">실습 2 · 엉뚱한 파일까지 올렸어요</p>
+<h2 id="cmd" style="position:absolute;left:96px;top:86px;width:1728px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:52px;font-weight:700;line-height:1.15;color:#1D2330">git add .</h2>
+<x-icon id="ic-local" name="Home" style="position:absolute;left:100px;top:196px;width:28px;height:28px;color:#6A7180"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg></x-icon>
+<p id="lbl-local" style="position:absolute;left:136px;top:193px;width:600px;font-size:24px;font-weight:700;color:#6A7180">내 컴퓨터</p>
+<x-icon id="ic-remote" name="Globe" style="position:absolute;left:1392px;top:196px;width:28px;height:28px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+  <path d="M2 12h20"></path>
+</svg></x-icon>
+<p id="lbl-remote" style="position:absolute;left:1428px;top:193px;width:396px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub</p>
+<div id="z-wd" style="position:absolute;left:96px;top:236px;width:360px;height:320px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:32px;height:32px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="16 18 22 12 16 6"></polyline>
+  <polyline points="8 6 2 12 8 18"></polyline>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더</p></div></div>
+<div id="z-st" style="position:absolute;left:504px;top:236px;width:360px;height:320px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="CheckCircle" style="width:32px;height:32px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실</p></div></div>
+<div id="z-lr" style="position:absolute;left:912px;top:236px;width:432px;height:320px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Database" style="width:32px;height:32px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p></div></div>
+<div id="z-rm" style="position:absolute;left:1392px;top:236px;width:432px;height:320px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column;opacity:0.4"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Cloud" style="width:32px;height:32px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
+<p id="ph-rm" style="position:absolute;left:1412px;top:300px;width:392px;font-size:24px;color:#5A4A8F;opacity:0.6">이번엔 쓰지 않아요</p>
+<div id="wd-login" style="position:absolute;left:116px;top:300px;width:320px;height:96px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:20px;font-weight:700;color:#3A4150">올림</p></div>
+<div id="wd-memo" style="position:absolute;left:116px;top:412px;width:320px;height:96px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">memo.md</p><p style="font-size:20px;font-weight:700;color:#3A4150">올림</p></div>
+<div id="st-login" style="position:absolute;left:524px;top:300px;width:320px;height:96px;background:#FFFFFF;border:2px solid #4DB57A;border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:20px;font-weight:700;color:#1A7340">Staged · 고침</p></div>
+<div id="st-memo" style="position:absolute;left:524px;top:412px;width:320px;height:96px;background:#FFFFFF;border:2px solid #4DB57A;border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">memo.md</p><p style="font-size:20px;font-weight:700;color:#1A7340">Staged · 새 파일</p></div>
+<div id="lc-e12ffc2" style="position:absolute;left:932px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#2459C9;border:3px solid #2459C9"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">e12ffc2</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.4;padding:0 10px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p></div>
+<div id="term" style="position:absolute;left:96px;top:650px;width:1150px;height:374px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ echo "로그인 버튼" &gt;&gt; login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ echo "내일 할 일: 디자인 묻기" &gt; memo.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git add .</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git status</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">On branch main</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">Changes to be committed:</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;color:#FFE7A8">  (use "git restore --staged &lt;file&gt;..." to unstage)</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#7FD18B">        modified:   login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#7FD18B">        new file:   memo.md</p>
+</div>
+<div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+<x-icon name="Warning" style="width:56px;height:56px;color:#A33131"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+  <path d="M12 9v4"></path>
+  <path d="M12 17h.01"></path>
+</svg></x-icon>
+<p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">memo.md는<br>올리면 안 돼요</p>
+<p style="font-size:26px;line-height:1.45;color:#4A5262">노란 줄: add를 취소하는<br>명령이에요</p>
+</div>
+<aside>login.md에 로그인 버튼을 붙이고, 내 할 일을 적은 memo.md도 만들었어요. git add . 은 폴더 안 바뀐 파일을 모두 올려서 memo.md까지 대기실에 들어갔어요. 이대로 commit하고 push하면 팀원 모두가 내 메모를 받아요. 초록 글씨 위 안내 줄이 add를 취소하는 방법이에요. unstage는 대기실에서 내린다는 뜻이에요.</aside>
+</section>
+<section id="s2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:388px;border:2px dashed #B9BDC6;border-radius:28px"></div>
+<p id="eyebrow" style="position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">실습 2 · git restore --staged</p>
+<h2 id="cmd" style="position:absolute;left:96px;top:86px;width:1728px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:48px;font-weight:700;line-height:1.15;color:#1D2330">git restore --staged memo.md</h2>
+<x-icon id="ic-local" name="Home" style="position:absolute;left:100px;top:196px;width:28px;height:28px;color:#6A7180"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg></x-icon>
+<p id="lbl-local" style="position:absolute;left:136px;top:193px;width:600px;font-size:24px;font-weight:700;color:#6A7180">내 컴퓨터</p>
+<x-icon id="ic-remote" name="Globe" style="position:absolute;left:1392px;top:196px;width:28px;height:28px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+  <path d="M2 12h20"></path>
+</svg></x-icon>
+<p id="lbl-remote" style="position:absolute;left:1428px;top:193px;width:396px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub</p>
+<div id="z-wd" style="position:absolute;left:96px;top:236px;width:360px;height:320px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:32px;height:32px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="16 18 22 12 16 6"></polyline>
+  <polyline points="8 6 2 12 8 18"></polyline>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더</p></div></div>
+<div id="z-st" style="position:absolute;left:504px;top:236px;width:360px;height:320px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="CheckCircle" style="width:32px;height:32px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실</p></div></div>
+<div id="z-lr" style="position:absolute;left:912px;top:236px;width:432px;height:320px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Database" style="width:32px;height:32px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p></div></div>
+<div id="z-rm" style="position:absolute;left:1392px;top:236px;width:432px;height:320px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column;opacity:0.4"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Cloud" style="width:32px;height:32px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
+<p id="ph-rm" style="position:absolute;left:1412px;top:300px;width:392px;font-size:24px;color:#5A4A8F;opacity:0.6">이번엔 쓰지 않아요</p>
+<div id="wd-login" style="position:absolute;left:116px;top:300px;width:320px;height:96px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:20px;font-weight:700;color:#3A4150">올림</p></div>
+<div id="st-memo" style="position:absolute;left:116px;top:412px;width:320px;height:96px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">memo.md</p><p style="font-size:20px;font-weight:700;color:#A33131">Untracked · 내용 그대로</p></div>
+<div id="st-login" style="position:absolute;left:524px;top:300px;width:320px;height:96px;background:#FFFFFF;border:2px solid #4DB57A;border-radius:14px;padding:12px 16px;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:20px;font-weight:700;color:#1A7340">Staged · 고침</p></div>
+<div id="lc-e12ffc2" style="position:absolute;left:932px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#2459C9;border:3px solid #2459C9"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">e12ffc2</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.4;padding:0 10px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p></div>
+<div id="bar" style="position:absolute;left:273px;top:574px;width:414px;height:26px;border:6px solid #1A7340;border-top:none;border-radius:0 0 14px 14px"></div><svg id="bar-head" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="276" y1="580" x2="276" y2="577.2" stroke="rgb(26, 115, 64)" stroke-width="6"></line><polygon points="276,558 286.43917281866953,579.6107304564642 265.56082718133047,579.6107304564642" fill="rgb(26, 115, 64)"></polygon></svg><p id="bar-lbl" style="position:absolute;left:306px;top:576px;width:348px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.6;text-align:center;border-radius:10px;background:#1A7340;color:#FFFFFF">git restore --staged</p>
+<div id="term" style="position:absolute;left:96px;top:650px;width:1150px;height:374px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:21px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git restore --staged memo.md</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git status</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#D8DEE9">On branch main</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#D8DEE9">Changes to be committed:</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#8C95A6">  (use "git restore --staged &lt;file&gt;..." to unstage)</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#7FD18B">        modified:   login.md</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#D8DEE9"> </p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#D8DEE9">Untracked files:</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#8C95A6">  (use "git add &lt;file&gt;..." to include in what will be committed)</p>
+<p style="font-size:21px;line-height:1.3;white-space:pre;color:#F28B82">        memo.md</p>
+</div>
+<div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+<x-icon name="CheckCircle" style="width:56px;height:56px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon>
+<p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">② 대기실에서만<br>내렸어요</p>
+<p style="font-size:26px;line-height:1.45;color:#4A5262">memo.md 파일은<br>① 에 그대로 있어요</p>
+</div>
+<aside>memo.md만 대기실에서 내렸어요. 파일은 지워지지 않고 작업 폴더에 그대로 있어요. 처음 만든 파일이라 다시 Untracked가 됐어요. 이제 git commit -m "feat: 로그인 버튼 추가"로 login.md만 커밋하고 push해요. 실습에서는 memo.md를 rm으로 지우고 넘어가요. 계속 둘 파일이면 04에서 배운 .gitignore에 적어요.</aside>
+</section>
+<section id="s3" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#1A7340">restore 두 가지</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">--staged가 있고 없고는 크게 달라요</h2>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:240px;width:840px;height:300px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #A33131;border-radius:20px;padding:28px 36px;display:flex;flex-direction:column;gap:16px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#A33131">git restore 파일</p><div style="display:flex;flex-direction:row;gap:16px;align-items:center"><p style="width:120px;font-size:28px;font-weight:700;line-height:64px;text-align:center;border-radius:14px;background:#FDFCF9;border:2px solid #9AA0AB;color:#3A4150">①</p><p style="width:120px;font-size:28px;font-weight:700;line-height:64px;text-align:center;border-radius:14px;background:#F1FAF4;border:2px solid #4DB57A;color:#1A7340">②</p><p style="width:120px;font-size:28px;font-weight:700;line-height:64px;text-align:center;border-radius:14px;background:#F0F5FE;border:2px solid #5B8DEF;color:#1E3F8F">③</p><p style="font-size:26px;font-weight:700;color:#A33131">③ → ①</p></div><p style="font-size:30px;font-weight:700;color:#1D2330">① 의 고친 내용을 버려요</p><p style="font-size:26px;color:#4A5262">되찾을 수 없어요</p></div>
+<div data-build-in="rise order 2" style="position:absolute;left:984px;top:240px;width:840px;height:300px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1A7340;border-radius:20px;padding:28px 36px;display:flex;flex-direction:column;gap:16px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1A7340">git restore --staged 파일</p><div style="display:flex;flex-direction:row;gap:16px;align-items:center"><p style="width:120px;font-size:28px;font-weight:700;line-height:64px;text-align:center;border-radius:14px;background:#FDFCF9;border:2px solid #9AA0AB;color:#3A4150">①</p><p style="width:120px;font-size:28px;font-weight:700;line-height:64px;text-align:center;border-radius:14px;background:#F1FAF4;border:2px solid #4DB57A;color:#1A7340">②</p><p style="width:120px;font-size:28px;font-weight:700;line-height:64px;text-align:center;border-radius:14px;background:#F0F5FE;border:2px solid #5B8DEF;color:#1E3F8F">③</p><p style="font-size:26px;font-weight:700;color:#1A7340">② → ①</p></div><p style="font-size:30px;font-weight:700;color:#1D2330">② 에서 ① 로 내려요</p><p style="font-size:26px;color:#4A5262">고친 내용은 그대로 있어요</p></div>
+<div id="term" style="position:absolute;left:96px;top:580px;width:1100px;height:420px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ echo "아이디 저장" &gt;&gt; login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git add login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git restore --staged login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git diff</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#FFFFFF">diff --git a/login.md b/login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#FFFFFF">index 6e22a11..b8c799e 100644</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#FFFFFF">--- a/login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#FFFFFF">+++ b/login.md</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#7CC7E8">@@ -2,3 +2,4 @@</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9"> 아이디</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9"> 비밀번호</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9"> 로그인 버튼</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#7FD18B">+아이디 저장</p>
+</div>
+<div data-build-in="rise order 3" style="position:absolute;left:1236px;top:580px;width:588px;height:420px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:36px;display:flex;flex-direction:column;justify-content:center;gap:18px"><x-icon name="Lightbulb" style="width:52px;height:52px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
+  <path d="M9 18h6"></path>
+  <path d="M10 22h4"></path>
+</svg></x-icon><p style="font-size:32px;font-weight:700;line-height:1.4;color:#1D2330">add를 취소해도<br>+아이디 저장은 남아요</p><p style="font-size:26px;line-height:1.5;color:#4A5262">--staged를 빼면 이 줄까지 사라져요.</p></div>
+<aside>두 명령은 이름이 비슷해서 헷갈려요. --staged가 붙으면 대기실만 고치고 작업 폴더는 건드리지 않아요. 붙지 않으면 작업 폴더의 파일을 덮어써요. 아래 터미널은 login.md를 add한 뒤 --staged로 내린 장면이에요. git diff에 아이디 저장이 그대로 나와요. 다시 올리려면 git add만 치면 돼요. 확인한 뒤 실습에서는 git restore login.md로 이 줄을 버리고 넘어가요.</aside>
+</section>
+<section id="reset-vs" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">reset과 무엇이 달라요</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">restore는 파일, reset은 이름표를 옮겨요</h2>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:240px;width:840px;height:400px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #A33131;border-radius:20px;padding:28px 36px;display:flex;flex-direction:column;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#A33131">git restore 파일</p><p style="font-size:30px;font-weight:700;color:#1D2330">커밋과 이름표는 그대로</p><p style="font-size:24px;color:#4A5262">① ② 의 파일만 바꿔요</p></div>
+<div data-build-in="rise order 1" style="position:absolute;left:396px;top:519px;width:240px;height:6px;background:#9DB8F2"></div>
+<div data-build-in="rise order 1" style="position:absolute;left:376px;top:502px;width:40px;height:40px;border-radius:50%;background:#2459C9;border:4px solid #2459C9"></div>
+<p data-build-in="rise order 1" style="position:absolute;left:326px;top:554px;width:140px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">e12ffc2</p>
+<div data-build-in="rise order 1" style="position:absolute;left:616px;top:502px;width:40px;height:40px;border-radius:50%;background:#2459C9;border:4px solid #2459C9"></div>
+<p data-build-in="rise order 1" style="position:absolute;left:566px;top:554px;width:140px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">15d92cb</p>
+<p data-build-in="rise order 1" style="position:absolute;left:586px;top:442px;width:100px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<div data-build-in="rise order 2" style="position:absolute;left:984px;top:240px;width:840px;height:400px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #2459C9;border-radius:20px;padding:28px 36px;display:flex;flex-direction:column;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#2459C9">git reset HEAD~1</p><p style="font-size:30px;font-weight:700;color:#1D2330">이름표가 한 칸 뒤로</p><p style="font-size:24px;color:#4A5262">커밋을 취소해요 (02, 03)</p></div>
+<div data-build-in="rise order 2" style="position:absolute;left:1284px;top:519px;width:240px;height:6px;background:#9DB8F2"></div>
+<div data-build-in="rise order 2" style="position:absolute;left:1264px;top:502px;width:40px;height:40px;border-radius:50%;background:#2459C9;border:4px solid #2459C9"></div>
+<p data-build-in="rise order 2" style="position:absolute;left:1214px;top:554px;width:140px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">e12ffc2</p>
+<div data-build-in="rise order 2" style="position:absolute;left:1504px;top:502px;width:40px;height:40px;border-radius:50%;background:#2459C9;border:4px solid #2459C9;opacity:0.35"></div>
+<p data-build-in="rise order 2" style="position:absolute;left:1454px;top:554px;width:140px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">15d92cb</p>
+<p data-build-in="rise order 2" style="position:absolute;left:1234px;top:442px;width:100px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<div data-build-in="fade order 3" style="position:absolute;left:96px;top:680px;width:1728px;height:300px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:12px 36px;display:flex;flex-direction:column">
+<div style="flex:1;display:flex;flex-direction:row;align-items:center;gap:16px;padding:0 12px;"><p style="width:500px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;color:#6A7180"></p><p style="width:300px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;color:#6A7180">바꾸는 곳</p><p style="width:260px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;color:#6A7180">커밋 기록</p><p style="width:540px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;color:#6A7180">언제</p></div>
+<div style="flex:1;display:flex;flex-direction:row;align-items:center;gap:16px;padding:0 12px;border-top:2px solid #E1DED6;"><p style="width:500px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">git restore 파일</p><p style="width:300px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:400;color:#1D2330">① 작업 폴더</p><p style="width:260px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:400;color:#1D2330">그대로</p><p style="width:540px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:400;color:#1D2330">커밋 전, 고친 걸 버릴 때</p></div>
+<div style="flex:1;display:flex;flex-direction:row;align-items:center;gap:16px;padding:0 12px;border-top:2px solid #E1DED6;"><p style="width:500px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">git restore --staged 파일</p><p style="width:300px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:400;color:#1D2330">② 대기실</p><p style="width:260px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:400;color:#1D2330">그대로</p><p style="width:540px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:400;color:#1D2330">commit 전, add를 취소할 때</p></div>
+<div style="flex:1;display:flex;flex-direction:row;align-items:center;gap:16px;padding:0 12px;border-top:2px solid #E1DED6;"><p style="width:500px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">git reset HEAD~1</p><p style="width:300px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:400;color:#1D2330">③ 이름표</p><p style="width:260px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:400;color:#1D2330">한 칸 뒤로</p><p style="width:540px;flex:none;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:400;color:#1D2330">push 전, 커밋을 취소할 때</p></div>
+</div>
+<aside>02와 03에서 배운 reset은 브랜치 이름표를 뒤로 옮겨서 커밋을 취소해요. restore는 커밋을 건드리지 않고 파일만 바꿔요. 그래서 커밋하기 전에는 restore, 커밋한 뒤에는 reset이나 revert를 써요. 옛날 자료에는 git reset HEAD 파일이름으로 add를 취소하는 법이 나와요. git restore --staged와 같은 일을 해요. 수업에서는 status가 알려 주는 restore --staged를 써요.</aside>
+</section>
+<section id="st0" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:388px;border:2px dashed #B9BDC6;border-radius:28px"></div>
+<p id="eyebrow" style="position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">실습 3 · pull하려는데 막혀요</p>
+<h2 id="cmd" style="position:absolute;left:96px;top:86px;width:1728px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:52px;font-weight:700;line-height:1.15;color:#1D2330">git pull origin main</h2>
+<x-icon id="ic-local" name="Home" style="position:absolute;left:100px;top:196px;width:28px;height:28px;color:#6A7180"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg></x-icon>
+<p id="lbl-local" style="position:absolute;left:136px;top:193px;width:600px;font-size:24px;font-weight:700;color:#6A7180">내 컴퓨터</p>
+<x-icon id="ic-remote" name="Globe" style="position:absolute;left:1392px;top:196px;width:28px;height:28px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+  <path d="M2 12h20"></path>
+</svg></x-icon>
+<p id="lbl-remote" style="position:absolute;left:1428px;top:193px;width:396px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub</p>
+<div id="z-wd" style="position:absolute;left:96px;top:236px;width:360px;height:320px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:32px;height:32px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="16 18 22 12 16 6"></polyline>
+  <polyline points="8 6 2 12 8 18"></polyline>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더</p></div></div>
+<div id="z-st" style="position:absolute;left:504px;top:236px;width:360px;height:320px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="CheckCircle" style="width:32px;height:32px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실</p></div></div>
+<div id="z-lr" style="position:absolute;left:912px;top:236px;width:432px;height:320px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Database" style="width:32px;height:32px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p></div></div>
+<div id="z-rm" style="position:absolute;left:1392px;top:236px;width:432px;height:320px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Cloud" style="width:32px;height:32px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
+<div id="wd-doc" style="position:absolute;left:116px;top:300px;width:320px;height:240px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#A33131">고치는 중</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">로그인 버튼</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#DDF2E5;color:#14532D">비밀번호 찾기</p></div>
+<div id="note-st" style="position:absolute;left:524px;top:300px;width:320px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#1A7340">비어 있음</p></div>
+<div id="lc-15d92cb" style="position:absolute;left:932px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#2459C9;border:3px solid #2459C9"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">15d92cb</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.4;padding:0 10px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p></div>
+<div id="lr-doc" style="position:absolute;left:932px;top:348px;width:392px;height:192px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#3A4150">마지막 커밋</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">로그인 버튼</p></div>
+<div id="rc-0be6431" style="position:absolute;left:1412px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#5A3BB8;border:3px solid #5A3BB8"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">0be6431</p></div>
+<div id="rc-15d92cb" style="position:absolute;left:1412px;top:344px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#5A3BB8;border:3px solid #5A3BB8"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">15d92cb</p></div>
+<div id="note-rm" style="position:absolute;left:1412px;top:400px;width:392px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#5A3BB8">lee가 제목을 고쳐 올렸어요</p></div>
+<div id="term" style="position:absolute;left:96px;top:650px;width:1150px;height:374px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:20px;line-height:1.35;white-space:pre;font-weight:700;color:#F2C46D">$ echo "비밀번호 찾기" &gt;&gt; login.md</p>
+<p style="font-size:20px;line-height:1.35;white-space:pre;font-weight:700;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:20px;line-height:1.35;white-space:pre;color:#D8DEE9">From https://github.com/kim/hello-git</p>
+<p style="font-size:20px;line-height:1.35;white-space:pre;color:#D8DEE9"> * branch            main       -&gt; FETCH_HEAD</p>
+<p style="font-size:20px;line-height:1.35;white-space:pre;color:#D8DEE9">   15d92cb..0be6431  main       -&gt; origin/main</p>
+<p style="font-size:20px;line-height:1.35;white-space:pre;color:#D8DEE9">Updating 15d92cb..0be6431</p>
+<p style="font-size:20px;line-height:1.35;white-space:pre;color:#F28B82">error: Your local changes to the following files would be overwritten by merge:</p>
+<p style="font-size:20px;line-height:1.35;white-space:pre;color:#F28B82">        login.md</p>
+<p style="font-size:20px;line-height:1.35;white-space:pre;font-weight:700;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;color:#FFE7A8">Please commit your changes or stash them before you merge.</p>
+<p style="font-size:20px;line-height:1.35;white-space:pre;color:#D8DEE9">Aborting</p>
+</div>
+<div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+<x-icon name="Warning" style="width:56px;height:56px;color:#A33131"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+  <path d="M12 9v4"></path>
+  <path d="M12 17h.01"></path>
+</svg></x-icon>
+<p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">커밋하거나<br>stash 하래요</p>
+<p style="font-size:26px;line-height:1.45;color:#4A5262">고치던 게 덮일까 봐<br>Git이 멈췄어요</p>
+</div>
+<aside>팀원 lee가 login.md 제목을 로그인 페이지로 고쳐 push했어요. 나는 같은 파일에 비밀번호 찾기를 쓰던 중이에요. 아직 커밋하기엔 덜 끝났어요. 이때 pull하면 Git이 멈춰요. 받은 내용으로 파일을 바꾸면 내가 고친 줄이 덮일 수 있어서예요. 노란 줄이 해결 방법이에요. 커밋하거나 stash 하라고 해요. 같은 파일을 둘 다 고쳤을 때만 이 메시지가 나와요.</aside>
+</section>
+<section id="st1" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:388px;border:2px dashed #B9BDC6;border-radius:28px"></div>
+<p id="eyebrow" style="position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">실습 3 · git stash</p>
+<h2 id="cmd" style="position:absolute;left:96px;top:86px;width:1728px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:52px;font-weight:700;line-height:1.15;color:#1D2330">git stash</h2>
+<x-icon id="ic-local" name="Home" style="position:absolute;left:100px;top:196px;width:28px;height:28px;color:#6A7180"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg></x-icon>
+<p id="lbl-local" style="position:absolute;left:136px;top:193px;width:600px;font-size:24px;font-weight:700;color:#6A7180">내 컴퓨터</p>
+<x-icon id="ic-remote" name="Globe" style="position:absolute;left:1392px;top:196px;width:28px;height:28px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+  <path d="M2 12h20"></path>
+</svg></x-icon>
+<p id="lbl-remote" style="position:absolute;left:1428px;top:193px;width:396px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub</p>
+<div id="z-wd" style="position:absolute;left:96px;top:236px;width:360px;height:320px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:32px;height:32px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="16 18 22 12 16 6"></polyline>
+  <polyline points="8 6 2 12 8 18"></polyline>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더</p></div></div>
+<div id="z-st" style="position:absolute;left:504px;top:236px;width:360px;height:320px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="CheckCircle" style="width:32px;height:32px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실</p></div></div>
+<div id="z-lr" style="position:absolute;left:912px;top:236px;width:432px;height:320px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Database" style="width:32px;height:32px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p></div></div>
+<div id="z-rm" style="position:absolute;left:1392px;top:236px;width:432px;height:320px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Cloud" style="width:32px;height:32px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
+<div id="drawer" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFF7EA;border:3px solid #E3A64A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Archive" style="width:32px;height:32px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="3" rx="1"></rect>
+  <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
+  <path d="M10 12h4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#B26A00">서랍 (stash)</p></div></div>
+<div id="wd-doc" style="position:absolute;left:1298px;top:720px;width:506px;height:284px;background:#FFFFFF;border:2px solid #E3A64A;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#8A5A12">stash@{0}</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">로그인 버튼</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#DDF2E5;color:#14532D">비밀번호 찾기</p></div>
+<div id="wd-clean" style="position:absolute;left:116px;top:300px;width:320px;height:240px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#3A4150">변경 없음</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">로그인 버튼</p></div>
+<div id="note-st" style="position:absolute;left:524px;top:300px;width:320px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#1A7340">비어 있음</p></div>
+<div id="lc-15d92cb" style="position:absolute;left:932px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#2459C9;border:3px solid #2459C9"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">15d92cb</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.4;padding:0 10px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p></div>
+<div id="lr-doc" style="position:absolute;left:932px;top:348px;width:392px;height:192px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#3A4150">마지막 커밋</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">로그인 버튼</p></div>
+<div id="rc-0be6431" style="position:absolute;left:1412px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#5A3BB8;border:3px solid #5A3BB8"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">0be6431</p></div>
+<div id="rc-15d92cb" style="position:absolute;left:1412px;top:344px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#5A3BB8;border:3px solid #5A3BB8"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">15d92cb</p></div>
+<div id="note-rm" style="position:absolute;left:1412px;top:400px;width:392px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#5A3BB8">lee가 제목을 고쳐 올렸어요</p></div>
+<div id="term" style="position:absolute;left:96px;top:650px;width:1150px;height:374px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:20px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git stash</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">Saved working directory and index state WIP on main: 15d92cb feat: 로그인 버튼 추가</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git status</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">On branch main</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">nothing to commit, working tree clean</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git stash list</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;font-weight:700;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;color:#FFE7A8">stash@{0}: WIP on main: 15d92cb feat: 로그인 버튼 추가</p>
+</div>
+<aside>git stash는 고치던 내용을 서랍에 넣고 작업 폴더를 마지막 커밋 모습으로 돌려놓아요. 비밀번호 찾기 줄이 서랍으로 옮겨 갔어요. git status가 깨끗해져서 이제 pull할 수 있어요. git stash list로 서랍 안을 봐요. 서랍은 내 컴퓨터에만 있어요. push해도 GitHub에 올라가지 않아요. stash는 숨겨 둔다는 뜻이에요.</aside>
+</section>
+<section id="st-read" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#B26A00">git stash list 읽기</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">서랍 안 한 줄이 이렇게 생겼어요</h2>
+<div style="position:absolute;left:96px;top:250px;width:1728px;height:120px;background:#1B2029;border-radius:20px;display:flex;flex-direction:row;align-items:center;justify-content:center;font-family:'JetBrains Mono', 'Noto Sans KR', monospace"><p style="font-size:36px;font-weight:700;white-space:pre;color:#F2C46D">stash@{0}</p><p style="font-size:36px;font-weight:700;white-space:pre;color:#8C95A6">:  WIP on </p><p style="font-size:36px;font-weight:700;white-space:pre;color:#7CC7E8">main</p><p style="font-size:36px;font-weight:700;white-space:pre;color:#D8DEE9">:  15d92cb feat: 로그인 버튼 추가</p></div>
+<div style="position:absolute;left:96px;top:410px;width:1728px;display:flex;flex-direction:row;gap:24px">
+<div data-build-in="rise order 1" style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #F2C46D;border-radius:16px;padding:20px 24px"><p style="font-size:28px;font-weight:700;color:#1D2330">서랍 번호</p><p style="font-size:24px;color:#4A5262">0이 가장 최근</p></div>
+<div data-build-in="rise order 2" style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #8C95A6;border-radius:16px;padding:20px 24px"><p style="font-size:28px;font-weight:700;color:#1D2330">작업 중</p><p style="font-size:24px;color:#4A5262">Work In Progress</p></div>
+<div data-build-in="rise order 3" style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #7CC7E8;border-radius:16px;padding:20px 24px"><p style="font-size:28px;font-weight:700;color:#1D2330">치운 브랜치</p><p style="font-size:24px;color:#4A5262">어디서 넣었나</p></div>
+<div data-build-in="rise order 4" style="flex:1;display:flex;flex-direction:column;gap:8px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #9AA0AB;border-radius:16px;padding:20px 24px"><p style="font-size:28px;font-weight:700;color:#1D2330">그때 마지막 커밋</p><p style="font-size:24px;color:#4A5262">이 커밋 위에서 고치던 것</p></div>
+</div>
+<div id="term" style="position:absolute;left:96px;top:640px;width:1100px;height:200px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git stash</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git stash list</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;color:#FFE7A8">stash@{0}: WIP on main: dd746b3 feat: 비밀번호 재설정에 이메일 안내 추가</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">stash@{1}: WIP on main: dd746b3 feat: 비밀번호 재설정에 이메일 안내 추가</p>
+</div>
+<div data-build-in="rise order 5" style="position:absolute;left:1236px;top:640px;width:588px;height:200px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:28px 32px;display:flex;flex-direction:column;justify-content:center;gap:10px"><p style="font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">또 넣으면 새 것이 {0}</p><p style="font-size:24px;line-height:1.4;color:#4A5262">예전 것은 {1}로 밀려요</p></div>
+<p data-build-in="fade order 6" style="position:absolute;left:96px;top:880px;width:1728px;font-size:28px;line-height:1.4;color:#4A5262">pop은 맨 위 {0}부터 꺼내요. 서랍엔 한 번에 하나만 두는 게 편해요.</p>
+<aside>stash list 한 줄은 네 부분이에요. 맨 앞 stash@{0}이 서랍 번호예요. WIP는 Work In Progress, 작업 중이라는 뜻이에요. 그 뒤로 어느 브랜치에서 넣었는지, 그때 마지막 커밋이 무엇이었는지 나와요. 아래 터미널은 실습을 다 끝낸 뒤 stash를 두 번 한 모습이에요. 새로 넣은 게 늘 0번이에요. 여러 개가 쌓이면 무엇이 무엇인지 헷갈려서 넣으면 바로 꺼내는 습관을 들여요.</aside>
+</section>
+<section id="st2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:388px;border:2px dashed #B9BDC6;border-radius:28px"></div>
+<p id="eyebrow" style="position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">실습 3 · 이제 pull</p>
+<h2 id="cmd" style="position:absolute;left:96px;top:86px;width:1728px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:52px;font-weight:700;line-height:1.15;color:#1D2330">git pull origin main</h2>
+<x-icon id="ic-local" name="Home" style="position:absolute;left:100px;top:196px;width:28px;height:28px;color:#6A7180"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg></x-icon>
+<p id="lbl-local" style="position:absolute;left:136px;top:193px;width:600px;font-size:24px;font-weight:700;color:#6A7180">내 컴퓨터</p>
+<x-icon id="ic-remote" name="Globe" style="position:absolute;left:1392px;top:196px;width:28px;height:28px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+  <path d="M2 12h20"></path>
+</svg></x-icon>
+<p id="lbl-remote" style="position:absolute;left:1428px;top:193px;width:396px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub</p>
+<div id="z-wd" style="position:absolute;left:96px;top:236px;width:360px;height:320px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:32px;height:32px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="16 18 22 12 16 6"></polyline>
+  <polyline points="8 6 2 12 8 18"></polyline>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더</p></div></div>
+<div id="z-st" style="position:absolute;left:504px;top:236px;width:360px;height:320px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="CheckCircle" style="width:32px;height:32px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실</p></div></div>
+<div id="z-lr" style="position:absolute;left:912px;top:236px;width:432px;height:320px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Database" style="width:32px;height:32px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p></div></div>
+<div id="z-rm" style="position:absolute;left:1392px;top:236px;width:432px;height:320px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Cloud" style="width:32px;height:32px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
+<div id="drawer" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFF7EA;border:3px solid #E3A64A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Archive" style="width:32px;height:32px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="3" rx="1"></rect>
+  <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
+  <path d="M10 12h4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#B26A00">서랍 (stash)</p></div></div>
+<div id="wd-doc" style="position:absolute;left:1298px;top:720px;width:506px;height:284px;background:#FFFFFF;border:2px solid #E3A64A;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#8A5A12">stash@{0}</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">로그인 버튼</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#DDF2E5;color:#14532D">비밀번호 찾기</p></div>
+<div id="wd-clean" style="position:absolute;left:116px;top:300px;width:320px;height:240px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#3A4150">받음</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#DDF2E5;color:#14532D"># 로그인 페이지</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">로그인 버튼</p></div>
+<div id="note-st" style="position:absolute;left:524px;top:300px;width:320px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#1A7340">비어 있음</p></div>
+<div id="lc-0be6431" style="position:absolute;left:932px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#2459C9;border:3px solid #2459C9"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">0be6431</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.4;padding:0 10px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p></div>
+<div id="lr-doc" style="position:absolute;left:932px;top:348px;width:392px;height:192px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#3A4150">마지막 커밋</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#DDF2E5;color:#14532D"># 로그인 페이지</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">로그인 버튼</p></div>
+<div id="rc-0be6431" style="position:absolute;left:1412px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#5A3BB8;border:3px solid #5A3BB8"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">0be6431</p></div>
+<div id="rc-15d92cb" style="position:absolute;left:1412px;top:344px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#5A3BB8;border:3px solid #5A3BB8"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">15d92cb</p></div>
+<div id="note-rm" style="position:absolute;left:1412px;top:400px;width:392px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#5A3BB8">lee가 제목을 고쳐 올렸어요</p></div>
+<div id="term" style="position:absolute;left:96px;top:650px;width:1150px;height:374px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:20px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">From https://github.com/kim/hello-git</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9"> * branch            main       -&gt; FETCH_HEAD</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">Updating 15d92cb..0be6431</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">Fast-forward</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9"> login.md | 2 +-</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9"> 1 file changed, 1 insertion(+), 1 deletion(-)</p>
+</div>
+<aside>작업 폴더가 깨끗하니 pull이 바로 끝나요. Fast-forward는 내 커밋 없이 앞으로만 따라간 거예요. 03에서 본 merge와 같은 말이에요. 제목이 로그인 페이지로 바뀌었어요. 서랍 안의 비밀번호 찾기는 그대로 기다리고 있어요.</aside>
+</section>
+<section id="st3" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:388px;border:2px dashed #B9BDC6;border-radius:28px"></div>
+<p id="eyebrow" style="position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">실습 3 · git stash pop</p>
+<h2 id="cmd" style="position:absolute;left:96px;top:86px;width:1728px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:52px;font-weight:700;line-height:1.15;color:#1D2330">git stash pop</h2>
+<x-icon id="ic-local" name="Home" style="position:absolute;left:100px;top:196px;width:28px;height:28px;color:#6A7180"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg></x-icon>
+<p id="lbl-local" style="position:absolute;left:136px;top:193px;width:600px;font-size:24px;font-weight:700;color:#6A7180">내 컴퓨터</p>
+<x-icon id="ic-remote" name="Globe" style="position:absolute;left:1392px;top:196px;width:28px;height:28px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+  <path d="M2 12h20"></path>
+</svg></x-icon>
+<p id="lbl-remote" style="position:absolute;left:1428px;top:193px;width:396px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub</p>
+<div id="z-wd" style="position:absolute;left:96px;top:236px;width:360px;height:320px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:32px;height:32px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="16 18 22 12 16 6"></polyline>
+  <polyline points="8 6 2 12 8 18"></polyline>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더</p></div></div>
+<div id="z-st" style="position:absolute;left:504px;top:236px;width:360px;height:320px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="CheckCircle" style="width:32px;height:32px;color:#1A7340"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1A7340">② 대기실</p></div></div>
+<div id="z-lr" style="position:absolute;left:912px;top:236px;width:432px;height:320px;background:#F0F5FE;border:2px solid #5B8DEF;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Database" style="width:32px;height:32px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#1E3F8F">③ 내 저장소</p></div></div>
+<div id="z-rm" style="position:absolute;left:1392px;top:236px;width:432px;height:320px;background:#F6F2FE;border:2px solid #9A7BF0;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Cloud" style="width:32px;height:32px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
+<div id="drawer" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFF7EA;border:3px solid #E3A64A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Archive" style="width:32px;height:32px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="3" rx="1"></rect>
+  <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
+  <path d="M10 12h4"></path>
+</svg></x-icon><p style="font-size:30px;font-weight:700;color:#B26A00">서랍 (stash)</p></div></div>
+<p id="drawer-note" style="position:absolute;left:1302px;top:726px;width:498px;font-size:24px;line-height:1.4;color:#8A5A12">서랍이 다시 비었어요</p>
+<div id="wd-doc" style="position:absolute;left:116px;top:300px;width:320px;height:240px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#A33131">고치는 중</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인 페이지</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">로그인 버튼</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;background:#DDF2E5;color:#14532D">비밀번호 찾기</p></div>
+<div id="note-st" style="position:absolute;left:524px;top:300px;width:320px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#1A7340">비어 있음</p></div>
+<div id="lc-0be6431" style="position:absolute;left:932px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#2459C9;border:3px solid #2459C9"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">0be6431</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.4;padding:0 10px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p></div>
+<div id="lr-doc" style="position:absolute;left:932px;top:348px;width:392px;height:192px;background:#FFFFFF;border:2px solid #B4B9C3;border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px"><div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:18px;font-weight:700;color:#3A4150">마지막 커밋</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330"># 로그인 페이지</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.35;padding:0 6px;border-radius:4px;color:#1D2330">로그인 버튼</p></div>
+<div id="rc-0be6431" style="position:absolute;left:1412px;top:300px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#5A3BB8;border:3px solid #5A3BB8"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">0be6431</p></div>
+<div id="rc-15d92cb" style="position:absolute;left:1412px;top:344px;width:392px;height:36px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:22px;height:22px;background:#5A3BB8;border:3px solid #5A3BB8"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">15d92cb</p></div>
+<div id="note-rm" style="position:absolute;left:1412px;top:400px;width:392px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#5A3BB8">lee가 제목을 고쳐 올렸어요</p></div>
+<div id="term" style="position:absolute;left:96px;top:650px;width:1150px;height:374px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:20px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git stash pop</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">Auto-merging login.md</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">On branch main</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">Changes not staged for commit:</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#F28B82">        modified:   login.md</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9"> </p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;font-weight:700;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;color:#FFE7A8">Dropped refs/stash@{0} (ea47a275d168793f5d750db2514463f36986122d)</p>
+</div>
+<aside>pop은 서랍에서 꺼내서 작업 폴더에 다시 얹어요. Auto-merging은 받은 제목과 내 비밀번호 찾기를 Git이 알아서 합쳤다는 뜻이에요. 서로 다른 줄이라 충돌 없이 끝났어요. 마지막 Dropped 줄은 꺼낸 걸 서랍에서 지웠다는 뜻이에요. status 안내 줄 두 개와 마지막 no changes added 줄은 화면 때문에 뺐어요. 이제 하던 일을 마저 하고 add, commit, push해요.</aside>
+</section>
+<section id="st-co" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#B26A00">git stash · 브랜치 옮길 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">checkout이 막힐 때도 같아요</h2>
+<div id="term" style="position:absolute;left:96px;top:240px;width:1728px;height:230px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:26px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git checkout main</p>
+<p style="font-size:26px;line-height:1.4;white-space:pre;color:#F28B82">error: Your local changes to the following files would be overwritten by checkout:</p>
+<p style="font-size:26px;line-height:1.4;white-space:pre;color:#F28B82">        login.md</p>
+<p style="font-size:26px;line-height:1.4;white-space:pre;font-weight:700;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;color:#FFE7A8">Please commit your changes or stash them before you switch branches.</p>
+<p style="font-size:26px;line-height:1.4;white-space:pre;color:#D8DEE9">Aborting</p>
+</div>
+<div style="position:absolute;left:96px;top:520px;width:1728px;height:300px;display:flex;flex-direction:row;gap:20px">
+<div data-build-in="rise order 1" style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #B26A00;border-radius:18px;padding:24px 22px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:26px">1</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.35;color:#1D2330">git stash</p><p style="font-size:24px;line-height:1.4;color:#4A5262">feature/login에서<br>고치던 걸 넣기</p></div>
+<div data-build-in="rise order 2" style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #9AA0AB;border-radius:18px;padding:24px 22px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">2</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.35;color:#1D2330">git checkout main</p><p style="font-size:24px;line-height:1.4;color:#4A5262">main으로 가서</p></div>
+<div data-build-in="rise order 3" style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #9AA0AB;border-radius:18px;padding:24px 22px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">3</p><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:26px;font-weight:700;line-height:1.35;color:#1D2330">급한 일</p><p style="font-size:24px;line-height:1.4;color:#4A5262">고치고 commit, push</p></div>
+<div data-build-in="rise order 4" style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #9AA0AB;border-radius:18px;padding:24px 22px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">4</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.35;color:#1D2330">git checkout feature/login</p><p style="font-size:24px;line-height:1.4;color:#4A5262">돌아와서</p></div>
+<div data-build-in="rise order 5" style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #B26A00;border-radius:18px;padding:24px 22px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:26px">5</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.35;color:#1D2330">git stash pop</p><p style="font-size:24px;line-height:1.4;color:#4A5262">꺼내서 이어서</p></div>
+</div>
+<p data-build-in="fade order 6" style="position:absolute;left:96px;top:870px;width:1728px;font-size:28px;line-height:1.4;color:#4A5262">서랍은 브랜치와 상관없이 하나예요. 꺼낼 때는 넣었던 브랜치로 돌아가서 pop 해요.</p>
+<aside>03에서 본 checkout 에러예요. 그때는 커밋하고 옮기라고 했어요. 덜 끝난 작업이면 stash로 치워도 돼요. feature/login에서 고치던 중에 main으로 가려고 하면 이 에러가 나요. 서랍은 저장소에 하나뿐이라 다른 브랜치에서도 같은 서랍이 보여요. 다른 브랜치에서 pop하면 그 브랜치에 얹혀서 헷갈려요. stash list의 on main, on feature/login 부분을 보고 넣었던 브랜치에서 꺼내요.</aside>
+</section>
+<section id="team-flow" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">팀에서 쓰기</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">팀원이 push했대요. 나는 고치던 중이에요</h2>
+<div style="position:absolute;left:96px;top:240px;width:1000px;height:760px;display:flex;flex-direction:column;gap:16px">
+<div data-build-in="rise order 1" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #B26A00;border-radius:18px;padding:12px 28px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:26px">1</p><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.35;color:#1D2330">git stash</p><p style="font-size:22px;color:#4A5262">고치던 걸 서랍에</p></div></div>
+<div data-build-in="rise order 2" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #5A3BB8;border-radius:18px;padding:12px 28px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#5A3BB8;border-radius:26px">2</p><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.35;color:#1D2330">git pull origin main</p><p style="font-size:22px;color:#4A5262">팀원 커밋 받기</p></div></div>
+<div data-build-in="rise order 3" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #B26A00;border-radius:18px;padding:12px 28px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:26px">3</p><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.35;color:#1D2330">git stash pop</p><p style="font-size:22px;color:#4A5262">서랍에서 꺼내 이어서</p></div></div>
+<div data-build-in="rise order 4" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #2459C9;border-radius:18px;padding:12px 28px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:26px">4</p><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.35;color:#1D2330">git add login.md<br>git commit -m "feat: 비밀번호 찾기 추가"</p><p style="font-size:22px;color:#4A5262">마저 하고 커밋</p></div></div>
+<div data-build-in="rise order 5" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #5A3BB8;border-radius:18px;padding:12px 28px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#5A3BB8;border-radius:26px">5</p><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.35;color:#1D2330">git push origin main</p><p style="font-size:22px;color:#4A5262">올리기</p></div></div>
+</div>
+<div id="term" style="position:absolute;left:1136px;top:240px;width:688px;height:240px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:18px;line-height:1.5;white-space:pre;font-weight:700;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:18px;line-height:1.5;white-space:pre;color:#D8DEE9">8eacb89 (HEAD -&gt; main, origin/main) feat: 비밀번호 찾기 추가</p>
+<p style="font-size:18px;line-height:1.5;white-space:pre;color:#D8DEE9">0be6431 feat: 로그인 제목 바꾸기</p>
+<p style="font-size:18px;line-height:1.5;white-space:pre;color:#D8DEE9">15d92cb feat: 로그인 버튼 추가</p>
+<p style="font-size:18px;line-height:1.5;white-space:pre;color:#D8DEE9">e12ffc2 feat: 로그인 화면 추가</p>
+</div>
+<div data-build-in="rise order 6" style="position:absolute;left:1136px;top:520px;width:688px;height:480px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:36px;display:flex;flex-direction:column;justify-content:center;gap:18px"><x-icon name="Users" style="width:52px;height:52px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+  <circle cx="9" cy="7" r="4"></circle>
+  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+</svg></x-icon><p style="font-size:32px;font-weight:700;line-height:1.4;color:#1D2330">merge 커밋 없이<br>한 줄로 이어졌어요</p><p style="font-size:26px;line-height:1.5;color:#4A5262">lee의 커밋 위에 내 커밋이 올라갔어요.</p></div>
+<aside>오늘 팀 실습에서 그대로 쓰는 순서예요. 1번부터 3번이 stash, pull, pop이에요. 4번과 5번은 늘 하던 add, commit, push예요. 고치던 걸 먼저 커밋하고 pull해도 돼요. 그러면 03에서 본 merge 커밋이 하나 생겨요. stash를 쓰면 팀원 커밋 위에 내 커밋이 올라가서 git log가 한 줄로 이어져요. 커밋할 만큼 끝났으면 커밋, 덜 끝났으면 stash라고 기억하면 돼요.</aside>
+</section>
+<section id="pop-c" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#A33131">팀에서 쓰기 · 같은 줄을 고쳤다면</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">pop 했더니 충돌이 났어요</h2>
+<div id="term" style="position:absolute;left:96px;top:240px;width:1100px;height:420px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:20px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git stash pop</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">Auto-merging login.md</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#F28B82">CONFLICT (content): Merge conflict in login.md</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">On branch main</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9">Unmerged paths:</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#8C95A6">  (use "git restore --staged &lt;file&gt;..." to unstage)</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#8C95A6">  (use "git add &lt;file&gt;..." to mark resolution)</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#F28B82">        both modified:   login.md</p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;color:#D8DEE9"> </p>
+<p style="font-size:20px;line-height:1.4;white-space:pre;font-weight:700;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;color:#FFE7A8">The stash entry is kept in case you need it again.</p>
+</div>
+<div style="position:absolute;left:1236px;top:240px;width:588px;height:420px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;gap:2px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;margin-bottom:8px">login.md</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;line-height:1.5;padding:0 8px;border-radius:4px;color:#1D2330"># 로그인 페이지</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;line-height:1.5;padding:0 8px;border-radius:4px;color:#1D2330">아이디</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;line-height:1.5;padding:0 8px;border-radius:4px;color:#1D2330">비밀번호</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;line-height:1.5;padding:0 8px;border-radius:4px;color:#1D2330">로그인 버튼</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;line-height:1.5;padding:0 8px;border-radius:4px;background:#FBE4E2;color:#7A1F1F;font-weight:700">&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated upstream</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;line-height:1.5;padding:0 8px;border-radius:4px;color:#1D2330">비밀번호 재설정</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;line-height:1.5;padding:0 8px;border-radius:4px;background:#FBE4E2;color:#7A1F1F;font-weight:700">=======</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;line-height:1.5;padding:0 8px;border-radius:4px;color:#1D2330">비밀번호 찾기 (이메일)</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;line-height:1.5;padding:0 8px;border-radius:4px;background:#FBE4E2;color:#7A1F1F;font-weight:700">&gt;&gt;&gt;&gt;&gt;&gt;&gt; Stashed changes</p></div>
+<div style="position:absolute;left:96px;top:700px;width:1728px;height:300px;display:flex;flex-direction:row;gap:24px">
+<div data-build-in="rise order 1" style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #5A3BB8;border-radius:18px;padding:28px 32px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#5A3BB8">Updated upstream</p><p style="font-size:26px;line-height:1.45;color:#4A5262">pull로 받은 쪽<br>lee가 고친 줄</p></div>
+<div data-build-in="rise order 2" style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #B26A00;border-radius:18px;padding:28px 32px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#B26A00">Stashed changes</p><p style="font-size:26px;line-height:1.45;color:#4A5262">서랍에서 꺼낸 쪽<br>내가 고친 줄</p></div>
+<div data-build-in="rise order 3" style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #A33131;border-radius:18px;padding:28px 32px"><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:28px;font-weight:700;color:#A33131">서랍에 남아 있어요</p><p style="font-size:26px;line-height:1.45;color:#4A5262">충돌이 나면 pop이 서랍을<br>비우지 않아요</p></div>
+</div>
+<aside>이번엔 lee가 비밀번호 찾기를 비밀번호 재설정으로 바꿔 push했고, 나는 같은 줄에 (이메일)을 붙이던 중이었어요. stash와 pull까지는 잘 되고 pop에서 충돌이 나요. 03에서 본 충돌 표시와 같아요. 다만 이름이 HEAD 대신 Updated upstream, 브랜치 이름 대신 Stashed changes로 나와요. 위가 받은 것, 아래가 내 것이에요. 충돌이 나면 서랍의 내용이 지워지지 않고 남아 있어요. 실수해도 다시 꺼낼 수 있게 지켜 주는 거예요.</aside>
+</section>
+<section id="pop-r" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#A33131">팀에서 쓰기 · 충돌 풀기</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">03처럼 풀고, 서랍을 비워요</h2>
+<div style="position:absolute;left:96px;top:240px;width:880px;height:760px;display:flex;flex-direction:column;gap:16px">
+<div data-build-in="rise order 1" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #6A7180;border-radius:18px;padding:12px 28px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">1</p><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:26px;font-weight:700;line-height:1.35;color:#1D2330">파일을 고쳐요</p><p style="font-size:22px;color:#4A5262">표시 줄 세 개를 지우고<br>남길 내용으로</p></div></div>
+<div data-build-in="rise order 2" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #6A7180;border-radius:18px;padding:12px 28px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">2</p><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.35;color:#1D2330">git add login.md</p><p style="font-size:22px;color:#4A5262">다 풀었다고 알려요</p></div></div>
+<div data-build-in="rise order 3" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #B26A00;border-radius:18px;padding:12px 28px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:26px">3</p><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.35;color:#1D2330">git stash drop</p><p style="font-size:22px;color:#4A5262">남아 있던 서랍을 비워요</p></div></div>
+<div data-build-in="rise order 4" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #6A7180;border-radius:18px;padding:12px 28px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">4</p><div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.35;color:#1D2330">git commit -m "..."<br>git push origin main</p><p style="font-size:22px;color:#4A5262">늘 하던 대로</p></div></div>
+</div>
+<div id="term" style="position:absolute;left:1016px;top:240px;width:808px;height:760px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:19px;line-height:1.5;white-space:pre;font-weight:700;color:#F2C46D">$ cat login.md</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;color:#D8DEE9"># 로그인 페이지</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;color:#D8DEE9">아이디</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;color:#D8DEE9">비밀번호</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;color:#D8DEE9">로그인 버튼</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;color:#D8DEE9">비밀번호 재설정 (이메일)</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;font-weight:700;color:#F2C46D">$ git add login.md</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;font-weight:700;color:#F2C46D">$ git stash drop</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;font-weight:700;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;color:#FFE7A8">Dropped refs/stash@{0} (30ebc16b62d989d22d6cf5dc856d28b138dee3ba)</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;font-weight:700;color:#F2C46D">$ git stash list</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;font-weight:700;color:#F2C46D">$ git commit -m "feat: 비밀번호 재설정에 이메일 안내 추가"</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;color:#D8DEE9">[main dd746b3] feat: 비밀번호 재설정에 이메일 안내 추가</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;font-weight:700;color:#F2C46D">$ git push origin main</p>
+<p style="font-size:19px;line-height:1.5;white-space:pre;color:#D8DEE9">   365260f..dd746b3  main -&gt; main</p>
+</div>
+<aside>푸는 법은 03과 같아요. 표시 줄 세 개를 지우고 남길 내용으로 고친 뒤 git add해요. 여기서는 둘을 합쳐 비밀번호 재설정 (이메일)로 했어요. 그다음이 stash에만 있는 단계예요. 충돌 때문에 서랍에 남은 걸 git stash drop으로 지워요. drop은 꺼내지 않고 버리는 명령이라 이미 파일에 반영한 뒤에만 써요. git stash list에 아무것도 안 나오면 서랍이 빈 거예요. push 출력의 첫 줄 To https://github.com/kim/hello-git.git은 화면 때문에 뺐어요.</aside>
+</section>
+<section id="choose" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">팀에서 쓰기 · 정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">고치던 게 있을 때: 버릴까, 치울까, 남길까</h2>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:240px;width:544px;height:700px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #A33131;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:20px"><x-icon name="Wrench" style="width:64px;height:64px;color:#A33131"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+</svg></x-icon><p style="font-size:44px;font-weight:900;color:#A33131">버리기</p><p style="font-size:28px;line-height:1.45;color:#1D2330">필요 없는 변경</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;color:#1D2330;background:#F6F5F1;padding:16px 20px;border-radius:12px">git restore 파일</p><p style="font-size:24px;color:#4A5262">되찾을 수 없어요</p></div>
+<div data-build-in="rise order 2" style="position:absolute;left:688px;top:240px;width:544px;height:700px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:20px"><x-icon name="Archive" style="width:64px;height:64px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="3" rx="1"></rect>
+  <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
+  <path d="M10 12h4"></path>
+</svg></x-icon><p style="font-size:44px;font-weight:900;color:#B26A00">잠깐 치우기</p><p style="font-size:28px;line-height:1.45;color:#1D2330">덜 끝났는데 pull, checkout 해야 할 때</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;color:#1D2330;background:#F6F5F1;padding:16px 20px;border-radius:12px">git stash<br>git stash pop</p><p style="font-size:24px;color:#4A5262">내 컴퓨터에만 있어요</p></div>
+<div data-build-in="rise order 3" style="position:absolute;left:1280px;top:240px;width:544px;height:700px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #2459C9;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:20px"><x-icon name="Database" style="width:64px;height:64px;color:#2459C9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+  <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+  <path d="M3 12A9 3 0 0 0 21 12"></path>
+</svg></x-icon><p style="font-size:44px;font-weight:900;color:#2459C9">남기기</p><p style="font-size:28px;line-height:1.45;color:#1D2330">커밋할 만큼 끝났을 때</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;color:#1D2330;background:#F6F5F1;padding:16px 20px;border-radius:12px">git add 파일<br>git commit -m "..."</p><p style="font-size:24px;color:#4A5262">기록에 남아요</p></div>
+<aside>pull이나 checkout이 막혔을 때 고르는 법이에요. 고친 게 필요 없으면 restore로 버려요. 덜 끝났으면 stash로 치웠다가 pop으로 꺼내요. 끝났으면 커밋해요. 어느 쪽인지 모르겠으면 stash가 가장 안전해요. 지우지 않고 서랍에 넣어 두니까요.</aside>
+</section>
+<section id="t-1" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">막힐 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">이런 메시지가 나와요</h2>
+<div style="position:absolute;left:96px;top:240px;width:1728px;height:760px;display:flex;flex-direction:column;gap:20px">
+<div data-build-in="rise order 1" style="flex:1;display:flex;flex-direction:row;gap:32px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:16px 36px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#1E3F8F;border-radius:28px">1</p><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">No local changes to save</p><p style="font-size:24px;color:#4A5262">고친 게 없거나, 새 파일만 있어요. 새 파일은 add해야 서랍에 들어가요</p></div><p style="width:380px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 20px;border-radius:12px">git add 파일<br>git stash</p></div>
+<div data-build-in="rise order 2" style="flex:1;display:flex;flex-direction:row;gap:32px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:16px 36px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#1E3F8F;border-radius:28px">2</p><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">stash list에 여러 줄이 있어요</p><p style="font-size:24px;color:#4A5262">꺼내는 걸 잊었어요. 맨 위 {0}부터 하나씩 꺼내요</p></div><p style="width:380px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 20px;border-radius:12px">git stash pop</p></div>
+<div data-build-in="rise order 3" style="flex:1;display:flex;flex-direction:row;gap:32px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:16px 36px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#1E3F8F;border-radius:28px">3</p><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">CONFLICT ... The stash entry is kept</p><p style="font-size:24px;color:#4A5262">같은 줄을 둘 다 고쳤어요. 21쪽처럼 풀어요</p></div><p style="width:380px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 20px;border-radius:12px">git add 파일<br>git stash drop</p></div>
+<div data-build-in="rise order 4" style="flex:1;display:flex;flex-direction:row;gap:32px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:16px 36px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#1E3F8F;border-radius:28px">4</p><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">error: pathspec 'signup2.md' did not match</p><p style="font-size:24px;color:#4A5262">파일 이름이 틀렸어요. status로 이름을 확인해요</p></div><p style="width:380px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 20px;border-radius:12px">git status</p></div>
+</div>
+<aside>1번은 새로 만든 파일만 있을 때 나요. Git이 아직 모르는 Untracked 파일은 stash에 들어가지 않아요. git add로 올린 뒤 stash하면 들어가요. 2번은 pop을 잊고 또 stash했을 때예요. 3번은 20쪽과 21쪽의 장면이에요. 4번은 restore에 없는 파일 이름을 적었을 때예요. 파일 이름은 Tab 키로 자동 완성하면 틀리지 않아요.</aside>
+</section>
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">한 장 요약</h2>
+<div style="display:flex;flex-direction:row;gap:24px;flex:1">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #A33131;border-radius:20px;padding:32px 28px"><h3 style="font-size:32px;font-weight:700;color:#A33131">버리기</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.7;color:#1D2330">git restore 파일<br><br>먼저 git diff<br>되찾을 수 없음</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1A7340;border-radius:20px;padding:32px 28px"><h3 style="font-size:32px;font-weight:700;color:#1A7340">add 취소</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.7;color:#1D2330">git restore --staged 파일<br><br>내용은 그대로</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:32px 28px"><h3 style="font-size:32px;font-weight:700;color:#B26A00">잠깐 치우기</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.7;color:#1D2330">git stash<br>git stash list<br>git stash pop</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #A33131;border-radius:20px;padding:32px 28px"><h3 style="font-size:32px;font-weight:700;color:#A33131">pop 충돌</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.7;color:#1D2330">파일 고치기<br>git add 파일<br>git stash drop</p></div>
+</div>
+<p style="font-size:28px;font-weight:700;color:#1D2330">막히면 git status의 괄호 안 안내부터 읽어요. 팀에서는 stash, pull, pop, commit, push 순서예요.</p>
+<aside>수업 끝에 이 장을 띄워 두고, 팀 레포에서 pull이 막힌 상황을 한 번 더 만들어 직접 풀어 보게 하세요. 세 명령 모두 커밋하기 전의 변경만 다뤄요. 커밋한 뒤의 되돌리기는 02와 03의 reset, revert를 써요.</aside>
+</section>
+</div>
+<div id="notes"></div>
+<div id="bar"><button id="prev">이전</button><button id="next">다음</button><span id="count"></span><span class="grow"></span><span>→ 다음 · ← 이전 · N 발표자 노트 · F 전체 화면</span><button id="nb">노트</button><button id="fs">전체 화면</button></div>
+<script>
+const stage=document.getElementById('stage');
+const slides=[...stage.children];
+let cur=0, step=0;
+const steps=slides.map(s=>{
+  const els=[...s.querySelectorAll('[data-build-in]')];
+  const groups=[];let auto=0;
+  for(const el of els){
+    const spec=el.getAttribute('data-build-in');
+    const m=spec.match(/order\s+(\d+)/)||spec.match(/\s(\d+)$/);
+    const k=m?+m[1]:++auto;
+    (groups[k]=groups[k]||[]).push(el);
+    el.dataset.fx=/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':'fade';
+  }
+  return groups.filter(Boolean);
+});
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage._s=s;stage.style.transform='translate(-50%,-50%) scale('+s+')';}
+addEventListener('resize',fit);fit();
+function setBuild(i,n,animate){
+  steps[i].forEach((g,gi)=>g.forEach(el=>{
+    if(!animate)el.style.transition='none';
+    el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
+    if(!animate){void el.offsetWidth;el.style.transition='';}
+  }));
+}
+function rectIn(el){const r=el.getBoundingClientRect(),S=stage.getBoundingClientRect(),k=stage._s;return{x:(r.left-S.left)/k,y:(r.top-S.top)/k,w:r.width/k,h:r.height/k};}
+function topIds(sec){return [...sec.querySelectorAll('[id]')].filter(el=>!el.parentElement.closest('section [id]'));}
+function show(n,dir){
+  if(n<0||n>=slides.length)return;
+  const a=slides[cur],b=slides[n];
+  setBuild(n,dir<0?steps[n].length:0,false);
+  const magic=b.getAttribute('data-transition')==='magic'&&Math.abs(n-cur)===1&&n!==cur;
+  if(magic){
+    const before={};
+    for(const el of topIds(a))before[el.id]={r:rectIn(el),o:getComputedStyle(el).opacity};
+    a.classList.remove('on');b.classList.add('on');
+    const moved=[];
+    for(const el of topIds(b)){
+      const p=before[el.id];
+      if(!p){el.animate([{opacity:0},{opacity:getComputedStyle(el).opacity}],{duration:450,easing:'ease'});continue;}
+      const q=rectIn(el);
+      const dx=p.r.x-q.x,dy=p.r.y-q.y,sx=q.w?p.r.w/q.w:1,sy=q.h?p.r.h/q.h:1;
+      if(Math.abs(dx)<1&&Math.abs(dy)<1&&Math.abs(sx-1)<.01&&Math.abs(sy-1)<.01&&p.o===getComputedStyle(el).opacity)continue;
+      el.animate([{transformOrigin:'0 0',transform:'translate('+dx+'px,'+dy+'px) scale('+sx+','+sy+')',opacity:p.o},{transformOrigin:'0 0',transform:'none',opacity:getComputedStyle(el).opacity}],{duration:700,easing:'cubic-bezier(.4,0,.2,1)'});
+    }
+  }else{
+    a.classList.remove('on');b.classList.add('on');
+    if(n!==cur)b.animate([{opacity:0},{opacity:1}],{duration:400,easing:'ease'});
+  }
+  cur=n;step=dir<0?steps[n].length:0;
+  update();
+}
+function next(){if(step<steps[cur].length){step++;setBuild(cur,step,true);update();}else show(cur+1,1);}
+function prev(){show(cur-1,-1);}
+function update(){
+  document.getElementById('count').textContent=(cur+1)+' / '+slides.length;
+  const aside=slides[cur].querySelector('aside');
+  document.getElementById('notes').textContent=aside?aside.textContent:'';
+  history.replaceState(null,'','#'+(cur+1));
+}
+addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next();}
+  else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}
+  else if(e.key==='Home')show(0,1);
+  else if(e.key==='End')show(slides.length-1,1);
+  else if(e.key==='n'||e.key==='N')document.getElementById('notes').classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+});
+stage.addEventListener('click',e=>{(e.clientX<innerWidth/3)?prev():next();});
+document.getElementById('prev').onclick=prev;document.getElementById('next').onclick=next;
+document.getElementById('nb').onclick=()=>document.getElementById('notes').classList.toggle('show');
+document.getElementById('fs').onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+let tx=null;addEventListener('touchstart',e=>tx=e.touches[0].clientX);addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>40)(d<0?next:prev)();tx=null;});
+const start=Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1))||1)-1));
+slides.forEach((s,i)=>setBuild(i,0,false));
+cur=start;slides[cur].classList.add('on');update();
+</script>
+</body></html>
