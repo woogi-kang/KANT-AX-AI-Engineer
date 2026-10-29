@@ -1,0 +1,41 @@
+<section id="br1" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#B26A00">브랜치 비교</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">merge 전에 무엇이 들어올지 봐요</h2>
+<div id="gbox" style="position:absolute;left:96px;top:236px;width:1728px;height:340px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<div id="dots" style="position:absolute;left:130px;top:467px;width:110px;height:6px;border-top:6px dotted #9DB8F2"></div>
+<div id="e-main" style="position:absolute;left:260px;top:467px;width:300px;height:6px;background:#9DB8F2"></div>
+<x-connector x1="560" y1="470" x2="760" y2="340" style="color:#9ED3B4;border-width:6px"></x-connector>
+<div id="n0" style="position:absolute;left:278px;top:448px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:4px solid #2459C9"></div>
+<p id="h0" style="position:absolute;left:220px;top:500px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">e12ffc2</p>
+<div id="n1" style="position:absolute;left:538px;top:448px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:4px solid #2459C9"></div>
+<p id="h1" style="position:absolute;left:480px;top:500px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">7e5303c</p>
+<div id="nb" style="position:absolute;left:738px;top:318px;width:44px;height:44px;border-radius:50%;background:#1F8A4C;border:4px solid #1F8A4C"></div>
+<p id="hb" style="position:absolute;left:680px;top:370px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">acf05c1</p>
+<p id="t-br" style="position:absolute;left:652px;top:270px;width:216px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login</p>
+<p id="t-main" style="position:absolute;left:517px;top:536px;width:86px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<div id="box-main" style="position:absolute;left:1060px;top:300px;width:330px;height:150px;background:#FFFFFF;border:3px solid #2459C9;border-radius:18px;padding:18px 22px;display:flex;flex-direction:column;gap:8px"><p style="font-size:22px;font-weight:700;color:#6A7180">앞 (기준)</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9">main</p></div>
+<div id="box-br" style="position:absolute;left:1450px;top:300px;width:330px;height:150px;background:#FFFFFF;border:3px solid #1F8A4C;border-radius:18px;padding:18px 22px;display:flex;flex-direction:column;gap:8px"><p style="font-size:22px;font-weight:700;color:#6A7180">뒤 (비교)</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1F8A4C">feature/login</p></div>
+<x-shape id="ord-arrow" kind="arrow-right" style="position:absolute;left:1400px;top:356px;width:40px;height:36px;background:#9AA0AB"></x-shape>
+<p id="ord-cap" style="position:absolute;left:1060px;top:476px;width:720px;font-size:24px;line-height:1.4;color:#4A5262">앞에서 뒤로 가려면 무엇을 바꾸나</p>
+<div id="term" style="position:absolute;left:96px;top:608px;width:1150px;height:416px;background:#1B2029;border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:23px;line-height:1.25;white-space:pre;font-weight:700;color:#F2C46D">$ git diff main feature/login</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;font-weight:700;color:#FFFFFF">diff --git a/login.md b/login.md</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;font-weight:700;color:#FFFFFF">index 60a5971..14b3837 100644</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;font-weight:700;color:#FFFFFF">--- a/login.md</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;font-weight:700;color:#FFFFFF">+++ b/login.md</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;color:#7CC7E8">@@ -1,5 +1,6 @@</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;color:#F28B82">-# 로그인</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;color:#7FD18B">+# 로그인하기</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;color:#D8DEE9"> 아이디</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;color:#D8DEE9"> 비밀번호 (8자 이상)</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;color:#D8DEE9"> 로그인 버튼</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;color:#D8DEE9"> 아이디 저장</p>
+<p style="font-size:23px;line-height:1.25;white-space:pre;color:#7FD18B">+비밀번호 찾기</p>
+</div>
+<div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:608px;width:546px;height:416px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+<x-icon name="Activity" style="width:56px;height:56px;color:#B26A00"></x-icon>
+<p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">feature/login에서<br>바꾼 것만 보여요</p>
+<p style="font-size:26px;line-height:1.45;color:#4A5262">제목 한 줄, 새 줄 하나</p>
+</div>
+<aside>03처럼 feature/login 브랜치에서 제목을 # 로그인하기로 바꾸고 비밀번호 찾기 줄을 더해 커밋했어요. 그다음 git checkout main으로 돌아왔어요. git diff 브랜치1 브랜치2는 두 브랜치의 마지막 커밋을 비교해요. merge하면 main에 이 변경이 들어와요. 바뀐 파일 이름만 보고 싶으면 --stat을 붙여요.</aside>
+</section>

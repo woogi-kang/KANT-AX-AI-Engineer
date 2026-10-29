@@ -1,0 +1,25 @@
+<section id="resolve" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#A33131">충돌 볼 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">고친 뒤 add하고, 커밋 전에 한 번 더 봐요</h2>
+<div id="term" style="position:absolute;left:96px;top:236px;width:1160px;height:720px;background:#1B2029;border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:24px;line-height:1.4;white-space:pre;color:#8C95A6"># login.md에서 # 로그인하기만 남기고 표시 세 줄을 지움</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git add login.md</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git diff --staged</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;font-weight:700;color:#FFFFFF">diff --git a/login.md b/login.md</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;font-weight:700;color:#FFFFFF">index cea7b97..14b3837 100644</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;font-weight:700;color:#FFFFFF">--- a/login.md</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;font-weight:700;color:#FFFFFF">+++ b/login.md</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;color:#7CC7E8">@@ -1,5 +1,6 @@</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;color:#F28B82">-# 로그인 페이지</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;color:#7FD18B">+# 로그인하기</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;color:#D8DEE9"> 아이디</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;color:#D8DEE9"> 비밀번호 (8자 이상)</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;color:#D8DEE9"> 로그인 버튼</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;color:#D8DEE9"> 아이디 저장</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;color:#7FD18B">+비밀번호 찾기</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ git commit -m "fix: 로그인 제목 충돌 해결"</p>
+<p style="font-size:24px;line-height:1.4;white-space:pre;color:#D8DEE9">[main c36ee83] fix: 로그인 제목 충돌 해결</p>
+</div>
+<div data-build-in="rise" style="position:absolute;left:1296px;top:236px;width:528px;height:720px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:36px 36px;display:flex;flex-direction:column;gap:22px"><p style="font-size:32px;font-weight:700;color:#1D2330">커밋 전 확인</p><div style="display:flex;flex-direction:row;gap:16px;align-items:flex-start"><p style="width:44px;height:44px;flex:none;font-size:24px;font-weight:900;line-height:44px;text-align:center;color:#FFFFFF;background:#A33131;border-radius:22px">1</p><p style="font-size:26px;line-height:1.45;color:#1D2330"><span style="font-family:'JetBrains Mono',monospace;font-weight:700">&lt;&lt;&lt;</span> 같은 표시가 남지 않았나</p></div><div style="display:flex;flex-direction:row;gap:16px;align-items:flex-start"><p style="width:44px;height:44px;flex:none;font-size:24px;font-weight:900;line-height:44px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:22px">2</p><p style="font-size:26px;line-height:1.45;color:#1D2330">남긴 제목이 맞나</p></div><div style="display:flex;flex-direction:row;gap:16px;align-items:flex-start"><p style="width:44px;height:44px;flex:none;font-size:24px;font-weight:900;line-height:44px;text-align:center;color:#FFFFFF;background:#1A7340;border-radius:22px">3</p><p style="font-size:26px;line-height:1.45;color:#1D2330">merge로 main에 들어올 줄이 이게 다인가</p></div><div style="flex:1"></div><p style="font-size:24px;line-height:1.45;color:#4A5262">--staged는 main의 마지막 커밋과 비교해요. merge 커밋에 들어갈 내용이에요.</p></div>
+<aside>충돌을 풀고 add한 뒤 git diff --staged를 보면 이 merge 커밋으로 main에 들어올 변경이 나와요. 브랜치 비교에서 본 것과 같은 내용이에요. 충돌 표시가 남아 있으면 여기서 + 줄로 보여요. 확인이 끝나면 커밋해요.</aside>
+</section>
