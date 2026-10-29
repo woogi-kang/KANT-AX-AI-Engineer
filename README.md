@@ -4,21 +4,21 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 
 ## 커리큘럼
 
-| 챕터 | 주제 | 다루는 명령 | 슬라이드 |
-| :---: | --- | --- | --- |
-| [01](./01-linux-terminal) | 터미널 기초 | `pwd` `ls` `cd` `mkdir` `touch` `mv` `cp` `rm` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) |
-| [02](./02-git-basics) | Git 기본 흐름 | `init` `add` `commit` `push` `pull` `clone` `reset` `revert` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) |
-| [03](./03-git-branch) | Git 브랜치와 협업 | `branch` `checkout` `switch` `merge`, `reset`, Pull Request, 충돌 해결 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) |
-| [04](./04-git-diff) | Git diff로 확인하기 | `diff` `diff --staged` `show`, 브랜치 비교, `.gitignore` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) |
-| [05](./05-git-graph) | VS Code Git Graph로 기록 보기 | Git Graph 설치, 점·이름표·HEAD·origin/main 읽기, 명령 뒤 그림 확인 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) |
-| [06](./06-team-repo) | 팀 레포에서 같이 작업하고 충돌 풀기 | Collaborator 초대, push 거절 뒤 `pull`, 자동 합치기, pull 충돌 해결, 팀 규칙, 브랜치와 PR 케이스 8가지 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) |
-| [07](./07-git-restore-stash) | 커밋 전 변경 취소하기와 잠깐 보관하기 | `restore` `restore --staged` `stash` `stash list` `stash pop` `stash drop` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) |
+| 챕터 | 다루는 명령 |
+| --- | --- |
+| [01 · 터미널 기초](./01-linux-terminal)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) | `pwd` `ls` `cd` `mkdir` `touch` `mv` `cp` `rm` |
+| [02 · Git 기본 흐름](./02-git-basics)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) | `init` `add` `commit` `push` `pull` `clone` `reset` `revert` |
+| [03 · Git 브랜치와 협업](./03-git-branch)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | `branch` `checkout` `switch` `merge`, `reset`, Pull Request, 충돌 해결 |
+| [04 · Git diff로 확인하기](./04-git-diff)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) | `diff` `diff --staged` `show`, 브랜치 비교, `.gitignore` |
+| [05 · VS Code Git Graph로 기록 보기](./05-git-graph)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) | Git Graph 설치, 점·이름표·HEAD·origin/main 읽기, 명령 뒤 그림 확인 |
+| [06 · 팀 레포에서 같이 작업하고 충돌 풀기](./06-team-repo)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) | Collaborator 초대, push 거절 뒤 `pull`, 자동 합치기, pull 충돌 해결, 팀 규칙, 브랜치와 PR 케이스 8가지 |
+| [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](./07-git-restore-stash)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) | `restore` `restore --staged` `stash` `stash list` `stash pop` `stash drop` |
 
 챕터는 번호 순서대로 이어져요. 앞 챕터에서 만든 폴더와 저장소를 다음 챕터에서 그대로 써요.
 
 ## 학습 방법
 
-1. 커리큘럼 표의 **열기**를 눌러 슬라이드를 브라우저에서 봐요.
+1. 커리큘럼 표의 **슬라이드 열기**를 눌러 슬라이드를 브라우저에서 봐요.
 2. 챕터 폴더의 `README.md`를 열고 실습 명령을 터미널에서 한 줄씩 따라 쳐요.
 3. 막히면 챕터 README의 문제 해결 표에서 같은 메시지를 찾아요.
 

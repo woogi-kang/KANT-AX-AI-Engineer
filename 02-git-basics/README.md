@@ -48,7 +48,7 @@ Git의 모든 명령은 파일을 아래 네 칸 사이로 옮기는 일이에�
 
 ### 파일 상태
 
-| 상태 | 뜻 | `git status`에서 보이는 모습 |
+| 상태 | 뜻 | `git status` 화면 |
 | --- | --- | --- |
 | Untracked | Git이 처음 보는 새 파일 | `Untracked files:` 아래 빨간 글씨 |
 | Staged | add 해서 대기실에 올린 파일 | `Changes to be committed:` 아래 초록 글씨 |
