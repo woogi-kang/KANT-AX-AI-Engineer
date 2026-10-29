@@ -102,7 +102,9 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">브랜치에서 D, E를 커밋해요</h2>
 <div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
 <p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git checkout -b feature/login-button</p>
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git commit -m "feat: 로그인 버튼 추가"</p>
 <p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">[feature/login-button 6a9792d] feat: 로그인 버튼 추가</p>
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git commit -m "fix: 버튼 글자 고치기"</p>
 <p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">[feature/login-button 3573c9a] fix: 버튼 글자 고치기</p>
 </div>
 <div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
@@ -128,7 +130,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">D</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">feat: 로그인 버튼 추가</p></div>
 <div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">E</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">fix: 버튼 글자 고치기</p></div>
 </div>
-<aside>브랜치를 만들고 login.md에 로그인 버튼 줄을 더해 커밋했어요(D). 버튼 글자를 [로그인] 버튼으로 고쳐 한 번 더 커밋했어요(E). 화면 폭 때문에 add와 commit 명령 줄은 뺐어요. 그다음 git checkout main으로 main에 돌아와 있어요.</aside>
+<aside>브랜치를 만들고 login.md에 로그인 버튼 줄을 더해 커밋했어요(D). 버튼 글자를 [로그인] 버튼으로 고쳐 한 번 더 커밋했어요(E). 화면 폭 때문에 checkout 출력, git add 줄, 1 file changed 줄은 뺐어요. 지금 HEAD는 브랜치에 있어요.</aside>
 </section>
 <section id="ff" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">1. 갈라지지 않았을 때</p>
@@ -140,7 +142,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:24px;line-height:1.35;white-space:pre;color:#7FD18B">Fast-forward</p>
 </div>
 <div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
-<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">main에 새 커밋이 없으면 새 커밋을 만들지 않아요.</p>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">main 쪽에 새 커밋이 없으면 합치기 커밋 없이 끝나요.</p>
 <div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
 <svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
 <div id="e-D-E" style="position:absolute;left:892px;top:577px;width:186px;height:6px;background:#9ED3B4"></div>
@@ -223,7 +225,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">D</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">feat: 로그인 버튼 추가</p></div>
 <div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">E</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">fix: 버튼 글자 고치기</p></div>
 </div>
-<aside>다시 story2 상태로 돌아가서, 이번엔 main에서 README.md를 만들어 커밋했어요(C). 팀에서 내가 브랜치에서 일하는 동안 다른 사람 작업이 main에 들어온 모습과 같아요. 이 장 그림이 이 덱의 출발점이에요. 다음 장부터 이 상태에서 merge, rebase, squash를 하나씩 해 봐요.</aside>
+<aside>다시 4쪽 상태로 돌아가서, 이번엔 main에서 README.md를 만들어 커밋했어요(C). 팀에서 내가 브랜치에서 일하는 동안 다른 사람 작업이 main에 들어온 모습과 같아요. 이 장 그림이 이 덱의 출발점이에요. 다음 장부터 이 상태에서 merge, rebase, squash를 하나씩 해 봐요.</aside>
 </section>
 <section id="merge" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">2. 갈라졌을 때</p>
@@ -290,7 +292,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p id="t-main" style="position:absolute;left:813px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
 <p id="t-feature-login-button" style="position:absolute;left:1189px;top:768px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
 <p id="t-head" style="position:absolute;left:1542px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
-<aside>다시 split 상태에서 시작해요. rebase는 브랜치에서 쳐요. git rebase main은 내 브랜치 커밋을 main 끝(C) 뒤로 하나씩 다시 만들어 붙여요. 받침(base)을 바꾼다는 뜻이에요. 옛 D, E는 이제 어느 이름표도 가리키지 않아서 점선으로 그렸어요. 진짜 터미널에서는 Rebasing (1/2) 같은 진행 줄이 잠깐 보였다가 지워져요.</aside>
+<aside>다시 7쪽 상태에서 시작해요. rebase는 브랜치에서 쳐요. git rebase main은 내 브랜치 커밋을 main 끝(C) 뒤로 하나씩 다시 만들어 붙여요. 받침(base)을 바꾼다는 뜻이에요. 옛 D, E는 이제 어느 이름표도 가리키지 않아서 점선으로 그렸어요. 진짜 터미널에서는 Rebasing (1/2) 같은 진행 줄이 잠깐 보였다가 지워져요.</aside>
 </section>
 <section id="rb-hash" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#B26A00">2. 갈라졌을 때</p>
@@ -313,7 +315,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 </div>
 <div data-build-in="rise order 1" style="position:absolute;left:96px;top:600px;width:1728px;height:110px;display:flex;flex-direction:row;align-items:center;gap:28px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:0 40px"><div style="width:64px;height:64px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1;color:#FFFFFF">D</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#9AA0AB;text-decoration:line-through">6a9792d</p><x-shape kind="arrow-right" style="width: 70px; height: 40px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(178, 106, 0)"></polygon></svg></x-shape><div style="width:64px;height:64px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1;color:#FFFFFF">D'</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#1D2330">a40dc47</p><p style="flex:1;text-align:right;font-size:28px;color:#4A5262">메시지와 바뀐 내용은 같아요</p></div>
 <div data-build-in="rise order 2" style="position:absolute;left:96px;top:730px;width:1728px;height:110px;display:flex;flex-direction:row;align-items:center;gap:28px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:0 40px"><div style="width:64px;height:64px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1;color:#FFFFFF">E</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#9AA0AB;text-decoration:line-through">3573c9a</p><x-shape kind="arrow-right" style="width: 70px; height: 40px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(178, 106, 0)"></polygon></svg></x-shape><div style="width:64px;height:64px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1;color:#FFFFFF">E'</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#1D2330">6852264</p><p style="flex:1;text-align:right;font-size:28px;color:#4A5262">메시지와 바뀐 내용은 같아요</p></div>
-<p data-build-in="rise order 3" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">부모가 B에서 C로 바뀌어서, Git에게는 다른 커밋이에요.</p>
+<p data-build-in="rise order 3" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">D의 부모가 B에서 C로 바뀌어서, 뒤에 붙은 E까지 새 커밋이 돼요.</p>
 <aside>커밋 해시는 내용, 메시지, 날짜, 부모 커밋으로 정해져요. rebase는 부모를 바꿔 다시 만들기 때문에 해시가 새로 나와요. 내 컴퓨터에만 있는 커밋이면 문제가 없어요. 이미 push해서 팀원이 옛 D, E를 받아 갔다면 팀원 기록과 어긋나요. 6부에서 이 장면을 다시 봐요.</aside>
 </section>
 <section id="rb2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -344,7 +346,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p id="t-feature-login-button" style="position:absolute;left:1189px;top:768px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
 <p id="t-main" style="position:absolute;left:1313px;top:814px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
 <p id="t-head" style="position:absolute;left:1417px;top:814px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
-<aside>rebase 뒤에는 브랜치가 C 바로 뒤에 붙어 있어서 1부의 fast-forward와 같은 모양이에요. rebase는 합치기 전에 브랜치를 최신 main 뒤로 옮기는 일이고, 합치는 건 여전히 merge예요. 점선이던 옛 D, E는 이름표가 없어서 그래프에서 보이지 않아요.</aside>
+<aside>rebase 뒤에는 브랜치가 C 바로 뒤에 붙어 있어서 1부의 fast-forward와 같은 모양이에요. rebase는 합치기 전에 브랜치를 최신 main 뒤로 옮기는 일이고, 합치는 건 여전히 merge예요. 옛 D, E는 이제 쓰지 않아서 그림에서 뺐어요. Git Graph(05)에도 보이지 않아요.</aside>
 </section>
 <section id="sq1" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#0F7C86">2. 갈라졌을 때</p>
@@ -377,7 +379,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p id="t-feature-login-button" style="position:absolute;left:939px;top:499px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
 <div id="sqbox" style="position:absolute;left:770px;top:538px;width:430px;height:114px;border:4px dashed #0F7C86;border-radius:28px"></div>
 <svg id="sqarrow" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1040" y1="652" x2="1065.6891649440013" y2="664.8445824720006" stroke="rgb(15, 124, 134)" stroke-width="5"></line><polygon points="1080,672 1060.0018625434047,671.7270562931245 1067.7827625605426,656.1652562588491" fill="rgb(15, 124, 134)"></polygon></svg>
-<aside>다시 split 상태에서 main에 있어요. --squash는 브랜치의 변경을 모두 모아 대기실(02의 ② 칸)에 올리고 멈춰요. 커밋은 직접 해요. 출력 첫 줄은 자동 합치기가 잘 됐고 요청대로 커밋 전에 멈췄다는 뜻이에요. 둘째 줄은 HEAD를 옮기지 않았다는 뜻이에요.</aside>
+<aside>다시 7쪽 상태에서 main에 있어요. --squash는 브랜치의 변경을 모두 모아 대기실(02의 ② 칸)에 올리고 멈춰요. 커밋은 직접 해요. 출력 첫 줄은 자동 합치기가 잘 됐고 요청대로 커밋 전에 멈췄다는 뜻이에요. 둘째 줄은 HEAD를 옮기지 않았다는 뜻이에요.</aside>
 </section>
 <section id="sq2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#0F7C86">2. 갈라졌을 때</p>
@@ -444,11 +446,11 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p id="t-feature-login-button" style="position:absolute;left:939px;top:499px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
 <div id="sqbox" style="position:absolute;left:770px;top:538px;width:430px;height:114px;border:4px dashed #0F7C86;border-radius:28px"></div>
 <svg id="sqarrow" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1040" y1="652" x2="1065.6891649440013" y2="664.8445824720006" stroke="rgb(15, 124, 134)" stroke-width="5"></line><polygon points="1080,672 1060.0018625434047,671.7270562931245 1067.7827625605426,656.1652562588491" fill="rgb(15, 124, 134)"></polygon></svg>
-<aside>-d는 합쳐진 브랜치만 지워요. Git은 커밋을 선으로 따라가서 합쳐졌는지 봐요. S는 D, E와 이어지지 않아서 합쳐지지 않은 걸로 보여요. git log --oneline이나 파일 내용으로 변경이 main에 있는 걸 확인한 뒤 git branch -D feature/login-button으로 지워요. 대문자 -D는 확인 없이 지우니 squash 뒤에만 써요.</aside>
+<aside>-d는 합쳐진 브랜치만 지워요. Git은 커밋을 선으로 따라가서 합쳐졌는지 봐요. S는 D, E와 이어지지 않아서 합쳐지지 않은 걸로 보여요. git log --oneline이나 파일 내용으로 변경이 main에 있는 걸 확인한 뒤 git branch -D feature/login-button으로 지워요. 대문자 -D는 합쳐졌는지 확인하지 않고 지우니, 변경이 main에 있는 걸 본 뒤에만 써요.</aside>
 </section>
 <section id="cmp" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#4A5262">3. 한눈에 비교</p>
-<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">같은 출발점, 네 가지 결과</h2>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">네 가지 결과를 나란히 보면</h2>
 <div data-build-in="rise order 1" style="position:absolute;left:96px;top:220px;width:852px;height:390px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #2459C9;border-radius:20px"></div>
 <p data-build-in="rise order 1" style="position:absolute;left:128px;top:244px;width:780px;font-size:34px;font-weight:700;color:#2459C9">fast-forward <span style="font-size:24px;font-weight:500;color:#4A5262">갈라지지 않았을 때</span></p>
 <div data-build-in="rise order 1" id="c0e-A-B" style="position:absolute;left:218px;top:438px;width:68px;height:4px;background:#9DB8F2"></div>
@@ -460,7 +462,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <div data-build-in="rise order 1" id="c0n-E" style="position:absolute;left:510px;top:418px;width:44px;height:44px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">E</p></div>
 <p data-build-in="rise order 1" style="position:absolute;left:128px;top:538px;width:780px;font-size:28px;font-weight:700;color:#1D2330">새 커밋 없음, 이름표만 이동</p>
 <div data-build-in="rise order 2" style="position:absolute;left:972px;top:220px;width:852px;height:390px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1E3F8F;border-radius:20px"></div>
-<p data-build-in="rise order 2" style="position:absolute;left:1004px;top:244px;width:780px;font-size:34px;font-weight:700;color:#1E3F8F">merge <span style="font-size:24px;font-weight:500;color:#4A5262">--no-ff도 같은 모양</span></p>
+<p data-build-in="rise order 2" style="position:absolute;left:1004px;top:244px;width:780px;font-size:34px;font-weight:700;color:#1E3F8F">merge <span style="font-size:24px;font-weight:500;color:#4A5262">--no-ff도 합치기 커밋</span></p>
 <div data-build-in="rise order 2" id="c1e-A-B" style="position:absolute;left:1094px;top:438px;width:68px;height:4px;background:#9DB8F2"></div>
 <svg id="c1e-B-D" data-build-in="rise order 2" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1184" y1="440" x2="1296" y2="350" stroke="rgb(158, 211, 180)" stroke-width="4"></line></svg>
 <div data-build-in="rise order 2" id="c1e-D-E" style="position:absolute;left:1318px;top:348px;width:68px;height:4px;background:#9ED3B4"></div>
@@ -500,7 +502,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <div data-build-in="rise order 4" id="c3n-C" style="position:absolute;left:1274px;top:828px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">C</p></div>
 <div data-build-in="rise order 4" id="c3n-S" style="position:absolute;left:1386px;top:828px;width:44px;height:44px;border-radius:50%;background:#0F7C86;border:3px solid #0F7C86;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">S</p></div>
 <p data-build-in="rise order 4" style="position:absolute;left:1004px;top:948px;width:780px;font-size:28px;font-weight:700;color:#1D2330">한 줄, main에는 S 하나만</p>
-<aside>1부와 2부의 결과를 나란히 놓았어요. 모두 같은 A, B, C, D, E에서 출발했어요. 다 합친 뒤 login.md 내용은 넷 다 같아요. 다른 건 기록 모양이에요. VS Code Git Graph(05)로 열어 보면 이 그림과 같은 모양으로 보여요.</aside>
+<aside>1부와 2부의 결과를 나란히 놓았어요. fast-forward는 C가 생기기 전 모습에서, 나머지 셋은 C가 생긴 뒤 모습에서 출발했어요. 출발점이 같으면 어느 방법으로 합쳐도 파일 내용은 같아요. 다른 건 기록 모양이에요. VS Code Git Graph(05)로 열어 보면 이 그림과 같은 모양으로 보여요.</aside>
 </section>
 <section id="cmp-table" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#4A5262">3. 한눈에 비교</p>
@@ -555,7 +557,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">c4ea069 (origin/main) docs: README 추가</p>
 </div>
 <div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
-<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">GitHub에는 팀원 lee의 C, 내 main에는 D. 내 컴퓨터와 GitHub이 갈라졌어요.</p>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">GitHub에는 lee의 C가, 내 main에는 D가 있어요. 둘이 갈라졌어요.</p>
 <div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
 <div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;border-top:6px dashed #C4B5EE"></div>
 <svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(157, 184, 242)" stroke-width="6"></line></svg>
@@ -589,7 +591,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <div data-build-in="rise order 2" style="position:absolute;left:684px;top:590px;width:552px;height:240px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:24px 30px;display:flex;flex-direction:column;gap:12px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#B26A00">pull.rebase true</p><p style="font-size:32px;font-weight:700;color:#1D2330">rebase로 옮겨 붙여요</p><div style="flex:1"></div><p style="font-size:24px;font-weight:700;color:#4A5262;background:#EEEFF2;border-radius:8px;padding:2px 14px;align-self:flex-start">보기만 해요</p></div>
 <div data-build-in="rise order 3" style="position:absolute;left:1272px;top:590px;width:552px;height:240px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #2459C9;border-radius:20px;padding:24px 30px;display:flex;flex-direction:column;gap:12px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#2459C9">pull.ff only</p><p style="font-size:32px;font-weight:700;color:#1D2330">fast-forward만 받아요</p><div style="flex:1"></div><p style="font-size:24px;font-weight:700;color:#4A5262;background:#EEEFF2;border-radius:8px;padding:2px 14px;align-self:flex-start">보기만 해요</p></div>
 <p data-build-in="rise order 4" style="position:absolute;left:96px;top:870px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">세 줄이 곧 이 덱에서 본 합치는 방법이에요.</p>
-<aside>06에서 본 그 메시지예요. 그때는 해결만 봤어요. 힌트 세 줄을 읽어 보면 merge, rebase, fast-forward only 중에서 고르라는 뜻이에요. 우리 과정은 06에서 git config --global pull.rebase false로 첫째 줄을 골랐어요. From 줄과 힌트 아래쪽 줄은 뺐어요.</aside>
+<aside>06에서 본 그 메시지예요. 그때는 해결만 봤어요. 힌트 세 줄을 읽어 보면 merge, rebase, fast-forward only 중에서 고르라는 뜻이에요. 우리 과정은 06에서 git config --global pull.rebase false로 첫째 줄을 골랐어요. From 줄, 빈 hint 줄, 힌트 아래쪽 줄은 뺐어요.</aside>
 </section>
 <section id="pl-false" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">4. git pull은 무엇을 하나</p>
@@ -650,7 +652,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p id="t-origin-main" style="position:absolute;left:759px;top:768px;width:203px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/main</p>
 <p id="t-main" style="position:absolute;left:1063px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
 <p id="t-head" style="position:absolute;left:1167px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
-<aside>보기만 하는 장이에요. 설정을 바꾸지 않아요. pull이 2부의 rebase와 같은 일을 해요. 아직 push하지 않은 D를 옮기는 거라 이 경우엔 문제가 없어요. 대신 충돌이 나면 rebase 충돌로 풀어야 해서 처음 배울 때 헷갈려요(6부). 회사마다 이 설정을 쓰는 팀도 있으니 이름은 알아 둬요.</aside>
+<aside>보기만 하는 장이에요. 설정을 바꾸지 않아요. pull이 2부의 rebase와 같은 일을 해요. 아직 push하지 않은 D를 옮기는 거라 이 경우엔 문제가 없어요. 대신 충돌이 나면 rebase 충돌로 풀어야 해서 처음 배울 때 헷갈려요(6부). 이 설정을 쓰는 회사도 있으니 이름은 알아 둬요.</aside>
 </section>
 <section id="pl-ff" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">4. git pull은 무엇을 하나</p>
@@ -676,7 +678,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p id="t-origin-main" style="position:absolute;left:759px;top:768px;width:203px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/main</p>
 <p id="t-main" style="position:absolute;left:813px;top:499px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
 <p id="t-head" style="position:absolute;left:917px;top:499px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
-<aside>보기만 하는 장이에요. 내 main에 새 커밋이 없으면 fast-forward로 받고, 갈라졌으면 아무것도 하지 않고 멈춰요. 그래프가 앞 장과 같은 건 실패해서 바뀐 게 없기 때문이에요. 힌트 줄(git merge --no-ff 또는 git rebase)은 뺐어요.</aside>
+<aside>보기만 하는 장이에요. 내 main에 새 커밋이 없으면 fast-forward로 받고, 갈라졌으면 아무것도 하지 않고 멈춰요. 그래프가 앞 장과 같은 건 실패해서 바뀐 게 없기 때문이에요. From 줄과 힌트 줄(git merge --no-ff 또는 git rebase)은 뺐어요.</aside>
 </section>
 <section id="pl-why" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">4. git pull은 무엇을 하나</p>
@@ -714,7 +716,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <div data-build-in="rise order 3" style="position:absolute;left:156px;top:750px;width:740px;height:140px;border-radius:12px;background:#F6F8FA;border-left:10px solid #B26A00;padding:22px 28px;display:flex;flex-direction:column;gap:10px"><p style="font-size:30px;font-weight:700;color:#1D2330">Rebase and merge</p><p style="font-size:26px;color:#4A5262">옮겨 붙여요</p></div>
 <x-shape data-build-in="rise order 3" kind="arrow-right" style="position: absolute; left: 930px; top: 796px; width: 100px; height: 48px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(178, 106, 0)"></polygon></svg></x-shape>
 <p data-build-in="rise order 3" style="position:absolute;left:1060px;top:780px;width:764px;height:80px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:80px;padding:0 28px;border-radius:14px;background:#FFFFFF;border:2px solid #E1DED6;color:#B26A00">git rebase</p>
-<aside>PR 화면 아래 초록 버튼 오른쪽 ▼를 누르면 세 가지가 나와요. 처음 고른 것이 기본값으로 남아요. Create a merge commit은 갈라지지 않았어도 늘 합치기 커밋을 만들어서 --no-ff와 같아요. Squash and merge는 2부의 squash, Rebase and merge는 2부의 rebase 뒤 fast-forward와 같아요. 저장소 설정에 따라 일부 버튼만 보일 수 있어요.</aside>
+<aside>PR 화면 아래 초록 버튼 오른쪽 ▼를 누르면 세 가지가 나와요. Create a merge commit은 갈라지지 않았어도 늘 합치기 커밋을 만들어서 --no-ff와 같아요. Squash and merge는 2부의 squash, Rebase and merge는 2부의 rebase 뒤 fast-forward와 같아요. 저장소 설정에 따라 일부 버튼만 보일 수 있어요.</aside>
 </section>
 <section id="gh-res" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">5. GitHub PR의 Merge 버튼</p>
@@ -794,7 +796,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">CONFLICT (content): Merge conflict in login.md</p>
 </div>
 <p data-build-in="rise order 4" style="position:absolute;left:96px;top:820px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">합치는 방법은 기록 모양만 바꿔요. 같은 줄을 다르게 고쳤으면 Git은 늘 물어봐요.</p>
-<aside>B에서 갈라진 뒤 main은 첫 줄을 # 로그인 페이지로, 브랜치는 # 로그인하기로 고쳤어요. 03의 충돌 시나리오와 같은 상황이에요. merge, rebase, squash 모두 같은 줄에서 CONFLICT가 나요. 푸는 법도 같아요. 표시 줄을 지우고 남길 내용으로 고친 뒤 git add 해요. 다른 점은 그다음 명령 하나예요(다음 장). 출력의 Auto-merging 줄과 아래 안내 줄은 뺐어요.</aside>
+<aside>B에서 갈라진 뒤 main은 첫 줄을 # 로그인 페이지로, 브랜치는 # 로그인하기로 고쳤어요. 03의 충돌 시나리오와 같은 상황이에요. merge, rebase, squash 모두 같은 줄에서 CONFLICT가 나요. 푸는 법도 같아요. 표시 줄을 지우고 남길 내용으로 고친 뒤 git add 해요. 다른 점은 그다음 명령 하나예요(다음 장). rebase는 feature/login-title에서, 나머지 둘은 main에서 쳤어요. 출력의 Auto-merging 줄과 아래 안내 줄은 뺐어요.</aside>
 </section>
 <section id="cf-rb" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">6. 충돌과 주의</p>
@@ -812,8 +814,8 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <div data-build-in="rise order 2" style="position:absolute;left:1000px;top:360px;width:824px;height:110px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:0 28px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:26px;font-weight:900;line-height:60px;text-align:center">2</p><p style="font-size:30px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">git add login.md</p></div>
 <div data-build-in="rise order 3" style="position:absolute;left:1000px;top:490px;width:824px;height:110px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:0 28px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:26px;font-weight:900;line-height:60px;text-align:center">3</p><p style="font-size:30px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">git rebase --continue</p></div>
 <div data-build-in="rise order 4" style="position:absolute;left:1000px;top:640px;width:824px;height:110px;background:#FBEDEC;border:2px solid #E8C4C1;border-radius:18px;padding:0 28px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="font-size:28px;font-weight:700;color:#A33131">그만두기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330">git rebase --abort</p></div>
-<p data-build-in="rise order 5" style="position:absolute;left:96px;top:820px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">rebase 때 HEAD 쪽은 main이에요. merge 때와 반대로 보여요.</p>
-<aside>merge 충돌은 고치고 add 뒤 commit으로 끝냈어요(03). rebase는 커밋을 하나씩 옮기다 멈춘 상태라서 commit 대신 git rebase --continue로 다음 커밋을 이어서 옮겨요. 편집기가 열리면 그대로 저장하고 닫아요. 헷갈리면 git rebase --abort로 rebase 전 모습으로 돌아가요. rebase는 main 위에 내 커밋을 얹는 거라 HEAD가 main 쪽이에요. squash 충돌은 merge처럼 고치고 add, commit 해요.</aside>
+<p data-build-in="rise order 5" style="position:absolute;left:96px;top:820px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">내 브랜치에서 쳤어도 HEAD 쪽은 main 내용이에요. 내 커밋은 아래쪽이에요.</p>
+<aside>merge 충돌은 고치고 add 뒤 commit으로 끝냈어요(03). rebase는 커밋을 하나씩 옮기다 멈춘 상태라서 commit 대신 git rebase --continue로 다음 커밋을 이어서 옮겨요. 편집기가 열리면 그대로 저장하고 닫아요. 헷갈리면 git rebase --abort로 rebase 전 모습으로 돌아가요. rebase는 main 끝으로 가서 내 커밋을 하나씩 얹기 때문에, 충돌 표시의 HEAD 쪽이 main 내용이에요. squash 충돌은 merge처럼 고치고 add, commit 해요.</aside>
 </section>
 <section id="warn" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">6. 충돌과 주의</p>
@@ -824,7 +826,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">&nbsp;! [rejected]        feature/login-button -&gt; feature/login-button (non-fast-forward)</p>
 </div>
 <div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
-<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">GitHub에는 옛 D, E가 있어요. 여기서 pull하면 같은 변경이 두 번 들어가요.</p>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">GitHub에는 옛 D, E가 있어요. 여기서 pull하면 같은 커밋이 기록에 두 번 들어가요.</p>
 <div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
 <div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
 <div id="e-C-D" style="position:absolute;left:892px;top:697px;width:186px;height:6px;background:#9ED3B4"></div>
@@ -848,7 +850,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p id="t-origin-feature-login-button" style="position:absolute;left:884px;top:499px;width:452px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/feature/login-button</p>
 <p id="t-feature-login-button" style="position:absolute;left:1189px;top:768px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
 <p id="t-head" style="position:absolute;left:1542px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
-<aside>feature/login-button을 이미 push한 뒤에 rebase했어요. 내 컴퓨터에는 D', E', GitHub에는 D, E가 있어서 push가 거절돼요. 힌트는 pull하라고 하지만, pull하면 D, E와 D', E'가 둘 다 기록에 들어가요. 강제로 덮어쓰는 방법도 있지만 팀원이 받아 간 커밋과 어긋나서 이 과정에서는 쓰지 않아요. 이 상태가 되면 더 치지 말고 강사에게 물어봐요. 규칙은 하나예요. rebase는 push 전, 나만 가진 커밋에만 써요. main처럼 같이 쓰는 브랜치에서는 rebase하지 않아요.</aside>
+<aside>feature/login-button을 이미 push한 뒤에 rebase했어요. 내 컴퓨터에는 D', E', GitHub에는 D, E가 있어서 push가 거절돼요. 힌트는 pull하라고 하지만, pull하면 D, E와 D', E'가 둘 다 기록에 들어가고 합치기 커밋까지 생겨요. 메시지가 같은 커밋이 두 쌍 보여서 기록을 읽기 어려워져요. rebase 출력 줄은 뺐어요. 강제로 덮어쓰는 방법도 있지만 팀원이 받아 간 커밋과 어긋나서 이 과정에서는 쓰지 않아요. 이 상태가 되면 더 치지 말고 강사에게 물어봐요. 규칙은 하나예요. rebase는 push 전, 나만 가진 커밋에만 써요. main처럼 같이 쓰는 브랜치에서는 rebase하지 않아요.</aside>
 </section>
 <section id="choose" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">6. 충돌과 주의</p>
@@ -917,7 +919,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <div id="s3n-C" style="position:absolute;left:1599px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">C</p></div>
 <div id="s3n-S" style="position:absolute;left:1677px;top:723px;width:34px;height:34px;border-radius:50%;background:#0F7C86;border:3px solid #0F7C86;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">S</p></div>
 <p style="position:absolute;left:96px;top:850px;width:1728px;font-size:30px;font-weight:700;color:#1D2330">pull은 pull.rebase false로 merge, PR은 팀이 정한 버튼, 충돌은 어느 방법이든 같은 줄에서 나요.</p>
-<aside>네 방법 모두 다 합친 뒤 파일 내용은 같아요. 다른 건 기록 모양과 해시예요. 수업에서는 merge를 기본으로 쓰고, 나머지는 기록을 읽을 수 있을 만큼 알아 두면 돼요.</aside>
+<aside>출발점이 같으면 어느 방법으로 합쳐도 파일 내용은 같아요. 다른 건 기록 모양과 해시예요. 수업에서는 merge를 기본으로 쓰고, 나머지는 기록을 읽을 수 있을 만큼 알아 두면 돼요.</aside>
 </section>
 </div>
 <div id="notes"></div>

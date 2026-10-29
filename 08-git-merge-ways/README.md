@@ -49,7 +49,7 @@ A ── B ── C             main
 | rebase | 브랜치에서 `git rebase main`, main에서 `git merge 브랜치` | D', E' | 바뀌어요 | 한 줄 |
 | squash | `git merge --squash 브랜치` 뒤 `git commit -m "..."` | S 하나 | main에 없어요 | 한 줄, 커밋 하나 |
 
-다 합친 뒤 파일 내용은 넷 다 같아요. 다른 건 기록 모양과 해시예요.
+출발점이 같으면 어느 방법으로 합쳐도 파일 내용은 같아요. 다른 건 기록 모양과 해시예요. fast-forward와 `--no-ff`는 C가 생기기 전 모습에서 해요.
 
 ### git pull은 fetch 뒤 합치기
 
@@ -72,7 +72,7 @@ A ── B ── C             main
 
 어느 버튼을 쓸지는 팀이 정해요. Squash and merge나 Rebase and merge로 합친 뒤에는 내 컴퓨터의 브랜치가 `git branch -d`로 지워지지 않아요. PR이 Merged인 걸 확인한 뒤 `git branch -D 브랜치`로 지워요.
 
-> **주의** push한 브랜치와 main에서는 rebase하지 않아요. rebase는 커밋을 새로 만들어서 GitHub과 팀원이 가진 옛 커밋과 어긋나요. 이때 pull하면 같은 변경이 두 번 들어가요. rebase는 push 전, 나만 가진 커밋에만 써요.
+> **주의** push한 브랜치와 main에서는 rebase하지 않아요. rebase는 커밋을 새로 만들어서 GitHub과 팀원이 가진 옛 커밋과 어긋나요. 이때 pull하면 같은 커밋이 기록에 두 번 들어가요. rebase는 push 전, 나만 가진 커밋에만 써요.
 
 ## 실습
 
@@ -154,13 +154,13 @@ cd ..
 
 네 폴더를 VS Code Git Graph(05)로 열어 슬라이드 그림과 비교해 봐요.
 
-### 4. rebase 중 충돌
+### 4. rebase 중 충돌이 나면
 
 1. 표시 줄 세 개를 지우고 남길 내용으로 고쳐요.
 2. `git add 파일`
 3. `git rebase --continue` 로 다음 커밋을 이어서 옮겨요. 편집기가 열리면 그대로 저장하고 닫아요.
 
-헷갈리면 `git rebase --abort`로 rebase 전 모습으로 돌아가요. rebase 충돌에서는 `<<<<<<< HEAD` 쪽이 main(받는 쪽)이고, 아래쪽이 내 커밋이에요. merge 때와 반대로 보여요.
+헷갈리면 `git rebase --abort`로 rebase 전 모습으로 돌아가요. 내 브랜치에서 쳤어도 `<<<<<<< HEAD` 쪽은 main 내용이고, 아래쪽이 내 커밋이에요.
 
 ## 명령어 요약
 
@@ -183,7 +183,7 @@ cd ..
 | `fatal: Not possible to fast-forward, aborting.` | `pull.ff only`가 설정돼 있어요. `git config --global --unset pull.ff`로 지우고 다시 pull |
 | `error: the branch '...' is not fully merged.` | squash나 Rebase and merge로 합쳤어요. 변경이 main에 있는 걸 확인하고 `git branch -D 브랜치` |
 | `error: could not apply ...` 와 `CONFLICT` | rebase 중 충돌이에요. 고치고 `git add` 뒤 `git rebase --continue`, 그만두려면 `git rebase --abort` |
-| rebase 뒤 push가 `! [rejected] ... (non-fast-forward)` | push한 브랜치를 rebase했어요. pull하면 같은 변경이 두 번 들어가니 더 치지 말고 강사에게 물어봐요 |
+| rebase 뒤 push가 `! [rejected] ... (non-fast-forward)` | push한 브랜치를 rebase했어요. pull하면 같은 커밋이 기록에 두 번 들어가니 더 치지 말고 강사에게 물어봐요 |
 | `interactive rebase in progress` 가 status에 보여요 | rebase가 멈춘 상태예요. 충돌을 풀고 `--continue` 하거나 `--abort` |
 
 ## 강사용

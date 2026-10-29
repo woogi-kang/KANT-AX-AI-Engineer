@@ -203,16 +203,17 @@ o += graph(n_ab, [("A", "B")], [("main", "B", "main")], "main")
 o += legend(LEG[:2])
 W("story1", o, "오늘은 hello-git 말고 연습용 저장소 merge-lab을 새로 만들어 써요. rebase처럼 기록을 바꾸는 명령도 해 보니까, 수업 저장소와 팀 레포는 건드리지 않아요. login.md 하나에 커밋 두 개를 쌓았어요. 그래프는 03처럼 왼쪽이 먼저 한 커밋이에요. 이 덱은 커밋마다 A, B 같은 글자를 붙여서 부르고, 아래에 진짜 해시를 적었어요.")
 
-o = scene("story2", EB0, "브랜치에서 D, E를 커밋해요", [("$", f"git checkout -b {FB}"), ("o", f"[{FB} {D}] feat: 로그인 버튼 추가"), ("o", f"[{FB} {E_}] fix: 버튼 글자 고치기")],
+o = scene("story2", EB0, "브랜치에서 D, E를 커밋해요", [("$", f"git checkout -b {FB}"), ("$", 'git commit -m "feat: 로그인 버튼 추가"'), ("o", f"[{FB} {D}] feat: 로그인 버튼 추가"),
+          ("$", 'git commit -m "fix: 버튼 글자 고치기"'), ("o", f"[{FB} {E_}] fix: 버튼 글자 고치기")],
           "로그인 버튼을 만들고, 글자를 한 번 더 고쳤어요.", color=SUB)
 o += graph(n_de, e_de, [("main", "B", "main"), (FB, "E", "green")], FB)
 o += legend(LEG)
-W("story2", o, "브랜치를 만들고 login.md에 로그인 버튼 줄을 더해 커밋했어요(D). 버튼 글자를 [로그인] 버튼으로 고쳐 한 번 더 커밋했어요(E). 화면 폭 때문에 add와 commit 명령 줄은 뺐어요. 그다음 git checkout main으로 main에 돌아와 있어요.")
+W("story2", o, "브랜치를 만들고 login.md에 로그인 버튼 줄을 더해 커밋했어요(D). 버튼 글자를 [로그인] 버튼으로 고쳐 한 번 더 커밋했어요(E). 화면 폭 때문에 checkout 출력, git add 줄, 1 file changed 줄은 뺐어요. 지금 HEAD는 브랜치에 있어요.")
 
 # ---------- part 1: not diverged ----------
 EB1 = "1. 갈라지지 않았을 때"
 o = scene("ff", EB1, "fast-forward: main 이름표만 앞으로 가요", [("$", "git checkout main"), ("$", f"git merge {FB}"), ("o", f"Updating {B}..{E_}"), ("g", "Fast-forward")],
-          "main에 새 커밋이 없으면 새 커밋을 만들지 않아요.", color=C_FF, section=("plain", "갈라지지 않았을 때"))
+          "main 쪽에 새 커밋이 없으면 합치기 커밋 없이 끝나요.", color=C_FF, section=("plain", "갈라지지 않았을 때"))
 o += graph(n_de, e_de, [(FB, "E", "green"), ("main", "E", "main")], "main")
 W("ff", o, "03에서 본 빨리 감기(Fast-forward)예요. B 뒤로 main에는 커밋이 없었어요. 그래서 Git은 main 이름표를 E로 옮기기만 해요. 커밋 해시는 하나도 바뀌지 않아요. 출력의 파일 목록 줄은 뺐어요.")
 
@@ -229,7 +230,7 @@ o = scene("split", EB2, "main에 C가 생기면 길이 갈라져요", [("$", "gi
           "이제 이름표만 옮겨서는 C와 D, E를 같이 담을 수 없어요.", color=SUB, transition="fade", section=("split", "갈라졌을 때"))
 o += graph(n_split, e_split, [("main", "C", "main"), (FB, "E", "green")], "main")
 o += legend(LEG_C)
-W("split", o, "다시 story2 상태로 돌아가서, 이번엔 main에서 README.md를 만들어 커밋했어요(C). 팀에서 내가 브랜치에서 일하는 동안 다른 사람 작업이 main에 들어온 모습과 같아요. 이 장 그림이 이 덱의 출발점이에요. 다음 장부터 이 상태에서 merge, rebase, squash를 하나씩 해 봐요.")
+W("split", o, "다시 4쪽 상태로 돌아가서, 이번엔 main에서 README.md를 만들어 커밋했어요(C). 팀에서 내가 브랜치에서 일하는 동안 다른 사람 작업이 main에 들어온 모습과 같아요. 이 장 그림이 이 덱의 출발점이에요. 다음 장부터 이 상태에서 merge, rebase, squash를 하나씩 해 봐요.")
 
 n_merge = dict(n_split, M=(4, "main", "main", "merge", "M", M))
 o = scene("merge", EB2, "merge: 두 길을 잇는 합치기 커밋이 생겨요", [("$", f"git merge {FB}"), ("o", "Merge made by the 'ort' strategy."), ("$", "git log --oneline"),
@@ -244,7 +245,7 @@ e_rb = [("A", "B"), ("B", "C"), ("C", "D"), ("D", "E"), ("B", "Dx"), ("Dx", "Ex"
 o = scene("rb1", EB2, "rebase: D, E를 C 뒤로 옮겨 붙여요", [("$", f"git checkout {FB}"), ("$", "git rebase main"), ("g", f"Successfully rebased and updated refs/heads/{FB}.")],
           "옛 D, E는 점선으로 남고, 같은 내용의 새 커밋 D', E'가 생겨요.", color=C_RB)
 o += graph(n_rb, e_rb, [("main", "C", "main"), (FB, "E", "green")], FB)
-W("rb1", o, "다시 split 상태에서 시작해요. rebase는 브랜치에서 쳐요. git rebase main은 내 브랜치 커밋을 main 끝(C) 뒤로 하나씩 다시 만들어 붙여요. 받침(base)을 바꾼다는 뜻이에요. 옛 D, E는 이제 어느 이름표도 가리키지 않아서 점선으로 그렸어요. 진짜 터미널에서는 Rebasing (1/2) 같은 진행 줄이 잠깐 보였다가 지워져요.")
+W("rb1", o, "다시 7쪽 상태에서 시작해요. rebase는 브랜치에서 쳐요. git rebase main은 내 브랜치 커밋을 main 끝(C) 뒤로 하나씩 다시 만들어 붙여요. 받침(base)을 바꾼다는 뜻이에요. 옛 D, E는 이제 어느 이름표도 가리키지 않아서 점선으로 그렸어요. 진짜 터미널에서는 Rebasing (1/2) 같은 진행 줄이 잠깐 보였다가 지워져요.")
 
 o = [sec("rb-hash")] + head(EB2, "rebase하면 커밋 해시가 바뀌어요", C_RB)
 o += [p(f"position:absolute;left:96px;top:226px;width:846px;font-size:28px;font-weight:700;color:{SUB}", "rebase 전")]
@@ -262,14 +263,14 @@ for i, (old, new, l1, l2) in enumerate([(D, D2, "D", "D'"), (E_, E2, "E", "E'")]
              + f'<div style="width:64px;height:64px;flex:none;border-radius:50%;background:{GR};display:flex;align-items:center;justify-content:center">' + p(f"font-family:{MONO};font-size:26px;font-weight:700;line-height:1;color:#FFFFFF", l2) + '</div>'
              + p(f"font-family:{MONO};font-size:36px;font-weight:700;color:{INK}", new)
              + p(f"flex:1;text-align:right;font-size:28px;color:{SUB}", "메시지와 바뀐 내용은 같아요") + '</div>')
-o.append(p(f"position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{INK}", "부모가 B에서 C로 바뀌어서, Git에게는 다른 커밋이에요.", ' data-build-in="rise order 3"'))
+o.append(p(f"position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{INK}", "D의 부모가 B에서 C로 바뀌어서, 뒤에 붙은 E까지 새 커밋이 돼요.", ' data-build-in="rise order 3"'))
 W("rb-hash", o, "커밋 해시는 내용, 메시지, 날짜, 부모 커밋으로 정해져요. rebase는 부모를 바꿔 다시 만들기 때문에 해시가 새로 나와요. 내 컴퓨터에만 있는 커밋이면 문제가 없어요. 이미 push해서 팀원이 옛 D, E를 받아 갔다면 팀원 기록과 어긋나요. 6부에서 이 장면을 다시 봐요.")
 
 n_rb2 = {k: v for k, v in n_rb.items() if k not in ("Dx", "Ex")}
 o = scene("rb2", EB2, "main에서 merge하면 fast-forward로 끝나요", [("$", "git checkout main"), ("$", f"git merge {FB}"), ("o", f"Updating {C}..{E2}"), ("g", "Fast-forward")],
           "합치기 커밋 없이 기록이 한 줄이 됐어요.", color=C_RB)
 o += graph(n_rb2, [("A", "B"), ("B", "C"), ("C", "D"), ("D", "E")], [(FB, "E", "green"), ("main", "E", "main")], "main")
-W("rb2", o, "rebase 뒤에는 브랜치가 C 바로 뒤에 붙어 있어서 1부의 fast-forward와 같은 모양이에요. rebase는 합치기 전에 브랜치를 최신 main 뒤로 옮기는 일이고, 합치는 건 여전히 merge예요. 점선이던 옛 D, E는 이름표가 없어서 그래프에서 보이지 않아요.")
+W("rb2", o, "rebase 뒤에는 브랜치가 C 바로 뒤에 붙어 있어서 1부의 fast-forward와 같은 모양이에요. rebase는 합치기 전에 브랜치를 최신 main 뒤로 옮기는 일이고, 합치는 건 여전히 merge예요. 옛 D, E는 이제 쓰지 않아서 그림에서 뺐어요. Git Graph(05)에도 보이지 않아요.")
 
 n_sq = dict(n_split, S=(3, "main", "teal", "ghost", "S", ""))
 BX = lambda c: BIG["x0"] + c * BIG["step"]
@@ -279,7 +280,7 @@ o = scene("sq1", EB2, "squash: D, E의 변경을 모아 대기실에 올려요",
           "아직 커밋 전이에요. git status에 Changes to be committed로 보여요.", color=C_SQ)
 o += graph(n_sq, e_split + [("C", "S")], [("main", "C", "main"), (FB, "E", "green")], "main")
 o += box
-W("sq1", o, "다시 split 상태에서 main에 있어요. --squash는 브랜치의 변경을 모두 모아 대기실(02의 ② 칸)에 올리고 멈춰요. 커밋은 직접 해요. 출력 첫 줄은 자동 합치기가 잘 됐고 요청대로 커밋 전에 멈췄다는 뜻이에요. 둘째 줄은 HEAD를 옮기지 않았다는 뜻이에요.")
+W("sq1", o, "다시 7쪽 상태에서 main에 있어요. --squash는 브랜치의 변경을 모두 모아 대기실(02의 ② 칸)에 올리고 멈춰요. 커밋은 직접 해요. 출력 첫 줄은 자동 합치기가 잘 됐고 요청대로 커밋 전에 멈췄다는 뜻이에요. 둘째 줄은 HEAD를 옮기지 않았다는 뜻이에요.")
 
 n_sq2 = dict(n_split, S=(3, "main", "teal", "n", "S", S))
 o = scene("sq2", EB2, "커밋하면 S 하나가 생겨요", [("$", 'git commit -m "feat: 로그인 버튼 추가"'), ("o", f"[main {S}] feat: 로그인 버튼 추가")],
@@ -293,7 +294,7 @@ o = scene("sq3", EB2, "squash 뒤에는 브랜치가 -d로 안 지워져요", [(
           "Git은 D, E가 main에 없다고 봐요. 내용이 들어간 걸 확인했으면 -D로 지워요.", color=C_SQ)
 o += graph(n_sq2, e_split + [("C", "S")], [("main", "S", "main"), (FB, "E", "green")], "main")
 o += box
-W("sq3", o, "-d는 합쳐진 브랜치만 지워요. Git은 커밋을 선으로 따라가서 합쳐졌는지 봐요. S는 D, E와 이어지지 않아서 합쳐지지 않은 걸로 보여요. git log --oneline이나 파일 내용으로 변경이 main에 있는 걸 확인한 뒤 git branch -D feature/login-button으로 지워요. 대문자 -D는 확인 없이 지우니 squash 뒤에만 써요.")
+W("sq3", o, "-d는 합쳐진 브랜치만 지워요. Git은 커밋을 선으로 따라가서 합쳐졌는지 봐요. S는 D, E와 이어지지 않아서 합쳐지지 않은 걸로 보여요. git log --oneline이나 파일 내용으로 변경이 main에 있는 걸 확인한 뒤 git branch -D feature/login-button으로 지워요. 대문자 -D는 합쳐졌는지 확인하지 않고 지우니, 변경이 main에 있는 걸 본 뒤에만 써요.")
 
 # ---------- part 3: compare ----------
 EB3 = "3. 한눈에 비교"
@@ -306,13 +307,13 @@ def mini(left, top, nodes, edges, pre, tags=()):
 
 cards = [("fast-forward", C_FF, "갈라지지 않았을 때", {"A": (0, "main", "main", "n", "A", ""), "B": (1, "main", "main", "n", "B", ""), "D": (2, "main", "green", "n", "D", ""), "E": (3, "main", "green", "n", "E", "")},
           [("A", "B"), ("B", "D"), ("D", "E")], "새 커밋 없음, 이름표만 이동"),
-         ("merge", C_MG, "--no-ff도 같은 모양", {**{k: (v[0], v[1], v[2], v[3], v[4], "") for k, v in n_merge.items()}},
+         ("merge", C_MG, "--no-ff도 합치기 커밋", {**{k: (v[0], v[1], v[2], v[3], v[4], "") for k, v in n_merge.items()}},
           e_split + [("C", "M"), ("E", "M")], "합치기 커밋 M, D, E 그대로"),
          ("rebase", C_RB, "옮겨 붙인 뒤 fast-forward", {k: (v[0], v[1], v[2], v[3], v[4], "") for k, v in n_rb2.items()},
           [("A", "B"), ("B", "C"), ("C", "D"), ("D", "E")], "한 줄, D', E' 해시가 새로 생김"),
          ("squash", C_SQ, "변경을 모아 커밋 하나로", {**{k: (v[0], v[1], v[2], v[3], v[4], "") for k, v in n_sq2.items()}, "D": (2, "up", "gray", "n", "D", ""), "E": (3, "up", "gray", "n", "E", "")},
           e_split + [("C", "S")], "한 줄, main에는 S 하나만")]
-o = [sec("cmp", "fade")] + head(EB3, "같은 출발점, 네 가지 결과", SUB)
+o = [sec("cmp", "fade")] + head(EB3, "네 가지 결과를 나란히 보면", SUB)
 for i, (name, c, sub, nodes, edges, res) in enumerate(cards):
     left, top = 96 + (i % 2) * 876, 220 + (i // 2) * 410
     o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:{left}px;top:{top}px;width:852px;height:390px;background:#FFFFFF;border:2px solid {LINE};border-top:10px solid {c};border-radius:20px"></div>')
@@ -320,7 +321,7 @@ for i, (name, c, sub, nodes, edges, res) in enumerate(cards):
     mg = mini(left + 30, top + 70, nodes, edges, f"c{i}")
     o += [x.replace(' id="', f' data-build-in="rise order {i + 1}" id="', 1) for x in mg]
     o.append(p(f"position:absolute;left:{left + 32}px;top:{top + 318}px;width:780px;font-size:28px;font-weight:700;color:{INK}", e(res), f' data-build-in="rise order {i + 1}"'))
-W("cmp", o, "1부와 2부의 결과를 나란히 놓았어요. 모두 같은 A, B, C, D, E에서 출발했어요. 다 합친 뒤 login.md 내용은 넷 다 같아요. 다른 건 기록 모양이에요. VS Code Git Graph(05)로 열어 보면 이 그림과 같은 모양으로 보여요.", ("compare", "한눈에 비교"))
+W("cmp", o, "1부와 2부의 결과를 나란히 놓았어요. fast-forward는 C가 생기기 전 모습에서, 나머지 셋은 C가 생긴 뒤 모습에서 출발했어요. 출발점이 같으면 어느 방법으로 합쳐도 파일 내용은 같아요. 다른 건 기록 모양이에요. VS Code Git Graph(05)로 열어 보면 이 그림과 같은 모양으로 보여요.", ("compare", "한눈에 비교"))
 
 rows = [("방법", "명령", "새로 생기는 커밋", "D, E 해시", "main 기록"),
         ("fast-forward", "git merge 브랜치", "없음", "그대로", "한 줄"),
@@ -356,7 +357,7 @@ n_pl = {"A": (0, "main", "main", "n", "A", A), "B": (1, "main", "main", "n", "B"
 e_pl = [("A", "B"), ("B", "C"), ("B", "D")]
 o = scene("pl0", EB4, "pull도 합치기예요", [("$", "git fetch origin"), ("$", "git log --oneline"), ("o", f"{PD} (HEAD -> main) feat: 로그인 버튼 추가"),
           ("$", "git log --oneline origin/main"), ("o", f"{PC} (origin/main) docs: README 추가")],
-          "GitHub에는 팀원 lee의 C, 내 main에는 D. 내 컴퓨터와 GitHub이 갈라졌어요.", color=C_PL, section=("pull", "git pull"), size=(28, 22))
+          "GitHub에는 lee의 C가, 내 main에는 D가 있어요. 둘이 갈라졌어요.", color=C_PL, section=("pull", "git pull"), size=(28, 22))
 o += graph(n_pl, e_pl, [("origin/main", "C", "origin"), ("main", "D", "main")], "main")
 W("pl0", o, "이번엔 브랜치 대신 main끼리 갈라진 상황이에요. lee가 README 추가(C)를 먼저 push했고, 나는 main에서 바로 로그인 버튼(D)을 커밋했어요. push는 06에서 본 것처럼 거절돼요. git pull은 git fetch로 C를 받아 온 뒤 내 main과 합쳐요. 어떻게 합칠지는 pull 설정이 정해요. 실습 저장소가 달라서 C, D 해시가 2부와 달라요. log 출력 아래쪽 줄은 뺐어요.")
 
@@ -373,7 +374,7 @@ for i, (k, v, tag, c) in enumerate(trio):
              + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{c}", e(k)) + p(f"font-size:32px;font-weight:700;color:{INK}", e(v))
              + '<div style="flex:1"></div>' + p(f"font-size:24px;font-weight:700;color:{'#FFFFFF' if i == 0 else SUB};background:{c if i == 0 else '#EEEFF2'};border-radius:8px;padding:2px 14px;align-self:flex-start", e(tag)) + '</div>')
 o.append(p(f"position:absolute;left:96px;top:870px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{INK}", "세 줄이 곧 이 덱에서 본 합치는 방법이에요.", ' data-build-in="rise order 4"'))
-W("pl-none", o, "06에서 본 그 메시지예요. 그때는 해결만 봤어요. 힌트 세 줄을 읽어 보면 merge, rebase, fast-forward only 중에서 고르라는 뜻이에요. 우리 과정은 06에서 git config --global pull.rebase false로 첫째 줄을 골랐어요. From 줄과 힌트 아래쪽 줄은 뺐어요.")
+W("pl-none", o, "06에서 본 그 메시지예요. 그때는 해결만 봤어요. 힌트 세 줄을 읽어 보면 merge, rebase, fast-forward only 중에서 고르라는 뜻이에요. 우리 과정은 06에서 git config --global pull.rebase false로 첫째 줄을 골랐어요. From 줄, 빈 hint 줄, 힌트 아래쪽 줄은 뺐어요.")
 
 n_pl_m = dict(n_pl, C=(2, "main", "purple", "n", "C", PC), PM=(3, "main", "main", "merge", "M", PM))
 o = scene("pl-false", EB4, "pull.rebase false: 합치기 커밋으로 합쳐요", [("$", "git config --global pull.rebase"), ("o", "false"), ("$", "git pull origin main"), ("o", "Merge made by the 'ort' strategy.")],
@@ -386,12 +387,12 @@ o = scene("pl-true", EB4, "pull.rebase true: 내 커밋을 C 뒤로 옮겨요", 
           ("$", "git log --oneline"), ("o", f"{PD2} (HEAD -> main) feat: 로그인 버튼 추가")],
           "기록은 한 줄이지만 D의 해시가 바뀌었어요.", color=C_RB, size=(28, 22))
 o += graph(n_pl_r, [("A", "B"), ("B", "C"), ("C", "D"), ("B", "Dx")], [("origin/main", "C", "origin"), ("main", "D", "main")], "main")
-W("pl-true", o, "보기만 하는 장이에요. 설정을 바꾸지 않아요. pull이 2부의 rebase와 같은 일을 해요. 아직 push하지 않은 D를 옮기는 거라 이 경우엔 문제가 없어요. 대신 충돌이 나면 rebase 충돌로 풀어야 해서 처음 배울 때 헷갈려요(6부). 회사마다 이 설정을 쓰는 팀도 있으니 이름은 알아 둬요.")
+W("pl-true", o, "보기만 하는 장이에요. 설정을 바꾸지 않아요. pull이 2부의 rebase와 같은 일을 해요. 아직 push하지 않은 D를 옮기는 거라 이 경우엔 문제가 없어요. 대신 충돌이 나면 rebase 충돌로 풀어야 해서 처음 배울 때 헷갈려요(6부). 이 설정을 쓰는 회사도 있으니 이름은 알아 둬요.")
 
 o = scene("pl-ff", EB4, "pull.ff only: 갈라졌으면 받지 않아요", [("#", "# pull.ff only인 컴퓨터"), ("$", "git pull origin main"), ("r", "fatal: Not possible to fast-forward, aborting.")],
           "갈라지지 않았을 때만 fast-forward로 받아요. 갈라지면 직접 골라야 해요.", color=C_FF, size=(28, 22))
 o += graph(n_pl, e_pl, [("origin/main", "C", "origin"), ("main", "D", "main")], "main")
-W("pl-ff", o, "보기만 하는 장이에요. 내 main에 새 커밋이 없으면 fast-forward로 받고, 갈라졌으면 아무것도 하지 않고 멈춰요. 그래프가 앞 장과 같은 건 실패해서 바뀐 게 없기 때문이에요. 힌트 줄(git merge --no-ff 또는 git rebase)은 뺐어요.")
+W("pl-ff", o, "보기만 하는 장이에요. 내 main에 새 커밋이 없으면 fast-forward로 받고, 갈라졌으면 아무것도 하지 않고 멈춰요. 그래프가 앞 장과 같은 건 실패해서 바뀐 게 없기 때문이에요. From 줄과 힌트 줄(git merge --no-ff 또는 git rebase)은 뺐어요.")
 
 o = [sec("pl-why")] + head(EB4, "수업은 pull.rebase false로 통일해요", C_MG)
 why = [("CheckCircle", "내 커밋 해시가 그대로예요", "push한 커밋과 어긋나지 않아요"), ("Link", "합친 자리가 기록에 남아요", "합치기 커밋 M이 언제 합쳤는지 보여 줘요"),
@@ -421,7 +422,7 @@ for i, (en, ko, cmd, c) in enumerate(opts):
              + p(f"font-size:30px;font-weight:700;color:{INK}", e(en)) + p(f"font-size:26px;color:{SUB}", e(ko)) + '</div>')
     o.append(f'<x-shape data-build-in="rise order {i + 1}" kind="arrow-right" style="position:absolute;left:930px;top:{top + 46}px;width:100px;height:48px;background:{c}"></x-shape>')
     o.append(p(f"position:absolute;left:1060px;top:{top + 30}px;width:764px;height:80px;font-family:{MONO};font-size:36px;font-weight:700;line-height:80px;padding:0 28px;border-radius:14px;background:#FFFFFF;border:2px solid {LINE};color:{c}", e(cmd), f' data-build-in="rise order {i + 1}"'))
-W("gh-btn", o, "PR 화면 아래 초록 버튼 오른쪽 ▼를 누르면 세 가지가 나와요. 처음 고른 것이 기본값으로 남아요. Create a merge commit은 갈라지지 않았어도 늘 합치기 커밋을 만들어서 --no-ff와 같아요. Squash and merge는 2부의 squash, Rebase and merge는 2부의 rebase 뒤 fast-forward와 같아요. 저장소 설정에 따라 일부 버튼만 보일 수 있어요.", ("github", "GitHub PR 버튼"))
+W("gh-btn", o, "PR 화면 아래 초록 버튼 오른쪽 ▼를 누르면 세 가지가 나와요. Create a merge commit은 갈라지지 않았어도 늘 합치기 커밋을 만들어서 --no-ff와 같아요. Squash and merge는 2부의 squash, Rebase and merge는 2부의 rebase 뒤 fast-forward와 같아요. 저장소 설정에 따라 일부 버튼만 보일 수 있어요.", ("github", "GitHub PR 버튼"))
 
 o = [sec("gh-res", "fade")] + head(EB5, "버튼마다 GitHub의 main 기록이 달라요", PUR)
 gres = [("Create a merge commit", C_MG, {k: (v[0], v[1], v[2], v[3], v[4], "") for k, v in n_merge.items()}, e_split + [("C", "M"), ("E", "M")], "Merge pull request #1 from kim/feature/login-button"),
@@ -459,7 +460,7 @@ for i, (name, cmd, c) in enumerate(outs):
     top = 240 + i * 180
     o += terminal([("$", cmd), ("r", "CONFLICT (content): Merge conflict in login.md")], left=740, top=top, w=1084, size=(26, 24), tid=f"cf{i}", attrs=f' data-build-in="rise order {i + 1}"')
 o.append(p(f"position:absolute;left:96px;top:820px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{INK}", "합치는 방법은 기록 모양만 바꿔요. 같은 줄을 다르게 고쳤으면 Git은 늘 물어봐요.", ' data-build-in="rise order 4"'))
-W("cf-all", o, "B에서 갈라진 뒤 main은 첫 줄을 # 로그인 페이지로, 브랜치는 # 로그인하기로 고쳤어요. 03의 충돌 시나리오와 같은 상황이에요. merge, rebase, squash 모두 같은 줄에서 CONFLICT가 나요. 푸는 법도 같아요. 표시 줄을 지우고 남길 내용으로 고친 뒤 git add 해요. 다른 점은 그다음 명령 하나예요(다음 장). 출력의 Auto-merging 줄과 아래 안내 줄은 뺐어요.")
+W("cf-all", o, "B에서 갈라진 뒤 main은 첫 줄을 # 로그인 페이지로, 브랜치는 # 로그인하기로 고쳤어요. 03의 충돌 시나리오와 같은 상황이에요. merge, rebase, squash 모두 같은 줄에서 CONFLICT가 나요. 푸는 법도 같아요. 표시 줄을 지우고 남길 내용으로 고친 뒤 git add 해요. 다른 점은 그다음 명령 하나예요(다음 장). rebase는 feature/login-title에서, 나머지 둘은 main에서 쳤어요. 출력의 Auto-merging 줄과 아래 안내 줄은 뺐어요.")
 
 o = [sec("cf-rb")] + head(EB6, "rebase 중 충돌은 add 뒤 --continue로 이어 가요", RED)
 o += terminal([("$", "cat login.md"), ("r", "<<<<<<< HEAD"), ("o", "# 로그인 페이지"), ("r", "======="), ("o", "# 로그인하기"), ("r", ">>>>>>> bf59624 (feat: 로그인 제목 바꾸기)"), ("o", "아이디")],
@@ -471,15 +472,15 @@ for i, (n, t, kind) in enumerate(steps):
              + num(n, C_RB, 44) + p(f"font-size:{30 if kind else 28}px;font-weight:700;color:{INK}" + (f";font-family:{MONO}" if kind else ""), e(t)) + '</div>')
 o.append(f'<div data-build-in="rise order 4" style="position:absolute;left:1000px;top:640px;width:824px;height:110px;background:#FBEDEC;border:2px solid #E8C4C1;border-radius:18px;padding:0 28px;display:flex;flex-direction:row;align-items:center;gap:24px">'
          + p(f"font-size:28px;font-weight:700;color:{RED}", "그만두기") + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{INK}", "git rebase --abort") + '</div>')
-o.append(p(f"position:absolute;left:96px;top:820px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{INK}", "rebase 때 HEAD 쪽은 main이에요. merge 때와 반대로 보여요.", ' data-build-in="rise order 5"'))
-W("cf-rb", o, "merge 충돌은 고치고 add 뒤 commit으로 끝냈어요(03). rebase는 커밋을 하나씩 옮기다 멈춘 상태라서 commit 대신 git rebase --continue로 다음 커밋을 이어서 옮겨요. 편집기가 열리면 그대로 저장하고 닫아요. 헷갈리면 git rebase --abort로 rebase 전 모습으로 돌아가요. rebase는 main 위에 내 커밋을 얹는 거라 HEAD가 main 쪽이에요. squash 충돌은 merge처럼 고치고 add, commit 해요.")
+o.append(p(f"position:absolute;left:96px;top:820px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{INK}", "내 브랜치에서 쳤어도 HEAD 쪽은 main 내용이에요. 내 커밋은 아래쪽이에요.", ' data-build-in="rise order 5"'))
+W("cf-rb", o, "merge 충돌은 고치고 add 뒤 commit으로 끝냈어요(03). rebase는 커밋을 하나씩 옮기다 멈춘 상태라서 commit 대신 git rebase --continue로 다음 커밋을 이어서 옮겨요. 편집기가 열리면 그대로 저장하고 닫아요. 헷갈리면 git rebase --abort로 rebase 전 모습으로 돌아가요. rebase는 main 끝으로 가서 내 커밋을 하나씩 얹기 때문에, 충돌 표시의 HEAD 쪽이 main 내용이에요. squash 충돌은 merge처럼 고치고 add, commit 해요.")
 
 n_sh = {"A": n_split["A"], "B": n_split["B"], "C": n_split["C"], "Dx": (2, "up", "purple", "far", "D", D), "Ex": (3, "up", "purple", "far", "E", E_),
         "D": (3, "main", "green", "n", "D'", D2), "E": (4, "main", "green", "n", "E'", E2)}
 o = scene("warn", EB6, "push한 브랜치는 rebase하지 않아요", [("$", "git rebase main"), ("$", f"git push origin {FB}"), ("r", f" ! [rejected]        {FB} -> {FB} (non-fast-forward)")],
-          "GitHub에는 옛 D, E가 있어요. 여기서 pull하면 같은 변경이 두 번 들어가요.", color=RED, transition="fade")
+          "GitHub에는 옛 D, E가 있어요. 여기서 pull하면 같은 커밋이 기록에 두 번 들어가요.", color=RED, transition="fade")
 o += graph(n_sh, [("A", "B"), ("B", "C"), ("C", "D"), ("D", "E"), ("B", "Dx"), ("Dx", "Ex")], [(OFB, "Ex", "origin"), (FB, "E", "green")], FB)
-W("warn", o, "feature/login-button을 이미 push한 뒤에 rebase했어요. 내 컴퓨터에는 D', E', GitHub에는 D, E가 있어서 push가 거절돼요. 힌트는 pull하라고 하지만, pull하면 D, E와 D', E'가 둘 다 기록에 들어가요. 강제로 덮어쓰는 방법도 있지만 팀원이 받아 간 커밋과 어긋나서 이 과정에서는 쓰지 않아요. 이 상태가 되면 더 치지 말고 강사에게 물어봐요. 규칙은 하나예요. rebase는 push 전, 나만 가진 커밋에만 써요. main처럼 같이 쓰는 브랜치에서는 rebase하지 않아요.")
+W("warn", o, "feature/login-button을 이미 push한 뒤에 rebase했어요. 내 컴퓨터에는 D', E', GitHub에는 D, E가 있어서 push가 거절돼요. 힌트는 pull하라고 하지만, pull하면 D, E와 D', E'가 둘 다 기록에 들어가고 합치기 커밋까지 생겨요. 메시지가 같은 커밋이 두 쌍 보여서 기록을 읽기 어려워져요. rebase 출력 줄은 뺐어요. 강제로 덮어쓰는 방법도 있지만 팀원이 받아 간 커밋과 어긋나서 이 과정에서는 쓰지 않아요. 이 상태가 되면 더 치지 말고 강사에게 물어봐요. 규칙은 하나예요. rebase는 push 전, 나만 가진 커밋에만 써요. main처럼 같이 쓰는 브랜치에서는 rebase하지 않아요.")
 
 o = [sec("choose")] + head(EB6, "언제 무엇을 쓰나요", INK)
 ch = [("git pull 할 때", "설정대로 merge", "pull.rebase false", C_MG), ("PR을 합칠 때", "팀이 정한 Merge 버튼 하나", "GitHub", PUR),
@@ -526,7 +527,7 @@ for i, (h, c, cmds, desc, cd) in enumerate(sumc):
     g = dict(x0=left + 50, step=78, up=660, main=740, r=17, lf=15, hf=0, tf=16, th=26)
     o += graph(cd[3], cd[4], (), None, g, f"s{i}")
 o.append(p(f"position:absolute;left:96px;top:850px;width:1728px;font-size:30px;font-weight:700;color:{INK}", "pull은 pull.rebase false로 merge, PR은 팀이 정한 버튼, 충돌은 어느 방법이든 같은 줄에서 나요."))
-W("cheatsheet", o, "네 방법 모두 다 합친 뒤 파일 내용은 같아요. 다른 건 기록 모양과 해시예요. 수업에서는 merge를 기본으로 쓰고, 나머지는 기록을 읽을 수 있을 만큼 알아 두면 돼요.")
+W("cheatsheet", o, "출발점이 같으면 어느 방법으로 합쳐도 파일 내용은 같아요. 다른 건 기록 모양과 해시예요. 수업에서는 merge를 기본으로 쓰고, 나머지는 기록을 읽을 수 있을 만큼 알아 두면 돼요.")
 
 # ---------- toc (page numbers from ORDER) ----------
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
