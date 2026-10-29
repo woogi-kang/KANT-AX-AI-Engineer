@@ -2,9 +2,17 @@
 
 KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포예요. 수강생은 나이와 배경이 다양하고, 대부분 개발이 처음이에요.
 
+## 작업 방식 (Claude와 강사 공통)
+
+1. 작업을 시작하기 전에 `git pull origin main`으로 main을 받아요. 여러 작업이 동시에 같은 파일을 고쳐요.
+2. 끝난 작업은 항상 main에 반영해요. 작업 브랜치에만 두지 않아요.
+3. README와 CLAUDE.md는 덮어쓰지 말고 합쳐요. 받은 main 위에 내 변경만 더하고, 다른 작업이 넣은 줄은 지우지 않아요.
+4. push한 뒤 GitHub 저장소 첫 화면의 README에 변경이 보이는지 확인하고 보고해요. 첫 화면은 기본 브랜치를 보여 주니 기본 브랜치는 main이어야 해요.
+5. main에 다 합쳐진 작업 브랜치는 지워요.
+
 ## 폴더 규칙
 
-- 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`)
+- 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`)
 - 폴더마다 수강생이 읽을 `README.md`를 둬요. 무엇을 배우는지, 어떤 순서로 보면 되는지, 꼭 기억할 명령을 적어요.
 - 슬라이드가 있는 폴더에는 수강생이 바로 받을 HTML(`주제-slides.html`, 애니메이션 포함)과 PDF(`주제-slides.pdf`)를 같이 둬요. 슬라이드를 고치면 둘 다 다시 만들어요. 만드는 스크립트는 `02-git-basics/tools/`의 `build_player.js`, `export.js`예요.
 - 강사용 도구(생성·검사·PDF 내보내기 스크립트)는 해당 폴더의 `tools/`에 둬요.
@@ -15,10 +23,11 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 - `git push -u`, `--set-upstream`, `push.autoSetupRemote`는 쓰지 않아요. push와 pull은 항상 `git push origin main`, `git pull origin main`처럼 끝까지 적어요.
 - GitHub과 비교할 땐 `git fetch origin` 뒤 `git log --oneline`과 `git log --oneline origin/main`을 봐요.
 - `git log`에 `--graph`, `--all` 옵션은 쓰지 않아요. 자료, README, 슬라이드 모두 같아요.
-- `git restore`는 아직 배우지 않았으니 자료에 넣지 않아요.
+- `git restore`와 `git stash`는 07 모듈에서만 다뤄요. 01~06 자료에는 넣지 않아요.
 - 커밋은 `git add 파일` 뒤 `git commit -m "..."`으로 써요. `git commit -am`처럼 add를 합친 옵션은 배우지 않았으니 쓰지 않아요.
 - 커밋 메시지는 Conventional Commits 형식(`feat:`, `fix:`, `docs:` …)으로 써요. 이 레포에 커밋할 때도 같아요.
 - 터미널 출력은 실제 git으로 실행해 보고 그대로 옮겨요. 지어낸 출력은 넣지 않아요.
+- VS Code Git Graph는 결과를 그림으로 확인할 때만 써요. checkout, merge, reset 같은 명령은 Git Graph 메뉴 대신 터미널에서 쳐요.
 - 브랜치를 가리키는 말은 모든 덱에서 "이름표"로 통일해요. 꼬리표, 라벨처럼 다른 말을 섞지 않아요.
 
 ## 배포 전 점검
@@ -27,7 +36,7 @@ main에 올리기 전에 매번 아래를 확인해요.
 
 1. 새로 넣은 장이 배우는 순서에 맞는 자리인지 봐요. 아직 안 배운 명령이나 개념이 먼저 나오면 안 돼요.
 2. 같은 덱과 다른 덱(01, 02, 03 …)의 내용, 용어, 해시, 발표자 노트의 앞 장 참조와 어긋나지 않는지 봐요.
-3. 위 수업 규칙에 어긋나는 명령이 없는지 검색해요. (`-u`, `--graph`, `--all`, `restore`, `commit -am`)
+3. 위 수업 규칙에 어긋나는 명령이 없는지 검색해요. (`-u`, `--graph`, `--all`, `commit -am`, 07 밖의 `restore`, `stash`)
 4. 모듈 README(구성의 쪽 번호, 장수, 명령어 요약, 실습, 문제 해결)와 맨 위 README(장수, 다루는 명령, 과정 규칙)를 슬라이드에 맞춰 고쳐요.
 5. README의 실습 명령을 순서대로 쳤을 때 실제로 동작하는지 확인해요.
 6. HTML과 PDF를 다시 만들어요.
