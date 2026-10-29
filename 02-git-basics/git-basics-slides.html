@@ -263,14 +263,14 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <aside>Untracked와 Modified는 둘 다 빨간색이지만 달라요. Untracked는 Git이 처음 보는 파일, Modified는 이미 아는 파일이 바뀐 것. 둘 다 git add로 대기실에 올려요. 한 번이라도 커밋된 파일을 Tracked(추적 중)라고 불러요.</aside>
 </section>
 <section id="terms2" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
-<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">용어 ② 저장소와 꼬리표</h2>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">용어 ② 저장소와 이름표</h2>
 <table style="font-size:28px;color:#1D2330">
 <tbody><tr style="background:#1D2330"><th style="width:30%;color:#F6F5F1">용어</th><th style="width:70%;color:#F6F5F1">한 줄 뜻</th></tr>
 <tr style="background:#FDFCF9"><td>Repository</td><td>커밋 기록 보관함 (.git, GitHub)</td></tr>
 <tr style="background:#F2F0EA"><td>Index</td><td>대기실의 정식 이름</td></tr>
 <tr style="background:#FDFCF9"><td>Commit · 해시</td><td>저장된 한 시점과 그 고유 번호</td></tr>
 <tr style="background:#F2F0EA"><td>branch (브랜치)</td><td>커밋에 붙이는 이름표. 03에서 자세히 봐요</td></tr>
-<tr style="background:#FDFCF9"><td>main</td><td>기본 브랜치. 최신 커밋에 붙은 꼬리표</td></tr>
+<tr style="background:#FDFCF9"><td>main</td><td>기본 브랜치. 최신 커밋에 붙은 이름표</td></tr>
 <tr style="background:#F2F0EA"><td>HEAD</td><td>내가 지금 서 있는 곳</td></tr>
 <tr style="background:#FDFCF9"><td>origin</td><td>GitHub 주소의 별명</td></tr>
 <tr style="background:#F2F0EA"><td>origin/main</td><td>내 컴퓨터가 기억하는 GitHub main 위치</td></tr>
@@ -308,7 +308,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <section id="s0-config" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
 <p style="font-size:26px;font-weight:700;color:#2459C9">실습 0 · 컴퓨터마다 처음 한 번만</p>
-<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">Git에게 내 이름표 알려주기</h2>
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">Git에게 내 이름 알려주기</h2>
 </div>
 <div style="display:flex;flex-direction:row;gap:40px;flex:1">
 <div style="flex:1.5;display:flex;flex-direction:column;gap:8px;background:#1B2029;border-radius:20px;padding:36px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
@@ -329,7 +329,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
   <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
 </svg></x-icon>
-<p style="font-size:26px;line-height:1.4;color:#1D2330">커밋마다 붙는<br><b>작성자 이름표</b></p>
+<p style="font-size:26px;line-height:1.4;color:#1D2330">커밋마다 붙는<br><b>작성자 이름</b></p>
 </div>
 <div style="display:flex;flex-direction:row;gap:20px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:24px 28px">
 <x-icon name="Verified" style="width:48px;height:48px;color:#2459C9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -671,7 +671,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">538dd06 번으로<br>기록 완료</p>
 <p style="font-size:26px;line-height:1.45;color:#4A5262">GitHub엔 아직 없음</p>
 </div>
-<aside>메시지 앞의 feat: 는 지금은 그대로 따라 쓰고, 두 번째 커밋 뒤에 자세히 봐요. 대기실에 있던 모습이 커밋 538dd06으로 저장됐어요. 해시는 사람마다 다르게 나와요. main 꼬리표는 지금 가장 최신 커밋을 가리켜요. -m을 빼먹어 vim이 열리면 Esc → :q! → Enter로 나온 뒤 다시 실행하세요.</aside>
+<aside>메시지 앞의 feat: 는 지금은 그대로 따라 쓰고, 두 번째 커밋 뒤에 자세히 봐요. 대기실에 있던 모습이 커밋 538dd06으로 저장됐어요. 해시는 사람마다 다르게 나와요. main 이름표는 지금 가장 최신 커밋을 가리켜요. -m을 빼먹어 vim이 열리면 Esc를 누르고 :q!, Enter를 쳐서 나온 뒤 다시 실행해요.</aside>
 </section>
 <section id="s5-edit" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:472px;border:2px dashed #B9BDC6;border-radius:28px"></div>
@@ -916,7 +916,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">커밋이 줄줄이<br>쌓여요</p>
 <p style="font-size:26px;line-height:1.45;color:#4A5262">main은 늘 최신 커밋을 가리켜요</p>
 </div>
-<aside>커밋은 점, 점을 잇는 선은 순서예요. 위가 최신. main 꼬리표가 새 커밋으로 옮겨 가는 걸 보여주세요. git log --oneline이 이 그림을 글자로 보여주는 명령이에요.</aside>
+<aside>커밋은 점, 점을 잇는 선은 순서예요. 위가 최신. main 이름표가 새 커밋으로 옮겨 가는 걸 보여주세요. git log --oneline이 이 그림을 글자로 보여주는 명령이에요.</aside>
 </section>
 <section id="commit-why" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -1219,7 +1219,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">origin으로<br>main을 보냄</p>
 <p style="font-size:26px;line-height:1.45;color:#4A5262">push 뒤에 어디로(origin)<br>무엇을(main)</p>
 </div>
-<aside>우리 과정에서는 -u를 쓰지 않고 매번 git push origin main처럼 어디로(origin), 무엇을(main) 둘 다 적어요. origin/main 꼬리표는 내 컴퓨터가 기억하는 GitHub의 main 위치예요. 처음 push 할 때 GitHub 로그인이나 토큰 입력 창이 뜰 수 있어요.</aside>
+<aside>우리 과정에서는 -u를 쓰지 않고 매번 git push origin main처럼 어디로(origin), 무엇을(main) 둘 다 적어요. origin/main 이름표는 내 컴퓨터가 기억하는 GitHub의 main 위치예요. 처음 push 할 때 GitHub 로그인이나 토큰 입력 창이 뜰 수 있어요.</aside>
 </section>
 <section id="s11-ahead" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:472px;border:2px dashed #B9BDC6;border-radius:28px"></div>
@@ -1583,7 +1583,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">받아만 왔어요</p>
 <p style="font-size:26px;line-height:1.45;color:#4A5262">origin/main만 이동<br>작업 폴더는 그대로</p>
 </div>
-<aside>fetch는 GitHub의 새 소식을 받아 origin/main 꼬리표만 옮겨요. 내 main보다 앞선 커밋은 git log --oneline origin/main으로 봐요. 그냥 git log --oneline에는 내 main까지만 나와요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.</aside>
+<aside>fetch는 GitHub의 새 소식을 받아 origin/main 이름표만 옮겨요. 내 main보다 앞선 커밋은 git log --oneline origin/main으로 봐요. 그냥 git log --oneline에는 내 main까지만 나와요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.</aside>
 </section>
 <section id="s15-pull" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:472px;border:2px dashed #B9BDC6;border-radius:28px"></div>
@@ -1677,7 +1677,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">받고 + 합치고</p>
 <p style="font-size:26px;line-height:1.45;color:#4A5262">main이 따라오고<br>README.md가 생김</p>
 </div>
-<aside>pull = fetch(받기) + merge(합치기). main 꼬리표가 origin/main 위치로 따라 올라가고, 그 커밋의 파일이 작업 폴더에 나타나요. 습관: 작업 시작 전에 git pull origin main.</aside>
+<aside>pull = fetch(받기) + merge(합치기). main 이름표가 origin/main 위치로 따라 올라가고, 그 커밋의 파일이 작업 폴더에 나타나요. 습관: 작업 시작 전에 git pull origin main.</aside>
 </section>
 <section id="pull-concept" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
 <p style="position:absolute;left:128px;top:96px;width:1664px;font-size:26px;font-weight:700;color:#5A3BB8">개념 정리</p>
@@ -1962,7 +1962,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">main을<br>한 칸 뒤로</p>
 <p style="font-size:26px;line-height:1.45;color:#4A5262">고친 내용은 작업 폴더에 남아요</p>
 </div>
-<aside>reset은 main 꼬리표를 예전 커밋으로 옮겨서 그 위 커밋을 기록에서 빼요. 옵션 없이 쓰면 --mixed라서, 커밋했던 변경은 작업 폴더에 Modified로 남아요. 다시 고쳐서 커밋하면 돼요.</aside>
+<aside>reset은 main 이름표를 예전 커밋으로 옮겨서 그 위 커밋을 기록에서 빼요. 옵션 없이 쓰면 --mixed라서, 커밋했던 변경은 작업 폴더에 Modified로 남아요. 다시 고쳐서 커밋하면 돼요.</aside>
 </section>
 <section id="reset-modes" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -1987,7 +1987,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:26px;font-weight:700;text-align:center;color:#A33131;background:#FBE4E2;padding:24px 16px;border-radius:14px">비움</p>
 <p style="font-size:26px;font-weight:700;text-align:center;color:#FFFFFF;background:#A33131;padding:24px 16px;border-radius:14px">변경이 사라짐</p>
 </div>
-<aside>세 옵션 모두 main 꼬리표를 뒤로 옮겨 커밋을 취소해요. 차이는 그 커밋에 들어 있던 변경을 어디에 남기느냐예요. --soft는 대기실에, 기본값 --mixed는 작업 폴더에 남기고, --hard는 지워 버려요. --hard는 되돌리기 어려우니 처음엔 기본값만 쓰게 하세요.</aside>
+<aside>세 옵션 모두 main 이름표를 뒤로 옮겨 커밋을 취소해요. 차이는 그 커밋에 들어 있던 변경을 어디에 남기느냐예요. --soft는 대기실에, 기본값 --mixed는 작업 폴더에 남기고, --hard는 지워 버려요. --hard는 되돌리기 어려우니 처음엔 기본값만 쓰게 하세요.</aside>
 </section>
 <section id="reflog" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p style="position:absolute;left:96px;top:72px;width:1728px;font-size:26px;font-weight:700;color:#A33131">되돌리기 · 지운 커밋 다시 찾기</p>
@@ -2204,7 +2204,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <p style="font-size:24px;color:#D8DEE9"><span style="color:#C9B6FF">origin/main</span>이 위 → pull origin main</p>
 </div>
 </div>
-<aside>우리 과정은 -u를 쓰지 않아서 git status가 GitHub과 비교한 결과(ahead, behind)를 보여주지 않아요. 그래서 마지막 줄이 clean이어도 push를 안 했을 수 있어요. GitHub과의 차이는 fetch한 뒤 log 그래프에서 main과 origin/main 꼬리표 위치로 확인해요.</aside>
+<aside>우리 과정은 -u를 쓰지 않아서 git status가 GitHub과 비교한 결과(ahead, behind)를 보여주지 않아요. 그래서 마지막 줄이 clean이어도 push를 안 했을 수 있어요. GitHub과의 차이는 fetch한 뒤 git log --oneline에서 main과 origin/main 이름표 위치로 확인해요.</aside>
 </section>
 <section id="err-lock" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:48px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -2468,7 +2468,7 @@ body:hover #bar,#bar:focus-within{opacity:1}
 <h3 style="font-size:28px;font-weight:700;color:#A33131">되돌리기</h3>
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.6;color:#1D2330">git reset HEAD~1<br>git revert 커밋<br>git reflog</p>
 </div>
-<aside>수업 끝에 이 장을 띄워 두고, 지금 내 파일이 몇 번 칸에 있는지 학생이 직접 말해 보게 하세요. 막히면 git status, GitHub과 비교할 땐 fetch 후 log 그래프. 이 두 가지만 기억해도 대부분 풀려요.</aside>
+<aside>수업 끝에 이 장을 띄워 두고, 지금 내 파일이 몇 번 칸에 있는지 학생이 직접 말해 보게 하세요. 막히면 git status, GitHub과 비교할 땐 fetch 후 git log --oneline. 이 두 가지만 기억해도 대부분 풀려요.</aside>
 </section>
 </div>
 <div id="notes"></div>

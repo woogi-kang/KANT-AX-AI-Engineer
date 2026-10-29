@@ -212,7 +212,7 @@ o += terminal([("$", 'git commit -m "feat: 인사 파일 추가"'), ("o", f"[mai
                ("o", " 1 file changed, 1 insertion(+)"), ("o", " create mode 100644 hello.md"),
                ("$", "git status"), ("o", "On branch main"), ("o", "nothing to commit, working tree clean")])
 o += callout("Database", f"{H1} 번으로<br>기록 완료", "GitHub엔 아직 없음", icolor="#2459C9")
-write("s4-commit", o, "메시지 앞의 feat: 는 지금은 그대로 따라 쓰고, 두 번째 커밋 뒤에 자세히 봐요. 대기실에 있던 모습이 커밋 538dd06으로 저장됐어요. 해시는 사람마다 다르게 나와요. main 꼬리표는 지금 가장 최신 커밋을 가리켜요. -m을 빼먹어 vim이 열리면 Esc → :q! → Enter로 나온 뒤 다시 실행하세요.")
+write("s4-commit", o, "메시지 앞의 feat: 는 지금은 그대로 따라 쓰고, 두 번째 커밋 뒤에 자세히 봐요. 대기실에 있던 모습이 커밋 538dd06으로 저장됐어요. 해시는 사람마다 다르게 나와요. main 이름표는 지금 가장 최신 커밋을 가리켜요. -m을 빼먹어 vim이 열리면 Esc를 누르고 :q!, Enter를 쳐서 나온 뒤 다시 실행해요.")
 
 o = frame("s5-edit", "실습 5 · 혼자 기록하기", 'echo "world" &gt;&gt; hello.md', paths=P_INIT, rm_dim=True)
 o += [placeholder("st", "비어 있음"), placeholder("rm", "연결 전")]
@@ -252,7 +252,7 @@ o += terminal([("$", "git add hello.md"), ("$", 'git commit -m "feat: 인사말 
                ("o", f"[main {H2}] feat: 인사말 추가"), ("o", " 1 file changed, 2 insertions(+)"),
                ("$", "git log --oneline"), ("o", f"{H2} (HEAD -> main) feat: 인사말 추가"), ("o", f"{H1} feat: 인사 파일 추가")])
 o += callout("Activity", "커밋이 줄줄이<br>쌓여요", "main은 늘 최신 커밋을 가리켜요", icolor="#2459C9")
-write("s7-commit2", o, "커밋은 점, 점을 잇는 선은 순서예요. 위가 최신. main 꼬리표가 새 커밋으로 옮겨 가는 걸 보여주세요. git log --oneline이 이 그림을 글자로 보여주는 명령이에요.")
+write("s7-commit2", o, "커밋은 점, 점을 잇는 선은 순서예요. 위가 최신. main 이름표가 새 커밋으로 옮겨 가는 걸 보여주세요. git log --oneline이 이 그림을 글자로 보여주는 명령이에요.")
 
 # ---------- GitHub 연결 ----------
 o = frame("s9-remote", "실습 9 · GitHub과 연결하기", "git remote add origin https://github.com/kim/hello-git.git", cmd_size=46, paths=P_GH, remote_label=RM_LBL)
@@ -285,7 +285,7 @@ o += terminal([("$", "git push origin main"), ("o", "Enumerating objects: 6, don
                ("$", "git log --oneline"), ("o", f"{H2} (HEAD -> main, origin/main) feat: 인사말 추가"),
                ("o", f"{H1} feat: 인사 파일 추가")])
 o += callout("PaperPlane", "origin으로<br>main을 보냄", "push 뒤에 어디로(origin)<br>무엇을(main)", icolor="#6B47D6")
-write("s10-push", o, "우리 과정에서는 -u를 쓰지 않고 매번 git push origin main처럼 어디로(origin), 무엇을(main) 둘 다 적어요. origin/main 꼬리표는 내 컴퓨터가 기억하는 GitHub의 main 위치예요. 처음 push 할 때 GitHub 로그인이나 토큰 입력 창이 뜰 수 있어요.")
+write("s10-push", o, "우리 과정에서는 -u를 쓰지 않고 매번 git push origin main처럼 어디로(origin), 무엇을(main) 둘 다 적어요. origin/main 이름표는 내 컴퓨터가 기억하는 GitHub의 main 위치예요. 처음 push 할 때 GitHub 로그인이나 토큰 입력 창이 뜰 수 있어요.")
 
 o = frame("s11-ahead", "실습 11 · 커밋만 하고 push 안 하면?", 'git commit -m "feat: 끝인사 추가"', paths=P_GH, remote_label=RM_LBL)
 o += [placeholder("st", "비어 있음")]
@@ -362,7 +362,7 @@ o += terminal([("$", "git fetch origin"), ("o", "From https://github.com/kim/hel
                ("o", f"{H4} (origin/main) docs: README 추가"), ("o", f"{H3} (HEAD -> main) feat: 끝인사 추가"),
                ("o", f"{H2} feat: 인사말 추가"), ("o", f"{H1} feat: 인사 파일 추가")])
 o += callout("Search", "받아만 왔어요", "origin/main만 이동<br>작업 폴더는 그대로", icolor="#6B47D6")
-write("s14-fetch", o, "fetch는 GitHub의 새 소식을 받아 origin/main 꼬리표만 옮겨요. 내 main보다 앞선 커밋은 git log --oneline origin/main으로 봐요. 그냥 git log --oneline에는 내 main까지만 나와요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.")
+write("s14-fetch", o, "fetch는 GitHub의 새 소식을 받아 origin/main 이름표만 옮겨요. 내 main보다 앞선 커밋은 git log --oneline origin/main으로 봐요. 그냥 git log --oneline에는 내 main까지만 나와요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.")
 
 o = frame("s15-pull", "실습 15 · 받아서 합치기", "git pull origin main", paths=P_GH, remote_label=RM_LBL)
 o += [placeholder("st", "비어 있음")]
@@ -381,7 +381,7 @@ o += terminal([("$", "git pull origin main"), ("o", "From https://github.com/kim
                ("o", "Fast-forward"), ("o", " README.md | 1 +"), ("o", " 1 file changed, 1 insertion(+)"),
                ("o", " create mode 100644 README.md")])
 o += callout("CheckCircle", "받고 + 합치고", "main이 따라오고<br>README.md가 생김", icolor="#1A7340")
-write("s15-pull", o, "pull = fetch(받기) + merge(합치기). main 꼬리표가 origin/main 위치로 따라 올라가고, 그 커밋의 파일이 작업 폴더에 나타나요. 습관: 작업 시작 전에 git pull origin main.")
+write("s15-pull", o, "pull = fetch(받기) + merge(합치기). main 이름표가 origin/main 위치로 따라 올라가고, 그 커밋의 파일이 작업 폴더에 나타나요. 습관: 작업 시작 전에 git pull origin main.")
 
 # ---------- 되돌리기 ----------
 H5, H6 = "b81d4e2", "c4e9a07"
@@ -417,7 +417,7 @@ o += terminal([("$", "git reset HEAD~1"), ("o", "Unstaged changes after reset:")
                ("$", "git log --oneline"), ("o", f"{H4} (HEAD -> main, origin/main) docs: README 추가"),
                ("o", f"{H3} feat: 끝인사 추가"), ("#", "# HEAD~1 = 지금보다 한 칸 아래 커밋")])
 o += callout("Clock", "main을<br>한 칸 뒤로", "고친 내용은 작업 폴더에 남아요", icolor="#A33131")
-write("s17-reset", o, "reset은 main 꼬리표를 예전 커밋으로 옮겨서 그 위 커밋을 기록에서 빼요. 옵션 없이 쓰면 --mixed라서, 커밋했던 변경은 작업 폴더에 Modified로 남아요. 다시 고쳐서 커밋하면 돼요.")
+write("s17-reset", o, "reset은 main 이름표를 예전 커밋으로 옮겨서 그 위 커밋을 기록에서 빼요. 옵션 없이 쓰면 --mixed라서, 커밋했던 변경은 작업 폴더에 Modified로 남아요. 다시 고쳐서 커밋하면 돼요.")
 
 o = frame("s18-revert", "실습 18 · 만약 push까지 했다면?", "git revert HEAD → git push origin main", cmd_size=48, paths=P_GH, remote_label=RM_LBL, transition="fade")
 o += [placeholder("st", "비어 있음")] + WD2
