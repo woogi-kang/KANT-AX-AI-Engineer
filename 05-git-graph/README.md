@@ -4,7 +4,7 @@
 
 | 슬라이드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) | [04 · Git diff로 확인하기](../04-git-diff) | [06 · 팀 레포로 함께 커밋하기](../06-team-repo) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) | [04 · Git diff로 확인하기](../04-git-diff) | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) |
 
 ## 학습 목표
 
@@ -126,4 +126,4 @@ node tools/export.js slides git-graph-slides.pdf
 
 ---
 
-[← 이전: 04 · Git diff로 확인하기](../04-git-diff) · [커리큘럼](../README.md) · [다음: 06 · 팀 레포로 함께 커밋하기 →](../06-team-repo)
+[← 이전: 04 · Git diff로 확인하기](../04-git-diff) · [커리큘럼](../README.md) · [다음: 06 · 팀 레포에서 같이 작업하고 충돌 풀기 →](../06-team-repo)
