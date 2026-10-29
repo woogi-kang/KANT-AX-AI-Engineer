@@ -11,7 +11,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [03 · Git 브랜치와 협업](./03-git-branch)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | `branch` `checkout` `switch` `merge`, `reset`, Pull Request, 충돌 해결 |
 | [04 · Git diff로 확인하기](./04-git-diff)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) | `diff` `diff --staged` `show`, 브랜치 비교, `.gitignore` |
 | [05 · VS Code Git Graph로 기록 보기](./05-git-graph)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) | Git Graph 설치, 점·이름표·HEAD·origin/main 읽기, 명령 뒤 그림 확인 |
-| [06 · 팀 레포로 함께 커밋하기](./06-team-repo)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) | Collaborator 초대, push 거절 뒤 `pull`, 자동 합치기, pull 충돌 해결, 팀 규칙, 브랜치와 PR 케이스 8가지 |
+| [06 · 팀 레포에서 같이 작업하고 충돌 풀기](./06-team-repo)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) | Collaborator 초대, push 거절 뒤 `pull`, 자동 합치기, pull 충돌 해결, 팀 규칙, 브랜치와 PR 케이스 8가지 |
 | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](./07-git-restore-stash)<br>[슬라이드 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) | `restore` `restore --staged` `stash` `stash list` `stash pop` `stash drop` |
 
 챕터는 번호 순서대로 이어져요. 앞 챕터에서 만든 폴더와 저장소를 다음 챕터에서 그대로 써요.
