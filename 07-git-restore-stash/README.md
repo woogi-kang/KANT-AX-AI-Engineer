@@ -4,7 +4,7 @@
 
 | 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
 | --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) | 24장 · 6개 파트 | [05 · VS Code Git Graph로 기록 보기](../05-git-graph) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) | 24장 · 6개 파트 | [06 · 팀 레포로 함께 커밋하기](../06-team-repo) | 준비 중 |
 
 ## 학습 목표
 
@@ -189,4 +189,4 @@ node tools/export.js slides git-restore-stash-slides.pdf
 
 ---
 
-[← 이전: 05 · VS Code Git Graph로 기록 보기](../05-git-graph) · [커리큘럼](../README.md)
+[← 이전: 06 · 팀 레포로 함께 커밋하기](../06-team-repo) · [커리큘럼](../README.md)

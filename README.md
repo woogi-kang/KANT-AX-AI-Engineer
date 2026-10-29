@@ -11,6 +11,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [03](./03-git-branch) | Git 브랜치와 협업 | `branch` `checkout` `switch` `merge`, `reset`, Pull Request, 충돌 해결 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) · 72장 |
 | [04](./04-git-diff) | Git diff로 확인하기 | `diff` `diff --staged` `show`, 브랜치 비교, `.gitignore` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) · 25장 |
 | [05](./05-git-graph) | VS Code Git Graph로 기록 보기 | Git Graph 설치, 점·이름표·HEAD·origin/main 읽기, 명령 뒤 그림 확인 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) · 23장 |
+| [06](./06-team-repo) | 팀 레포로 함께 커밋하기 | Collaborator 초대, push 거절 뒤 `pull`, 자동 합치기, pull 충돌 해결, 팀 규칙 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) · 28장 |
 | [07](./07-git-restore-stash) | restore와 stash로 되돌리고 치워 두기 | `restore` `restore --staged` `stash` `stash list` `stash pop` `stash drop` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) · 24장 |
 
 모듈은 번호 순서대로 이어져요. 앞 모듈에서 만든 폴더와 저장소를 다음 모듈에서 그대로 써요.
@@ -47,6 +48,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 항목 | 규칙 |
 | --- | --- |
 | push, pull | `git push origin main`, `git pull origin main`처럼 원격과 브랜치를 끝까지 적어요. `-u`는 쓰지 않아요 |
+| pull 설정 | 처음 한 번 `git config --global pull.rebase false`. pull은 merge로 합쳐요. rebase는 쓰지 않아요 |
 | 원격과 비교 | `git fetch origin` 뒤에 `git log --oneline`, `git log --oneline origin/main`. `--graph`, `--all`은 쓰지 않아요 |
 | 그림으로 보기 | VS Code의 Git Graph로 결과만 확인해요. checkout, merge, reset은 Git Graph 메뉴 대신 터미널에서 쳐요 |
 | 커밋 | `git add 파일` 뒤 `git commit -m "..."`. `-am`은 쓰지 않아요 |
@@ -69,6 +71,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 │   └── tools/                    슬라이드 생성, 검사, 내보내기 스크립트
 ├── 04-git-diff/
 ├── 05-git-graph/
+├── 06-team-repo/
 ├── 07-git-restore-stash/
 └── CLAUDE.md                     자료 작성 규칙
 ```
