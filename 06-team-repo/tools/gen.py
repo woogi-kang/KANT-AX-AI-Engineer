@@ -198,8 +198,8 @@ def person_dot(who, x, y, size=120, pre=""):
 # cover
 cov = [f'<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:{SANS};padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#8FB3FF;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       '<h1 style="font-size:100px;font-weight:900;line-height:1.15;color:#F6F5F1">팀 레포로<br>함께 커밋하기</h1>',
-       '<p style="font-size:40px;line-height:1.45;color:#BFC6D4">셋이 한 저장소에 push, pull 하며<br>엉킨 것을 풀어요</p>']
+       '<h1 style="font-size:88px;font-weight:900;line-height:1.2;color:#F6F5F1">팀 레포에서<br>같이 작업하고<br>충돌 풀기</h1>',
+       '<p style="font-size:36px;line-height:1.45;color:#BFC6D4">clone, push, pull, 브랜치와 PR로 같이 일하고<br>엉킨 것을 푸는 법</p>']
 cov.append(f'<div style="position:absolute;left:1240px;top:250px;width:480px;height:150px;border-radius:24px;background:#2A3242;border:3px solid {PUR};display:flex;flex-direction:row;gap:18px;align-items:center;justify-content:center">'
            f'<x-icon name="Cloud" style="width:56px;height:56px;color:#B9A5F5"></x-icon>' + p("font-size:40px;font-weight:700;color:#F6F5F1", "GitHub") + '</div>')
 for i, who in enumerate(["kim", "lee", "park"]):
@@ -714,7 +714,7 @@ for i, (ic, c, h, s_, a, b) in enumerate(TOC_PARTS, 1):
 t += ['</div>', f'<p style="font-size:26px;color:{SUB}">마지막 {len(ORDER)}쪽은 한 장 요약이에요.</p>']
 W("toc", t, add=False, notes="1부에서 레포를 만들고 셋이 clone해요. 2부와 3부가 오늘의 중심이에요. 2부는 서로 다른 파일을 고쳐서 저절로 합쳐지는 경우, 3부는 같은 줄을 고쳐서 충돌이 나는 경우예요. 4부는 팀 규칙이에요. 5부는 브랜치와 PR로 일할 때 만나는 경우를 케이스별로 모았어요. 막혔을 땐 5부 첫 두 장에서 찾아요.")
 
-deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-10-29T03:00:00Z"}, "lists": "css", "title": "팀 레포로 함께 커밋하기", "order": ORDER,
+deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-10-29T03:00:00Z"}, "lists": "css", "title": "팀 레포에서 같이 작업하고 충돌 풀기", "order": ORDER,
         "sections": {"intro": {"description": "오늘 하는 일", "start": "cover"}, "setup": {"description": "팀 레포 준비", "start": "roles"},
                      "auto": {"description": "다른 파일은 저절로 합쳐져요", "start": "a1"}, "conflict": {"description": "같은 줄은 충돌", "start": "b1"},
                      "rules": {"description": "팀 규칙, 다음 단계", "start": "rules"}, "cases": {"description": "팀 작업 케이스, 막혔을 때 찾기, 요약", "start": "cases"}},
