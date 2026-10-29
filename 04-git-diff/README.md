@@ -4,7 +4,7 @@
 
 | 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
 | --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) | 25장 · 8개 파트 | [03 · Git 브랜치와 협업](../03-git-branch) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) | 25장 · 8개 파트 | [03 · Git 브랜치와 협업](../03-git-branch) | [05 · VS Code Git Graph로 기록 보기](../05-git-graph) |
 
 ## 학습 목표
 
@@ -178,4 +178,4 @@ node tools/export.js slides git-diff-slides.pdf
 
 ---
 
-[← 이전: 03 · Git 브랜치와 협업](../03-git-branch) · [커리큘럼](../README.md)
+[← 이전: 03 · Git 브랜치와 협업](../03-git-branch) · [커리큘럼](../README.md) · [다음: 05 · VS Code Git Graph로 기록 보기 →](../05-git-graph)
