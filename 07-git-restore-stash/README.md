@@ -1,4 +1,4 @@
-# 07 · restore와 stash로 되돌리고 치워 두기
+# 07 · 커밋 전 변경 취소하기와 잠깐 보관하기
 
 > 커밋하기 전의 변경을 다루는 명령 세 가지를 배워요. 고친 걸 버리는 `git restore`, add를 취소하는 `git restore --staged`, 고치던 걸 잠깐 치워 두는 `git stash`예요. 02의 네 칸 그림과 `hello-git` 저장소의 `login.md`를 그대로 써요.
 
