@@ -45,14 +45,14 @@ W("cover", "\n".join(cov))
 
 # ---------- toc ----------
 parts = [("Lightbulb", "#3A4150", "브랜치란?", "점, 이름표, HEAD", "3–6쪽"),
-         ("Link", "#1A7340", "만들고 옮기기", "branch · checkout", "7–13쪽"),
-         ("Activity", "#2459C9", "합치기", "merge · 이름 규칙", "14–18쪽"),
-         ("Activity", "#8A5200", "갈라진 길", "merge 커밋", "19–24쪽"),
-         ("Wrench", "#8A5200", "되돌리기", "git reset 옵션 세 가지", "25–37쪽"),
-         ("Warning", "#A33131", "충돌 풀기", "표시 읽고 고치기", "38–44쪽"),
-         ("Cloud", "#5A3BB8", "GitHub에서 함께", "push · Pull Request", "45–51쪽"),
-         ("Warning", "#A33131", "충돌 시나리오", "다섯 가지 상황", "52–63쪽"),
-         ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "64–66쪽")]
+         ("Link", "#1A7340", "만들고 옮기기", "branch · checkout · switch", "7–14쪽"),
+         ("Activity", "#2459C9", "합치기", "merge · 이름 규칙", "15–19쪽"),
+         ("Activity", "#8A5200", "갈라진 길", "merge 커밋", "20–25쪽"),
+         ("Wrench", "#8A5200", "되돌리기", "git reset 옵션 세 가지", "26–38쪽"),
+         ("Warning", "#A33131", "충돌 풀기", "표시 읽고 고치기", "39–45쪽"),
+         ("Cloud", "#5A3BB8", "GitHub에서 함께", "push · Pull Request", "46–52쪽"),
+         ("Warning", "#A33131", "충돌 시나리오", "다섯 가지 상황", "53–64쪽"),
+         ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "65–67쪽")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      '<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>',
      '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;flex:1">']
@@ -63,7 +63,7 @@ for i, (ic, c, h, sub, pg) in enumerate(parts, 1):
              f'<h3 style="font-size:32px;font-weight:700;color:#1D2330">{h}</h3>'
              f'<p style="font-size:26px;line-height:1.4;color:#4A5262">{sub}</p><div style="flex:1"></div>'
              f'<p style="font-size:24px;color:#6A7180">{pg}</p></div>')
-t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 67쪽은 한 장 요약이에요.</p>',
+t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 68쪽은 한 장 요약이에요.</p>',
       '<aside>02와 같은 hello-git 저장소로 이어서 실습해요. 2~6부는 커밋 그래프 하나가 계속 자라는 이야기예요. 7부는 충돌이 나는 다른 상황을 따로 모았어요.</aside>', '</section>']
 W("toc", "\n".join(t))
 
@@ -292,7 +292,7 @@ errpage("err-unmerged", "에러 3 · 브랜치 지우기", "브랜치가 안 지
 # ---------- cheatsheet ----------
 ch = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:112px 128px;display:flex;flex-direction:column;gap:40px">',
       '<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">한 장 요약</h2>', '<div style="display:flex;flex-direction:row;gap:24px;flex:1">']
-cards = [("브랜치", "#1A7340", "#FFFFFF", "#1D2330", "git branch<br>git branch 이름<br>git checkout 이름<br>git checkout -b 이름<br>git branch -d 이름"),
+cards = [("브랜치", "#1A7340", "#FFFFFF", "#1D2330", "git branch<br>git branch 이름<br>git checkout 이름<br>git checkout -b 이름<br>git branch -d 이름<br><br>switch로 써도 돼요<br>git switch 이름<br>git switch -c 이름"),
          ("합치기", "#2459C9", "#FFFFFF", "#1D2330", "git checkout main<br>git merge 이름<br><br>push 전에 취소<br>git reset --hard HEAD~1"),
          ("충돌", "#A33131", "#FFFFFF", "#1D2330", "파일에서 고르기<br>표시 세 줄 지우기<br>git add 파일<br>git commit -m &quot;...&quot;<br>막히면 git merge --abort"),
          ("GitHub과 함께", "#F6F5F1", "#1D2330", "#F2C46D", "git push origin 이름<br>→ Pull Request<br>→ Merge<br>git checkout main<br>git pull origin main")]
@@ -409,6 +409,22 @@ fs = [filecard(96, 260, 780, 420, "feature/login", "green", "작업 폴더", [("
       takeaway("login.md는 사라진 게 아니에요. feature/login으로 가면 다시 보여요.", 760)]
 page("folder-switch", "만들고 옮기기", "브랜치를 옮기면 폴더 파일도 바뀌어요", fs,
      "checkout은 HEAD를 옮기면서 작업 폴더 파일도 그 브랜치의 마지막 커밋 모습으로 바꿔요. main에서 ls를 쳐 보면 README.md와 hello.md만 보여요. login.md가 안 보여 당황하는 학생이 많아요. 커밋하지 않은 변경이 있으면 checkout이 막힐 수 있어요(막힐 때 파트).",
+     color="#2459C9")
+
+# ---------- switch ----------
+sw = ['<div style="position:absolute;left:96px;top:250px;width:1728px;display:grid;grid-template-columns:420px 1fr 1fr;gap:12px">', '<div></div>']
+for t, fg, bg in [("git checkout", "#1D2330", "#E1DED6"), ("git switch", "#FFFFFF", "#2459C9")]:
+    sw.append(f'<p style="font-family:{MONO};font-size:30px;font-weight:700;text-align:center;color:{fg};background:{bg};padding:16px;border-radius:14px">{t}</p>')
+for k, (what, a, b) in enumerate([("브랜치로 옮겨 가기", "git checkout 이름", "git switch 이름"), ("만들고 바로 옮겨 가기", "git checkout -b 이름", "git switch -c 이름")]):
+    sw.append(f'<p data-build-in="fade order {k+1}" style="font-size:30px;font-weight:700;color:#1D2330;padding:24px 8px">{what}</p>')
+    for c in (a, b):
+        sw.append(f'<p data-build-in="fade order {k+1}" style="font-family:{MONO};font-size:30px;font-weight:700;text-align:center;color:#1D2330;background:#FFFFFF;border:2px solid #E1DED6;padding:22px 16px;border-radius:14px">{c}</p>')
+sw.append('</div>')
+sw.append(term(96, 560, 1728, [("$", "git switch feature/login"), ("o", "Switched to branch 'feature/login'"),
+                              ("$", "git switch -c feature/login-button"), ("o", "Switched to a new branch 'feature/login-button'")], ' data-build-in="fade order 3"'))
+sw.append(takeaway("하는 일과 출력은 같아요. 이 덱은 checkout으로 보여 주고, switch로 쳐도 돼요.", 900))
+page("switch", "만들고 옮기기", "브랜치만 옮기는 명령, git switch", sw,
+     "git switch는 Git 2.23(2019년)에 생긴 명령이에요. checkout은 브랜치를 옮기는 일 말고 파일을 예전 모습으로 되돌리는 일도 해서 헷갈리기 쉬워요. 그래서 브랜치를 옮기는 일만 따로 떼어 switch를 만들었어요. -c는 create(만들기)의 첫 글자예요. 내 Git이 오래돼서 switch가 없다고 나오면 git --version으로 버전을 확인해요. 팀 자료나 인터넷 글에는 두 명령이 섞여 나오니 둘 다 읽을 수 있으면 돼요.",
      color="#2459C9")
 
 # ---------- conflict-when ----------

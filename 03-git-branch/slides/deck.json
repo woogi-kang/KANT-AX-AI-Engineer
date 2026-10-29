@@ -20,6 +20,7 @@
     "b5-commit2",
     "b6-back",
     "folder-switch",
+    "switch",
     "merge-how",
     "b7-ff",
     "b8-delete",
@@ -85,7 +86,7 @@
       "start": "g1-dots"
     },
     "move": {
-      "description": "branch, checkout, 브랜치에서 커밋",
+      "description": "branch, checkout, switch, 브랜치에서 커밋",
       "start": "b1-list"
     },
     "merge": {

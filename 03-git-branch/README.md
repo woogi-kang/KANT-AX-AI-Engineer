@@ -4,14 +4,14 @@
 
 | 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
 | --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 67장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 68장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | 준비 중 |
 
 ## 학습 목표
 
 이 모듈을 마치면 다음을 할 수 있어요.
 
 - 커밋 그래프에서 커밋, 브랜치, `HEAD`가 무엇을 가리키는지 읽어요.
-- `branch`, `checkout`으로 브랜치를 만들고 옮겨 다니며 작업해요.
+- `branch`, `checkout`으로 브랜치를 만들고 옮겨 다니며 작업해요. 같은 일을 하는 `switch`도 읽고 써요.
 - `merge`로 브랜치를 합치고 fast-forward와 merge 커밋을 구분해요.
 - push 전에 커밋과 merge를 `reset --soft`, `--mixed`, `--hard`로 되돌리고 셋의 차이를 설명해요.
 - 충돌 메시지를 보고 종류를 알아낸 뒤 직접 풀어요.
@@ -24,15 +24,15 @@
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
 | 1. 브랜치란? | 3–6 | 왜 쓰는지, 커밋(점), 브랜치(이름표), `HEAD` |
-| 2. 만들고 옮기기 | 7–13 | `branch` `checkout`, 브랜치에서 커밋, 폴더 파일이 바뀌는 모습 |
-| 3. 합치기 | 14–18 | merge는 받는 쪽에서, fast-forward, `branch -d`, 이름 규칙 |
-| 4. 갈라진 길 | 19–24 | `checkout -b`, merge 커밋 |
-| 5. 되돌리기 | 25–37 | `reset --soft` `--mixed` `--hard`, 일반 커밋과 merge 커밋 두 경우, 다시 merge |
-| 6. 충돌 풀기 | 38–44 | 충돌이 나는 때, 표시 읽기, 고치고 커밋, `merge --abort` |
-| 7. GitHub에서 함께 | 45–51 | `push origin 브랜치`, Pull Request, GitHub Flow |
-| 8. 충돌 시나리오 | 52–63 | 바로 옆 줄, 지움 vs 고침, 같은 이름 새 파일, pull, Pull Request |
-| 9. 문제 해결 | 64–66 | 자주 나는 에러 |
-| 요약 | 67 | 한 장 요약 |
+| 2. 만들고 옮기기 | 7–14 | `branch` `checkout` `switch`, 브랜치에서 커밋, 폴더 파일이 바뀌는 모습 |
+| 3. 합치기 | 15–19 | merge는 받는 쪽에서, fast-forward, `branch -d`, 이름 규칙 |
+| 4. 갈라진 길 | 20–25 | `checkout -b`, merge 커밋 |
+| 5. 되돌리기 | 26–38 | `reset --soft` `--mixed` `--hard`, 일반 커밋과 merge 커밋 두 경우, 다시 merge |
+| 6. 충돌 풀기 | 39–45 | 충돌이 나는 때, 표시 읽기, 고치고 커밋, `merge --abort` |
+| 7. GitHub에서 함께 | 46–52 | `push origin 브랜치`, Pull Request, GitHub Flow |
+| 8. 충돌 시나리오 | 53–64 | 바로 옆 줄, 지움 vs 고침, 같은 이름 새 파일, pull, Pull Request |
+| 9. 문제 해결 | 65–67 | 자주 나는 에러 |
+| 요약 | 68 | 한 장 요약 |
 
 ## 핵심 개념
 
@@ -45,6 +45,15 @@
 | 색 이름표 (`main`, `feature/login`) | 브랜치. 커밋 하나를 가리키는 이름표예요 |
 | 검은 `HEAD` | 지금 내가 있는 브랜치 |
 | 보라 이름표 (`origin/main`) | GitHub에 있는 브랜치 위치 |
+
+### checkout과 switch
+
+`git switch`는 Git 2.23(2019년)에 생긴, 브랜치를 옮기는 일만 하는 명령이에요. checkout은 브랜치 말고 파일을 되돌리는 일도 해서 헷갈리기 쉬워요. 하는 일과 출력은 같으니 편한 쪽을 쓰면 돼요. 슬라이드는 checkout으로 보여 줘요.
+
+| 하는 일 | checkout | switch |
+| --- | --- | --- |
+| 브랜치로 옮겨 가기 | `git checkout 이름` | `git switch 이름` |
+| 만들고 바로 옮겨 가기 | `git checkout -b 이름` | `git switch -c 이름` |
 
 ### merge가 끝나는 두 모습
 
@@ -159,6 +168,7 @@ git config --global pull.rebase false
 | `git branch 이름` | 브랜치 만들기 |
 | `git checkout 이름` | 브랜치로 옮겨 가기 |
 | `git checkout -b 이름` | 만들고 바로 옮겨 가기 |
+| `git switch 이름`, `git switch -c 이름` | checkout과 같은 일 (브랜치 전용) |
 | `git merge 이름` | 지금 브랜치로 합치기 |
 | `git branch -d 이름` | 합친 브랜치 지우기 |
 | `git merge --abort` | 충돌 난 merge 취소 |
@@ -172,7 +182,8 @@ git config --global pull.rebase false
 | 메시지 | 원인과 해결 |
 | --- | --- |
 | `pathspec 'feature/nope' did not match` | 없는 브랜치예요. `git branch`로 이름을 확인하고, 새로 만들 땐 `git checkout -b` |
-| `a branch named 'feature/login' already exists` | 이미 있어요. `-b` 없이 `git checkout feature/login` |
+| `invalid reference: feature/nope` | switch에서 없는 브랜치로 갈 때 나와요. 새로 만들 땐 `git switch -c` |
+| `a branch named 'feature/login' already exists` | 이미 있어요. `-b`(switch는 `-c`) 없이 `git checkout feature/login` |
 | `would be overwritten by checkout` | 고친 내용이 남아 있어요. `git add`, `git commit` 뒤에 옮겨요 |
 | `is not fully merged` | 아직 합치지 않은 커밋이 있어요. `git checkout main`, `git merge 브랜치` 뒤에 지워요 |
 
