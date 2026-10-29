@@ -2,13 +2,13 @@
 
 > 명령을 칠 때마다 파일이 어느 칸으로 가는지 보며 Git을 익혀요. 내 컴퓨터에 저장소를 만들고, GitHub에 올리고, 팀원과 주고받고, 실수를 되돌리는 데까지 이어서 해요.
 
-| 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
-| --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) | 43장 · 6개 파트 | [01 · 터미널 기초](../01-linux-terminal) | [03 · Git 브랜치와 협업](../03-git-branch) |
+| 슬라이드 | 이전 챕터 | 다음 챕터 |
+| --- | --- | --- |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) | [01 · 터미널 기초](../01-linux-terminal) | [03 · Git 브랜치와 협업](../03-git-branch) |
 
 ## 학습 목표
 
-이 모듈을 마치면 다음을 할 수 있어요.
+이 챕터를 마치면 다음을 할 수 있어요.
 
 - 작업 폴더, 대기실, 내 저장소, GitHub 네 칸으로 Git의 흐름을 설명해요.
 - `git status`로 파일 상태를 읽고 `add`, `commit`으로 기록을 남겨요.

@@ -32,8 +32,21 @@
     "b6",
     "rules",
     "cycle",
-    "trouble",
     "next",
+    "cases",
+    "finder",
+    "c1",
+    "c2",
+    "c2-pr",
+    "c3",
+    "c4",
+    "c5-pr",
+    "c5",
+    "c5b",
+    "c6",
+    "c6b",
+    "c7",
+    "c8",
     "cheatsheet"
   ],
   "sections": {
@@ -54,8 +67,12 @@
       "start": "b1"
     },
     "rules": {
-      "description": "팀 규칙, 막힐 때, 요약",
+      "description": "팀 규칙, 다음 단계",
       "start": "rules"
+    },
+    "cases": {
+      "description": "팀 작업 케이스, 막혔을 때 찾기, 요약",
+      "start": "cases"
     }
   },
   "faces": {

@@ -2,13 +2,13 @@
 
 > 커밋하기 전의 변경을 다루는 명령 세 가지를 배워요. 고친 걸 버리는 `git restore`, add를 취소하는 `git restore --staged`, 고치던 걸 잠깐 치워 두는 `git stash`예요. 02의 네 칸 그림과 `hello-git` 저장소의 `login.md`를 그대로 써요.
 
-| 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
-| --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) | 24장 · 6개 파트 | [06 · 팀 레포로 함께 커밋하기](../06-team-repo) | 준비 중 |
+| 슬라이드 | 이전 챕터 | 다음 챕터 |
+| --- | --- | --- |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) | [06 · 팀 레포로 함께 커밋하기](../06-team-repo) | 준비 중 |
 
 ## 학습 목표
 
-이 모듈을 마치면 다음을 할 수 있어요.
+이 챕터를 마치면 다음을 할 수 있어요.
 
 - `git status`의 괄호 안 안내 줄을 읽고 다음에 칠 명령을 골라요.
 - `git restore 파일`로 작업 폴더의 변경을 버리고, 버리기 전에 `git diff`로 확인해요.

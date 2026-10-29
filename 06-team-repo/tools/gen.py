@@ -30,8 +30,9 @@ def p(style, text, attrs=""):
 ORDER = []
 
 
-def W(name, parts, notes):
-    ORDER.append(name)
+def W(name, parts, notes, add=True):
+    if add:
+        ORDER.append(name)
     body = "\n".join(parts) + f"\n<aside>{e(notes)}</aside>\n</section>\n"
     open(os.path.join(OUT, name + ".html"), "w").write(body)
 
@@ -212,7 +213,8 @@ W("cover", cov, "오늘은 2~3명이 팀을 짜서 GitHub에 팀 레포를 하�
 TOC_PARTS = [("Settings", PUR, "팀 레포 준비", "레포 만들기, 초대, clone, pull 설정", "roles", "config"),
              ("Users", GR, "다른 파일은 저절로", "push 거절, pull로 합치기, fast-forward", "a1", "a7"),
              ("Warning", RED, "같은 줄은 충돌", "CONFLICT 읽고 고쳐서 다시 push", "b1", "b6"),
-             ("Wrench", OR, "팀 규칙, 막힐 때", "작업 전 pull, 작게 자주 커밋, 오류", "rules", "next")]
+             ("Wrench", OR, "팀 규칙", "작업 전 pull, 작게 자주 커밋, 작업 순서", "rules", "next"),
+             ("Search", "#1E3F8F", "팀 작업 케이스", "브랜치, PR, 충돌, 실수했을 때 8가지", "cases", "c8")]
 
 # why
 w = [sec("why")] + head("오늘 하는 일", "한 저장소를 셋이 같이 써요", PUR)
@@ -507,29 +509,144 @@ cy.append(f'<div data-build-in="rise order 7" style="position:absolute;left:96px
           + p(f"font-family:{MONO};font-size:28px;line-height:1.5;color:{SUB}", "파일 고치기 → git add 파일 → git commit -m \"fix: ...\" → git push origin main") + '</div>')
 W("cycle", cy, "하루에 이 순환을 여러 번 돌아요. push가 거절되면 놀라지 말고 다시 1번 pull로 돌아가요. pull에서 충돌이 나면 3부에서 한 것처럼 고치고 add, commit, push해요.")
 
-# trouble
-tb = [sec("trouble")] + head("4부 · 막힐 때", "자주 보는 메시지", "#1E3F8F")
-cases = [("! [rejected] ... (fetch first)", "GitHub에 내가 모르는 커밋", "git pull origin main 뒤 push"),
-         ("fatal: Need to specify how to reconcile ...", "pull 설정이 없음", "git config --global pull.rebase false"),
-         ("error: Pulling is not possible because you have unmerged files.", "충돌을 덜 풀고 또 pull", "고치고 git add, git commit"),
-         ("error: Your local changes ... would be overwritten by merge", "커밋 안 한 파일을 팀원도 고침", "git add, git commit 뒤 pull"),
-         ("Permission to kim/team-intro.git denied", "초대를 수락하지 않음", "/invitations에서 Accept")]
-for i, (msg, why_, fix) in enumerate(cases, 1):
-    tb.append(f'<div data-build-in="rise order {i}" style="position:absolute;left:96px;top:{224+(i-1)*162}px;width:1728px;height:144px;background:#FFFFFF;border:2px solid {LINE};border-radius:20px;padding:0 32px;display:flex;flex-direction:row;gap:28px;align-items:center">'
-              + p(f"width:56px;height:56px;flex:none;font-size:30px;font-weight:900;line-height:56px;text-align:center;border-radius:28px;color:#FFFFFF;background:#1E3F8F", str(i))
-              + '<div style="flex:1;display:flex;flex-direction:column;gap:6px">' + p(f"font-family:{MONO};font-size:24px;font-weight:700;line-height:1.35;color:{RED}", e(msg)) + p(f"font-size:26px;color:{SUB}", why_) + '</div>'
-              + p(f"width:560px;flex:none;font-family:{MONO};font-size:24px;font-weight:700;line-height:1.45;color:{INK};background:#EEEFF2;padding:14px 20px;border-radius:12px", e(fix)) + '</div>')
-W("trouble", tb, "1, 2번은 오늘 실습에서 봤어요. 3번은 충돌 표시를 지우고 add, commit 하기 전에 pull을 또 친 경우예요. 4번은 커밋하지 않은 kim.md가 있는데 pull이 같은 파일을 바꾸려 할 때 나와요. 먼저 add, commit 하고 pull 하면 2부나 3부 모양으로 이어져요. 메시지에 나오는 stash는 커밋하지 않고 잠깐 치워 두는 방법이에요. 07에서 배워요. 5번은 초대받은 사람이 수락하기 전에 push하면 GitHub이 403과 함께 보내는 메시지예요. 1~4번 출력은 git 2.43에서 실제로 실행해 옮겼고, 5번은 GitHub이 보내는 메시지라 로컬에서 재현하지 못했어요.")
-
 # next
 nx = [sec("next")] + head("4부 · 다음 단계", "main 하나를 같이 쓰는 건 연습용이에요", OR)
 nx.append(f'<div style="position:absolute;left:96px;top:250px;width:840px;height:560px;background:#FFFFFF;border:2px solid {LINE};border-top:10px solid {OR};border-radius:20px;padding:40px;display:flex;flex-direction:column;gap:20px">'
           + p(f"font-size:36px;font-weight:700;color:{INK}", "오늘: 모두 main에 바로 push") + p(f"font-size:28px;line-height:1.55;color:{SUB}", "거절, pull, 충돌을 가장 빨리 겪어 보는 방법이에요. 사람이 늘면 서로 기다리는 일이 많아져요.") + '</div>')
 nx.append(f'<div data-build-in="rise order 1" style="position:absolute;left:984px;top:250px;width:840px;height:560px;background:#FFFFFF;border:2px solid {LINE};border-top:10px solid {GR};border-radius:20px;padding:40px;display:flex;flex-direction:column;gap:20px">'
-          + p(f"font-size:36px;font-weight:700;color:{INK}", "다음: 각자 브랜치, Pull Request") + p(f"font-size:28px;line-height:1.55;color:{SUB}", "feature/이름 브랜치에서 일하고 Pull Request로 main에 합쳐요. 03의 7부 GitHub에서 함께를 이어서 봐요.")
+          + p(f"font-size:36px;font-weight:700;color:{INK}", "다음: 각자 브랜치, Pull Request") + p(f"font-size:28px;line-height:1.55;color:{SUB}", "feature/이름 브랜치에서 일하고 Pull Request로 main에 합쳐요. 자세한 설명은 03의 7부에 있어요.")
           + p(f"font-family:{MONO};font-size:26px;line-height:1.6;color:{INK};background:#EEEFF2;padding:16px 20px;border-radius:12px", "git checkout -b feature/kim-intro<br>git push origin feature/kim-intro") + '</div>')
-nx.append(p(f"position:absolute;left:96px;top:860px;width:1728px;font-size:30px;line-height:1.5;color:{SUB}", "브랜치를 써도 Pull Request를 합친 뒤엔 오늘처럼 git pull origin main으로 맞춰요.", ' data-build-in="fade order 2"'))
-W("next", nx, "실제 팀은 main에 바로 push하지 않고 브랜치와 Pull Request를 써요. 그 흐름은 03 브랜치 덱의 7부에 있어요. 오늘 익힌 pull과 충돌 풀기는 거기서도 그대로 써요. PR 화면의 This branch has conflicts도 내 브랜치에서 git pull origin main으로 푸는 같은 방법이에요.")
+nx.append(p(f"position:absolute;left:96px;top:860px;width:1728px;font-size:30px;line-height:1.5;color:{SUB}", "브랜치로 일할 때 자주 만나는 경우는 바로 이어지는 5부에 모았어요.", ' data-build-in="fade order 2"'))
+W("next", nx, "실제 팀은 main에 바로 push하지 않고 브랜치와 Pull Request를 써요. 그 흐름의 자세한 설명은 03 브랜치 덱의 7부에 있어요. 5부에서는 팀이 브랜치로 일할 때 자주 만나는 경우를 케이스별로 모았어요. 오늘 익힌 pull과 충돌 풀기를 그대로 써요.")
+
+# =====================================================================
+# part 5: team work cases (tools/cases.sh)
+P5 = "5부 · 팀 작업 케이스"
+CASES = [("c1", "작업 시작", "main 받고 새 브랜치 만들기", GR),
+         ("c2", "브랜치 push, PR 만들기", "push origin 브랜치, Compare &amp; pull request", GR),
+         ("c3", "PR 합친 뒤", "main으로 가서 pull, 브랜치 지우고 다음 브랜치", GR),
+         ("c4", "다른 파일 PR 두 개", "둘 다 바로 Merge, 각자 pull", BL),
+         ("c5", "같은 줄을 고친 PR 두 개", "내 브랜치에서 pull origin main, 충돌 풀고 다시 push", RED),
+         ("c6", "고친 파일이 있는데 pull", "would be overwritten by merge", OR),
+         ("c7", "고친 파일이 있는데 checkout", "would be overwritten by checkout", OR),
+         ("c8", "main에 커밋해 버림", "push 전이면 브랜치로 옮기기", OR)]
+CN = {sid: i + 1 for i, (sid, *_) in enumerate(CASES)}
+
+
+def case(sid, who, title, situ, term, take, notes, icon="CheckCircle", icolor=GR, start=False, size=24):
+    n = CN[sid.rstrip("b").rstrip("-pr")] if sid.rstrip("b").rstrip("-pr") in CN else None
+    o = [sec(sid, "fade" if start else "magic")]
+    o.append(p(f"position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:{PC[who]}", e(f"{P5} · 케이스 {n} · {who}"), ' id="eyebrow"'))
+    o.append(f'<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:{INK}">{title}</h2>')
+    o.append(f'<div id="situ" style="position:absolute;left:96px;top:196px;width:1728px;height:80px;background:#FFFFFF;border:2px solid {LINE};border-left:10px solid {PC[who]};border-radius:16px;padding:0 28px;display:flex;flex-direction:row;gap:18px;align-items:center">'
+             + p(f"font-size:24px;font-weight:700;color:{MUTE};flex:none", "상황") + p(f"font-size:28px;color:{INK}", situ) + '</div>')
+    o += terminal(term, who, left=96, top=300, w=1728, h=560, size=size)
+    o.append(f'<div id="take" data-build-in="rise" style="position:absolute;left:96px;top:884px;width:1728px;height:140px;background:#FFFFFF;border:2px solid {LINE};border-radius:18px;padding:0 36px;display:flex;flex-direction:row;gap:28px;align-items:center">'
+             f'<x-icon name="{icon}" style="width:52px;height:52px;color:{icolor}"></x-icon>' + p(f"font-size:30px;font-weight:700;line-height:1.45;color:{INK}", take) + '</div>')
+    W(sid, o, notes)
+
+
+def pr_page(sid, title, num, author, branch, ok, notes, n):
+    o = [sec(sid)] + [p(f"position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:{PC[author]}", e(f"{P5} · 케이스 {n} · GitHub"), ' id="eyebrow"'),
+                      f'<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:{INK}">{title}</h2>']
+    o += browser(96, 200, 1728, 820, f"github.com/kim/team-intro/pull/{num}", f"{sid}-")
+    o.append(p(f"position:absolute;left:150px;top:300px;width:1600px;font-size:38px;color:{GHT}", f"<b>{e(branch)}</b> <span style='color:{GHS}'>#{num}</span>"))
+    o.append(f'<div style="position:absolute;left:150px;top:370px;width:1600px;height:44px;display:flex;flex-direction:row;gap:14px;align-items:center">'
+             + p(f"font-size:22px;font-weight:700;line-height:40px;padding:0 18px;border-radius:20px;color:#FFFFFF;background:#1F883D", "Open")
+             + p(f"font-size:24px;color:{GHS}", f"{author} wants to merge 1 commit into")
+             + p(f"font-family:{MONO};font-size:22px;line-height:36px;padding:0 10px;border-radius:6px;color:#0969DA;background:#DDF4FF", "main")
+             + p(f"font-size:24px;color:{GHS}", "from")
+             + p(f"font-family:{MONO};font-size:22px;line-height:36px;padding:0 10px;border-radius:6px;color:#0969DA;background:#DDF4FF", e(branch)) + '</div>')
+    if ok:
+        box = (f'<div data-build-in="rise order 1" style="position:absolute;left:150px;top:480px;width:1620px;height:300px;border:2px solid #1F883D;border-radius:12px;padding:36px 40px;display:flex;flex-direction:column;gap:22px">'
+               + p(f"font-size:32px;font-weight:700;color:{GHT}", "✓ This branch has no conflicts with the base branch")
+               + p(f"font-size:24px;color:{GHS}", "Merging can be performed automatically.")
+               + p(f"width:340px;font-size:26px;font-weight:700;line-height:60px;text-align:center;border-radius:8px;color:#FFFFFF;background:#1F883D", "Merge pull request") + '</div>')
+    else:
+        box = (f'<div data-build-in="rise order 1" style="position:absolute;left:150px;top:480px;width:1620px;height:300px;border:2px solid #D1242F;border-radius:12px;padding:36px 40px;display:flex;flex-direction:column;gap:22px">'
+               + p(f"font-size:32px;font-weight:700;color:{GHT}", "✕ This branch has conflicts that must be resolved")
+               + p(f"font-size:24px;color:{GHS}", "Conflicting files: README.md")
+               + p(f"width:340px;font-size:26px;font-weight:700;line-height:60px;text-align:center;border-radius:8px;color:#8C959F;background:#F6F8FA;border:1px solid #D0D7DE", "Merge pull request") + '</div>')
+    o.append(box)
+    msg = "Merge 버튼을 누르면 GitHub main에 merge 커밋이 생겨요." if ok else "Merge 버튼이 막혀요. 내 컴퓨터에서 main을 받아 풀고 다시 push해요."
+    o.append(p(f"position:absolute;left:150px;top:830px;width:1620px;font-size:32px;font-weight:700;color:{INK}", msg, ' data-build-in="fade order 2"'))
+    W(sid, o, notes)
+
+
+case("c1", "lee", "작업 시작: main 받고 새 브랜치", "06 실습을 마친 팀이 이제 각자 브랜치에서 일해요. lee가 자기소개를 쓰려고 해요.",
+     [("$", "git checkout main"), ("o", "Already on 'main'"), ("o", "Your branch is up to date with 'origin/main'."),
+      ("$", "git pull origin main"), ("o", "From https://github.com/kim/team-intro"), ("o", " * branch            main       -> FETCH_HEAD"), ("o", "Already up to date."),
+      ("$", "git checkout -b feature/lee-intro"), ("g", "Switched to a new branch 'feature/lee-intro'")],
+     "일을 시작할 땐 항상 main으로 가서 pull, 그다음 새 브랜치를 만들어요.",
+     "브랜치를 만들기 전에 main을 최신으로 맞추는 게 첫 단계예요. 오래된 main에서 브랜치를 만들면 팀원이 이미 합친 내용 없이 시작해서 나중에 충돌이 나기 쉬워요. 03 7부의 순서와 같아요. 이 파트의 출력은 tools/cases.sh로 새 저장소에서 실제로 실행했어요. README.md는 # 깃벗 팀, 소개: 준비 중, ## 멤버 세 부분으로 시작해요. 해시는 06 앞 파트와 달라요.",
+     start=True)
+case("c2", "lee", "브랜치에서 커밋하고 브랜치를 push", "lee.md를 만들어 커밋했어요. main이 아니라 feature/lee-intro를 올려요.",
+     [("$", 'echo "안녕하세요, lee예요" > lee.md'), ("$", "git add lee.md"), ("$", 'git commit -m "docs: lee 자기소개 추가"'),
+      ("o", "[feature/lee-intro 6fb7cc2] docs: lee 자기소개 추가"), ("o", " 1 file changed, 1 insertion(+)"), ("o", " create mode 100644 lee.md"),
+      ("$", "git push origin feature/lee-intro"), ("o", "To https://github.com/kim/team-intro.git"), ("g", " * [new branch]      feature/lee-intro -> feature/lee-intro")],
+     "push origin 뒤에 브랜치 이름을 적어요. GitHub에 같은 이름 브랜치가 생겨요.",
+     "main 대신 내 브랜치 이름을 적어서 push해요. 브랜치는 내 것이라 거절될 일이 거의 없어요. 실제 GitHub은 이 출력 사이에 remote: Create a pull request for 'feature/lee-intro' on GitHub by visiting: 줄과 주소를 함께 보여 줘요. 그 주소를 열거나 GitHub 레포 화면의 노란 Compare & pull request 버튼을 눌러 PR을 만들어요.")
+pr_page("c2-pr", "PR을 만들면 GitHub이 합칠 수 있는지 알려 줘요", 1, "lee", "feature/lee-intro", True,
+        "PR 제목과 설명을 적고 Create pull request를 누르면 이 화면이 돼요. 초록 체크는 main과 충돌이 없다는 뜻이에요. 팀원이 Files changed 탭에서 바뀐 내용을 보고 괜찮으면 Merge pull request를 눌러요. GitHub 화면은 자주 바뀌어서 모양은 조금 다를 수 있어요.", 2)
+case("c3", "lee", "PR이 합쳐진 뒤: main 받고 다음 브랜치", "kim이 lee의 PR #1을 Merge했어요. lee 컴퓨터의 main은 아직 옛날 그대로예요.",
+     [("$", "git checkout main"), ("o", "Switched to branch 'main'"), ("$", "git pull origin main"), ("o", "   93715e4..ec7283e  main       -> origin/main"), ("o", "Updating 93715e4..ec7283e"), ("g", "Fast-forward"), ("o", " lee.md | 1 +"),
+      ("$", "git branch -d feature/lee-intro"), ("o", "Deleted branch feature/lee-intro (was 6fb7cc2)."),
+      ("$", "git checkout -b feature/lee-hobby"), ("g", "Switched to a new branch 'feature/lee-hobby'"),
+      ("$", "git log --oneline"), ("o", "ec7283e (HEAD -> feature/lee-hobby, ..., main) Merge pull request #1 from lee/feature/lee-intro")],
+     "합쳐진 브랜치는 지우고, 다음 일은 최신 main에서 새 브랜치로 시작해요.",
+     "PR은 GitHub에서 합쳐져서 내 컴퓨터 main은 모르는 상태예요. main으로 가서 pull 하면 Merge pull request #1 커밋까지 받아요. 다 쓴 브랜치는 git branch -d로 지워요. 이미 합쳐져서 지워도 내용은 main에 남아요. pull의 From 줄과 log의 이름표 일부는 줄였어요. 03 7부와 같은 순서예요.")
+case("c4", "kim", "다른 파일을 고친 PR 두 개", "kim은 kim.md, lee는 lee.md를 고쳐서 PR #2, #3을 올렸어요. 둘 다 No conflicts예요.",
+     [("#", "# GitHub에서 PR #2, #3을 차례로 Merge"), ("$", "git checkout main"), ("$", "git pull origin main"), ("o", "Updating ec7283e..09e7497"), ("g", "Fast-forward"),
+      ("o", " kim.md | 1 +"), ("o", " lee.md | 1 +"), ("o", " 2 files changed, 2 insertions(+)"),
+      ("$", "git log --oneline"), ("o", "09e7497 (HEAD -> main, origin/main, origin/HEAD) Merge pull request #3 from lee/feature/lee-hobby"),
+      ("o", "4da19b6 Merge pull request #2 from kim/feature/kim-intro"), ("o", "8c8e99f docs: lee 취미 추가"), ("o", "ec7283e Merge pull request #1 from lee/feature/lee-intro")],
+     "다른 파일이면 PR 순서와 상관없이 둘 다 Merge돼요. 끝나면 각자 main에서 pull.",
+     "2부의 다른 파일 장면을 브랜치로 한 거예요. GitHub이 #2를 합친 뒤에도 #3은 다른 파일만 고쳐서 바로 합칠 수 있어요. 둘 다 합친 뒤 kim과 lee 모두 main으로 가서 pull 해요. lee 쪽 출력도 같아요. pull의 From 줄과 log 아래 세 줄은 뺐어요.")
+pr_page("c5-pr", "같은 줄을 고친 PR은 Merge가 막혀요", 5, "lee", "feature/team-about-lee", False,
+        "kim의 PR #4가 README.md의 소개 줄을 깃 공부 모임으로 바꿔 먼저 합쳐졌어요. lee도 같은 줄을 매주 화요일 스터디로 바꿔 PR #5를 올렸어요. GitHub이 충돌을 알려 주고 Merge 버튼을 막아요. GitHub 웹에서 Resolve conflicts로 풀 수도 있지만 수업에서는 3부처럼 터미널에서 풀어요.", 5)
+case("c5", "lee", "내 브랜치에서 main을 받아 충돌 풀기", "lee는 feature/team-about-lee 브랜치에 그대로 있어요. 여기로 GitHub main을 받아 와요.",
+     [("$", "git pull origin main"), ("o", "   09e7497..66421a6  main       -> origin/main"), ("o", "Auto-merging README.md"), ("r", "CONFLICT (content): Merge conflict in README.md"),
+      ("$", "cat README.md"), ("o", "# 깃벗 팀"), ("o", ""), ("o", "<<<<<<< HEAD"), ("g", "소개: 매주 화요일 스터디"), ("o", "======="), ("o", "소개: 깃 공부 모임"), ("o", ">>>>>>> 66421a6213c2e39598e99a657405f57421cbd26d"), ("o", ""), ("o", "## 멤버")],
+     "main이 아니라 내 브랜치에서 git pull origin main. 충돌은 3부와 똑같이 읽어요.",
+     "충돌을 푸는 곳은 PR을 올린 내 브랜치예요. checkout main 하지 않고 그대로 git pull origin main을 쳐서 GitHub main을 내 브랜치로 합쳐요. 위 HEAD가 lee 것, 아래가 main에 먼저 들어간 kim 것이에요. From 줄은 뺐어요.",
+     icon="Warning", icolor=RED, size=22)
+case("c5b", "lee", "고쳐서 내 브랜치를 다시 push", "둘을 합쳐 소개: 매주 화요일 깃 공부 모임으로 정했어요.",
+     [("#", "# README.md를 고쳐 저장"), ("$", "git add README.md"), ("$", 'git commit -m "fix: 팀 소개 충돌 해결"'), ("o", "[feature/team-about-lee da0214b] fix: 팀 소개 충돌 해결"),
+      ("$", "git push origin feature/team-about-lee"), ("o", "To https://github.com/kim/team-intro.git"), ("g", "   af3284d..da0214b  feature/team-about-lee -> feature/team-about-lee"),
+      ("#", "# PR #5가 다시 초록색이 되면 Merge, 그다음 모두 main에서 pull")],
+     "같은 브랜치로 push하면 열린 PR에 커밋이 더해지고, Merge 버튼이 다시 살아나요.",
+     "새 PR을 만들 필요 없어요. 같은 브랜치에 push하면 PR #5에 해결 커밋이 붙고 충돌 표시가 사라져요. Merge한 뒤에는 케이스 3처럼 모두 main으로 가서 pull 해요.")
+case("c6", "lee", "고친 파일이 있는데 pull", "lee가 main에서 README.md에 - lee를 적고 커밋 전이에요. 그사이 kim의 - kim이 main에 합쳐졌어요.",
+     [("$", 'echo "- lee" >> README.md'), ("$", "git pull origin main"), ("o", "   2647d0e..1ef2620  main       -> origin/main"),
+      ("r", "error: Your local changes to the following files would be overwritten by merge:"), ("r", "\tREADME.md"), ("o", "Please commit your changes or stash them before you merge."), ("o", "Aborting")],
+     "pull이 내 고친 내용을 덮을까 봐 멈췄어요. 아무것도 바뀌지 않았어요. 먼저 커밋해요.",
+     "커밋하지 않은 README.md를 GitHub 쪽에서도 바꿔서 pull이 시작도 안 하고 멈춰요. Aborting은 pull을 취소했다는 뜻이라 내 고친 내용은 그대로 있어요. 메시지의 stash는 커밋하지 않고 잠깐 치워 두는 방법이에요. 07에서 배워요. 여기서는 브랜치를 만들어 커밋하는 길로 가요. From 줄은 뺐어요.",
+     icon="Warning", icolor=OR)
+case("c6b", "lee", "브랜치에 커밋하고 다시 pull", "main에서 고치고 있었으니 브랜치를 만들어 거기에 커밋해요. 고친 내용은 따라와요.",
+     [("$", "git checkout -b feature/lee-member"), ("o", "Switched to a new branch 'feature/lee-member'"), ("$", "git add README.md"), ("$", 'git commit -m "docs: 멤버에 lee 추가"'),
+      ("o", "[feature/lee-member 2e4ddbd] docs: 멤버에 lee 추가"), ("$", "git pull origin main"), ("o", "Auto-merging README.md"), ("r", "CONFLICT (content): Merge conflict in README.md"),
+      ("o", "Automatic merge failed; fix conflicts and then commit the result.")],
+     "커밋하면 pull이 진행돼요. 이번엔 둘 다 맨 끝 줄에 적어서 충돌, 케이스 5처럼 풀어요.",
+     "checkout -b는 커밋하지 않은 변경을 새 브랜치로 그대로 가져가요. 커밋한 뒤 pull은 정상으로 진행돼요. kim과 lee가 둘 다 파일 맨 끝에 한 줄을 더해서 같은 자리라 충돌이 났어요. - kim과 - lee 두 줄을 다 남기고 add, commit, push origin feature/lee-member 해요. 충돌이 안 나면 바로 push하면 돼요. From 줄은 뺐어요.")
+case("c7", "kim", "고친 파일이 있는데 브랜치를 옮길 때", "kim이 feature/kim-hobby에서 kim.md를 더 고쳤는데 커밋 전에 main으로 가려고 해요.",
+     [("$", 'echo "좋아하는 음식: 김밥" >> kim.md'), ("$", "git checkout main"), ("r", "error: Your local changes to the following files would be overwritten by checkout:"), ("r", "\tkim.md"),
+      ("o", "Please commit your changes or stash them before you switch branches."), ("o", "Aborting"),
+      ("$", "git add kim.md"), ("$", 'git commit -m "docs: kim 좋아하는 음식 추가"'), ("o", "[feature/kim-hobby 1cd6246] docs: kim 좋아하는 음식 추가"),
+      ("$", "git checkout main"), ("g", "Switched to branch 'main'")],
+     "브랜치를 옮기기 전에 지금 브랜치에서 커밋해요. stash로 치워 두는 법은 07에서 배워요.",
+     "옮겨 갈 main의 kim.md와 지금 고친 kim.md가 달라서 checkout이 멈췄어요. 03 문제 해결 표의 would be overwritten by checkout과 같아요. 지금 브랜치에서 커밋하면 옮길 수 있어요. 아직 덜 된 작업이면 07의 stash가 맞아요.",
+     icon="Warning", icolor=OR)
+case("c8", "kim", "main에 커밋해 버렸어요 (push 전)", "브랜치를 깜빡하고 main에서 커밋했어요. 아직 push는 안 했어요.",
+     [("$", 'git commit -m "docs: 다음 모임 날짜 추가"'), ("o", "[main 0af5f5a] docs: 다음 모임 날짜 추가"),
+      ("$", "git branch feature/next-meeting"), ("#", "# 지금 커밋에 브랜치 이름표를 하나 더 붙여요"),
+      ("$", "git status"), ("o", "Your branch is ahead of 'origin/main' by 1 commit."), ("o", "nothing to commit, working tree clean"),
+      ("$", "git reset --hard HEAD~1"), ("o", "HEAD is now at 1ef2620 Merge pull request #6 from kim/feature/kim-member"),
+      ("$", "git checkout feature/next-meeting"), ("$", "git log --oneline"),
+      ("o", "0af5f5a (HEAD -> feature/next-meeting) docs: 다음 모임 날짜 추가"), ("o", "1ef2620 (origin/main, origin/HEAD, main) Merge pull request #6 ...")],
+     "branch로 이름표를 붙이고, main만 한 칸 되돌리고, 그 브랜치로 옮겨요. push한 뒤라면 팀에 먼저 알려요.",
+     "커밋은 그대로 두고 이름표만 옮기는 방법이에요. git branch 이름은 지금 커밋에 새 이름표만 붙여요. 그다음 main을 03에서 배운 reset --hard로 한 칸 되돌려요. --hard는 커밋 안 한 변경을 지우니 git status가 깨끗한지 먼저 봐요. 마지막으로 새 브랜치로 옮기면 커밋이 거기 있어요. 이미 push했다면 되돌리지 말고 팀에 말한 뒤 revert를 써요. echo, add 줄과 status의 On branch main 줄, 안내 줄, 마지막 log의 아래 줄들은 뺐어요.",
+     icon="Lightbulb", icolor=BL, size=22)
+CASE_START = "c1"
 
 # cheatsheet
 ch = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};padding:112px 128px;display:flex;flex-direction:column;gap:40px">',
@@ -537,7 +654,8 @@ ch = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F
 cards = [("준비", PUR, "팀장: 레포 만들기<br>Add README 켜기<br>Collaborators 초대<br><br>팀원: 초대 수락<br>git clone 주소"),
          ("설정 한 번", RED, "git config --global<br>pull.rebase false<br><br>안 하면<br>pull이 fatal로 멈춤"),
          ("다른 파일", GR, "push 거절<br>→ git pull origin main<br>→ 저절로 합쳐짐<br>→ git push origin main"),
-         ("같은 줄", BL, "CONFLICT<br>→ 남길 줄만 두고<br>표시 세 줄 지우기<br>→ git add 파일<br>→ git commit -m<br>→ git push origin main")]
+         ("같은 줄", BL, "CONFLICT<br>→ 남길 줄만 두고<br>표시 세 줄 지우기<br>→ git add 파일<br>→ git commit -m<br>→ git push origin main"),
+         ("브랜치로", "#1E3F8F", "main에서 pull<br>→ checkout -b<br>→ push origin<br>내 브랜치<br>→ PR Merge<br>→ main에서 pull<br>막히면 5부 찾기 장")]
 for h_, hc, body in cards:
     ch.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid {LINE};border-top:10px solid {hc};border-radius:20px;padding:32px 28px">'
               f'<h3 style="font-size:32px;font-weight:700;color:{hc}">{h_}</h3>'
@@ -545,27 +663,61 @@ for h_, hc, body in cards:
 ch += ['</div>', f'<p style="font-size:28px;font-weight:700;color:{INK}">작업 전에 pull, 작게 자주 커밋, 거절되면 다시 pull.</p>']
 W("cheatsheet", ch, "수업 끝에 이 장을 띄워 두고 팀별로 오늘 몇 번 거절됐는지, 충돌은 몇 번 풀었는지 이야기해 보게 하세요. 시간이 남으면 역할을 바꿔서 lee가 먼저 push하고 kim이 충돌을 풀어 봐요.")
 
+# final order: toc after cover, case list and finder before the first case
+ORDER.insert(1, "toc")
+ORDER.insert(ORDER.index("c1"), "cases")
+ORDER.insert(ORDER.index("c1"), "finder")
+pg = lambda sid: ORDER.index(sid) + 1
+
+# case list
+cl5 = [sec("cases")] + head(P5, "팀 작업 케이스 8가지", "#1E3F8F")
+for i, (sid, h, sub, c) in enumerate(CASES):
+    col, row = i // 4, i % 4
+    cl5.append(f'<div data-build-in="rise order {col+1}" style="position:absolute;left:{96+col*876}px;top:{236+row*190}px;width:852px;height:170px;background:#FFFFFF;border:2px solid {LINE};border-left:10px solid {c};border-radius:18px;padding:0 32px;display:flex;flex-direction:row;gap:26px;align-items:center">'
+               + p(f"width:60px;height:60px;flex:none;font-size:30px;font-weight:900;line-height:60px;text-align:center;border-radius:30px;color:#FFFFFF;background:{c}", str(i + 1))
+               + '<div style="flex:1;display:flex;flex-direction:column;gap:6px">' + p(f"font-size:32px;font-weight:700;color:{INK}", h) + p(f"font-size:24px;color:{SUB}", sub) + '</div>'
+               + p(f"width:90px;flex:none;font-size:24px;text-align:right;color:{MUTE}", f"{pg(sid)}쪽") + '</div>')
+cl5.append(p(f"position:absolute;left:96px;top:1000px;width:1728px;font-size:24px;color:{SUB}", "1~3은 매번 하는 순서, 4~5는 합칠 때, 6~8은 실수했을 때예요."))
+W("cases", cl5, "06 앞부분은 모두 main 하나에 push했어요. 실제 팀은 각자 브랜치에서 일하고 PR로 합쳐요. 그때 자주 만나는 경우를 여덟 가지로 나눴어요. 처음부터 다 보지 않아도 돼요. 막혔을 때 다음 장에서 메시지로 찾아 해당 케이스만 봐요. 출력은 kim과 lee 두 사람으로 tools/cases.sh에서 실제로 실행했어요.", add=False)
+
+# finder
+FIND = [("! [rejected] main -> main (fetch first)", "main에 바로 push했는데 GitHub이 앞서요", "a2"),
+        ("fatal: Need to specify how to reconcile ...", "pull 설정이 없어요", "nocfg"),
+        ("pull 하다가 vim이 열려요", "merge 커밋 메시지 화면", "vim"),
+        ("CONFLICT (content) (main에서 pull)", "같은 줄을 둘 다 고쳤어요", "b3"),
+        ("Pulling is not possible because you have unmerged files.", "충돌을 덜 풀고 또 pull", "b4"),
+        ("This branch has conflicts (PR 화면)", "PR이 main과 같은 줄을 고쳤어요", "c5-pr"),
+        ("would be overwritten by merge", "커밋 안 한 파일이 있는데 pull", "c6"),
+        ("would be overwritten by checkout", "커밋 안 한 파일이 있는데 브랜치 이동", "c7"),
+        ("PR이 합쳐졌는데 내 main이 옛날 그대로", "GitHub에서 합친 건 pull해야 받아요", "c3"),
+        ("main에 커밋해 버렸어요", "push 전이면 브랜치로 옮겨요", "c8"),
+        ("Permission to kim/team-intro.git denied (403)", "초대를 아직 수락하지 않았어요", "invite")]
+fd = [sec("finder")] + head(P5, "막혔을 때 어느 장을 볼까요?", "#1E3F8F")
+for i, (msg, why_, sid) in enumerate(FIND):
+    fd.append(f'<div style="position:absolute;left:96px;top:{214+i*74}px;width:1728px;height:64px;background:#FFFFFF;border:2px solid {LINE};border-radius:12px;padding:0 24px;display:flex;flex-direction:row;gap:24px;align-items:center">'
+              + p(f"width:860px;flex:none;font-family:{MONO};font-variant-ligatures:none;font-size:22px;font-weight:700;color:{RED};white-space:nowrap;overflow:hidden", e(msg))
+              + p(f"flex:1;font-size:24px;color:{SUB}", why_)
+              + p(f"width:110px;flex:none;font-size:26px;font-weight:700;text-align:right;color:#1E3F8F", f"{pg(sid)}쪽") + '</div>')
+W("finder", fd, "터미널이나 GitHub에서 본 메시지를 왼쪽에서 찾고 오른쪽 쪽수로 가요. 주소 끝에 #쪽수를 붙이면 그 장이 바로 열려요. 위 다섯 줄은 2부와 3부에서 main 하나로 일할 때, 아래 여섯 줄은 브랜치와 PR로 일할 때 자주 나와요. 403 메시지는 GitHub이 보내는 것이라 로컬에서 재현하지 못했어요.", add=False)
+
 # toc (now that ORDER is known)
-pg = lambda sid: ORDER.index(sid) + 2  # toc itself is inserted at index 1
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      f'<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>',
-     '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;flex:1">']
+     '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:24px;flex:1">']
 for i, (ic, c, h, s_, a, b) in enumerate(TOC_PARTS, 1):
     t.append(f'<div style="display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:2px solid {LINE};border-top:10px solid {c};border-radius:20px;padding:28px 32px">'
              f'<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:56px;font-weight:900;line-height:1.25;color:{c}">{i}</p>'
              f'<x-icon name="{ic}" style="width:44px;height:44px;color:{c}"></x-icon></div>'
-             f'<h3 style="font-size:36px;font-weight:700;color:{INK}">{h}</h3>'
+             f'<h3 style="font-size:30px;font-weight:700;color:{INK}">{h}</h3>'
              f'<p style="font-size:28px;line-height:1.45;color:{SUB}">{s_}</p><div style="flex:1"></div>'
              f'<p style="font-size:24px;color:{MUTE}">{pg(a)}–{pg(b)}쪽</p></div>')
-t += ['</div>', f'<p style="font-size:26px;color:{SUB}">마지막 {len(ORDER)+1}쪽은 한 장 요약이에요.</p>']
-W("toc", t, "1부에서 레포를 만들고 셋이 clone해요. 2부와 3부가 오늘의 중심이에요. 2부는 서로 다른 파일을 고쳐서 저절로 합쳐지는 경우, 3부는 같은 줄을 고쳐서 충돌이 나는 경우예요. 4부는 팀 규칙과 막힐 때 볼 메시지예요.")
-ORDER.remove("toc")
-ORDER.insert(1, "toc")
+t += ['</div>', f'<p style="font-size:26px;color:{SUB}">마지막 {len(ORDER)}쪽은 한 장 요약이에요.</p>']
+W("toc", t, add=False, notes="1부에서 레포를 만들고 셋이 clone해요. 2부와 3부가 오늘의 중심이에요. 2부는 서로 다른 파일을 고쳐서 저절로 합쳐지는 경우, 3부는 같은 줄을 고쳐서 충돌이 나는 경우예요. 4부는 팀 규칙이에요. 5부는 브랜치와 PR로 일할 때 만나는 경우를 케이스별로 모았어요. 막혔을 땐 5부 첫 두 장에서 찾아요.")
 
 deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-10-29T03:00:00Z"}, "lists": "css", "title": "팀 레포로 함께 커밋하기", "order": ORDER,
         "sections": {"intro": {"description": "오늘 하는 일", "start": "cover"}, "setup": {"description": "팀 레포 준비", "start": "roles"},
                      "auto": {"description": "다른 파일은 저절로 합쳐져요", "start": "a1"}, "conflict": {"description": "같은 줄은 충돌", "start": "b1"},
-                     "rules": {"description": "팀 규칙, 막힐 때, 요약", "start": "rules"}},
+                     "rules": {"description": "팀 규칙, 다음 단계", "start": "rules"}, "cases": {"description": "팀 작업 케이스, 막혔을 때 찾기, 요약", "start": "cases"}},
         "faces": {"noto-sans-kr": {"family": "Noto Sans KR", "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"},
                   "jetbrains-mono": {"family": "JetBrains Mono", "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"}},
         "designSystems": []}

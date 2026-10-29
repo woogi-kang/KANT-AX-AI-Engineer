@@ -1,0 +1,23 @@
+<section id="c8" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">5부 · 팀 작업 케이스 · 케이스 8 · kim</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">main에 커밋해 버렸어요 (push 전)</h2>
+<div id="situ" style="position:absolute;left:96px;top:196px;width:1728px;height:80px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #2459C9;border-radius:16px;padding:0 28px;display:flex;flex-direction:row;gap:18px;align-items:center"><p style="font-size:24px;font-weight:700;color:#6A7180;flex:none">상황</p><p style="font-size:28px;color:#1D2330">브랜치를 깜빡하고 main에서 커밋했어요. 아직 push는 안 했어요.</p></div>
+<div id="term" style="position:absolute;left:96px;top:300px;width:1728px;height:560px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<div style="display:flex;flex-direction:row;gap:12px;align-items:center;padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid #343B48"><div style="width:18px;height:18px;border-radius:9px;background:#2459C9"></div><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;color:#FFFFFF">kim의 터미널</p><p style="font-size:20px;color:#8C95A6">~/team-intro</p></div>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git commit -m "docs: 다음 모임 날짜 추가"</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">[main 0af5f5a] docs: 다음 모임 날짜 추가</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git branch feature/next-meeting</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#8C95A6"># 지금 커밋에 브랜치 이름표를 하나 더 붙여요</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git status</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">Your branch is ahead of 'origin/main' by 1 commit.</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">nothing to commit, working tree clean</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git reset --hard HEAD~1</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">HEAD is now at 1ef2620 Merge pull request #6 from kim/feature/kim-member</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git checkout feature/next-meeting</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">0af5f5a (HEAD -&gt; feature/next-meeting) docs: 다음 모임 날짜 추가</p>
+<p style="font-size:22px;line-height:1.3;white-space:pre;color:#D8DEE9">1ef2620 (origin/main, origin/HEAD, main) Merge pull request #6 ...</p>
+</div>
+<div id="take" data-build-in="rise" style="position:absolute;left:96px;top:884px;width:1728px;height:140px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:0 36px;display:flex;flex-direction:row;gap:28px;align-items:center"><x-icon name="Lightbulb" style="width:52px;height:52px;color:#2459C9"></x-icon><p style="font-size:30px;font-weight:700;line-height:1.45;color:#1D2330">branch로 이름표를 붙이고, main만 한 칸 되돌리고, 그 브랜치로 옮겨요. push한 뒤라면 팀에 먼저 알려요.</p></div>
+<aside>커밋은 그대로 두고 이름표만 옮기는 방법이에요. git branch 이름은 지금 커밋에 새 이름표만 붙여요. 그다음 main을 03에서 배운 reset --hard로 한 칸 되돌려요. --hard는 커밋 안 한 변경을 지우니 git status가 깨끗한지 먼저 봐요. 마지막으로 새 브랜치로 옮기면 커밋이 거기 있어요. 이미 push했다면 되돌리지 말고 팀에 말한 뒤 revert를 써요. echo, add 줄과 status의 On branch main 줄, 안내 줄, 마지막 log의 아래 줄들은 뺐어요.</aside>
+</section>

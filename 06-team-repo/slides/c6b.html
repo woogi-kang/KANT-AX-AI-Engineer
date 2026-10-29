@@ -1,0 +1,19 @@
+<section id="c6b" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#1F8A4C">5부 · 팀 작업 케이스 · 케이스 6 · lee</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">브랜치에 커밋하고 다시 pull</h2>
+<div id="situ" style="position:absolute;left:96px;top:196px;width:1728px;height:80px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #1F8A4C;border-radius:16px;padding:0 28px;display:flex;flex-direction:row;gap:18px;align-items:center"><p style="font-size:24px;font-weight:700;color:#6A7180;flex:none">상황</p><p style="font-size:28px;color:#1D2330">main에서 고치고 있었으니 브랜치를 만들어 거기에 커밋해요. 고친 내용은 따라와요.</p></div>
+<div id="term" style="position:absolute;left:96px;top:300px;width:1728px;height:560px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<div style="display:flex;flex-direction:row;gap:12px;align-items:center;padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid #343B48"><div style="width:18px;height:18px;border-radius:9px;background:#1F8A4C"></div><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;color:#FFFFFF">lee의 터미널</p><p style="font-size:20px;color:#8C95A6">~/team-intro</p></div>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git checkout -b feature/lee-member</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">Switched to a new branch 'feature/lee-member'</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git add README.md</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git commit -m "docs: 멤버에 lee 추가"</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">[feature/lee-member 2e4ddbd] docs: 멤버에 lee 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">Auto-merging README.md</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#F28B82">CONFLICT (content): Merge conflict in README.md</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">Automatic merge failed; fix conflicts and then commit the result.</p>
+</div>
+<div id="take" data-build-in="rise" style="position:absolute;left:96px;top:884px;width:1728px;height:140px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:0 36px;display:flex;flex-direction:row;gap:28px;align-items:center"><x-icon name="CheckCircle" style="width:52px;height:52px;color:#1F8A4C"></x-icon><p style="font-size:30px;font-weight:700;line-height:1.45;color:#1D2330">커밋하면 pull이 진행돼요. 이번엔 둘 다 맨 끝 줄에 적어서 충돌, 케이스 5처럼 풀어요.</p></div>
+<aside>checkout -b는 커밋하지 않은 변경을 새 브랜치로 그대로 가져가요. 커밋한 뒤 pull은 정상으로 진행돼요. kim과 lee가 둘 다 파일 맨 끝에 한 줄을 더해서 같은 자리라 충돌이 났어요. - kim과 - lee 두 줄을 다 남기고 add, commit, push origin feature/lee-member 해요. 충돌이 안 나면 바로 push하면 돼요. From 줄은 뺐어요.</aside>
+</section>

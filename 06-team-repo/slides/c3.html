@@ -1,0 +1,23 @@
+<section id="c3" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#1F8A4C">5부 · 팀 작업 케이스 · 케이스 3 · lee</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">PR이 합쳐진 뒤: main 받고 다음 브랜치</h2>
+<div id="situ" style="position:absolute;left:96px;top:196px;width:1728px;height:80px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #1F8A4C;border-radius:16px;padding:0 28px;display:flex;flex-direction:row;gap:18px;align-items:center"><p style="font-size:24px;font-weight:700;color:#6A7180;flex:none">상황</p><p style="font-size:28px;color:#1D2330">kim이 lee의 PR #1을 Merge했어요. lee 컴퓨터의 main은 아직 옛날 그대로예요.</p></div>
+<div id="term" style="position:absolute;left:96px;top:300px;width:1728px;height:560px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<div style="display:flex;flex-direction:row;gap:12px;align-items:center;padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid #343B48"><div style="width:18px;height:18px;border-radius:9px;background:#1F8A4C"></div><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;color:#FFFFFF">lee의 터미널</p><p style="font-size:20px;color:#8C95A6">~/team-intro</p></div>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git checkout main</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">Switched to branch 'main'</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">   93715e4..ec7283e  main       -&gt; origin/main</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">Updating 93715e4..ec7283e</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#7FD18B">Fast-forward</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9"> lee.md | 1 +</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git branch -d feature/lee-intro</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">Deleted branch feature/lee-intro (was 6fb7cc2).</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git checkout -b feature/lee-hobby</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#7FD18B">Switched to a new branch 'feature/lee-hobby'</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">ec7283e (HEAD -&gt; feature/lee-hobby, ..., main) Merge pull request #1 from lee/feature/lee-intro</p>
+</div>
+<div id="take" data-build-in="rise" style="position:absolute;left:96px;top:884px;width:1728px;height:140px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:0 36px;display:flex;flex-direction:row;gap:28px;align-items:center"><x-icon name="CheckCircle" style="width:52px;height:52px;color:#1F8A4C"></x-icon><p style="font-size:30px;font-weight:700;line-height:1.45;color:#1D2330">합쳐진 브랜치는 지우고, 다음 일은 최신 main에서 새 브랜치로 시작해요.</p></div>
+<aside>PR은 GitHub에서 합쳐져서 내 컴퓨터 main은 모르는 상태예요. main으로 가서 pull 하면 Merge pull request #1 커밋까지 받아요. 다 쓴 브랜치는 git branch -d로 지워요. 이미 합쳐져서 지워도 내용은 main에 남아요. pull의 From 줄과 log의 이름표 일부는 줄였어요. 03 7부와 같은 순서예요.</aside>
+</section>

@@ -15,6 +15,7 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 - 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`, `06-team-repo`, `07-git-restore-stash`)
 - 폴더마다 수강생이 읽을 `README.md`를 둬요. 무엇을 배우는지, 어떤 순서로 보면 되는지, 꼭 기억할 명령을 적어요.
 - 슬라이드가 있는 폴더에는 수강생이 바로 받을 HTML(`주제-slides.html`, 애니메이션 포함)과 PDF(`주제-slides.pdf`)를 같이 둬요. 슬라이드를 고치면 둘 다 다시 만들어요. 만드는 스크립트는 `02-git-basics/tools/`의 `build_player.js`, `export.js`예요.
+- 자료 단위는 "챕터"라고 불러요. README 커리큘럼 표와 챕터 README에는 슬라이드 장수(34장 같은 표시)를 적지 않아요. 챕터 README 맨 위 표는 슬라이드, 이전 챕터, 다음 챕터 세 칸이에요.
 - 강사용 도구(생성·검사·PDF 내보내기 스크립트)는 해당 폴더의 `tools/`에 둬요.
 - 레포 맨 위 `README.md`의 목차에 새 폴더와 HTML 링크를 추가해요. HTML은 GitHub Pages 주소(`https://woogi-kang.github.io/KANT-AX-AI-Engineer/폴더/파일.html`)로 걸어요. README에는 PDF 다운로드 링크를 넣지 않아요(PDF 파일은 강사용으로 계속 만들어 둬요).
 
@@ -25,7 +26,7 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 - 팀 실습의 사람과 색은 kim(파랑 #2459C9), lee(초록 #1F8A4C), park(주황 #B26A00), GitHub(보라 #5A3BB8)로 맞춰요. 팀 레포 주소 예시는 `https://github.com/kim/team-intro.git`이에요.
 - GitHub과 비교할 땐 `git fetch origin` 뒤 `git log --oneline`과 `git log --oneline origin/main`을 봐요.
 - `git log`에 `--graph`, `--all` 옵션은 쓰지 않아요. 자료, README, 슬라이드 모두 같아요.
-- `git restore`와 `git stash`는 07 모듈에서만 다뤄요. 01~06 자료에는 넣지 않아요.
+- `git restore`와 `git stash`는 07 챕터에서만 다뤄요. 01~06 자료에는 넣지 않아요.
 - 커밋은 `git add 파일` 뒤 `git commit -m "..."`으로 써요. `git commit -am`처럼 add를 합친 옵션은 배우지 않았으니 쓰지 않아요.
 - 커밋 메시지는 Conventional Commits 형식(`feat:`, `fix:`, `docs:` …)으로 써요. 이 레포에 커밋할 때도 같아요.
 - 터미널 출력은 실제 git으로 실행해 보고 그대로 옮겨요. 지어낸 출력은 넣지 않아요.
@@ -39,7 +40,7 @@ main에 올리기 전에 매번 아래를 확인해요.
 1. 새로 넣은 장이 배우는 순서에 맞는 자리인지 봐요. 아직 안 배운 명령이나 개념이 먼저 나오면 안 돼요.
 2. 같은 덱과 다른 덱(01, 02, 03 …)의 내용, 용어, 해시, 발표자 노트의 앞 장 참조와 어긋나지 않는지 봐요.
 3. 위 수업 규칙에 어긋나는 명령이 없는지 검색해요. (`-u`, `--graph`, `--all`, `commit -am`, 07 밖의 `restore`, `stash`)
-4. 모듈 README(구성의 쪽 번호, 장수, 명령어 요약, 실습, 문제 해결)와 맨 위 README(장수, 다루는 명령, 과정 규칙)를 슬라이드에 맞춰 고쳐요.
+4. 챕터 README(구성의 쪽 번호, 명령어 요약, 실습, 문제 해결)와 맨 위 README(다루는 명령, 과정 규칙)를 슬라이드에 맞춰 고쳐요.
 5. README의 실습 명령을 순서대로 쳤을 때 실제로 동작하는지 확인해요.
 6. HTML과 PDF를 다시 만들어요.
 

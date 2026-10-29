@@ -2,13 +2,13 @@
 
 > 명령을 칠 때마다 폴더 지도가 어떻게 바뀌는지 보며 터미널을 익혀요. 홈 폴더에 `kant` 폴더를 만들고, 그 안에서 파일을 만들고 옮기고 지우는 데까지 이어서 해요.
 
-| 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
-| --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) | 34장 · 7개 파트 | 없음 | [02 · Git 기본 흐름](../02-git-basics) |
+| 슬라이드 | 이전 챕터 | 다음 챕터 |
+| --- | --- | --- |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) | 없음 | [02 · Git 기본 흐름](../02-git-basics) |
 
 ## 학습 목표
 
-이 모듈을 마치면 다음을 할 수 있어요.
+이 챕터를 마치면 다음을 할 수 있어요.
 
 - `pwd`, `ls`, `cd`로 지금 위치를 확인하고 폴더 사이를 옮겨 다녀요.
 - 절대 경로와 상대 경로를 구분하고 `.`, `..`, `~`, `/`를 써요.

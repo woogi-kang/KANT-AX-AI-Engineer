@@ -2,13 +2,13 @@
 
 > 02의 네 칸 그림에서 diff가 어느 두 칸을 비교하는지 봐요. add 전, commit 전, merge 전에 무엇이 바뀌는지 확인하는 습관을 만들어요. 03에서 쓰던 `hello-git` 저장소와 `login.md`를 그대로 써요.
 
-| 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
-| --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) | 25장 · 8개 파트 | [03 · Git 브랜치와 협업](../03-git-branch) | [05 · VS Code Git Graph로 기록 보기](../05-git-graph) |
+| 슬라이드 | 이전 챕터 | 다음 챕터 |
+| --- | --- | --- |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) | [03 · Git 브랜치와 협업](../03-git-branch) | [05 · VS Code Git Graph로 기록 보기](../05-git-graph) |
 
 ## 학습 목표
 
-이 모듈을 마치면 다음을 할 수 있어요.
+이 챕터를 마치면 다음을 할 수 있어요.
 
 - `git diff`와 `git diff --staged`가 네 칸 중 어느 두 칸을 비교하는지 말해요.
 - diff 출력에서 지운 줄(`-`), 넣은 줄(`+`), 위치(`@@`)를 읽어요.
