@@ -9,6 +9,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [01](./01-linux-terminal) | 터미널 기초 | `pwd` `ls` `cd` `mkdir` `touch` `mv` `cp` `rm` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) · 34장 |
 | [02](./02-git-basics) | Git 기본 흐름 | `init` `add` `commit` `push` `pull` `clone` `reset` `revert` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) · 43장 |
 | [03](./03-git-branch) | Git 브랜치와 협업 | `branch` `checkout` `switch` `merge`, `reset`, Pull Request, 충돌 해결 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) · 68장 |
+| [04](./04-git-diff) | Git diff로 확인하기 | `diff` `diff --staged` `show`, 브랜치 비교, `.gitignore` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) · 25장 |
 
 모듈은 번호 순서대로 이어져요. 앞 모듈에서 만든 폴더와 저장소를 다음 모듈에서 그대로 써요.
 
@@ -62,11 +63,12 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 │   ├── git-branch-slides.pdf     슬라이드 (강사용 인쇄본)
 │   ├── slides/                   슬라이드 원본 (한 장에 한 파일)
 │   └── tools/                    슬라이드 생성, 검사, 내보내기 스크립트
+├── 04-git-diff/
 └── CLAUDE.md                     자료 작성 규칙
 ```
 
 ## 자료를 고칠 때
 
 - 슬라이드를 고치면 모듈의 `tools/`로 HTML과 PDF를 다시 만들어요. 명령은 모듈 README의 강사용 절에 있어요.
-- 새 모듈은 `04-주제` 형식으로 폴더를 만들고 커리큘럼 표에 한 줄을 더해요.
+- 새 모듈은 `05-주제` 형식으로 폴더를 만들고 커리큘럼 표에 한 줄을 더해요.
 - 글쓰기와 폴더 규칙은 [CLAUDE.md](./CLAUDE.md)를 따라요.

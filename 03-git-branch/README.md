@@ -4,7 +4,7 @@
 
 | 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
 | --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 68장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 68장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | [04 · Git diff로 확인하기](../04-git-diff) |
 
 ## 학습 목표
 
@@ -225,4 +225,4 @@ node tools/export.js slides git-branch-slides.pdf
 
 ---
 
-[← 이전: 02 · Git 기본 흐름](../02-git-basics) · [커리큘럼](../README.md)
+[← 이전: 02 · Git 기본 흐름](../02-git-basics) · [커리큘럼](../README.md) · [다음: 04 · Git diff로 확인하기 →](../04-git-diff)

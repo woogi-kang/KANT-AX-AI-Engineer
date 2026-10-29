@@ -1,0 +1,81 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-29T00:30:00Z"
+  },
+  "lists": "css",
+  "title": "Git diff, 눈으로 보기",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "map",
+    "d1",
+    "read-lines",
+    "read-hunk",
+    "d2",
+    "d3",
+    "d4a",
+    "d4b",
+    "d5",
+    "show",
+    "br1",
+    "br2",
+    "br3",
+    "conflict",
+    "resolve",
+    "ig1",
+    "ig2",
+    "ig3",
+    "ig4",
+    "t-empty",
+    "t-pager",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "diff가 무엇이고 어느 두 칸을 비교하는지",
+      "start": "cover"
+    },
+    "diff": {
+      "description": "git diff와 출력 읽기",
+      "start": "d1"
+    },
+    "staged": {
+      "description": "git diff --staged",
+      "start": "d3"
+    },
+    "show": {
+      "description": "git show",
+      "start": "show"
+    },
+    "branch": {
+      "description": "브랜치 비교",
+      "start": "br1"
+    },
+    "conflict": {
+      "description": "충돌 볼 때",
+      "start": "conflict"
+    },
+    "ignore": {
+      "description": ".gitignore",
+      "start": "ig1"
+    },
+    "errors": {
+      "description": "막힐 때와 요약",
+      "start": "t-empty"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

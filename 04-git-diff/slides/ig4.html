@@ -1,0 +1,22 @@
+<section id="ig4" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">.gitignore</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">이미 커밋한 파일은 숨겨지지 않아요</h2>
+<div id="term" style="position:absolute;left:96px;top:236px;width:1100px;height:704px;background:#1B2029;border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:24px;line-height:1.35;white-space:pre;font-weight:700;color:#F2C46D">$ echo "*.log" &gt;&gt; .gitignore</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;font-weight:700;color:#F2C46D">$ echo "error" &gt;&gt; app.log</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;font-weight:700;color:#F2C46D">$ git status</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Changes not staged for commit:</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">        modified:   .gitignore</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">        modified:   app.log</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#8C95A6"># app.log가 계속 나와요</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;font-weight:700;color:#F2C46D">$ git rm --cached app.log</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">rm 'app.log'</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;font-weight:700;color:#F2C46D">$ git status</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Changes to be committed:</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#7FD18B">        deleted:    app.log</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Changes not staged for commit:</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">        modified:   .gitignore</p>
+</div>
+<div data-build-in="rise" style="position:absolute;left:1236px;top:236px;width:588px;height:704px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:22px"><x-icon name="Warning" style="width:52px;height:52px;color:#A33131"></x-icon><p style="font-size:32px;font-weight:700;line-height:1.4;color:#1D2330">.gitignore는 Git이 아직 모르는 파일에만 통해요</p><p style="font-size:26px;line-height:1.5;color:#4A5262">이미 커밋한 파일은 이 명령으로 기록 대상에서 빼요.</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#EEEFF2;padding:10px 16px;border-radius:10px">git rm --cached 파일</p><p style="font-size:26px;line-height:1.5;color:#4A5262">내 폴더의 파일은 그대로 있어요. 그다음 add, commit 해요.</p></div>
+<aside>app.log를 먼저 커밋해 버린 뒤에 *.log를 .gitignore에 적은 상황이에요. Git은 이미 기록하던 파일은 계속 지켜봐요. git rm --cached는 파일은 내 폴더에 두고 Git 기록에서만 빼요. 그다음 .gitignore와 함께 add, commit 하면 돼요. 그래서 .gitignore는 프로젝트 처음에 만드는 게 좋아요. 비밀 값을 이미 push했다면 키를 새로 발급받아요. status 안내 줄과 On branch main 줄은 화면 때문에 뺐어요.</aside>
+</section>

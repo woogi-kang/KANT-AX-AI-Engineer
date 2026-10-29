@@ -1,0 +1,22 @@
+<section id="ig2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">.gitignore</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">.gitignore에 이름을 적으면 Git이 못 본 척해요</h2>
+<div id="folder" style="position:absolute;left:96px;top:236px;width:600px;height:640px;background:#FDFCF9;border:2px solid #9AA0AB;border-radius:20px"></div>
+<div id="folder-h" style="position:absolute;left:128px;top:262px;width:540px;display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Code" style="width:32px;height:32px;color:#3A4150"></x-icon><p style="font-size:30px;font-weight:700;color:#3A4150">① 작업 폴더 hello-git/</p></div>
+<div id="f-login" style="position:absolute;left:136px;top:330px;width:520px;height:96px;background:#EEEFF2;border:2px solid #B4B9C3;border-radius:16px;padding:12px 20px;display:flex;flex-direction:column;gap:2px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">login.md</p><p style="font-size:22px;font-weight:700;color:#3A4150">Committed · 변경 없음</p></div>
+<div id="f-env" style="position:absolute;left:136px;top:442px;width:520px;height:96px;background:#F6F5F1;border:2px dashed #B4B9C3;border-radius:16px;padding:12px 20px;display:flex;flex-direction:column;gap:2px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">.env</p><p style="font-size:22px;font-weight:700;color:#6A7180">무시됨 · status에 안 나와요</p></div>
+<div id="f-ig" style="position:absolute;left:136px;top:554px;width:520px;height:96px;background:#FBE4E2;border:2px solid #E07A7A;border-radius:16px;padding:12px 20px;display:flex;flex-direction:column;gap:2px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">.gitignore</p><p style="font-size:22px;font-weight:700;color:#A33131">Untracked · 새 파일</p></div>
+<div id="term" style="position:absolute;left:736px;top:236px;width:1088px;height:420px;background:#1B2029;border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ echo ".env" &gt; .gitignore</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git status</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">On branch main</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">Untracked files:</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#8C95A6">  (use "git add &lt;file&gt;..." to include in what will be committed)</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#F28B82">        .gitignore</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git add .gitignore</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git commit -m "chore: .env를 gitignore에 추가"</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">[main 0e35512] chore: .env를 gitignore에 추가</p>
+</div>
+<div id="explain" data-build-in="rise" style="position:absolute;left:736px;top:692px;width:1088px;height:184px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:28px 36px;display:flex;flex-direction:row;gap:24px;align-items:center"><x-icon name="CheckCircle" style="width:56px;height:56px;color:#1A7340"></x-icon><p style="font-size:32px;font-weight:700;line-height:1.4;color:#1D2330">.env가 status에서 사라지고<br>.gitignore는 커밋해서 팀과 같이 써요.</p></div>
+<aside>.gitignore는 저장소 맨 위 폴더에 두는 파일이에요. 한 줄에 하나씩 무시할 파일 이름을 적어요. .env 파일 자체는 지워지지 않고 그대로 있어요. Git이 못 본 척할 뿐이에요. .gitignore는 커밋해서 팀원도 같은 규칙을 쓰게 해요. status 출력 마지막 안내 줄은 화면 때문에 뺐어요.</aside>
+</section>
