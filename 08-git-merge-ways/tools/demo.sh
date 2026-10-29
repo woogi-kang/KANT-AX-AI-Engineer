@@ -154,8 +154,12 @@ git init -q --bare "$D/shared.git"; point "$D/shared.git"
 git remote add origin $URL
 git push -q origin main $B 2>/dev/null
 r git checkout $B
-at 20; r git rebase main
+at 04; r git rebase main
+r git log --oneline
 r git push origin $B
+step "10b 힌트대로 pull하면 같은 커밋이 두 번"
+at 21; r git pull origin $B
+r git log --oneline
 
 step "11 GitHub에서 Squash and merge 한 뒤"
 fresh split gh
