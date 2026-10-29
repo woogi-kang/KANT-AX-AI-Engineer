@@ -11,6 +11,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [03](./03-git-branch) | Git 브랜치와 협업 | `branch` `checkout` `switch` `merge`, `reset`, Pull Request, 충돌 해결 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) · 72장 |
 | [04](./04-git-diff) | Git diff로 확인하기 | `diff` `diff --staged` `show`, 브랜치 비교, `.gitignore` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) · 25장 |
 | [05](./05-git-graph) | VS Code Git Graph로 기록 보기 | Git Graph 설치, 점·이름표·HEAD·origin/main 읽기, 명령 뒤 그림 확인 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) · 23장 |
+| [07](./07-git-restore-stash) | restore와 stash로 되돌리고 치워 두기 | `restore` `restore --staged` `stash` `stash list` `stash pop` `stash drop` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) · 24장 |
 
 모듈은 번호 순서대로 이어져요. 앞 모듈에서 만든 폴더와 저장소를 다음 모듈에서 그대로 써요.
 
@@ -49,6 +50,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 원격과 비교 | `git fetch origin` 뒤에 `git log --oneline`, `git log --oneline origin/main`. `--graph`, `--all`은 쓰지 않아요 |
 | 그림으로 보기 | VS Code의 Git Graph로 결과만 확인해요. checkout, merge, reset은 Git Graph 메뉴 대신 터미널에서 쳐요 |
 | 커밋 | `git add 파일` 뒤 `git commit -m "..."`. `-am`은 쓰지 않아요 |
+| 커밋 전 되돌리기 | `git restore`, `git stash`는 07에서 배워요. 01~06 자료에는 나오지 않아요 |
 | 커밋 메시지 | [Conventional Commits](https://www.conventionalcommits.org/ko/v1.0.0/) 형식: `feat:` `fix:` `docs:` … |
 | 브랜치 이동 | 슬라이드는 `git checkout`으로 보여 줘요. 같은 일을 하는 `git switch`도 03에서 소개해요 |
 | 브랜치 이름 | `feature/login`, `fix/12-login-error`, `docs/login-guide`처럼 `타입/하는-일` |
@@ -67,11 +69,12 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 │   └── tools/                    슬라이드 생성, 검사, 내보내기 스크립트
 ├── 04-git-diff/
 ├── 05-git-graph/
+├── 07-git-restore-stash/
 └── CLAUDE.md                     자료 작성 규칙
 ```
 
 ## 자료를 고칠 때
 
 - 슬라이드를 고치면 모듈의 `tools/`로 HTML과 PDF를 다시 만들어요. 명령은 모듈 README의 강사용 절에 있어요.
-- 새 모듈은 `06-주제` 형식으로 폴더를 만들고 커리큘럼 표에 한 줄을 더해요.
+- 새 모듈은 `08-주제`처럼 다음 번호로 폴더를 만들고 커리큘럼 표에 한 줄을 더해요.
 - 글쓰기와 폴더 규칙은 [CLAUDE.md](./CLAUDE.md)를 따라요.

@@ -283,7 +283,7 @@ errpage("err-name", "에러 1 · 브랜치 이름", "옮기려는데, 만들려�
 errpage("err-dirty", "에러 2 · 커밋 안 한 변경", "브랜치를 옮기려는데 막혀요",
         [("Warning", "고친 파일이 그대로 있음", "error: Your local changes to the following files would be overwritten by checkout:<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;login.md<br>Please commit your changes or stash them before you switch branches.<br>Aborting",
           "옮겨 가면 고친 내용이 덮어써져서 Git이 멈췄어요. 먼저 커밋하고 옮겨요", ["git add login.md", 'git commit -m "feat: ..."', "git checkout feature/login"])],
-        "옮겨 갈 브랜치에서 같은 파일 내용이 다를 때만 나요. 고친 내용을 잃지 않게 지켜 주는 에러예요. 작업이 덜 끝났어도 지금 브랜치에 커밋해 두고 옮기면 돼요. 메시지에 나오는 stash(잠깐 치워 두기)는 이 과정에서 다루지 않아요.")
+        "옮겨 갈 브랜치에서 같은 파일 내용이 다를 때만 나요. 고친 내용을 잃지 않게 지켜 주는 에러예요. 작업이 덜 끝났어도 지금 브랜치에 커밋해 두고 옮기면 돼요. 메시지에 나오는 stash(잠깐 치워 두기)는 07에서 배워요.")
 errpage("err-unmerged", "에러 3 · 브랜치 지우기", "브랜치가 안 지워져요",
         [("Lock", "아직 합치지 않은 커밋이 있음", "$ git branch -d feature/login<br>error: the branch 'feature/login' is not fully merged.<br>If you are sure you want to delete it, run 'git branch -D feature/login'",
           "지우면 그 커밋을 잃을 수 있어서 Git이 멈췄어요", ["git checkout main", "git merge feature/login", "git branch -d feature/login"])],

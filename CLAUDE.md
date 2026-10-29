@@ -12,7 +12,7 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 
 ## 폴더 규칙
 
-- 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`)
+- 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`, `07-git-restore-stash`)
 - 폴더마다 수강생이 읽을 `README.md`를 둬요. 무엇을 배우는지, 어떤 순서로 보면 되는지, 꼭 기억할 명령을 적어요.
 - 슬라이드가 있는 폴더에는 수강생이 바로 받을 HTML(`주제-slides.html`, 애니메이션 포함)과 PDF(`주제-slides.pdf`)를 같이 둬요. 슬라이드를 고치면 둘 다 다시 만들어요. 만드는 스크립트는 `02-git-basics/tools/`의 `build_player.js`, `export.js`예요.
 - 강사용 도구(생성·검사·PDF 내보내기 스크립트)는 해당 폴더의 `tools/`에 둬요.
