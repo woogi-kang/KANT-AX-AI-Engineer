@@ -8,7 +8,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | :---: | --- | --- | --- |
 | [01](./01-linux-terminal) | 터미널 기초 | `pwd` `ls` `cd` `mkdir` `touch` `mv` `cp` `rm` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) · 34장 |
 | [02](./02-git-basics) | Git 기본 흐름 | `init` `add` `commit` `push` `pull` `clone` `reset` `revert` | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) · 43장 |
-| [03](./03-git-branch) | Git 브랜치와 협업 | `branch` `checkout` `merge`, `reset`, Pull Request, 충돌 해결 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) · 66장 |
+| [03](./03-git-branch) | Git 브랜치와 협업 | `branch` `checkout` `merge`, `reset`, Pull Request, 충돌 해결 | [열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) · 67장 |
 
 모듈은 번호 순서대로 이어져요. 앞 모듈에서 만든 폴더와 저장소를 다음 모듈에서 그대로 써요.
 

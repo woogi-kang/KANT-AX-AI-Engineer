@@ -4,7 +4,7 @@
 
 | 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
 | --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 66장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 67장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | 준비 중 |
 
 ## 학습 목표
 
@@ -29,10 +29,10 @@
 | 4. 갈라진 길 | 19–24 | `checkout -b`, merge 커밋 |
 | 5. 되돌리기 | 25–37 | `reset --soft` `--mixed` `--hard`, 일반 커밋과 merge 커밋 두 경우, 다시 merge |
 | 6. 충돌 풀기 | 38–44 | 충돌이 나는 때, 표시 읽기, 고치고 커밋, `merge --abort` |
-| 7. GitHub에서 함께 | 45–50 | `push origin 브랜치`, Pull Request, GitHub Flow |
-| 8. 충돌 시나리오 | 51–62 | 바로 옆 줄, 지움 vs 고침, 같은 이름 새 파일, pull, Pull Request |
-| 9. 문제 해결 | 63–65 | 자주 나는 에러 |
-| 요약 | 66 | 한 장 요약 |
+| 7. GitHub에서 함께 | 45–51 | `push origin 브랜치`, Pull Request, GitHub Flow |
+| 8. 충돌 시나리오 | 52–63 | 바로 옆 줄, 지움 vs 고침, 같은 이름 새 파일, pull, Pull Request |
+| 9. 문제 해결 | 64–66 | 자주 나는 에러 |
+| 요약 | 67 | 한 장 요약 |
 
 ## 핵심 개념
 

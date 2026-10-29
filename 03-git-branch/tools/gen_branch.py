@@ -271,7 +271,7 @@ OOPS = "hello.md · oops 줄"
 nx = dict(nu); nx[X] = (7, "main", "main", "n")
 nx_gone = dict(nu); nx_gone[X] = (7, "main", "main", "gone")
 ex = eu + [(M, X)]
-o = scene("r1-oops", EBR, "실수로 커밋했어요, 아직 push 전이에요", [("$", 'git commit -am "feat: 실수한 커밋"'), ("o", f"[main {X}] feat: 실수한 커밋")],
+o = scene("r1-oops", EBR, "실수로 커밋했어요, 아직 push 전이에요", [("$", "git add hello.md"), ("$", 'git commit -m "feat: 실수한 커밋"'), ("o", f"[main {X}] feat: 실수한 커밋")],
           "이 커밋 하나를 없던 일로 해 볼게요.", eyebrow_color=UC)
 o += graph(nx, ex, [("main", X, "main"), (DU, F, "orange")], head="main", off=3)
 o += zones(0, OOPS)
@@ -340,15 +340,15 @@ n12 = {E_: (4, "main", "main", "n"), F: (5, "up", "gray", "n"), G: (5, "main", "
 e12 = [(E_, F), (E_, G), (G, M), (F, M)]
 n13 = dict(n12); n13[K] = (7, "up", "green", "n")
 e13 = e12 + [(M, K)]
-o = scene("c1-korean", EB5, f"{FK}에서 제목을 바꿔요", [("$", f"git checkout -b {FK}"), ("$", 'git commit -am "feat: 로그인 제목 바꾸기"'),
+o = scene("c1-korean", EB5, f"{FK}에서 제목을 바꿔요", [("$", f"git checkout -b {FK}"), ("$", "git add login.md"), ("$", 'git commit -m "feat: 로그인 제목 바꾸기"'),
           ("o", f"[{FK} {K}] feat: 로그인 제목 바꾸기")], "login.md 첫 줄을 # 로그인하기로 바꿨어요.", eyebrow_color=RED)
 o += graph(n13, e13, [("main", M, "main"), (FK, K, "green")], head=FK, off=4)
 o += card(f"{FK}의 login.md", [("# 로그인하기", "g"), ("아이디", "o"), ("비밀번호", "o")])
-write("c1-korean", o, "commit -am은 이미 아는 파일의 add와 commit을 한 번에 해요. 새 파일엔 안 돼요. 그래프 왼쪽 점선은 앞의 커밋들이 이어진다는 뜻이에요. checkout 출력은 뺐어요.")
+write("c1-korean", o, "login.md 첫 줄을 고친 뒤 add, commit 했어요. 그래프 왼쪽 점선은 앞의 커밋들이 이어진다는 뜻이에요. checkout 출력은 뺐어요.")
 
 n14 = dict(n13); n14[L] = (7, "main", "main", "n")
 e14 = e13 + [(M, L)]
-o = scene("c2-main", EB5, "main에서는 같은 줄을 다르게", [("$", "git checkout main"), ("$", 'git commit -am "feat: 로그인 제목 다듬기"'),
+o = scene("c2-main", EB5, "main에서는 같은 줄을 다르게", [("$", "git checkout main"), ("$", "git add login.md"), ("$", 'git commit -m "feat: 로그인 제목 다듬기"'),
           ("o", f"[main {L}] feat: 로그인 제목 다듬기")], "같은 줄을 양쪽에서 다르게 고쳤어요.", eyebrow_color=RED)
 o += graph(n14, e14, [("main", L, "main"), (FK, K, "green")], head="main", off=4)
 o += card("main의 login.md", [("# 로그인 페이지", "b"), ("아이디", "o"), ("비밀번호", "o")])
@@ -375,11 +375,15 @@ PUR = "#6B47D6"
 n17 = {F: (5, "up", "gray", "n"), G: (5, "main", "main", "n"), M: (6, "main", "main", "merge"), K: (7, "up", "gray", "n"),
        L: (7, "main", "main", "n"), RZ: (8, "main", "main", "merge"), P: (9, "up", "orange", "n")}
 e17 = [(G, M), (F, M), (M, K), (M, L), (L, RZ), (K, RZ), (RZ, P)]
-o = scene("p1-push", EB6, "브랜치째 GitHub에 올려요", [("$", f"git checkout -b {FE}"), ("$", 'git commit -am "feat: 로그인 버튼 추가"'),
-          ("$", f"git push origin {FE}"), ("g", f" * [new branch]      {FE} -> {FE}")],
+o = scene("p0-branch", EB6, "새 브랜치에서 로그인 버튼을 만들어요", [("$", f"git checkout -b {FE}"), ("$", "git add login.md"), ("$", 'git commit -m "feat: 로그인 버튼 추가"'),
+          ("o", f"[{FE} {P}] feat: 로그인 버튼 추가")], "아직 내 컴퓨터에만 있는 커밋이에요.", eyebrow_color=PUR)
+o += graph(n17, e17, [("main", RZ, "main"), ("origin/main", RZ, "origin"), (FE, P, "orange")], head=FE, off=5)
+write("p0-branch", o, f"충돌을 푼 main을 git push origin main으로 올려 둔 상태예요. 그래서 origin/main이 main과 같은 곳에 있어요. login.md에 로그인 버튼 줄을 더하고 커밋했어요. checkout 출력과 1 file changed 줄은 뺐어요.")
+
+o = scene("p1-push", EB6, "브랜치째 GitHub에 올려요", [("$", f"git push origin {FE}"), ("g", f" * [new branch]      {FE} -> {FE}")],
           "push할 때 main 대신 브랜치 이름을 끝까지 적어요.", eyebrow_color=PUR)
 o += graph(n17, e17, [("main", RZ, "main"), ("origin/main", RZ, "origin"), (FE, P, "orange"), ("origin/feature/login-button", P, "origin")], head=FE, off=5)
-write("p1-push", o, f"login.md에 로그인 버튼 줄을 더하고 커밋한 뒤 올렸어요. 보라색 origin/ 이름표는 GitHub에 있는 브랜치 위치예요. 우리 과정 규칙대로 -u는 쓰지 않아요. 출력의 commit 결과 줄과 앞부분(Enumerating objects..., remote: Create a pull request...)은 뺐어요.")
+write("p1-push", o, f"보라색 origin/ 이름표는 GitHub에 있는 브랜치 위치예요. 우리 과정 규칙대로 -u는 쓰지 않아요. 출력 앞부분(Enumerating objects..., remote: Create a pull request...)은 뺐어요.")
 
 n18 = dict(n17); n18[Q] = (10, "main", "main", "far")
 e18 = e17 + [(RZ, Q), (P, Q)]

@@ -52,6 +52,7 @@
     "c4-resolve",
     "abort",
     "pr-flow",
+    "p0-branch",
     "p1-push",
     "pr-github",
     "p2-merged",

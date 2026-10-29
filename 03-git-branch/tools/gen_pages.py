@@ -50,9 +50,9 @@ parts = [("Lightbulb", "#3A4150", "브랜치란?", "점, 이름표, HEAD", "3–
          ("Activity", "#8A5200", "갈라진 길", "merge 커밋", "19–24쪽"),
          ("Wrench", "#8A5200", "되돌리기", "git reset 옵션 세 가지", "25–37쪽"),
          ("Warning", "#A33131", "충돌 풀기", "표시 읽고 고치기", "38–44쪽"),
-         ("Cloud", "#5A3BB8", "GitHub에서 함께", "push · Pull Request", "45–50쪽"),
-         ("Warning", "#A33131", "충돌 시나리오", "다섯 가지 상황", "51–62쪽"),
-         ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "63–65쪽")]
+         ("Cloud", "#5A3BB8", "GitHub에서 함께", "push · Pull Request", "45–51쪽"),
+         ("Warning", "#A33131", "충돌 시나리오", "다섯 가지 상황", "52–63쪽"),
+         ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "64–66쪽")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      '<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>',
      '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;flex:1">']
@@ -63,7 +63,7 @@ for i, (ic, c, h, sub, pg) in enumerate(parts, 1):
              f'<h3 style="font-size:32px;font-weight:700;color:#1D2330">{h}</h3>'
              f'<p style="font-size:26px;line-height:1.4;color:#4A5262">{sub}</p><div style="flex:1"></div>'
              f'<p style="font-size:24px;color:#6A7180">{pg}</p></div>')
-t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 66쪽은 한 장 요약이에요.</p>',
+t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 67쪽은 한 장 요약이에요.</p>',
       '<aside>02와 같은 hello-git 저장소로 이어서 실습해요. 2~6부는 커밋 그래프 하나가 계속 자라는 이야기예요. 7부는 충돌이 나는 다른 상황을 따로 모았어요.</aside>', '</section>']
 W("toc", "\n".join(t))
 
