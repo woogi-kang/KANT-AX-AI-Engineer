@@ -1,0 +1,42 @@
+<section id="cmp-table" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#4A5262">3. 한눈에 비교</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">표로 다시 보기</h2>
+<div style="position:absolute;left:96px;top:220px;width:1728px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-direction:row;align-items:center;background:#E9E7E0;border:2px solid #E1DED6;border-radius:16px;padding:12px 24px;min-height:60px">
+<p style="width:260px;flex:none;font-size:24px;font-weight:700;color:#4A5262">방법</p>
+<p style="width:520px;flex:none;font-size:24px;font-weight:700;color:#4A5262">명령</p>
+<p style="width:330px;flex:none;font-size:24px;font-weight:700;color:#4A5262">새로 생기는 커밋</p>
+<p style="width:270px;flex:none;font-size:24px;font-weight:700;color:#4A5262">D, E 해시</p>
+<p style="width:348px;flex:none;font-size:24px;font-weight:700;color:#4A5262">main 기록</p>
+</div>
+<div data-build-in="rise order 1" style="display:flex;flex-direction:row;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:16px;padding:18px 24px;min-height:120px">
+<p style="width:260px;flex:none;font-size:30px;font-weight:700;color:#2459C9">fast-forward</p>
+<p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330">git merge 브랜치</p>
+<p style="width:330px;flex:none;font-size:28px;font-weight:500;color:#1D2330">없음</p>
+<p style="width:270px;flex:none;font-size:28px;font-weight:500;color:#1D2330">그대로</p>
+<p style="width:348px;flex:none;font-size:28px;font-weight:500;color:#1D2330">한 줄</p>
+</div>
+<div data-build-in="rise order 2" style="display:flex;flex-direction:row;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:16px;padding:18px 24px;min-height:120px">
+<p style="width:260px;flex:none;font-size:30px;font-weight:700;color:#1E3F8F">merge</p>
+<p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330">git merge 브랜치<br>git merge --no-ff 브랜치</p>
+<p style="width:330px;flex:none;font-size:28px;font-weight:500;color:#1D2330">합치기 커밋 M</p>
+<p style="width:270px;flex:none;font-size:28px;font-weight:500;color:#1D2330">그대로</p>
+<p style="width:348px;flex:none;font-size:28px;font-weight:500;color:#1D2330">두 줄이 만나요</p>
+</div>
+<div data-build-in="rise order 3" style="display:flex;flex-direction:row;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:16px;padding:18px 24px;min-height:120px">
+<p style="width:260px;flex:none;font-size:30px;font-weight:700;color:#B26A00">rebase</p>
+<p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330">git rebase main<br>(브랜치에서)</p>
+<p style="width:330px;flex:none;font-size:28px;font-weight:500;color:#1D2330">D', E'</p>
+<p style="width:270px;flex:none;font-size:28px;font-weight:700;color:#A33131">바뀌어요</p>
+<p style="width:348px;flex:none;font-size:28px;font-weight:500;color:#1D2330">한 줄</p>
+</div>
+<div data-build-in="rise order 4" style="display:flex;flex-direction:row;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:16px;padding:18px 24px;min-height:120px">
+<p style="width:260px;flex:none;font-size:30px;font-weight:700;color:#0F7C86">squash</p>
+<p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330">git merge --squash 브랜치<br>git commit -m "..."</p>
+<p style="width:330px;flex:none;font-size:28px;font-weight:500;color:#1D2330">S 하나</p>
+<p style="width:270px;flex:none;font-size:28px;font-weight:700;color:#A33131">main에 없어요</p>
+<p style="width:348px;flex:none;font-size:28px;font-weight:500;color:#1D2330">한 줄, 커밋 하나</p>
+</div>
+</div>
+<aside>D, E 해시 칸을 봐요. merge와 fast-forward는 원래 커밋을 그대로 써요. rebase는 새 커밋을 만들어서 해시가 바뀌어요. squash는 D, E 대신 S를 만들어서 D, E가 main 기록에 들어가지 않아요. 해시가 바뀌거나 사라지는 방법은 이미 push한 커밋에 쓰면 팀원 기록과 어긋나요.</aside>
+</section>

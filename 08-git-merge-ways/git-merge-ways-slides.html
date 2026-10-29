@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>합치는 방법, 눈으로 비교하기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>section{position:relative;width:1920px;height:1080px;box-sizing:border-box;overflow:hidden}
+section *{box-sizing:border-box}
+p,h1,h2,h3,ul,ol{margin:0}
+h1{font-size:96px;font-weight:600;line-height:1.1} h2{font-size:64px;font-weight:600;line-height:1.15} h3{font-size:44px;font-weight:600;line-height:1.2} p{font-size:32px;line-height:1.4}
+x-icon,x-shape{display:block;flex:none}
+x-icon svg,x-shape svg{display:block;width:100%;height:100%}
+x-shape[kind=ellipse]{border-radius:50%}
+table{border-collapse:collapse;width:100%}
+td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
+aside{display:none}
+html,body{margin:0;height:100%;background:#0E1117;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
+#stage>section{position:absolute;left:0;top:0;visibility:hidden}
+#stage>section.on{visibility:visible}
+[data-build-in]{transition:opacity .45s ease,transform .45s ease}
+.pending{opacity:0!important}
+.pending.rise{transform:translateY(40px)!important}
+.pending.pop{transform:scale(.85)!important}
+#bar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:16px;padding:8px 16px;color:#C9CED8;font-size:14px;background:rgba(14,17,23,.85);opacity:0;transition:opacity .2s}
+body:hover #bar,#bar:focus-within{opacity:1}
+#bar button{background:#252B36;color:#E6E9EF;border:0;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
+#bar .grow{flex:1}
+#notes{position:fixed;left:16px;right:16px;bottom:52px;max-height:30vh;overflow:auto;padding:16px 20px;border-radius:10px;background:rgba(255,255,255,.96);color:#1D2330;font-size:18px;line-height:1.6;display:none}
+#notes.show{display:block}</style></head>
+<body>
+<div id="stage">
+<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-size:28px;font-weight:700;color:#8FB3FF;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>
+<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">합치는 방법,<br>눈으로 비교하기</h1>
+<p style="font-size:40px;line-height:1.4;color:#BFC6D4">fast-forward, merge,<br>rebase, squash</p>
+<div style="position:absolute;left:1080px;top:300px;width:700px;height:480px;background:#252B36;border-radius:24px;padding:40px 44px;display:flex;flex-direction:column;gap:10px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
+<p style="font-size:32px;line-height:1.45;white-space:pre;font-weight:700;color:#F2C46D">$ git merge 브랜치</p>
+<p style="font-size:32px;line-height:1.45;white-space:pre;font-weight:700;color:#8C95A6">  이름표만 앞으로, 또는 합치기 커밋</p>
+<p style="font-size:32px;line-height:1.45;white-space:pre;font-weight:700;color:#F2C46D">$ git rebase main</p>
+<p style="font-size:32px;line-height:1.45;white-space:pre;font-weight:700;color:#8C95A6">  커밋을 뒤로 옮겨 붙이기</p>
+<p style="font-size:32px;line-height:1.45;white-space:pre;font-weight:700;color:#F2C46D">$ git merge --squash 브랜치</p>
+<p style="font-size:32px;line-height:1.45;white-space:pre;font-weight:700;color:#8C95A6">  여러 커밋을 하나로</p>
+</div>
+<aside>03에서 merge를 배울 때 fast-forward와 merge 커밋 두 가지를 봤어요. 오늘은 같은 예시 하나로 합치는 방법 네 가지를 나란히 놓고 결과 그림을 비교해요. git pull이 이 중 무엇을 하는지, GitHub PR의 Merge 버튼 세 개가 각각 무엇인지도 이어서 봐요.</aside>
+</section>
+<section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px 128px;display:flex;flex-direction:column;gap:40px">
+<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;flex:1">
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #2459C9;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#2459C9">1</p><x-icon name="Activity" style="width:40px;height:40px;color:#2459C9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path>
+</svg></x-icon></div><h3 style="font-size:32px;font-weight:700;color:#1D2330">갈라지지 않았을 때</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">fast-forward, --no-ff</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">5–6쪽</p></div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1E3F8F;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#1E3F8F">2</p><x-icon name="Link" style="width:40px;height:40px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+</svg></x-icon></div><h3 style="font-size:32px;font-weight:700;color:#1D2330">갈라졌을 때</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">merge, rebase, squash</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">7–14쪽</p></div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #4A5262;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#4A5262">3</p><x-icon name="Search" style="width:40px;height:40px;color:#4A5262"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"></circle>
+  <path d="m21 21-4.3-4.3"></path>
+</svg></x-icon></div><h3 style="font-size:32px;font-weight:700;color:#1D2330">한눈에 비교</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">네 가지 결과 그림과 표</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">15–16쪽</p></div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #3A4150;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#3A4150">4</p><x-icon name="Cloud" style="width:40px;height:40px;color:#3A4150"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+</svg></x-icon></div><h3 style="font-size:32px;font-weight:700;color:#1D2330">git pull은 무엇을 하나</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">pull 설정 세 가지</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">17–22쪽</p></div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #5A3BB8;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#5A3BB8">5</p><x-icon name="Globe" style="width:40px;height:40px;color:#5A3BB8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+  <path d="M2 12h20"></path>
+</svg></x-icon></div><h3 style="font-size:32px;font-weight:700;color:#1D2330">GitHub PR의 Merge 버튼</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">버튼 세 개와 명령</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">23–25쪽</p></div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #A33131;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#A33131">6</p><x-icon name="Warning" style="width:40px;height:40px;color:#A33131"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path>
+  <path d="M12 9v4"></path>
+  <path d="M12 17h.01"></path>
+</svg></x-icon></div><h3 style="font-size:32px;font-weight:700;color:#1D2330">충돌과 주의</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">충돌, push한 브랜치</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">26–29쪽</p></div>
+</div>
+<p style="font-size:26px;color:#4A5262">3–4쪽은 예시 소개, 30–31쪽은 막힐 때와 한 장 요약이에요.</p>
+<aside>1부와 2부는 같은 예시로 방법 하나씩 봐요. 3부에서 결과를 나란히 비교해요. 4부와 5부는 그 방법이 git pull과 GitHub 버튼에서 어떻게 쓰이는지 연결해요. 6부는 충돌과 rebase를 쓸 때 지킬 규칙이에요.</aside>
+</section>
+<section id="story1" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#4A5262">같은 예시 하나로 비교해요</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">A, B까지 main에 있어요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">6d19f01 (HEAD -&gt; main) feat: 아이디 입력 추가</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">9f452aa feat: 로그인 화면 추가</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">점 안의 글자가 커밋 이름이에요. 아래 글자는 해시예요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<p id="t-main" style="position:absolute;left:563px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:667px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<div id="legend" style="position:absolute;left:1430px;top:470px;width:376px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:18px 24px;display:flex;flex-direction:column;gap:10px">
+<p style="font-size:22px;font-weight:700;color:#4A5262">커밋 메시지</p>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">A</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">feat: 로그인 화면 추가</p></div>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">B</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">feat: 아이디 입력 추가</p></div>
+</div>
+<aside>오늘은 hello-git 말고 연습용 저장소 merge-lab을 새로 만들어 써요. rebase처럼 기록을 바꾸는 명령도 해 보니까, 수업 저장소와 팀 레포는 건드리지 않아요. login.md 하나에 커밋 두 개를 쌓았어요. 그래프는 03처럼 왼쪽이 먼저 한 커밋이에요. 이 덱은 커밋마다 A, B 같은 글자를 붙여서 부르고, 아래에 진짜 해시를 적었어요.</aside>
+</section>
+<section id="story2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#4A5262">같은 예시 하나로 비교해요</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">브랜치에서 D, E를 커밋해요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git checkout -b feature/login-button</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">[feature/login-button 6a9792d] feat: 로그인 버튼 추가</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">[feature/login-button 3573c9a] fix: 버튼 글자 고치기</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">로그인 버튼을 만들고, 글자를 한 번 더 고쳤어요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
+<div id="e-D-E" style="position:absolute;left:892px;top:577px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6a9792d</p>
+<div id="n-E" style="position:absolute;left:1078px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p id="h-E" style="position:absolute;left:1030px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">3573c9a</p>
+<p id="t-main" style="position:absolute;left:563px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-feature-login-button" style="position:absolute;left:939px;top:499px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<p id="t-head" style="position:absolute;left:1292px;top:499px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<div id="legend" style="position:absolute;left:1430px;top:470px;width:376px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:18px 24px;display:flex;flex-direction:column;gap:10px">
+<p style="font-size:22px;font-weight:700;color:#4A5262">커밋 메시지</p>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">A</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">feat: 로그인 화면 추가</p></div>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">B</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">feat: 아이디 입력 추가</p></div>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">D</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">feat: 로그인 버튼 추가</p></div>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">E</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">fix: 버튼 글자 고치기</p></div>
+</div>
+<aside>브랜치를 만들고 login.md에 로그인 버튼 줄을 더해 커밋했어요(D). 버튼 글자를 [로그인] 버튼으로 고쳐 한 번 더 커밋했어요(E). 화면 폭 때문에 add와 commit 명령 줄은 뺐어요. 그다음 git checkout main으로 main에 돌아와 있어요.</aside>
+</section>
+<section id="ff" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">1. 갈라지지 않았을 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">fast-forward: main 이름표만 앞으로 가요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git checkout main</p>
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git merge feature/login-button</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Updating 6d19f01..3573c9a</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#7FD18B">Fast-forward</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">main에 새 커밋이 없으면 새 커밋을 만들지 않아요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
+<div id="e-D-E" style="position:absolute;left:892px;top:577px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6a9792d</p>
+<div id="n-E" style="position:absolute;left:1078px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p id="h-E" style="position:absolute;left:1030px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">3573c9a</p>
+<p id="t-feature-login-button" style="position:absolute;left:939px;top:499px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<p id="t-main" style="position:absolute;left:1063px;top:453px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:1167px;top:453px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<aside>03에서 본 빨리 감기(Fast-forward)예요. B 뒤로 main에는 커밋이 없었어요. 그래서 Git은 main 이름표를 E로 옮기기만 해요. 커밋 해시는 하나도 바뀌지 않아요. 출력의 파일 목록 줄은 뺐어요.</aside>
+</section>
+<section id="noff" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">1. 갈라지지 않았을 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">--no-ff: 그래도 합치기 커밋을 만들어요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git merge --no-ff feature/login-button</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Merge made by the 'ort' strategy.</p>
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">d847d12 (HEAD -&gt; main) Merge branch 'feature/login-button'</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">브랜치에서 한 일이 한 덩어리로 보여요. GitHub PR 버튼도 이렇게 합쳐요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
+<div id="e-D-E" style="position:absolute;left:892px;top:577px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="e-B-NM" style="position:absolute;left:642px;top:697px;width:686px;height:6px;background:#9DB8F2"></div>
+<svg id="e-E-NM" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1110" y1="580" x2="1360" y2="700" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6a9792d</p>
+<div id="n-E" style="position:absolute;left:1078px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p id="h-E" style="position:absolute;left:1030px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">3573c9a</p>
+<div id="n-NM" style="position:absolute;left:1328px;top:668px;width:64px;height:64px;border-radius:50%;background:#FFFFFF;border:9px solid #2459C9;color:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">M</p></div>
+<p id="h-NM" style="position:absolute;left:1280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">d847d12</p>
+<p id="t-feature-login-button" style="position:absolute;left:939px;top:499px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<p id="t-main" style="position:absolute;left:1313px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:1417px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<aside>앞 장과 같은 상태에서 --no-ff를 붙였어요. no fast-forward, 빨리 감기를 하지 말라는 뜻이에요. fast-forward가 되는 상황에서도 부모가 B와 E 둘인 합치기 커밋 M을 만들어요. 나중에 기록을 보면 D, E가 브랜치에서 온 커밋이라는 게 남아요. 메시지 편집기가 열리면 그대로 저장하고 닫아요. GitHub의 Create a merge commit 버튼이 항상 이 방식이에요(5부).</aside>
+</section>
+<section id="split" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#4A5262">2. 갈라졌을 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">main에 C가 생기면 길이 갈라져요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git add README.md</p>
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git commit -m "docs: README 추가"</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">[main d51d818] docs: README 추가</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">이제 이름표만 옮겨서는 C와 D, E를 같이 담을 수 없어요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
+<div id="e-D-E" style="position:absolute;left:892px;top:577px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6a9792d</p>
+<div id="n-E" style="position:absolute;left:1078px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p id="h-E" style="position:absolute;left:1030px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">3573c9a</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">d51d818</p>
+<p id="t-main" style="position:absolute;left:813px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:917px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<p id="t-feature-login-button" style="position:absolute;left:939px;top:499px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<div id="legend" style="position:absolute;left:1430px;top:470px;width:376px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:18px 24px;display:flex;flex-direction:column;gap:10px">
+<p style="font-size:22px;font-weight:700;color:#4A5262">커밋 메시지</p>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">A</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">feat: 로그인 화면 추가</p></div>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">B</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">feat: 아이디 입력 추가</p></div>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">C</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">docs: README 추가</p></div>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">D</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">feat: 로그인 버튼 추가</p></div>
+<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:18px;font-weight:700;line-height:1;color:#FFFFFF">E</p></div><p style="font-size:24px;line-height:1.3;color:#1D2330">fix: 버튼 글자 고치기</p></div>
+</div>
+<aside>다시 story2 상태로 돌아가서, 이번엔 main에서 README.md를 만들어 커밋했어요(C). 팀에서 내가 브랜치에서 일하는 동안 다른 사람 작업이 main에 들어온 모습과 같아요. 이 장 그림이 이 덱의 출발점이에요. 다음 장부터 이 상태에서 merge, rebase, squash를 하나씩 해 봐요.</aside>
+</section>
+<section id="merge" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">2. 갈라졌을 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">merge: 두 길을 잇는 합치기 커밋이 생겨요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git merge feature/login-button</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Merge made by the 'ort' strategy.</p>
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">8818bb8 (HEAD -&gt; main) Merge branch 'feature/login-button'</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">M의 부모는 C와 E 둘이에요. D, E 해시는 그대로예요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
+<div id="e-D-E" style="position:absolute;left:892px;top:577px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-C-M" style="position:absolute;left:892px;top:697px;width:436px;height:6px;background:#9DB8F2"></div>
+<svg id="e-E-M" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1110" y1="580" x2="1360" y2="700" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6a9792d</p>
+<div id="n-E" style="position:absolute;left:1078px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p id="h-E" style="position:absolute;left:1030px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">3573c9a</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">d51d818</p>
+<div id="n-M" style="position:absolute;left:1328px;top:668px;width:64px;height:64px;border-radius:50%;background:#FFFFFF;border:9px solid #2459C9;color:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">M</p></div>
+<p id="h-M" style="position:absolute;left:1280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">8818bb8</p>
+<p id="t-main" style="position:absolute;left:1313px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:1417px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<p id="t-feature-login-button" style="position:absolute;left:939px;top:499px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<aside>03의 갈라진 길 파트와 06의 pull에서 본 합치기 커밋이에요. 흰 점이 합치기 커밋이에요. 원래 커밋은 하나도 건드리지 않고, 둘을 잇는 커밋 하나를 더해요. 그래서 이미 push한 커밋이 있어도 안전해요. log 출력 아래쪽 줄은 뺐어요.</aside>
+</section>
+<section id="rb1" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#B26A00">2. 갈라졌을 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">rebase: D, E를 C 뒤로 옮겨 붙여요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git checkout feature/login-button</p>
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git rebase main</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#7FD18B">Successfully rebased and updated refs/heads/feature/login-button.</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">옛 D, E는 점선으로 남고, 같은 내용의 새 커밋 D', E'가 생겨요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-C-D" style="position:absolute;left:892px;top:697px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="e-D-E" style="position:absolute;left:1142px;top:697px;width:186px;height:6px;background:#9ED3B4"></div>
+<svg id="e-B-Dx" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(195, 200, 210)" stroke-width="6" stroke-dasharray="18 12"></line></svg>
+<div id="e-Dx-Ex" style="position:absolute;left:892px;top:577px;width:186px;height:6px;border-top:6px dashed #C3C8D2"></div>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-D" style="position:absolute;left:1078px;top:668px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D'</p></div>
+<p id="h-D" style="position:absolute;left:1030px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">a40dc47</p>
+<div id="n-E" style="position:absolute;left:1328px;top:668px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E'</p></div>
+<p id="h-E" style="position:absolute;left:1280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6852264</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">d51d818</p>
+<div id="n-Dx" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#FDFCF9;border:5px dashed #B4BAC5;color:#9AA0AB;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<div id="n-Ex" style="position:absolute;left:1078px;top:548px;width:64px;height:64px;border-radius:50%;background:#FDFCF9;border:5px dashed #B4BAC5;color:#9AA0AB;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p id="t-main" style="position:absolute;left:813px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-feature-login-button" style="position:absolute;left:1189px;top:768px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<p id="t-head" style="position:absolute;left:1542px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<aside>다시 split 상태에서 시작해요. rebase는 브랜치에서 쳐요. git rebase main은 내 브랜치 커밋을 main 끝(C) 뒤로 하나씩 다시 만들어 붙여요. 받침(base)을 바꾼다는 뜻이에요. 옛 D, E는 이제 어느 이름표도 가리키지 않아서 점선으로 그렸어요. 진짜 터미널에서는 Rebasing (1/2) 같은 진행 줄이 잠깐 보였다가 지워져요.</aside>
+</section>
+<section id="rb-hash" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#B26A00">2. 갈라졌을 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">rebase하면 커밋 해시가 바뀌어요</h2>
+<p style="position:absolute;left:96px;top:226px;width:846px;font-size:28px;font-weight:700;color:#4A5262">rebase 전</p>
+<div id="t1" style="position:absolute;left:96px;top:276px;width:846px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:26px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:21px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">3573c9a (HEAD -&gt; feature/login-button) fix: 버튼 글자 고치기</p>
+<p style="font-size:21px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">6a9792d feat: 로그인 버튼 추가</p>
+<p style="font-size:21px;line-height:1.35;white-space:pre;color:#D8DEE9">6d19f01 feat: 아이디 입력 추가</p>
+<p style="font-size:21px;line-height:1.35;white-space:pre;color:#D8DEE9">9f452aa feat: 로그인 화면 추가</p>
+</div>
+<p style="position:absolute;left:978px;top:226px;width:846px;font-size:28px;font-weight:700;color:#B26A00">rebase 뒤</p>
+<div id="t2" style="position:absolute;left:978px;top:276px;width:846px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:26px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:21px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">6852264 (HEAD -&gt; feature/login-button) fix: 버튼 글자 고치기</p>
+<p style="font-size:21px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">a40dc47 feat: 로그인 버튼 추가</p>
+<p style="font-size:21px;line-height:1.35;white-space:pre;color:#D8DEE9">d51d818 (main) docs: README 추가</p>
+<p style="font-size:21px;line-height:1.35;white-space:pre;color:#D8DEE9">6d19f01 feat: 아이디 입력 추가</p>
+</div>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:600px;width:1728px;height:110px;display:flex;flex-direction:row;align-items:center;gap:28px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:0 40px"><div style="width:64px;height:64px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1;color:#FFFFFF">D</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#9AA0AB;text-decoration:line-through">6a9792d</p><x-shape kind="arrow-right" style="width: 70px; height: 40px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(178, 106, 0)"></polygon></svg></x-shape><div style="width:64px;height:64px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1;color:#FFFFFF">D'</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#1D2330">a40dc47</p><p style="flex:1;text-align:right;font-size:28px;color:#4A5262">메시지와 바뀐 내용은 같아요</p></div>
+<div data-build-in="rise order 2" style="position:absolute;left:96px;top:730px;width:1728px;height:110px;display:flex;flex-direction:row;align-items:center;gap:28px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:0 40px"><div style="width:64px;height:64px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1;color:#FFFFFF">E</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#9AA0AB;text-decoration:line-through">3573c9a</p><x-shape kind="arrow-right" style="width: 70px; height: 40px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(178, 106, 0)"></polygon></svg></x-shape><div style="width:64px;height:64px;flex:none;border-radius:50%;background:#1F8A4C;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1;color:#FFFFFF">E'</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#1D2330">6852264</p><p style="flex:1;text-align:right;font-size:28px;color:#4A5262">메시지와 바뀐 내용은 같아요</p></div>
+<p data-build-in="rise order 3" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">부모가 B에서 C로 바뀌어서, Git에게는 다른 커밋이에요.</p>
+<aside>커밋 해시는 내용, 메시지, 날짜, 부모 커밋으로 정해져요. rebase는 부모를 바꿔 다시 만들기 때문에 해시가 새로 나와요. 내 컴퓨터에만 있는 커밋이면 문제가 없어요. 이미 push해서 팀원이 옛 D, E를 받아 갔다면 팀원 기록과 어긋나요. 6부에서 이 장면을 다시 봐요.</aside>
+</section>
+<section id="rb2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#B26A00">2. 갈라졌을 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">main에서 merge하면 fast-forward로 끝나요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git checkout main</p>
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git merge feature/login-button</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Updating d51d818..6852264</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#7FD18B">Fast-forward</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">합치기 커밋 없이 기록이 한 줄이 됐어요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-C-D" style="position:absolute;left:892px;top:697px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="e-D-E" style="position:absolute;left:1142px;top:697px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-D" style="position:absolute;left:1078px;top:668px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D'</p></div>
+<p id="h-D" style="position:absolute;left:1030px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">a40dc47</p>
+<div id="n-E" style="position:absolute;left:1328px;top:668px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E'</p></div>
+<p id="h-E" style="position:absolute;left:1280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6852264</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">d51d818</p>
+<p id="t-feature-login-button" style="position:absolute;left:1189px;top:768px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<p id="t-main" style="position:absolute;left:1313px;top:814px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:1417px;top:814px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<aside>rebase 뒤에는 브랜치가 C 바로 뒤에 붙어 있어서 1부의 fast-forward와 같은 모양이에요. rebase는 합치기 전에 브랜치를 최신 main 뒤로 옮기는 일이고, 합치는 건 여전히 merge예요. 점선이던 옛 D, E는 이름표가 없어서 그래프에서 보이지 않아요.</aside>
+</section>
+<section id="sq1" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#0F7C86">2. 갈라졌을 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">squash: D, E의 변경을 모아 대기실에 올려요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git merge --squash feature/login-button</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Automatic merge went well; stopped before committing as requested</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Squash commit -- not updating HEAD</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">아직 커밋 전이에요. git status에 Changes to be committed로 보여요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
+<div id="e-D-E" style="position:absolute;left:892px;top:577px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-C-S" style="position:absolute;left:892px;top:697px;width:186px;height:6px;border-top:6px dashed #9ED6DB"></div>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6a9792d</p>
+<div id="n-E" style="position:absolute;left:1078px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p id="h-E" style="position:absolute;left:1030px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">3573c9a</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">d51d818</p>
+<div id="n-S" style="position:absolute;left:1078px;top:668px;width:64px;height:64px;border-radius:50%;background:#FDFCF9;border:5px dashed #0F7C86;color:#0F7C86;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">S</p></div>
+<p id="t-main" style="position:absolute;left:813px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:917px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<p id="t-feature-login-button" style="position:absolute;left:939px;top:499px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<div id="sqbox" style="position:absolute;left:770px;top:538px;width:430px;height:114px;border:4px dashed #0F7C86;border-radius:28px"></div>
+<svg id="sqarrow" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1040" y1="652" x2="1065.6891649440013" y2="664.8445824720006" stroke="rgb(15, 124, 134)" stroke-width="5"></line><polygon points="1080,672 1060.0018625434047,671.7270562931245 1067.7827625605426,656.1652562588491" fill="rgb(15, 124, 134)"></polygon></svg>
+<aside>다시 split 상태에서 main에 있어요. --squash는 브랜치의 변경을 모두 모아 대기실(02의 ② 칸)에 올리고 멈춰요. 커밋은 직접 해요. 출력 첫 줄은 자동 합치기가 잘 됐고 요청대로 커밋 전에 멈췄다는 뜻이에요. 둘째 줄은 HEAD를 옮기지 않았다는 뜻이에요.</aside>
+</section>
+<section id="sq2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#0F7C86">2. 갈라졌을 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">커밋하면 S 하나가 생겨요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git commit -m "feat: 로그인 버튼 추가"</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">[main 8a6fe21] feat: 로그인 버튼 추가</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">S의 부모는 C 하나예요. 브랜치의 D, E와 선으로 이어지지 않아요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
+<div id="e-D-E" style="position:absolute;left:892px;top:577px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-C-S" style="position:absolute;left:892px;top:697px;width:186px;height:6px;background:#9ED6DB"></div>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6a9792d</p>
+<div id="n-E" style="position:absolute;left:1078px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p id="h-E" style="position:absolute;left:1030px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">3573c9a</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">d51d818</p>
+<div id="n-S" style="position:absolute;left:1078px;top:668px;width:64px;height:64px;border-radius:50%;background:#0F7C86;border:5px solid #0F7C86;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">S</p></div>
+<p id="h-S" style="position:absolute;left:1030px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">8a6fe21</p>
+<p id="t-main" style="position:absolute;left:1063px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:1167px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<p id="t-feature-login-button" style="position:absolute;left:939px;top:499px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<div id="sqbox" style="position:absolute;left:770px;top:538px;width:430px;height:114px;border:4px dashed #0F7C86;border-radius:28px"></div>
+<svg id="sqarrow" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1040" y1="652" x2="1065.6891649440013" y2="664.8445824720006" stroke="rgb(15, 124, 134)" stroke-width="5"></line><polygon points="1080,672 1060.0018625434047,671.7270562931245 1067.7827625605426,656.1652562588491" fill="rgb(15, 124, 134)"></polygon></svg>
+<aside>커밋 두 개(D, E)의 변경이 커밋 하나(S)로 main에 들어갔어요. 버튼을 만들다 고친 과정은 main 기록에 남지 않고 결과만 남아요. 그래서 작은 커밋이 많은 브랜치를 깔끔하게 합칠 때 써요. 메시지는 브랜치에서 한 일을 한 줄로 적어요. 출력의 1 file changed 줄은 뺐어요.</aside>
+</section>
+<section id="sq3" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#0F7C86">2. 갈라졌을 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">squash 뒤에는 브랜치가 -d로 안 지워져요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git branch -d feature/login-button</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">error: the branch 'feature/login-button' is not fully merged.</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">If you are sure you want to delete it, run 'git branch -D feature/login-button'</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">Git은 D, E가 main에 없다고 봐요. 내용이 들어간 걸 확인했으면 -D로 지워요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
+<div id="e-D-E" style="position:absolute;left:892px;top:577px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-C-S" style="position:absolute;left:892px;top:697px;width:186px;height:6px;background:#9ED6DB"></div>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6a9792d</p>
+<div id="n-E" style="position:absolute;left:1078px;top:548px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p id="h-E" style="position:absolute;left:1030px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">3573c9a</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">d51d818</p>
+<div id="n-S" style="position:absolute;left:1078px;top:668px;width:64px;height:64px;border-radius:50%;background:#0F7C86;border:5px solid #0F7C86;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">S</p></div>
+<p id="h-S" style="position:absolute;left:1030px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">8a6fe21</p>
+<p id="t-main" style="position:absolute;left:1063px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:1167px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<p id="t-feature-login-button" style="position:absolute;left:939px;top:499px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<div id="sqbox" style="position:absolute;left:770px;top:538px;width:430px;height:114px;border:4px dashed #0F7C86;border-radius:28px"></div>
+<svg id="sqarrow" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1040" y1="652" x2="1065.6891649440013" y2="664.8445824720006" stroke="rgb(15, 124, 134)" stroke-width="5"></line><polygon points="1080,672 1060.0018625434047,671.7270562931245 1067.7827625605426,656.1652562588491" fill="rgb(15, 124, 134)"></polygon></svg>
+<aside>-d는 합쳐진 브랜치만 지워요. Git은 커밋을 선으로 따라가서 합쳐졌는지 봐요. S는 D, E와 이어지지 않아서 합쳐지지 않은 걸로 보여요. git log --oneline이나 파일 내용으로 변경이 main에 있는 걸 확인한 뒤 git branch -D feature/login-button으로 지워요. 대문자 -D는 확인 없이 지우니 squash 뒤에만 써요.</aside>
+</section>
+<section id="cmp" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#4A5262">3. 한눈에 비교</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">같은 출발점, 네 가지 결과</h2>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:220px;width:852px;height:390px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #2459C9;border-radius:20px"></div>
+<p data-build-in="rise order 1" style="position:absolute;left:128px;top:244px;width:780px;font-size:34px;font-weight:700;color:#2459C9">fast-forward <span style="font-size:24px;font-weight:500;color:#4A5262">갈라지지 않았을 때</span></p>
+<div data-build-in="rise order 1" id="c0e-A-B" style="position:absolute;left:218px;top:438px;width:68px;height:4px;background:#9DB8F2"></div>
+<div data-build-in="rise order 1" id="c0e-B-D" style="position:absolute;left:330px;top:438px;width:68px;height:4px;background:#9ED3B4"></div>
+<div data-build-in="rise order 1" id="c0e-D-E" style="position:absolute;left:442px;top:438px;width:68px;height:4px;background:#9ED3B4"></div>
+<div data-build-in="rise order 1" id="c0n-A" style="position:absolute;left:174px;top:418px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div data-build-in="rise order 1" id="c0n-B" style="position:absolute;left:286px;top:418px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div data-build-in="rise order 1" id="c0n-D" style="position:absolute;left:398px;top:418px;width:44px;height:44px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<div data-build-in="rise order 1" id="c0n-E" style="position:absolute;left:510px;top:418px;width:44px;height:44px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p data-build-in="rise order 1" style="position:absolute;left:128px;top:538px;width:780px;font-size:28px;font-weight:700;color:#1D2330">새 커밋 없음, 이름표만 이동</p>
+<div data-build-in="rise order 2" style="position:absolute;left:972px;top:220px;width:852px;height:390px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1E3F8F;border-radius:20px"></div>
+<p data-build-in="rise order 2" style="position:absolute;left:1004px;top:244px;width:780px;font-size:34px;font-weight:700;color:#1E3F8F">merge <span style="font-size:24px;font-weight:500;color:#4A5262">--no-ff도 같은 모양</span></p>
+<div data-build-in="rise order 2" id="c1e-A-B" style="position:absolute;left:1094px;top:438px;width:68px;height:4px;background:#9DB8F2"></div>
+<svg id="c1e-B-D" data-build-in="rise order 2" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1184" y1="440" x2="1296" y2="350" stroke="rgb(158, 211, 180)" stroke-width="4"></line></svg>
+<div data-build-in="rise order 2" id="c1e-D-E" style="position:absolute;left:1318px;top:348px;width:68px;height:4px;background:#9ED3B4"></div>
+<div data-build-in="rise order 2" id="c1e-B-C" style="position:absolute;left:1206px;top:438px;width:68px;height:4px;background:#9DB8F2"></div>
+<div data-build-in="rise order 2" id="c1e-C-M" style="position:absolute;left:1318px;top:438px;width:180px;height:4px;background:#9DB8F2"></div>
+<svg id="c1e-E-M" data-build-in="rise order 2" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1408" y1="350" x2="1520" y2="440" stroke="rgb(158, 211, 180)" stroke-width="4"></line></svg>
+<div data-build-in="rise order 2" id="c1n-A" style="position:absolute;left:1050px;top:418px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div data-build-in="rise order 2" id="c1n-B" style="position:absolute;left:1162px;top:418px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div data-build-in="rise order 2" id="c1n-D" style="position:absolute;left:1274px;top:328px;width:44px;height:44px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<div data-build-in="rise order 2" id="c1n-E" style="position:absolute;left:1386px;top:328px;width:44px;height:44px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<div data-build-in="rise order 2" id="c1n-C" style="position:absolute;left:1274px;top:418px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<div data-build-in="rise order 2" id="c1n-M" style="position:absolute;left:1498px;top:418px;width:44px;height:44px;border-radius:50%;background:#FFFFFF;border:6px solid #2459C9;color:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">M</p></div>
+<p data-build-in="rise order 2" style="position:absolute;left:1004px;top:538px;width:780px;font-size:28px;font-weight:700;color:#1D2330">합치기 커밋 M, D, E 그대로</p>
+<div data-build-in="rise order 3" style="position:absolute;left:96px;top:630px;width:852px;height:390px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px"></div>
+<p data-build-in="rise order 3" style="position:absolute;left:128px;top:654px;width:780px;font-size:34px;font-weight:700;color:#B26A00">rebase <span style="font-size:24px;font-weight:500;color:#4A5262">옮겨 붙인 뒤 fast-forward</span></p>
+<div data-build-in="rise order 3" id="c2e-A-B" style="position:absolute;left:218px;top:848px;width:68px;height:4px;background:#9DB8F2"></div>
+<div data-build-in="rise order 3" id="c2e-B-C" style="position:absolute;left:330px;top:848px;width:68px;height:4px;background:#9DB8F2"></div>
+<div data-build-in="rise order 3" id="c2e-C-D" style="position:absolute;left:442px;top:848px;width:68px;height:4px;background:#9ED3B4"></div>
+<div data-build-in="rise order 3" id="c2e-D-E" style="position:absolute;left:554px;top:848px;width:68px;height:4px;background:#9ED3B4"></div>
+<div data-build-in="rise order 3" id="c2n-A" style="position:absolute;left:174px;top:828px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div data-build-in="rise order 3" id="c2n-B" style="position:absolute;left:286px;top:828px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div data-build-in="rise order 3" id="c2n-D" style="position:absolute;left:510px;top:828px;width:44px;height:44px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">D'</p></div>
+<div data-build-in="rise order 3" id="c2n-E" style="position:absolute;left:622px;top:828px;width:44px;height:44px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">E'</p></div>
+<div data-build-in="rise order 3" id="c2n-C" style="position:absolute;left:398px;top:828px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p data-build-in="rise order 3" style="position:absolute;left:128px;top:948px;width:780px;font-size:28px;font-weight:700;color:#1D2330">한 줄, D', E' 해시가 새로 생김</p>
+<div data-build-in="rise order 4" style="position:absolute;left:972px;top:630px;width:852px;height:390px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #0F7C86;border-radius:20px"></div>
+<p data-build-in="rise order 4" style="position:absolute;left:1004px;top:654px;width:780px;font-size:34px;font-weight:700;color:#0F7C86">squash <span style="font-size:24px;font-weight:500;color:#4A5262">변경을 모아 커밋 하나로</span></p>
+<div data-build-in="rise order 4" id="c3e-A-B" style="position:absolute;left:1094px;top:848px;width:68px;height:4px;background:#9DB8F2"></div>
+<svg id="c3e-B-D" data-build-in="rise order 4" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1184" y1="850" x2="1296" y2="760" stroke="rgb(195, 200, 210)" stroke-width="4"></line></svg>
+<div data-build-in="rise order 4" id="c3e-D-E" style="position:absolute;left:1318px;top:758px;width:68px;height:4px;background:#C3C8D2"></div>
+<div data-build-in="rise order 4" id="c3e-B-C" style="position:absolute;left:1206px;top:848px;width:68px;height:4px;background:#9DB8F2"></div>
+<div data-build-in="rise order 4" id="c3e-C-S" style="position:absolute;left:1318px;top:848px;width:68px;height:4px;background:#9ED6DB"></div>
+<div data-build-in="rise order 4" id="c3n-A" style="position:absolute;left:1050px;top:828px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div data-build-in="rise order 4" id="c3n-B" style="position:absolute;left:1162px;top:828px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div data-build-in="rise order 4" id="c3n-D" style="position:absolute;left:1274px;top:738px;width:44px;height:44px;border-radius:50%;background:#7A8394;border:3px solid #7A8394;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<div data-build-in="rise order 4" id="c3n-E" style="position:absolute;left:1386px;top:738px;width:44px;height:44px;border-radius:50%;background:#7A8394;border:3px solid #7A8394;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<div data-build-in="rise order 4" id="c3n-C" style="position:absolute;left:1274px;top:828px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<div data-build-in="rise order 4" id="c3n-S" style="position:absolute;left:1386px;top:828px;width:44px;height:44px;border-radius:50%;background:#0F7C86;border:3px solid #0F7C86;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:19px;font-weight:700;line-height:1;color:inherit">S</p></div>
+<p data-build-in="rise order 4" style="position:absolute;left:1004px;top:948px;width:780px;font-size:28px;font-weight:700;color:#1D2330">한 줄, main에는 S 하나만</p>
+<aside>1부와 2부의 결과를 나란히 놓았어요. 모두 같은 A, B, C, D, E에서 출발했어요. 다 합친 뒤 login.md 내용은 넷 다 같아요. 다른 건 기록 모양이에요. VS Code Git Graph(05)로 열어 보면 이 그림과 같은 모양으로 보여요.</aside>
+</section>
+<section id="cmp-table" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#4A5262">3. 한눈에 비교</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">표로 다시 보기</h2>
+<div style="position:absolute;left:96px;top:220px;width:1728px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-direction:row;align-items:center;background:#E9E7E0;border:2px solid #E1DED6;border-radius:16px;padding:12px 24px;min-height:60px">
+<p style="width:260px;flex:none;font-size:24px;font-weight:700;color:#4A5262">방법</p>
+<p style="width:520px;flex:none;font-size:24px;font-weight:700;color:#4A5262">명령</p>
+<p style="width:330px;flex:none;font-size:24px;font-weight:700;color:#4A5262">새로 생기는 커밋</p>
+<p style="width:270px;flex:none;font-size:24px;font-weight:700;color:#4A5262">D, E 해시</p>
+<p style="width:348px;flex:none;font-size:24px;font-weight:700;color:#4A5262">main 기록</p>
+</div>
+<div data-build-in="rise order 1" style="display:flex;flex-direction:row;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:16px;padding:18px 24px;min-height:120px">
+<p style="width:260px;flex:none;font-size:30px;font-weight:700;color:#2459C9">fast-forward</p>
+<p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330">git merge 브랜치</p>
+<p style="width:330px;flex:none;font-size:28px;font-weight:500;color:#1D2330">없음</p>
+<p style="width:270px;flex:none;font-size:28px;font-weight:500;color:#1D2330">그대로</p>
+<p style="width:348px;flex:none;font-size:28px;font-weight:500;color:#1D2330">한 줄</p>
+</div>
+<div data-build-in="rise order 2" style="display:flex;flex-direction:row;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:16px;padding:18px 24px;min-height:120px">
+<p style="width:260px;flex:none;font-size:30px;font-weight:700;color:#1E3F8F">merge</p>
+<p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330">git merge 브랜치<br>git merge --no-ff 브랜치</p>
+<p style="width:330px;flex:none;font-size:28px;font-weight:500;color:#1D2330">합치기 커밋 M</p>
+<p style="width:270px;flex:none;font-size:28px;font-weight:500;color:#1D2330">그대로</p>
+<p style="width:348px;flex:none;font-size:28px;font-weight:500;color:#1D2330">두 줄이 만나요</p>
+</div>
+<div data-build-in="rise order 3" style="display:flex;flex-direction:row;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:16px;padding:18px 24px;min-height:120px">
+<p style="width:260px;flex:none;font-size:30px;font-weight:700;color:#B26A00">rebase</p>
+<p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330">git rebase main<br>(브랜치에서)</p>
+<p style="width:330px;flex:none;font-size:28px;font-weight:500;color:#1D2330">D', E'</p>
+<p style="width:270px;flex:none;font-size:28px;font-weight:700;color:#A33131">바뀌어요</p>
+<p style="width:348px;flex:none;font-size:28px;font-weight:500;color:#1D2330">한 줄</p>
+</div>
+<div data-build-in="rise order 4" style="display:flex;flex-direction:row;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:16px;padding:18px 24px;min-height:120px">
+<p style="width:260px;flex:none;font-size:30px;font-weight:700;color:#0F7C86">squash</p>
+<p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330">git merge --squash 브랜치<br>git commit -m "..."</p>
+<p style="width:330px;flex:none;font-size:28px;font-weight:500;color:#1D2330">S 하나</p>
+<p style="width:270px;flex:none;font-size:28px;font-weight:700;color:#A33131">main에 없어요</p>
+<p style="width:348px;flex:none;font-size:28px;font-weight:500;color:#1D2330">한 줄, 커밋 하나</p>
+</div>
+</div>
+<aside>D, E 해시 칸을 봐요. merge와 fast-forward는 원래 커밋을 그대로 써요. rebase는 새 커밋을 만들어서 해시가 바뀌어요. squash는 D, E 대신 S를 만들어서 D, E가 main 기록에 들어가지 않아요. 해시가 바뀌거나 사라지는 방법은 이미 push한 커밋에 쓰면 팀원 기록과 어긋나요.</aside>
+</section>
+<section id="pl0" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#3A4150">4. git pull은 무엇을 하나</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">pull도 합치기예요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git fetch origin</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">521bc6f (HEAD -&gt; main) feat: 로그인 버튼 추가</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git log --oneline origin/main</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">c4ea069 (origin/main) docs: README 추가</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">GitHub에는 팀원 lee의 C, 내 main에는 D. 내 컴퓨터와 GitHub이 갈라졌어요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;border-top:6px dashed #C4B5EE"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(157, 184, 242)" stroke-width="6"></line></svg>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#FDFCF9;border:5px dashed #5A3BB8;color:#5A3BB8;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#9AA0AB">c4ea069</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">521bc6f</p>
+<p id="t-origin-main" style="position:absolute;left:759px;top:768px;width:203px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/main</p>
+<p id="t-main" style="position:absolute;left:813px;top:499px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:917px;top:499px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<aside>이번엔 브랜치 대신 main끼리 갈라진 상황이에요. lee가 README 추가(C)를 먼저 push했고, 나는 main에서 바로 로그인 버튼(D)을 커밋했어요. push는 06에서 본 것처럼 거절돼요. git pull은 git fetch로 C를 받아 온 뒤 내 main과 합쳐요. 어떻게 합칠지는 pull 설정이 정해요. 실습 저장소가 달라서 C, D 해시가 2부와 달라요. log 출력 아래쪽 줄은 뺐어요.</aside>
+</section>
+<section id="pl-none" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#3A4150">4. git pull은 무엇을 하나</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">설정이 없으면 pull이 멈추고 세 가지를 알려 줘요</h2>
+<div id="term" style="position:absolute;left:96px;top:200px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">hint: You have divergent branches and need to specify how to reconcile them.</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">hint: You can do so by running one of the following commands sometime before</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">hint: your next pull:</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">hint:   git config pull.rebase false  # merge</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">hint:   git config pull.rebase true   # rebase</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">hint:   git config pull.ff only       # fast-forward only</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">fatal: Need to specify how to reconcile divergent branches.</p>
+</div>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:590px;width:552px;height:240px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1E3F8F;border-radius:20px;padding:24px 30px;display:flex;flex-direction:column;gap:12px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1E3F8F">pull.rebase false</p><p style="font-size:32px;font-weight:700;color:#1D2330">merge로 합쳐요</p><div style="flex:1"></div><p style="font-size:24px;font-weight:700;color:#FFFFFF;background:#1E3F8F;border-radius:8px;padding:2px 14px;align-self:flex-start">수업 설정</p></div>
+<div data-build-in="rise order 2" style="position:absolute;left:684px;top:590px;width:552px;height:240px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:24px 30px;display:flex;flex-direction:column;gap:12px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#B26A00">pull.rebase true</p><p style="font-size:32px;font-weight:700;color:#1D2330">rebase로 옮겨 붙여요</p><div style="flex:1"></div><p style="font-size:24px;font-weight:700;color:#4A5262;background:#EEEFF2;border-radius:8px;padding:2px 14px;align-self:flex-start">보기만 해요</p></div>
+<div data-build-in="rise order 3" style="position:absolute;left:1272px;top:590px;width:552px;height:240px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #2459C9;border-radius:20px;padding:24px 30px;display:flex;flex-direction:column;gap:12px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#2459C9">pull.ff only</p><p style="font-size:32px;font-weight:700;color:#1D2330">fast-forward만 받아요</p><div style="flex:1"></div><p style="font-size:24px;font-weight:700;color:#4A5262;background:#EEEFF2;border-radius:8px;padding:2px 14px;align-self:flex-start">보기만 해요</p></div>
+<p data-build-in="rise order 4" style="position:absolute;left:96px;top:870px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">세 줄이 곧 이 덱에서 본 합치는 방법이에요.</p>
+<aside>06에서 본 그 메시지예요. 그때는 해결만 봤어요. 힌트 세 줄을 읽어 보면 merge, rebase, fast-forward only 중에서 고르라는 뜻이에요. 우리 과정은 06에서 git config --global pull.rebase false로 첫째 줄을 골랐어요. From 줄과 힌트 아래쪽 줄은 뺐어요.</aside>
+</section>
+<section id="pl-false" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">4. git pull은 무엇을 하나</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">pull.rebase false: 합치기 커밋으로 합쳐요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git config --global pull.rebase</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">false</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">Merge made by the 'ort' strategy.</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">내 D 해시가 그대로예요. 06에서 본 모양이에요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#C4B5EE"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(157, 184, 242)" stroke-width="6"></line></svg>
+<div id="e-C-PM" style="position:absolute;left:892px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<svg id="e-D-PM" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="860" y1="580" x2="1110" y2="700" stroke="rgb(157, 184, 242)" stroke-width="6"></line></svg>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#5A3BB8;border:5px solid #5A3BB8;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">c4ea069</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">521bc6f</p>
+<div id="n-PM" style="position:absolute;left:1078px;top:668px;width:64px;height:64px;border-radius:50%;background:#FFFFFF;border:9px solid #2459C9;color:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">M</p></div>
+<p id="h-PM" style="position:absolute;left:1030px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">be1e0e1</p>
+<p id="t-origin-main" style="position:absolute;left:759px;top:768px;width:203px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/main</p>
+<p id="t-main" style="position:absolute;left:1063px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:1167px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<aside>git config --global pull.rebase처럼 값 없이 치면 지금 설정을 보여 줘요. false가 나오면 수업 설정이 돼 있는 거예요. pull이 2부의 merge와 같은 일을 해요. 합치기 커밋 메시지는 Merge branch 'main' of https://github.com/kim/merge-lab이에요. 이제 git push origin main을 하면 올라가요. From 줄과 파일 목록 줄은 뺐어요.</aside>
+</section>
+<section id="pl-true" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#B26A00">4. git pull은 무엇을 하나</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">pull.rebase true: 내 커밋을 C 뒤로 옮겨요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#8C95A6"># pull.rebase true인 컴퓨터</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#7FD18B">Successfully rebased and updated refs/heads/main.</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">b63da4a (HEAD -&gt; main) feat: 로그인 버튼 추가</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">기록은 한 줄이지만 D의 해시가 바뀌었어요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#C4B5EE"></div>
+<div id="e-C-D" style="position:absolute;left:892px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<svg id="e-B-Dx" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(195, 200, 210)" stroke-width="6" stroke-dasharray="18 12"></line></svg>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#5A3BB8;border:5px solid #5A3BB8;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">c4ea069</p>
+<div id="n-Dx" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#FDFCF9;border:5px dashed #B4BAC5;color:#9AA0AB;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<div id="n-D" style="position:absolute;left:1078px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D'</p></div>
+<p id="h-D" style="position:absolute;left:1030px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">b63da4a</p>
+<p id="t-origin-main" style="position:absolute;left:759px;top:768px;width:203px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/main</p>
+<p id="t-main" style="position:absolute;left:1063px;top:768px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:1167px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<aside>보기만 하는 장이에요. 설정을 바꾸지 않아요. pull이 2부의 rebase와 같은 일을 해요. 아직 push하지 않은 D를 옮기는 거라 이 경우엔 문제가 없어요. 대신 충돌이 나면 rebase 충돌로 풀어야 해서 처음 배울 때 헷갈려요(6부). 회사마다 이 설정을 쓰는 팀도 있으니 이름은 알아 둬요.</aside>
+</section>
+<section id="pl-ff" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">4. git pull은 무엇을 하나</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">pull.ff only: 갈라졌으면 받지 않아요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#8C95A6"># pull.ff only인 컴퓨터</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#F28B82">fatal: Not possible to fast-forward, aborting.</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">갈라지지 않았을 때만 fast-forward로 받아요. 갈라지면 직접 골라야 해요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;border-top:6px dashed #C4B5EE"></div>
+<svg id="e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(157, 184, 242)" stroke-width="6"></line></svg>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#FDFCF9;border:5px dashed #5A3BB8;color:#5A3BB8;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#9AA0AB">c4ea069</p>
+<div id="n-D" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-D" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">521bc6f</p>
+<p id="t-origin-main" style="position:absolute;left:759px;top:768px;width:203px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/main</p>
+<p id="t-main" style="position:absolute;left:813px;top:499px;width:94px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="t-head" style="position:absolute;left:917px;top:499px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<aside>보기만 하는 장이에요. 내 main에 새 커밋이 없으면 fast-forward로 받고, 갈라졌으면 아무것도 하지 않고 멈춰요. 그래프가 앞 장과 같은 건 실패해서 바뀐 게 없기 때문이에요. 힌트 줄(git merge --no-ff 또는 git rebase)은 뺐어요.</aside>
+</section>
+<section id="pl-why" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">4. git pull은 무엇을 하나</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">수업은 pull.rebase false로 통일해요</h2>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:240px;width:552px;height:400px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1E3F8F;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:24px"><x-icon name="CheckCircle" style="width:72px;height:72px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"></circle>
+  <path d="m9 12 2 2 4-4"></path>
+</svg></x-icon><p style="font-size:36px;font-weight:700;line-height:1.3;color:#1D2330">내 커밋 해시가 그대로예요</p><p style="font-size:28px;line-height:1.45;color:#4A5262">push한 커밋과 어긋나지 않아요</p></div>
+<div data-build-in="rise order 2" style="position:absolute;left:684px;top:240px;width:552px;height:400px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1E3F8F;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:24px"><x-icon name="Link" style="width:72px;height:72px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+</svg></x-icon><p style="font-size:36px;font-weight:700;line-height:1.3;color:#1D2330">합친 자리가 기록에 남아요</p><p style="font-size:28px;line-height:1.45;color:#4A5262">합치기 커밋 M이 언제 합쳤는지 보여 줘요</p></div>
+<div data-build-in="rise order 3" style="position:absolute;left:1272px;top:240px;width:552px;height:400px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1E3F8F;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:24px"><x-icon name="Wrench" style="width:72px;height:72px;color:#1E3F8F"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+</svg></x-icon><p style="font-size:36px;font-weight:700;line-height:1.3;color:#1D2330">충돌을 푸는 방법이 하나예요</p><p style="font-size:28px;line-height:1.45;color:#4A5262">03, 06처럼 고치고 add, commit</p></div>
+<div id="cmd" data-build-in="rise order 4" style="position:absolute;left:96px;top:700px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:34px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git config --global pull.rebase false</p>
+</div>
+<p data-build-in="rise order 4" style="position:absolute;left:96px;top:830px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">06에서 처음 한 번 설정했으면 그대로 둬요.</p>
+<aside>pull.rebase false는 기록을 바꾸지 않는 방법이라 처음 배울 때 가장 안전해요. 기록이 조금 복잡해 보이는 대신, 내가 한 커밋이 사라지거나 해시가 바뀌는 일이 없어요. rebase가 나쁜 방법은 아니에요. push 전 내 커밋에만 쓰는 규칙을 지키면 기록이 깔끔해져요. 익숙해진 뒤 팀이 정한 방법을 따르면 돼요.</aside>
+</section>
+<section id="gh-btn" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">5. GitHub PR의 Merge 버튼</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">PR의 Merge 버튼은 세 가지예요</h2>
+<div style="position:absolute;left:96px;top:240px;width:860px;height:700px;background:#FFFFFF;border:2px solid #D0D7DE;border-radius:20px"></div>
+<p style="position:absolute;left:136px;top:270px;width:780px;font-size:28px;font-weight:700;color:#1D2330">feat: 로그인 버튼 추가 #1</p>
+<div style="position:absolute;left:136px;top:330px;width:400px;height:64px;background:#1F883D;border-radius:10px;display:flex;flex-direction:row;align-items:center"><p style="flex:1;font-size:26px;font-weight:700;color:#FFFFFF;text-align:center">Merge pull request</p><div style="width:2px;height:64px;background:#17692F"></div><p style="width:64px;font-size:24px;color:#FFFFFF;text-align:center">▼</p></div>
+<div style="position:absolute;left:136px;top:410px;width:780px;height:500px;background:#FFFFFF;border:2px solid #D0D7DE;border-radius:14px"></div>
+<div data-build-in="rise order 1" style="position:absolute;left:156px;top:430px;width:740px;height:140px;border-radius:12px;background:#F6F8FA;border-left:10px solid #1E3F8F;padding:22px 28px;display:flex;flex-direction:column;gap:10px"><p style="font-size:30px;font-weight:700;color:#1D2330">Create a merge commit</p><p style="font-size:26px;color:#4A5262">합치기 커밋을 만들어요</p></div>
+<x-shape data-build-in="rise order 1" kind="arrow-right" style="position: absolute; left: 930px; top: 476px; width: 100px; height: 48px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(30, 63, 143)"></polygon></svg></x-shape>
+<p data-build-in="rise order 1" style="position:absolute;left:1060px;top:460px;width:764px;height:80px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:80px;padding:0 28px;border-radius:14px;background:#FFFFFF;border:2px solid #E1DED6;color:#1E3F8F">git merge --no-ff</p>
+<div data-build-in="rise order 2" style="position:absolute;left:156px;top:590px;width:740px;height:140px;border-radius:12px;background:#F6F8FA;border-left:10px solid #0F7C86;padding:22px 28px;display:flex;flex-direction:column;gap:10px"><p style="font-size:30px;font-weight:700;color:#1D2330">Squash and merge</p><p style="font-size:26px;color:#4A5262">커밋 하나로 합쳐요</p></div>
+<x-shape data-build-in="rise order 2" kind="arrow-right" style="position: absolute; left: 930px; top: 636px; width: 100px; height: 48px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(15, 124, 134)"></polygon></svg></x-shape>
+<p data-build-in="rise order 2" style="position:absolute;left:1060px;top:620px;width:764px;height:80px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:80px;padding:0 28px;border-radius:14px;background:#FFFFFF;border:2px solid #E1DED6;color:#0F7C86">git merge --squash</p>
+<div data-build-in="rise order 3" style="position:absolute;left:156px;top:750px;width:740px;height:140px;border-radius:12px;background:#F6F8FA;border-left:10px solid #B26A00;padding:22px 28px;display:flex;flex-direction:column;gap:10px"><p style="font-size:30px;font-weight:700;color:#1D2330">Rebase and merge</p><p style="font-size:26px;color:#4A5262">옮겨 붙여요</p></div>
+<x-shape data-build-in="rise order 3" kind="arrow-right" style="position: absolute; left: 930px; top: 796px; width: 100px; height: 48px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(178, 106, 0)"></polygon></svg></x-shape>
+<p data-build-in="rise order 3" style="position:absolute;left:1060px;top:780px;width:764px;height:80px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:80px;padding:0 28px;border-radius:14px;background:#FFFFFF;border:2px solid #E1DED6;color:#B26A00">git rebase</p>
+<aside>PR 화면 아래 초록 버튼 오른쪽 ▼를 누르면 세 가지가 나와요. 처음 고른 것이 기본값으로 남아요. Create a merge commit은 갈라지지 않았어도 늘 합치기 커밋을 만들어서 --no-ff와 같아요. Squash and merge는 2부의 squash, Rebase and merge는 2부의 rebase 뒤 fast-forward와 같아요. 저장소 설정에 따라 일부 버튼만 보일 수 있어요.</aside>
+</section>
+<section id="gh-res" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">5. GitHub PR의 Merge 버튼</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">버튼마다 GitHub의 main 기록이 달라요</h2>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:240px;width:552px;height:560px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1E3F8F;border-radius:20px"></div>
+<p data-build-in="rise order 1" style="position:absolute;left:124px;top:270px;width:500px;font-size:30px;font-weight:700;color:#1E3F8F">Create a merge commit</p>
+<div data-build-in="rise order 1" id="g0e-A-B" style="position:absolute;left:186px;top:558px;width:57px;height:4px;background:#9DB8F2"></div>
+<svg id="g0e-B-D" data-build-in="rise order 1" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="267" y1="560" x2="372" y2="440" stroke="rgb(158, 211, 180)" stroke-width="4"></line></svg>
+<div data-build-in="rise order 1" id="g0e-D-E" style="position:absolute;left:396px;top:438px;width:57px;height:4px;background:#9ED3B4"></div>
+<div data-build-in="rise order 1" id="g0e-B-C" style="position:absolute;left:291px;top:558px;width:57px;height:4px;background:#9DB8F2"></div>
+<div data-build-in="rise order 1" id="g0e-C-M" style="position:absolute;left:396px;top:558px;width:162px;height:4px;background:#9DB8F2"></div>
+<svg id="g0e-E-M" data-build-in="rise order 1" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="477" y1="440" x2="582" y2="560" stroke="rgb(158, 211, 180)" stroke-width="4"></line></svg>
+<div data-build-in="rise order 1" id="g0n-A" style="position:absolute;left:138px;top:536px;width:48px;height:48px;border-radius:50%;background:#2459C9;border:4px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div data-build-in="rise order 1" id="g0n-B" style="position:absolute;left:243px;top:536px;width:48px;height:48px;border-radius:50%;background:#2459C9;border:4px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div data-build-in="rise order 1" id="g0n-D" style="position:absolute;left:348px;top:416px;width:48px;height:48px;border-radius:50%;background:#1F8A4C;border:4px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<div data-build-in="rise order 1" id="g0n-E" style="position:absolute;left:453px;top:416px;width:48px;height:48px;border-radius:50%;background:#1F8A4C;border:4px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<div data-build-in="rise order 1" id="g0n-C" style="position:absolute;left:348px;top:536px;width:48px;height:48px;border-radius:50%;background:#2459C9;border:4px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<div data-build-in="rise order 1" id="g0n-M" style="position:absolute;left:558px;top:536px;width:48px;height:48px;border-radius:50%;background:#FFFFFF;border:7px solid #2459C9;color:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">M</p></div>
+<p data-build-in="rise order 1" style="position:absolute;left:124px;top:650px;width:496px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.45;color:#1D2330;background:#F3F2EE;border-radius:10px;padding:12px 16px">Merge pull request #1 from kim/feature/login-button</p>
+<div data-build-in="rise order 2" style="position:absolute;left:684px;top:240px;width:552px;height:560px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #0F7C86;border-radius:20px"></div>
+<p data-build-in="rise order 2" style="position:absolute;left:712px;top:270px;width:500px;font-size:30px;font-weight:700;color:#0F7C86">Squash and merge</p>
+<div data-build-in="rise order 2" id="g1e-A-B" style="position:absolute;left:774px;top:558px;width:57px;height:4px;background:#9DB8F2"></div>
+<div data-build-in="rise order 2" id="g1e-B-C" style="position:absolute;left:879px;top:558px;width:57px;height:4px;background:#9DB8F2"></div>
+<div data-build-in="rise order 2" id="g1e-C-S" style="position:absolute;left:984px;top:558px;width:57px;height:4px;background:#9ED6DB"></div>
+<div data-build-in="rise order 2" id="g1n-A" style="position:absolute;left:726px;top:536px;width:48px;height:48px;border-radius:50%;background:#2459C9;border:4px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div data-build-in="rise order 2" id="g1n-B" style="position:absolute;left:831px;top:536px;width:48px;height:48px;border-radius:50%;background:#2459C9;border:4px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div data-build-in="rise order 2" id="g1n-C" style="position:absolute;left:936px;top:536px;width:48px;height:48px;border-radius:50%;background:#2459C9;border:4px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<div data-build-in="rise order 2" id="g1n-S" style="position:absolute;left:1041px;top:536px;width:48px;height:48px;border-radius:50%;background:#0F7C86;border:4px solid #0F7C86;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">S</p></div>
+<p data-build-in="rise order 2" style="position:absolute;left:712px;top:650px;width:496px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.45;color:#1D2330;background:#F3F2EE;border-radius:10px;padding:12px 16px">feat: 로그인 버튼 추가 (#1)</p>
+<div data-build-in="rise order 3" style="position:absolute;left:1272px;top:240px;width:552px;height:560px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px"></div>
+<p data-build-in="rise order 3" style="position:absolute;left:1300px;top:270px;width:500px;font-size:30px;font-weight:700;color:#B26A00">Rebase and merge</p>
+<div data-build-in="rise order 3" id="g2e-A-B" style="position:absolute;left:1362px;top:558px;width:57px;height:4px;background:#9DB8F2"></div>
+<div data-build-in="rise order 3" id="g2e-B-C" style="position:absolute;left:1467px;top:558px;width:57px;height:4px;background:#9DB8F2"></div>
+<div data-build-in="rise order 3" id="g2e-C-D" style="position:absolute;left:1572px;top:558px;width:57px;height:4px;background:#9ED3B4"></div>
+<div data-build-in="rise order 3" id="g2e-D-E" style="position:absolute;left:1677px;top:558px;width:57px;height:4px;background:#9ED3B4"></div>
+<div data-build-in="rise order 3" id="g2n-A" style="position:absolute;left:1314px;top:536px;width:48px;height:48px;border-radius:50%;background:#2459C9;border:4px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div data-build-in="rise order 3" id="g2n-B" style="position:absolute;left:1419px;top:536px;width:48px;height:48px;border-radius:50%;background:#2459C9;border:4px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div data-build-in="rise order 3" id="g2n-D" style="position:absolute;left:1629px;top:536px;width:48px;height:48px;border-radius:50%;background:#1F8A4C;border:4px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">D'</p></div>
+<div data-build-in="rise order 3" id="g2n-E" style="position:absolute;left:1734px;top:536px;width:48px;height:48px;border-radius:50%;background:#1F8A4C;border:4px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">E'</p></div>
+<div data-build-in="rise order 3" id="g2n-C" style="position:absolute;left:1524px;top:536px;width:48px;height:48px;border-radius:50%;background:#2459C9;border:4px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p data-build-in="rise order 3" style="position:absolute;left:1300px;top:650px;width:496px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.45;color:#1D2330;background:#F3F2EE;border-radius:10px;padding:12px 16px">D', E' 해시가 새로 생겨요</p>
+<p data-build-in="rise order 4" style="position:absolute;left:96px;top:880px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">어느 버튼을 쓸지는 팀이 정해요. 정한 버튼 하나만 써요.</p>
+<aside>그림은 GitHub에서 합친 뒤 GitHub 쪽 main 모양이에요. Create a merge commit 메시지는 03에서 본 Merge pull request #1 from kim/feature/login-button이에요. Squash and merge는 PR 제목 뒤에 (#1)을 붙인 커밋 하나가 생겨요. Rebase and merge는 갈라지지 않았어도 GitHub이 커밋을 새로 만들어서 해시가 바뀌어요. 한 팀이 버튼을 섞어 쓰면 기록 모양이 PR마다 달라져서 읽기 어려워요.</aside>
+</section>
+<section id="gh-after" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">5. GitHub PR의 Merge 버튼</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">Squash나 Rebase 버튼 뒤에는 -D로 지워요</h2>
+<div id="term" style="position:absolute;left:96px;top:210px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git checkout main</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Updating d51d818..d6514f3</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#7FD18B">Fast-forward</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">d6514f3 (HEAD -&gt; main, origin/main) feat: 로그인 버튼 추가 (#1)</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git branch -d feature/login-button</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">error: the branch 'feature/login-button' is not fully merged.</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">If you are sure you want to delete it, run 'git branch -D feature/login-button'</p>
+</div>
+<div data-build-in="rise" style="position:absolute;left:96px;top:640px;width:1728px;height:180px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #5A3BB8;border-radius:20px;padding:28px 40px;display:flex;flex-direction:column;gap:12px"><p style="font-size:32px;font-weight:700;color:#1D2330">GitHub에서 PR이 Merged로 바뀐 걸 확인했으면 지워도 돼요.</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#5A3BB8">git branch -D feature/login-button</p></div>
+<aside>03에서 배운 PR 뒤 순서(main으로 가서 pull, 브랜치 지우기) 그대로예요. Create a merge commit으로 합쳤으면 -d로 지워져요. Squash and merge나 Rebase and merge는 GitHub이 새 커밋을 만들어서, 내 컴퓨터의 브랜치 커밋은 main과 이어지지 않아요. 그래서 -d가 거절해요. PR 화면에 보라색 Merged 표시가 있으면 -D로 지워요. From 줄과 파일 목록 줄은 뺐어요.</aside>
+</section>
+<section id="cf-all" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">6. 충돌과 주의</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">충돌은 어느 방법이든 같은 줄이면 나요</h2>
+<div style="position:absolute;left:96px;top:240px;width:600px;height:220px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #2459C9;border-radius:18px;padding:24px 30px;display:flex;flex-direction:column;gap:10px"><p style="font-size:24px;font-weight:700;color:#4A5262">main의 login.md</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#2459C9;background:#DCE7FB;border-radius:6px;padding:0 10px;align-self:flex-start"># 로그인 페이지</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;color:#1D2330;padding:0 10px">아이디</p></div>
+<div style="position:absolute;left:96px;top:490px;width:600px;height:220px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #1F8A4C;border-radius:18px;padding:24px 30px;display:flex;flex-direction:column;gap:10px"><p style="font-size:24px;font-weight:700;color:#4A5262">feature/login-title의 login.md</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1F8A4C;background:#DDF2E5;border-radius:6px;padding:0 10px;align-self:flex-start"># 로그인하기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;color:#1D2330;padding:0 10px">아이디</p></div>
+<div id="cf0" data-build-in="rise order 1" style="position:absolute;left:740px;top:240px;width:1084px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:26px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git merge feature/login-title</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">CONFLICT (content): Merge conflict in login.md</p>
+</div>
+<div id="cf1" data-build-in="rise order 2" style="position:absolute;left:740px;top:420px;width:1084px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:26px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git rebase main</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">CONFLICT (content): Merge conflict in login.md</p>
+</div>
+<div id="cf2" data-build-in="rise order 3" style="position:absolute;left:740px;top:600px;width:1084px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:26px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git merge --squash feature/login-title</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">CONFLICT (content): Merge conflict in login.md</p>
+</div>
+<p data-build-in="rise order 4" style="position:absolute;left:96px;top:820px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">합치는 방법은 기록 모양만 바꿔요. 같은 줄을 다르게 고쳤으면 Git은 늘 물어봐요.</p>
+<aside>B에서 갈라진 뒤 main은 첫 줄을 # 로그인 페이지로, 브랜치는 # 로그인하기로 고쳤어요. 03의 충돌 시나리오와 같은 상황이에요. merge, rebase, squash 모두 같은 줄에서 CONFLICT가 나요. 푸는 법도 같아요. 표시 줄을 지우고 남길 내용으로 고친 뒤 git add 해요. 다른 점은 그다음 명령 하나예요(다음 장). 출력의 Auto-merging 줄과 아래 안내 줄은 뺐어요.</aside>
+</section>
+<section id="cf-rb" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">6. 충돌과 주의</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">rebase 중 충돌은 add 뒤 --continue로 이어 가요</h2>
+<div id="term" style="position:absolute;left:96px;top:230px;width:860px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ cat login.md</p>
+<p style="font-size:26px;line-height:1.35;white-space:pre;color:#F28B82">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<p style="font-size:26px;line-height:1.35;white-space:pre;color:#D8DEE9"># 로그인 페이지</p>
+<p style="font-size:26px;line-height:1.35;white-space:pre;color:#F28B82">=======</p>
+<p style="font-size:26px;line-height:1.35;white-space:pre;color:#D8DEE9"># 로그인하기</p>
+<p style="font-size:26px;line-height:1.35;white-space:pre;color:#F28B82">&gt;&gt;&gt;&gt;&gt;&gt;&gt; bf59624 (feat: 로그인 제목 바꾸기)</p>
+<p style="font-size:26px;line-height:1.35;white-space:pre;color:#D8DEE9">아이디</p>
+</div>
+<div data-build-in="rise order 1" style="position:absolute;left:1000px;top:230px;width:824px;height:110px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:0 28px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:26px;font-weight:900;line-height:60px;text-align:center">1</p><p style="font-size:28px;font-weight:700;color:#1D2330">표시 세 줄을 지우고 남길 내용으로 고쳐요</p></div>
+<div data-build-in="rise order 2" style="position:absolute;left:1000px;top:360px;width:824px;height:110px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:0 28px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:26px;font-weight:900;line-height:60px;text-align:center">2</p><p style="font-size:30px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">git add login.md</p></div>
+<div data-build-in="rise order 3" style="position:absolute;left:1000px;top:490px;width:824px;height:110px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:0 28px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:26px;font-weight:900;line-height:60px;text-align:center">3</p><p style="font-size:30px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">git rebase --continue</p></div>
+<div data-build-in="rise order 4" style="position:absolute;left:1000px;top:640px;width:824px;height:110px;background:#FBEDEC;border:2px solid #E8C4C1;border-radius:18px;padding:0 28px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="font-size:28px;font-weight:700;color:#A33131">그만두기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330">git rebase --abort</p></div>
+<p data-build-in="rise order 5" style="position:absolute;left:96px;top:820px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">rebase 때 HEAD 쪽은 main이에요. merge 때와 반대로 보여요.</p>
+<aside>merge 충돌은 고치고 add 뒤 commit으로 끝냈어요(03). rebase는 커밋을 하나씩 옮기다 멈춘 상태라서 commit 대신 git rebase --continue로 다음 커밋을 이어서 옮겨요. 편집기가 열리면 그대로 저장하고 닫아요. 헷갈리면 git rebase --abort로 rebase 전 모습으로 돌아가요. rebase는 main 위에 내 커밋을 얹는 거라 HEAD가 main 쪽이에요. squash 충돌은 merge처럼 고치고 add, commit 해요.</aside>
+</section>
+<section id="warn" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">6. 충돌과 주의</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">push한 브랜치는 rebase하지 않아요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git rebase main</p>
+<p style="font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git push origin feature/login-button</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">&nbsp;! [rejected]        feature/login-button -&gt; feature/login-button (non-fast-forward)</p>
+</div>
+<div id="panel" style="position:absolute;left:96px;top:436px;width:1728px;height:428px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">GitHub에는 옛 D, E가 있어요. 여기서 pull하면 같은 변경이 두 번 들어가요.</p>
+<div id="e-A-B" style="position:absolute;left:392px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-B-C" style="position:absolute;left:642px;top:697px;width:186px;height:6px;background:#9DB8F2"></div>
+<div id="e-C-D" style="position:absolute;left:892px;top:697px;width:186px;height:6px;background:#9ED3B4"></div>
+<div id="e-D-E" style="position:absolute;left:1142px;top:697px;width:186px;height:6px;background:#9ED3B4"></div>
+<svg id="e-B-Dx" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="610" y1="700" x2="860" y2="580" stroke="rgb(196, 181, 238)" stroke-width="6" stroke-dasharray="18 12"></line></svg>
+<div id="e-Dx-Ex" style="position:absolute;left:892px;top:577px;width:186px;height:6px;border-top:6px dashed #C4B5EE"></div>
+<div id="n-A" style="position:absolute;left:328px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<p id="h-A" style="position:absolute;left:280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">9f452aa</p>
+<div id="n-B" style="position:absolute;left:578px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<p id="h-B" style="position:absolute;left:530px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6d19f01</p>
+<div id="n-C" style="position:absolute;left:828px;top:668px;width:64px;height:64px;border-radius:50%;background:#2459C9;border:5px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<p id="h-C" style="position:absolute;left:780px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">d51d818</p>
+<div id="n-Dx" style="position:absolute;left:828px;top:548px;width:64px;height:64px;border-radius:50%;background:#FDFCF9;border:5px dashed #5A3BB8;color:#5A3BB8;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<p id="h-Dx" style="position:absolute;left:780px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#9AA0AB">6a9792d</p>
+<div id="n-Ex" style="position:absolute;left:1078px;top:548px;width:64px;height:64px;border-radius:50%;background:#FDFCF9;border:5px dashed #5A3BB8;color:#5A3BB8;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<p id="h-Ex" style="position:absolute;left:1030px;top:614px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#9AA0AB">3573c9a</p>
+<div id="n-D" style="position:absolute;left:1078px;top:668px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">D'</p></div>
+<p id="h-D" style="position:absolute;left:1030px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">a40dc47</p>
+<div id="n-E" style="position:absolute;left:1328px;top:668px;width:64px;height:64px;border-radius:50%;background:#1F8A4C;border:5px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1;color:inherit">E'</p></div>
+<p id="h-E" style="position:absolute;left:1280px;top:734px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;text-align:center;color:#1D2330">6852264</p>
+<p id="t-origin-feature-login-button" style="position:absolute;left:884px;top:499px;width:452px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/feature/login-button</p>
+<p id="t-feature-login-button" style="position:absolute;left:1189px;top:768px;width:343px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-button</p>
+<p id="t-head" style="position:absolute;left:1542px;top:768px;width:125px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
+<aside>feature/login-button을 이미 push한 뒤에 rebase했어요. 내 컴퓨터에는 D', E', GitHub에는 D, E가 있어서 push가 거절돼요. 힌트는 pull하라고 하지만, pull하면 D, E와 D', E'가 둘 다 기록에 들어가요. 강제로 덮어쓰는 방법도 있지만 팀원이 받아 간 커밋과 어긋나서 이 과정에서는 쓰지 않아요. 이 상태가 되면 더 치지 말고 강사에게 물어봐요. 규칙은 하나예요. rebase는 push 전, 나만 가진 커밋에만 써요. main처럼 같이 쓰는 브랜치에서는 rebase하지 않아요.</aside>
+</section>
+<section id="choose" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">6. 충돌과 주의</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">언제 무엇을 쓰나요</h2>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:230px;width:1728px;height:150px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #1E3F8F;border-radius:20px;padding:0 40px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">git pull 할 때</p><x-shape kind="arrow-right" style="width: 60px; height: 36px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(30, 63, 143)"></polygon></svg></x-shape><p style="flex:1;font-size:32px;font-weight:700;color:#1E3F8F">설정대로 merge</p><p style="width:380px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#EEEFF2;border-radius:10px;padding:10px 18px;text-align:center">pull.rebase false</p></div>
+<div data-build-in="rise order 2" style="position:absolute;left:96px;top:400px;width:1728px;height:150px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #5A3BB8;border-radius:20px;padding:0 40px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">PR을 합칠 때</p><x-shape kind="arrow-right" style="width: 60px; height: 36px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(90, 59, 184)"></polygon></svg></x-shape><p style="flex:1;font-size:32px;font-weight:700;color:#5A3BB8">팀이 정한 Merge 버튼 하나</p><p style="width:380px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#EEEFF2;border-radius:10px;padding:10px 18px;text-align:center">GitHub</p></div>
+<div data-build-in="rise order 3" style="position:absolute;left:96px;top:570px;width:1728px;height:150px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #B26A00;border-radius:20px;padding:0 40px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">push 전, 내 브랜치를 최신 main 뒤로</p><x-shape kind="arrow-right" style="width: 60px; height: 36px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(178, 106, 0)"></polygon></svg></x-shape><p style="flex:1;font-size:32px;font-weight:700;color:#B26A00">rebase를 써도 돼요</p><p style="width:380px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#EEEFF2;border-radius:10px;padding:10px 18px;text-align:center">git rebase main</p></div>
+<div data-build-in="rise order 4" style="position:absolute;left:96px;top:740px;width:1728px;height:150px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #A33131;border-radius:20px;padding:0 40px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">push한 브랜치, main</p><x-shape kind="arrow-right" style="width: 60px; height: 36px; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(163, 49, 49)"></polygon></svg></x-shape><p style="flex:1;font-size:32px;font-weight:700;color:#A33131">rebase하지 않아요</p><p style="width:380px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;background:#EEEFF2;border-radius:10px;padding:10px 18px;text-align:center">merge만</p></div>
+<aside>수업에서 직접 치는 건 첫째 줄과 둘째 줄이에요. 셋째 줄은 개인 브랜치에서 연습할 때만 써요. 넷째 줄은 꼭 지켜요. 헷갈리면 merge를 써요. merge는 기록을 바꾸지 않아서 잘못해도 되돌리기 쉬워요.</aside>
+</section>
+<section id="trouble" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">막힐 때</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">이런 메시지가 나와요</h2>
+<div style="position:absolute;left:96px;top:220px;width:1728px;height:800px;display:flex;flex-direction:column;gap:16px">
+<div data-build-in="rise order 1" style="flex:1;display:flex;flex-direction:row;gap:28px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:12px 32px"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#1E3F8F;color:#FFFFFF;font-size:26px;font-weight:900;line-height:60px;text-align:center">1</p><div style="flex:1;display:flex;flex-direction:column;gap:6px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">fatal: Need to specify how to reconcile divergent branches.</p><p style="font-size:24px;color:#4A5262">pull 설정이 없어요</p></div><p style="width:620px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 20px;border-radius:12px">git config --global pull.rebase false</p></div>
+<div data-build-in="rise order 2" style="flex:1;display:flex;flex-direction:row;gap:28px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:12px 32px"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#1E3F8F;color:#FFFFFF;font-size:26px;font-weight:900;line-height:60px;text-align:center">2</p><div style="flex:1;display:flex;flex-direction:column;gap:6px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">fatal: Not possible to fast-forward, aborting.</p><p style="font-size:24px;color:#4A5262">pull.ff only가 설정돼 있어요</p></div><p style="width:620px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 20px;border-radius:12px">git config --global --unset pull.ff</p></div>
+<div data-build-in="rise order 3" style="flex:1;display:flex;flex-direction:row;gap:28px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:12px 32px"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#1E3F8F;color:#FFFFFF;font-size:26px;font-weight:900;line-height:60px;text-align:center">3</p><div style="flex:1;display:flex;flex-direction:column;gap:6px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">error: the branch '...' is not fully merged.</p><p style="font-size:24px;color:#4A5262">squash나 rebase로 합쳤어요. 합친 걸 확인하고</p></div><p style="width:620px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 20px;border-radius:12px">git branch -D 브랜치</p></div>
+<div data-build-in="rise order 4" style="flex:1;display:flex;flex-direction:row;gap:28px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:12px 32px"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#1E3F8F;color:#FFFFFF;font-size:26px;font-weight:900;line-height:60px;text-align:center">4</p><div style="flex:1;display:flex;flex-direction:column;gap:6px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">error: could not apply ... (rebase 중 CONFLICT)</p><p style="font-size:24px;color:#4A5262">고치고 add 뒤 이어 가요. 그만두려면 --abort</p></div><p style="width:620px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 20px;border-radius:12px">git rebase --continue</p></div>
+<div data-build-in="rise order 5" style="flex:1;display:flex;flex-direction:row;gap:28px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:12px 32px"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#1E3F8F;color:#FFFFFF;font-size:26px;font-weight:900;line-height:60px;text-align:center">5</p><div style="flex:1;display:flex;flex-direction:column;gap:6px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330">! [rejected] ... (non-fast-forward)  rebase 뒤</p><p style="font-size:24px;color:#4A5262">push한 브랜치를 rebase했어요. pull하지 말고</p></div><p style="width:620px;flex:none;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;background:#EEEFF2;padding:12px 20px;border-radius:12px">강사에게 물어봐요</p></div>
+</div>
+<aside>1번은 06에서 본 메시지예요. 2번은 다른 자료를 보고 pull.ff only를 설정한 컴퓨터에서 나요. 설정을 지우고 06처럼 pull.rebase false만 남겨요. 3번은 squash나 Rebase and merge 뒤에 나요. 4번은 rebase 중 충돌이에요. 5번은 push한 브랜치를 rebase한 경우예요. pull로 풀면 같은 커밋이 두 번 들어가니 멈추고 물어봐요.</aside>
+</section>
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">한 장 요약</h2>
+<div style="position:absolute;left:96px;top:200px;width:414px;height:600px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #2459C9;border-radius:20px;padding:28px 26px;display:flex;flex-direction:column;gap:14px"><h3 style="font-size:36px;font-weight:700;color:#2459C9">fast-forward</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.6;color:#1D2330;background:#F1F0EC;border-radius:10px;padding:10px 14px">git merge 브랜치</p><p style="font-size:27px;line-height:1.4;color:#4A5262">갈라지지 않았을 때</p><p style="font-size:27px;line-height:1.4;color:#4A5262">이름표만 앞으로</p></div>
+<div id="s0e-A-B" style="position:absolute;left:163px;top:739px;width:44px;height:3px;background:#9DB8F2"></div>
+<div id="s0e-B-D" style="position:absolute;left:241px;top:739px;width:44px;height:3px;background:#9ED3B4"></div>
+<div id="s0e-D-E" style="position:absolute;left:319px;top:739px;width:44px;height:3px;background:#9ED3B4"></div>
+<div id="s0n-A" style="position:absolute;left:129px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div id="s0n-B" style="position:absolute;left:207px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div id="s0n-D" style="position:absolute;left:285px;top:723px;width:34px;height:34px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<div id="s0n-E" style="position:absolute;left:363px;top:723px;width:34px;height:34px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<div style="position:absolute;left:534px;top:200px;width:414px;height:600px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #1E3F8F;border-radius:20px;padding:28px 26px;display:flex;flex-direction:column;gap:14px"><h3 style="font-size:36px;font-weight:700;color:#1E3F8F">merge</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.6;color:#1D2330;background:#F1F0EC;border-radius:10px;padding:10px 14px">git merge 브랜치<br>git merge --no-ff 브랜치</p><p style="font-size:27px;line-height:1.4;color:#4A5262">합치기 커밋 M</p><p style="font-size:27px;line-height:1.4;color:#4A5262">해시 그대로</p></div>
+<div id="s1e-A-B" style="position:absolute;left:601px;top:739px;width:44px;height:3px;background:#9DB8F2"></div>
+<svg id="s1e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="662" y1="740" x2="740" y2="660" stroke="rgb(158, 211, 180)" stroke-width="3"></line></svg>
+<div id="s1e-D-E" style="position:absolute;left:757px;top:659px;width:44px;height:3px;background:#9ED3B4"></div>
+<div id="s1e-B-C" style="position:absolute;left:679px;top:739px;width:44px;height:3px;background:#9DB8F2"></div>
+<div id="s1e-C-M" style="position:absolute;left:757px;top:739px;width:122px;height:3px;background:#9DB8F2"></div>
+<svg id="s1e-E-M" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="818" y1="660" x2="896" y2="740" stroke="rgb(158, 211, 180)" stroke-width="3"></line></svg>
+<div id="s1n-A" style="position:absolute;left:567px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div id="s1n-B" style="position:absolute;left:645px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div id="s1n-D" style="position:absolute;left:723px;top:643px;width:34px;height:34px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<div id="s1n-E" style="position:absolute;left:801px;top:643px;width:34px;height:34px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<div id="s1n-C" style="position:absolute;left:723px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<div id="s1n-M" style="position:absolute;left:879px;top:723px;width:34px;height:34px;border-radius:50%;background:#FFFFFF;border:5px solid #2459C9;color:#2459C9;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">M</p></div>
+<div style="position:absolute;left:972px;top:200px;width:414px;height:600px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:28px 26px;display:flex;flex-direction:column;gap:14px"><h3 style="font-size:36px;font-weight:700;color:#B26A00">rebase</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.6;color:#1D2330;background:#F1F0EC;border-radius:10px;padding:10px 14px">git rebase main</p><p style="font-size:27px;line-height:1.4;color:#4A5262">옮겨 붙이기, 해시가 바뀜</p><p style="font-size:27px;line-height:1.4;color:#4A5262">push 전 내 브랜치에만</p></div>
+<div id="s2e-A-B" style="position:absolute;left:1039px;top:739px;width:44px;height:3px;background:#9DB8F2"></div>
+<div id="s2e-B-C" style="position:absolute;left:1117px;top:739px;width:44px;height:3px;background:#9DB8F2"></div>
+<div id="s2e-C-D" style="position:absolute;left:1195px;top:739px;width:44px;height:3px;background:#9ED3B4"></div>
+<div id="s2e-D-E" style="position:absolute;left:1273px;top:739px;width:44px;height:3px;background:#9ED3B4"></div>
+<div id="s2n-A" style="position:absolute;left:1005px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div id="s2n-B" style="position:absolute;left:1083px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div id="s2n-D" style="position:absolute;left:1239px;top:723px;width:34px;height:34px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">D'</p></div>
+<div id="s2n-E" style="position:absolute;left:1317px;top:723px;width:34px;height:34px;border-radius:50%;background:#1F8A4C;border:3px solid #1F8A4C;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">E'</p></div>
+<div id="s2n-C" style="position:absolute;left:1161px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<div style="position:absolute;left:1410px;top:200px;width:414px;height:600px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #0F7C86;border-radius:20px;padding:28px 26px;display:flex;flex-direction:column;gap:14px"><h3 style="font-size:36px;font-weight:700;color:#0F7C86">squash</h3><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.6;color:#1D2330;background:#F1F0EC;border-radius:10px;padding:10px 14px">git merge --squash 브랜치<br>git commit -m "..."</p><p style="font-size:27px;line-height:1.4;color:#4A5262">커밋 하나로</p><p style="font-size:27px;line-height:1.4;color:#4A5262">브랜치는 -D로 지우기</p></div>
+<div id="s3e-A-B" style="position:absolute;left:1477px;top:739px;width:44px;height:3px;background:#9DB8F2"></div>
+<svg id="s3e-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1538" y1="740" x2="1616" y2="660" stroke="rgb(195, 200, 210)" stroke-width="3"></line></svg>
+<div id="s3e-D-E" style="position:absolute;left:1633px;top:659px;width:44px;height:3px;background:#C3C8D2"></div>
+<div id="s3e-B-C" style="position:absolute;left:1555px;top:739px;width:44px;height:3px;background:#9DB8F2"></div>
+<div id="s3e-C-S" style="position:absolute;left:1633px;top:739px;width:44px;height:3px;background:#9ED6DB"></div>
+<div id="s3n-A" style="position:absolute;left:1443px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">A</p></div>
+<div id="s3n-B" style="position:absolute;left:1521px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">B</p></div>
+<div id="s3n-D" style="position:absolute;left:1599px;top:643px;width:34px;height:34px;border-radius:50%;background:#7A8394;border:3px solid #7A8394;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">D</p></div>
+<div id="s3n-E" style="position:absolute;left:1677px;top:643px;width:34px;height:34px;border-radius:50%;background:#7A8394;border:3px solid #7A8394;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">E</p></div>
+<div id="s3n-C" style="position:absolute;left:1599px;top:723px;width:34px;height:34px;border-radius:50%;background:#2459C9;border:3px solid #2459C9;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">C</p></div>
+<div id="s3n-S" style="position:absolute;left:1677px;top:723px;width:34px;height:34px;border-radius:50%;background:#0F7C86;border:3px solid #0F7C86;color:#FFFFFF;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:15px;font-weight:700;line-height:1;color:inherit">S</p></div>
+<p style="position:absolute;left:96px;top:850px;width:1728px;font-size:30px;font-weight:700;color:#1D2330">pull은 pull.rebase false로 merge, PR은 팀이 정한 버튼, 충돌은 어느 방법이든 같은 줄에서 나요.</p>
+<aside>네 방법 모두 다 합친 뒤 파일 내용은 같아요. 다른 건 기록 모양과 해시예요. 수업에서는 merge를 기본으로 쓰고, 나머지는 기록을 읽을 수 있을 만큼 알아 두면 돼요.</aside>
+</section>
+</div>
+<div id="notes"></div>
+<div id="bar"><button id="prev">이전</button><button id="next">다음</button><span id="count"></span><span class="grow"></span><span>→ 다음 · ← 이전 · N 발표자 노트 · F 전체 화면</span><button id="nb">노트</button><button id="fs">전체 화면</button></div>
+<script>
+const stage=document.getElementById('stage');
+const slides=[...stage.children];
+let cur=0, step=0;
+const steps=slides.map(s=>{
+  const els=[...s.querySelectorAll('[data-build-in]')];
+  const groups=[];let auto=0;
+  for(const el of els){
+    const spec=el.getAttribute('data-build-in');
+    const m=spec.match(/order\s+(\d+)/)||spec.match(/\s(\d+)$/);
+    const k=m?+m[1]:++auto;
+    (groups[k]=groups[k]||[]).push(el);
+    el.dataset.fx=/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':'fade';
+  }
+  return groups.filter(Boolean);
+});
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage._s=s;stage.style.transform='translate(-50%,-50%) scale('+s+')';}
+addEventListener('resize',fit);fit();
+function setBuild(i,n,animate){
+  steps[i].forEach((g,gi)=>g.forEach(el=>{
+    if(!animate)el.style.transition='none';
+    el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
+    if(!animate){void el.offsetWidth;el.style.transition='';}
+  }));
+}
+function rectIn(el){const r=el.getBoundingClientRect(),S=stage.getBoundingClientRect(),k=stage._s;return{x:(r.left-S.left)/k,y:(r.top-S.top)/k,w:r.width/k,h:r.height/k};}
+function topIds(sec){return [...sec.querySelectorAll('[id]')].filter(el=>!el.parentElement.closest('section [id]'));}
+function show(n,dir){
+  if(n<0||n>=slides.length)return;
+  const a=slides[cur],b=slides[n];
+  setBuild(n,dir<0?steps[n].length:0,false);
+  const magic=b.getAttribute('data-transition')==='magic'&&Math.abs(n-cur)===1&&n!==cur;
+  if(magic){
+    const before={};
+    for(const el of topIds(a))before[el.id]={r:rectIn(el),o:getComputedStyle(el).opacity};
+    a.classList.remove('on');b.classList.add('on');
+    const moved=[];
+    for(const el of topIds(b)){
+      const p=before[el.id];
+      if(!p){el.animate([{opacity:0},{opacity:getComputedStyle(el).opacity}],{duration:450,easing:'ease'});continue;}
+      const q=rectIn(el);
+      const dx=p.r.x-q.x,dy=p.r.y-q.y,sx=q.w?p.r.w/q.w:1,sy=q.h?p.r.h/q.h:1;
+      if(Math.abs(dx)<1&&Math.abs(dy)<1&&Math.abs(sx-1)<.01&&Math.abs(sy-1)<.01&&p.o===getComputedStyle(el).opacity)continue;
+      el.animate([{transformOrigin:'0 0',transform:'translate('+dx+'px,'+dy+'px) scale('+sx+','+sy+')',opacity:p.o},{transformOrigin:'0 0',transform:'none',opacity:getComputedStyle(el).opacity}],{duration:700,easing:'cubic-bezier(.4,0,.2,1)'});
+    }
+  }else{
+    a.classList.remove('on');b.classList.add('on');
+    if(n!==cur)b.animate([{opacity:0},{opacity:1}],{duration:400,easing:'ease'});
+  }
+  cur=n;step=dir<0?steps[n].length:0;
+  update();
+}
+function next(){if(step<steps[cur].length){step++;setBuild(cur,step,true);update();}else show(cur+1,1);}
+function prev(){show(cur-1,-1);}
+function update(){
+  document.getElementById('count').textContent=(cur+1)+' / '+slides.length;
+  const aside=slides[cur].querySelector('aside');
+  document.getElementById('notes').textContent=aside?aside.textContent:'';
+  history.replaceState(null,'','#'+(cur+1));
+}
+addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next();}
+  else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}
+  else if(e.key==='Home')show(0,1);
+  else if(e.key==='End')show(slides.length-1,1);
+  else if(e.key==='n'||e.key==='N')document.getElementById('notes').classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+});
+stage.addEventListener('click',e=>{(e.clientX<innerWidth/3)?prev():next();});
+document.getElementById('prev').onclick=prev;document.getElementById('next').onclick=next;
+document.getElementById('nb').onclick=()=>document.getElementById('notes').classList.toggle('show');
+document.getElementById('fs').onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+let tx=null;addEventListener('touchstart',e=>tx=e.touches[0].clientX);addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>40)(d<0?next:prev)();tx=null;});
+const start=Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1))||1)-1));
+slides.forEach((s,i)=>setBuild(i,0,false));
+cur=start;slides[cur].classList.add('on');update();
+</script>
+</body></html>

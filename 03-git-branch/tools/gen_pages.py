@@ -524,7 +524,7 @@ page("pull-config", EBP, "처음 한 번만 설정해요", [
                                               ("+ merge", "내 main과 합쳐요", "#2459C9")]))
     + '</div>',
     takeaway("pull.rebase false는 pull할 때 merge로 합치라는 뜻이에요. 설정한 뒤 다시 pull해요.", 760)],
-    "출력은 없어요. --global이라 내 컴퓨터의 모든 저장소에 한 번에 적용돼요. rebase는 이 과정에서 다루지 않아요. 02의 처음 설정(user.name, user.email)과 같이 해 두면 좋아요.")
+    "출력은 없어요. --global이라 내 컴퓨터의 모든 저장소에 한 번에 적용돼요. rebase는 08에서 다른 합치는 방법과 비교해 봐요. 02의 처음 설정(user.name, user.email)과 같이 해 두면 좋아요.")
 page("rs-pull", EBP, "다시 pull하면 익숙한 충돌이에요", [
     term(96, 250, 1060, [("$", "git pull origin main"), ("r", "CONFLICT (content): Merge conflict in login.md")], size=26),
     markers(96, 400, 1060, 320, "login.md (충돌 표시)", [("&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD", "m"), ("# 로그인하기", "b"), ("=======", "m"), ("# Login", "g"),

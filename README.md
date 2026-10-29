@@ -13,6 +13,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [05 · VS Code Git Graph로 기록 보기](./05-git-graph) | Git Graph 설치, 점·이름표·HEAD·origin/main 읽기, 명령 뒤 그림 확인 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) |
 | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](./06-team-repo) | Collaborator 초대, push 거절 뒤 `pull`, 자동 합치기, pull 충돌 해결, 팀 규칙, 브랜치와 PR 케이스 8가지 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) |
 | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](./07-git-restore-stash) | `restore` `restore --staged` `stash` `stash list` `stash pop` `stash drop` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) |
+| [08 · 갈라진 기록 합치는 방법 비교하기](./08-git-merge-ways) | fast-forward, `merge --no-ff`, `rebase`, `merge --squash`, pull 설정 세 가지, PR Merge 버튼 세 가지 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) |
 
 챕터는 번호 순서대로 이어져요. 앞 챕터에서 만든 폴더와 저장소를 다음 챕터에서 그대로 써요.
 
@@ -48,11 +49,12 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 항목 | 규칙 |
 | --- | --- |
 | push, pull | `git push origin main`, `git pull origin main`처럼 원격과 브랜치를 끝까지 적어요. `-u`는 쓰지 않아요 |
-| pull 설정 | 처음 한 번 `git config --global pull.rebase false`. pull은 merge로 합쳐요. rebase는 쓰지 않아요 |
+| pull 설정 | 처음 한 번 `git config --global pull.rebase false`. pull은 merge로 합쳐요. `pull.rebase true`, `pull.ff only`는 08에서 비교로만 봐요 |
 | 원격과 비교 | `git fetch origin` 뒤에 `git log --oneline`, `git log --oneline origin/main`. `--graph`, `--all`은 쓰지 않아요 |
 | 그림으로 보기 | VS Code의 Git Graph로 결과만 확인해요. checkout, merge, reset은 Git Graph 메뉴 대신 터미널에서 쳐요 |
 | 커밋 | `git add 파일` 뒤 `git commit -m "..."`. `-am`은 쓰지 않아요 |
 | 커밋 전 되돌리기 | `git restore`, `git stash`는 07에서 배워요. 01~06 자료에는 나오지 않아요 |
+| 합치는 방법 | `rebase`, `merge --squash`, `--no-ff`는 08에서 배워요. rebase는 push 전 내 브랜치에만 쓰고, push한 브랜치와 main에서는 쓰지 않아요 |
 | 커밋 메시지 | [Conventional Commits](https://www.conventionalcommits.org/ko/v1.0.0/) 형식: `feat:` `fix:` `docs:` … |
 | 브랜치 이동 | 슬라이드는 `git checkout`으로 보여 줘요. 같은 일을 하는 `git switch`도 03에서 소개해요 |
 | 브랜치 이름 | `feature/login`, `fix/12-login-error`, `docs/login-guide`처럼 `타입/하는-일` |
@@ -73,11 +75,12 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 ├── 05-git-graph/
 ├── 06-team-repo/
 ├── 07-git-restore-stash/
+├── 08-git-merge-ways/
 └── CLAUDE.md                     자료 작성 규칙
 ```
 
 ## 자료를 고칠 때
 
 - 슬라이드를 고치면 챕터의 `tools/`로 HTML과 PDF를 다시 만들어요. 명령은 챕터 README의 강사용 절에 있어요.
-- 새 챕터는 `08-주제`처럼 다음 번호로 폴더를 만들고 커리큘럼 표에 한 줄을 더해요.
+- 새 챕터는 `09-주제`처럼 다음 번호로 폴더를 만들고 커리큘럼 표에 한 줄을 더해요.
 - 글쓰기와 폴더 규칙은 [CLAUDE.md](./CLAUDE.md)를 따라요.

@@ -1,0 +1,71 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-29T05:00:00Z"
+  },
+  "lists": "css",
+  "title": "합치는 방법, 눈으로 비교하기",
+  "order": [
+    "cover",
+    "toc",
+    "story1",
+    "story2",
+    "ff",
+    "noff",
+    "split",
+    "merge",
+    "rb1",
+    "rb-hash",
+    "rb2",
+    "sq1",
+    "sq2",
+    "sq3",
+    "cmp",
+    "cmp-table",
+    "pl0",
+    "pl-none",
+    "pl-false",
+    "pl-true",
+    "pl-ff",
+    "pl-why",
+    "gh-btn",
+    "gh-res",
+    "gh-after",
+    "cf-all",
+    "cf-rb",
+    "warn",
+    "choose",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "같은 예시 하나",
+      "start": "cover"
+    },
+    "compare": {
+      "description": "한눈에 비교",
+      "start": "cmp"
+    },
+    "github": {
+      "description": "GitHub PR 버튼",
+      "start": "gh-btn"
+    },
+    "trouble": {
+      "description": "막힐 때와 요약",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
