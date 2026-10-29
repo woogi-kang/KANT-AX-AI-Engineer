@@ -2,13 +2,13 @@
 
 > 커밋을 점으로, 브랜치를 그 점에 붙은 이름표로 그려서 명령마다 그래프가 어떻게 바뀌는지 봐요. 로그인 기능을 브랜치에서 만들고, 합치고, 충돌을 풀고, Pull Request로 팀과 합치는 데까지 이어서 해요. 02에서 만든 `hello-git` 저장소를 그대로 써요.
 
-| 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
-| --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 72장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | [04 · Git diff로 확인하기](../04-git-diff) |
+| 슬라이드 | 이전 챕터 | 다음 챕터 |
+| --- | --- | --- |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | [02 · Git 기본 흐름](../02-git-basics) | [04 · Git diff로 확인하기](../04-git-diff) |
 
 ## 학습 목표
 
-이 모듈을 마치면 다음을 할 수 있어요.
+이 챕터를 마치면 다음을 할 수 있어요.
 
 - 커밋 그래프에서 커밋, 브랜치, `HEAD`가 무엇을 가리키는지 읽어요.
 - `branch`, `checkout`으로 브랜치를 만들고 옮겨 다니며 작업해요. 같은 일을 하는 `switch`도 읽고 써요.

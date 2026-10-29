@@ -1,19 +1,20 @@
 # 06 · 팀 레포로 함께 커밋하기
 
-> 2~3명이 팀을 짜서 GitHub에 레포 하나를 만들고, 각자 clone해서 커밋, push, pull을 해요. push가 거절되는 장면, pull로 저절로 합쳐지는 장면, 같은 줄을 고쳐 충돌이 나는 장면을 일부러 만들고 풀어요.
+> 2~3명이 팀을 짜서 GitHub에 레포 하나를 만들고, 각자 clone해서 커밋, push, pull을 해요. push가 거절되는 장면, pull로 저절로 합쳐지는 장면, 같은 줄을 고쳐 충돌이 나는 장면을 일부러 만들고 풀어요. 마지막 5부에는 브랜치와 Pull Request로 일할 때 자주 만나는 경우 8가지를 모았어요.
 
-| 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
-| --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) | 28장 · 4개 파트 | [05 · VS Code Git Graph로 기록 보기](../05-git-graph) | [07 · restore와 stash](../07-git-restore-stash) |
+| 슬라이드 | 이전 챕터 | 다음 챕터 |
+| --- | --- | --- |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) | [05 · VS Code Git Graph로 기록 보기](../05-git-graph) | [07 · restore와 stash](../07-git-restore-stash) |
 
 ## 학습 목표
 
-이 모듈을 마치면 다음을 할 수 있어요.
+이 챕터를 마치면 다음을 할 수 있어요.
 
 - GitHub에 팀 레포를 만들고 팀원을 Collaborator로 초대해요.
 - push가 `! [rejected] ... (fetch first)`로 거절되면 pull로 받아 합친 뒤 다시 push해요.
 - 다른 파일을 고친 경우와 같은 줄을 고친 경우에 pull 결과가 어떻게 다른지 말해요.
 - pull 충돌을 직접 풀고 팀원이 pull로 받게 해요.
+- 브랜치와 PR로 일하다 막히면 메시지로 케이스를 찾아 해결해요.
 
 ## 구성
 
@@ -23,8 +24,9 @@
 | 1. 팀 레포 준비 | 4–8 | 역할 나누기, 레포 만들기, Collaborator 초대와 수락, clone, pull 설정 |
 | 2. 다른 파일은 저절로 | 9–17 | push 거절, pull로 merge 커밋, vim 닫기, 설정이 없을 때, fast-forward, fetch로 먼저 보기 |
 | 3. 같은 줄은 충돌 | 18–23 | 같은 줄 고치고 push 거절, `CONFLICT`, 충돌 표시 읽기, 고쳐서 push, 팀원이 pull |
-| 4. 팀 규칙, 막힐 때 | 24–27 | 팀 규칙 다섯 가지, 작업 순서, 자주 보는 메시지, 브랜치와 Pull Request로 넘어가기 |
-| 요약 | 28 | 한 장 요약 |
+| 4. 팀 규칙 | 24–26 | 팀 규칙 다섯 가지, 작업 순서, 브랜치와 Pull Request로 넘어가기 |
+| 5. 팀 작업 케이스 | 27–40 | 케이스 목록, 막혔을 때 찾기, 케이스 8가지 |
+| 요약 | 41 | 한 장 요약 |
 
 슬라이드 위쪽 네 칸은 GitHub(보라), kim(파랑), lee(초록), park(주황)의 저장소예요. 점 색은 그 커밋을 만든 사람이고, 흰 점은 merge 커밋이에요.
 
@@ -153,6 +155,23 @@ cat README.md                    # # 깃벗 팀
 
 오늘은 모두 main에 바로 push했어요. 실제 팀은 각자 브랜치에서 일하고 Pull Request로 합쳐요. 그 흐름은 [03 · Git 브랜치와 협업](../03-git-branch)의 7부에 있어요.
 
+## 팀 작업 케이스 (5부)
+
+브랜치와 Pull Request로 일할 때 자주 만나는 경우예요. 막히면 슬라이드 28쪽의 찾기 표에서 메시지로 쪽수를 찾아요.
+
+| 케이스 | 쪽 | 상황 | 이렇게 해요 |
+| :---: | :---: | --- | --- |
+| 1 | 29 | 작업 시작 | `git checkout main`, `git pull origin main`, `git checkout -b feature/이름` |
+| 2 | 30–31 | 브랜치 push, PR 만들기 | `git push origin feature/이름`, GitHub에서 Compare & pull request |
+| 3 | 32 | PR이 합쳐진 뒤 | `git checkout main`, `git pull origin main`, `git branch -d feature/이름`, 다음 브랜치 |
+| 4 | 33 | 다른 파일을 고친 PR 두 개 | 둘 다 바로 Merge, 각자 main에서 pull |
+| 5 | 34–36 | 같은 줄을 고친 PR (`This branch has conflicts`) | 내 브랜치에서 `git pull origin main`, 충돌 풀고 add, commit, `git push origin feature/이름` |
+| 6 | 37–38 | 고친 파일이 있는데 pull (`would be overwritten by merge`) | 브랜치를 만들어 커밋한 뒤 다시 pull |
+| 7 | 39 | 고친 파일이 있는데 checkout (`would be overwritten by checkout`) | 지금 브랜치에서 커밋한 뒤 옮기기 |
+| 8 | 40 | main에 커밋해 버림 (push 전) | `git branch feature/이름`, `git reset --hard HEAD~1`, `git checkout feature/이름` |
+
+케이스 6, 7에서 커밋하지 않고 잠깐 치워 두는 stash는 [07](../07-git-restore-stash)에서 배워요. 케이스 8의 `--hard`는 커밋 안 한 변경을 지우니 `git status`가 깨끗한지 먼저 봐요. 이미 push했다면 되돌리지 말고 팀에 알려요.
+
 ## 명령어 요약
 
 | 명령 | 하는 일 |
@@ -165,6 +184,8 @@ cat README.md                    # # 깃벗 팀
 | `git log --oneline origin/main` | GitHub 쪽 기록 보기 |
 | `git status` | 충돌 난 파일 찾기 |
 | `git merge --abort` | 충돌 난 pull을 pull 전으로 되돌리기 |
+| `git push origin feature/이름` | 내 브랜치 올리기 |
+| `git branch -d feature/이름` | 합쳐진 브랜치 지우기 |
 
 ## 문제 해결
 
@@ -189,7 +210,8 @@ slides/
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
   gen.py           모든 장 생성 (네 칸 저장소 그림, 터미널, GitHub 화면)
-  demo.sh          kim, lee, park 실습을 새 저장소에서 다시 실행해 실제 출력 확인
+  demo.sh          kim, lee, park 실습(1~3부)을 새 저장소에서 다시 실행해 실제 출력 확인
+  cases.sh         5부 팀 작업 케이스를 kim, lee로 다시 실행 (PR Merge 버튼은 세 번째 clone이 대신)
   check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
   deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
   export.js        PDF 내보내기
@@ -203,6 +225,7 @@ team-repo-slides.pdf   강사용 PDF
 
 ```bash
 bash tools/demo.sh /tmp/team-demo
+bash tools/cases.sh /tmp/team-cases
 python3 tools/gen.py slides
 node tools/check.js slides shots
 node tools/build_player.js slides team-repo-slides.html

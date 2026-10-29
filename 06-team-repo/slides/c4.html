@@ -1,0 +1,23 @@
+<section id="c4" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">5부 · 팀 작업 케이스 · 케이스 4 · kim</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">다른 파일을 고친 PR 두 개</h2>
+<div id="situ" style="position:absolute;left:96px;top:196px;width:1728px;height:80px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #2459C9;border-radius:16px;padding:0 28px;display:flex;flex-direction:row;gap:18px;align-items:center"><p style="font-size:24px;font-weight:700;color:#6A7180;flex:none">상황</p><p style="font-size:28px;color:#1D2330">kim은 kim.md, lee는 lee.md를 고쳐서 PR #2, #3을 올렸어요. 둘 다 No conflicts예요.</p></div>
+<div id="term" style="position:absolute;left:96px;top:300px;width:1728px;height:560px;background:#1B2029;border-radius:20px;padding:18px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<div style="display:flex;flex-direction:row;gap:12px;align-items:center;padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid #343B48"><div style="width:18px;height:18px;border-radius:9px;background:#2459C9"></div><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;color:#FFFFFF">kim의 터미널</p><p style="font-size:20px;color:#8C95A6">~/team-intro</p></div>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#8C95A6"># GitHub에서 PR #2, #3을 차례로 Merge</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git checkout main</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">Updating ec7283e..09e7497</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#7FD18B">Fast-forward</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9"> kim.md | 1 +</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9"> lee.md | 1 +</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9"> 2 files changed, 2 insertions(+)</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">09e7497 (HEAD -&gt; main, origin/main, origin/HEAD) Merge pull request #3 from lee/feature/lee-hobby</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">4da19b6 Merge pull request #2 from kim/feature/kim-intro</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">8c8e99f docs: lee 취미 추가</p>
+<p style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">ec7283e Merge pull request #1 from lee/feature/lee-intro</p>
+</div>
+<div id="take" data-build-in="rise" style="position:absolute;left:96px;top:884px;width:1728px;height:140px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:0 36px;display:flex;flex-direction:row;gap:28px;align-items:center"><x-icon name="CheckCircle" style="width:52px;height:52px;color:#1F8A4C"></x-icon><p style="font-size:30px;font-weight:700;line-height:1.45;color:#1D2330">다른 파일이면 PR 순서와 상관없이 둘 다 Merge돼요. 끝나면 각자 main에서 pull.</p></div>
+<aside>2부의 다른 파일 장면을 브랜치로 한 거예요. GitHub이 #2를 합친 뒤에도 #3은 다른 파일만 고쳐서 바로 합칠 수 있어요. 둘 다 합친 뒤 kim과 lee 모두 main으로 가서 pull 해요. lee 쪽 출력도 같아요. pull의 From 줄과 log 아래 세 줄은 뺐어요.</aside>
+</section>

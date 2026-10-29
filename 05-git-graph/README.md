@@ -2,13 +2,13 @@
 
 > VS Code 확장 Git Graph를 설치해서 터미널로 만든 커밋과 브랜치를 그림으로 봐요. 명령은 지금처럼 터미널에서 치고, 친 결과를 Git Graph로 확인해요.
 
-| 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
-| --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) | 23장 · 4개 파트 | [04 · Git diff로 확인하기](../04-git-diff) | [06 · 팀 레포로 함께 커밋하기](../06-team-repo) |
+| 슬라이드 | 이전 챕터 | 다음 챕터 |
+| --- | --- | --- |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) | [04 · Git diff로 확인하기](../04-git-diff) | [06 · 팀 레포로 함께 커밋하기](../06-team-repo) |
 
 ## 학습 목표
 
-이 모듈을 마치면 다음을 할 수 있어요.
+이 챕터를 마치면 다음을 할 수 있어요.
 
 - VS Code에 Git Graph 확장을 설치하고 저장소를 열어요.
 - 점(커밋), 이름표(브랜치), HEAD, origin/main을 화면에서 찾아요.
