@@ -174,7 +174,7 @@ cat README.md                    # # 깃벗 팀
 | `fatal: Need to specify how to reconcile divergent branches.` | pull 설정이 없어요. `git config --global pull.rebase false` 뒤에 다시 pull |
 | `CONFLICT (content): Merge conflict in 파일` | 같은 줄을 둘 다 고쳤어요. 파일을 고치고 `git add 파일`, `git commit -m "fix: ..."`, `git push origin main` |
 | `error: Pulling is not possible because you have unmerged files.` | 충돌을 다 풀기 전에 또 pull했어요. 충돌부터 고치고 add, commit |
-| `error: Your local changes to the following files would be overwritten by merge` | 커밋하지 않은 파일을 팀원도 고쳐서 올렸어요. `git add 파일`, `git commit -m "..."` 뒤에 다시 pull |
+| `error: Your local changes to the following files would be overwritten by merge` | 커밋하지 않은 파일을 팀원도 고쳐서 올렸어요. `git add 파일`, `git commit -m "..."` 뒤에 다시 pull. 커밋하지 않고 잠깐 치워 두는 stash는 [07](../07-git-restore-stash)에서 배워요 |
 | `Permission to kim/team-intro.git denied to lee` (403) | 초대를 아직 수락하지 않았어요. `github.com/kim/team-intro/invitations`에서 Accept |
 | pull 중에 vim이 열려요 | merge 커밋 메시지 화면이에요. Esc를 누르고 `:wq`, Enter |
 

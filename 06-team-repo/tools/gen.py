@@ -519,7 +519,7 @@ for i, (msg, why_, fix) in enumerate(cases, 1):
               + p(f"width:56px;height:56px;flex:none;font-size:30px;font-weight:900;line-height:56px;text-align:center;border-radius:28px;color:#FFFFFF;background:#1E3F8F", str(i))
               + '<div style="flex:1;display:flex;flex-direction:column;gap:6px">' + p(f"font-family:{MONO};font-size:24px;font-weight:700;line-height:1.35;color:{RED}", e(msg)) + p(f"font-size:26px;color:{SUB}", why_) + '</div>'
               + p(f"width:560px;flex:none;font-family:{MONO};font-size:24px;font-weight:700;line-height:1.45;color:{INK};background:#EEEFF2;padding:14px 20px;border-radius:12px", e(fix)) + '</div>')
-W("trouble", tb, "1, 2번은 오늘 실습에서 봤어요. 3번은 충돌 표시를 지우고 add, commit 하기 전에 pull을 또 친 경우예요. 4번은 커밋하지 않은 kim.md가 있는데 pull이 같은 파일을 바꾸려 할 때 나와요. 먼저 add, commit 하고 pull 하면 2부나 3부 모양으로 이어져요. 5번은 초대받은 사람이 수락하기 전에 push하면 GitHub이 403과 함께 보내는 메시지예요. 1~4번 출력은 git 2.43에서 실제로 실행해 옮겼고, 5번은 GitHub이 보내는 메시지라 로컬에서 재현하지 못했어요.")
+W("trouble", tb, "1, 2번은 오늘 실습에서 봤어요. 3번은 충돌 표시를 지우고 add, commit 하기 전에 pull을 또 친 경우예요. 4번은 커밋하지 않은 kim.md가 있는데 pull이 같은 파일을 바꾸려 할 때 나와요. 먼저 add, commit 하고 pull 하면 2부나 3부 모양으로 이어져요. 메시지에 나오는 stash는 커밋하지 않고 잠깐 치워 두는 방법이에요. 07에서 배워요. 5번은 초대받은 사람이 수락하기 전에 push하면 GitHub이 403과 함께 보내는 메시지예요. 1~4번 출력은 git 2.43에서 실제로 실행해 옮겼고, 5번은 GitHub이 보내는 메시지라 로컬에서 재현하지 못했어요.")
 
 # next
 nx = [sec("next")] + head("4부 · 다음 단계", "main 하나를 같이 쓰는 건 연습용이에요", OR)
