@@ -237,7 +237,7 @@ LR0 = [commit_row("lr", H0), doc("lr-doc", "lr", V0, "마지막 커밋", "gray",
 cov = [f'<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:{SANS};padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#8FB3FF;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
        '<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">restore와 stash,<br>눈으로 보기</h1>',
-       '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">고친 걸 버리거나<br>잠깐 치워 두는 법</p>']
+       '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">커밋 전 변경을<br>취소하고 잠깐 보관하기</p>']
 cov.append(f'<div style="position:absolute;left:1120px;top:330px;width:640px;height:420px;background:#252B36;border-radius:24px;padding:40px 44px;display:flex;flex-direction:column;gap:12px;font-family:{MONO}">')
 for k, l in [("$", "$ git restore login.md"), ("#", "  고친 것 버리기"), ("$", "$ git stash"), ("#", "  서랍에 넣기"), ("$", "$ git stash pop"), ("#", "  서랍에서 꺼내기")]:
     cov.append(p(f"font-size:34px;line-height:1.4;white-space:pre;font-weight:700;color:{TC[k]}", e(l)))
