@@ -4,7 +4,7 @@
 
 | 슬라이드 | 분량 | 이전 모듈 | 다음 모듈 |
 | --- | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 68장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | [04 · Git diff로 확인하기](../04-git-diff) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | 72장 · 9개 파트 | [02 · Git 기본 흐름](../02-git-basics) | [04 · Git diff로 확인하기](../04-git-diff) |
 
 ## 학습 목표
 
@@ -16,6 +16,7 @@
 - push 전에 커밋과 merge를 `reset --soft`, `--mixed`, `--hard`로 되돌리고 셋의 차이를 설명해요.
 - 충돌 메시지를 보고 종류를 알아낸 뒤 직접 풀어요.
 - 브랜치를 GitHub에 올리고 Pull Request로 합쳐요.
+- 합친 뒤 main으로 가서 fetch, pull로 맞추고 다음 브랜치를 최신 main에서 만들어요.
 
 ## 구성
 
@@ -29,10 +30,10 @@
 | 4. 갈라진 길 | 20–25 | `checkout -b`, merge 커밋 |
 | 5. 되돌리기 | 26–38 | `reset --soft` `--mixed` `--hard`, 일반 커밋과 merge 커밋 두 경우, 다시 merge |
 | 6. 충돌 풀기 | 39–45 | 충돌이 나는 때, 표시 읽기, 고치고 커밋, `merge --abort` |
-| 7. GitHub에서 함께 | 46–52 | `push origin 브랜치`, Pull Request, GitHub Flow |
-| 8. 충돌 시나리오 | 53–64 | 바로 옆 줄, 지움 vs 고침, 같은 이름 새 파일, pull, Pull Request |
-| 9. 문제 해결 | 65–67 | 자주 나는 에러 |
-| 요약 | 68 | 한 장 요약 |
+| 7. GitHub에서 함께 | 46–56 | `push origin 브랜치`, Pull Request, main으로 가서 `fetch`, `pull`, 다음 브랜치, GitHub Flow |
+| 8. 충돌 시나리오 | 57–68 | 바로 옆 줄, 지움 vs 고침, 같은 이름 새 파일, pull, Pull Request |
+| 9. 문제 해결 | 69–71 | 자주 나는 에러 |
+| 요약 | 72 | 한 장 요약 |
 
 ## 핵심 개념
 
@@ -126,13 +127,18 @@ git commit -m "feat: 로그인 버튼 추가"
 git push origin feature/login-button
 ```
 
-GitHub에서 Pull Request를 만들고 Merge 버튼으로 합쳐요. 그다음 내 컴퓨터의 main도 맞춰요.
+GitHub에서 Pull Request를 만들고 Merge 버튼으로 합쳐요. 그다음 합친 쪽 브랜치인 main으로 가서 내 컴퓨터도 맞춰요.
 
 ```bash
 git checkout main
-git pull origin main
-git branch -d feature/login-button
+git fetch origin                    # 받아만 오기
+git log --oneline origin/main       # GitHub 쪽 기록 확인
+git pull origin main                # 내 main 맞추기
+git branch -d feature/login-button  # 합쳐진 브랜치 지우기
+git checkout -b feature/login-error # 다음 일은 최신 main에서 새 브랜치로
 ```
+
+브랜치 하나가 합쳐질 때마다 이 순서를 반복해요. pull 하기 전의 main에서 새 브랜치를 만들면 방금 합친 커밋 없이 시작해서 나중에 충돌이 나기 쉬워요.
 
 ## 충돌 해결
 

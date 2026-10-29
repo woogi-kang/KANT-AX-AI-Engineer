@@ -57,7 +57,11 @@
     "p1-push",
     "pr-github",
     "p2-merged",
+    "p3-fetch",
+    "p3-log",
     "p3-pull",
+    "p4-delete",
+    "p5-next",
     "strategy",
     "sc-adjacent",
     "rs-adjacent",
@@ -106,7 +110,7 @@
       "start": "conflict-when"
     },
     "github": {
-      "description": "push origin 브랜치, Pull Request, GitHub Flow",
+      "description": "push origin 브랜치, Pull Request, main으로 가서 fetch, pull, 다음 브랜치, GitHub Flow",
       "start": "pr-flow"
     },
     "scenarios": {

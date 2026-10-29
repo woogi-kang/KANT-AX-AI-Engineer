@@ -102,11 +102,14 @@ def graph(nodes, edges, tags, head=None, off=0, ghost_edges=()):
         hc = "#6A7180" if kind in ("ghost", "far", "gone") else "#1D2330"
         o.append(p(f"position:absolute;left:{x - 70}px;top:{y + R + 2}px;width:140px;font-family:{MONO};font-size:24px;font-weight:700;text-align:center;color:{hc}", e(label), f' id="h-{h}"'))
     stack = {}
-    for name, h, kind in tags:
+    for name, h, kind, *pos in tags:
         col, lane, _, _ = nodes[h]
-        i = stack.get(h, 0)
-        stack[h] = i + 1
-        x = cx(col, off)
+        if pos:                               # explicit (row, dx) when three tags share one commit
+            i, dx = pos
+        else:
+            i, dx = stack.get(h, 0), 0
+            stack[h] = i + 1
+        x = cx(col, off) + dx
         w = tag_w(name)
         top = (LANE[lane] + R + 38 + i * 46) if lane == "main" else (LANE[lane] - R - 56 - i * 46)
         tid = "t-" + name.replace("/", "-")
@@ -392,10 +395,32 @@ o = scene("p2-merged", EB6, "GitHub에서 Merge하면 GitHub에만 커밋이 생
 o += graph(n18, e18, [("main", RZ, "main"), ("origin/main", RZ, "origin"), (FE, P, "orange"), ("origin/feature/login-button", P, "origin")], head=FE, off=5)
 write("p2-merged", o, f"Merge pull request를 누르면 GitHub 안에서 merge 커밋({Q})이 생겨요. 메시지는 Merge pull request #1 from kim/{FE}예요. 내 컴퓨터로 가져오려면 pull해야 해요.")
 
+o = scene("p3-fetch", EB6, "main으로 가서 fetch로 받아만 와요", [("$", "git checkout main"), ("o", "Switched to branch 'main'"), ("$", "git fetch origin"),
+          ("o", f"   {RZ}..{Q}  main       -> origin/main")], "origin/main만 앞으로 갔어요. 내 main은 아직 그대로예요.", eyebrow_color=PUR)
+o += graph(n18, e18, [("main", RZ, "main"), ("origin/main", Q, "origin"), (FE, P, "orange"), ("origin/feature/login-button", P, "origin")], head="main", off=5)
+write("p3-fetch", o, f"PR이 합쳐졌으면 먼저 합친 쪽 브랜치인 main으로 옮겨 가요. fetch는 GitHub의 새 커밋을 받아서 origin/main 이름표만 옮기고, 내 main과 작업 폴더는 건드리지 않아요. 점선 {Q}는 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 출력의 From 줄은 뺐어요.")
+
+o = scene("p3-log", EB6, "GitHub 쪽 기록을 먼저 확인해요", [("$", "git log --oneline origin/main"), ("o", f"{Q} (origin/main) Merge pull request #1 from kim/{FE}"),
+          ("o", f"{P} (origin/{FE}, {FE}) feat: 로그인 버튼 추가"), ("o", f"{RZ} (HEAD -> main) fix: 로그인 제목 충돌 해결")],
+          "origin/main이 main보다 위에 있으면 pull할 차례예요.", eyebrow_color=PUR)
+o += graph(n18, e18, [("main", RZ, "main"), ("origin/main", Q, "origin"), (FE, P, "orange"), ("origin/feature/login-button", P, "origin")], head="main", off=5)
+write("p3-log", o, "02에서 배운 비교 방법 그대로예요. git log --oneline origin/main은 GitHub 쪽 main 기록을 보여 줘요. 내 main(HEAD -> main)이 아래에 있으니 받아 올 커밋이 있다는 뜻이에요. 출력 아래쪽 줄은 뺐어요.")
+
 n19 = dict(n18); n19[Q] = (10, "main", "main", "merge")
-o = scene("p3-pull", EB6, "main으로 가서 pull로 받아요", [("$", "git checkout main"), ("$", "git pull origin main"), ("o", f"Updating {RZ}..{Q}"), ("g", "Fast-forward")],
-          f"다 쓴 {FE}는 git branch -d {FE}로 지워요.", eyebrow_color=PUR)
+o = scene("p3-pull", EB6, "pull로 내 main을 맞춰요", [("$", "git pull origin main"), ("o", f"Updating {RZ}..{Q}"), ("g", "Fast-forward")],
+          "main이 origin/main과 같은 곳에 섰어요.", eyebrow_color=PUR)
 o += graph(n19, e18, [("main", Q, "main"), ("origin/main", Q, "origin"), (FE, P, "orange"), ("origin/feature/login-button", P, "origin")], head="main", off=5)
-write("p3-pull", o, f"내 main에는 새 커밋이 없었으니 pull이 Fast-forward로 받아요. 출력의 From, FETCH_HEAD 줄과 파일 목록 줄은 뺐어요. origin/{FE} 이름표는 GitHub에서 브랜치를 지운 뒤에도 남아 있어요. git fetch origin --prune 하면 정리돼요.")
+write("p3-pull", o, f"내 main에는 새 커밋이 없었으니 pull이 Fast-forward로 받아요. 작업 폴더의 login.md에도 로그인 버튼 줄이 생겨요. 출력의 From, FETCH_HEAD 줄과 파일 목록 줄은 뺐어요.")
+
+o = scene("p4-delete", EB6, f"합쳐진 {FE}는 지워요", [("$", f"git branch -d {FE}"), ("o", f"Deleted branch {FE} (was {P}).")],
+          "커밋은 main 기록 안에 남아요.", eyebrow_color=PUR)
+o += graph(n19, e18, [("main", Q, "main"), ("origin/main", Q, "origin"), ("origin/feature/login-button", P, "origin")], head="main", off=5)
+write("p4-delete", o, f"main에 합쳐졌으니 -d로 지워져요. 보라색 origin/{FE} 이름표는 내 컴퓨터가 기억하는 GitHub 쪽 위치라서 남아 있어요. GitHub에서 Delete branch를 누른 뒤 git fetch origin --prune 하면 정리돼요.")
+
+FL = "feature/login-error"
+o = scene("p5-next", EB6, "다음 일은 최신 main에서 새 브랜치로", [("$", f"git checkout -b {FL}"), ("o", f"Switched to a new branch '{FL}'")],
+          "합치고, main으로 가서 받고, 새로 따요. 브랜치마다 이 순서를 반복해요.", eyebrow_color=PUR)
+o += graph(n19, e18, [(FL, Q, "green", 0, 0), ("main", Q, "main", 1, -150), ("origin/main", Q, "origin", 1, 70), ("origin/feature/login-button", P, "origin")], head=FL, off=5)
+write("p5-next", o, f"새 브랜치를 pull 하기 전의 main에서 따면 방금 합친 로그인 버튼 커밋이 없는 채로 시작해요. 그러면 나중에 충돌이 날 가능성이 커져요. 그래서 PR이 합쳐질 때마다 git checkout main, git fetch origin, git pull origin main 순서로 맞춘 뒤 다음 브랜치를 만들어요. 이 흐름이 그다음 장의 GitHub Flow예요.")
 
 print("ok")

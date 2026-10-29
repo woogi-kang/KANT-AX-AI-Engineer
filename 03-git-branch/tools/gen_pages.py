@@ -50,9 +50,9 @@ parts = [("Lightbulb", "#3A4150", "브랜치란?", "점, 이름표, HEAD", "3–
          ("Activity", "#8A5200", "갈라진 길", "merge 커밋", "20–25쪽"),
          ("Wrench", "#8A5200", "되돌리기", "git reset 옵션 세 가지", "26–38쪽"),
          ("Warning", "#A33131", "충돌 풀기", "표시 읽고 고치기", "39–45쪽"),
-         ("Cloud", "#5A3BB8", "GitHub에서 함께", "push · Pull Request", "46–52쪽"),
-         ("Warning", "#A33131", "충돌 시나리오", "다섯 가지 상황", "53–64쪽"),
-         ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "65–67쪽")]
+         ("Cloud", "#5A3BB8", "GitHub에서 함께", "push · Pull Request", "46–56쪽"),
+         ("Warning", "#A33131", "충돌 시나리오", "다섯 가지 상황", "57–68쪽"),
+         ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "69–71쪽")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      '<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>',
      '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;flex:1">']
@@ -63,7 +63,7 @@ for i, (ic, c, h, sub, pg) in enumerate(parts, 1):
              f'<h3 style="font-size:32px;font-weight:700;color:#1D2330">{h}</h3>'
              f'<p style="font-size:26px;line-height:1.4;color:#4A5262">{sub}</p><div style="flex:1"></div>'
              f'<p style="font-size:24px;color:#6A7180">{pg}</p></div>')
-t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 68쪽은 한 장 요약이에요.</p>',
+t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 72쪽은 한 장 요약이에요.</p>',
       '<aside>02와 같은 hello-git 저장소로 이어서 실습해요. 2~6부는 커밋 그래프 하나가 계속 자라는 이야기예요. 7부는 충돌이 나는 다른 상황을 따로 모았어요.</aside>', '</section>']
 W("toc", "\n".join(t))
 
@@ -187,15 +187,15 @@ W("conflict-read", "\n".join(c))
 
 # ---------- pr-flow ----------
 f = [sec("pr-flow"), head("GitHub에서 함께", "팀에서는 이 순서로 일해요", "#6B47D6")]
-steps = [("Link", "git checkout -b<br>feature/<br>login-button", "브랜치 만들기", "#2459C9", "#F0F5FE", "#5B8DEF"),
+steps = [("Link", "git checkout<br>-b feature/<br>login-button", "브랜치 만들기", "#2459C9", "#F0F5FE", "#5B8DEF"),
          ("Code", "add, commit", "작업하고 커밋", "#2459C9", "#F0F5FE", "#5B8DEF"),
          ("Cloud", "git push origin<br>feature/<br>login-button", "브랜치 올리기", "#2459C9", "#F0F5FE", "#5B8DEF"),
          ("Chat", "Pull Request", "합쳐 달라고 요청", "#5A3BB8", "#F6F2FE", "#9A7BF0"),
          ("Users", "리뷰 → Merge", "확인하고 합치기", "#5A3BB8", "#F6F2FE", "#9A7BF0"),
-         ("Home", "git checkout main<br>git pull origin main", "내 main 맞추기", "#2459C9", "#F0F5FE", "#5B8DEF")]
+         ("Home", "git checkout main<br>git fetch origin<br>git pull origin main", "내 main 맞추기", "#2459C9", "#F0F5FE", "#5B8DEF")]
 for i, (ic, cmd, lab, col, bg, bd) in enumerate(steps):
     L = 96 + i * 292
-    f.append(f'<div data-build-in="rise order {i+1}" style="position:absolute;left:{L}px;top:330px;width:260px;height:400px;background:{bg};border:2px solid {bd};border-radius:22px;padding:28px 22px;display:flex;flex-direction:column;gap:16px">'
+    f.append(f'<div data-build-in="rise order {i+1}" style="position:absolute;left:{L}px;top:330px;width:260px;height:460px;background:{bg};border:2px solid {bd};border-radius:22px;padding:28px 22px;display:flex;flex-direction:column;gap:16px">'
              f'<p style="font-size:44px;font-weight:900;line-height:1.15;color:{col}">{i+1}</p>'
              f'<x-icon name="{ic}" style="width:52px;height:52px;color:{col}"></x-icon>'
              f'<p style="font-size:28px;font-weight:700;color:#1D2330">{lab}</p>'
@@ -206,7 +206,7 @@ f.append('<div style="position:absolute;left:972px;top:270px;width:552px;height:
 f.append('<p style="position:absolute;left:972px;top:226px;width:500px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub 웹사이트</p>')
 f.append('<div style="position:absolute;left:1556px;top:270px;width:268px;height:6px;background:#5B8DEF;border-radius:3px"></div>')
 f.append('<p style="position:absolute;left:1556px;top:226px;width:268px;font-size:24px;font-weight:700;color:#1E3F8F">내 컴퓨터</p>')
-f.append('<p style="position:absolute;left:96px;top:790px;width:1728px;font-size:30px;font-weight:700;color:#1D2330">main에는 직접 push하지 않고, 합치는 일은 Pull Request로 해요.</p>')
+f.append('<p style="position:absolute;left:96px;top:850px;width:1728px;font-size:30px;font-weight:700;color:#1D2330">main에는 직접 push하지 않아요. 6번을 마치면 다음 브랜치는 1번부터 다시 시작해요.</p>')
 f.append('<aside>Pull Request(PR)는 "내 브랜치를 main에 합쳐 주세요"라는 요청서예요. 팀원이 바뀐 코드를 보고 의견을 남긴 뒤 합쳐요. 혼자 하는 프로젝트에서도 PR로 합치면 무엇을 언제 바꿨는지 기록이 깔끔하게 남아요.</aside></section>')
 W("pr-flow", "\n".join(f))
 
@@ -295,7 +295,7 @@ ch = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F
 cards = [("브랜치", "#1A7340", "#FFFFFF", "#1D2330", "git branch<br>git branch 이름<br>git checkout 이름<br>git checkout -b 이름<br>git branch -d 이름<br><br>switch로 써도 돼요<br>git switch 이름<br>git switch -c 이름"),
          ("합치기", "#2459C9", "#FFFFFF", "#1D2330", "git checkout main<br>git merge 이름<br><br>push 전에 취소<br>git reset --hard HEAD~1"),
          ("충돌", "#A33131", "#FFFFFF", "#1D2330", "파일에서 고르기<br>표시 세 줄 지우기<br>git add 파일<br>git commit -m &quot;...&quot;<br>막히면 git merge --abort"),
-         ("GitHub과 함께", "#F6F5F1", "#1D2330", "#F2C46D", "git push origin 이름<br>→ Pull Request<br>→ Merge<br>git checkout main<br>git pull origin main")]
+         ("GitHub과 함께", "#F6F5F1", "#1D2330", "#F2C46D", "git push origin 이름<br>→ Pull Request<br>→ Merge<br>git checkout main<br>git fetch origin<br>git pull origin main")]
 for h, hc, bg, tc, body in cards:
     bd = "" if bg == "#1D2330" else "border:2px solid #E1DED6;"
     ch.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:{bg};{bd}border-radius:20px;padding:32px 28px">'
