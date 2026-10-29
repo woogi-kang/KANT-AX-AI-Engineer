@@ -1,0 +1,72 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-29T03:00:00Z"
+  },
+  "lists": "css",
+  "title": "팀 레포로 함께 커밋하기",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "roles",
+    "new-repo",
+    "invite",
+    "clone",
+    "config",
+    "a1",
+    "a2",
+    "a3",
+    "vim",
+    "nocfg",
+    "a4",
+    "a5",
+    "a6",
+    "a7",
+    "b1",
+    "b2",
+    "b3",
+    "b4",
+    "b5",
+    "b6",
+    "rules",
+    "cycle",
+    "trouble",
+    "next",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "오늘 하는 일",
+      "start": "cover"
+    },
+    "setup": {
+      "description": "팀 레포 준비",
+      "start": "roles"
+    },
+    "auto": {
+      "description": "다른 파일은 저절로 합쳐져요",
+      "start": "a1"
+    },
+    "conflict": {
+      "description": "같은 줄은 충돌",
+      "start": "b1"
+    },
+    "rules": {
+      "description": "팀 규칙, 막힐 때, 요약",
+      "start": "rules"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

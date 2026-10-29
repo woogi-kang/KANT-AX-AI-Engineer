@@ -12,7 +12,7 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 
 ## 폴더 규칙
 
-- 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`, `07-git-restore-stash`)
+- 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`, `06-team-repo`, `07-git-restore-stash`)
 - 폴더마다 수강생이 읽을 `README.md`를 둬요. 무엇을 배우는지, 어떤 순서로 보면 되는지, 꼭 기억할 명령을 적어요.
 - 슬라이드가 있는 폴더에는 수강생이 바로 받을 HTML(`주제-slides.html`, 애니메이션 포함)과 PDF(`주제-slides.pdf`)를 같이 둬요. 슬라이드를 고치면 둘 다 다시 만들어요. 만드는 스크립트는 `02-git-basics/tools/`의 `build_player.js`, `export.js`예요.
 - 강사용 도구(생성·검사·PDF 내보내기 스크립트)는 해당 폴더의 `tools/`에 둬요.
@@ -21,6 +21,8 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 ## 수업 규칙 (자료 내용)
 
 - `git push -u`, `--set-upstream`, `push.autoSetupRemote`는 쓰지 않아요. push와 pull은 항상 `git push origin main`, `git pull origin main`처럼 끝까지 적어요.
+- pull 설정은 `git config --global pull.rebase false`(merge로 합치기) 하나로 통일해요. `git pull --rebase`, `pull.rebase true`, `pull.ff only`는 쓰지 않아요. pull이 나오는 덱은 이 설정이 없을 때 나는 `fatal: Need to specify how to reconcile divergent branches.`와 해결을 함께 보여 줘요.
+- 팀 실습의 사람과 색은 kim(파랑 #2459C9), lee(초록 #1F8A4C), park(주황 #B26A00), GitHub(보라 #5A3BB8)로 맞춰요. 팀 레포 주소 예시는 `https://github.com/kim/team-intro.git`이에요.
 - GitHub과 비교할 땐 `git fetch origin` 뒤 `git log --oneline`과 `git log --oneline origin/main`을 봐요.
 - `git log`에 `--graph`, `--all` 옵션은 쓰지 않아요. 자료, README, 슬라이드 모두 같아요.
 - `git restore`와 `git stash`는 07 모듈에서만 다뤄요. 01~06 자료에는 넣지 않아요.
