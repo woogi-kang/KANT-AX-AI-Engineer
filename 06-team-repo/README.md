@@ -159,7 +159,7 @@ cat README.md                    # # 깃벗 팀
 
 브랜치와 Pull Request로 일할 때 자주 만나는 경우예요. 막히면 슬라이드 28쪽의 찾기 표에서 메시지로 쪽수를 찾아요.
 
-| 케이스 | 쪽 | 상황 | 이렇게 해요 |
+| # | 쪽 | 상황 | 이렇게 해요 |
 | :---: | :---: | --- | --- |
 | 1 | 29 | 작업 시작 | `git checkout main`, `git pull origin main`, `git checkout -b feature/이름` |
 | 2 | 30–31 | 브랜치 push, PR 만들기 | `git push origin feature/이름`, GitHub에서 Compare & pull request |
