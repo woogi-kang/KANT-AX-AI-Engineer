@@ -1,0 +1,17 @@
+<section id="gh-after" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">5. GitHub PR의 Merge 버튼</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">Squash나 Rebase 버튼 뒤에는 -D로 지워요</h2>
+<div id="term" style="position:absolute;left:96px;top:210px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git checkout main</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Updating d51d818..d6514f3</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#7FD18B">Fast-forward</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git log --oneline</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">d6514f3 (HEAD -&gt; main, origin/main) feat: 로그인 버튼 추가 (#1)</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git branch -d feature/login-button</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">error: the branch 'feature/login-button' is not fully merged.</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">If you are sure you want to delete it, run 'git branch -D feature/login-button'</p>
+</div>
+<div data-build-in="rise" style="position:absolute;left:96px;top:640px;width:1728px;height:180px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #5A3BB8;border-radius:20px;padding:28px 40px;display:flex;flex-direction:column;gap:12px"><p style="font-size:32px;font-weight:700;color:#1D2330">GitHub에서 PR이 Merged로 바뀐 걸 확인했으면 지워도 돼요.</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#5A3BB8">git branch -D feature/login-button</p></div>
+<aside>03에서 배운 PR 뒤 순서(main으로 가서 pull, 브랜치 지우기) 그대로예요. Create a merge commit으로 합쳤으면 -d로 지워져요. Squash and merge나 Rebase and merge는 GitHub이 새 커밋을 만들어서, 내 컴퓨터의 브랜치 커밋은 main과 이어지지 않아요. 그래서 -d가 거절해요. PR 화면에 보라색 Merged 표시가 있으면 -D로 지워요. From 줄과 파일 목록 줄은 뺐어요.</aside>
+</section>

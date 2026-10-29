@@ -4,7 +4,7 @@
 
 | 슬라이드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) | [08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) |
 
 ## 학습 목표
 
@@ -189,4 +189,4 @@ node tools/export.js slides git-restore-stash-slides.pdf
 
 ---
 
-[← 이전: 06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) · [커리큘럼](../README.md)
+[← 이전: 06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) · [커리큘럼](../README.md) · [다음: 08 · 갈라진 기록 합치는 방법 비교하기 →](../08-git-merge-ways)
