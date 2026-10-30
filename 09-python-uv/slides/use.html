@@ -1,27 +1,21 @@
 <section id="use" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">5. 패키지 넣고 빼기</p>
-<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">넣은 패키지로 웹 서버를 켜요</h2>
-<div id="c-main" style="position:absolute;left:96px;top:200px;width:860px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #2459C9;border-radius:18px;padding:16px 26px 20px;display:flex;flex-direction:column;gap:4px">
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">넣은 패키지를 코드에서 불러와요</h2>
+<div id="c-main" style="position:absolute;left:96px;top:220px;width:1000px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #2459C9;border-radius:18px;padding:16px 26px 20px;display:flex;flex-direction:column;gap:4px">
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#2459C9;margin-bottom:6px">main.py</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;background:#FFF1C9;border-radius:6px;margin:0 -10px;padding:0 10px;color:#1D2330">from fastapi import FastAPI</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;background:#FFF1C9;border-radius:6px;margin:0 -10px;padding:0 10px;color:#1D2330">app = FastAPI()</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">@app.get("/")</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">def home():</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">    return {"message": "안녕하세요"}</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;line-height:1.4;white-space:pre;background:#FFF1C9;border-radius:6px;margin:0 -10px;padding:0 10px;color:#1D2330">import fastapi</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;line-height:1.4;white-space:pre;color:#1D2330">print("fastapi 버전:", fastapi.__version__)</p>
 </div>
-<div data-build-in="pop order 2" style="position:absolute;left:1000px;top:200px;width:824px;height:300px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;overflow:hidden"><div style="height:64px;background:#ECEAE3;display:flex;flex-direction:row;gap:12px;align-items:center;padding:0 22px"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#E0857A"></div><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#E8C068"></div><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#7FC28F"></div><p style="flex:1;margin-left:12px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;color:#1D2330;background:#FFFFFF;border-radius:10px;padding:4px 16px">http://127.0.0.1:8000</p></div><p style="padding:40px 32px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;font-weight:700;color:#1D2330">{"message":"안녕하세요"}</p></div>
-<p data-build-in="fade order 2" style="position:absolute;left:1000px;top:520px;width:824px;font-size:26px;font-weight:700;color:#6A7180">브라우저 주소창에 http://127.0.0.1:8000</p>
-<div id="term" data-build-in="rise order 1" style="position:absolute;left:96px;top:630px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
-<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv run fastapi dev main.py</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;⚡️ Starting FastAPI in development mode</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">&#160;🌐 Server started at http://127.0.0.1:8000</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;&#160;&#160;&#160;Documentation at http://127.0.0.1:8000/docs</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">INFO:     Application startup complete.</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">INFO:     127.0.0.1:56432 - "GET / HTTP/1.1" 200 OK</p>
+<div id="term" data-build-in="rise order 1" style="position:absolute;left:96px;top:470px;width:1000px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:34px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv run main.py</p>
+<p style="font-size:32px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">fastapi 버전: 0.162.0</p>
 </div>
-<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:944px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">서버는 Ctrl+C로 끌 때까지 켜져 있어요.</p>
-<aside>main.py를 이 여덟 줄로 바꿔 저장해요. 첫 줄은 fastapi를 불러오고, app = FastAPI()가 웹 서버 앱을 만들어요. @app.get("/")는 주소 / 로 들어오면 아래 home()의 대답을 돌려준다는 뜻이에요. 서버는 uv run fastapi dev main.py로 켜요. uv run 뒤에 파일 이름 대신 uv add로 들어온 fastapi 명령을 적은 거예요. dev는 개발용 모드라서 main.py를 고쳐 저장하면 서버가 알아서 다시 켜져요. Server started 줄이 보이면 브라우저로 http://127.0.0.1:8000을 열어요. 열 때마다 터미널에 GET / 200 OK 줄이 하나씩 생겨요. 서버는 켜진 채로 기다려서 프롬프트가 돌아오지 않아요. Ctrl+C로 꺼요. 코드 문법은 다음 수업부터 하나씩 배워요. 서버 출력의 빈 줄과 INFO 줄 몇 개는 뺐어요. GET 줄의 숫자는 실행할 때마다 달라요.</aside>
+<div data-build-in="pop order 2" style="position:absolute;left:1180px;top:220px;width:644px;height:130px;background:#FFFFFF;border:3px solid #0F7C86;border-radius:24px;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#0F7C86">uv run main.py</p></div>
+<x-shape kind="arrow-right" data-build-in="fade order 3" style="position:absolute;left:1478px;top:358px;width:48px;height:44px;background:#C9CED8;transform:rotate(90deg)"></x-shape>
+<div data-build-in="pop order 3" style="position:absolute;left:1180px;top:410px;width:644px;height:130px;background:#FFFFFF;border:3px solid #1F8A4C;border-radius:24px;display:flex;align-items:center;justify-content:center"><p style="font-size:32px;font-weight:700;color:#1F8A4C">.venv 안의 파이썬</p></div>
+<x-shape kind="arrow-right" data-build-in="fade order 4" style="position:absolute;left:1478px;top:548px;width:48px;height:44px;background:#C9CED8;transform:rotate(90deg)"></x-shape>
+<div data-build-in="pop order 4" style="position:absolute;left:1180px;top:600px;width:644px;height:130px;background:#FFFFFF;border:3px solid #1E3F8F;border-radius:24px;display:flex;align-items:center;justify-content:center"><p style="font-size:32px;font-weight:700;color:#1E3F8F">fastapi 찾아서 불러오기</p></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:860px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">uv add로 넣은 패키지는 uv run으로 실행하면 바로 불러와요.</p>
+<aside>main.py를 이 세 줄로 바꿔 저장해요. import fastapi는 .venv에 설치된 fastapi를 불러오라는 뜻이에요. 불러온 fastapi의 버전을 print로 찍어 봤어요. uv run이 .venv 안의 파이썬으로 실행하니까 fastapi를 찾아요. fastapi로 웹 서버를 만들고 켜는 건 뒤 수업에서 해요. 오늘은 넣은 패키지를 코드에서 쓸 수 있다는 것만 확인해요.</aside>
 </section>

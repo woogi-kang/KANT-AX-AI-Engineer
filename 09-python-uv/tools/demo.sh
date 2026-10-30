@@ -17,16 +17,6 @@ export GIT_CONFIG_GLOBAL="$ROOT/.gitconfig"
 export PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1
 [ -f /root/.ccr/ca-bundle.crt ] && export UV_SYSTEM_CERTS=1 PIP_CERT=/root/.ccr/ca-bundle.crt
 run() { echo; echo "\$ $*"; eval "$@" 2>&1; }
-# Starts the web server, asks it for / like a browser would, then stops it with Ctrl+C.
-serve() {
-  echo; echo "\$ $*"
-  "$@" > "$ROOT/server.log" 2>&1 &
-  local pid=$!
-  for _ in $(seq 1 50); do curl -s -o /dev/null http://127.0.0.1:8000/ && break; sleep 0.2; done
-  local body; body=$(curl -s http://127.0.0.1:8000/)
-  sleep 0.3; kill -INT "$pid"; wait "$pid" 2>/dev/null
-  cat "$ROOT/server.log"; echo "# 브라우저 http://127.0.0.1:8000 -> $body"
-}
 
 echo "===== uv 버전"
 run uv --version
@@ -53,28 +43,21 @@ run deactivate
 run which python3
 
 echo "===== 5부 add / remove"
-run uv add '"fastapi[standard]"'
+run uv add fastapi
 run cat pyproject.toml
-run uv tree --depth 1
 run uv tree --depth 2
 cat > main.py <<'PY'
-from fastapi import FastAPI
+import fastapi
 
-app = FastAPI()
-
-
-@app.get("/")
-def home():
-    return {"message": "안녕하세요"}
+print("fastapi 버전:", fastapi.__version__)
 PY
 run cat main.py
-serve uv run fastapi dev main.py
+run uv run main.py
 run uv remove fastapi
 run cat pyproject.toml
-run uv run fastapi dev main.py
 run uv run main.py
-run uv add '"fastapi[standard]"'
-serve uv run fastapi dev main.py
+run uv add fastapi
+run uv run main.py
 
 echo "===== 5부 다른 컴퓨터에서 uv sync"
 git init -q --bare "$ROOT/github-hello-uv.git"
@@ -93,7 +76,7 @@ run cd hello-uv
 run ls -a
 run uv sync
 run ls -a
-serve uv run fastapi dev main.py
+run uv run main.py
 
 export UV_CACHE_DIR="$ROOT/.uv-cache" UV_PYTHON_INSTALL_DIR="$ROOT/.uv-python"
 
@@ -132,10 +115,10 @@ run python3 main.py
 run python3 -m venv .venv
 run ls -a
 run source .venv/bin/activate
-run pip install '"fastapi[standard]"'
+run pip install fastapi
 run 'pip freeze > requirements.txt'
 run cat requirements.txt
-serve fastapi dev main.py
+run python main.py
 run pip uninstall -y fastapi
 run 'pip freeze | wc -l'
 run pip freeze
@@ -146,8 +129,5 @@ echo "===== 막힐 때"
 cd "$ROOT"
 run uv add fastapi
 echo; echo '$ uv --version'; echo 'uv --version' | env PATH=/usr/bin:/bin bash -i 2>&1 | grep 'not found'
-cd "$ROOT"
-uv init -q plain && cd plain && cp "$ROOT/hello-uv/main.py" . && uv add -q fastapi
-run 'uv run fastapi dev main.py 2>&1 | grep RuntimeError'
 cd "$ROOT/hello-uv"
 run uv init
