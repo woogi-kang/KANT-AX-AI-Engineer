@@ -28,6 +28,8 @@
     "md-rules",
     "name-err",
     "conv",
+    "types",
+    "type-check",
     "keys-run",
     "keys-edit",
     "trouble",
@@ -51,7 +53,7 @@
       "start": "modes"
     },
     "rules": {
-      "description": "마크다운 셀로 규칙 정리하기",
+      "description": "노트북에 수업 내용 정리하기",
       "start": "md-rules"
     },
     "keys": {

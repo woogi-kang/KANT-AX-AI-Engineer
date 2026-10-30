@@ -336,7 +336,7 @@ o.append(caption("Windows와 Mac이 같아요. 글자가 셀에 들어가면 편
 W("cmdkeys", o, "명령 모드에서만 동작하는 글자 키예요. 대문자로 적었지만 Shift 없이 그냥 눌러요. D는 한 번이 아니라 두 번 연달아 눌러야 지워요. 실수로 지웠으면 바로 Z로 되살려요. L은 셀 하나의 줄 번호를 켜요. 오류 메시지에 line 3처럼 줄 번호가 나올 때 써요. 한글 입력 상태에서는 글자 키가 먹지 않을 수 있어요. 한/영 키로 영문으로 바꿔요.")
 
 # ---------- part 4: writing rules in a markdown cell ----------
-EBM = "4. 마크다운 셀로 규칙 정리하기"
+EBM = "4. 노트북에 수업 내용 정리하기"
 MD = TEAL
 
 
@@ -377,7 +377,7 @@ o.append(f'<div data-build-in="rise order 3" style="position:absolute;left:96px;
                    + p(f"font-size:28px;color:{INK}", d) + '</div>' for k, d in sym)
          + p(f"flex:1;font-size:24px;color:{SUB};text-align:right", "기호 뒤에는 한 칸 띄워요") + '</div>')
 o.append(caption("수업에서 배운 규칙은 코드 옆 마크다운 셀에 적어 두면 복습할 때 같이 봐요.", 900))
-W("md-rules", o, "노트북은 코드와 설명을 한 파일에 같이 둘 수 있어요. 수업에서 배운 변수 이름 규칙을 마크다운 셀에 적어 볼게요. --- 은 위 내용과 나누는 가로줄, ### 은 01에서 본 # 제목보다 작은 제목, - 는 목록이에요. 01과 같이 기호 뒤에는 한 칸을 띄워요. 적은 뒤 Shift+Enter를 치면 오른쪽처럼 꾸며져요. 다음 장에서 규칙을 어기면 실제로 어떤 오류가 나는지 봐요.", ("rules", "마크다운 셀로 규칙 정리하기"))
+W("md-rules", o, "노트북은 코드와 설명을 한 파일에 같이 둘 수 있어요. 수업에서 배운 변수 이름 규칙을 마크다운 셀에 적어 볼게요. --- 은 위 내용과 나누는 가로줄, ### 은 01에서 본 # 제목보다 작은 제목, - 는 목록이에요. 01과 같이 기호 뒤에는 한 칸을 띄워요. 적은 뒤 Shift+Enter를 치면 오른쪽처럼 꾸며져요. 다음 장에서 규칙을 어기면 실제로 어떤 오류가 나는지 봐요.", ("rules", "노트북에 수업 내용 정리하기"))
 
 o = [sec("name-err")] + head(EBM, "규칙을 어기면 SyntaxError가 나요", MD)
 bad = [("숫자로 시작", '1st_name = "kim"', "SyntaxError: invalid decimal literal", "first_name"),
@@ -411,6 +411,34 @@ for i, (k, en, parts_, use, note, c) in enumerate(kinds_):
              + p(f"font-size:28px;font-weight:700;color:{INK}", e(use)) + p(f"font-size:24px;color:{SUB}", e(note)) + '</div>')
 o.append(caption("변수 이름은 스네이크 표기법으로 user_name처럼 적어요.", 920))
 W("conv", o, "같은 두 단어 user와 name을 이어 붙이는 방법이 세 가지예요. 붉은 글자가 단어를 나누는 자리예요. 스네이크 표기법은 소문자와 밑줄로 이어요. 뱀처럼 바닥에 붙어 있어서 붙은 이름이에요. 파이썬은 변수와 함수 이름에 이 방식을 써요. 파스칼 표기법은 단어마다 첫 글자를 대문자로 써요. 파이썬에서는 클래스 이름에만 써요. 클래스는 뒤에서 배워요. 카멜 표기법은 첫 단어만 소문자로 시작해서 낙타 혹처럼 보여요. 자바스크립트 같은 다른 언어에서 많이 쓰고, 파이썬 코드에서는 잘 쓰지 않아요. 파이썬의 이름 규칙 문서(PEP 8)가 이렇게 정해 두었어요.")
+
+TYPES_SRC = ["# 정수형 자료형", "age = 25", "", "# 실수 자료형", "pi = 3.14", "", "# 불리언 자료형(Boolean)", "is_alive = True", "",
+             "# 문자열 자료형", 'user_name = "kim"', "", "# 리스트 (다른 언어의 배열과 비슷해요)", "grade_type = [1, 2, 3, 4, 5]"]
+TYPES = [("25", "int", "정수", "소수점 없는 숫자", BL), ("3.14", "float", "실수", "소수점 있는 숫자", NAVY), ("True", "bool", "불리언", "True 또는 False 두 값만", PUR),
+         ('"kim"', "str", "문자열", "따옴표로 감싼 글자", GR), ("[1, 2, 3, 4, 5]", "list", "리스트", "여러 값을 순서대로. 배열과 비슷해요", JP)]
+o = [sec("types")] + head(EBM, "코드 셀에 자료형을 하나씩 적어 봐요", MD)
+o += cell({"id": "c-types", "lines": TYPES_SRC, "n": 1}, 96, 200, 900)
+for i, (v, t, k, d, c) in enumerate(TYPES):
+    y = 200 + i * 142
+    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:1040px;top:{y}px;width:784px;height:124px;background:{CARD};border:2px solid {LINE};border-left:12px solid {c};border-radius:18px;padding:0 26px;display:flex;flex-direction:row;align-items:center;gap:22px">'
+             + p(f"width:270px;flex:none;font-family:{MONO};font-size:27px;font-weight:700;color:{INK};white-space:nowrap", e(v))
+             + '<div style="flex:1;display:flex;flex-direction:column;gap:4px">'
+             + '<div style="display:flex;flex-direction:row;align-items:baseline;gap:12px">' + p(f"font-size:30px;font-weight:700;color:{c}", k) + p(f"font-family:{MONO};font-size:24px;font-weight:700;color:{GRAY}", t) + '</div>'
+             + p(f"font-size:22px;color:{SUB}", e(d)) + '</div></div>')
+o.append(caption("# 뒤는 설명이라 실행하지 않아요. 값은 출력 없이 커널이 기억해요.", 930))
+W("types", o, "수업에서 보여 주는 기본 자료형 다섯 가지를 한 셀에 적었어요. 줄마다 # 주석으로 무슨 자료형인지 적어 두면 노트북만 다시 열어도 복습이 돼요. 변수 이름은 앞 장의 스네이크 표기법을 따라 is_alive, user_name, grade_type처럼 적었어요. 대괄호로 묶은 [1, 2, 3, 4, 5]는 파이썬에서 리스트라고 불러요. 다른 언어에서 배열(Array)이라고 부르는 것과 비슷해요. True와 False는 첫 글자를 대문자로 써요. 이 셀은 값을 기억만 해서 출력이 없어요.")
+
+o = [sec("type-check")] + head(EBM, "type()으로 자료형을 물어봐요", MD)
+o += cell({"id": "c-types-s", "lines": ["age = 25", "...", "grade_type = [1, 2, 3, 4, 5]"], "n": 1}, 96, 200, 900)
+o += cell({"id": "c-type", "lines": ["print(type(age))", "print(type(pi))", "print(type(is_alive))", "print(type(user_name))", "print(type(grade_type))"], "n": 2,
+           "out": [f"<class '{t}'>" for _, t, _, _, _ in TYPES]}, 96, 380, 900, sel="c-type", attrs=' data-build-in="rise order 1"')
+for i, (v, t, k, d, c) in enumerate(TYPES):
+    y = 592 + i * 48
+    o.append(f'<div data-build-in="fade order 2" style="position:absolute;left:1040px;top:{y}px;width:784px;height:48px;display:flex;flex-direction:row;align-items:center;gap:18px">'
+             + f'<x-shape kind="arrow-left" style="width:50px;height:30px;background:{c}"></x-shape>'
+             + p(f"font-size:26px;font-weight:700;color:{c}", k) + p(f"font-size:22px;color:{SUB}", e(d.split(".")[0])) + '</div>')
+o.append(caption("값을 보고 헷갈리면 type()으로 확인해요. 1번 셀을 먼저 실행해야 해요.", 940))
+W("type-check", o, "type() 안에 변수를 넣으면 그 값의 자료형을 알려 줘요. 출력의 class 뒤 이름이 자료형이에요. int는 integer(정수), float는 실수, bool은 boolean, str은 string(문자열), list는 리스트의 줄임말이에요. 출력은 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요. 1번 셀은 화면 폭 때문에 가운데 줄을 ...로 줄였어요. Restart 뒤 2번 셀만 실행하면 앞에서 본 NameError가 나요.")
 
 # ---------- part 5: shortcut tables ----------
 EB4 = "5. 단축키 모음 (Windows, Mac)"
@@ -478,7 +506,7 @@ page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 parts = [("Search", BL, "노트북 화면 읽기", "커널, 버튼, 실행 번호, 코드와 마크다운 셀", "screen", "kinds"),
          ("PaperPlane", BL, "셀 실행하기", "세 가지 실행 키, 실행 순서, Restart, 위쪽 버튼", "run-ctrl", "buttons"),
          ("Tool", PUR, "명령 모드와 편집 모드", "Esc와 Enter, 키로만 셀 만들기, 글자 키", "modes", "cmdkeys"),
-         ("Book", TEAL, "마크다운 셀로 규칙 정리하기", "변수 이름 규칙, 컨벤션(표기법)", "md-rules", "conv"),
+         ("Book", TEAL, "노트북에 수업 내용 정리하기", "변수 이름 규칙, 컨벤션, 자료형과 type()", "md-rules", "type-check"),
          ("Key", NAVY, "단축키 모음", "Windows와 Mac 나란히", "keys-run", "keys-edit")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      f'<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>',
@@ -493,7 +521,7 @@ for i, (ic, c, h, s, a, b) in enumerate(parts, 1):
              f'<p style="font-size:24px;color:#6A7180">{pg}</p></div>')
 t += ['</div>', f'<p style="font-size:26px;color:{SUB}">{page["ready"]}쪽은 09에서 한 준비, {page["trouble"]}–{page["cheatsheet"]}쪽은 막힐 때와 한 장 요약이에요.</p>']
 with open(os.path.join(OUT, "toc.html"), "w") as f:
-    f.write("\n".join(t) + f"\n<aside>{e('09에서 만든 hello-uv 폴더와 notebook.ipynb를 그대로 써요. 1파트는 화면을 읽는 법, 2파트부터 직접 키를 눌러 봐요. 4파트는 수업에서 배운 이름 규칙을 마크다운 셀로 정리해요. 5파트 표는 수업 중에 옆에 띄워 두고 봐도 돼요.')}</aside>\n</section>\n")
+    f.write("\n".join(t) + f"\n<aside>{e('09에서 만든 hello-uv 폴더와 notebook.ipynb를 그대로 써요. 1파트는 화면을 읽는 법, 2파트부터 직접 키를 눌러 봐요. 4파트는 수업에서 배운 이름 규칙과 자료형을 노트북에 정리해요. 5파트 표는 수업 중에 옆에 띄워 두고 봐도 돼요.')}</aside>\n</section>\n")
 
 deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-10-30T05:00:00Z"}, "lists": "css", "title": "VS Code에서 Jupyter 노트북 쓰기", "order": ORDER,
         "sections": SECTIONS,

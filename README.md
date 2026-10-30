@@ -15,7 +15,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](./07-git-restore-stash) | `restore` `restore --staged` `stash` `stash list` `stash pop` `stash drop` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) |
 | [08 · 갈라진 기록 합치는 방법 비교하기](./08-git-merge-ways) | fast-forward, `merge --no-ff`, `rebase`, `merge --squash`, pull 설정 세 가지, PR Merge 버튼 세 가지 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) |
 | [09 · uv로 파이썬 시작하기](./09-python-uv) | 예전 방식(venv, pip)과 나란히 비교, `brew`·`winget`으로 uv 설치, `uv init` `uv run` `uv add` `uv remove` `uv tree` `uv sync`, 가상환경 켜기(`activate`), fastapi 서버(`uv run fastapi dev main.py`), VS Code Jupyter(`uv add --dev ipykernel`) | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) |
-| [10 · VS Code에서 Jupyter 노트북 쓰기](./10-vscode-jupyter) | 셀 실행 키 세 가지(`Shift+Enter` 등), 코드 셀과 마크다운 셀, 실행 번호, Restart와 Run All, 명령 모드와 편집 모드, 마크다운 셀로 변수 이름 규칙과 컨벤션 정리, Windows·Mac 단축키 표 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/10-vscode-jupyter/vscode-jupyter-slides.html) |
+| [10 · VS Code에서 Jupyter 노트북 쓰기](./10-vscode-jupyter) | 셀 실행 키 세 가지(`Shift+Enter` 등), 코드 셀과 마크다운 셀, 실행 번호, Restart와 Run All, 명령 모드와 편집 모드, 마크다운 셀로 변수 이름 규칙과 컨벤션 정리, 자료형과 `type()`, Windows·Mac 단축키 표 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/10-vscode-jupyter/vscode-jupyter-slides.html) |
 
 챕터는 번호 순서대로 이어져요. 앞 챕터에서 만든 폴더와 저장소를 다음 챕터에서 그대로 써요.
 
