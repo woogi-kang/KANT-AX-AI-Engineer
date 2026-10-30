@@ -134,7 +134,7 @@ def notebook(cells, left, top, w, sel=None, mode="cmd", pre="", bar=True, gap=22
 # ---------- real output (tools/demo.sh, tools/run_nb.py) ----------
 C_X = {"id": "c-x", "lines": ["x = 10"]}
 C_P = {"id": "c-p", "lines": ["print(x * 2)"]}
-C_NAME = {"id": "c-name", "lines": ['name = "kim"', 'f"안녕하세요, {name}"']}
+C_NAME = {"id": "c-name", "lines": ['name = "kim"', 'name']}
 C_INC = {"id": "c-inc", "lines": ["x = x + 1", "x"]}
 NAME_ERR = "NameError: name 'x' is not defined"
 SYN_ERR = "SyntaxError: invalid syntax"
@@ -196,7 +196,7 @@ W("screen", o, "VS Code에서 노트북을 열면 보이는 화면을 단순하�
 
 o = [sec("kinds")] + head(EB1, "셀은 코드 셀과 마크다운 셀 두 가지예요", BL)
 o.append(p(f"position:absolute;left:96px;top:210px;width:820px;font-size:32px;font-weight:700;color:{BL}", "코드 셀 · 파이썬을 실행해요"))
-o += cell(C(C_NAME, n=3, out=["'안녕하세요, kim'"]), 96, 270, 820, attrs=' data-build-in="rise order 1"')
+o += cell(C(C_NAME, n=3, out=["'kim'"]), 96, 270, 820, attrs=' data-build-in="rise order 1"')
 o.append(p(f"position:absolute;left:96px;top:470px;width:820px;font-size:26px;line-height:1.5;color:{SUB}", "오른쪽 아래에 Python이라고 적혀요.<br>마지막 줄이 값이면 print 없이도 보여 줘요.", ' data-build-in="fade order 1"'))
 o.append(p(f"position:absolute;left:1004px;top:210px;width:820px;font-size:32px;font-weight:700;color:{JP}", "마크다운 셀 · 설명 글을 적어요"))
 o += cell({"id": "m-edit", "kind": "md", "lines": ["# 오늘 배운 것", "- 셀은 따로 실행해요", "- **Shift+Enter**로 실행"]}, 1004, 270, 820, attrs=' data-build-in="rise order 2"')
@@ -234,7 +234,7 @@ for i, (sid, win, mac, title, after, sel, mode, cap) in enumerate(runs):
     W(sid, o, notes, ("run", "셀 실행하기") if i == 0 else None)
 
 o = [sec("order")] + head(EB2, "대괄호 숫자는 실행한 순서예요", BL)
-o += notebook([C(C_X, n=1), C(C_P, n=2, out=["20"]), C(C_NAME, n=3, out=["'안녕하세요, kim'"]), C(C_INC, n=4, out=["11"])], 96, 210, 1100, sel="c-inc", bar=False)
+o += notebook([C(C_X, n=1), C(C_P, n=2, out=["20"]), C(C_NAME, n=3, out=["'kim'"]), C(C_INC, n=4, out=["11"])], 96, 210, 1100, sel="c-inc", bar=False)
 o.append(f'<div id="mem" style="position:absolute;left:1260px;top:210px;width:564px;height:330px;background:{CARD};border:2px solid {LINE};border-top:10px solid {JP};border-radius:20px;padding:24px 32px;display:flex;flex-direction:column;gap:14px">'
          + p(f"font-size:28px;font-weight:700;color:{JP}", "커널이 기억하는 값")
          + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{INK};background:#F1F0EC;border-radius:10px;padding:8px 18px", "x = 11")
@@ -244,7 +244,7 @@ o.append(caption("4번 셀을 한 번 더 실행하면 어떻게 될까요?", 90
 W("order", o, "1번 셀에서 x에 10을 넣었고, 2번 셀은 그 x로 20을 출력했어요. 셀은 따로 실행해도 값은 커널 하나가 계속 기억해요. 오른쪽 상자가 지금 커널이 기억하는 값이에요. 4번 셀은 x에 1을 더하고 x를 보여 줘요. 출력은 tools/run_nb.py로 hello-uv 커널에서 실제로 실행한 결과예요. 다음 장에서 4번 셀을 한 번 더 실행해요.", None)
 
 o = [sec("again", "magic")] + head(EB2, "같은 셀을 다시 실행하면 번호도 값도 바뀌어요", BL)
-o += notebook([C(C_X, n=1), C(C_P, n=2, out=["20"]), C(C_NAME, n=3, out=["'안녕하세요, kim'"]), C(C_INC, n=5, out=["12"])], 96, 210, 1100, sel="c-inc", bar=False)
+o += notebook([C(C_X, n=1), C(C_P, n=2, out=["20"]), C(C_NAME, n=3, out=["'kim'"]), C(C_INC, n=5, out=["12"])], 96, 210, 1100, sel="c-inc", bar=False)
 o.append(f'<div id="mem" style="position:absolute;left:1260px;top:210px;width:564px;height:330px;background:{CARD};border:2px solid {LINE};border-top:10px solid {JP};border-radius:20px;padding:24px 32px;display:flex;flex-direction:column;gap:14px">'
          + p(f"font-size:28px;font-weight:700;color:{JP}", "커널이 기억하는 값")
          + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{INK};background:#FFF1C9;border-radius:10px;padding:8px 18px", "x = 12")

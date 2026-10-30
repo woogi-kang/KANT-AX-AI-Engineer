@@ -18,7 +18,7 @@ def run(cells):
 
 
 print("=== 처음 실행")
-run(['x = 10', 'print(x * 2)', 'name = "kim"\nf"안녕하세요, {name}"', 'x = x + 1\nx', 'x = x + 1\nx'])
+run(['x = 10', 'print(x * 2)', 'name = "kim"\nname', 'x = x + 1\nx', 'x = x + 1\nx'])
 print("=== Restart 뒤 2번 셀만 실행")
 run(['print(x * 2)'])
 print("=== 마크다운 글을 코드 셀에 적었을 때")
