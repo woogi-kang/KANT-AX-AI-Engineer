@@ -1,0 +1,77 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-30T05:00:00Z"
+  },
+  "lists": "css",
+  "title": "VS Code에서 Jupyter 노트북 쓰기",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "screen",
+    "kinds",
+    "run-ctrl",
+    "run-shift",
+    "run-alt",
+    "order",
+    "again",
+    "restart",
+    "buttons",
+    "modes",
+    "flow1",
+    "flow2",
+    "flow3",
+    "flow4",
+    "cmdkeys",
+    "md-rules",
+    "name-err",
+    "conv",
+    "keys-run",
+    "keys-edit",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "screen": {
+      "description": "노트북 화면 읽기",
+      "start": "screen"
+    },
+    "run": {
+      "description": "셀 실행하기",
+      "start": "run-ctrl"
+    },
+    "modes": {
+      "description": "명령 모드와 편집 모드",
+      "start": "modes"
+    },
+    "rules": {
+      "description": "마크다운 셀로 규칙 정리하기",
+      "start": "md-rules"
+    },
+    "keys": {
+      "description": "단축키 모음",
+      "start": "keys-run"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
