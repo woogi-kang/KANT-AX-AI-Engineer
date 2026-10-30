@@ -1,6 +1,6 @@
 # 09 · uv로 파이썬 시작하기
 
-> 파이썬 프로젝트를 uv 하나로 만들고 실행해요. 먼저 예전 방식(venv, pip, requirements.txt)을 눈으로 보고, uv로 바꾸면 무엇이 줄어드는지 비교해요. 그다음 `uv init`, `uv run`, `uv add`, `uv remove`, `uv sync`를 직접 쳐요. 예제 패키지는 웹 서버를 만드는 fastapi예요. uv가 만든 가상환경을 Mac과 Windows에서 직접 켜는 방법도 봐요. 터미널 명령은 01, GitHub에 올리고 받는 명령은 02, 06과 같아요.
+> 파이썬 프로젝트를 uv 하나로 만들고 실행해요. 먼저 예전 방식(venv, pip, requirements.txt)을 눈으로 보고, uv로 바꾸면 무엇이 줄어드는지 비교해요. 그다음 `uv init`, `uv run`, `uv add`, `uv remove`, `uv sync`를 직접 쳐요. 예제 패키지는 웹 서버를 만드는 fastapi예요. uv가 만든 가상환경을 Mac과 Windows에서 직접 켜는 방법도 봐요. 마지막으로 머신러닝 수업에서 쓸 Jupyter 노트북을 VS Code에서 여는 준비까지 해요. 터미널 명령은 01, GitHub에 올리고 받는 명령은 02, 06과 같아요.
 
 | 슬라이드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
@@ -16,6 +16,7 @@
 - uv가 만든 가상환경을 Mac과 Windows에서 직접 켜고 꺼요.
 - `uv add`, `uv remove`가 pyproject.toml, uv.lock, .venv 세 곳을 함께 바꾼다는 걸 알아요.
 - GitHub에 올릴 파일과 올리지 않을 파일(.venv)을 구분하고, 받은 프로젝트를 `uv sync`로 똑같이 맞춰요.
+- VS Code에 Python, Jupyter 확장을 설치하고, `uv add --dev ipykernel` 뒤 노트북 커널로 `.venv`를 골라 셀을 실행해요.
 
 ## 구성
 
@@ -28,7 +29,8 @@
 | 4. 프로젝트 만들고 실행하기 | 13–18 | `uv init`, pyproject.toml 읽기, 첫 `uv run`, 두 번째 `uv run`, 가상환경 직접 켜기(Mac, Windows), 파이썬 버전 |
 | 5. 패키지 넣고 빼기 | 19–23 | `uv add fastapi uvicorn`, `uv tree`, 웹 서버 켜기, `uv remove`, 캐시 |
 | 6. 다른 컴퓨터에서 그대로 | 24–27 | 올릴 파일과 .gitignore, kim에서 lee로, `uv sync` 실제 출력, sync를 치는 때 |
-| 정리 | 28–30 | 예전 명령 바꿔 치기, 자주 나오는 메시지, 한 장 요약 |
+| 7. VS Code에서 Jupyter 쓰기 | 28–33 | 노트북과 셀, Python과 Jupyter 확장 설치, `uv add --dev ipykernel`, 커널로 .venv 고르기, 셀 실행, 막힐 때 |
+| 정리 | 34–36 | 예전 명령 바꿔 치기, 자주 나오는 메시지, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -178,6 +180,32 @@ uv run main.py        # 서버가 켜져요. Ctrl+C로 끄기
 
 팀원이 패키지를 넣고 push했으면 `git pull origin main` 뒤 `uv sync`로 내 `.venv`를 맞춰요.
 
+### 4. VS Code에서 Jupyter 노트북 쓰기
+
+1. VS Code 왼쪽 확장 아이콘을 눌러요. 단축키는 Mac `Cmd+Shift+X`, Windows `Ctrl+Shift+X`예요.
+2. `Python`을 검색해서 만든 곳이 Microsoft인 확장을 설치해요.
+3. `Jupyter`를 검색해서 만든 곳이 Microsoft인 확장을 설치하고 VS Code를 다시 열어요.
+
+터미널에서 노트북 커널을 넣어요.
+
+```bash
+cd ~/hello-uv
+uv add --dev ipykernel    # pyproject.toml의 [dependency-groups] dev에 적혀요
+```
+
+1. VS Code에서 File > Open Folder로 `hello-uv` 폴더 자체를 열어요.
+2. 왼쪽 탐색기에서 새 파일 `notebook.ipynb`를 만들어요.
+3. 오른쪽 위 Select Kernel을 누르고 Python Environments를 골라요.
+4. `.venv (Python 3.14.6)`를 골라요. 숫자는 컴퓨터마다 달라요.
+5. 셀에 아래를 적고 `Shift+Enter`로 실행해요.
+
+```python
+import sys
+print(sys.executable)     # .../hello-uv/.venv/bin/python 이면 맞게 고른 거예요
+```
+
+VS Code가 ipykernel을 설치하라는 알림을 띄우면 Install을 누르지 말고 위의 `uv add --dev ipykernel`을 쳐요. Install은 pip로 넣어서 pyproject.toml에 적히지 않아요.
+
 ## 명령어 요약
 
 | 명령 | 하는 일 |
@@ -191,6 +219,7 @@ uv run main.py        # 서버가 켜져요. Ctrl+C로 끄기
 | `uv remove 패키지` | 패키지 빼기 (딸려 온 패키지까지) |
 | `uv tree --depth 2` | 패키지가 어떤 패키지 때문에 들어왔는지 두 단계까지 보기 |
 | `uv sync` | uv.lock대로 .venv 맞추기 (clone 직후, pull 뒤) |
+| `uv add --dev ipykernel` | 노트북 커널 넣기. 개발용 칸(dev)에 적혀요 |
 | `source .venv/bin/activate` | 가상환경 직접 켜기 (Windows Git Bash는 `.venv/Scripts/activate`) |
 | `deactivate` | 켠 가상환경 끄기 |
 
@@ -206,6 +235,9 @@ uv run main.py        # 서버가 켜져요. Ctrl+C로 끄기
 | `error: Project is already initialized in ...` | 이미 만든 프로젝트 안이에요. `uv init`은 처음 한 번만 쳐요 |
 | 자료에 `pip install 패키지`가 나와요 | 우리 프로젝트에서는 `uv add 패키지`로 바꿔 쳐요 |
 | `.python-version` 숫자가 슬라이드와 달라요 | 컴퓨터에 이미 있던 파이썬을 썼어요. 그대로 써도 돼요 |
+| 노트북에서 ipykernel을 설치하라는 알림이 떠요 | Install 대신 터미널에서 `uv add --dev ipykernel`. 그다음 커널을 다시 골라요 |
+| 커널 목록에 `.venv`가 없어요 | `hello-uv` 폴더 자체를 열었는지 봐요. `uv sync` 뒤 VS Code를 다시 열어요 |
+| 노트북 셀에서 `ModuleNotFoundError` | 커널이 `.venv`가 아니에요. 오른쪽 위 커널 이름을 눌러 `.venv`로 바꿔요 |
 
 ## 강사용
 
@@ -219,6 +251,7 @@ slides/
 tools/
   gen.py           모든 장과 deck.json 생성 (폴더 그림, 세 곳 카드, 비교 표)
   demo.sh          모든 명령을 새 폴더에서 다시 실행해 실제 출력 확인
+  run_nb.py        노트북 셀을 프로젝트 커널로 실행해 출력 확인 (demo.sh가 불러요)
   check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
   deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
   export.js        PDF 내보내기
@@ -238,7 +271,7 @@ node tools/build_player.js slides python-uv-slides.html
 node tools/export.js slides python-uv-slides.pdf
 ```
 
-터미널 출력은 `tools/demo.sh`로 uv 0.11.32, Python 3.14.6에서 실제로 실행해 옮겼어요. uv 캐시와 파이썬 설치 폴더를 실습 폴더 안에 새로 만들어서, 파이썬이 없는 컴퓨터처럼 첫 실행에 파이썬을 받아요. lee 컴퓨터는 캐시와 파이썬 폴더를 따로 둬서 처음 받는 모습을 재현했어요. 예전 방식은 uv가 받은 Python 3.14.6을 `python3`로 써서 실행했어요. 웹 서버는 백그라운드로 켜고 `curl`로 브라우저처럼 한 번 열어 본 뒤 Ctrl+C 신호로 껐어요. 이 확인 요청 때문에 실제 출력에는 GET 줄이 두 번 나와서 슬라이드에는 한 줄만 남겼어요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/hello-uv.git`으로 보이게 했어요. 출력의 폴더 주소는 01처럼 `/home/kim`으로 바꿨어요. 설치 스크립트 출력은 버전마다 달라서 옮기지 않았어요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요. 패키지 버전과 걸린 시간(ms)은 실행한 날에 따라 달라요.
+터미널 출력은 `tools/demo.sh`로 uv 0.11.32, Python 3.14.6에서 실제로 실행해 옮겼어요. uv 캐시와 파이썬 설치 폴더를 실습 폴더 안에 새로 만들어서, 파이썬이 없는 컴퓨터처럼 첫 실행에 파이썬을 받아요. lee 컴퓨터는 캐시와 파이썬 폴더를 따로 둬서 처음 받는 모습을 재현했어요. 예전 방식은 uv가 받은 Python 3.14.6을 `python3`로 써서 실행했어요. 웹 서버는 백그라운드로 켜고 `curl`로 브라우저처럼 한 번 열어 본 뒤 Ctrl+C 신호로 껐어요. 이 확인 요청 때문에 실제 출력에는 GET 줄이 두 번 나와서 슬라이드에는 한 줄만 남겼어요. 노트북 셀 출력은 `tools/run_nb.py`가 hello-uv 복사본의 커널(ipykernel)로 셀을 실행한 결과예요. VS Code 화면(확장, 커널 고르기)은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/hello-uv.git`으로 보이게 했어요. 출력의 폴더 주소는 01처럼 `/home/kim`으로 바꿨어요. 설치 스크립트 출력은 버전마다 달라서 옮기지 않았어요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요. 패키지 버전과 걸린 시간(ms)은 실행한 날에 따라 달라요.
 
 </details>
 

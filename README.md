@@ -14,7 +14,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](./06-team-repo) | Collaborator 초대, push 거절 뒤 `pull`, 자동 합치기, pull 충돌 해결, 팀 규칙, 브랜치와 PR 케이스 8가지 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) |
 | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](./07-git-restore-stash) | `restore` `restore --staged` `stash` `stash list` `stash pop` `stash drop` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) |
 | [08 · 갈라진 기록 합치는 방법 비교하기](./08-git-merge-ways) | fast-forward, `merge --no-ff`, `rebase`, `merge --squash`, pull 설정 세 가지, PR Merge 버튼 세 가지 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) |
-| [09 · uv로 파이썬 시작하기](./09-python-uv) | 예전 방식(venv, pip)과 비교, `uv init` `uv run` `uv add` `uv remove` `uv tree` `uv sync`, 가상환경 켜기(`activate`), fastapi 서버 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) |
+| [09 · uv로 파이썬 시작하기](./09-python-uv) | 예전 방식(venv, pip)과 비교, `uv init` `uv run` `uv add` `uv remove` `uv tree` `uv sync`, 가상환경 켜기(`activate`), fastapi 서버, VS Code Jupyter(`uv add --dev ipykernel`) | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) |
 
 챕터는 번호 순서대로 이어져요. 앞 챕터에서 만든 폴더와 저장소를 다음 챕터에서 그대로 써요.
 

@@ -4,6 +4,7 @@
 # uv's own cache and Python downloads go inside the folder, so the first run downloads Python
 # like a student's computer with no Python installed.
 set -u
+TOOLS=$(cd "$(dirname "$0")" && pwd)
 ROOT=${1:-/tmp/uv-demo}
 if [ -e "$ROOT" ]; then echo "$ROOT already exists. Pick a new folder."; exit 1; fi
 mkdir -p "$ROOT"
@@ -98,6 +99,18 @@ run ls -a
 serve uv run main.py
 
 export UV_CACHE_DIR="$ROOT/.uv-cache" UV_PYTHON_INSTALL_DIR="$ROOT/.uv-python"
+
+echo "===== 7부 Jupyter 커널"
+cd "$ROOT/hello-uv"
+run uv add --dev ipykernel
+run cat pyproject.toml
+run 'uv run python -c "print(\"안녕하세요\")"'
+run 'uv run python -c "import sys; print(sys.executable)"'
+run 'uv run python -c "import fastapi; print(fastapi.__version__)"'
+run 'uv run python -c "import ipykernel; print(ipykernel.__version__)"'
+# 노트북 셀을 VS Code처럼 프로젝트 커널로 실행해요. 원본을 건드리지 않게 복사본에 nbclient를 넣어요.
+cp -r "$ROOT/hello-uv" "$ROOT/nb-check" && rm -rf "$ROOT/nb-check/.venv"
+(cd "$ROOT/nb-check" && uv sync -q && uv pip install -q nbclient nbformat && echo && echo "# 노트북 셀 실행" && .venv/bin/python "$TOOLS/run_nb.py" 2>/dev/null)
 echo "===== 6부 파이썬 버전"
 cd "$ROOT"
 run uv init --python 3.13 hello-313

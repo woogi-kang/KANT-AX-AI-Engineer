@@ -34,6 +34,12 @@
     "sync-flow",
     "sync-term",
     "sync-when",
+    "jup-what",
+    "jup-ext",
+    "jup-kernel",
+    "jup-pick",
+    "jup-run",
+    "jup-trouble",
     "map",
     "trouble",
     "cheatsheet"
@@ -66,6 +72,10 @@
     "sync": {
       "description": "다른 컴퓨터에서 그대로",
       "start": "commit"
+    },
+    "jupyter": {
+      "description": "VS Code에서 Jupyter 쓰기",
+      "start": "jup-what"
     },
     "trouble": {
       "description": "정리",
