@@ -1,0 +1,21 @@
+<section id="sync-term" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1F8A4C">6. 다른 컴퓨터에서 그대로</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">lee 컴퓨터에서 실제로 쳐 보면</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:31px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git clone https://github.com/kim/hello-uv.git</p>
+<p style="font-size:25px;line-height:1.35;white-space:pre;color:#D8DEE9">Cloning into 'hello-uv'...</p>
+<p style="font-size:31px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ cd hello-uv</p>
+<p style="font-size:31px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv sync</p>
+<p style="font-size:25px;line-height:1.35;white-space:pre;color:#D8DEE9">Downloading cpython-3.14.6-linux-x86_64-gnu (download) (34.3MiB)</p>
+<p style="font-size:25px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;Downloaded cpython-3.14.6-linux-x86_64-gnu (download)</p>
+<p style="font-size:25px;line-height:1.35;white-space:pre;color:#D8DEE9">Using CPython 3.14.6</p>
+<p style="font-size:25px;line-height:1.35;white-space:pre;color:#D8DEE9">Creating virtual environment at: .venv</p>
+<p style="font-size:25px;line-height:1.35;white-space:pre;color:#D8DEE9">Resolved 6 packages in 1ms</p>
+<p style="font-size:25px;line-height:1.35;white-space:pre;color:#D8DEE9">Prepared 5 packages in 128ms</p>
+<p style="font-size:25px;line-height:1.35;white-space:pre;color:#D8DEE9">Installed 5 packages in 5ms</p>
+<p style="font-size:25px;line-height:1.35;white-space:pre;color:#7FD18B">&#160;+ certifi==2026.10.23  + charset-normalizer==3.5.2  + idna==3.20  …</p>
+<p style="font-size:31px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv run main.py</p>
+<p style="font-size:25px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">상태 코드: 200</p>
+</div>
+<aside>lee 컴퓨터에는 파이썬도 패키지도 없는 상태에서 시작했어요. uv sync가 파이썬 3.14.6을 받고, .venv를 만들고, 패키지 다섯 개를 설치했어요. 버전은 kim 컴퓨터와 똑같아요. 설치 목록은 화면 폭 때문에 한 줄로 줄였고, 실제로는 다섯 줄이에요. clone 출력의 done. 줄은 뺐어요.</aside>
+</section>
