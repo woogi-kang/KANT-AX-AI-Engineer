@@ -277,7 +277,7 @@ node tools/build_player.js slides vscode-jupyter-slides.html
 node tools/export.js slides vscode-jupyter-slides.pdf
 ```
 
-셀 출력(20, `'안녕하세요, kim'`, 11, 12, NameError, 이름 규칙 SyntaxError 네 가지, `type()` 다섯 줄)은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. Restart는 새 커널을 띄워 재현했어요. 오류는 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요. SyntaxError 괄호 안의 임시 파일 이름과 줄 번호, 하이픈 오류 뒤의 `Maybe you meant '==' instead of '='?`도 뺐어요. demo.sh 환경의 커널은 Python 3.13이었고, 메시지는 3.14와 같아요. VS Code 화면은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. 단축키는 VS Code 기본 설정 기준이에요. Mac 셀 실행이 `control+Enter`인 것은 VS Code 저장소 이슈 #221892, #213675에서 확인했어요.
+셀 출력(20, `'kim'`, 11, 12, NameError, 이름 규칙 SyntaxError 네 가지, `type()` 다섯 줄)은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. Restart는 새 커널을 띄워 재현했어요. 오류는 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요. SyntaxError 괄호 안의 임시 파일 이름과 줄 번호, 하이픈 오류 뒤의 `Maybe you meant '==' instead of '='?`도 뺐어요. demo.sh 환경의 커널은 Python 3.13이었고, 메시지는 3.14와 같아요. VS Code 화면은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. 단축키는 VS Code 기본 설정 기준이에요. Mac 셀 실행이 `control+Enter`인 것은 VS Code 저장소 이슈 #221892, #213675에서 확인했어요.
 
 </details>
 
