@@ -16,6 +16,16 @@ export GIT_CONFIG_GLOBAL="$ROOT/.gitconfig"
 export PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1
 [ -f /root/.ccr/ca-bundle.crt ] && export UV_SYSTEM_CERTS=1 PIP_CERT=/root/.ccr/ca-bundle.crt
 run() { echo; echo "\$ $*"; eval "$@" 2>&1; }
+# Starts the web server, asks it for / like a browser would, then stops it with Ctrl+C.
+serve() {
+  echo; echo "\$ $*"
+  "$@" > "$ROOT/server.log" 2>&1 &
+  local pid=$!
+  for _ in $(seq 1 50); do curl -s -o /dev/null http://127.0.0.1:8000/ && break; sleep 0.2; done
+  local body; body=$(curl -s http://127.0.0.1:8000/)
+  sleep 0.3; kill -INT "$pid"; wait "$pid" 2>/dev/null
+  cat "$ROOT/server.log"; echo "# 브라우저 http://127.0.0.1:8000 -> $body"
+}
 
 echo "===== uv 버전"
 run uv --version
@@ -32,30 +42,41 @@ run uv run main.py
 run ls -a
 run uv run main.py
 
-echo "===== 4부 add / remove"
-run uv add requests
+echo "===== 4부 가상환경 직접 켜기"
+run source .venv/bin/activate
+echo "(프롬프트 이름: $VIRTUAL_ENV_PROMPT)"
+run which python
+run python --version
+run python main.py
+run deactivate
+run which python3
+
+echo "===== 5부 add / remove"
+run uv add fastapi uvicorn
 run cat pyproject.toml
-run "head -3 uv.lock"
-run uv tree
+run uv tree --depth 2
 cat > main.py <<'PY'
-import requests
+from fastapi import FastAPI
+import uvicorn
+
+app = FastAPI()
 
 
-def main():
-    r = requests.get("https://api.github.com")
-    print("상태 코드:", r.status_code)
+@app.get("/")
+def home():
+    return {"message": "안녕하세요"}
 
 
 if __name__ == "__main__":
-    main()
+    uvicorn.run(app)
 PY
 run cat main.py
-run uv run main.py
-run uv remove requests
+serve uv run main.py
+run uv remove fastapi uvicorn
 run cat pyproject.toml
 run uv run main.py
-run uv add requests
-run uv run python --version
+run uv add fastapi uvicorn
+serve uv run main.py
 
 echo "===== 5부 다른 컴퓨터에서 uv sync"
 git init -q --bare "$ROOT/github-hello-uv.git"
@@ -74,7 +95,7 @@ run cd hello-uv
 run ls -a
 run uv sync
 run ls -a
-run uv run main.py
+serve uv run main.py
 
 export UV_CACHE_DIR="$ROOT/.uv-cache" UV_PYTHON_INSTALL_DIR="$ROOT/.uv-python"
 echo "===== 6부 파이썬 버전"
@@ -101,18 +122,18 @@ run python3 main.py
 run python3 -m venv .venv
 run ls -a
 run source .venv/bin/activate
-run pip install requests
+run pip install fastapi uvicorn
 run 'pip freeze > requirements.txt'
 run cat requirements.txt
-run python main.py
-run pip uninstall -y requests
+serve python main.py
+run pip uninstall -y fastapi uvicorn
 run pip freeze
 run deactivate
 run python3 main.py
 
 echo "===== 막힐 때"
 cd "$ROOT"
-run uv add requests
+run uv add fastapi
 echo; echo '$ uv --version'; echo 'uv --version' | env PATH=/usr/bin:/bin bash -i 2>&1 | grep 'not found'
 cd "$ROOT/hello-uv"
 run uv init

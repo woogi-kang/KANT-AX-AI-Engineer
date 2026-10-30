@@ -16,7 +16,7 @@ INK, SUB, LINE, CARD = "#1D2330", "#4A5262", "#E1DED6", "#FFFFFF"
 BL, GR, OR, PUR, RED, NAVY, TEAL, GRAY = "#2459C9", "#1F8A4C", "#B26A00", "#5A3BB8", "#A33131", "#1E3F8F", "#0F7C86", "#6A7180"
 OLD, UV = OR, TEAL          # old way, uv
 F_PY, F_LOCK, F_VENV = NAVY, PUR, GR   # pyproject.toml, uv.lock, .venv
-TC = {"$": "#F2C46D", "V": "#F2C46D", "o": "#D8DEE9", "g": "#7FD18B", "r": "#F28B82", "#": "#8C95A6", "H": "#FFE7A8"}
+TC = {"$": "#F2C46D", "V": "#F2C46D", "A": "#F2C46D", "o": "#D8DEE9", "g": "#7FD18B", "r": "#F28B82", "#": "#8C95A6", "H": "#FFE7A8"}
 
 
 def e(s):
@@ -53,6 +53,8 @@ def term_line(kind, text, size):
     t = "&#160;" * lead + t.lstrip(" ")
     if kind == "$":
         return p(f"font-size:{size[0]}px;font-weight:700;line-height:1.35;white-space:nowrap;color:{TC['$']}", "$ " + t)
+    if kind == "A":
+        return p(f"font-size:{size[0]}px;font-weight:700;line-height:1.35;white-space:nowrap;color:{TC['V']}", '<span style="color:#7FD18B">(hello-uv)</span> $ ' + t)
     if kind == "V":
         return p(f"font-size:{size[0]}px;font-weight:700;line-height:1.35;white-space:nowrap;color:{TC['V']}", '<span style="color:#7FD18B">(.venv)</span> $ ' + t)
     mark = "background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;" if kind == "H" else ""
@@ -150,13 +152,17 @@ def three(state, left=1060, top=200, w=764):
 # ---------- real output (tools/demo.sh) ----------
 INIT_OUT = [("o", "Downloading cpython-3.14.6-linux-x86_64-gnu (download) (34.3MiB)"), ("o", " Downloaded cpython-3.14.6-linux-x86_64-gnu (download)"),
             ("g", "Initialized project `hello-uv` at `/home/kim/hello-uv`")]
-ADD_OUT = [("o", "Resolved 6 packages in 216ms"), ("o", "Prepared 5 packages in 83ms"), ("o", "Installed 5 packages in 2ms"),
-           ("g", " + certifi==2026.10.23"), ("g", " + charset-normalizer==3.5.2"), ("g", " + idna==3.20"), ("g", " + requests==2.34.2"), ("g", " + urllib3==2.8.0")]
-PKGS = ["certifi==2026.10.23", "charset-normalizer==3.5.2", "idna==3.20", "requests==2.34.2", "urllib3==2.8.0"]
+PKGS = ["annotated-doc==0.0.5", "annotated-types==0.8.0", "anyio==4.15.1", "click==8.5.0", "fastapi==0.162.0", "h11==0.16.0", "idna==3.20",
+        "opentelemetry-api==1.45.2", "pydantic==2.14.2", "pydantic-core==2.50.2", "starlette==1.10.0", "typing-extensions==4.16.0",
+        "typing-inspection==0.4.4", "uvicorn==0.54.0"]
+ADD_OUT = [("o", "Resolved 15 packages in 1.59s"), ("o", "Downloading pydantic-core (2.1MiB)"), ("o", " Downloaded pydantic-core"), ("o", "Prepared 14 packages in 105ms"),
+           ("o", "Installed 14 packages in 6ms")] + [("g", " + " + x) for x in PKGS]
+SERVER = [("o", "INFO:     Started server process [448]"), ("o", "INFO:     Waiting for application startup."), ("o", "INFO:     Application startup complete."),
+          ("H", "INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)"), ("o", 'INFO:     127.0.0.1:45266 - "GET / HTTP/1.1" 200 OK')]
 FILES0 = [".git", ".gitignore", ".python-version", "README.md", "main.py", "pyproject.toml"]
 FILES1 = [".git", ".gitignore", ".python-version", ".venv", "README.md", "main.py", "pyproject.toml", "uv.lock"]
-MAIN_REQ = ["import requests", "", "", "def main():", '    r = requests.get("https://api.github.com")', '    print("상태 코드:", r.status_code)', "", "",
-            'if __name__ == "__main__":', "    main()"]
+MAIN_REQ = ["from fastapi import FastAPI", "import uvicorn", "", "app = FastAPI()", "", "", '@app.get("/")', "def home():", '    return {"message": "안녕하세요"}', "", "",
+            'if __name__ == "__main__":', "    uvicorn.run(app)"]
 
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
@@ -164,7 +170,7 @@ cov = [f'<section id="cover" data-transition="fade" style="background:{INK};colo
        '<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">uv로<br>파이썬 시작하기</h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">예전 방식과 비교하고,<br>자주 쓰는 명령 익히기</p>']
 cov.append(f'<div style="position:absolute;left:1060px;top:280px;width:720px;height:520px;background:#252B36;border-radius:24px;padding:40px 44px;display:flex;flex-direction:column;gap:8px;font-family:{MONO}">')
-for k, l in [("$", "$ uv init hello-uv"), ("#", "  프로젝트 만들기"), ("$", "$ uv add requests"), ("#", "  패키지 넣기"), ("$", "$ uv run main.py"), ("#", "  실행하기"),
+for k, l in [("$", "$ uv init hello-uv"), ("#", "  프로젝트 만들기"), ("$", "$ uv add fastapi"), ("#", "  패키지 넣기"), ("$", "$ uv run main.py"), ("#", "  실행하기"),
              ("$", "$ uv sync"), ("#", "  다른 컴퓨터에서 그대로")]:
     cov.append(p(f"font-size:32px;line-height:1.45;white-space:pre;font-weight:700;color:{TC[k]}", e(l)))
 cov.append('</div>')
@@ -190,23 +196,23 @@ o.append(f'<div style="position:absolute;left:96px;top:250px;width:760px;height:
          + '<div style="display:flex;flex-direction:row;gap:18px;align-items:center">' + f'<x-icon name="Archive" style="width:52px;height:52px;color:{PUR}"></x-icon>'
          + p(f"font-size:40px;font-weight:700;color:{PUR}", "PyPI") + p(f"font-size:28px;color:{GRAY}", "파이썬 패키지 창고") + '</div>'
          + '<div style="display:flex;flex-direction:row;flex-wrap:wrap;gap:16px">'
-         + "".join(chip(n, INK, 28, extra=("background:#E7DEFC;" if n == "requests" else "")) for n in ["requests", "pandas", "numpy", "openai", "fastapi", "matplotlib", "pytest", "… 60만 개 넘게"])
+         + "".join(chip(n, INK, 28, extra=("background:#E7DEFC;" if n in ("fastapi", "uvicorn") else "")) for n in ["fastapi", "uvicorn", "pandas", "numpy", "openai", "requests", "pytest", "… 60만 개 넘게"])
          + '</div></div>')
 o.append(arrow(900, 490, 160, 80, PUR, attrs=' data-build-in="fade order 1"'))
 o.append(p(f"position:absolute;left:880px;top:420px;width:200px;font-size:26px;font-weight:700;text-align:center;color:{PUR}", "받아서 설치", ' data-build-in="fade order 1"'))
 o.append(f'<div data-build-in="pop order 2" style="position:absolute;left:1104px;top:250px;width:720px;height:560px;background:#FDFCF9;border:2px dashed #B9BFCB;border-radius:24px;padding:32px 40px;display:flex;flex-direction:column;gap:24px">'
          + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{GRAY}", "내 프로젝트/")
          + chip("main.py", INK, 28, extra="align-self:flex-start;background:#FFFFFF;border:2px solid #E1DED6;")
-         + chip("requests", INK, 28, extra="align-self:flex-start;background:#E7DEFC;")
-         + p(f"font-size:28px;line-height:1.5;color:{SUB}", "<span style=\"font-family:'JetBrains Mono';font-weight:700\">import requests</span> 한 줄로<br>인터넷에 요청을 보낼 수 있어요.") + '</div>')
-o.append(caption("이 자료는 requests 패키지 하나로 넣고, 쓰고, 빼 봐요.", 880))
-W("pkg", o, "파이썬으로 하는 일 대부분은 남이 만들어 둔 코드를 가져다 써요. 이 코드 묶음을 패키지라고 하고, PyPI라는 인터넷 창고에 모여 있어요. 데이터 분석은 pandas, AI API는 openai 같은 패키지를 받아 써요. 오늘 예시는 인터넷 주소에 요청을 보내는 requests예요. 패키지를 받아서 내 프로젝트에 넣는 방법이 예전 방식과 uv에서 달라요.")
+         + '<div style="display:flex;flex-direction:row;gap:16px">' + chip("fastapi", INK, 28, extra="background:#E7DEFC;") + chip("uvicorn", INK, 28, extra="background:#E7DEFC;") + '</div>'
+         + p(f"font-size:28px;line-height:1.5;color:{SUB}", "fastapi로 웹 서버 코드를 쓰고,<br>uvicorn으로 그 서버를 켜요.") + '</div>')
+o.append(caption("이 자료는 fastapi와 uvicorn을 넣고, 쓰고, 빼 봐요.", 880))
+W("pkg", o, "파이썬으로 하는 일 대부분은 남이 만들어 둔 코드를 가져다 써요. 이 코드 묶음을 패키지라고 하고, PyPI라는 인터넷 창고에 모여 있어요. 데이터 분석은 pandas, AI API는 openai 같은 패키지를 받아 써요. 오늘 예시는 웹 서버를 만드는 fastapi와, 만든 서버를 켜 주는 uvicorn이에요. 두 패키지는 짝으로 자주 같이 써요. 패키지를 받아서 내 프로젝트에 넣는 방법이 예전 방식과 uv에서 달라요.")
 
 # ---------- part 2: the old way ----------
 EB2 = "2. 예전 방식"
 o = [sec("old-steps")] + head(EB2, "예전에는 이 순서를 직접 챙겼어요", OLD)
 steps = [("파이썬 설치", "python.org에서 받아 설치", "python"), ("가상환경 만들기", "python3 -m venv .venv", "venv"), ("가상환경 켜기", "source .venv/bin/activate", "venv"),
-         ("패키지 설치", "pip install requests", "pip"), ("목록 적어 두기", "pip freeze > requirements.txt", "requirements.txt"), ("실행", "python main.py", "python")]
+         ("패키지 설치", "pip install fastapi uvicorn", "pip"), ("목록 적어 두기", "pip freeze > requirements.txt", "requirements.txt"), ("실행", "python main.py", "python")]
 for i, (what, cmd, tool) in enumerate(steps):
     y = 220 + i * 118
     mono = not cmd.startswith("python.org")
@@ -219,7 +225,7 @@ W("old-steps", o, "uv가 나오기 전에 많이 쓰던 순서예요. 오른쪽 
 o = [sec("old-venv")] + head(EB2, "가상환경은 프로젝트마다 따로 쓰는 패키지 상자예요", OLD)
 o.append(f'<div style="position:absolute;left:96px;top:230px;width:1728px;height:120px;background:#ECEAE3;border-radius:20px;display:flex;flex-direction:row;gap:24px;align-items:center;padding:0 40px">'
          + f'<x-icon name="Settings" style="width:48px;height:48px;color:{GRAY}"></x-icon>' + p(f"font-size:32px;font-weight:700;color:{INK}", "컴퓨터에 설치한 파이썬") + p(f"font-size:26px;color:{GRAY}", "여기에 바로 넣으면 모든 프로젝트가 같이 써요") + '</div>')
-for i, (name, ver, c) in enumerate([("project-a", "requests 2.34.2", BL), ("project-b", "requests 2.28.0", GR)]):
+for i, (name, ver, c) in enumerate([("project-a", "fastapi 0.162.0", BL), ("project-b", "fastapi 0.110.0", GR)]):
     x = 96 + i * 888
     o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:{x}px;top:420px;width:840px;height:400px;background:#FDFCF9;border:2px solid {LINE};border-radius:24px;padding:28px 36px;display:flex;flex-direction:column;gap:20px">'
              + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{GRAY}", name + "/")
@@ -227,20 +233,20 @@ for i, (name, ver, c) in enumerate([("project-a", "requests 2.34.2", BL), ("proj
              + f'<div style="flex:1;background:#E6F4EC;border:3px solid {GR};border-radius:18px;padding:20px 28px;display:flex;flex-direction:column;gap:12px">'
              + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{GR}", ".venv/") + chip(ver, c, 28, extra="align-self:flex-start;background:#FFFFFF;") + '</div></div>')
 o.append(caption("프로젝트끼리 패키지 버전이 달라도 부딪히지 않아요. uv도 이 .venv를 그대로 써요.", 880))
-W("old-venv", o, "가상환경이 없으면 패키지가 컴퓨터 파이썬 한 곳에 쌓여요. 그러면 A 프로젝트는 requests 2.34, B 프로젝트는 2.28이 필요할 때 둘 중 하나가 깨져요. 그래서 프로젝트 폴더마다 .venv라는 상자를 두고 그 안에 패키지를 넣어요. .venv는 점으로 시작해서 ls -a로만 보여요(01). 이 개념은 uv에서도 똑같아요. 다른 건 누가 상자를 만들고 켜느냐예요.")
+W("old-venv", o, "가상환경이 없으면 패키지가 컴퓨터 파이썬 한 곳에 쌓여요. 그러면 A 프로젝트는 fastapi 0.162, B 프로젝트는 0.110이 필요할 때 둘 중 하나가 깨져요. 그래서 프로젝트 폴더마다 .venv라는 상자를 두고 그 안에 패키지를 넣어요. .venv는 점으로 시작해서 ls -a로만 보여요(01). 이 개념은 uv에서도 똑같아요. 다른 건 누가 상자를 만들고 켜느냐예요.")
 
 o = [sec("old-term")] + head(EB2, "예전 방식을 실제로 쳐 보면", OLD)
-o += terminal([("$", "python3 main.py"), ("r", "ModuleNotFoundError: No module named 'requests'"), ("$", "python3 -m venv .venv"), ("$", "source .venv/bin/activate"),
-               ("V", "pip install requests"), ("o", "Collecting requests"), ("#", "  ... 중간 줄 생략 ..."),
-               ("g", "Successfully installed certifi-2026.10.23 charset_normalizer-3.5.2 idna-3.20 requests-2.34.2 urllib3-2.8.0"),
-               ("V", "pip freeze > requirements.txt"), ("V", "python main.py"), ("o", "상태 코드: 200")], size=(32, 25))
+o += terminal([("$", "python3 main.py"), ("r", "ModuleNotFoundError: No module named 'fastapi'"), ("$", "python3 -m venv .venv"), ("$", "source .venv/bin/activate"),
+               ("V", "pip install fastapi uvicorn"), ("o", "Collecting fastapi"), ("#", "  ... 중간 줄 생략 ..."),
+               ("g", "Successfully installed annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 click-8.5.0 …"),
+               ("V", "pip freeze > requirements.txt"), ("V", "python main.py"), ("o", "INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)")], size=(32, 25))
 o.append(caption("가상환경을 켜면 프롬프트 앞에 (.venv)가 붙어요. 켠 상태에서만 패키지가 보여요.", 880))
-W("old-term", o, "main.py는 requests를 쓰는 코드예요. 처음엔 패키지가 없어서 ModuleNotFoundError가 나요. venv를 만들고 activate로 켜면 프롬프트 앞에 (.venv)가 붙어요. 그 상태에서 pip install로 넣고, pip freeze로 설치된 목록을 requirements.txt에 적어 둬요. 다른 사람은 이 파일을 보고 pip install -r requirements.txt로 같은 패키지를 받아요. Traceback 줄과 pip가 받는 중간 줄은 뺐어요.")
+W("old-term", o, "main.py는 fastapi로 만든 작은 웹 서버예요(5파트에서 자세히 봐요). 처음엔 패키지가 없어서 ModuleNotFoundError가 나요. venv를 만들고 activate로 켜면 프롬프트 앞에 (.venv)가 붙어요. 그 상태에서 pip install로 넣고, pip freeze로 설치된 목록을 requirements.txt에 적어 둬요. 다른 사람은 이 파일을 보고 pip install -r requirements.txt로 같은 패키지를 받아요. Traceback 줄, pip가 받는 중간 줄, 서버 출력 앞뒤 줄은 뺐어요. Successfully installed 줄은 실제로 패키지 14개가 이어져요.")
 
 o = [sec("old-pain")] + head(EB2, "예전 방식에서 자주 막히는 곳", OLD)
 pains = [("Warning", "켜는 걸 잊으면", "deactivate 뒤에 python3 main.py", "ModuleNotFoundError"),
          ("Book", "목록은 손으로", "pip install 뒤 pip freeze를 잊으면", "requirements.txt가 옛날 그대로"),
-         ("Archive", "빼도 남아요", "pip uninstall requests 뒤에도", "certifi, idna 같은 4개가 남아요"),
+         ("Archive", "빼도 남아요", "pip uninstall fastapi uvicorn 뒤에도", "pydantic, starlette 같은 12개가 남아요"),
          ("Settings", "파이썬은 따로", "설치와 버전 맞추기는 직접", "python, python3 이름도 컴퓨터마다 달라요")]
 for i, (ic, h, a_, b_) in enumerate(pains):
     x, y = 96 + (i % 2) * 888, 230 + (i // 2) * 330
@@ -248,7 +254,7 @@ for i, (ic, h, a_, b_) in enumerate(pains):
              + '<div style="display:flex;flex-direction:row;gap:18px;align-items:center">' + f'<x-icon name="{ic}" style="width:48px;height:48px;color:{OLD}"></x-icon>'
              + p(f"font-size:38px;font-weight:700;color:{INK}", h) + '</div>'
              + p(f"font-size:30px;line-height:1.4;color:{SUB}", e(a_)) + p(f"font-size:30px;font-weight:700;line-height:1.4;color:{RED if i == 0 else INK}", e(b_)) + '</div>')
-W("old-pain", o, "네 가지 모두 실제로 쳐서 확인했어요. 1번은 가상환경을 끈 뒤 python3로 실행하면 컴퓨터 파이썬에는 requests가 없어서 나요. 2번은 pip가 requirements.txt를 고쳐 주지 않아서 생겨요. 3번은 pip uninstall이 requests만 지우고, 함께 들어온 certifi, charset-normalizer, idna, urllib3는 남겨요. 4번은 Mac, Windows마다 설치 방법과 명령 이름이 달라서 수업 첫날 가장 많이 막히는 곳이에요.")
+W("old-pain", o, "네 가지 모두 실제로 쳐서 확인했어요. 1번은 가상환경을 끈 뒤 python3로 실행하면 컴퓨터 파이썬에는 fastapi가 없어서 나요. 2번은 pip가 requirements.txt를 고쳐 주지 않아서 생겨요. 3번은 pip uninstall이 적은 두 개만 지우고, 함께 들어온 pydantic, starlette, anyio 같은 12개는 남겨요. 4번은 Mac, Windows마다 설치 방법과 명령 이름이 달라서 수업 첫날 가장 많이 막히는 곳이에요.")
 
 # ---------- part 3: what uv changes ----------
 EB3 = "3. uv는 무엇이 다른가"
@@ -270,12 +276,12 @@ for i, (jid, job, tool) in enumerate(JOBS):
     o.append(f'<div id="{jid}" style="position:absolute;left:{x}px;top:{y}px;width:790px;height:210px;background:{CARD};border:2px solid {LINE};border-top:10px solid {UV};border-radius:22px;padding:26px 30px;display:flex;flex-direction:column;gap:14px">'
              + p(f"font-size:34px;font-weight:700;color:{INK}", job)
              + p(f"{'font-family:' + MONO + ';' if i == 2 else ''}font-size:28px;font-weight:700;color:{UV}", e(UVDO[i])) + '</div>')
-o.append(caption("명령은 uv 하나로 시작해요. 가상환경을 켜고 끄는 일은 없어요.", 920))
+o.append(caption("명령은 uv 하나로 시작해요. 가상환경을 켜고 끄는 일은 uv run이 대신해요.", 920))
 W("uv-b", o, "uv는 Astral이라는 회사가 만든 파이썬 프로젝트 관리 도구예요. 파이썬이 없으면 알아서 받고, 실행할 때 .venv를 만들고 켜는 일도 대신해요. 패키지를 넣으면 목록 파일도 같이 고쳐요. 그래서 기억할 건 uv로 시작하는 명령 몇 개예요. 속도도 pip보다 빨라요. 한 번 받은 패키지는 캐시에 두고 다시 받지 않아요.")
 
 o = [sec("cmp")] + head(EB3, "할 일마다 비교해 봐요", UV)
 rows = [("파이썬 설치", "python.org에서 받아 직접 설치", "없으면 uv가 받아요"), ("가상환경", "python3 -m venv .venv 뒤 activate", "uv run이 알아서 만들고 켜요"),
-        ("패키지 넣기", "pip install, 그다음 pip freeze", "uv add requests"), ("패키지 빼기", "pip uninstall, 딸린 패키지는 남아요", "uv remove requests"),
+        ("패키지 넣기", "pip install, 그다음 pip freeze", "uv add fastapi uvicorn"), ("패키지 빼기", "pip uninstall, 딸린 패키지는 남아요", "uv remove fastapi uvicorn"),
         ("다른 컴퓨터", "pip install -r requirements.txt", "uv sync"), ("실행", "켠 상태에서 python main.py", "uv run main.py")]
 o.append(f'<div style="position:absolute;left:96px;top:210px;width:1728px;height:76px;display:flex;flex-direction:row;gap:16px;align-items:center;padding:0 28px">'
          + p(f"width:300px;flex:none;font-size:28px;font-weight:700;color:{GRAY}", "할 일") + p(f"flex:1;font-size:28px;font-weight:700;color:{OLD}", "예전")
@@ -286,7 +292,7 @@ for i, (job, old, new) in enumerate(rows):
     o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:96px;top:{y}px;width:1728px;height:96px;background:{CARD};border:2px solid {LINE};border-radius:18px;display:flex;flex-direction:row;gap:16px;align-items:center;padding:0 28px">'
              + p(f"width:300px;flex:none;font-size:30px;font-weight:700;color:{INK}", job) + p(f"flex:1;font-size:27px;color:{SUB}", e(old))
              + p(f"width:640px;flex:none;{'font-family:' + MONO + ';' if new.startswith('uv ') else ''}font-size:28px;font-weight:700;color:{UV};background:#E3F3F4;border-radius:10px;padding:8px 18px", e(new)) + '</div>')
-W("cmp", o, "왼쪽은 앞 파트에서 본 예전 방식, 오른쪽은 이번 챕터에서 칠 uv 명령이에요. 오른쪽 칸 명령은 모두 uv로 시작해요. 예전 방식은 몰라도 uv를 쓰는 데 문제없어요. 다만 인터넷 자료에 pip install이 아직 많이 나와서 읽을 수 있을 만큼 알아 두면 좋아요. 자료에 pip install 패키지가 나오면 우리 프로젝트에서는 uv add 패키지로 바꿔 쳐요.")
+W("cmp", o, "왼쪽은 앞 파트에서 본 예전 방식, 오른쪽은 이번 챕터에서 칠 uv 명령이에요. 오른쪽 칸 명령은 모두 uv로 시작해요. 가상환경을 직접 켜는 방법은 4파트에서 따로 봐요. 다만 인터넷 자료에 pip install이 아직 많이 나와서 읽을 수 있을 만큼 알아 두면 좋아요. 자료에 pip install 패키지가 나오면 우리 프로젝트에서는 uv add 패키지로 바꿔 쳐요.")
 
 o = [sec("install")] + head(EB3, "uv 설치하기", UV)
 for i, (osn, where, cmd) in enumerate([("macOS, Linux", "터미널", "curl -LsSf https://astral.sh/uv/install.sh | sh"),
@@ -338,6 +344,20 @@ o.append(f'<div data-build-in="rise order 4" style="position:absolute;left:96px;
 o.append(caption("uv run은 켜고, 실행하고, 끄는 일을 한 번에 해요.", 900))
 W("run2", o, ".venv가 이미 있어서 바로 결과만 나와요. uv run은 실행할 때만 .venv의 파이썬을 쓰고 끝나면 원래대로 돌아와요. 그래서 프롬프트에 (.venv)가 붙지 않고, 끄는 걸 잊을 일도 없어요. main.py를 고친 뒤에도 같은 명령으로 다시 실행해요. uv run python --version처럼 쓰면 이 프로젝트의 파이썬 버전을 볼 수 있어요.")
 
+o = [sec("act")] + head(EB4, "가상환경을 직접 켤 수도 있어요", BL)
+acts = [("macOS, Linux", "터미널", "source .venv/bin/activate"), ("Windows", "Git Bash", "source .venv/Scripts/activate"),
+        ("Windows", "PowerShell", ".venv\\Scripts\\activate"), ("끄기", "모든 터미널", "deactivate")]
+for i, (osn, where, cmd) in enumerate(acts):
+    y = 210 + i * 132
+    c = GRAY if i == 3 else GR
+    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:96px;top:{y}px;width:860px;height:116px;background:{CARD};border:2px solid {LINE};border-left:12px solid {c};border-radius:18px;padding:14px 28px;display:flex;flex-direction:column;justify-content:center;gap:8px">'
+             + '<div style="display:flex;flex-direction:row;gap:16px;align-items:baseline">' + p(f"font-size:28px;font-weight:700;color:{INK}", osn) + p(f"font-size:24px;color:{GRAY}", where) + '</div>'
+             + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{c}", e(cmd)) + '</div>')
+o += terminal([("$", "source .venv/bin/activate"), ("A", "which python"), ("o", "/home/kim/hello-uv/.venv/bin/python"), ("A", "python --version"), ("o", "Python 3.14.6"),
+               ("A", "python main.py"), ("H", "Hello from hello-uv!"), ("A", "deactivate"), ("$", "")], left=1000, top=210, w=824, size=(28, 24), attrs=' data-build-in="rise order 5"')
+o.append(caption("켜면 프롬프트 앞에 (hello-uv)가 붙고, python으로 바로 실행돼요. 수업은 uv run을 기본으로 써요.", 900))
+W("act", o, "uv가 만든 .venv도 예전 방식과 같은 가상환경이라 activate로 켤 수 있어요. 켜면 프롬프트 앞에 프로젝트 이름 (hello-uv)가 붙어요. which python으로 보면 .venv 안의 python을 쓰고 있어요. 켠 상태에서는 uv run 없이 python main.py로 실행해도 돼요. Mac은 python3, Windows는 python으로 부르던 차이도 켠 터미널에서는 python 하나로 같아요. Windows Git Bash는 bin 대신 Scripts 폴더예요. PowerShell에서 스크립트 실행이 막혔다는 오류가 나면 Git Bash에서 쳐요. 다 쓰면 deactivate로 꺼요. 켜는 걸 잊어도 uv run은 늘 동작하니 수업 실습은 uv run으로 적어요. 출력의 폴더 주소는 01처럼 /home/kim으로 바꿨어요.")
+
 o = [sec("pyver")] + head(EB4, "파이썬 버전은 .python-version이 정해요", BL)
 o += terminal([("$", "cd ~"), ("$", "uv init --python 3.13 hello-313"), ("o", "Initialized project `hello-313` at `/home/kim/hello-313`"), ("$", "cd hello-313"),
                ("$", "cat .python-version"), ("H", "3.13"), ("$", "uv run python --version"), ("o", "Downloading cpython-3.13.14-linux-x86_64-gnu (download) (33.2MiB)"),
@@ -349,54 +369,60 @@ W("pyver", o, "보기만 해도 되는 장이에요. 수업 프로젝트는 uv i
 # ---------- part 5: uv add, uv tree, uv remove ----------
 EB5 = "5. 패키지 넣고 빼기"
 o = [sec("add", "magic")] + head(EB5, "uv add로 패키지를 넣어요", NAVY)
-o += terminal([("$", "uv add requests")] + ADD_OUT, w=900, size=(28, 24))
-o += three({"py": ('dependencies = [\n    "requests>=2.34.2",\n]', "", True), "lock": ("requests와 따라온 4개", "certifi 2026.10.23, idna 3.20 …", True),
-            "venv": ("패키지 5개 설치", "uv run으로 실행하면 바로 써요", True)}, top=210)
+o += terminal([("$", "uv add fastapi uvicorn")] + ADD_OUT, w=900, size=(26, 20))
+o += three({"py": ('"fastapi>=0.162.0",\n"uvicorn>=0.54.0",', "", True), "lock": ("고른 2개와 따라온 12개", "pydantic 2.14.2, starlette 1.10.0 …", True),
+            "venv": ("패키지 14개 설치", "uv run으로 실행하면 바로 써요", True)}, top=210)
 o.append(caption("명령 하나로 세 곳이 함께 바뀌어요.", 944))
-W("add", o, "hello-uv 폴더에서 쳐요. uv add는 세 가지를 한 번에 해요. pyproject.toml에 requests를 적고, uv.lock에 정확한 버전을 적고, .venv에 설치해요. 예전의 pip install과 pip freeze를 합친 일이에요. >=2.34.2는 2.34.2 이상이면 된다는 뜻이에요. 실제로 쓸 버전은 uv.lock이 정해요.", ("add", "패키지 넣고 빼기"))
+W("add", o, "hello-uv 폴더에서 쳐요. 패키지 이름을 띄어 쓰면 여러 개를 한 번에 넣어요. uv add는 세 가지를 한 번에 해요. pyproject.toml의 dependencies 칸에 fastapi와 uvicorn을 적고, uv.lock에 정확한 버전을 적고, .venv에 설치해요. 예전의 pip install과 pip freeze를 합친 일이에요. >=0.162.0은 0.162.0 이상이면 된다는 뜻이에요. Downloading pydantic-core 줄은 크기가 큰 패키지를 받을 때만 보여요. 실제로 쓸 버전은 uv.lock이 정해요.", ("add", "패키지 넣고 빼기"))
 
-o = [sec("tree")] + head(EB5, "하나를 넣었는데 다섯 개가 들어왔어요", NAVY)
-o += terminal([("$", "uv tree"), ("o", "Resolved 6 packages in 1ms"), ("o", "hello-uv v0.1.0"), ("o", "└── requests v2.34.2"), ("o", "    ├── certifi v2026.10.23"),
-               ("o", "    ├── charset-normalizer v3.5.2"), ("o", "    ├── idna v3.20"), ("o", "    └── urllib3 v2.8.0")], w=860, size=(28, 26))
-o.append(f'<div id="tr-req" data-build-in="pop order 1" style="position:absolute;left:1240px;top:230px;width:420px;height:96px;background:{NAVY};border-radius:20px;display:flex;align-items:center;justify-content:center">'
-         + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:#FFFFFF", "requests") + '</div>')
-for i, n in enumerate(["certifi", "charset-normalizer", "idna", "urllib3"]):
-    y = 420 + i * 120
-    o.append(f'<x-connector data-build-in="fade order 2" x1="1300" y1="326" x2="1300" y2="{y + 40}" style="color:#B9BFCB;border-width:4px"></x-connector>')
-    o.append(f'<div data-build-in="fade order 2" style="position:absolute;left:1300px;top:{y + 38}px;width:80px;height:4px;background:#B9BFCB"></div>')
-    o.append(f'<div data-build-in="pop order 2" style="position:absolute;left:1380px;top:{y}px;width:440px;height:80px;background:{CARD};border:3px solid #9DB8F2;border-radius:18px;display:flex;align-items:center;padding:0 24px">'
-             + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", n) + '</div>')
-o.append(caption("requests가 쓰는 패키지까지 uv가 함께 넣어요. 뺄 때도 함께 빠져요.", 944))
-W("tree", o, "uv tree는 어떤 패키지가 어떤 패키지 때문에 들어왔는지 나무 모양으로 보여 줘요. 01에서 본 폴더 지도와 같은 모양이에요. requests는 인증서(certifi), 글자 인코딩(charset-normalizer), 주소(idna), 연결(urllib3)을 다른 패키지에 맡겨요. 그래서 하나만 넣어도 다섯 개가 설치돼요. pyproject.toml에는 내가 고른 requests만 적혀요.")
+o = [sec("tree")] + head(EB5, "두 개를 넣었는데 14개가 들어왔어요", NAVY)
+o += terminal([("$", "uv tree --depth 2"), ("o", "Resolved 15 packages in 1ms"), ("o", "hello-uv v0.1.0"), ("o", "├── fastapi v0.162.0"), ("o", "│   ├── annotated-doc v0.0.5"),
+               ("o", "│   ├── opentelemetry-api v1.45.2"), ("o", "│   ├── pydantic v2.14.2"), ("o", "│   ├── starlette v1.10.0"), ("o", "│   ├── typing-extensions v4.16.0"),
+               ("o", "│   └── typing-inspection v0.4.4"), ("o", "└── uvicorn v0.54.0"), ("o", "    ├── click v8.5.0"), ("o", "    └── h11 v0.16.0")], w=860, size=(28, 24))
+for j, (root, kids, x) in enumerate([("fastapi", ["pydantic", "starlette", "annotated-doc", "opentelemetry-api", "typing-…"], 1010), ("uvicorn", ["click", "h11"], 1430)]):
+    o.append(f'<div data-build-in="pop order {j * 2 + 1}" style="position:absolute;left:{x}px;top:220px;width:380px;height:90px;background:{NAVY};border-radius:20px;display:flex;align-items:center;justify-content:center">'
+             + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:#FFFFFF", root) + '</div>')
+    for i, n in enumerate(kids):
+        y = 350 + i * 96
+        o.append(f'<x-connector data-build-in="fade order {j * 2 + 2}" x1="{x + 40}" y1="310" x2="{x + 40}" y2="{y + 34}" style="color:#B9BFCB;border-width:4px"></x-connector>')
+        o.append(f'<div data-build-in="fade order {j * 2 + 2}" style="position:absolute;left:{x + 40}px;top:{y + 32}px;width:40px;height:4px;background:#B9BFCB"></div>')
+        o.append(f'<div data-build-in="pop order {j * 2 + 2}" style="position:absolute;left:{x + 80}px;top:{y}px;width:300px;height:68px;background:{CARD};border:3px solid #9DB8F2;border-radius:16px;display:flex;align-items:center;padding:0 20px">'
+                 + p(f"font-family:{MONO};font-size:24px;font-weight:700;white-space:nowrap;color:{INK}", n) + '</div>')
+o.append(caption("fastapi와 uvicorn이 쓰는 패키지까지 uv가 함께 넣어요. 뺄 때도 함께 빠져요.", 944))
+W("tree", o, "uv tree는 어떤 패키지가 어떤 패키지 때문에 들어왔는지 나무 모양으로 보여 줘요. 01에서 본 폴더 지도와 같은 모양이에요. --depth 2는 두 단계까지만 보여 달라는 뜻이에요. 빼고 치면 pydantic 아래 pydantic-core처럼 더 깊은 단계까지 나와서 화면이 길어져요. fastapi는 데이터 검사를 pydantic에, 웹 요청 처리를 starlette에 맡겨요. 그래서 두 개만 넣어도 14개가 설치돼요. pyproject.toml에는 내가 고른 두 개만 적혀요.")
 
-o = [sec("use")] + head(EB5, "넣은 패키지를 코드에서 써요", NAVY)
-o += code_card("c-main", "main.py", MAIN_REQ, 96, 220, 1000, BL, 26, marks=(0, 4))
-o += terminal([("$", "uv run main.py"), ("H", "상태 코드: 200")], left=1140, top=220, w=684, size=(32, 30), attrs=' data-build-in="rise order 1"')
-o.append(f'<div data-build-in="rise order 2" style="position:absolute;left:1140px;top:430px;width:684px;height:250px;background:{CARD};border:2px solid {LINE};border-radius:20px;padding:26px 32px;display:flex;flex-direction:column;gap:14px">'
-         + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{GR}", "200") + p(f"font-size:28px;line-height:1.45;color:{SUB}", "요청이 잘 됐다는 뜻이에요.<br>GitHub 서버가 대답했어요.") + '</div>')
-o.append(caption("VS Code에서 main.py를 이렇게 고쳐 저장하고 uv run으로 실행해요.", 944))
-W("use", o, "첫 줄 import requests로 패키지를 불러와요. requests.get은 적은 주소로 요청을 보내고, status_code는 서버가 돌려준 숫자예요. 200이면 성공이에요. 인터넷이 연결돼 있어야 해요. 코드 문법은 다음 수업부터 하나씩 배워요. 오늘은 넣은 패키지를 uv run으로 실행하면 쓸 수 있다는 것만 확인해요.")
+o = [sec("use")] + head(EB5, "넣은 패키지로 웹 서버를 켜요", NAVY)
+o += code_card("c-main", "main.py", MAIN_REQ, 96, 200, 860, BL, 20, marks=(0, 1, 12))
+o.append(f'<div data-build-in="pop order 2" style="position:absolute;left:1000px;top:200px;width:824px;height:300px;background:{CARD};border:2px solid {LINE};border-radius:20px;overflow:hidden">'
+         + '<div style="height:64px;background:#ECEAE3;display:flex;flex-direction:row;gap:12px;align-items:center;padding:0 22px">'
+         + "".join(f'<div style="width:16px;height:16px;flex:none;border-radius:50%;background:{c}"></div>' for c in ("#E0857A", "#E8C068", "#7FC28F"))
+         + p(f"flex:1;margin-left:12px;font-family:{MONO};font-size:24px;color:{INK};background:#FFFFFF;border-radius:10px;padding:4px 16px", "http://127.0.0.1:8000") + '</div>'
+         + p(f"padding:40px 32px;font-family:{MONO};font-size:34px;font-weight:700;color:{INK}", e('{"message":"안녕하세요"}')) + '</div>')
+o.append(p(f"position:absolute;left:1000px;top:520px;width:824px;font-size:26px;font-weight:700;color:{GRAY}", "브라우저 주소창에 http://127.0.0.1:8000", ' data-build-in="fade order 2"'))
+o += terminal([("$", "uv run main.py")] + SERVER, top=730, size=(24, 20), attrs=' data-build-in="rise order 1"')
+o.append(caption("서버는 Ctrl+C로 끌 때까지 켜져 있어요.", 962))
+W("use", o, "위 두 줄로 fastapi와 uvicorn을 불러와요. @app.get(\"/\")는 주소 / 로 들어오면 아래 home()의 대답을 돌려준다는 뜻이에요. 맨 아래 uvicorn.run(app)이 서버를 켜요. 터미널에 Uvicorn running 줄이 보이면 브라우저로 http://127.0.0.1:8000을 열어요. 열 때마다 터미널에 GET / 200 OK 줄이 하나씩 생겨요. 서버는 켜진 채로 기다려서 프롬프트가 돌아오지 않아요. Ctrl+C로 꺼요. 코드 문법은 다음 수업부터 하나씩 배워요. 오늘은 넣은 패키지를 uv run으로 실행하면 쓸 수 있다는 것만 확인해요. 서버 번호 [448]과 GET 줄의 숫자는 실행할 때마다 달라요.")
 
 o = [sec("remove", "magic")] + head(EB5, "uv remove로 패키지를 빼요", NAVY)
-o += terminal([("$", "uv remove requests"), ("o", "Resolved 1 package in 3ms"), ("o", "Uninstalled 5 packages in 5ms")] + [("r", " - " + x) for x in PKGS]
-              + [("$", "uv run main.py"), ("r", "ModuleNotFoundError: No module named 'requests'")], w=900, size=(28, 22))
-o += three({"py": ("dependencies = []", "", True), "lock": ("프로젝트만 남아요", "따라왔던 4개도 지워요", True), "venv": ("패키지 5개 삭제", "딸린 패키지까지 같이 빠져요", True)}, top=210)
-o.append(caption("뺄 때도 세 곳이 함께 바뀌어요. 예전 pip uninstall과 달리 하나도 남지 않아요.", 944))
-W("remove", o, "uv remove는 uv add를 거꾸로 해요. pyproject.toml에서 지우고, uv.lock과 .venv에서도 빼요. 함께 들어왔던 4개도 다른 패키지가 쓰지 않으면 같이 빠져요. 코드는 아직 requests를 쓰고 있어서 실행하면 ModuleNotFoundError가 나요. Traceback 줄은 뺐어요. 다음 장에서 다시 넣어요.")
+o += terminal([("$", "uv remove fastapi uvicorn"), ("o", "Resolved 1 package in 2ms"), ("o", "Uninstalled 14 packages in 19ms")] + [("r", " - " + x) for x in PKGS[:4]]
+              + [("#", "   ... 9줄 생략 ..."), ("r", " - " + PKGS[-1]), ("$", "uv run main.py"), ("r", "ModuleNotFoundError: No module named 'fastapi'")], w=900, size=(28, 22))
+o += three({"py": ("dependencies = []", "", True), "lock": ("프로젝트만 남아요", "따라왔던 12개도 지워요", True), "venv": ("패키지 14개 삭제", "딸린 패키지까지 같이 빠져요", True)}, top=210)
+o.append(caption("뺄 때도 세 곳이 함께 바뀌어요. 예전 pip uninstall은 12개가 남았어요.", 944))
+W("remove", o, "uv remove는 uv add를 거꾸로 해요. pyproject.toml에서 지우고, uv.lock과 .venv에서도 빼요. 함께 들어왔던 12개도 다른 패키지가 쓰지 않으면 같이 빠져요. 하나만 빼려면 uv remove uvicorn처럼 이름 하나만 적어요. 코드는 아직 fastapi를 쓰고 있어서 실행하면 ModuleNotFoundError가 나요. Traceback 줄과 지운 목록 가운데 9줄은 뺐어요. 다음 장에서 다시 넣어요.")
 
 o = [sec("again")] + head(EB5, "다시 넣으면 바로 들어가요", NAVY)
-o += terminal([("$", "uv add requests"), ("o", "Resolved 6 packages in 4ms"), ("H", "Installed 5 packages in 2ms")] + [("g", " + " + x) for x in PKGS] + [("$", "uv run main.py"), ("o", "상태 코드: 200")],
-              w=900, size=(28, 24))
+o += terminal([("$", "uv add fastapi uvicorn"), ("o", "Resolved 15 packages in 9ms"), ("H", "Installed 14 packages in 4ms")] + [("g", " + " + x) for x in PKGS[:4]]
+              + [("#", "   ... 9줄 생략 ..."), ("g", " + " + PKGS[-1]), ("$", "uv run main.py"), ("o", "INFO:     Uvicorn running on http://127.0.0.1:8000")], w=900, size=(28, 22))
 o.append(f'<div data-build-in="pop order 1" style="position:absolute;left:1060px;top:220px;width:764px;height:300px;background:{CARD};border:2px solid {LINE};border-top:10px solid {UV};border-radius:22px;padding:28px 34px;display:flex;flex-direction:column;gap:16px">'
          + '<div style="display:flex;flex-direction:row;gap:16px;align-items:center">' + f'<x-icon name="Database" style="width:48px;height:48px;color:{UV}"></x-icon>'
          + p(f"font-size:34px;font-weight:700;color:{UV}", "uv 캐시") + '</div>'
          + p(f"font-size:28px;line-height:1.45;color:{SUB}", "한 번 받은 패키지를 컴퓨터에 보관해요.<br>다른 프로젝트에서도 다시 받지 않아요.") + '</div>')
 o.append(f'<div data-build-in="rise order 2" style="position:absolute;left:1060px;top:560px;width:764px;height:260px;background:#FDFCF9;border:2px dashed #B9BFCB;border-radius:22px;padding:28px 34px;display:flex;flex-direction:column;gap:14px">'
          + p(f"font-size:28px;font-weight:700;color:{GRAY}", "처음 넣을 때 있던 줄")
-         + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", "Prepared 5 packages in 83ms")
+         + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", "Prepared 14 packages in 105ms")
          + p(f"font-size:26px;color:{SUB}", "이번엔 받을 게 없어서 이 줄이 없어요.") + '</div>')
-o.append(caption("uv가 빠른 이유 중 하나예요. 패키지 다섯 개가 0.002초 만에 들어갔어요.", 944))
-W("again", o, "앞에서 뺀 requests를 다시 넣었어요. 처음 넣을 때는 인터넷에서 받아 준비하는 Prepared 줄이 있었어요. 이번엔 캐시에 있어서 받지 않고 바로 설치했어요. 프로젝트를 여러 개 만들어도 같은 패키지는 한 번만 받아요. 다시 넣었으니 main.py도 다시 동작해요.")
+o.append(caption("uv가 빠른 이유 중 하나예요. 패키지 14개가 0.004초 만에 들어갔어요.", 944))
+W("again", o, "앞에서 뺀 fastapi와 uvicorn을 다시 넣었어요. 처음 넣을 때는 인터넷에서 받아 준비하는 Prepared 줄이 있었어요. 이번엔 캐시에 있어서 받지 않고 바로 설치했어요. 프로젝트를 여러 개 만들어도 같은 패키지는 한 번만 받아요. 다시 넣었으니 main.py도 다시 서버를 켜요. 설치 목록 가운데 9줄과 Uvicorn running 줄 뒷부분은 뺐어요.")
 
 # ---------- part 6: uv sync on another computer ----------
 EB6 = "6. 다른 컴퓨터에서 그대로"
@@ -421,17 +447,18 @@ for i, (who, c, fs, act) in enumerate(boxes):
         o.append(arrow(x + 536, 470, 56, 56, c, attrs=f' data-build-in="fade order {i + 2}"'))
         o.append(p(f"position:absolute;left:{x + 330}px;top:780px;width:470px;font-family:{MONO};font-size:24px;font-weight:700;text-align:center;color:{c}", e(act), f' data-build-in="fade order {i + 2}"'))
 o.append(f'<div data-build-in="pop order 4" style="position:absolute;left:1328px;top:500px;width:464px;height:220px;background:#E6F4EC;border:3px dashed {GR};border-radius:20px;padding:20px 26px;display:flex;flex-direction:column;gap:10px">'
-         + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{GR}", "$ uv sync") + p(f"font-size:26px;line-height:1.4;color:{INK}", "파이썬 받기, .venv 만들기,<br>패키지 5개 설치") + '</div>')
+         + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{GR}", "$ uv sync") + p(f"font-size:26px;line-height:1.4;color:{INK}", "파이썬 받기, .venv 만들기,<br>패키지 14개 설치") + '</div>')
 o.append(caption("uv.lock에 적힌 버전 그대로 설치돼서 kim과 lee의 환경이 같아요.", 900))
 W("sync-flow", o, "06의 팀 레포처럼 kim이 프로젝트를 GitHub에 올리고 lee가 clone했어요. GitHub에는 .venv가 없으니 lee 컴퓨터에도 없어요. lee는 uv sync 한 번으로 .python-version의 파이썬을 받고, .venv를 만들고, uv.lock에 적힌 버전 그대로 패키지를 설치해요. 예전에는 venv 만들기, activate, pip install -r requirements.txt 세 단계였어요.")
 
 o = [sec("sync-term")] + head(EB6, "lee 컴퓨터에서 실제로 쳐 보면", GR)
 o += terminal([("$", "git clone https://github.com/kim/hello-uv.git"), ("o", "Cloning into 'hello-uv'..."), ("$", "cd hello-uv"), ("$", "uv sync"),
                ("o", "Downloading cpython-3.14.6-linux-x86_64-gnu (download) (34.3MiB)"), ("o", " Downloaded cpython-3.14.6-linux-x86_64-gnu (download)"),
-               ("o", "Using CPython 3.14.6"), ("o", "Creating virtual environment at: .venv"), ("o", "Resolved 6 packages in 1ms"), ("o", "Prepared 5 packages in 128ms"),
-               ("o", "Installed 5 packages in 5ms"), ("g", " + certifi==2026.10.23  + charset-normalizer==3.5.2  + idna==3.20  …"), ("$", "uv run main.py"), ("H", "상태 코드: 200")],
-              size=(31, 25))
-W("sync-term", o, "lee 컴퓨터에는 파이썬도 패키지도 없는 상태에서 시작했어요. uv sync가 파이썬 3.14.6을 받고, .venv를 만들고, 패키지 다섯 개를 설치했어요. 버전은 kim 컴퓨터와 똑같아요. 설치 목록은 화면 폭 때문에 한 줄로 줄였고, 실제로는 다섯 줄이에요. clone 출력의 done. 줄은 뺐어요.")
+               ("o", "Using CPython 3.14.6"), ("o", "Creating virtual environment at: .venv"), ("o", "Resolved 15 packages in 1ms"), ("o", "Prepared 14 packages in 85ms"),
+               ("o", "Installed 14 packages in 4ms"), ("g", " + annotated-doc==0.0.5  + annotated-types==0.8.0  + anyio==4.15.1  …"), ("$", "uv run main.py"),
+               ("H", "INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)")],
+              size=(30, 24))
+W("sync-term", o, "lee 컴퓨터에는 파이썬도 패키지도 없는 상태에서 시작했어요. uv sync가 파이썬 3.14.6을 받고, .venv를 만들고, 패키지 14개를 설치했어요. 버전은 kim 컴퓨터와 똑같아요. 설치 목록은 화면 폭 때문에 한 줄로 줄였고, 실제로는 14줄이에요. pydantic-core를 받는 Downloading 두 줄, clone 출력의 done. 줄, 서버 출력의 나머지 줄은 뺐어요.")
 
 o = [sec("sync-when")] + head(EB6, "uv sync는 이럴 때 쳐요", GR)
 whens = [("Link", "clone한 직후", "git clone 주소", "cd 폴더", "uv sync"), ("Users", "pull로 uv.lock이 바뀐 뒤", "git pull origin main", "uv sync", ""),
@@ -448,12 +475,12 @@ W("sync-when", o, "1번은 다른 사람 프로젝트를 처음 받을 때예요
 # ---------- summary ----------
 EB7 = "정리"
 o = [sec("map")] + head(EB7, "예전 명령은 이렇게 바뀌었어요", INK)
-pairs = [("python.org에서 설치", "없으면 uv가 받아요"), ("python3 -m venv .venv", "uv run, uv sync가 만들어요"), ("source .venv/bin/activate", "필요 없어요"),
-         ("pip install requests", "uv add requests"), ("pip uninstall requests", "uv remove requests"), ("pip install -r requirements.txt", "uv sync"), ("python main.py", "uv run main.py")]
+pairs = [("python.org에서 설치", "없으면 uv가 받아요"), ("python3 -m venv .venv", "uv run, uv sync가 만들어요"), ("source .venv/bin/activate", "uv run이 대신해요. 켜도 돼요"),
+         ("pip install fastapi", "uv add fastapi"), ("pip uninstall fastapi", "uv remove fastapi"), ("pip install -r requirements.txt", "uv sync"), ("python main.py", "uv run main.py")]
 for i, (a_, b_) in enumerate(pairs):
     y = 210 + i * 104
     mo = not a_.startswith("python.org")
-    mn = b_.startswith("uv ") and " " not in b_[3:].replace(" requests", "").replace(" main.py", "")
+    mn = b_.startswith("uv ") and " " not in b_[3:].replace(" fastapi", "").replace(" main.py", "")
     o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:96px;top:{y}px;width:1728px;height:88px;display:flex;flex-direction:row;gap:28px;align-items:center">'
              + p(f"width:760px;flex:none;{'font-family:' + MONO + ';' if mo else ''}font-size:28px;font-weight:700;color:#8A6A33;background:#FBEFD9;border-radius:12px;padding:16px 24px", e(a_))
              + f'<x-shape kind="arrow-right" style="width:70px;height:40px;background:{UV}"></x-shape>'
@@ -463,7 +490,7 @@ W("map", o, "인터넷 자료나 옛 강의에 왼쪽 명령이 나오면 오른
 o = [sec("trouble")] + head(EB7, "이런 메시지가 나와요", NAVY)
 cases = [("bash: uv: command not found", "설치 뒤 터미널을 새로 열지 않았어요", "터미널 닫고 다시 열기"),
          ("error: No `pyproject.toml` found in current directory or any parent directory", "프로젝트 폴더 밖에서 쳤어요", "cd hello-uv"),
-         ("ModuleNotFoundError: No module named 'requests'", "패키지를 안 넣었거나 python3로 실행했어요", "uv add requests\nuv run main.py"),
+         ("ModuleNotFoundError: No module named 'fastapi'", "패키지를 안 넣었거나 python3로 실행했어요", "uv add fastapi uvicorn\nuv run main.py"),
          ("error: Project is already initialized in `...`", "이미 만든 프로젝트 안에서 uv init을 쳤어요", "uv init은 처음 한 번만")]
 o.append('<div style="position:absolute;left:96px;top:220px;width:1728px;height:780px;display:flex;flex-direction:column;gap:18px">')
 for i, (q, a_, cmd) in enumerate(cases, 1):
@@ -473,7 +500,7 @@ for i, (q, a_, cmd) in enumerate(cases, 1):
              + '<div style="flex:1;display:flex;flex-direction:column;gap:8px">' + p(f"font-family:{MONO};font-size:23px;font-weight:700;color:{INK}", e(q)) + p(f"font-size:26px;color:{SUB}", e(a_)) + '</div>'
              + p(f"width:440px;flex:none;{'font-family:' + MONO + ';' if mono else ''}font-size:26px;font-weight:700;line-height:1.5;color:{INK};background:#EEEFF2;padding:12px 20px;border-radius:12px", e(cmd).replace("\n", "<br>")) + '</div>')
 o.append('</div>')
-W("trouble", o, "1번은 설치 직후에 가장 많이 나요. Mac 기본 터미널은 zsh라서 zsh: command not found: uv로 보여요. 2번은 홈 폴더처럼 pyproject.toml이 없는 곳에서 uv add를 친 경우예요. pwd로 위치를 보고 프로젝트 폴더로 cd 해요. 3번은 uv run 없이 python3 main.py로 실행했거나, uv add를 안 한 경우예요. 4번은 폴더 주소가 들어간 메시지예요. 이미 pyproject.toml이 있어서 다시 만들 필요가 없어요.")
+W("trouble", o, "1번은 설치 직후에 가장 많이 나요. Mac 기본 터미널은 zsh라서 zsh: command not found: uv로 보여요. 2번은 홈 폴더처럼 pyproject.toml이 없는 곳에서 uv add를 친 경우예요. pwd로 위치를 보고 프로젝트 폴더로 cd 해요. 3번은 가상환경을 켜지 않고 python3 main.py로 실행했거나, uv add를 안 한 경우예요. 4번은 폴더 주소가 들어간 메시지예요. 이미 pyproject.toml이 있어서 다시 만들 필요가 없어요.")
 
 o = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">',
      f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">한 장 요약</h2>']
@@ -494,7 +521,7 @@ page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 parts = [("Code", BL, "파이썬은 어떻게 실행되나", "python, 패키지", "run", "pkg"),
          ("Archive", OLD, "예전 방식", "venv, pip, requirements.txt", "old-steps", "old-pain"),
          ("Star", UV, "uv는 무엇이 다른가", "비교와 설치", "uv-a", "install"),
-         ("Tool", BL, "프로젝트 만들고 실행하기", "uv init, uv run", "init", "pyver"),
+         ("Tool", BL, "프로젝트 만들고 실행하기", "uv init, uv run, 가상환경 켜기", "init", "pyver"),
          ("Database", NAVY, "패키지 넣고 빼기", "uv add, uv tree, uv remove", "add", "again"),
          ("Users", GR, "다른 컴퓨터에서 그대로", "GitHub, uv sync", "commit", "sync-when")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
