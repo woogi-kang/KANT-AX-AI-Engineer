@@ -4,7 +4,7 @@
 
 | 슬라이드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) | [08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) | [08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) | [10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) |
 
 ## 학습 목표
 
@@ -279,4 +279,4 @@ node tools/export.js slides python-uv-slides.pdf
 
 ---
 
-[← 이전: 08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) · [커리큘럼](../README.md)
+[← 이전: 08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) · [커리큘럼](../README.md) · [다음: 10 · VS Code에서 Jupyter 노트북 쓰기 →](../10-vscode-jupyter)
