@@ -2,20 +2,20 @@
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">5. 패키지 넣고 빼기</p>
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">다시 넣으면 바로 들어가요</h2>
 <div id="term" style="position:absolute;left:96px;top:196px;width:900px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
-<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv add "fastapi[standard]"</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">Resolved 62 packages in 15ms</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">Installed 59 packages in 12ms</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#7FD18B">&#160;+ agent-detector==2.0.0</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv add fastapi</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">Resolved 12 packages in 7ms</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">Installed 11 packages in 7ms</p>
 <p style="font-size:22px;line-height:1.35;white-space:pre;color:#7FD18B">&#160;+ annotated-doc==0.0.5</p>
 <p style="font-size:22px;line-height:1.35;white-space:pre;color:#7FD18B">&#160;+ annotated-types==0.8.0</p>
 <p style="font-size:22px;line-height:1.35;white-space:pre;color:#7FD18B">&#160;+ anyio==4.15.1</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#8C95A6">&#160;&#160;&#160;... 54줄 생략 ...</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#7FD18B">&#160;+ websockets==17.3</p>
-<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv run fastapi dev main.py</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;🌐 Server started at http://127.0.0.1:8000</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#7FD18B">&#160;+ fastapi==0.162.0</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#8C95A6">&#160;&#160;&#160;... 6줄 생략 ...</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#7FD18B">&#160;+ typing-inspection==0.4.4</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv run main.py</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">fastapi 버전: 0.162.0</p>
 </div>
 <div data-build-in="pop order 1" style="position:absolute;left:1060px;top:220px;width:764px;height:300px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #0F7C86;border-radius:22px;padding:28px 34px;display:flex;flex-direction:column;gap:16px"><div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="Database" style="width:48px;height:48px;color:#0F7C86"></x-icon><p style="font-size:34px;font-weight:700;color:#0F7C86">uv 캐시</p></div><p style="font-size:28px;line-height:1.45;color:#4A5262">한 번 받은 패키지를 컴퓨터에 보관해요.<br>다른 프로젝트에서도 다시 받지 않아요.</p></div>
-<div data-build-in="rise order 2" style="position:absolute;left:1060px;top:560px;width:764px;height:260px;background:#FDFCF9;border:2px dashed #B9BFCB;border-radius:22px;padding:28px 34px;display:flex;flex-direction:column;gap:14px"><p style="font-size:28px;font-weight:700;color:#6A7180">처음 넣을 때 있던 줄</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">Prepared 59 packages in 418ms</p><p style="font-size:26px;color:#4A5262">이번엔 받을 게 없어서 이 줄이 없어요.</p></div>
-<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:944px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">uv가 빠른 이유 중 하나예요. 패키지 59개가 0.012초 만에 들어갔어요.</p>
-<aside>앞에서 뺀 fastapi를 다시 넣었어요. 처음 넣을 때는 인터넷에서 받아 준비하는 Prepared 줄이 있었어요. 이번엔 캐시에 있어서 받지 않고 바로 설치했어요. 프로젝트를 여러 개 만들어도 같은 패키지는 한 번만 받아요. 다시 넣었으니 서버도 다시 켜져요. 설치 목록 가운데 54줄과 서버 출력의 나머지 줄은 뺐어요.</aside>
+<div data-build-in="rise order 2" style="position:absolute;left:1060px;top:560px;width:764px;height:260px;background:#FDFCF9;border:2px dashed #B9BFCB;border-radius:22px;padding:28px 34px;display:flex;flex-direction:column;gap:14px"><p style="font-size:28px;font-weight:700;color:#6A7180">처음 넣을 때 있던 줄</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">Prepared 11 packages in 88ms</p><p style="font-size:26px;color:#4A5262">이번엔 받을 게 없어서 이 줄이 없어요.</p></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:944px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">uv가 빠른 이유 중 하나예요. 패키지 11개가 0.007초 만에 들어갔어요.</p>
+<aside>앞에서 뺀 fastapi를 다시 넣었어요. 처음 넣을 때는 인터넷에서 받아 준비하는 Prepared 줄이 있었어요. 이번엔 캐시에 있어서 받지 않고 바로 설치했어요. 프로젝트를 여러 개 만들어도 같은 패키지는 한 번만 받아요. 다시 넣었으니 main.py도 다시 동작해요. 설치 목록 가운데 6줄은 뺐어요.</aside>
 </section>
