@@ -1,6 +1,6 @@
 # 09 · uv로 파이썬 시작하기
 
-> 파이썬 프로젝트를 uv 하나로 만들고 실행해요. 먼저 예전 방식(venv, pip, requirements.txt)을 눈으로 보고, uv로 바꾸면 무엇이 줄어드는지 비교해요. 그다음 `uv init`, `uv run`, `uv add`, `uv remove`, `uv sync`를 직접 쳐요. 예제 패키지는 웹 서버를 만드는 fastapi예요. uv가 만든 가상환경을 Mac과 Windows에서 직접 켜는 방법도 봐요. 마지막으로 머신러닝 수업에서 쓸 Jupyter 노트북을 VS Code에서 여는 준비까지 해요. 터미널 명령은 01, GitHub에 올리고 받는 명령은 02, 06과 같아요.
+> 파이썬 프로젝트를 uv 하나로 만들고 실행해요. 먼저 예전 방식(venv, pip, requirements.txt)과 uv를 한 장에 나란히 놓고 비교해요. 그다음 `uv init`, `uv run`, `uv add`, `uv remove`, `uv sync`를 직접 쳐요. 예제 패키지는 웹 서버를 만드는 fastapi예요. uv가 만든 가상환경을 Mac과 Windows에서 직접 켜는 방법도 봐요. 마지막으로 머신러닝 수업에서 쓸 Jupyter 노트북을 VS Code에서 여는 준비까지 해요. 터미널 명령은 01, GitHub에 올리고 받는 명령은 02, 06과 같아요.
 
 | 슬라이드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
@@ -11,7 +11,8 @@
 이 챕터를 마치면 다음을 할 수 있어요.
 
 - python이 `.py` 파일을 읽어 실행한다는 것과 패키지가 무엇인지 말해요.
-- 예전 방식의 순서(파이썬 설치, venv, activate, pip, requirements.txt)를 읽고, 같은 일을 하는 uv 명령으로 바꿔 쳐요.
+- 예전 방식의 여섯 단계가 uv 명령 세 개(`uv init`, `uv add`, `uv run`)로 줄어드는 것을 설명해요.
+- Mac은 `brew`, Windows는 `winget`으로 uv를 설치해요.
 - `uv init`으로 프로젝트를 만들고 `uv run`으로 실행해요.
 - uv가 만든 가상환경을 Mac과 Windows에서 직접 켜고 꺼요.
 - `uv add`, `uv remove`가 pyproject.toml, uv.lock, .venv 세 곳을 함께 바꾼다는 걸 알아요.
@@ -24,13 +25,13 @@
 | --- | :---: | --- |
 | 들어가기 | 1–2 | 표지, 오늘의 순서 |
 | 1. 파이썬은 어떻게 실행되나 | 3–4 | python이 `.py`를 읽어 실행, 패키지와 PyPI |
-| 2. 예전 방식 | 5–8 | 여섯 단계, 가상환경(.venv), 실제 터미널, 자주 막히는 곳 네 가지 |
-| 3. uv는 무엇이 다른가 | 9–12 | 도구 네 개를 uv 하나로, 할 일별 비교 표, 설치 |
-| 4. 프로젝트 만들고 실행하기 | 13–18 | `uv init`, pyproject.toml 읽기, 첫 `uv run`, 두 번째 `uv run`, 가상환경 직접 켜기(Mac, Windows), 파이썬 버전 |
-| 5. 패키지 넣고 빼기 | 19–23 | `uv add fastapi uvicorn`, `uv tree`, 웹 서버 켜기, `uv remove`, 캐시 |
-| 6. 다른 컴퓨터에서 그대로 | 24–27 | 올릴 파일과 .gitignore, kim에서 lee로, `uv sync` 실제 출력, sync를 치는 때 |
-| 7. VS Code에서 Jupyter 쓰기 | 28–33 | 노트북과 셀, Python과 Jupyter 확장 설치, `uv add --dev ipykernel`, 커널로 .venv 고르기, 셀 실행, 막힐 때 |
-| 정리 | 34–36 | 예전 명령 바꿔 치기, 자주 나오는 메시지, 한 장 요약 |
+| 2. 예전 방식과 비교 | 5–7 | 가상환경(.venv), 예전 6단계와 uv 3개 나란히 보기, uv가 대신 해 주는 세 가지 |
+| 3. uv 설치하기 | 8 | Mac `brew install uv`, Windows `winget install --id=astral-sh.uv -e` |
+| 4. 프로젝트 만들고 실행하기 | 9–14 | `uv init`, pyproject.toml 읽기, 첫 `uv run`, 두 번째 `uv run`, 가상환경 직접 켜기(Mac, Windows), 파이썬 버전 |
+| 5. 패키지 넣고 빼기 | 15–19 | `uv add "fastapi[standard]"`, `uv tree`, `uv run fastapi dev main.py`로 웹 서버 켜기, `uv remove`, 캐시 |
+| 6. 다른 컴퓨터에서 그대로 | 20–23 | 올릴 파일과 .gitignore, kim에서 lee로, `uv sync` 실제 출력, sync를 치는 때 |
+| 7. VS Code에서 Jupyter 쓰기 | 24–29 | 노트북과 셀, Python과 Jupyter 확장 설치, `uv add --dev ipykernel`, 커널로 .venv 고르기, 셀 실행, 막힐 때 |
+| 정리 | 30–32 | 예전 명령 바꿔 치기, 자주 나오는 메시지, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -38,12 +39,14 @@
 
 | 할 일 | 예전 | uv |
 | --- | --- | --- |
-| 파이썬 설치 | python.org에서 받아 직접 설치 | 없으면 uv가 받아요 |
-| 가상환경 | `python3 -m venv .venv` 뒤 `source .venv/bin/activate` | `uv run`, `uv sync`가 알아서 만들고 켜요. 직접 켜도 돼요 |
-| 패키지 넣기 | `pip install fastapi uvicorn` 뒤 `pip freeze > requirements.txt` | `uv add fastapi uvicorn` |
-| 패키지 빼기 | `pip uninstall fastapi uvicorn` (딸려 온 12개는 남아요) | `uv remove fastapi uvicorn` |
-| 다른 컴퓨터 | `pip install -r requirements.txt` | `uv sync` |
-| 실행 | 가상환경을 켠 상태에서 `python main.py` | `uv run main.py` |
+| 파이썬 설치 | python.org에서 받아 설치 | 없으면 uv가 받아요 |
+| 프로젝트 만들기 | `python3 -m venv .venv` | `uv init hello-uv` |
+| 가상환경 켜기 | `source .venv/bin/activate` | `uv run`이 알아서 켜요. 직접 켜도 돼요 |
+| 패키지 넣기 | `pip install "fastapi[standard]"` | `uv add "fastapi[standard]"` |
+| 목록 적기 | `pip freeze > requirements.txt` | `uv add`가 알아서 적어요 |
+| 실행 | 켠 상태에서 `fastapi dev main.py` | `uv run fastapi dev main.py` |
+
+예전 여섯 단계 가운데 직접 치는 uv 명령은 세 개예요. 패키지를 뺄 때도 차이가 나요. `pip uninstall fastapi`는 fastapi 하나만 지우고 함께 들어온 58개를 남겨요. `uv remove fastapi`는 59개를 모두 빼요. 받은 프로젝트는 `pip install -r requirements.txt` 대신 `uv sync` 한 번이면 돼요.
 
 예전 방식은 따라 치지 않아요. 인터넷 자료에 `pip install 패키지`가 나오면 우리 프로젝트에서는 `uv add 패키지`로 바꿔 쳐요. pip로 넣으면 pyproject.toml과 uv.lock에 적히지 않아서 다른 컴퓨터에서 `uv sync`로 받을 수 없어요.
 
@@ -75,16 +78,16 @@
 
 ### 0. uv 설치 (컴퓨터마다 한 번)
 
-macOS, Linux는 터미널에 붙여 넣어요.
+macOS는 터미널에서 Homebrew로 설치해요. `brew --version`에 버전이 나오지 않으면 [brew.sh](https://brew.sh)의 설치 명령으로 Homebrew부터 설치해요.
 
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
+brew install uv
 ```
 
-Windows는 시작 메뉴에서 PowerShell을 열고 붙여 넣어요.
+Windows는 시작 메뉴에서 PowerShell을 열고 winget으로 설치해요. 약관 동의를 물으면 `Y`를 쳐요.
 
 ```powershell
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+winget install --id=astral-sh.uv -e
 ```
 
 설치가 끝나면 터미널(Windows는 Git Bash)을 닫았다가 새로 열고 확인해요.
@@ -118,19 +121,18 @@ deactivate                  # 끄기
 
 ### 2. 패키지 넣고, 쓰고, 빼기
 
-웹 서버를 만드는 fastapi와 서버를 켜 주는 uvicorn을 넣어요.
+웹 서버를 만드는 fastapi를 넣어요. `[standard]`는 서버를 켜는 도구까지 함께 넣으라는 뜻이에요. Mac 터미널(zsh)은 대괄호를 특별한 글자로 읽어서 큰따옴표까지 그대로 쳐요.
 
 ```bash
-uv add fastapi uvicorn
-cat pyproject.toml        # dependencies에 fastapi, uvicorn
-uv tree --depth 2         # 두 개와 따라온 패키지
+uv add "fastapi[standard]"
+cat pyproject.toml        # dependencies에 "fastapi[standard]>=0.162.0"
+uv tree --depth 2         # fastapi와 따라온 패키지
 ```
 
 VS Code에서 `main.py`를 아래처럼 고쳐 저장해요.
 
 ```python
 from fastapi import FastAPI
-import uvicorn
 
 app = FastAPI()
 
@@ -138,23 +140,19 @@ app = FastAPI()
 @app.get("/")
 def home():
     return {"message": "안녕하세요"}
-
-
-if __name__ == "__main__":
-    uvicorn.run(app)
 ```
 
 ```bash
-uv run main.py            # Uvicorn running on http://127.0.0.1:8000
+uv run fastapi dev main.py    # Server started at http://127.0.0.1:8000
 ```
 
 브라우저로 `http://127.0.0.1:8000`을 열면 `{"message":"안녕하세요"}`가 보여요. 터미널로 돌아와 `Ctrl+C`로 서버를 꺼요.
 
 ```bash
-uv remove fastapi uvicorn # 14개가 함께 빠져요
-uv run main.py            # ModuleNotFoundError: No module named 'fastapi'
-uv add fastapi uvicorn    # 캐시에 있어서 바로 들어가요
-uv run main.py            # 다시 서버가 켜져요. Ctrl+C로 끄기
+uv remove fastapi             # 59개가 함께 빠져요
+uv run fastapi dev main.py    # error: Failed to spawn: `fastapi`
+uv add "fastapi[standard]"    # 캐시에 있어서 바로 들어가요
+uv run fastapi dev main.py    # 다시 서버가 켜져요. Ctrl+C로 끄기
 ```
 
 ### 3. GitHub에 올리고 다른 컴퓨터에서 받기
@@ -175,7 +173,7 @@ git push origin main
 git clone https://github.com/kim/hello-uv.git
 cd hello-uv
 uv sync               # 파이썬, .venv, 패키지를 uv.lock대로
-uv run main.py        # 서버가 켜져요. Ctrl+C로 끄기
+uv run fastapi dev main.py   # 서버가 켜져요. Ctrl+C로 끄기
 ```
 
 팀원이 패키지를 넣고 push했으면 `git pull origin main` 뒤 `uv sync`로 내 `.venv`를 맞춰요.
@@ -216,6 +214,8 @@ VS Code가 ipykernel을 설치하라는 알림을 띄우면 Install을 누르지
 | `uv run main.py` | 프로젝트 가상환경에서 실행. 처음엔 .venv와 uv.lock을 만들어요 |
 | `uv run python --version` | 이 프로젝트의 파이썬 버전 보기 |
 | `uv add 패키지` | 패키지 넣기 (pyproject.toml, uv.lock, .venv) |
+| `uv add "fastapi[standard]"` | fastapi와 서버를 켜는 도구 넣기 |
+| `uv run fastapi dev main.py` | fastapi 서버 켜기. `Ctrl+C`로 꺼요 |
 | `uv remove 패키지` | 패키지 빼기 (딸려 온 패키지까지) |
 | `uv tree --depth 2` | 패키지가 어떤 패키지 때문에 들어왔는지 두 단계까지 보기 |
 | `uv sync` | uv.lock대로 .venv 맞추기 (clone 직후, pull 뒤) |
@@ -229,9 +229,11 @@ VS Code가 ipykernel을 설치하라는 알림을 띄우면 Install을 누르지
 | --- | --- |
 | `bash: uv: command not found` (Mac은 `zsh: command not found: uv`) | 설치 뒤 터미널을 새로 열지 않았어요. 터미널을 닫고 다시 열어요 |
 | ``error: No `pyproject.toml` found in current directory or any parent directory`` | 프로젝트 폴더 밖이에요. `pwd`로 위치를 보고 `cd hello-uv` |
-| `ModuleNotFoundError: No module named 'fastapi'` | 패키지를 넣지 않았거나 가상환경을 켜지 않고 `python3 main.py`로 실행했어요. `uv add fastapi uvicorn` 뒤 `uv run main.py` |
-| `uv run main.py` 뒤 프롬프트가 돌아오지 않아요 | 서버가 켜져 기다리는 중이에요. `Ctrl+C`로 꺼요 |
-| `ERROR: [Errno 98] error while attempting to bind on address ('127.0.0.1', 8000): [errno 98] address already in use` (번호는 운영체제마다 달라요) | 다른 터미널에 서버가 이미 켜져 있어요. 그 터미널에서 `Ctrl+C` |
+| `ModuleNotFoundError: No module named 'fastapi'` | 패키지를 넣지 않았거나 가상환경을 켜지 않고 `python3 main.py`로 실행했어요. `uv add "fastapi[standard]"` 뒤 `uv run fastapi dev main.py` |
+| ``error: Failed to spawn: `fastapi` `` | fastapi를 넣지 않았어요. `uv add "fastapi[standard]"` |
+| `RuntimeError: To use the fastapi command, please install "fastapi[standard]"` | `[standard]` 없이 `uv add fastapi`로 넣었어요. 메시지의 pip install 대신 `uv add "fastapi[standard]"` |
+| `uv run fastapi dev main.py` 뒤 프롬프트가 돌아오지 않아요 | 서버가 켜져 기다리는 중이에요. `Ctrl+C`로 꺼요 |
+| `ERROR:    [Errno 98] Address already in use` (번호는 운영체제마다 달라요) | 다른 터미널에 서버가 이미 켜져 있어요. 그 터미널에서 `Ctrl+C` |
 | `error: Project is already initialized in ...` | 이미 만든 프로젝트 안이에요. `uv init`은 처음 한 번만 쳐요 |
 | 자료에 `pip install 패키지`가 나와요 | 우리 프로젝트에서는 `uv add 패키지`로 바꿔 쳐요 |
 | `.python-version` 숫자가 슬라이드와 달라요 | 컴퓨터에 이미 있던 파이썬을 썼어요. 그대로 써도 돼요 |
@@ -249,7 +251,7 @@ slides/
   deck.json        슬라이드 순서와 파트 구분 (gen.py가 만들어요)
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장과 deck.json 생성 (폴더 그림, 세 곳 카드, 비교 표)
+  gen.py           모든 장과 deck.json 생성 (폴더 그림, 세 곳 카드, 나란히 비교)
   demo.sh          모든 명령을 새 폴더에서 다시 실행해 실제 출력 확인
   run_nb.py        노트북 셀을 프로젝트 커널로 실행해 출력 확인 (demo.sh가 불러요)
   check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
@@ -271,7 +273,7 @@ node tools/build_player.js slides python-uv-slides.html
 node tools/export.js slides python-uv-slides.pdf
 ```
 
-터미널 출력은 `tools/demo.sh`로 uv 0.11.32, Python 3.14.6에서 실제로 실행해 옮겼어요. uv 캐시와 파이썬 설치 폴더를 실습 폴더 안에 새로 만들어서, 파이썬이 없는 컴퓨터처럼 첫 실행에 파이썬을 받아요. lee 컴퓨터는 캐시와 파이썬 폴더를 따로 둬서 처음 받는 모습을 재현했어요. 예전 방식은 uv가 받은 Python 3.14.6을 `python3`로 써서 실행했어요. 웹 서버는 백그라운드로 켜고 `curl`로 브라우저처럼 한 번 열어 본 뒤 Ctrl+C 신호로 껐어요. 이 확인 요청 때문에 실제 출력에는 GET 줄이 두 번 나와서 슬라이드에는 한 줄만 남겼어요. 노트북 셀 출력은 `tools/run_nb.py`가 hello-uv 복사본의 커널(ipykernel)로 셀을 실행한 결과예요. VS Code 화면(확장, 커널 고르기)은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/hello-uv.git`으로 보이게 했어요. 출력의 폴더 주소는 01처럼 `/home/kim`으로 바꿨어요. 설치 스크립트 출력은 버전마다 달라서 옮기지 않았어요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요. 패키지 버전과 걸린 시간(ms)은 실행한 날에 따라 달라요.
+터미널 출력은 `tools/demo.sh`로 uv 0.11.32, Python 3.14.6에서 실제로 실행해 옮겼어요. uv 캐시와 파이썬 설치 폴더를 실습 폴더 안에 새로 만들어서, 파이썬이 없는 컴퓨터처럼 첫 실행에 파이썬을 받아요. lee 컴퓨터는 캐시와 파이썬 폴더를 따로 둬서 처음 받는 모습을 재현했어요. 예전 방식은 uv가 받은 Python 3.14.6을 `python3`로 써서 실행했어요. 웹 서버는 백그라운드로 켜고 `curl`로 브라우저처럼 한 번 열어 본 뒤 Ctrl+C 신호로 껐어요. 이 확인 요청 때문에 실제 출력에는 GET 줄이 두 번 나와서 슬라이드에는 한 줄만 남겼어요. `fastapi dev`가 찍는 첫 줄들의 그림 문자(⚡️, 🌐)도 실제 출력 그대로예요. 예전 방식의 `pip uninstall fastapi` 뒤 남은 58개는 `pip freeze | wc -l`로 셌어요. 노트북 셀 출력은 `tools/run_nb.py`가 hello-uv 복사본의 커널(ipykernel)로 셀을 실행한 결과예요. VS Code 화면(확장, 커널 고르기)은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/hello-uv.git`으로 보이게 했어요. 출력의 폴더 주소는 01처럼 `/home/kim`으로 바꿨어요. `brew install uv`, `winget install` 출력은 이 환경에서 칠 수 없고 버전마다 달라서 옮기지 않았어요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요. 패키지 버전과 걸린 시간(ms)은 실행한 날에 따라 달라요.
 
 </details>
 
