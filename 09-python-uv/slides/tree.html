@@ -1,29 +1,44 @@
 <section id="tree" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1E3F8F">5. 패키지 넣고 빼기</p>
-<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">하나를 넣었는데 다섯 개가 들어왔어요</h2>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">두 개를 넣었는데 14개가 들어왔어요</h2>
 <div id="term" style="position:absolute;left:96px;top:196px;width:860px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
-<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv tree</p>
-<p style="font-size:26px;line-height:1.35;white-space:pre;color:#D8DEE9">Resolved 6 packages in 1ms</p>
-<p style="font-size:26px;line-height:1.35;white-space:pre;color:#D8DEE9">hello-uv v0.1.0</p>
-<p style="font-size:26px;line-height:1.35;white-space:pre;color:#D8DEE9">└── requests v2.34.2</p>
-<p style="font-size:26px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;&#160;&#160;&#160;├── certifi v2026.10.23</p>
-<p style="font-size:26px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;&#160;&#160;&#160;├── charset-normalizer v3.5.2</p>
-<p style="font-size:26px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;&#160;&#160;&#160;├── idna v3.20</p>
-<p style="font-size:26px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;&#160;&#160;&#160;└── urllib3 v2.8.0</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv tree --depth 2</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">Resolved 15 packages in 1ms</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">hello-uv v0.1.0</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">├── fastapi v0.162.0</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">│   ├── annotated-doc v0.0.5</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">│   ├── opentelemetry-api v1.45.2</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">│   ├── pydantic v2.14.2</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">│   ├── starlette v1.10.0</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">│   ├── typing-extensions v4.16.0</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">│   └── typing-inspection v0.4.4</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">└── uvicorn v0.54.0</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;&#160;&#160;&#160;├── click v8.5.0</p>
+<p style="font-size:24px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;&#160;&#160;&#160;└── h11 v0.16.0</p>
 </div>
-<div id="tr-req" data-build-in="pop order 1" style="position:absolute;left:1240px;top:230px;width:420px;height:96px;background:#1E3F8F;border-radius:20px;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#FFFFFF">requests</p></div>
-<x-connector data-build-in="fade order 2" x1="1300" y1="326" x2="1300" y2="460" style="color:#B9BFCB;border-width:4px"></x-connector>
-<div data-build-in="fade order 2" style="position:absolute;left:1300px;top:458px;width:80px;height:4px;background:#B9BFCB"></div>
-<div data-build-in="pop order 2" style="position:absolute;left:1380px;top:420px;width:440px;height:80px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:18px;display:flex;align-items:center;padding:0 24px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">certifi</p></div>
-<x-connector data-build-in="fade order 2" x1="1300" y1="326" x2="1300" y2="580" style="color:#B9BFCB;border-width:4px"></x-connector>
-<div data-build-in="fade order 2" style="position:absolute;left:1300px;top:578px;width:80px;height:4px;background:#B9BFCB"></div>
-<div data-build-in="pop order 2" style="position:absolute;left:1380px;top:540px;width:440px;height:80px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:18px;display:flex;align-items:center;padding:0 24px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">charset-normalizer</p></div>
-<x-connector data-build-in="fade order 2" x1="1300" y1="326" x2="1300" y2="700" style="color:#B9BFCB;border-width:4px"></x-connector>
-<div data-build-in="fade order 2" style="position:absolute;left:1300px;top:698px;width:80px;height:4px;background:#B9BFCB"></div>
-<div data-build-in="pop order 2" style="position:absolute;left:1380px;top:660px;width:440px;height:80px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:18px;display:flex;align-items:center;padding:0 24px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">idna</p></div>
-<x-connector data-build-in="fade order 2" x1="1300" y1="326" x2="1300" y2="820" style="color:#B9BFCB;border-width:4px"></x-connector>
-<div data-build-in="fade order 2" style="position:absolute;left:1300px;top:818px;width:80px;height:4px;background:#B9BFCB"></div>
-<div data-build-in="pop order 2" style="position:absolute;left:1380px;top:780px;width:440px;height:80px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:18px;display:flex;align-items:center;padding:0 24px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">urllib3</p></div>
-<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:944px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">requests가 쓰는 패키지까지 uv가 함께 넣어요. 뺄 때도 함께 빠져요.</p>
-<aside>uv tree는 어떤 패키지가 어떤 패키지 때문에 들어왔는지 나무 모양으로 보여 줘요. 01에서 본 폴더 지도와 같은 모양이에요. requests는 인증서(certifi), 글자 인코딩(charset-normalizer), 주소(idna), 연결(urllib3)을 다른 패키지에 맡겨요. 그래서 하나만 넣어도 다섯 개가 설치돼요. pyproject.toml에는 내가 고른 requests만 적혀요.</aside>
+<div data-build-in="pop order 1" style="position:absolute;left:1010px;top:220px;width:380px;height:90px;background:#1E3F8F;border-radius:20px;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#FFFFFF">fastapi</p></div>
+<x-connector data-build-in="fade order 2" x1="1050" y1="310" x2="1050" y2="384" style="color:#B9BFCB;border-width:4px"></x-connector>
+<div data-build-in="fade order 2" style="position:absolute;left:1050px;top:382px;width:40px;height:4px;background:#B9BFCB"></div>
+<div data-build-in="pop order 2" style="position:absolute;left:1090px;top:350px;width:300px;height:68px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:16px;display:flex;align-items:center;padding:0 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;white-space:nowrap;color:#1D2330">pydantic</p></div>
+<x-connector data-build-in="fade order 2" x1="1050" y1="310" x2="1050" y2="480" style="color:#B9BFCB;border-width:4px"></x-connector>
+<div data-build-in="fade order 2" style="position:absolute;left:1050px;top:478px;width:40px;height:4px;background:#B9BFCB"></div>
+<div data-build-in="pop order 2" style="position:absolute;left:1090px;top:446px;width:300px;height:68px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:16px;display:flex;align-items:center;padding:0 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;white-space:nowrap;color:#1D2330">starlette</p></div>
+<x-connector data-build-in="fade order 2" x1="1050" y1="310" x2="1050" y2="576" style="color:#B9BFCB;border-width:4px"></x-connector>
+<div data-build-in="fade order 2" style="position:absolute;left:1050px;top:574px;width:40px;height:4px;background:#B9BFCB"></div>
+<div data-build-in="pop order 2" style="position:absolute;left:1090px;top:542px;width:300px;height:68px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:16px;display:flex;align-items:center;padding:0 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;white-space:nowrap;color:#1D2330">annotated-doc</p></div>
+<x-connector data-build-in="fade order 2" x1="1050" y1="310" x2="1050" y2="672" style="color:#B9BFCB;border-width:4px"></x-connector>
+<div data-build-in="fade order 2" style="position:absolute;left:1050px;top:670px;width:40px;height:4px;background:#B9BFCB"></div>
+<div data-build-in="pop order 2" style="position:absolute;left:1090px;top:638px;width:300px;height:68px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:16px;display:flex;align-items:center;padding:0 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;white-space:nowrap;color:#1D2330">opentelemetry-api</p></div>
+<x-connector data-build-in="fade order 2" x1="1050" y1="310" x2="1050" y2="768" style="color:#B9BFCB;border-width:4px"></x-connector>
+<div data-build-in="fade order 2" style="position:absolute;left:1050px;top:766px;width:40px;height:4px;background:#B9BFCB"></div>
+<div data-build-in="pop order 2" style="position:absolute;left:1090px;top:734px;width:300px;height:68px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:16px;display:flex;align-items:center;padding:0 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;white-space:nowrap;color:#1D2330">typing-…</p></div>
+<div data-build-in="pop order 3" style="position:absolute;left:1430px;top:220px;width:380px;height:90px;background:#1E3F8F;border-radius:20px;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#FFFFFF">uvicorn</p></div>
+<x-connector data-build-in="fade order 4" x1="1470" y1="310" x2="1470" y2="384" style="color:#B9BFCB;border-width:4px"></x-connector>
+<div data-build-in="fade order 4" style="position:absolute;left:1470px;top:382px;width:40px;height:4px;background:#B9BFCB"></div>
+<div data-build-in="pop order 4" style="position:absolute;left:1510px;top:350px;width:300px;height:68px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:16px;display:flex;align-items:center;padding:0 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;white-space:nowrap;color:#1D2330">click</p></div>
+<x-connector data-build-in="fade order 4" x1="1470" y1="310" x2="1470" y2="480" style="color:#B9BFCB;border-width:4px"></x-connector>
+<div data-build-in="fade order 4" style="position:absolute;left:1470px;top:478px;width:40px;height:4px;background:#B9BFCB"></div>
+<div data-build-in="pop order 4" style="position:absolute;left:1510px;top:446px;width:300px;height:68px;background:#FFFFFF;border:3px solid #9DB8F2;border-radius:16px;display:flex;align-items:center;padding:0 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;white-space:nowrap;color:#1D2330">h11</p></div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:944px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">fastapi와 uvicorn이 쓰는 패키지까지 uv가 함께 넣어요. 뺄 때도 함께 빠져요.</p>
+<aside>uv tree는 어떤 패키지가 어떤 패키지 때문에 들어왔는지 나무 모양으로 보여 줘요. 01에서 본 폴더 지도와 같은 모양이에요. --depth 2는 두 단계까지만 보여 달라는 뜻이에요. 빼고 치면 pydantic 아래 pydantic-core처럼 더 깊은 단계까지 나와서 화면이 길어져요. fastapi는 데이터 검사를 pydantic에, 웹 요청 처리를 starlette에 맡겨요. 그래서 두 개만 넣어도 14개가 설치돼요. pyproject.toml에는 내가 고른 두 개만 적혀요.</aside>
 </section>
