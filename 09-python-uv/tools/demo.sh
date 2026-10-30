@@ -53,12 +53,12 @@ run deactivate
 run which python3
 
 echo "===== 5부 add / remove"
-run uv add fastapi uvicorn
+run uv add '"fastapi[standard]"'
 run cat pyproject.toml
+run uv tree --depth 1
 run uv tree --depth 2
 cat > main.py <<'PY'
 from fastapi import FastAPI
-import uvicorn
 
 app = FastAPI()
 
@@ -66,18 +66,15 @@ app = FastAPI()
 @app.get("/")
 def home():
     return {"message": "안녕하세요"}
-
-
-if __name__ == "__main__":
-    uvicorn.run(app)
 PY
 run cat main.py
-serve uv run main.py
-run uv remove fastapi uvicorn
+serve uv run fastapi dev main.py
+run uv remove fastapi
 run cat pyproject.toml
+run uv run fastapi dev main.py
 run uv run main.py
-run uv add fastapi uvicorn
-serve uv run main.py
+run uv add '"fastapi[standard]"'
+serve uv run fastapi dev main.py
 
 echo "===== 5부 다른 컴퓨터에서 uv sync"
 git init -q --bare "$ROOT/github-hello-uv.git"
@@ -96,7 +93,7 @@ run cd hello-uv
 run ls -a
 run uv sync
 run ls -a
-serve uv run main.py
+serve uv run fastapi dev main.py
 
 export UV_CACHE_DIR="$ROOT/.uv-cache" UV_PYTHON_INSTALL_DIR="$ROOT/.uv-python"
 
@@ -135,11 +132,12 @@ run python3 main.py
 run python3 -m venv .venv
 run ls -a
 run source .venv/bin/activate
-run pip install fastapi uvicorn
+run pip install '"fastapi[standard]"'
 run 'pip freeze > requirements.txt'
 run cat requirements.txt
-serve python main.py
-run pip uninstall -y fastapi uvicorn
+serve fastapi dev main.py
+run pip uninstall -y fastapi
+run 'pip freeze | wc -l'
 run pip freeze
 run deactivate
 run python3 main.py
@@ -148,5 +146,8 @@ echo "===== 막힐 때"
 cd "$ROOT"
 run uv add fastapi
 echo; echo '$ uv --version'; echo 'uv --version' | env PATH=/usr/bin:/bin bash -i 2>&1 | grep 'not found'
+cd "$ROOT"
+uv init -q plain && cd plain && cp "$ROOT/hello-uv/main.py" . && uv add -q fastapi
+run 'uv run fastapi dev main.py 2>&1 | grep RuntimeError'
 cd "$ROOT/hello-uv"
 run uv init

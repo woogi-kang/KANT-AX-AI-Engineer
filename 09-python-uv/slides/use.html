@@ -3,30 +3,25 @@
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">넣은 패키지로 웹 서버를 켜요</h2>
 <div id="c-main" style="position:absolute;left:96px;top:200px;width:860px;background:#FFFFFF;border:2px solid #E1DED6;border-top:8px solid #2459C9;border-radius:18px;padding:16px 26px 20px;display:flex;flex-direction:column;gap:4px">
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#2459C9;margin-bottom:6px">main.py</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;background:#FFF1C9;border-radius:6px;margin:0 -10px;padding:0 10px;color:#1D2330">from fastapi import FastAPI</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;background:#FFF1C9;border-radius:6px;margin:0 -10px;padding:0 10px;color:#1D2330">import uvicorn</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;color:#1D2330">app = FastAPI()</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;color:#1D2330">@app.get("/")</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;color:#1D2330">def home():</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;color:#1D2330">    return {"message": "안녕하세요"}</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;color:#1D2330">if __name__ == "__main__":</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:1.4;white-space:pre;background:#FFF1C9;border-radius:6px;margin:0 -10px;padding:0 10px;color:#1D2330">    uvicorn.run(app)</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;background:#FFF1C9;border-radius:6px;margin:0 -10px;padding:0 10px;color:#1D2330">from fastapi import FastAPI</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;background:#FFF1C9;border-radius:6px;margin:0 -10px;padding:0 10px;color:#1D2330">app = FastAPI()</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">&#160;</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">@app.get("/")</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">def home():</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:1.4;white-space:pre;color:#1D2330">    return {"message": "안녕하세요"}</p>
 </div>
 <div data-build-in="pop order 2" style="position:absolute;left:1000px;top:200px;width:824px;height:300px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;overflow:hidden"><div style="height:64px;background:#ECEAE3;display:flex;flex-direction:row;gap:12px;align-items:center;padding:0 22px"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#E0857A"></div><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#E8C068"></div><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#7FC28F"></div><p style="flex:1;margin-left:12px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;color:#1D2330;background:#FFFFFF;border-radius:10px;padding:4px 16px">http://127.0.0.1:8000</p></div><p style="padding:40px 32px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;font-weight:700;color:#1D2330">{"message":"안녕하세요"}</p></div>
 <p data-build-in="fade order 2" style="position:absolute;left:1000px;top:520px;width:824px;font-size:26px;font-weight:700;color:#6A7180">브라우저 주소창에 http://127.0.0.1:8000</p>
-<div id="term" data-build-in="rise order 1" style="position:absolute;left:96px;top:730px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
-<p style="font-size:24px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv run main.py</p>
-<p style="font-size:20px;line-height:1.35;white-space:pre;color:#D8DEE9">INFO:     Started server process [448]</p>
-<p style="font-size:20px;line-height:1.35;white-space:pre;color:#D8DEE9">INFO:     Waiting for application startup.</p>
-<p style="font-size:20px;line-height:1.35;white-space:pre;color:#D8DEE9">INFO:     Application startup complete.</p>
-<p style="font-size:20px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)</p>
-<p style="font-size:20px;line-height:1.35;white-space:pre;color:#D8DEE9">INFO:     127.0.0.1:45266 - "GET / HTTP/1.1" 200 OK</p>
+<div id="term" data-build-in="rise order 1" style="position:absolute;left:96px;top:630px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv run fastapi dev main.py</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;⚡️ Starting FastAPI in development mode</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">&#160;🌐 Server started at http://127.0.0.1:8000</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;&#160;&#160;&#160;Documentation at http://127.0.0.1:8000/docs</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">INFO:     Application startup complete.</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">INFO:     127.0.0.1:56432 - "GET / HTTP/1.1" 200 OK</p>
 </div>
-<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:962px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">서버는 Ctrl+C로 끌 때까지 켜져 있어요.</p>
-<aside>위 두 줄로 fastapi와 uvicorn을 불러와요. @app.get("/")는 주소 / 로 들어오면 아래 home()의 대답을 돌려준다는 뜻이에요. 맨 아래 uvicorn.run(app)이 서버를 켜요. 터미널에 Uvicorn running 줄이 보이면 브라우저로 http://127.0.0.1:8000을 열어요. 열 때마다 터미널에 GET / 200 OK 줄이 하나씩 생겨요. 서버는 켜진 채로 기다려서 프롬프트가 돌아오지 않아요. Ctrl+C로 꺼요. 코드 문법은 다음 수업부터 하나씩 배워요. 오늘은 넣은 패키지를 uv run으로 실행하면 쓸 수 있다는 것만 확인해요. 서버 번호 [448]과 GET 줄의 숫자는 실행할 때마다 달라요.</aside>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:944px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">서버는 Ctrl+C로 끌 때까지 켜져 있어요.</p>
+<aside>main.py를 이 여덟 줄로 바꿔 저장해요. 첫 줄은 fastapi를 불러오고, app = FastAPI()가 웹 서버 앱을 만들어요. @app.get("/")는 주소 / 로 들어오면 아래 home()의 대답을 돌려준다는 뜻이에요. 서버는 uv run fastapi dev main.py로 켜요. uv run 뒤에 파일 이름 대신 uv add로 들어온 fastapi 명령을 적은 거예요. dev는 개발용 모드라서 main.py를 고쳐 저장하면 서버가 알아서 다시 켜져요. Server started 줄이 보이면 브라우저로 http://127.0.0.1:8000을 열어요. 열 때마다 터미널에 GET / 200 OK 줄이 하나씩 생겨요. 서버는 켜진 채로 기다려서 프롬프트가 돌아오지 않아요. Ctrl+C로 꺼요. 코드 문법은 다음 수업부터 하나씩 배워요. 서버 출력의 빈 줄과 INFO 줄 몇 개는 뺐어요. GET 줄의 숫자는 실행할 때마다 달라요.</aside>
 </section>

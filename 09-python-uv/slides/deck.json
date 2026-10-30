@@ -11,13 +11,9 @@
     "toc",
     "run",
     "pkg",
-    "old-steps",
     "old-venv",
-    "old-term",
-    "old-pain",
-    "uv-a",
-    "uv-b",
-    "cmp",
+    "vs",
+    "why",
     "install",
     "init",
     "init-files",
@@ -54,12 +50,12 @@
       "start": "run"
     },
     "old": {
-      "description": "예전 방식",
-      "start": "old-steps"
+      "description": "예전 방식과 비교",
+      "start": "old-venv"
     },
     "uv": {
-      "description": "uv는 무엇이 다른가",
-      "start": "uv-a"
+      "description": "uv 설치하기",
+      "start": "install"
     },
     "init": {
       "description": "프로젝트 만들고 실행하기",

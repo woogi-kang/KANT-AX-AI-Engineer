@@ -36,6 +36,8 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 - 브랜치를 가리키는 말은 모든 덱에서 "이름표"로 통일해요. 꼬리표, 라벨처럼 다른 말을 섞지 않아요.
 - 파이썬 프로젝트는 uv로 만들어요. `uv init`, `uv run 파일`, `uv add 패키지`, `uv remove 패키지`, `uv sync`를 써요. `pip install`, `python -m venv`, `requirements.txt`는 09에서 예전 방식 비교로만 보여 주고 따라 치게 하지 않아요. 가상환경 직접 켜기는 uv가 만든 `.venv`에 한해 보여 줘요. macOS, Linux는 `source .venv/bin/activate`, Windows Git Bash는 `source .venv/Scripts/activate`, PowerShell은 `.venv\Scripts\activate`, 끄기는 `deactivate`예요. 실습 명령은 그래도 `uv run`을 기본으로 적어요. 다른 자료에 `pip install 패키지`가 나오면 `uv add 패키지`로 바꿔 적어요.
 - Jupyter 노트북은 VS Code의 Python, Jupyter 확장(Microsoft)으로 열어요. 커널 패키지는 `uv add --dev ipykernel`로 넣고, 노트북 커널은 프로젝트의 `.venv`를 골라요. VS Code 알림의 Install 버튼(pip 설치)은 쓰지 않아요.
+- uv 설치는 macOS `brew install uv`, Windows `winget install --id=astral-sh.uv -e`로 적어요. curl, PowerShell 설치 스크립트는 쓰지 않아요.
+- fastapi 예시는 `uv add "fastapi[standard]"`로 넣고 `uv run fastapi dev main.py`로 켜요. uvicorn을 따로 넣거나 코드에서 `uvicorn.run`을 부르지 않아요.
 - 파이썬 실행은 `uv run main.py`로 적어요. `python main.py`는 가상환경을 켠 상태, 예전 방식, 오류 예시에서만 써요. `.venv`는 GitHub에 올리지 않고, `pyproject.toml`, `uv.lock`, `.python-version`은 올려요.
 
 ## 배포 전 점검
