@@ -429,7 +429,7 @@ EB6 = "6. 다른 컴퓨터에서 그대로"
 UP = [".gitignore", ".python-version", "README.md", "main.py", "pyproject.toml", "uv.lock"]
 o = [sec("commit")] + head(EB6, "GitHub에는 무엇을 올리나요", PUR)
 o += terminal([("$", "git status --short")] + [("r", "?? " + f) for f in UP] + [("$", "git add ."), ("$", 'git commit -m "feat: hello-uv 프로젝트 만들기"'),
-              ("o", "[main (root-commit) 749f4de] feat: hello-uv 프로젝트 만들기")], w=900, size=(26, 23))
+              ("o", "[main (root-commit) 12cad3c] feat: hello-uv 프로젝트 만들기")], w=900, size=(26, 23))
 o += folder([".gitignore", ".python-version", ".venv", "README.md", "main.py", "pyproject.toml", "uv.lock"], left=1040, w=784, off=(".venv",), notes=False, pre="u")
 o.append(p(f"position:absolute;left:1500px;top:{200 + 76 + 2 * 70 + 14}px;width:300px;font-size:24px;font-weight:700;color:{RED}", ".gitignore가 막아요", ' data-build-in="fade order 1"'))
 o.append(caption(".venv는 올리지 않아요. pyproject.toml과 uv.lock만 있으면 똑같이 다시 만들어요.", 900))
@@ -472,6 +472,116 @@ for i, (ic, h, *cmds) in enumerate(whens):
 o.append(caption("팀원이 패키지를 넣고 push했으면, pull 뒤 uv sync로 내 .venv를 맞춰요.", 740))
 W("sync-when", o, "1번은 다른 사람 프로젝트를 처음 받을 때예요. 2번은 팀원이 uv add로 패키지를 넣고 push한 경우예요. pull로 pyproject.toml과 uv.lock은 바뀌었지만 내 .venv에는 아직 그 패키지가 없어요. uv sync가 .venv를 uv.lock에 맞춰요. 3번은 uv run도 실행 전에 같은 일을 해서, sync를 잊어도 uv run이면 돌아간다는 뜻이에요. 그래도 처음 받을 땐 uv sync로 설치가 끝났는지 눈으로 확인해요.")
 
+# ---------- part 7: Jupyter in VS Code ----------
+EB8 = "7. VS Code에서 Jupyter 쓰기"
+JP = "#B8560F"
+
+
+def cell(i, code_lines, out, left, top, w, attrs=""):
+    o = [f'<div{attrs} style="position:absolute;left:{left}px;top:{top}px;width:{w}px;display:flex;flex-direction:column;gap:0">',
+         f'<div style="display:flex;flex-direction:row;gap:14px;align-items:stretch">'
+         + p(f"width:64px;flex:none;font-family:{MONO};font-size:20px;color:{GRAY};text-align:right;padding-top:14px", f"[{i}]")
+         + f'<div style="flex:1;background:#FFFFFF;border:2px solid {LINE};border-left:6px solid {BL};border-radius:10px;padding:10px 18px;display:flex;flex-direction:column">'
+         + "".join(p(f"font-family:{MONO};font-size:24px;line-height:1.4;white-space:pre;color:{INK}", e(c)) for c in code_lines) + '</div></div>']
+    if out is not None:
+        o.append(p(f"margin-left:78px;padding:8px 24px;font-family:{MONO};font-size:24px;line-height:1.4;white-space:pre;color:{INK}", e(out)))
+    o.append('</div>')
+    return o
+
+
+o = [sec("jup-what")] + head(EB8, "노트북은 코드를 셀 단위로 실행해요", JP)
+o.append(f'<div style="position:absolute;left:96px;top:220px;width:700px;height:600px;background:{CARD};border:2px solid {LINE};border-radius:22px;padding:28px 34px;display:flex;flex-direction:column;gap:18px">'
+         + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{BL}", "main.py")
+         + p(f"font-family:{MONO};font-size:24px;line-height:1.6;color:{INK};background:#F1F0EC;border-radius:12px;padding:16px 20px", "데이터 읽기<br>정리하기<br>그래프 그리기")
+         + f'<x-shape kind="arrow-right" style="width:60px;height:40px;background:#C9CED8;transform:rotate(90deg);align-self:center"></x-shape>'
+         + p(f"font-size:28px;line-height:1.5;color:{SUB}", "처음부터 끝까지 한 번에 실행해요.<br>결과는 터미널에 모여서 나와요.") + '</div>')
+o += cell(1, ["데이터 읽기"], "표 5줄", 860, 230, 960, ' data-build-in="rise order 1"')
+o += cell(2, ["정리하기"], "빈칸 3개 지움", 860, 420, 960, ' data-build-in="rise order 2"')
+o += cell(3, ["그래프 그리기"], "그래프 그림", 860, 610, 960, ' data-build-in="rise order 3"')
+o.append(p(f"position:absolute;left:938px;top:180px;width:880px;font-family:{MONO};font-size:26px;font-weight:700;color:{JP}", "notebook.ipynb"))
+o.append(caption("셀 하나씩 실행하고 결과를 바로 아래에서 봐요. 머신러닝 수업에서 데이터를 조금씩 확인할 때 써요.", 900))
+W("jup-what", o, "Jupyter 노트북은 확장자가 .ipynb인 파일이에요. 코드를 셀이라는 칸으로 나누고, 셀마다 따로 실행해요. 실행 결과는 그 셀 바로 아래에 남아요. 앞 셀에서 만든 값은 뒤 셀에서 그대로 써요. 그래서 데이터를 읽고 모양을 보고, 고치고 다시 보는 머신러닝 실습에 잘 맞아요. VS Code 안에서 노트북을 열 수 있어서 따로 프로그램을 설치하지 않아요. 그림 속 셀 내용은 예시예요.", ("jupyter", "VS Code에서 Jupyter 쓰기"))
+
+o = [sec("jup-ext")] + head(EB8, "VS Code에 확장 두 개를 설치해요", JP)
+o.append(f'<div style="position:absolute;left:96px;top:220px;width:1000px;height:640px;background:#1F2430;border-radius:22px;overflow:hidden;display:flex;flex-direction:row">'
+         + f'<div style="width:90px;flex:none;background:#181C25;display:flex;flex-direction:column;align-items:center;gap:30px;padding-top:30px">'
+         + "".join(f'<div style="width:40px;height:40px;border-radius:8px;background:{c}"></div>' for c in ("#3A4150", "#3A4150", "#3A4150", "#3A4150"))
+         + f'<div style="width:52px;height:52px;border-radius:10px;border:3px solid #F2C46D;display:flex;align-items:center;justify-content:center"><x-icon name="Archive" style="width:30px;height:30px;color:#F2C46D"></x-icon></div></div>'
+         + '<div style="flex:1;padding:26px 30px;display:flex;flex-direction:column;gap:18px">'
+         + p("font-size:22px;font-weight:700;letter-spacing:1px;color:#AEB6C4", "EXTENSIONS")
+         + p(f"font-family:{MONO};font-size:24px;color:#E6E9EF;background:#2B3140;border:2px solid #4A90E2;border-radius:8px;padding:8px 16px", "Jupyter")
+         + "".join(f'<div data-build-in="rise order {i + 2}" style="display:flex;flex-direction:row;gap:20px;align-items:center;background:#262C39;border-radius:12px;padding:18px 20px">'
+                   + f'<div style="width:64px;height:64px;flex:none;border-radius:12px;background:{c}"></div>'
+                   + '<div style="flex:1;display:flex;flex-direction:column;gap:4px">' + p("font-size:28px;font-weight:700;color:#FFFFFF", n) + p("font-size:22px;color:#AEB6C4", "Microsoft") + '</div>'
+                   + p("font-size:22px;font-weight:700;color:#FFFFFF;background:#2F7D32;border-radius:6px;padding:6px 18px", "Install") + '</div>'
+                   for i, (n, c) in enumerate([("Python", "#3A6FB0"), ("Jupyter", JP)]))
+         + '</div></div>')
+steps = [("왼쪽 확장 아이콘을 눌러요", "Mac Cmd+Shift+X, Windows Ctrl+Shift+X"), ("Python을 검색해 설치해요", "만든 곳이 Microsoft인지 봐요"), ("Jupyter를 검색해 설치해요", "같이 깔리는 확장은 그대로 둬요")]
+for i, (a_, b_) in enumerate(steps):
+    y = 230 + i * 210
+    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:1140px;top:{y}px;width:684px;height:186px;background:{CARD};border:2px solid {LINE};border-radius:20px;padding:24px 28px;display:flex;flex-direction:row;gap:22px;align-items:center">'
+             + num(i + 1, JP, 44) + '<div style="flex:1;display:flex;flex-direction:column;gap:10px">' + p(f"font-size:30px;font-weight:700;color:{INK}", a_) + p(f"font-size:24px;color:{SUB}", b_) + '</div></div>')
+o.append(caption("컴퓨터마다 한 번만 설치해요. 설치한 뒤에는 VS Code를 다시 열어요.", 900))
+W("jup-ext", o, "확장은 VS Code에 기능을 더하는 프로그램이에요. 05에서 Git Graph를 설치한 것과 같은 화면이에요. Python 확장은 파이썬 코드를 읽고 실행하는 기능, Jupyter 확장은 .ipynb 노트북을 여는 기능이에요. 둘 다 만든 곳이 Microsoft인 것을 골라요. 이름이 비슷한 다른 확장이 많아요. Python을 설치하면 Pylance 같은 확장이 함께 깔려요. 그대로 둬요. 왼쪽 그림은 화면을 단순하게 그린 거예요.")
+
+o = [sec("jup-kernel")] + head(EB8, "uv add --dev ipykernel로 커널을 넣어요", JP)
+o += terminal([("$", "cd ~/hello-uv"), ("$", "uv add --dev ipykernel"), ("o", "Resolved 48 packages in 248ms"), ("#", "  ... Downloading 줄 생략 ..."), ("o", "Prepared 29 packages in 1.26s"),
+               ("H", "Installed 29 packages in 68ms"), ("g", " + asttokens==3.0.2"), ("g", " + comm==0.2.3"), ("#", "   ... 26줄 생략 ..."), ("g", " + wcwidth==0.9.4")], w=860, size=(28, 24))
+o += code_card("c-py", "pyproject.toml", ["dependencies = [", '    "fastapi>=0.162.0",', '    "uvicorn>=0.54.0",', "]", "", "[dependency-groups]", "dev = [", '    "ipykernel>=7.4.0",', "]"],
+               1000, 210, 824, F_PY, 24, marks=(5, 6, 7, 8), attrs=' data-build-in="rise order 1"')
+o.append(f'<div data-build-in="rise order 2" style="position:absolute;left:1000px;top:690px;width:824px;height:170px;background:{CARD};border:2px solid {LINE};border-left:12px solid {JP};border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;gap:10px">'
+         + p(f"font-size:28px;font-weight:700;color:{INK}", "커널 = 노트북 셀을 실행하는 파이썬")
+         + p(f"font-size:24px;line-height:1.45;color:{SUB}", "--dev는 개발할 때만 쓰는 도구라는 표시예요.<br>서버를 켜는 데는 필요 없어서 따로 적혀요.") + '</div>')
+o.append(caption("노트북도 .venv 안의 파이썬으로 실행해요. 그래서 ipykernel을 .venv에 넣어요.", 920))
+W("jup-kernel", o, "노트북의 셀은 커널이라는 파이썬 프로그램이 실행해요. VS Code가 hello-uv의 .venv를 커널로 쓰려면 .venv 안에 ipykernel 패키지가 있어야 해요. --dev를 붙이면 pyproject.toml의 dependencies가 아니라 dependency-groups의 dev 칸에 적혀요. 서버를 켜는 데 꼭 필요한 패키지와, 내가 개발할 때만 쓰는 도구를 나눠 두는 거예요. uv sync는 dev 칸도 함께 설치해서, lee 컴퓨터에서도 uv sync 한 번이면 노트북을 열 수 있어요. 받는 줄과 설치 목록 가운데는 뺐어요. 실제로는 29개가 설치돼요.")
+
+o = [sec("jup-pick")] + head(EB8, "노트북을 만들고 커널로 .venv를 골라요", JP)
+picks = [("File > Open Folder로 hello-uv 열기", "폴더 자체를 열어요"), ("왼쪽 탐색기에서 새 파일 notebook.ipynb", "이름 끝이 .ipynb면 노트북으로 열려요"),
+         ("오른쪽 위 Select Kernel 누르기", ""), ("Python Environments 고르기", ""), (".venv (Python 3.14.6) 고르기", "hello-uv 안의 .venv예요")]
+for i, (a_, b_) in enumerate(picks):
+    y = 210 + i * 132
+    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:96px;top:{y}px;width:860px;height:116px;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:0 26px;display:flex;flex-direction:row;gap:22px;align-items:center">'
+             + num(i + 1, JP, 40) + '<div style="flex:1;display:flex;flex-direction:column;gap:4px">' + p(f"font-size:28px;font-weight:700;color:{INK}", e(a_))
+             + (p(f"font-size:22px;color:{SUB}", e(b_)) if b_ else "") + '</div></div>')
+o.append(f'<div style="position:absolute;left:1000px;top:210px;width:824px;height:470px;background:#1F2430;border-radius:22px;overflow:hidden;display:flex;flex-direction:column">'
+         + '<div style="height:70px;background:#181C25;display:flex;flex-direction:row;align-items:center;padding:0 24px;gap:16px">'
+         + p(f"flex:1;font-family:{MONO};font-size:22px;color:#AEB6C4", "notebook.ipynb")
+         + p("font-size:22px;font-weight:700;color:#FFFFFF;border:2px solid #F2C46D;border-radius:8px;padding:4px 14px", "Select Kernel") + '</div>'
+         + f'<div data-build-in="pop order 4" style="margin:24px;background:#2B3140;border:2px solid #4A90E2;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">'
+         + p("font-size:22px;color:#AEB6C4", "Select Another Kernel")
+         + p("font-size:26px;font-weight:700;color:#FFFFFF;background:#36507A;border-radius:8px;padding:10px 16px", "Python Environments...")
+         + p("font-size:26px;color:#C9CED8;padding:10px 16px", "Existing Jupyter Server...") + '</div>'
+         + f'<div data-build-in="pop order 5" style="margin:0 24px;background:#2B3140;border:2px solid #4A90E2;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px">'
+         + '<div style="background:#36507A;border-radius:8px;padding:10px 16px;display:flex;flex-direction:column;gap:4px">'
+         + p("font-size:26px;font-weight:700;color:#FFFFFF", "★ .venv (Python 3.14.6)") + p(f"font-family:{MONO};font-size:20px;color:#AEB6C4", ".venv/bin/python") + '</div>'
+         + p("font-size:24px;color:#8C95A6;padding:6px 16px", "다른 파이썬은 고르지 않아요") + '</div></div>')
+o.append(caption("커널을 한 번 고르면 이 노트북을 열 때마다 기억해요.", 900))
+W("jup-pick", o, "VS Code는 열린 폴더 안의 .venv를 찾아서 목록 맨 위에 별표(Recommended)로 보여 줘요. 그래서 hello-uv의 부모 폴더가 아니라 hello-uv 폴더 자체를 열어요. Mac 메뉴에 Open Folder가 없으면 File > Open...으로 폴더를 골라요. Windows는 경로가 .venv\\Scripts\\python.exe로 보여요. 컴퓨터에 다른 파이썬이 있으면 목록에 여러 줄이 나오는데, 꼭 .venv를 골라요. VS Code 버전에 따라 글자가 조금 다를 수 있어요. 오른쪽 그림은 화면을 단순하게 그린 거예요.")
+
+o = [sec("jup-run")] + head(EB8, "Shift+Enter로 셀을 실행해요", JP)
+o.append(f'<div style="position:absolute;left:96px;top:210px;width:1728px;height:66px;background:#ECEAE3;border-radius:14px;display:flex;flex-direction:row;align-items:center;padding:0 24px;gap:16px">'
+         + p(f"flex:1;font-family:{MONO};font-size:24px;font-weight:700;color:{INK}", "notebook.ipynb")
+         + p(f"font-size:22px;font-weight:700;color:{GR};background:#E6F4EC;border-radius:8px;padding:4px 14px", ".venv (Python 3.14.6)") + '</div>')
+o += cell(1, ['print("안녕하세요")'], "안녕하세요", 96, 300, 1728, ' data-build-in="rise order 1"')
+o += cell(2, ["import sys", "print(sys.executable)"], "/home/kim/hello-uv/.venv/bin/python", 96, 440, 1728, ' data-build-in="rise order 2"')
+o += cell(3, ["import fastapi", "print(fastapi.__version__)"], "0.162.0", 96, 620, 1728, ' data-build-in="rise order 3"')
+o += cell(4, ["1 + 2"], "3", 96, 800, 1728, ' data-build-in="rise order 4"')
+o.append(caption("2번 셀에 .venv가 보이면 커널을 잘 고른 거예요. uv add로 넣은 패키지도 바로 써요.", 950))
+W("jup-run", o, "셀을 누르고 Shift+Enter를 치면 실행하고 다음 셀로 넘어가요. 셀 왼쪽의 실행 버튼을 눌러도 돼요. 2번 셀은 지금 커널이 어느 파이썬인지 보여 줘요. hello-uv/.venv 안이면 맞게 고른 거예요. 3번 셀처럼 uv add로 넣은 fastapi도 노트북에서 바로 불러와요. 4번 셀처럼 셀 마지막 줄이 값이면 print 없이도 그 값을 보여 줘요. 출력은 tools/demo.sh에서 hello-uv의 커널로 같은 셀을 실행한 결과예요. 폴더 주소만 01처럼 /home/kim으로 바꿨어요.")
+
+o = [sec("jup-trouble")] + head(EB8, "노트북에서 막히면", JP)
+jt = [("ipykernel을 설치하라는 알림이 떠요", "알림의 Install은 pip로 넣어서 pyproject.toml에 안 적혀요", "uv add --dev ipykernel"),
+      ("커널 목록에 .venv가 없어요", "hello-uv 폴더 자체를 열었는지 봐요. 그다음 VS Code 다시 열기", "uv sync"),
+      ("셀에서 ModuleNotFoundError", "커널이 .venv가 아니에요. 오른쪽 위 커널 이름을 눌러 바꿔요", ".venv (Python 3.14.6)")]
+o.append('<div style="position:absolute;left:96px;top:220px;width:1728px;height:660px;display:flex;flex-direction:column;gap:20px">')
+for i, (q, a_, cmd) in enumerate(jt, 1):
+    o.append(f'<div data-build-in="rise order {i}" style="flex:1;display:flex;flex-direction:row;gap:28px;align-items:center;background:{CARD};border:2px solid {LINE};border-radius:20px;padding:12px 32px">'
+             + num(i, JP, 44)
+             + '<div style="flex:1;display:flex;flex-direction:column;gap:8px">' + p(f"font-size:30px;font-weight:700;color:{INK}", e(q)) + p(f"font-size:25px;color:{SUB}", e(a_)) + '</div>'
+             + p(f"width:460px;flex:none;font-family:{MONO};font-size:26px;font-weight:700;line-height:1.5;color:{INK};background:#EEEFF2;padding:12px 20px;border-radius:12px", e(cmd)) + '</div>')
+o.append('</div>')
+W("jup-trouble", o, "1번은 ipykernel 없이 셀을 실행하면 VS Code가 띄우는 알림이에요. Install 버튼은 pip로 설치해서 pyproject.toml과 uv.lock에 적히지 않아요. 알림을 닫고 터미널에서 uv add --dev ipykernel을 쳐요. 그다음 커널을 다시 골라요. 2번은 VS Code로 hello-uv의 부모 폴더를 열었거나, clone 뒤 uv sync를 안 해서 .venv가 없을 때 나요. 3번은 컴퓨터에 원래 있던 파이썬을 커널로 고른 경우예요. 2번 셀 출력으로 어느 파이썬인지 확인해요.")
+
 # ---------- summary ----------
 EB7 = "정리"
 o = [sec("map")] + head(EB7, "예전 명령은 이렇게 바뀌었어요", INK)
@@ -511,9 +621,10 @@ for i, (cmd, d, ic, c) in enumerate(cheat):
     o.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:560px;height:264px;background:{CARD};border:2px solid {LINE};border-top:10px solid {c};border-radius:20px;padding:28px 32px;display:flex;flex-direction:column;gap:18px">'
              + f'<x-icon name="{ic}" style="width:44px;height:44px;color:{c}"></x-icon>'
              + p(f"font-family:{MONO};font-size:34px;font-weight:700;color:{INK}", e(cmd)) + p(f"font-size:30px;color:{SUB}", d) + '</div>')
-o.append(f'<div style="position:absolute;left:96px;top:800px;width:1728px;height:160px;background:{CARD};border:2px solid {LINE};border-radius:20px;padding:24px 36px;display:flex;flex-direction:column;justify-content:center;gap:12px">'
+o.append(f'<div style="position:absolute;left:96px;top:780px;width:1728px;height:210px;background:{CARD};border:2px solid {LINE};border-radius:20px;padding:24px 36px;display:flex;flex-direction:column;justify-content:center;gap:12px">'
          + p(f"font-size:30px;font-weight:700;color:{INK}", 'GitHub에 올려요 <span style="font-family:\'JetBrains Mono\';color:' + GR + '">pyproject.toml  uv.lock  .python-version</span>')
-         + p(f"font-size:30px;font-weight:700;color:{INK}", '올리지 않아요 <span style="font-family:\'JetBrains Mono\';color:' + RED + '">.venv</span>  <span style="font-weight:400;color:' + SUB + '">uv init이 .gitignore에 적어 둬요</span>') + '</div>')
+         + p(f"font-size:30px;font-weight:700;color:{INK}", '올리지 않아요 <span style="font-family:\'JetBrains Mono\';color:' + RED + '">.venv</span>  <span style="font-weight:400;color:' + SUB + '">uv init이 .gitignore에 적어 둬요</span>')
+         + p(f"font-size:30px;font-weight:700;color:{INK}", '노트북 <span style="font-family:\'JetBrains Mono\';color:' + JP + '">uv add --dev ipykernel</span>  <span style="font-weight:400;color:' + SUB + '">뒤 커널로 .venv 고르기</span>') + '</div>')
 W("cheatsheet", o, "파이썬 프로젝트에서 치는 명령은 거의 이 여섯 개예요. 새 프로젝트는 uv init, 실행은 uv run, 패키지는 uv add와 uv remove, 받은 프로젝트는 uv sync예요. pip install이 보이면 uv add로 바꿔 쳐요.")
 
 # ---------- toc (page numbers from ORDER) ----------
@@ -523,21 +634,22 @@ parts = [("Code", BL, "파이썬은 어떻게 실행되나", "python, 패키지"
          ("Star", UV, "uv는 무엇이 다른가", "비교와 설치", "uv-a", "install"),
          ("Tool", BL, "프로젝트 만들고 실행하기", "uv init, uv run, 가상환경 켜기", "init", "pyver"),
          ("Database", NAVY, "패키지 넣고 빼기", "uv add, uv tree, uv remove", "add", "again"),
-         ("Users", GR, "다른 컴퓨터에서 그대로", "GitHub, uv sync", "commit", "sync-when")]
+         ("Users", GR, "다른 컴퓨터에서 그대로", "GitHub, uv sync", "commit", "sync-when"),
+         ("Book", "#B8560F", "VS Code에서 Jupyter 쓰기", "확장 설치, ipykernel, 커널 고르기", "jup-what", "jup-trouble")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      f'<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>',
-     '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;flex:1">']
+     '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;flex:1">']
 for i, (ic, c, h, s, a, b) in enumerate(parts, 1):
     pg = f"{page[a]}–{page[b]}쪽" if a != b else f"{page[a]}쪽"
     t.append(f'<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid {LINE};border-top:10px solid {c};border-radius:20px;padding:24px 28px">'
              f'<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:{c}">{i}</p>'
              f'<x-icon name="{ic}" style="width:40px;height:40px;color:{c}"></x-icon></div>'
-             f'<h3 style="font-size:32px;font-weight:700;color:{INK}">{h}</h3>'
+             f'<h3 style="font-size:27px;font-weight:700;color:{INK}">{h}</h3>'
              f'<p style="font-size:26px;line-height:1.4;color:{SUB}">{e(s)}</p><div style="flex:1"></div>'
              f'<p style="font-size:24px;color:#6A7180">{pg}</p></div>')
 t += ['</div>', f'<p style="font-size:26px;color:{SUB}">{page["map"]}–{page["cheatsheet"]}쪽은 명령 바꿔 치기, 막힐 때, 한 장 요약이에요.</p>']
 with open(os.path.join(OUT, "toc.html"), "w") as f:
-    f.write("\n".join(t) + f"\n<aside>{e('1, 2파트는 눈으로만 보는 배경이에요. 3파트에서 uv를 설치하고, 4파트부터 직접 따라 쳐요. 4파트에서 만든 hello-uv 폴더를 5, 6파트에서 계속 써요.')}</aside>\n</section>\n")
+    f.write("\n".join(t) + f"\n<aside>{e('1, 2파트는 눈으로만 보는 배경이에요. 3파트에서 uv를 설치하고, 4파트부터 직접 따라 쳐요. 4파트에서 만든 hello-uv 폴더를 5, 6, 7파트에서 계속 써요.')}</aside>\n</section>\n")
 
 deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-10-30T02:00:00Z"}, "lists": "css", "title": "uv로 파이썬 시작하기", "order": ORDER,
         "sections": SECTIONS,
