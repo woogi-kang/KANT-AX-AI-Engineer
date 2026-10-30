@@ -1,0 +1,85 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-30T02:00:00Z"
+  },
+  "lists": "css",
+  "title": "uv로 파이썬 시작하기",
+  "order": [
+    "cover",
+    "toc",
+    "run",
+    "pkg",
+    "old-steps",
+    "old-venv",
+    "old-term",
+    "old-pain",
+    "uv-a",
+    "uv-b",
+    "cmp",
+    "install",
+    "init",
+    "init-files",
+    "run1",
+    "run2",
+    "pyver",
+    "add",
+    "tree",
+    "use",
+    "remove",
+    "again",
+    "commit",
+    "sync-flow",
+    "sync-term",
+    "sync-when",
+    "map",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "파이썬 실행",
+      "start": "cover"
+    },
+    "run": {
+      "description": "파이썬은 어떻게 실행되나",
+      "start": "run"
+    },
+    "old": {
+      "description": "예전 방식",
+      "start": "old-steps"
+    },
+    "uv": {
+      "description": "uv는 무엇이 다른가",
+      "start": "uv-a"
+    },
+    "init": {
+      "description": "프로젝트 만들고 실행하기",
+      "start": "init"
+    },
+    "add": {
+      "description": "패키지 넣고 빼기",
+      "start": "add"
+    },
+    "sync": {
+      "description": "다른 컴퓨터에서 그대로",
+      "start": "commit"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "map"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

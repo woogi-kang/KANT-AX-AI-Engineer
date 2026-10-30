@@ -1,0 +1,20 @@
+<section id="pyver" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">4. 프로젝트 만들고 실행하기</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">파이썬 버전은 .python-version이 정해요</h2>
+<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:18px 32px;display:flex;flex-direction:column;gap:2px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ cd ~</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv init --python 3.13 hello-313</p>
+<p style="font-size:23px;line-height:1.35;white-space:pre;color:#D8DEE9">Initialized project `hello-313` at `/home/kim/hello-313`</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ cd hello-313</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ cat .python-version</p>
+<p style="font-size:23px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">3.13</p>
+<p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ uv run python --version</p>
+<p style="font-size:23px;line-height:1.35;white-space:pre;color:#D8DEE9">Downloading cpython-3.13.14-linux-x86_64-gnu (download) (33.2MiB)</p>
+<p style="font-size:23px;line-height:1.35;white-space:pre;color:#D8DEE9">&#160;Downloaded cpython-3.13.14-linux-x86_64-gnu (download)</p>
+<p style="font-size:23px;line-height:1.35;white-space:pre;color:#D8DEE9">Using CPython 3.13.14</p>
+<p style="font-size:23px;line-height:1.35;white-space:pre;color:#D8DEE9">Creating virtual environment at: .venv</p>
+<p style="font-size:23px;line-height:1.35;white-space:pre;background:rgba(242,196,109,0.22);border-radius:6px;margin:0 -8px;padding:0 8px;font-weight:700;color:#FFE7A8">Python 3.13.14</p>
+</div>
+<p id="caption" data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">버전을 정해서 만들려면 --python을 붙여요. 없는 버전은 uv가 받아요.</p>
+<aside>보기만 해도 되는 장이에요. 수업 프로젝트는 uv init 이름으로 만들면 돼요. 회사나 강의에서 파이썬 버전을 정해 줄 때 --python 버전을 붙여요. 이 컴퓨터에 3.13이 없어서 uv가 받아 왔어요. 프로젝트마다 버전이 달라도 폴더에 들어가 uv run을 치면 그 폴더의 버전으로 실행돼요. 출력의 폴더 주소는 01처럼 /home/kim으로 바꿨어요.</aside>
+</section>

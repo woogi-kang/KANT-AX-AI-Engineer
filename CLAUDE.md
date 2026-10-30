@@ -12,7 +12,7 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 
 ## 폴더 규칙
 
-- 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`, `06-team-repo`, `07-git-restore-stash`, `08-git-merge-ways`)
+- 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`, `06-team-repo`, `07-git-restore-stash`, `08-git-merge-ways`, `09-python-uv`)
 - 폴더마다 수강생이 읽을 `README.md`를 둬요. 무엇을 배우는지, 어떤 순서로 보면 되는지, 꼭 기억할 명령을 적어요.
 - 슬라이드가 있는 폴더에는 수강생이 바로 받을 HTML(`주제-slides.html`, 애니메이션 포함)과 PDF(`주제-slides.pdf`)를 같이 둬요. 슬라이드를 고치면 둘 다 다시 만들어요. 만드는 스크립트는 `02-git-basics/tools/`의 `build_player.js`, `export.js`예요.
 - 자료 단위는 "챕터"라고 불러요. README 커리큘럼 표와 챕터 README에는 슬라이드 장수(34장 같은 표시)를 적지 않아요. 챕터 README 맨 위 표는 슬라이드, 이전 챕터, 다음 챕터 세 칸이에요.
@@ -34,6 +34,8 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 - 터미널 출력은 실제 git으로 실행해 보고 그대로 옮겨요. 지어낸 출력은 넣지 않아요.
 - VS Code Git Graph는 결과를 그림으로 확인할 때만 써요. checkout, merge, reset 같은 명령은 Git Graph 메뉴 대신 터미널에서 쳐요.
 - 브랜치를 가리키는 말은 모든 덱에서 "이름표"로 통일해요. 꼬리표, 라벨처럼 다른 말을 섞지 않아요.
+- 파이썬 프로젝트는 uv로 만들어요. `uv init`, `uv run 파일`, `uv add 패키지`, `uv remove 패키지`, `uv sync`를 써요. `pip install`, `python -m venv`, `source .venv/bin/activate`, `requirements.txt`는 09에서 예전 방식 비교로만 보여 주고 따라 치게 하지 않아요. 다른 자료에 `pip install 패키지`가 나오면 `uv add 패키지`로 바꿔 적어요.
+- 파이썬 실행은 `uv run main.py`로 적어요. `python main.py`, `python3 main.py`는 예전 방식이나 오류 예시에서만 써요. `.venv`는 GitHub에 올리지 않고, `pyproject.toml`, `uv.lock`, `.python-version`은 올려요.
 
 ## 배포 전 점검
 
@@ -41,7 +43,7 @@ main에 올리기 전에 매번 아래를 확인해요.
 
 1. 새로 넣은 장이 배우는 순서에 맞는 자리인지 봐요. 아직 안 배운 명령이나 개념이 먼저 나오면 안 돼요.
 2. 같은 덱과 다른 덱(01, 02, 03 …)의 내용, 용어, 해시, 발표자 노트의 앞 장 참조와 어긋나지 않는지 봐요.
-3. 위 수업 규칙에 어긋나는 명령이 없는지 검색해요. (`-u`, `--graph`, `--all`, `commit -am`, 07 밖의 `restore`, `stash`, 08 앞의 `rebase`, `--squash`, `--no-ff`)
+3. 위 수업 규칙에 어긋나는 명령이 없는지 검색해요. (`-u`, `--graph`, `--all`, `commit -am`, 07 밖의 `restore`, `stash`, 08 앞의 `rebase`, `--squash`, `--no-ff`, 09 비교 장 밖의 `pip install`, `activate`)
 4. 챕터 README(구성의 쪽 번호, 명령어 요약, 실습, 문제 해결)와 맨 위 README(다루는 명령, 과정 규칙)를 슬라이드에 맞춰 고쳐요.
 5. README의 실습 명령을 순서대로 쳤을 때 실제로 동작하는지 확인해요.
 6. HTML과 PDF를 다시 만들어요.

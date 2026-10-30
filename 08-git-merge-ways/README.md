@@ -4,7 +4,7 @@
 
 | 슬라이드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) | [09 · uv로 파이썬 시작하기](../09-python-uv) |
 
 ## 학습 목표
 
@@ -223,4 +223,4 @@ node tools/export.js slides git-merge-ways-slides.pdf
 
 ---
 
-[← 이전: 07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) · [커리큘럼](../README.md)
+[← 이전: 07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) · [커리큘럼](../README.md) · [다음: 09 · uv로 파이썬 시작하기 →](../09-python-uv)
