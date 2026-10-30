@@ -25,3 +25,6 @@ print("=== 마크다운 글을 코드 셀에 적었을 때")
 run(['오늘 배운 것'])
 print("=== 변수 이름 규칙을 어긴 셀")
 run(['1st_name = "kim"', 'my name = "kim"', 'my-name = "kim"', 'class = "kim"'])
+print("=== 자료형")
+run(['# 정수형 자료형\nage = 25\n\n# 실수 자료형\npi = 3.14\n\n# 불리언 자료형(Boolean)\nis_alive = True\n\n# 문자열 자료형\nuser_name = "kim"\n\n# 리스트 (다른 언어의 배열과 비슷해요)\ngrade_type = [1, 2, 3, 4, 5]',
+     'print(type(age))\nprint(type(pi))\nprint(type(is_alive))\nprint(type(user_name))\nprint(type(grade_type))'])

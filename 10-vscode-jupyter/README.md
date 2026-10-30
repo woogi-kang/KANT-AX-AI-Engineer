@@ -1,6 +1,6 @@
 # 10 · VS Code에서 Jupyter 노트북 쓰기
 
-> 09에서 VS Code에 Jupyter를 연결하고 첫 셀을 실행했어요. 이번 챕터는 노트북을 손에 익혀요. 셀을 실행하는 키 세 가지, 실행 번호 읽는 법, Restart와 Run All, 명령 모드와 편집 모드를 차례로 봐요. 수업에서 정한 변수 이름 규칙과 컨벤션(표기법)은 마크다운 셀에 정리해요. 마지막에 Windows와 Mac 단축키를 한 표로 모았어요.
+> 09에서 VS Code에 Jupyter를 연결하고 첫 셀을 실행했어요. 이번 챕터는 노트북을 손에 익혀요. 셀을 실행하는 키 세 가지, 실행 번호 읽는 법, Restart와 Run All, 명령 모드와 편집 모드를 차례로 봐요. 수업에서 정한 변수 이름 규칙과 컨벤션(표기법)은 마크다운 셀에, 기본 자료형은 코드 셀에 정리하고 `type()`으로 확인해요. 마지막에 Windows와 Mac 단축키를 한 표로 모았어요.
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
@@ -16,6 +16,7 @@
 - 대괄호 숫자가 실행한 순서라는 것을 알고, 꼬였을 때 Restart 뒤 Run All로 다시 실행해요.
 - 명령 모드와 편집 모드를 `Esc`, `Enter`로 오가고, 명령 모드 글자 키(A, B, D D, Z, M, Y, L)를 써요.
 - 마크다운 셀에 `---`, `###`, `-`로 규칙을 정리하고, 변수 이름 규칙과 세 가지 표기법을 구분해요.
+- 정수, 실수, 불리언, 문자열, 리스트를 코드 셀에 적고 `type()`으로 자료형을 확인해요.
 
 ## 시작하기 전에
 
@@ -35,9 +36,9 @@
 | 1. 노트북 화면 읽기 | 4–5 | 화면의 다섯 곳, 코드 셀과 마크다운 셀 |
 | 2. 셀 실행하기 | 6–12 | `Ctrl+Enter`, `Shift+Enter`, `Alt+Enter`, 실행 번호와 커널이 기억하는 값, 같은 셀 다시 실행, Restart와 Run All, 위쪽 버튼 |
 | 3. 명령 모드와 편집 모드 | 13–18 | 두 모드와 `Esc`·`Enter`, 키로만 셀 만들기(네 장), 명령 모드 글자 키 |
-| 4. 마크다운 셀로 규칙 정리하기 | 19–21 | 마크다운 셀에 변수 이름 규칙 적기, 규칙을 어긴 이름의 SyntaxError, 컨벤션(스네이크, 파스칼, 카멜 표기법) |
-| 5. 단축키 모음 | 22–23 | 실행하고 셀 다루는 키, 글 고치는 키와 파일 키 (Windows, Mac 나란히) |
-| 정리 | 24–25 | 막힐 때, 한 장 요약 |
+| 4. 노트북에 수업 내용 정리하기 | 19–23 | 마크다운 셀에 변수 이름 규칙 적기, 규칙을 어긴 이름의 SyntaxError, 컨벤션(스네이크, 파스칼, 카멜 표기법), 자료형 다섯 가지, `type()`으로 확인 |
+| 5. 단축키 모음 | 24–25 | 실행하고 셀 다루는 키, 글 고치는 키와 파일 키 (Windows, Mac 나란히) |
+| 정리 | 26–27 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -101,6 +102,16 @@ Mac의 실행 키는 Cmd가 아니라 control이에요. VS Code 기본 설정이
 | 스네이크 표기법 (snake_case) | `user_name` | 변수, 함수 이름. 우리는 이걸 써요 |
 | 파스칼 표기법 (PascalCase) | `UserProfile` | 클래스 이름 |
 | 카멜 표기법 (camelCase) | `userName` | 잘 안 써요. 자바스크립트에서 많이 써요 |
+
+### 기본 자료형
+
+| 값 | 자료형 | `type()` 출력 | 뜻 |
+| --- | --- | --- | --- |
+| `25` | 정수 | `<class 'int'>` | 소수점 없는 숫자 |
+| `3.14` | 실수 | `<class 'float'>` | 소수점 있는 숫자 |
+| `True` | 불리언 | `<class 'bool'>` | `True` 또는 `False` 두 값만 |
+| `"kim"` | 문자열 | `<class 'str'>` | 따옴표로 감싼 글자 |
+| `[1, 2, 3, 4, 5]` | 리스트 | `<class 'list'>` | 여러 값을 순서대로. 다른 언어의 배열(Array)과 비슷해요 |
 
 ## 실습
 
@@ -169,6 +180,37 @@ x
 
 아래에 코드 셀을 만들고 `my-name = "kim"`을 실행해 SyntaxError를 직접 봐요. `my_name = "kim"`으로 고치면 오류 없이 실행돼요.
 
+### 6. 자료형 적고 type()으로 확인하기
+
+코드 셀에 아래를 적고 실행해요. 값을 기억만 해서 출력은 없어요.
+
+```python
+# 정수형 자료형
+age = 25
+
+# 실수 자료형
+pi = 3.14
+
+# 불리언 자료형(Boolean)
+is_alive = True
+
+# 문자열 자료형
+user_name = "kim"
+
+# 리스트 (다른 언어의 배열과 비슷해요)
+grade_type = [1, 2, 3, 4, 5]
+```
+
+아래 셀에서 자료형을 물어봐요.
+
+```python
+print(type(age))          # <class 'int'>
+print(type(pi))           # <class 'float'>
+print(type(is_alive))     # <class 'bool'>
+print(type(user_name))    # <class 'str'>
+print(type(grade_type))   # <class 'list'>
+```
+
 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
 
 ## 단축키 요약
@@ -235,7 +277,7 @@ node tools/build_player.js slides vscode-jupyter-slides.html
 node tools/export.js slides vscode-jupyter-slides.pdf
 ```
 
-셀 출력(20, `'안녕하세요, kim'`, 11, 12, NameError, 이름 규칙 SyntaxError 네 가지)은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. Restart는 새 커널을 띄워 재현했어요. 오류는 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요. SyntaxError 괄호 안의 임시 파일 이름과 줄 번호, 하이픈 오류 뒤의 `Maybe you meant '==' instead of '='?`도 뺐어요. demo.sh 환경의 커널은 Python 3.13이었고, 메시지는 3.14와 같아요. VS Code 화면은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. 단축키는 VS Code 기본 설정 기준이에요. Mac 셀 실행이 `control+Enter`인 것은 VS Code 저장소 이슈 #221892, #213675에서 확인했어요.
+셀 출력(20, `'안녕하세요, kim'`, 11, 12, NameError, 이름 규칙 SyntaxError 네 가지, `type()` 다섯 줄)은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. Restart는 새 커널을 띄워 재현했어요. 오류는 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요. SyntaxError 괄호 안의 임시 파일 이름과 줄 번호, 하이픈 오류 뒤의 `Maybe you meant '==' instead of '='?`도 뺐어요. demo.sh 환경의 커널은 Python 3.13이었고, 메시지는 3.14와 같아요. VS Code 화면은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. 단축키는 VS Code 기본 설정 기준이에요. Mac 셀 실행이 `control+Enter`인 것은 VS Code 저장소 이슈 #221892, #213675에서 확인했어요.
 
 </details>
 
