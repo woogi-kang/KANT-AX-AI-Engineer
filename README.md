@@ -19,6 +19,14 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 
 챕터는 번호 순서대로 이어져요. 앞 챕터에서 만든 폴더와 저장소를 다음 챕터에서 그대로 써요.
 
+## 번외
+
+정규 챕터와 따로 보는 보충 자료예요. 순서 없이 필요한 것만 골라 봐요. 목록은 [extras](./extras)에도 있어요.
+
+| 번외 | 다루는 내용 | 슬&#8288;라&#8288;이&#8288;드 |
+| --- | --- | --- |
+| [터미널에서 길 잃지 않기](./extras/terminal-path-help) | 탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) |
+
 ## 학습 방법
 
 1. 커리큘럼 표의 **열기**를 눌러 슬라이드를 브라우저에서 봐요.
@@ -81,6 +89,8 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 ├── 08-git-merge-ways/
 ├── 09-python-uv/
 ├── 10-vscode-jupyter/
+├── extras/                       번외 자료 (주제마다 폴더 하나)
+│   └── terminal-path-help/
 └── CLAUDE.md                     자료 작성 규칙
 ```
 
@@ -88,4 +98,5 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 
 - 슬라이드를 고치면 챕터의 `tools/`로 HTML과 PDF를 다시 만들어요. 명령은 챕터 README의 강사용 절에 있어요.
 - 새 챕터는 `11-주제`처럼 다음 번호로 폴더를 만들고 커리큘럼 표에 한 줄을 더해요.
+- 번외는 `extras/주제` 폴더에 번호 없이 만들고, 위 번외 표와 `extras/README.md`에 한 줄씩 더해요.
 - 글쓰기와 폴더 규칙은 [CLAUDE.md](./CLAUDE.md)를 따라요.

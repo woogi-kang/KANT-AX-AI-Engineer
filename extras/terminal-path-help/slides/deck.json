@@ -1,0 +1,84 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-31T09:00:00Z"
+  },
+  "lists": "css",
+  "title": "터미널에서 길 잃지 않기",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "sync0",
+    "sync1",
+    "sync2",
+    "sync3",
+    "sync4",
+    "sync5",
+    "sync6",
+    "match",
+    "open",
+    "same-uv",
+    "same-git",
+    "wrong-init",
+    "init-fix",
+    "habit",
+    "status-read",
+    "prompt",
+    "names",
+    "dash",
+    "common",
+    "except",
+    "origin-main",
+    "push-read",
+    "usage",
+    "options",
+    "git-help",
+    "git-list",
+    "git-h",
+    "pager",
+    "uv-help",
+    "typo",
+    "find",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "sync": {
+      "description": "탐색기와 터미널 맞춰 보기",
+      "start": "sync0"
+    },
+    "cwd": {
+      "description": "위치가 맞아야 명령이 동작해요",
+      "start": "same-uv"
+    },
+    "names": {
+      "description": "이름에 담긴 관례",
+      "start": "names"
+    },
+    "help": {
+      "description": "도움말로 스스로 찾기",
+      "start": "usage"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
