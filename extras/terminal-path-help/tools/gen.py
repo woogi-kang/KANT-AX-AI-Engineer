@@ -1,4 +1,4 @@
-"""Generates every slide of the extra deck "터미널에서 길 잃지 않기" and slides/deck.json.
+"""Generates every slide of the extra deck "터미널 환경에서 적응하기" and slides/deck.json.
 
 Story: the explorer window (Finder, Windows Explorer) and the terminal move in sync through
 ~/kant (hello-uv from 09, team-intro from 06). Then the same command run in the right and the
@@ -175,7 +175,7 @@ STATUS_KIM = ["On branch main", "Your branch is up to date with 'origin/main'.",
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 번외</p>',
-       '<h1 style="font-size:100px;font-weight:900;line-height:1.15;color:#F6F5F1">터미널에서<br>길 잃지 않기</h1>',
+       '<h1 style="font-size:100px;font-weight:900;line-height:1.15;color:#F6F5F1">터미널 환경에서<br>적응하기</h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">지금 위치 확인하는 습관과<br>-h, --help로 도움 받기</p>']
 cov.append(term([("$", "~/kant", "pwd"), ("o", "/home/kim/kant"), ("$", "~/kant", "ls"), ("o", OUT_LS["kant"]), ("$", "~/kant", "uv --help"), ("o", "An extremely fast Python package manager.")],
                 1060, 330, 740, 420, tid="cov-term", size=26))
@@ -665,7 +665,7 @@ t += ['</div>', f'<p style="font-size:26px;color:{SUB}">{page["why"]}쪽은 들�
 with open(os.path.join(OUT, "toc.html"), "w") as f:
     f.write("\n".join(t) + f"\n<aside>{e('번외 자료라서 정해진 진도는 없어요. 터미널에서 자주 길을 잃으면 1, 2파트를, 명령을 자꾸 잊으면 3, 4파트를 봐요. 1파트는 01의 폴더 이동을 탐색기와 나란히 다시 보는 거예요.')}</aside>\n</section>\n")
 
-deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-10-31T09:00:00Z"}, "lists": "css", "title": "터미널에서 길 잃지 않기", "order": ORDER,
+deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-10-31T09:00:00Z"}, "lists": "css", "title": "터미널 환경에서 적응하기", "order": ORDER,
         "sections": SECTIONS,
         "faces": {"noto-sans-kr": {"family": "Noto Sans KR", "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"},
                   "jetbrains-mono": {"family": "JetBrains Mono", "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"}},

@@ -23,9 +23,9 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 
 정규 챕터와 따로 보는 보충 자료예요. 순서 없이 필요한 것만 골라 봐요. 목록은 [extras](./extras)에도 있어요.
 
-| 번외 | 다루는 내용 | 슬&#8288;라&#8288;이&#8288;드 |
+| 제&#8288;목 | 다루는 내용 | 슬&#8288;라&#8288;이&#8288;드 |
 | --- | --- | --- |
-| [터미널에서 길 잃지 않기](./extras/terminal-path-help) | 탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) |
+| [터미널 환경에서 적응하기](./extras/terminal-path-help) | 탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) |
 
 ## 학습 방법
 
