@@ -4,7 +4,7 @@
 
 | 제&#8288;목 | 다루는 내용 | 슬&#8288;라&#8288;이&#8288;드 |
 | --- | --- | --- |
-| [터미널 환경에서 적응하기](./terminal-path-help) | 탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) |
+| [터미널 환경에 적응하기](./terminal-path-help) | 탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) |
 
 새 번외는 `extras/주제` 폴더에 만들고 이 표와 맨 위 README의 번외 표에 한 줄씩 더해요.
 
