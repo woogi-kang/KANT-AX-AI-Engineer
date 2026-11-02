@@ -5,7 +5,7 @@
     "at": "2026-11-02T03:00:00Z"
   },
   "lists": "css",
-  "title": "파이썬 기초, 변수와 연산",
+  "title": "파이썬 기초 (변수, 타입, 연산)",
   "order": [
     "cover",
     "toc",
@@ -16,6 +16,11 @@
     "update",
     "last-line",
     "name-err",
+    "types",
+    "type-follows",
+    "quotes",
+    "convert",
+    "convert-err",
     "ops4",
     "div",
     "ops3",
@@ -43,6 +48,10 @@
     "var": {
       "description": "변수에 값 넣기",
       "start": "assign"
+    },
+    "types": {
+      "description": "변수 타입",
+      "start": "types"
     },
     "calc": {
       "description": "사칙연산",

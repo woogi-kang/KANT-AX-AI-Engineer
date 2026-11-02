@@ -183,16 +183,16 @@ CELL_W = 860
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       '<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초<br>변수와 연산</h1>',
-       '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">값에 이름 붙이고,<br>계산하고, 참 거짓 따지기</p>']
+       '<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초<br>변수, 타입, 연산</h1>',
+       '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">값에 이름 붙이고, 타입 알고,<br>계산하고, 참 거짓 따지기</p>']
 cov.append(f'<div style="position:absolute;left:1100px;top:300px;width:680px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:34px">')
-for code, out_, c in [("age = 25", "넣기", "#8FB4FF"), ("7 // 3", "2", "#7FD3DA"), ("age >= 20", "True", "#C4B1FF")]:
+for code, out_, c in [("age = 25", "넣기", "#8FB4FF"), ("type(age)", "int", "#9FB3E6"), ("7 // 3", "2", "#7FD3DA"), ("age >= 20", "True", "#C4B1FF")]:
     cov.append('<div style="display:flex;flex-direction:row;align-items:center;gap:28px">'
                + p(f"width:330px;flex:none;font-family:{MONO};font-size:38px;font-weight:700;color:{c};white-space:pre", e(code))
                + f'<x-shape kind="arrow-right" style="width:50px;height:30px;background:#5A6172"></x-shape>'
                + p(f"font-family:{MONO};font-size:36px;font-weight:700;color:#E6E9EF", e(out_)) + '</div>')
 cov.append('</div>')
-W("cover", cov, "10에서 노트북을 다루는 법과 자료형을 봤어요. 이번 챕터는 파이썬 코드를 직접 적어요. 값에 이름을 붙이는 변수, 숫자를 계산하는 사칙연산, True와 False로 답하는 비교와 논리연산을 차례로 봐요. 모든 예제는 노트북 셀에 적고 실행해요.", ("intro", "들어가기"))
+W("cover", cov, "10에서 노트북을 다루는 법과 자료형을 봤어요. 이번 챕터는 파이썬 코드를 직접 적어요. 값에 이름을 붙이는 변수, 값의 종류인 타입, 숫자를 계산하는 사칙연산, True와 False로 답하는 비교와 논리연산을 차례로 봐요. 모든 예제는 노트북 셀에 적고 실행해요.", ("intro", "들어가기"))
 
 ORDER.append("toc")   # written last, after page numbers are known
 
@@ -292,8 +292,75 @@ o.append(card(984, 420, 840, 360, p(f"font-size:30px;font-weight:700;color:{INK}
 o.append(caption("NameError가 나면 철자부터 보고, 넣는 셀을 실행했는지 봐요.", 900))
 W("name-err", o, "NameError는 파이썬이 모르는 이름을 썼다는 뜻이에요. 파이썬은 대문자와 소문자를 다른 글자로 봐서, age에 값을 넣었어도 Age는 모르는 이름이에요. 철자를 하나 틀려도 같은 오류가 나요. 10에서 본 것처럼 Restart 뒤에 넣는 셀을 건너뛰고 아래 셀만 실행해도 나요. 그럴 땐 Run All로 위에서부터 다시 실행해요. 출력은 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요.")
 
-# ---------- part 2: arithmetic ----------
-EB2 = "2. 사칙연산"
+# ---------- part 2: types ----------
+EBT = "2. 변수 타입"
+TT = NAVY
+TYPES4 = [("25", "int", "정수", "소수점 없는 숫자", BL), ("172.5", "float", "실수", "소수점 있는 숫자", NAVY), ('"kim"', "str", "문자열", "따옴표로 감싼 글자", GR), ("False", "bool", "불리언", "True 또는 False", PUR)]
+o = [sec("types")] + head(EBT, "값마다 타입이 있어요", TT)
+o += cell({"id": "c-ty", "lines": ["age = 25", "height = 172.5", 'user_name = "kim"', "is_member = False", "print(type(age))", "print(type(height))", "print(type(user_name))", "print(type(is_member))"],
+           "n": 1, "out": [f"<class '{t[1]}'>" for t in TYPES4]}, 96, 210, 820, sel="c-ty")
+for i, (v, t, k, d, c) in enumerate(TYPES4):
+    x, y = 980 + (i % 2) * 432, 210 + (i // 2) * 330
+    o.append(card(x, y, 412, 306, '<div style="display:flex;flex-direction:row;align-items:baseline;gap:14px">' + p(f"font-size:34px;font-weight:700;color:{c}", k)
+                  + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{GRAY}", t) + '</div>'
+                  + mono(v, 40, INK, "#F6F5F1", "align-self:flex-start") + '<div style="flex:1"></div>' + p(f"font-size:24px;color:{SUB}", d), c, f' data-build-in="rise order {i + 1}"'))
+o.append(caption("타입은 값의 종류예요. 10에서 본 자료형과 같은 말이에요.", 900))
+W("types", o, "변수에 넣는 값에는 종류가 있어요. 이 종류를 타입 또는 자료형이라고 불러요. 10의 22, 23쪽에서 다섯 가지를 type()으로 확인했어요. 이번 챕터에서 계산과 비교에 쓰는 네 가지를 다시 봐요. 정수 int, 실수 float, 문자열 str, 불리언 bool이에요. 리스트는 10에서 본 대로 여러 값을 묶는 타입이고, 뒤에서 따로 배워요. 출력은 hello-uv 커널에서 실제로 실행한 결과예요. 이 파트도 새 커널이라서 셀 번호가 [1]부터 시작해요.", ("types", "변수 타입"))
+
+o = [sec("type-follows")] + head(EBT, "타입은 이름이 아니라 값을 따라가요", TT)
+o += cell({"id": "c-tf", "lines": ["x = 10", "print(type(x))", 'x = "ten"', "print(type(x))"], "n": 2, "out": ["<class 'int'>", "<class 'str'>"]}, 96, 220, 820, sel="c-tf")
+for i, (v, t, c) in enumerate([("10", "int", BL), ('"ten"', "str", GR)]):
+    x = 1000 + i * 440
+    o.append(f'<div data-build-in="pop order {i * 2 + 1}" style="position:absolute;left:{x}px;top:220px;width:360px;display:flex;flex-direction:column;align-items:center;gap:16px">'
+             + f'<div style="width:360px;height:220px;background:{CARD};border:3px solid {TT};border-radius:22px;display:flex;flex-direction:column;overflow:hidden">'
+             + p(f"height:64px;flex:none;background:{TT};color:#FFFFFF;font-family:{MONO};font-size:32px;font-weight:700;line-height:64px;padding:0 24px", "x")
+             + '<div style="flex:1;display:flex;align-items:center;justify-content:center">' + p(f"font-family:{MONO};font-size:60px;font-weight:700;color:{INK}", e(v)) + '</div></div>'
+             + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{c};background:#F1F0EC;border-radius:10px;padding:4px 18px", t) + '</div>')
+o.append(f'<x-shape kind="arrow-right" data-build-in="fade order 2" style="position:absolute;left:1370px;top:310px;width:60px;height:40px;background:#C9CED8"></x-shape>')
+o.append(card(96, 600, 1728, 220, '<div style="display:flex;flex-direction:row;align-items:center;gap:30px">'
+              + f'<x-icon name="Lightbulb" style="width:52px;height:52px;color:{OR}"></x-icon>'
+              + p(f"flex:1;font-size:30px;line-height:1.5;color:{INK}", "이름 x는 그대로인데, 넣은 값이 바뀌니 타입도 바뀌었어요.<br>타입을 미리 정하지 않아도 넣는 값을 보고 정해져요.") + '</div>', None, ' data-build-in="rise order 4"', "justify-content:center"))
+o.append(caption("한 이름에는 한 가지 뜻의 값만 넣어요. 헷갈리면 type()으로 확인해요.", 900))
+W("type-follows", o, "파이썬은 변수를 만들 때 타입을 따로 적지 않아요. 넣은 값을 보고 타입이 정해져요. 그래서 같은 x에 10을 넣으면 int, \"ten\"을 넣으면 str이 돼요. 다른 언어 중에는 변수마다 타입을 정해 두고 다른 값을 못 넣게 하는 언어도 있어요. 파이썬은 자유로운 대신 실수하기 쉬워서, 나이를 넣던 이름에 갑자기 글자를 넣는 일은 피해요.")
+
+o = [sec("quotes")] + head(EBT, "따옴표 하나로 숫자가 글자가 돼요", TT)
+o += cell({"id": "c-q", "lines": ["print(type(25))", 'print(type("25"))', "print(25 + 1)", 'print("25" + "1")'], "n": 3, "out": ["<class 'int'>", "<class 'str'>", "26", "251"]}, 96, 220, 820, sel="c-q")
+for i, (v, t, calc, r, d, c) in enumerate([("25", "int", "25 + 1", "26", "숫자끼리 더해요", BL), ('"25"', "str", '"25" + "1"', "251", "글자끼리 이어 붙여요", GR)]):
+    y = 220 + i * 320
+    o.append(card(980, y, 844, 290, '<div style="display:flex;flex-direction:row;align-items:center;gap:20px">' + mono(v, 44, c, "#F6F5F1")
+                  + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{GRAY}", t) + '</div>'
+                  + '<div style="display:flex;flex-direction:row;align-items:center;gap:16px">' + mono(calc, 30)
+                  + f'<x-shape kind="arrow-right" style="width:40px;height:24px;flex:none;background:#C9CED8"></x-shape>' + p(f"font-family:{MONO};font-size:36px;font-weight:700;color:{c}", r) + '</div>'
+                  + p(f"font-size:26px;color:{SUB}", d), c, f' data-build-in="rise order {i + 1}"'))
+o.append(caption("겉모습이 숫자여도 따옴표 안에 있으면 str이에요.", 900))
+W("quotes", o, "25와 \"25\"는 화면에서는 비슷해 보여도 타입이 달라요. 따옴표가 없으면 int라서 + 가 더하기가 되고, 따옴표가 있으면 str이라서 + 가 이어 붙이기가 돼요. 그래서 \"25\" + \"1\"은 26이 아니라 251이에요. print는 따옴표를 빼고 보여 줘서 출력만 보면 구분이 안 돼요. 헷갈리면 type()으로 확인해요. 파일이나 사용자 입력에서 읽은 숫자는 대부분 글자로 들어와서 실제로 자주 만나는 문제예요.")
+
+o = [sec("convert")] + head(EBT, "int(), float(), str()로 타입을 바꿔요", TT)
+o += cell({"id": "c-cv", "lines": ['print(int("3") + 3)', 'print(str(3) + "3")', 'print(float("3.5"))', "print(int(3.9))"], "n": 4, "out": ["6", "33", "3.5", "3"]}, 96, 220, 760, sel="c-cv")
+cv = [('int("3")', "3", "글자를 정수로", BL), ("str(3)", "'3'", "숫자를 글자로", GR), ('float("3.5")', "3.5", "글자를 실수로", NAVY), ("int(3.9)", "3", "소수점 아래는 버려요", OR)]
+for i, (code, r, d, c) in enumerate(cv):
+    x, y = 920 + (i % 2) * 464, 220 + (i // 2) * 330
+    o.append(card(x, y, 440, 306, p(f"font-size:28px;font-weight:700;color:{c}", d) + '<div style="flex:1"></div>'
+                  + mono(code, 32, INK, "#F6F5F1", "align-self:flex-start") + '<div style="display:flex;flex-direction:row;align-items:center;gap:16px">'
+                  + f'<x-shape kind="arrow-right" style="width:40px;height:24px;flex:none;background:#C9CED8"></x-shape>' + p(f"font-family:{MONO};font-size:36px;font-weight:700;color:{c}", e(r)) + '</div>',
+                  c, f' data-build-in="rise order {i + 1}"'))
+o.append(caption("바꾸고 싶은 타입 이름을 함수처럼 쓰고 괄호 안에 값을 넣어요.", 900))
+W("convert", o, "타입 이름 int, float, str을 type()처럼 괄호와 함께 쓰면 그 타입으로 바꾼 값을 돌려줘요. int(\"3\")은 글자 3을 정수 3으로 바꿔서 3을 더하면 6이 돼요. str(3)은 반대로 숫자를 글자로 바꿔서 \"3\"과 이어 붙이면 33이에요. int(3.9)는 반올림이 아니라 소수점 아래를 버려서 3이에요. 원래 변수의 값은 그대로이고, 바꾼 값을 쓰려면 age = int(age)처럼 다시 넣어요.")
+
+o = [sec("convert-err")] + head(EBT, "숫자로 못 읽는 글자는 ValueError가 나요", TT)
+o += cell({"id": "c-ce1", "lines": ['int("삼")'], "n": 5, "out": ["ValueError: invalid literal for int() with base 10: '삼'"], "err": True}, 96, 220, 1728, attrs=' data-build-in="rise order 1"')
+o += cell({"id": "c-ce2", "lines": ['int("3.5")'], "n": 6, "out": ["ValueError: invalid literal for int() with base 10: '3.5'"], "err": True}, 96, 360, 1728, sel="c-ce2", attrs=' data-build-in="rise order 2"')
+o.append(card(96, 540, 840, 280, p(f"font-size:30px;font-weight:700;color:{INK}", "한글 숫자는 못 읽어요")
+              + p(f"font-size:26px;line-height:1.5;color:{SUB}", "int()는 0부터 9까지 숫자 글자만 읽어요.<br>\"삼\"은 사람에게만 숫자예요."), RED, ' data-build-in="rise order 3"'))
+o.append(card(984, 540, 840, 280, p(f"font-size:30px;font-weight:700;color:{INK}", "소수점 글자는 float()로")
+              + '<div style="display:flex;flex-direction:row;align-items:center;gap:16px">' + mono('float("3.5")', 30)
+              + f'<x-shape kind="arrow-right" style="width:40px;height:24px;flex:none;background:#C9CED8"></x-shape>' + p(f"font-family:{MONO};font-size:34px;font-weight:700;color:{NAVY}", "3.5") + '</div>'
+              + p(f"font-size:24px;color:{SUB}", "앞 장에서 실행한 결과예요"), NAVY, ' data-build-in="rise order 4"'))
+o.append(caption("ValueError는 타입은 맞는데 값을 바꿀 수 없다는 뜻이에요.", 900))
+W("convert-err", o, "int()에 숫자로 읽을 수 없는 글자를 넣으면 ValueError가 나요. 메시지의 base 10은 10진수로 읽으려 했다는 뜻이에요. 한글 \"삼\"은 사람에게는 숫자지만 파이썬은 못 읽어요. \"3.5\"처럼 소수점이 있는 글자도 int()는 바로 못 읽어요. 그럴 땐 float(\"3.5\")로 바꿔요. 앞 장의 int(3.9)는 글자가 아니라 실수를 넣어서 오류 없이 3이 됐어요. 출력은 Traceback의 마지막 줄만 옮겼어요.")
+
+# ---------- part 3: arithmetic ----------
+EB2 = "3. 사칙연산"
 T2 = TEAL
 o = [sec("ops4")] + head(EB2, "더하기, 빼기, 곱하기, 나누기", T2)
 o += cell({"id": "c-ops", "lines": ["print(7 + 3)", "print(7 - 3)", "print(7 * 3)", "print(7 / 3)"], "n": 1, "out": ["10", "4", "21", "2.3333333333333335"]}, 96, 220, 760, sel="c-ops")
@@ -321,8 +388,8 @@ for i, (v, t, k, c) in enumerate([("3", "int", "정수", BL), ("3.0", "float", "
                   + '<div style="display:flex;flex-direction:column;gap:6px">' + '<div style="display:flex;flex-direction:row;align-items:baseline;gap:14px">' + p(f"font-size:34px;font-weight:700;color:{c}", k)
                   + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{GRAY}", t) + '</div>'
                   + p(f"font-size:26px;color:{SUB}", "소수점 없는 숫자" if t == "int" else "소수점 있는 숫자. / 의 결과는 늘 이쪽") + '</div></div>', c, f' data-build-in="rise order {i + 2}"', "justify-content:center"))
-o.append(caption("값은 같아도 자료형이 달라요. 10에서 본 int와 float예요.", 900))
-W("div", o, "나누기 / 의 결과는 나눠떨어져도 항상 실수(float)예요. 6 / 2는 3이 아니라 3.0으로 나와요. 계산한 값은 같지만 자료형이 달라요. 10에서 type()으로 본 int와 float를 떠올려요. 소수점 없는 몫만 필요하면 다음 장의 // 를 써요.")
+o.append(caption("값은 같아도 타입이 달라요. 2파트에서 본 int와 float예요.", 900))
+W("div", o, "나누기 / 의 결과는 나눠떨어져도 항상 실수(float)예요. 6 / 2는 3이 아니라 3.0으로 나와요. 계산한 값은 같지만 타입이 달라요. 2파트에서 본 int와 float예요. 7 + 3처럼 정수끼리 더하면 int, 7 + 0.5처럼 실수가 섞이면 float가 돼요. type()으로 실제로 확인한 결과예요. 소수점 없는 몫만 필요하면 다음 장의 // 를 써요.")
 
 o = [sec("ops3")] + head(EB2, "몫 //, 나머지 %, 거듭제곱 **", T2)
 o.append(p(f"position:absolute;left:96px;top:210px;width:1000px;font-size:30px;font-weight:700;color:{INK}", "사탕 7개를 3개씩 나누면"))
@@ -397,11 +464,11 @@ for i, (code, out_, d, c, err) in enumerate(so):
                   + f'<x-shape kind="arrow-right" style="width:40px;height:24px;flex:none;background:#C9CED8"></x-shape>'
                   + p(f"font-family:{MONO};font-size:{20 if err else 34}px;font-weight:700;color:{c};white-space:{'normal' if err else 'nowrap'};line-height:1.4", e(out_)) + '</div>',
                   c, f' data-build-in="rise order {i + 1}"'))
-o.append(caption("따옴표가 있으면 글자예요. 숫자와 섞어서 더하면 TypeError가 나요.", 900))
-W("str-ops", o, "문자열에도 + 와 * 를 쓸 수 있어요. + 는 두 글자를 이어 붙이고, * 는 정수만큼 반복해요. 셀 마지막 줄의 값이라서 출력에 따옴표가 붙었어요. 셋째 칸이 헷갈리기 쉬워요. 따옴표로 감싼 \"3\"은 숫자가 아니라 글자라서 \"3\" + \"3\"은 6이 아니라 '33'이에요. 넷째 칸처럼 글자와 숫자를 더하면 TypeError가 나요. 메시지는 str(문자열)에는 int(정수)를 이어 붙일 수 없다는 뜻이에요. 계산하려면 따옴표 없이 숫자로 적어요. 출력은 Traceback의 마지막 줄만 옮겼어요.")
+o.append(caption("글자와 숫자를 섞어 더하면 TypeError예요. int(\"3\") + 3처럼 타입을 맞춰요.", 900))
+W("str-ops", o, "문자열에도 + 와 * 를 쓸 수 있어요. + 는 두 글자를 이어 붙이고, * 는 정수만큼 반복해요. 셀 마지막 줄의 값이라서 출력에 따옴표가 붙었어요. 셋째 칸이 헷갈리기 쉬워요. 따옴표로 감싼 \"3\"은 숫자가 아니라 글자라서 \"3\" + \"3\"은 6이 아니라 '33'이에요. 넷째 칸처럼 글자와 숫자를 더하면 TypeError가 나요. 메시지는 str(문자열)에는 int(정수)를 이어 붙일 수 없다는 뜻이에요. 계산하려면 2파트에서 본 int(\"3\")처럼 숫자로 바꿔요. 출력은 Traceback의 마지막 줄만 옮겼어요.")
 
-# ---------- part 3: comparison and logic ----------
-EB3 = "3. 비교와 논리연산"
+# ---------- part 4: comparison and logic ----------
+EB3 = "4. 비교와 논리연산"
 T3 = PUR
 o = [sec("compare")] + head(EB3, "비교하면 답은 True 아니면 False예요", T3)
 cmp_ = [(">", "크다", "age > 20", "True"), ("<", "작다", "age < 20", "False"), ("==", "같다", "age == 25", "True"),
@@ -517,11 +584,12 @@ EB5 = "정리"
 o = [sec("trouble")] + head(EB5, "막히면 오류의 마지막 줄을 봐요", RED)
 tr = [("NameError: name 'Age' is not defined", "대문자와 소문자를 다르게 적었거나 넣는 셀을 안 돌렸어요", "철자 확인, Run All"),
       ("NameError: name 'true' is not defined", "True, False는 첫 글자가 대문자예요", "True  False"),
-      ('TypeError: can only concatenate str (not "int") to str', "따옴표 글자와 숫자를 더했어요", '"3" 대신 3'),
+      ('TypeError: can only concatenate str (not "int") to str', "따옴표 글자와 숫자를 더했어요", 'int("3") + 3'),
+      ("ValueError: invalid literal for int() with base 10: '삼'", "int()가 숫자로 못 읽는 글자예요", "소수 글자는 float()"),
       ("ZeroDivisionError: division by zero", "0으로 나눴어요", "나누는 수 확인"),
       ("비교했는데 값이 바뀌었어요", "= 를 하나만 썼어요", "== 두 개"),
       ("6 / 2가 3.0으로 나와요", "/ 의 결과는 항상 실수예요", "몫만 필요하면 //")]
-o.append('<div style="position:absolute;left:96px;top:210px;width:1728px;height:670px;display:flex;flex-direction:column;gap:14px">')
+o.append('<div style="position:absolute;left:96px;top:196px;width:1728px;height:716px;display:flex;flex-direction:column;gap:10px">')
 for i, (q, a_, cmd) in enumerate(tr, 1):
     m = "Error" in q
     o.append(f'<div data-build-in="rise order {i}" style="flex:1;display:flex;flex-direction:row;gap:26px;align-items:center;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:8px 30px">'
@@ -529,42 +597,43 @@ for i, (q, a_, cmd) in enumerate(tr, 1):
              + '<div style="flex:1;display:flex;flex-direction:column;gap:4px">' + p(f"{'font-family:' + MONO + ';font-size:22px;' if m else 'font-size:26px;'}font-weight:700;color:{INK};white-space:nowrap", e(q)) + p(f"font-size:22px;color:{SUB}", e(a_)) + '</div>'
              + p(f"width:300px;flex:none;font-size:24px;font-weight:700;line-height:1.5;color:{INK};background:#EEEFF2;padding:8px 18px;border-radius:12px;white-space:pre", e(cmd)) + '</div>')
 o.append('</div>')
-o.append(caption("오류가 나면 위쪽 Traceback보다 맨 아래 줄부터 읽어요.", 920))
-W("trouble", o, "오류 메시지는 길어도 맨 아래 한 줄에 원인이 있어요. 1번과 2번은 NameError예요. 이름 철자, 대소문자, True와 False의 첫 글자를 봐요. 3번은 따옴표로 감싼 글자와 숫자를 더했을 때예요. 4번은 0으로 나눴을 때예요. 10 / 0을 실제로 실행한 결과예요. 5번은 오류 없이 값만 바뀌어서 알아채기 어려워요. 6번도 오류는 아니지만 자주 묻는 질문이에요. 위 출력은 모두 hello-uv 커널에서 실제로 실행한 결과의 마지막 줄이에요.", ("trouble", "정리"))
+o.append(caption("오류가 나면 위쪽 Traceback보다 맨 아래 줄부터 읽어요.", 940))
+W("trouble", o, "오류 메시지는 길어도 맨 아래 한 줄에 원인이 있어요. 1번과 2번은 NameError예요. 이름 철자, 대소문자, True와 False의 첫 글자를 봐요. 3번은 따옴표로 감싼 글자와 숫자를 더했을 때예요. int()로 타입을 맞춰요. 4번은 int()가 숫자로 못 읽는 글자를 받았을 때예요. 5번은 0으로 나눴을 때예요. 10 / 0을 실제로 실행한 결과예요. 6번은 오류 없이 값만 바뀌어서 알아채기 어려워요. 7번도 오류는 아니지만 자주 묻는 질문이에요. 위 출력은 모두 hello-uv 커널에서 실제로 실행한 결과의 마지막 줄이에요.", ("trouble", "정리"))
 
 o = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">',
      f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">한 장 요약</h2>']
-cheat = [("age = 25", "오른쪽 값을 왼쪽 이름에 넣기", BL), ('print("나이:", age)', "설명 붙여 값 보기", BL), ("score += 10", "지금 값에 더해서 다시 넣기", T2),
-         ("+  -  *  /", "사칙연산. / 는 항상 실수", T2), ("//  %  **", "몫, 나머지, 거듭제곱", T2), ("==  !=  >  <", "비교하면 True 아니면 False", T3)]
+cheat = [("age = 25", "오른쪽 값을 왼쪽 이름에 넣기", BL), ('print("나이:", age)', "설명 붙여 값 보기", BL), ("type(age)", "타입 확인", TT), ('int("3")  str(3)', "타입 바꾸기", TT),
+         ("+ - * /", "사칙연산. / 는 항상 실수", T2), ("// % **", "몫, 나머지, 거듭제곱", T2), ("score += 10", "지금 값에 더해 다시 넣기", T2), ("== != > <", "비교하면 True 아니면 False", T3)]
 for i, (k, d, c) in enumerate(cheat):
-    x, y = 96 + (i % 3) * 584, 200 + (i // 3) * 290
-    o.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:560px;height:264px;background:{CARD};border:2px solid {LINE};border-top:10px solid {c};border-radius:20px;padding:28px 32px;display:flex;flex-direction:column;gap:20px">'
-             + mono(k, 34, c, "#F6F5F1", "align-self:flex-start") + p(f"font-size:30px;font-weight:700;color:{INK}", d) + '</div>')
+    x, y = 96 + (i % 4) * 438, 200 + (i // 4) * 290
+    o.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:414px;height:264px;background:{CARD};border:2px solid {LINE};border-top:10px solid {c};border-radius:20px;padding:28px 28px;display:flex;flex-direction:column;gap:20px">'
+             + mono(k, 28, c, "#F6F5F1", "align-self:flex-start") + p(f"font-size:28px;font-weight:700;color:{INK}", d) + '</div>')
 o.append(f'<div style="position:absolute;left:96px;top:780px;width:1728px;height:210px;background:{CARD};border:2px solid {LINE};border-radius:20px;padding:24px 36px;display:flex;flex-direction:column;justify-content:center;gap:14px">'
          + p(f"font-size:30px;font-weight:700;color:{INK}", f'<span style="font-family:\'JetBrains Mono\';color:{T3}">and</span> 둘 다 True · <span style="font-family:\'JetBrains Mono\';color:{T3}">or</span> 하나라도 True · <span style="font-family:\'JetBrains Mono\';color:{T3}">not</span> 뒤집기')
          + p(f"font-size:30px;font-weight:700;color:{INK}", '푸는 순서는 계산, 비교, not, and, or. <span style="font-weight:400;color:' + SUB + '">헷갈리면 괄호로 묶어요</span>') + '</div>')
-W("cheatsheet", o, "이번 챕터에서 쓴 기호를 한 장에 모았어요. = 는 넣기, == 는 묻기라는 것만은 꼭 기억해요. 노트북에 이 장의 내용을 마크다운 셀로 정리해 두면 복습할 때 같이 봐요. 다음에 배울 if 문은 여기서 만든 True, False로 할 일을 고르는 문법이에요.")
+W("cheatsheet", o, "이번 챕터에서 쓴 기호와 함수를 한 장에 모았어요. = 는 넣기, == 는 묻기라는 것만은 꼭 기억해요. 노트북에 이 장의 내용을 마크다운 셀로 정리해 두면 복습할 때 같이 봐요. 다음에 배울 if 문은 여기서 만든 True, False로 할 일을 고르는 문법이에요.")
 
 # ---------- toc ----------
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 parts = [("Archive", BL, "변수에 값 넣기", "= 로 넣기, 값 보기, 다시 넣기, NameError", "assign", "name-err"),
+         ("Database", TT, "변수 타입", "int, float, str, bool, type(), 타입 바꾸기", "types", "convert-err"),
          ("Activity", T2, "사칙연산", "+ - * /, 몫과 나머지, 계산 순서, +=, 글자 연산", "ops4", "str-ops"),
          ("Check", T3, "비교와 논리연산", "== 와 =, True와 False, and, or, not", "compare", "logic-order")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      f'<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>',
-     '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;flex:1">']
+     '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px;flex:1">']
 for i, (ic, c, h, s, a, b) in enumerate(parts, 1):
     t.append(f'<div style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:2px solid {LINE};border-top:10px solid {c};border-radius:20px;padding:32px 36px">'
              f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><p style="font-size:60px;font-weight:900;line-height:1.25;color:{c}">{i}</p>'
              f'<x-icon name="{ic}" style="width:48px;height:48px;color:{c}"></x-icon></div>'
-             f'<h3 style="font-size:36px;font-weight:700;color:{INK}">{h}</h3>'
+             f'<h3 style="font-size:32px;font-weight:700;color:{INK}">{h}</h3>'
              f'<p style="font-size:28px;line-height:1.5;color:{SUB}">{e(s)}</p><div style="flex:1"></div>'
              f'<p style="font-size:26px;color:#6A7180">{page[a]}–{page[b]}쪽</p></div>')
 t += ['</div>', f'<p style="font-size:26px;color:{SUB}">{page["ready"]}쪽은 노트북 준비, {page["trouble"]}–{page["cheatsheet"]}쪽은 막힐 때와 한 장 요약이에요.</p>']
 with open(os.path.join(OUT, "toc.html"), "w") as f:
-    f.write("\n".join(t) + f"\n<aside>{e('세 파트는 앞 파트를 그대로 이어서 써요. 1파트의 = 로 넣는 법을 2파트 계산과 3파트 비교에서 계속 써요. 셀은 위에서부터 차례로 실행해요.')}</aside>\n</section>\n")
+    f.write("\n".join(t) + f"\n<aside>{e('네 파트는 앞 파트를 그대로 이어서 써요. 1파트의 = 로 넣는 법과 2파트의 타입을 3파트 계산과 4파트 비교에서 계속 써요. 셀은 위에서부터 차례로 실행해요.')}</aside>\n</section>\n")
 
-deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-11-02T03:00:00Z"}, "lists": "css", "title": "파이썬 기초, 변수와 연산", "order": ORDER,
+deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-11-02T03:00:00Z"}, "lists": "css", "title": "파이썬 기초 (변수, 타입, 연산)", "order": ORDER,
         "sections": SECTIONS,
         "faces": {"noto-sans-kr": {"family": "Noto Sans KR", "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"},
                   "jetbrains-mono": {"family": "JetBrains Mono", "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"}},

@@ -17,7 +17,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [09 · uv로 파이썬 시작하기](./09-python-uv) | 예전 방식(venv, pip)과 나란히 비교, `brew`·`winget`으로 uv 설치, `uv init` `uv run` `uv add` `uv remove` `uv tree` `uv sync`, 가상환경 켜기(`activate`), fastapi 넣고 빼기, VS Code Jupyter(`uv add --dev ipykernel`) | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) |
 | [10 · VS Code에서 Jupyter 노트북 쓰기](./10-vscode-jupyter) | 셀 실행 키 세 가지(`Shift+Enter` 등), 코드 셀과 마크다운 셀, 실행 번호, Restart와 Run All, 명령 모드와 편집 모드, 마크다운 셀로 변수 이름 규칙과 컨벤션 정리, 자료형과 `type()`, Windows·Mac 단축키 표 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/10-vscode-jupyter/vscode-jupyter-slides.html) |
 | [11 · 터미널에서 GitHub 다루기 (gh)](./11-gh-cli) | `gh auth login` `gh auth status`, 권한 더하기(`gh auth refresh -s delete_repo`), `gh repo clone` `view` `list` `create` `delete`, `gh browse`, `gh issue create` `list`, `gh pr create` `list` `view` `merge` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) |
-| [12 · 파이썬 기초, 변수와 연산](./12-python-basics) | 변수 할당(`=`), `print("설명", 값)`, 사칙연산 `+` `-` `*` `/`, 몫·나머지·거듭제곱 `//` `%` `**`, 계산 순서, `+=`, 비교 연산자, `True`·`False`, 논리연산 `and` `or` `not` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) |
+| [12 · 파이썬 기초 (변수, 타입, 연산)](./12-python-basics) | 변수 할당(`=`), `print("설명", 값)`, 변수 타입(`int` `float` `str` `bool`, `type()`), 타입 바꾸기(`int()` `float()` `str()`), 사칙연산 `+` `-` `*` `/`, 몫·나머지·거듭제곱 `//` `%` `**`, 계산 순서, `+=`, 비교 연산자, `True`·`False`, 논리연산 `and` `or` `not` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) |
 
 챕터는 번호 순서대로 이어져요. 앞 챕터에서 만든 폴더와 저장소를 다음 챕터에서 그대로 써요.
 
