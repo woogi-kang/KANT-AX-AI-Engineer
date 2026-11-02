@@ -5,7 +5,7 @@
     "at": "2026-11-02T03:00:00Z"
   },
   "lists": "css",
-  "title": "파이썬 기초 (변수, 타입, 연산)",
+  "title": "파이썬 기초 (변수, 타입, 연산, 문자열)",
   "order": [
     "cover",
     "toc",
@@ -44,6 +44,21 @@
     "ride",
     "discount",
     "logic-order",
+    "str-make",
+    "str-index",
+    "str-slice",
+    "print-sep",
+    "escape",
+    "fmt-ways",
+    "fmt-sd",
+    "fmt-format",
+    "fmt-order",
+    "fmt-width",
+    "fmt-float",
+    "fmt-comma",
+    "fmt-format2",
+    "fmt-align",
+    "fmt-err",
     "trouble",
     "cheatsheet"
   ],
@@ -67,6 +82,10 @@
     "logic": {
       "description": "비교와 논리연산",
       "start": "compare"
+    },
+    "strings": {
+      "description": "문자열과 출력",
+      "start": "str-make"
     },
     "trouble": {
       "description": "정리",

@@ -183,16 +183,16 @@ CELL_W = 860
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       '<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초<br>변수, 타입, 연산</h1>',
-       '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">값에 이름 붙이고, 타입 알고,<br>계산하고, 참 거짓 따지기</p>']
+       '<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초<br>변수, 타입, 연산,<br>문자열</h1>',
+       '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">값에 이름 붙이고, 계산하고,<br>보기 좋게 출력하기</p>']
 cov.append(f'<div style="position:absolute;left:1100px;top:300px;width:680px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:34px">')
-for code, out_, c in [("age = 25", "넣기", "#8FB4FF"), ("type(age)", "int", "#9FB3E6"), ("7 // 3", "2", "#7FD3DA"), ("age >= 20", "True", "#C4B1FF")]:
+for code, out_, c in [("age = 25", "넣기", "#8FB4FF"), ("type(age)", "int", "#9FB3E6"), ("7 // 3", "2", "#7FD3DA"), ("age >= 20", "True", "#C4B1FF"), ('f"{pi:.2f}"', "3.14", "#8FE0B0")]:
     cov.append('<div style="display:flex;flex-direction:row;align-items:center;gap:28px">'
                + p(f"width:330px;flex:none;font-family:{MONO};font-size:38px;font-weight:700;color:{c};white-space:pre", e(code))
                + f'<x-shape kind="arrow-right" style="width:50px;height:30px;background:#5A6172"></x-shape>'
                + p(f"font-family:{MONO};font-size:36px;font-weight:700;color:#E6E9EF", e(out_)) + '</div>')
 cov.append('</div>')
-W("cover", cov, "10에서 노트북을 다루는 법과 자료형을 봤어요. 이번 챕터는 파이썬 코드를 직접 적어요. 값에 이름을 붙이는 변수, 값의 종류인 타입, 숫자를 계산하는 사칙연산, True와 False로 답하는 비교와 논리연산을 차례로 봐요. 모든 예제는 노트북 셀에 적고 실행해요.", ("intro", "들어가기"))
+W("cover", cov, "10에서 노트북을 다루는 법과 자료형을 봤어요. 이번 챕터는 파이썬 코드를 직접 적어요. 값에 이름을 붙이는 변수, 값의 종류인 타입, 숫자를 계산하는 사칙연산, True와 False로 답하는 비교와 논리연산을 봐요. 마지막에 문자열을 다루고 % 포맷팅으로 출력 모양을 맞춰요. 모든 예제는 노트북 셀에 적고 실행해요.", ("intro", "들어가기"))
 
 ORDER.append("toc")   # written last, after page numbers are known
 
@@ -696,6 +696,216 @@ o.append(card(1160, 220, 664, 470, p(f"font-size:30px;font-weight:700;color:{INK
 o.append(caption("헷갈리면 (age >= 20) and (age < 30)처럼 괄호로 묶어요.", 900))
 W("logic-order", o, "여러 연산이 섞이면 정해진 순서대로 풀어요. 계산이 가장 먼저라서 2 + 3이 5가 돼요. 그다음 비교로 5 > 4가 True가 돼요. 그다음 not False가 True가 되고, 마지막에 True and True가 True예요. and와 or가 섞이면 and를 먼저 해요. 순서를 외우지 않아도 괄호로 묶으면 그 안을 먼저 계산해요. 예를 들어 age = 25일 때 age >= 20 and age < 30은 20대인지 묻는 식이고 True가 나와요. 출력은 같은 셀을 실제로 실행한 결과예요.")
 
+# ---------- part 5: strings and output ----------
+EB5S = "5. 문자열과 출력"
+T5 = GR
+
+
+def boxes(chars, left, top, size=110, hi=(), labels_top=None, labels_bot=None, attrs=""):
+    """Characters in boxes with index numbers above (and negative numbers below)."""
+    o = [f'<div{attrs} style="position:absolute;left:{left}px;top:{top}px;display:flex;flex-direction:row;gap:8px">']
+    for i, ch in enumerate(chars):
+        on = i in hi
+        o.append('<div style="display:flex;flex-direction:column;align-items:center;gap:8px">'
+                 + (p(f"font-family:{MONO};font-size:24px;font-weight:700;color:{T5}", str(labels_top[i])) if labels_top else "")
+                 + p(f"width:{size}px;height:{size}px;border-radius:14px;border:3px solid {T5 if on else LINE};background:{'#E6F4EC' if on else CARD};font-family:{MONO};font-size:{size * 0.5:.0f}px;font-weight:700;line-height:{size - 6}px;text-align:center;color:{INK};white-space:pre", e(ch) if ch != " " else "&#160;")
+                 + (p(f"font-family:{MONO};font-size:22px;color:{GRAY}", str(labels_bot[i])) if labels_bot else "") + '</div>')
+    o.append('</div>')
+    return "".join(o)
+
+
+o = [sec("str-make")] + head(EB5S, "문자열은 따옴표로 감싸요", T5)
+o += cell({"id": "c-sm", "lines": ["a = 'kim'", 'b = "kim"', "print(a == b)", 'print(len("hello"))', 'print("It\'s me")'], "n": 1, "out": ["True", "5", "It's me"]}, 96, 210, 800, sel="c-sm")
+sm = [("'kim'  \"kim\"", "작은따옴표, 큰따옴표 모두 같은 문자열", "a == b 는 True"),
+      ('len("hello")', "글자 수를 세요", "h e l l o 다섯 글자라서 5"),
+      ('"It\'s me"', "글자 안에 ' 가 있으면", "바깥을 \" 로 감싸요")]
+for i, (code, d, sub) in enumerate(sm):
+    o.append(card(960, 210 + i * 210, 864, 190, mono(code, 32, T5, "#E6F4EC", "align-self:flex-start") + p(f"font-size:28px;font-weight:700;color:{INK}", d) + p(f"font-size:22px;color:{SUB}", e(sub)), None, f' data-build-in="rise order {i + 1}"'))
+o.append(caption("한 파일 안에서는 한 가지 따옴표로 맞춰 쓰면 읽기 쉬워요.", 900))
+W("str-make", o, "문자열은 글자를 따옴표로 감싼 값이에요. 2파트에서 본 str 타입이에요. 작은따옴표와 큰따옴표는 뜻이 같아서 a == b 가 True예요. len()은 글자 수를 세는 함수예요. hello는 다섯 글자라 5가 나와요. 공백도 한 글자로 세요. 글자 안에 작은따옴표가 들어가면 바깥을 큰따옴표로 감싸요. 반대도 마찬가지예요. 출력은 hello-uv 커널에서 실제로 실행한 결과예요. 이 파트도 새 커널이라 셀 번호가 [1]부터예요.", ("strings", "문자열과 출력"))
+
+o = [sec("str-index")] + head(EB5S, "[번호]로 글자 하나를 꺼내요", T5)
+o += cell({"id": "c-si", "lines": ['word = "python"', "print(word[0])", "print(word[1])", "print(word[-1])"], "n": 2, "out": ["p", "y", "n"]}, 96, 210, 700, sel="c-si")
+o.append(boxes("python", 860, 210, 140, hi=(0, 1, 5), labels_top=list(range(6)), labels_bot=list(range(-6, 0)), attrs=' data-build-in="rise order 1"'))
+o.append(p(f"position:absolute;left:860px;top:470px;width:964px;font-size:24px;color:{SUB}", "위 숫자는 앞에서부터, 아래 숫자는 뒤에서부터 센 번호예요.", ' data-build-in="fade order 1"'))
+o += cell({"id": "c-si2", "lines": ["word[6]"], "n": 5, "out": ["IndexError: string index out of range"], "err": True}, 96, 560, 1728, attrs=' data-build-in="rise order 2"')
+o.append(card(96, 720, 1728, 120, '<div style="display:flex;flex-direction:row;align-items:center;gap:24px">' + mono("0", 36, T5, "#E6F4EC") + p(f"font-size:28px;color:{INK}", "번호는 1이 아니라 0부터 세요. 여섯 글자의 마지막 번호는 5예요.") + '</div>', None, ' data-build-in="rise order 3"', "justify-content:center"))
+o.append(caption("word[-1]은 맨 뒤 글자예요. 길이를 몰라도 끝을 꺼낼 수 있어요.", 900))
+W("str-index", o, "문자열 뒤에 대괄호와 번호를 붙이면 그 자리의 글자 하나를 꺼내요. 이 번호를 인덱스라고 불러요. 첫 글자는 0번이에요. 그래서 python의 p는 0번, y는 1번, 마지막 n은 5번이에요. 음수 번호는 뒤에서부터 세요. -1이 맨 뒤 글자예요. 없는 번호 6을 쓰면 IndexError가 나요. 메시지는 번호가 범위를 벗어났다는 뜻이에요. 출력은 Traceback의 마지막 줄만 옮겼어요. 10에서 본 리스트도 같은 방식으로 꺼내요.")
+
+o = [sec("str-slice")] + head(EB5S, "[시작:끝]으로 여러 글자를 잘라요", T5)
+o += cell({"id": "c-ss1", "lines": ["word[0:2]"], "n": 3, "out": ["'py'"]}, 96, 210, 700)
+o += cell({"id": "c-ss2", "lines": ["print(word[2:5])", "print(word[:2])", "print(word[2:])"], "n": 4, "out": ["tho", "py", "thon"]}, 96, 360, 700, sel="c-ss2")
+sl = [("word[0:2]", (0, 1), "'py'", "0번부터 2번 앞까지"), ("word[2:5]", (2, 3, 4), "tho", "2번부터 5번 앞까지"), ("word[:2]", (0, 1), "py", "시작을 비우면 처음부터"), ("word[2:]", (2, 3, 4, 5), "thon", "끝을 비우면 끝까지")]
+for i, (code, hi, out_, d) in enumerate(sl):
+    y = 210 + i * 170
+    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:860px;top:{y}px;width:964px;height:150px;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:0 24px;display:flex;flex-direction:row;align-items:center;gap:22px">'
+             + '<div style="width:230px;flex:none;display:flex;flex-direction:column;gap:8px">' + mono(code, 26, T5, "#E6F4EC", "align-self:flex-start") + p(f"font-size:20px;color:{SUB}", d) + '</div>'
+             + boxes("python", 0, 0, 62, hi=hi).replace("position:absolute;left:0px;top:0px;", "")
+             + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{T5}", e(out_)) + '</div>')
+o.append(caption("끝 번호의 글자는 들어가지 않아요. [0:2]는 0번, 1번 두 글자예요.", 920))
+W("str-slice", o, "대괄호 안에 시작:끝을 적으면 그 사이의 글자를 잘라 와요. 슬라이싱이라고 불러요. 시작 번호의 글자는 들어가고, 끝 번호의 글자는 들어가지 않아요. 그래서 word[0:2]는 0번 p와 1번 y만 가져와 py예요. 끝 번호 빼기 시작 번호가 잘라 온 글자 수예요. 시작을 비우면 처음부터, 끝을 비우면 마지막까지예요. 출력은 같은 word로 실제로 실행한 결과예요.")
+
+o = [sec("print-sep")] + head(EB5S, "print의 sep과 end로 모양을 바꿔요", T5)
+o += cell({"id": "c-ps", "lines": ['print("kim", "lee")', 'print("kim", "lee", sep="-")', 'print("2026", "11", "02", sep=".")', 'print("hello", end=" ")', 'print("world")'], "n": 6,
+           "out": ["kim lee", "kim-lee", "2026.11.02", "hello world"]}, 96, 210, 860, sel="c-ps")
+ps = [("sep", "값 사이에 넣을 글자", 'sep="-"  →  kim-lee', "기본은 빈칸 한 개"), ("end", "줄 끝에 붙일 글자", 'end=" "  →  다음 print가 같은 줄에', "기본은 줄바꿈")]
+for i, (k, d, ex, sub) in enumerate(ps):
+    o.append(card(1020, 210 + i * 320, 804, 290, '<div style="display:flex;flex-direction:row;align-items:center;gap:18px">' + mono(k, 40, T5, "#E6F4EC") + p(f"font-size:30px;font-weight:700;color:{INK}", d) + '</div>'
+                  + mono(ex, 26, INK, "#F6F5F1", "align-self:flex-start") + p(f"font-size:24px;color:{SUB}", sub), T5, f' data-build-in="rise order {i + 1}"'))
+o.append(caption("print(\"설명\", 값)이 빈칸으로 이어진 건 sep의 기본값이 빈칸이라서예요.", 900))
+W("print-sep", o, "print에 쉼표로 여러 값을 넣으면 사이에 빈칸이 하나씩 들어가요. 1파트의 print(\"나이:\", age)도 그래서 나이: 25로 나왔어요. sep=\"-\"처럼 적으면 빈칸 대신 다른 글자를 넣어요. 날짜를 점으로 잇는 예처럼 써요. print는 끝에 줄바꿈을 붙여서 다음 print가 아랫줄에 나와요. end=\" \"를 주면 줄바꿈 대신 빈칸을 붙여서 다음 print가 같은 줄에 이어져요. sep, end 뒤의 = 는 넣기가 아니라 print에 옵션을 주는 표시예요.")
+
+o = [sec("escape")] + head(EB5S, "\\ 로 시작하는 특수 문자", T5)
+o += cell({"id": "c-es", "lines": ['print("첫째 줄\\n둘째 줄")', 'print("이름\\tkim")', 'print("경로: C:\\\\Users")'], "n": 7, "out": ["첫째 줄", "둘째 줄", "이름\tkim", "경로: C:\\Users"]}, 96, 210, 860, sel="c-es")
+es = [("\\n", "줄바꿈", "글자 사이에서 다음 줄로"), ("\\t", "탭", "칸을 띄워 줄 맞추기"), ("\\\\", "역슬래시 하나", "\\ 자체를 쓰고 싶을 때")]
+for i, (k, n_, d) in enumerate(es):
+    o.append(card(1020, 210 + i * 210, 804, 190, '<div style="display:flex;flex-direction:row;align-items:center;gap:22px">' + mono(k, 44, T5, "#E6F4EC")
+                  + '<div style="display:flex;flex-direction:column;gap:4px">' + p(f"font-size:30px;font-weight:700;color:{INK}", n_) + p(f"font-size:24px;color:{SUB}", d) + '</div></div>', None, f' data-build-in="rise order {i + 1}"', "justify-content:center"))
+o.append(caption("Windows 키보드에서는 \\ 가 ₩ 로 보여요. 같은 키예요.", 900))
+W("escape", o, "따옴표 안에서 역슬래시 \\ 뒤의 글자는 특별한 뜻이 돼요. \\n은 줄바꿈이라 print 한 번으로 두 줄이 나와요. \\t는 탭이라 칸을 띄워요. 역슬래시 자체를 쓰려면 \\\\처럼 두 번 적어요. Windows 경로를 적을 때 자주 만나요. 한글 Windows 키보드와 글꼴에서는 역슬래시가 원화 표시로 보이는데, 같은 키예요. 출력은 실제로 실행한 결과예요.")
+
+OLD_C, NEW_C = OR, T5
+
+
+def dual(sid, lc, rc, top=200, w=850, attrs_r=' data-build-in="rise order 1"'):
+    """% cell on the left, f-string cell on the right."""
+    o = [p(f"position:absolute;left:96px;top:{top}px;width:{w}px;font-size:26px;font-weight:700;color:{OLD_C}", "% 방식 · 옛 방식"),
+         p(f"position:absolute;left:{1824 - w}px;top:{top}px;width:{w}px;font-size:26px;font-weight:700;color:{NEW_C}", "f-string · 요즘 방식", attrs_r)]
+    o += cell(lc, 96, top + 46, w)
+    o += cell(rc, 1824 - w, top + 46, w, sel=rc["id"], attrs=attrs_r)
+    return o
+
+
+def map_rows(rows, top, start=2, h=96):
+    """Rows of (% code, f-string code, meaning) placed under the two cells."""
+    o = []
+    for i, (a, b, d) in enumerate(rows):
+        y = top + i * (h + 12)
+        o.append(f'<div data-build-in="rise order {start + i}" style="position:absolute;left:96px;top:{y}px;width:1728px;height:{h}px;background:{CARD};border:2px solid {LINE};border-radius:16px;padding:0 26px;display:flex;flex-direction:row;align-items:center;gap:22px">'
+                 + f'<div style="width:420px;flex:none">' + mono(a, 28, OLD_C, "#FDF3E7", "display:inline-block") + '</div>'
+                 + f'<x-shape kind="arrow-right" style="width:40px;height:24px;flex:none;background:#C9CED8"></x-shape>'
+                 + f'<div style="width:480px;flex:none">' + mono(b, 28, NEW_C, "#E6F4EC", "display:inline-block") + '</div>'
+                 + p(f"flex:1;font-size:24px;color:{SUB}", e(d)) + '</div>')
+    return o
+
+
+o = [sec("fmt-ways")] + head(EB5S, "값을 끼워 넣는 방법은 세 가지예요", T5)
+o += cell({"id": "c-fw", "lines": ['name = "kim"', "age = 25", 'print("%s 님은 %d살이에요" % (name, age))', 'print("{} 님은 {}살이에요".format(name, age))', 'print(f"{name} 님은 {age}살이에요")'], "n": 8,
+           "out": ["kim 님은 25살이에요"] * 3}, 96, 200, 1728, sel="c-fw")
+ways = [("% 포맷팅", '"%s" % name', "C 언어에서 온 가장 옛 방식", "옛 코드와 책에서 자주 봐요", OLD_C),
+        ("format()", '"{}".format(name)', "파이썬 3.0부터 (2008년)", "중간 세대예요", NAVY),
+        ("f-string", 'f"{name}"', "파이썬 3.6부터 (2016년)", "요즘 표준. 새 코드는 이걸로 써요", NEW_C)]
+for i, (t, code, when, d, c) in enumerate(ways):
+    x = 96 + i * 584
+    o.append(card(x, 566, 560, 296, p(f"font-size:32px;font-weight:700;color:{c}", t) + mono(code, 28, INK, "#F6F5F1", "align-self:flex-start")
+                  + '<div style="flex:1"></div>' + p(f"font-size:24px;font-weight:700;color:{INK}", when) + p(f"font-size:22px;color:{SUB}", d), c, f' data-build-in="rise order {i + 1}"'))
+o.append(caption("세 줄 모두 결과가 같아요. 이 챕터는 % 와 f-string을 나란히 봐요.", 920))
+W("fmt-ways", o, "문자열 안에 변수 값을 끼워 넣는 방법은 세 가지예요. 셀의 세 줄은 실제로 실행하면 똑같은 문장을 출력해요. % 포맷팅은 C 언어에서 가져온 가장 오래된 방식이라 옛 코드, 오래된 책, 블로그에서 많이 보여요. format()은 파이썬 3.0에서 나온 중간 세대예요. f-string은 파이썬 3.6에서 나왔고 지금 표준이에요. 따옴표 앞에 f를 붙이고 중괄호 안에 변수 이름을 바로 적어서 가장 읽기 쉬워요. 새로 짜는 코드는 f-string으로 쓰고, % 는 남의 코드를 읽을 수 있을 만큼 알아 둬요. 다음 장부터 모든 예시를 % 와 f-string으로 나란히 실행해요.")
+
+o = [sec("fmt-sd")] + head(EB5S, "%s, %d 자리와 f-string의 { }", T5)
+o += dual("fmt-sd", {"id": "c-p1", "lines": ['print("이름: %s" % name)', 'print("나이: %d살" % age)'], "n": 9, "out": ["이름: kim", "나이: 25살"]},
+          {"id": "c-f1", "lines": ['print(f"이름: {name}")', 'print(f"나이: {age}살")', 'print(f"내년: {age + 1}살")'], "n": 10, "out": ["이름: kim", "나이: 25살", "내년: 26살"]})
+o += map_rows([('"%s" % name', 'f"{name}"', "문자열 자리"), ('"%d" % age', 'f"{age}"', "정수 자리. f-string은 타입을 안 적어도 돼요"),
+               ('"%s %d" % (name, age)', 'f"{name} {age}"', "여러 개면 % 는 괄호로 묶어 순서대로")], 560)
+o.append(caption("f-string은 따옴표 앞에 f, 중괄호 안에 이름이나 계산식을 바로 적어요.", 920))
+W("fmt-sd", o, "왼쪽은 % 방식이에요. 문자열 안에 %s(문자열), %d(정수), %f(실수) 같은 빈자리를 만들고, 문자열 뒤 % 다음에 값을 적어요. 자리가 둘 이상이면 값을 괄호로 묶어 순서대로 적어요. 이 묶음은 튜플이라고 부르는데 뒤에서 배워요. 여기서 % 는 3파트의 나머지가 아니라 끼워 넣기예요. 오른쪽은 f-string이에요. 따옴표 앞에 f를 붙이고, 값이 들어갈 자리에 중괄호와 변수 이름을 바로 적어요. 타입을 따로 적지 않아도 되고, {age + 1}처럼 계산식도 넣을 수 있어요. 출력은 두 셀을 실제로 실행한 결과예요.")
+
+o = [sec("fmt-format")] + head(EB5S, "format()은 {0} {1} {2} 번호로 값을 넣어요", T5)
+o += cell({"id": "c-fo", "lines": ['cake = "치즈케이크"', "price = 5000", "qty = 2", 'print("주문내역은 : {0}, {1}, {2}".format(cake, price, qty))', 'print("주문내역은 : {}, {}, {}".format(cake, price, qty))',
+                                    'print("{0} {2}개, 하나에 {1}원".format(cake, price, qty))', 'print("{0}, {0}, {0}".format(cake))'], "n": 11,
+           "out": ["주문내역은 : 치즈케이크, 5000, 2", "주문내역은 : 치즈케이크, 5000, 2", "치즈케이크 2개, 하나에 5000원", "치즈케이크, 치즈케이크, 치즈케이크"]}, 96, 200, 1728, sel="c-fo")
+fo = [("{0}", "cake", "치즈케이크"), ("{1}", "price", "5000"), ("{2}", "qty", "2")]
+for i, (k, v, r) in enumerate(fo):
+    x = 96 + i * 584
+    o.append(card(x, 716, 560, 150, '<div style="display:flex;flex-direction:row;align-items:center;gap:16px">' + mono(k, 34, NAVY, "#E8EEF8")
+                  + '<x-shape kind="arrow-left" style="width:40px;height:24px;flex:none;background:#C9CED8"></x-shape>' + mono(v, 30, INK, "#F6F5F1") + '</div>'
+                  + p(f"font-size:22px;color:{SUB}", e(f"{i}번째 값 → {r}")), NAVY, f' data-build-in="rise order {i + 1}"', "justify-content:center"))
+o.append(caption("번호는 0부터 세요. 번호를 비우면 순서대로, 번호를 쓰면 순서를 바꾸거나 여러 번 쓸 수 있어요.", 920))
+W("fmt-format", o, "가운데 세대인 format() 방식이에요. 문자열 안에 중괄호와 번호로 빈자리를 만들고, 뒤에 .format(괄호)를 붙여 값을 순서대로 적어요. 번호는 0부터 세요. cake가 0번, price가 1번, qty가 2번이라서 {0}, {1}, {2}에 차례로 들어가요. 둘째 줄처럼 번호를 비우면 적은 순서대로 들어가요. 셋째 줄은 번호로 순서를 바꿨어요. 넷째 줄은 {0}을 세 번 써서 같은 값을 여러 번 넣었어요. % 방식은 자리 순서와 값 순서가 꼭 같아야 해서 이렇게 못 해요. 모두 실제로 실행한 결과예요.")
+
+o = [sec("fmt-order")] + head(EB5S, "같은 주문내역을 세 방식으로 적어 봐요", T5)
+o += cell({"id": "c-fod", "lines": ['print("주문내역은 : %s, %d, %d" % (cake, price, qty))', 'print("주문내역은 : {0}, {1}, {2}".format(cake, price, qty))', 'print(f"주문내역은 : {cake}, {price}, {qty}")',
+                                     'print(f"{cake} {qty}개, 하나에 {price}원")', 'print(f"{cake} {qty}개, 합계 {price * qty:,}원")'], "n": 12,
+           "out": ["주문내역은 : 치즈케이크, 5000, 2", "주문내역은 : 치즈케이크, 5000, 2", "주문내역은 : 치즈케이크, 5000, 2", "치즈케이크 2개, 하나에 5000원", "치즈케이크 2개, 합계 10,000원"]}, 96, 200, 1728, sel="c-fod")
+ow = [("% 방식", "%s, %d, %d", "자리 순서 = 값 순서", OLD_C), ("format()", "{0}, {1}, {2}", "번호로 값을 골라요", NAVY), ("f-string", "{cake}, {price}, {qty}", "이름을 바로 적어요", NEW_C)]
+for i, (t, code, d, c) in enumerate(ow):
+    x = 96 + i * 584
+    o.append(card(x, 716, 560, 170, p(f"font-size:28px;font-weight:700;color:{c}", t) + mono(code, 26, INK, "#F6F5F1", "align-self:flex-start") + p(f"font-size:22px;color:{SUB}", d),
+                  c, f' data-build-in="rise order {i + 1}"', "justify-content:center"))
+o.append(caption("f-string은 { } 안에 계산식과 모양도 넣어요. {price * qty:,} 는 합계에 콤마를 찍어요.", 930))
+W("fmt-order", o, "앞 장의 주문내역을 세 방식으로 나란히 적었어요. 첫 줄은 % 방식이에요. %s, %d, %d 자리에 괄호 안 값이 순서대로 들어가요. 둘째 줄은 format() 방식이라 번호로 값을 골라요. 셋째 줄은 f-string이에요. 중괄호 안에 cake, price, qty 이름을 바로 적어서 어떤 값이 어디 들어가는지 한눈에 보여요. 넷째 줄은 순서를 바꿔도 이름만 옮기면 돼요. 다섯째 줄처럼 중괄호 안에서 price * qty를 계산하고 콜론 뒤에 쉼표를 붙여 합계 10,000원을 바로 찍을 수도 있어요. 세 줄 모두 결과가 같고, 실제로 실행한 결과예요.")
+
+o = [sec("fmt-width")] + head(EB5S, "%5d 와 {42:5d} 는 다섯 칸을 확보해요", T5)
+o += dual("fmt-width", {"id": "c-p2", "lines": ['print("[%5d]" % 42)', 'print("[%-5d]" % 42)', 'print("[%05d]" % 42)', 'print("[%5s]" % "kim")'], "n": 13, "out": ["[   42]", "[42   ]", "[00042]", "[  kim]"]},
+          {"id": "c-f2", "lines": ['print(f"[{42:5d}]")', 'print(f"[{42:<5d}]")', 'print(f"[{42:05d}]")', "print(f\"[{'kim':>5}]\")", "print(f\"[{'kim':5}]\")"], "n": 14,
+           "out": ["[   42]", "[42   ]", "[00042]", "[  kim]", "[kim  ]"]})
+wr = [("%5d", "{42:5d}", "   42", "다섯 칸, 오른쪽 맞춤"), ("%-5d", "{42:<5d}", "42   ", "왼쪽 맞춤. % 는 -, f-string은 <"), ("%05d", "{42:05d}", "00042", "빈칸을 0으로"), ("%5s", "{'kim':>5}", "  kim", "글자 오른쪽 맞춤. f-string은 > 를 붙여요")]
+for i, (a, b, cells_, d) in enumerate(wr):
+    y = 694 + i * 62
+    o.append(f'<div data-build-in="rise order {i + 2}" style="position:absolute;left:96px;top:{y}px;width:1728px;height:56px;display:flex;flex-direction:row;align-items:center;gap:20px">'
+             + f'<div style="width:170px;flex:none">' + mono(a, 26, OLD_C, "#FDF3E7", "display:inline-block") + '</div>'
+             + f'<div style="width:230px;flex:none">' + mono(b, 26, NEW_C, "#E6F4EC", "display:inline-block") + '</div>'
+             + boxes(cells_, 0, 0, 48, hi=tuple(j for j, ch in enumerate(cells_) if ch != " ")).replace("position:absolute;left:0px;top:0px;", "")
+             + p(f"font-size:24px;color:{SUB}", e(d)) + '</div>')
+o.append(caption("f-string에서 글자는 기본이 왼쪽 맞춤이에요. {'kim':5}는 [kim  ]이 돼요.", 962))
+W("fmt-width", o, "% 와 d 사이, 또는 f-string의 콜론 뒤에 숫자를 넣으면 그만큼 칸을 확보해요. 대괄호는 칸이 보이게 일부러 붙였어요. 42는 두 글자라서 다섯 칸을 채우려고 빈칸 세 개가 붙어요. 왼쪽 맞춤은 % 에서는 - 를, f-string에서는 < 를 붙여요. 0을 붙이면 빈칸을 0으로 채워 00042처럼 번호표 모양이 돼요. 한 가지 다른 점이 있어요. % 방식은 글자도 오른쪽 맞춤인데, f-string은 글자가 기본으로 왼쪽 맞춤이라서 {'kim':5}는 [kim  ]이 돼요. 오른쪽으로 보내려면 > 를 붙여요. f-string 안에서 글자를 쓸 땐 바깥 큰따옴표와 겹치지 않게 작은따옴표로 감쌌어요. 모두 실제로 실행한 결과예요.")
+
+o = [sec("fmt-float")] + head(EB5S, "%0.2f 와 {pi:.2f} 는 소수점 두 자리예요", T5)
+o += dual("fmt-float", {"id": "c-p3", "lines": ["pi = 3.141592", 'print("%f" % pi)', 'print("%.2f" % pi)', 'print("%0.2f" % pi)', 'print("%.4f" % pi)', 'print("[%8.2f]" % pi)'], "n": 15,
+                         "out": ["3.141592", "3.14", "3.14", "3.1416", "[    3.14]"]},
+          {"id": "c-f3", "lines": ['print(f"{pi}")', 'print(f"{pi:.2f}")', 'print(f"{pi:0.2f}")', 'print(f"{pi:.4f}")', 'print(f"[{pi:8.2f}]")'], "n": 16,
+           "out": ["3.141592", "3.14", "3.14", "3.1416", "[    3.14]"]}, w=830)
+parts_ = [("0", "전체 칸 수", BL), (".2", "소수점 아래 자리", T5), ("f", "실수", NAVY)]
+o.append(f'<div data-build-in="rise order 2" style="position:absolute;left:96px;top:740px;width:1728px;height:130px;background:{CARD};border:2px solid {LINE};border-radius:20px;padding:0 36px;display:flex;flex-direction:row;align-items:center;gap:30px">'
+         + mono("%0.2f", 36, OLD_C, "#FDF3E7") + mono("{pi:0.2f}", 36, NEW_C, "#E6F4EC") + '<div style="flex:1"></div>'
+         + "".join('<div style="display:flex;flex-direction:row;align-items:center;gap:10px">' + p(f"font-family:{MONO};font-size:36px;font-weight:700;color:{c}", e(t)) + p(f"font-size:22px;font-weight:700;color:{c};white-space:nowrap", d) + '</div>' for t, d, c in parts_) + '</div>')
+o.append(caption("0은 최소 칸 수라 영향이 없어서 0.2f 와 .2f 는 결과가 같아요.", 920))
+W("fmt-float", o, "실수는 소수점 아래 자리 수를 정해서 보여 줄 수 있어요. % 방식은 %.2f, f-string은 {pi:.2f}처럼 적어요. 둘 다 점 뒤 숫자가 소수점 아래 자리 수예요. %f 하나만 쓰면 여섯 자리까지 나와요. .4f는 다섯째 자리에서 반올림해 3.1416이 돼요. %0.2f에서 점 앞의 0은 앞 장의 전체 칸 수예요. 최소 0칸이라 영향이 없어서 .2f와 결과가 같아요. 8.2f는 여덟 칸을 확보하고 소수점 아래 두 자리를 보여 줘요. 점도 한 칸으로 세요. 원래 pi 값은 바뀌지 않고 보여 주는 모양만 바뀌어요. 2.675를 .2f로 보이면 2.67이 나오는 것처럼 반올림이 가끔 어긋나는 건 컴퓨터가 소수를 저장하는 방식 때문이에요.")
+
+o = [sec("fmt-comma")] + head(EB5S, "가격은 {price:,} 로 천 단위 콤마를 찍어요", T5)
+o += cell({"id": "c-fc", "lines": ["price = 1234567", 'print(f"{price:,}")', 'print(f"{price:,}원")', 'print(f"{1234567.891:,.2f}")', "fee = 35000", 'print(f"[{fee:8,}]")'], "n": 17,
+           "out": ["1,234,567", "1,234,567원", "1,234,567.89", "[  35,000]"]}, 96, 200, 860, sel="c-fc")
+cm = [("{price:,}", "1,234,567", "콤마만"), ("{x:,.2f}", "1,234,567.89", "콤마와 소수점 두 자리"), ("{fee:8,}", "  35,000", "여덟 칸 확보 + 콤마")]
+for i, (k, r, d) in enumerate(cm):
+    o.append(card(1020, 200 + i * 175, 804, 160, '<div style="display:flex;flex-direction:row;align-items:center;gap:18px">' + mono(k, 30, NEW_C, "#E6F4EC")
+                  + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{INK};white-space:pre", "→ " + r) + '</div>' + p(f"font-size:22px;color:{SUB}", d), None, f' data-build-in="rise order {i + 1}"', "justify-content:center"))
+o += cell({"id": "c-pc2", "lines": ['print("%,d" % price)'], "n": 18, "out": ["ValueError: unsupported format character ',' (0x2c) at index 1"], "err": True}, 96, 720, 1728, attrs=' data-build-in="rise order 4"')
+o.append(p(f"position:absolute;left:96px;top:850px;width:1728px;font-size:26px;color:{SUB}", "% 방식에는 콤마 옵션이 없어요. 콤마가 필요하면 f-string을 써요.", ' data-build-in="fade order 4"'))
+o.append(caption("콤마는 보여 주는 모양만 바꿔요. price 값은 그대로 1234567이에요.", 940))
+W("fmt-comma", o, "가격이나 인원처럼 큰 수는 천 단위마다 콤마를 찍어야 읽기 쉬워요. f-string에서 콜론 뒤에 쉼표를 적으면 1,234,567처럼 찍혀요. 뒤에 원을 붙여 가격처럼 보일 수도 있어요. 소수점 자리와 같이 쓰려면 ,.2f처럼 쉼표를 먼저 적어요. 칸 수와 함께 쓰면 8,처럼 칸 수 뒤에 쉼표를 붙여요. 35,000은 여섯 글자라서 앞에 빈칸 두 개가 붙었어요. 콤마까지 넣은 길이가 칸 수보다 길면 칸을 무시하고 다 보여 줘요. % 방식에는 콤마 옵션이 없어서 %,d 는 ValueError가 나요. 모두 실제로 실행한 결과예요. format()으로는 \"{:,}\".format(price)처럼 같은 결과를 얻어요.")
+
+o = [sec("fmt-format2")] + head(EB5S, "format()도 콜론 뒤 모양은 f-string과 같아요", T5)
+o += cell({"id": "c-fo2", "lines": ["price = 5000", 'print("[{0:5d}]".format(qty))', 'print("{0:.2f}".format(3.141592))', 'print("{0:,}원".format(1234567))', 'print("{0}: {1:,}원 x {2}개".format(cake, price, qty))'], "n": 19,
+           "out": ["[    2]", "3.14", "1,234,567원", "치즈케이크: 5,000원 x 2개"]}, 96, 200, 1728, sel="c-fo2")
+OLD_C, NEW_C = NAVY, T5
+o += [r.replace("#FDF3E7", "#E8EEF8") for r in map_rows([("{0:5d}", "{qty:5d}", "다섯 칸 확보"), ("{0:.2f}", "{pi:.2f}", "소수점 두 자리"), ("{1:,}", "{price:,}", "천 단위 콤마")], 656, h=80)]
+OLD_C, NEW_C = OR, T5
+o.append(caption("f-string은 이름을, format()은 번호를 콜론 앞에 적어요. 콜론 뒤는 똑같아요.", 960))
+W("fmt-format2", o, "format() 방식도 콜론 뒤에 모양을 적어요. 5d는 다섯 칸, .2f는 소수점 두 자리, 쉼표는 천 단위 콤마예요. 앞에서 f-string으로 본 모양과 똑같아요. 첫 줄은 앞 장에서 price를 1234567로 바꿨기 때문에 케이크 값 5000으로 다시 넣은 거예요. 다른 점은 콜론 앞에 변수 이름 대신 번호를 적는다는 것뿐이에요. 아래 줄의 파란 칸이 format(), 초록 칸이 같은 뜻의 f-string이에요. 새 코드는 f-string으로 쓰고, format()은 남의 코드에서 만나면 읽을 수 있을 만큼 알아 둬요. 출력은 실제로 실행한 결과예요.")
+
+o = [sec("fmt-align")] + head(EB5S, "칸을 맞추면 표처럼 보여요", T5)
+o += dual("fmt-align", {"id": "c-p4", "lines": ['print("%-6s %5d" % ("kim", 90))', 'print("%-6s %5d" % ("lee", 100))', 'print("%-6s %5d" % ("park", 7))', 'print("할인 %d%%" % 30)'], "n": 20,
+                         "out": ["kim       90", "lee      100", "park       7", "할인 30%"]},
+          {"id": "c-f4", "lines": ["print(f\"{'kim':<6} {90:5d}\")", "print(f\"{'lee':<6} {100:5d}\")", "print(f\"{'park':<6} {7:5d}\")", 'print(f"할인 {30}%")'], "n": 21,
+           "out": ["kim       90", "lee      100", "park       7", "할인 30%"]})
+o += map_rows([("%-6s", "{:<6}", "여섯 칸 왼쪽 맞춤 (이름)"), ("%5d", "{:5d}", "다섯 칸 오른쪽 맞춤 (점수)"), ("%%", "%", "% 글자 그대로. % 방식만 두 번 적어요")], 624, h=80)
+o.append(caption("성적표, 영수증처럼 줄을 맞춰 보여 줄 때 칸 수를 써요.", 940))
+W("fmt-align", o, "칸 수 확보를 표에 써 봐요. 이름은 여섯 칸 왼쪽 맞춤, 점수는 다섯 칸 오른쪽 맞춤이에요. 이름 길이와 점수 자리 수가 달라도 점수 끝자리가 한 줄로 서요. 사람 이름은 팀 실습의 kim, lee, park을 썼어요. % 방식에서 % 글자 자체를 보이려면 %%처럼 두 번 적어요. 한 번만 적으면 끼워 넣을 자리로 읽어요. f-string은 % 를 그냥 적으면 돼요. 대신 f-string에서 중괄호 자체를 보이려면 {{ }}처럼 두 번 적어요. 출력은 두 셀을 실제로 실행한 결과예요.")
+
+o = [sec("fmt-err")] + head(EB5S, "자리와 값이 안 맞으면 오류가 나요", T5)
+pe = [('"%d살" % "kim"', "TypeError: %d format: a real number is required, not str", "%d 자리에 글자를 넣었어요", 22, OLD_C),
+      ('"%s 님은 %d살" % name', "TypeError: not enough arguments for format string", "자리는 둘, 값은 하나예요", 23, OLD_C),
+      ('"%s" % (name, age)', "TypeError: not all arguments converted during string formatting", "자리는 하나, 값은 둘이에요", 24, OLD_C),
+      ('f"{name:d}"', "ValueError: Unknown format code 'd' for object of type 'str'", "글자에 정수 모양 d를 줬어요", 25, NEW_C)]
+for i, (code, err, why, n_, c) in enumerate(pe):
+    y = 200 + i * 172
+    o += cell({"id": f"c-pe{i}", "lines": [code], "n": n_, "out": [err], "err": True}, 96, y, 1180, attrs=f' data-build-in="rise order {i + 1}"')
+    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:1320px;top:{y}px;width:504px;height:140px;background:{CARD};border:2px solid {LINE};border-left:12px solid {c};border-radius:16px;padding:0 24px;display:flex;flex-direction:column;justify-content:center;gap:6px">'
+             + p(f"font-size:22px;font-weight:700;color:{c}", "% 방식" if c == OLD_C else "f-string") + p(f"font-size:25px;font-weight:700;color:{INK}", e(why)) + '</div>')
+o.append(caption("% 는 자리 수와 값 수를, f-string은 콜론 뒤 모양과 타입을 먼저 봐요.", 920))
+W("fmt-err", o, "포맷팅에서 자주 나는 오류예요. 위 세 개는 % 방식이에요. %d는 숫자 자리라서 글자 kim을 넣으면 TypeError가 나요. 반대로 %d에 3.141592 같은 실수를 넣으면 오류 없이 소수점 아래를 버린 3이 나와요. 자리가 두 개인데 값을 하나만 주면 값이 모자란다는 오류, 자리는 하나인데 값을 두 개 주면 남는 값이 있다는 오류가 나요. f-string은 자리와 값이 한곳에 있어서 개수 오류가 없어요. 대신 콜론 뒤 모양이 값의 타입과 안 맞으면 ValueError가 나요. 글자 name에 정수 모양 d를 준 경우예요. 모두 실제로 실행한 결과의 마지막 줄이에요.")
+
 # ---------- summary ----------
 EB5 = "정리"
 o = [sec("trouble")] + head(EB5, "막히면 오류의 마지막 줄을 봐요", RED)
@@ -704,9 +914,9 @@ tr = [("NameError: name 'Age' is not defined", "대문자와 소문자를 다르
       ('TypeError: can only concatenate str (not "int") to str', "따옴표 글자와 숫자를 더했어요", 'int("3") + 3'),
       ("ValueError: invalid literal for int() with base 10: '삼'", "int()가 숫자로 못 읽는 글자예요", "소수 글자는 float()"),
       ("ZeroDivisionError: division by zero", "0으로 나눴어요", "나누는 수 확인"),
-      ("비교했는데 값이 바뀌었어요", "= 를 하나만 썼어요", "== 두 개"),
-      ("6 / 2가 3.0으로 나와요", "/ 의 결과는 항상 실수예요", "몫만 필요하면 //")]
-o.append('<div style="position:absolute;left:96px;top:196px;width:1728px;height:716px;display:flex;flex-direction:column;gap:10px">')
+      ("TypeError: not enough arguments for format string", "% 자리 수와 값 수가 달라요", "f-string으로"),
+      ("비교했는데 값이 바뀌었어요", "= 를 하나만 썼어요", "== 두 개")]
+o.append('<div style="position:absolute;left:96px;top:196px;width:1728px;height:724px;display:flex;flex-direction:column;gap:8px">')
 for i, (q, a_, cmd) in enumerate(tr, 1):
     m = "Error" in q
     o.append(f'<div data-build-in="rise order {i}" style="flex:1;display:flex;flex-direction:row;gap:26px;align-items:center;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:8px 30px">'
@@ -715,12 +925,12 @@ for i, (q, a_, cmd) in enumerate(tr, 1):
              + p(f"width:300px;flex:none;font-size:24px;font-weight:700;line-height:1.5;color:{INK};background:#EEEFF2;padding:8px 18px;border-radius:12px;white-space:pre", e(cmd)) + '</div>')
 o.append('</div>')
 o.append(caption("오류가 나면 위쪽 Traceback보다 맨 아래 줄부터 읽어요.", 940))
-W("trouble", o, "오류 메시지는 길어도 맨 아래 한 줄에 원인이 있어요. 1번과 2번은 NameError예요. 이름 철자, 대소문자, True와 False의 첫 글자를 봐요. 3번은 따옴표로 감싼 글자와 숫자를 더했을 때예요. int()로 타입을 맞춰요. 4번은 int()가 숫자로 못 읽는 글자를 받았을 때예요. 5번은 0으로 나눴을 때예요. 10 / 0을 실제로 실행한 결과예요. 6번은 오류 없이 값만 바뀌어서 알아채기 어려워요. 7번도 오류는 아니지만 자주 묻는 질문이에요. 위 출력은 모두 hello-uv 커널에서 실제로 실행한 결과의 마지막 줄이에요.", ("trouble", "정리"))
+W("trouble", o, "오류 메시지는 길어도 맨 아래 한 줄에 원인이 있어요. 1번과 2번은 NameError예요. 이름 철자, 대소문자, True와 False의 첫 글자를 봐요. 3번은 따옴표로 감싼 글자와 숫자를 더했을 때예요. int()로 타입을 맞춰요. 4번은 int()가 숫자로 못 읽는 글자를 받았을 때예요. 5번은 0으로 나눴을 때예요. 10 / 0을 실제로 실행한 결과예요. 6번은 % 포맷팅의 자리 수와 값 수가 다를 때예요. f-string으로 쓰면 이 오류가 없어요. 7번은 오류 없이 값만 바뀌어서 알아채기 어려워요. 6 / 2가 3.0으로 나오는 건 3파트의 나누기 장을 봐요. 위 출력은 모두 hello-uv 커널에서 실제로 실행한 결과의 마지막 줄이에요.", ("trouble", "정리"))
 
 o = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">',
      f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">한 장 요약</h2>']
-cheat = [("age = 25", "오른쪽 값을 왼쪽 이름에 넣기", BL), ('print("나이:", age)', "설명 붙여 값 보기", BL), ("type(age)", "타입 확인", TT), ('int("3")  str(3)', "타입 바꾸기", TT),
-         ("+ - * /", "사칙연산. / 는 항상 실수", T2), ("// % **", "몫, 나머지, 거듭제곱", T2), ("score += 10", "지금 값에 더해 다시 넣기", T2), ("== != > <", "비교하면 True 아니면 False", T3)]
+cheat = [("age = 25", "오른쪽 값을 왼쪽 이름에 넣기", BL), ('f"{name} {age}살"', "값을 끼워 넣기", T5), ("type(age)", "타입 확인", TT), ('int("3")  str(3)', "타입 바꾸기", TT),
+         ("+ - * /", "사칙연산. / 는 항상 실수", T2), ("// % **", "몫, 나머지, 거듭제곱", T2), ('f"{price:,}원"', "콤마 찍어 출력", T5), ("== != > <", "비교하면 True 아니면 False", T3)]
 for i, (k, d, c) in enumerate(cheat):
     x, y = 96 + (i % 4) * 438, 200 + (i // 4) * 290
     o.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:414px;height:264px;background:{CARD};border:2px solid {LINE};border-top:10px solid {c};border-radius:20px;padding:28px 28px;display:flex;flex-direction:column;gap:20px">'
@@ -735,22 +945,23 @@ page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 parts = [("Archive", BL, "변수에 값 넣기", "= 로 넣기, 값 보기, 다시 넣기, NameError", "assign", "name-err"),
          ("Database", TT, "변수 타입", "int, float, str, bool, type(), 타입 바꾸기", "types", "convert-err"),
          ("Activity", T2, "사칙연산", "+ - * /, 몫과 나머지, 계산 순서 네 계단과 예제, +=, 글자 연산", "ops4", "str-ops"),
-         ("Check", T3, "비교와 논리연산", "== 와 =, True와 False, and, or, not", "compare", "logic-order")]
+         ("Check", T3, "비교와 논리연산", "== 와 =, True와 False, and, or, not", "compare", "logic-order"),
+         ("Chat", T5, "문자열과 출력", "인덱스, 슬라이싱, sep, end, %, format(), f-string, 칸 수, 소수점, 콤마", "str-make", "fmt-err")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      f'<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>',
-     '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px;flex:1">']
+     '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:22px;flex:1">']
 for i, (ic, c, h, s, a, b) in enumerate(parts, 1):
     t.append(f'<div style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:2px solid {LINE};border-top:10px solid {c};border-radius:20px;padding:32px 36px">'
              f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><p style="font-size:60px;font-weight:900;line-height:1.25;color:{c}">{i}</p>'
              f'<x-icon name="{ic}" style="width:48px;height:48px;color:{c}"></x-icon></div>'
-             f'<h3 style="font-size:32px;font-weight:700;color:{INK}">{h}</h3>'
+             f'<h3 style="font-size:28px;font-weight:700;color:{INK}">{h}</h3>'
              f'<p style="font-size:28px;line-height:1.5;color:{SUB}">{e(s)}</p><div style="flex:1"></div>'
              f'<p style="font-size:26px;color:#6A7180">{page[a]}–{page[b]}쪽</p></div>')
 t += ['</div>', f'<p style="font-size:26px;color:{SUB}">{page["ready"]}쪽은 노트북 준비, {page["trouble"]}–{page["cheatsheet"]}쪽은 막힐 때와 한 장 요약이에요.</p>']
 with open(os.path.join(OUT, "toc.html"), "w") as f:
-    f.write("\n".join(t) + f"\n<aside>{e('네 파트는 앞 파트를 그대로 이어서 써요. 1파트의 = 로 넣는 법과 2파트의 타입을 3파트 계산과 4파트 비교에서 계속 써요. 셀은 위에서부터 차례로 실행해요.')}</aside>\n</section>\n")
+    f.write("\n".join(t) + f"\n<aside>{e('다섯 파트는 앞 파트를 그대로 이어서 써요. 1파트의 = 로 넣는 법과 2파트의 타입을 뒤 파트에서 계속 써요. 5파트는 문자열을 다루고 값을 보기 좋게 출력하는 법이에요. 셀은 위에서부터 차례로 실행해요.')}</aside>\n</section>\n")
 
-deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-11-02T03:00:00Z"}, "lists": "css", "title": "파이썬 기초 (변수, 타입, 연산)", "order": ORDER,
+deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-11-02T03:00:00Z"}, "lists": "css", "title": "파이썬 기초 (변수, 타입, 연산, 문자열)", "order": ORDER,
         "sections": SECTIONS,
         "faces": {"noto-sans-kr": {"family": "Noto Sans KR", "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"},
                   "jetbrains-mono": {"family": "JetBrains Mono", "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"}},

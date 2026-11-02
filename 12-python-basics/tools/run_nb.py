@@ -46,3 +46,23 @@ run(['age = 25\nprint(age > 20)\nprint(age < 20)\nprint(age == 25)\nprint(age !=
      'height = 130\nage = 9\nheight >= 120 and age >= 7', 'height = 110\nheight >= 120 and age >= 7',
      'is_member = False\ntotal = 60000\nis_member or total >= 50000', 'not is_member',
      'age = 25\nage >= 20 and age < 30', 'is_member = true', '2 + 3 > 4 and not False'])
+
+print("=== 5. 문자열과 출력")
+run(['a = \'kim\'\nb = "kim"\nprint(a == b)\nprint(len("hello"))\nprint("It\'s me")',
+     'word = "python"\nprint(word[0])\nprint(word[1])\nprint(word[-1])', 'word[0:2]', 'print(word[2:5])\nprint(word[:2])\nprint(word[2:])', 'word[6]',
+     'print("kim", "lee")\nprint("kim", "lee", sep="-")\nprint("2026", "11", "02", sep=".")\nprint("hello", end=" ")\nprint("world")',
+     'print("첫째 줄\\n둘째 줄")\nprint("이름\\tkim")\nprint("경로: C:\\\\Users")',
+     'name = "kim"\nage = 25\nprint("%s 님은 %d살이에요" % (name, age))\nprint("{} 님은 {}살이에요".format(name, age))\nprint(f"{name} 님은 {age}살이에요")',
+     'print("이름: %s" % name)\nprint("나이: %d살" % age)', 'print(f"이름: {name}")\nprint(f"나이: {age}살")\nprint(f"내년: {age + 1}살")',
+     'cake = "치즈케이크"\nprice = 5000\nqty = 2\nprint("주문내역은 : {0}, {1}, {2}".format(cake, price, qty))\nprint("주문내역은 : {}, {}, {}".format(cake, price, qty))\nprint("{0} {2}개, 하나에 {1}원".format(cake, price, qty))\nprint("{0}, {0}, {0}".format(cake))',
+     'print("주문내역은 : %s, %d, %d" % (cake, price, qty))\nprint("주문내역은 : {0}, {1}, {2}".format(cake, price, qty))\nprint(f"주문내역은 : {cake}, {price}, {qty}")\nprint(f"{cake} {qty}개, 하나에 {price}원")\nprint(f"{cake} {qty}개, 합계 {price * qty:,}원")',
+     'print("[%5d]" % 42)\nprint("[%-5d]" % 42)\nprint("[%05d]" % 42)\nprint("[%5s]" % "kim")',
+     'print(f"[{42:5d}]")\nprint(f"[{42:<5d}]")\nprint(f"[{42:05d}]")\nprint(f"[{\'kim\':>5}]")\nprint(f"[{\'kim\':5}]")',
+     'pi = 3.141592\nprint("%f" % pi)\nprint("%.2f" % pi)\nprint("%0.2f" % pi)\nprint("%.4f" % pi)\nprint("[%8.2f]" % pi)',
+     'print(f"{pi}")\nprint(f"{pi:.2f}")\nprint(f"{pi:0.2f}")\nprint(f"{pi:.4f}")\nprint(f"[{pi:8.2f}]")',
+     'price = 1234567\nprint(f"{price:,}")\nprint(f"{price:,}원")\nprint(f"{1234567.891:,.2f}")\nfee = 35000\nprint(f"[{fee:8,}]")',
+     'print("%,d" % price)',
+     'price = 5000\nprint("[{0:5d}]".format(qty))\nprint("{0:.2f}".format(3.141592))\nprint("{0:,}원".format(1234567))\nprint("{0}: {1:,}원 x {2}개".format(cake, price, qty))',
+     'print("%-6s %5d" % ("kim", 90))\nprint("%-6s %5d" % ("lee", 100))\nprint("%-6s %5d" % ("park", 7))\nprint("할인 %d%%" % 30)',
+     'print(f"{\'kim\':<6} {90:5d}")\nprint(f"{\'lee\':<6} {100:5d}")\nprint(f"{\'park\':<6} {7:5d}")\nprint(f"할인 {30}%")',
+     '"%d살" % "kim"', '"%s 님은 %d살" % name', '"%s" % (name, age)', 'f"{name:d}"'])
