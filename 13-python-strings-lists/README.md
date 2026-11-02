@@ -102,7 +102,8 @@ f-string에서 글자는 기본이 왼쪽 맞춤이에요. `f"[{'kim':5}]"`는 `
 | `cart.append("cake")` | `['coffee', 'latte', 'cake']` | 맨 뒤에 더하기 |
 | `cart.insert(0, "tea")` | `['tea', 'coffee', 'latte', 'cake']` | 그 자리에 끼우기 |
 | `cart.remove("latte")` | `['tea', 'coffee', 'cake']` | 값을 찾아 지우기. 없으면 `ValueError` |
-| `cart.pop()` | `'cake'`를 돌려주고 `['tea', 'coffee']` | 맨 뒤를 꺼내기 |
+| `cart.pop()` | `'cake'`를 돌려주고 `['tea', 'coffee']` | 맨 뒤를 빼서 돌려주기 |
+| `cart.pop(0)` | `'tea'`를 돌려주고 `['coffee']` | 0번을 빼서 돌려주기 |
 | `scores.count(95)` | `2` | 몇 개인지 |
 | `scores.index(80)` | `2` | 몇 번 자리인지 |
 | `95 in scores` | `True` | 들어 있는지 |
@@ -182,10 +183,12 @@ print(f"[{fee:8,}]")      # [  35,000]
 cart = ["coffee", "latte"]
 cart.append("cake")
 cart.insert(0, "tea")
-print(cart)          # ['tea', 'coffee', 'latte', 'cake']
 cart.remove("latte")
+print(cart)          # ['tea', 'coffee', 'cake']
 last = cart.pop()
-print(last, cart)    # cake ['tea', 'coffee']
+first = cart.pop(0)
+print(last, first)   # cake tea
+print(cart)          # ['coffee']
 ```
 
 ```python
