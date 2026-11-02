@@ -1,0 +1,62 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-02T05:00:00Z"
+  },
+  "lists": "css",
+  "title": "파이썬 기초 3 (in, 2차원 리스트)",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "in-list",
+    "in-tuple-str",
+    "in-logic",
+    "in-orders",
+    "m-make",
+    "m-index",
+    "m-change",
+    "m-for",
+    "m-col",
+    "m-total",
+    "m-table",
+    "m-in",
+    "m-slice",
+    "m-add",
+    "m-seats",
+    "m-trap",
+    "m-err",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "in": {
+      "description": "in과 not in",
+      "start": "in-list"
+    },
+    "matrix": {
+      "description": "2차원 리스트",
+      "start": "m-make"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
