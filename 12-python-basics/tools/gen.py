@@ -87,6 +87,11 @@ def cell_h(c):
     return h
 
 
+def WIDE(t):
+    """Draws each Hangul syllable two monospace columns wide, like a terminal."""
+    return re.sub(r"([\uac00-\ud7a3])", r'<span style="display:inline-block;width:1.2em;text-align:center">\1</span>', t)
+
+
 def cell(c, left, top, w, sel=None, mode="cmd", pre="", attrs=""):
     """c: dict(id, kind code|md|mdr, lines, n, out, err). sel: id of the selected cell."""
     kind, lines, n = c.get("kind", "code"), c.get("lines", [""]), c.get("n")
@@ -109,7 +114,7 @@ def cell(c, left, top, w, sel=None, mode="cmd", pre="", attrs=""):
     o.append(f'<div style="display:flex;flex-direction:row;gap:10px;align-items:stretch">{bar}{gutter}{box}</div>')
     if c.get("out"):
         col = RED if c.get("err") else INK
-        wide = (lambda t: re.sub(r"([\uac00-\ud7a3])", r'<span style="display:inline-block;width:1.2em;text-align:center">\1</span>', t)) if c.get("wide") else (lambda t: t)
+        wide = WIDE if c.get("wide") else (lambda t: t)
         o.append(''.join(p(f"margin-left:85px;padding:0 20px;font-family:{MONO};font-size:26px;line-height:1.45;white-space:pre;color:{col}", wide(e(l))) for l in c["out"]))
     o.append('</div>')
     return o
@@ -1084,16 +1089,14 @@ for i, (a_, b_, c_) in enumerate(tr6):
 o.append(caption("total = 0 은 for 앞에서 한 번만, total += 는 안쪽에서 매번 실행돼요.", 920))
 W("for-total", o, "합계를 구할 땐 for 앞에서 total을 0으로 시작해요. for 안쪽에서는 3파트의 += 로 가격 곱하기 수량을 더해요. 한 번 돌 때마다 total이 9000, 14000, 33500으로 쌓여요. 들여 쓴 두 줄은 매번 실행되고, 들여 쓰지 않은 마지막 print는 for가 끝난 뒤 한 번만 실행돼서 합계를 찍어요. total = 0을 for 안에 넣으면 매번 0으로 돌아가서 합계가 쌓이지 않아요. 출력은 실제로 실행한 결과예요.")
 
-o = [sec("for-receipt")] + head(EB6S, "for 로 메뉴표 영수증을 찍어요", T6)
-o += cell({"id": "c-fr", "lines": ['print("=" * 33)', "print(f\"{'메뉴명':<7}{'단가':>6}{'수량':>3}{'금액':>8}\")", 'print("-" * 33)', "total = 0", "for menu, price, qty in orders:",
-                                   '    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")', "    total += price * qty", 'print("-" * 33)', "print(f\"{'합계':<6}{total:>25,}\")", 'print("=" * 33)'], "n": 14,
-           "out": ["=================================", "메뉴명        단가 수량      금액", "---------------------------------", "coffee       4,500    2     9,000",
-                   "latte        5,000    1     5,000", "cake         6,500    3    19,500", "---------------------------------", "합계                       33,500", "================================="], "wide": True}, 96, 180, 1180, sel="c-fr")
-o.append(card(1320, 180, 504, 220, p(f"font-size:26px;font-weight:700;color:{T6}", "줄 세 개가 for 두 줄로")
-              + p(f"font-size:22px;line-height:1.5;color:{INK}", "f-string 안의 orders[0][0] 같은 번호가 menu, price, qty 이름으로 바뀌었어요."), None, ' data-build-in="rise order 1"'))
-o.append(card(1320, 420, 504, 190, p(f"font-size:26px;font-weight:700;color:{T6}", "주문이 늘어도")
-              + p(f"font-size:22px;line-height:1.5;color:{INK}", "orders에 튜플만 더하면 영수증 코드는 그대로예요."), None, ' data-build-in="rise order 2"'))
-W("for-receipt", o, "앞에서 한 줄씩 적은 메뉴표 영수증을 for로 다시 써요. 맨 위 = 줄, 머리글, - 줄은 한 번만 찍으니 for 앞에 둬요. 주문 줄은 for 안에서 찍어서 세 줄이 두 줄로 줄었어요. f-string 안에서 orders[0][0], orders[0][1]처럼 번호를 쓰던 자리가 menu, price처럼 이름으로 바뀌어 읽기 쉬워요. 합계는 앞 장처럼 for 안에서 쌓고, 끝의 - 줄, 합계, = 줄은 for가 끝난 뒤 한 번 찍어요. 출력은 한 줄씩 적은 영수증과 똑같아요. 실제로 실행한 결과예요.")
+o = [sec("for-receipt")] + head(EB6S, "for 로 영수증 한 장을 완성해요", T6)
+o += cell({"id": "c-fr", "lines": ['print("=" * 33)', 'print(f"{\'KANT 카페\':^31}")', 'print(f"{\'2026-11-02  14:30\':^33}")', 'print("=" * 33)', 'print(f"{\'메뉴명\':<7}{\'단가\':>6}{\'수량\':>3}{\'금액\':>8}")', 'print("-" * 33)', 'total = 0', 'count = 0', 'for menu, price, qty in orders:', '    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")', '    total += price * qty', '    count += qty', 'print("-" * 33)', 'print(f"{\'수량\':<6}{count:>15}")', 'print(f"{\'합계\':<6}{total:>25,}")', 'print("=" * 33)', 'print(f"{\'감사합니다\':^28}")'], "n": 14}, 96, 190, 1080, sel="c-fr")
+RC_OUT = ['=================================', '            KANT 카페', '        2026-11-02  14:30', '=================================', '메뉴명        단가 수량      금액', '---------------------------------', 'coffee       4,500    2     9,000', 'latte        5,000    1     5,000', 'cake         6,500    3    19,500', '---------------------------------', '수량                  6', '합계                       33,500', '=================================', '           감사합니다']
+o.append(f'<div data-build-in="rise order 1" style="position:absolute;left:1230px;top:190px;width:594px;background:#FFFFFF;border:2px solid {LINE};border-radius:6px;box-shadow:0 12px 30px rgba(29,35,48,0.12);padding:30px 34px">'
+         + p(f"font-size:20px;font-weight:700;color:{GRAY};margin-bottom:12px", "실행 결과")
+         + "".join(p(f"font-family:{MONO};font-size:26px;line-height:1.45;white-space:pre;color:{INK}", WIDE(e(l))) for l in RC_OUT) + '</div>')
+o.append(caption("한 셀을 실행하면 영수증 한 장이 나와요. 주문이 늘어도 코드는 그대로예요.", 940))
+W("for-receipt", o, "지금까지 배운 걸 모아 영수증 한 장을 찍어요. 맨 위는 = 줄 사이에 가게 이름과 날짜를 가운데 맞춤으로 넣었어요. KANT 카페는 한글이 두 글자라 33칸에서 2를 뺀 31칸으로 가운데 맞춤했어요. 머리글과 - 줄은 for 앞에서 한 번 찍어요. for 안에서는 주문 줄을 찍고, 합계 total과 전체 수량 count를 쌓아요. for가 끝나면 - 줄, 수량, 합계, = 줄을 찍고, 마지막에 감사합니다를 가운데에 넣어요. 감사합니다는 다섯 글자라 33에서 5를 뺀 28칸이에요. 날짜는 예시로 적은 글자예요. 오른쪽은 이 셀을 실제로 실행한 결과를 영수증 모양 상자에 옮긴 거예요.")
 
 o = [sec("for-err")] + head(EB6S, "for 는 콜론과 들여쓰기를 꼭 지켜요", T6)
 fe = [(["for menu in menus", "    print(menu)"], "SyntaxError: expected ':'", "for 줄 끝에 콜론을 빠뜨렸어요", 19),
