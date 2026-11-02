@@ -71,8 +71,12 @@ print("=== 6. 리스트와 튜플")
 run(['prices = [4500, 5000, 6500]\nprint(prices)\nprint(len(prices))\nprint(type(prices))',
      'menus = ["coffee", "latte", "cake"]\nprint(menus[0])\nprint(menus[-1])\nprint(menus[0:2])',
      'prices[0] = 4800\nprices.append(3000)\nprint(prices)\nprint(sum(prices))\nprint(max(prices))\nprint(min(prices))',
+     'cart = ["coffee", "latte"]\ncart.append("cake")\ncart.insert(0, "tea")\nprint(cart)\ncart.remove("latte")\nprint(cart)\nlast = cart.pop()\nprint(last)\nprint(cart)',
+     'cart.remove("juice")',
+     'scores = [70, 95, 80, 95]\nprint(scores.count(95))\nprint(scores.index(80))\nprint(95 in scores)\nscores.sort()\nprint(scores)\nscores.sort(reverse=True)\nprint(scores)',
      'order = ("coffee", 4500, 2)\nprint(order[0])\nprint(order[1] * order[2])\nprint(type(order))',
      'order[1] = 5000',
+     'date = (2026, 11, 2)\nprint(date.count(2))\nprint(date.index(11))\nyear, month, day = date\nprint(year, month, day)\na = "kim"\nb = "lee"\na, b = b, a\nprint(a, b)\nprint(list(date))\nprint(tuple(cart))',
      'orders = [("coffee", 4500, 2), ("latte", 5000, 1), ("cake", 6500, 3)]\nprint(len(orders))\nprint(orders[1])\nprint(orders[1][0])\nprint(orders[2][1] * orders[2][2])\nprint(orders[0:2])',
      'menu, price, qty = orders[2]\nprint(menu, price, qty)\nprint(f"{menu} {qty}개, {price * qty:,}원")',
      'print(f"{orders[0][0]:<7}{orders[0][1]:>6,}원 {orders[0][2]:>2}개")\nprint(f"{orders[1][0]:<7}{orders[1][1]:>6,}원 {orders[1][2]:>2}개")\nprint(f"{orders[2][0]:<7}{orders[2][1]:>6,}원 {orders[2][2]:>2}개")\ntotal = orders[0][1] * orders[0][2]\ntotal += orders[1][1] * orders[1][2]\ntotal += orders[2][1] * orders[2][2]\nprint(f"합계 {total:,}원")',
@@ -82,5 +86,6 @@ run(['prices = [4500, 5000, 6500]\nprint(prices)\nprint(len(prices))\nprint(type
      'for menu, price, qty in orders:\n    print(menu, price, qty)',
      'total = 0\nfor menu, price, qty in orders:\n    total += price * qty\n    print(menu, total)\nprint("합계:", total)',
      'print("=" * 33)\nprint(f"{\'KANT 카페\':^31}")\nprint(f"{\'2026-11-02  14:30\':^33}")\nprint("=" * 33)\nprint(f"{\'메뉴명\':<7}{\'단가\':>6}{\'수량\':>3}{\'금액\':>8}")\nprint("-" * 33)\ntotal = 0\ncount = 0\nfor menu, price, qty in orders:\n    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")\n    total += price * qty\n    count += qty\nprint("-" * 33)\nprint(f"{\'수량\':<6}{count:>15}")\nprint(f"{\'합계\':<6}{total:>25,}")\nprint("=" * 33)\nprint(f"{\'감사합니다\':^28}")',
+     'for menu in menus\n    print(menu)', 'for menu in menus:\nprint(menu)',
      'names = ["kim", "lee", "park"]\nscores = [90, 100, 7]\nmixed = ["coffee", 4500, True]\ncarts = [["coffee", "cake"], ["latte"]]\nempty = []\nprint(scores[1])\nprint(mixed)\nprint(carts[0][1])\nprint(len(empty))',
-     'menus[3]', 'orders[3]', 'orders[0][3]', 'for menu in menus\n    print(menu)', 'for menu in menus:\nprint(menu)'])
+     'menus[3]', 'orders[3]', 'orders[0][3]'])
