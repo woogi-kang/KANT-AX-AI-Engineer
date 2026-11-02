@@ -17,7 +17,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [09 · uv로 파이썬 시작하기](./09-python-uv) | 예전 방식(venv, pip)과 나란히 비교, `brew`·`winget`으로 uv 설치, `uv init` `uv run` `uv add` `uv remove` `uv tree` `uv sync`, 가상환경 켜기(`activate`), fastapi 넣고 빼기, VS Code Jupyter(`uv add --dev ipykernel`) | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) |
 | [10 · VS Code에서 Jupyter 노트북 쓰기](./10-vscode-jupyter) | 셀 실행 키 세 가지(`Shift+Enter` 등), 코드 셀과 마크다운 셀, 실행 번호, Restart와 Run All, 명령 모드와 편집 모드, 마크다운 셀로 변수 이름 규칙과 컨벤션 정리, 자료형과 `type()`, Windows·Mac 단축키 표 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/10-vscode-jupyter/vscode-jupyter-slides.html) |
 | [11 · 터미널에서 GitHub 다루기 (gh)](./11-gh-cli) | `gh auth login` `gh auth status`, 권한 더하기(`gh auth refresh -s delete_repo`), `gh repo clone` `view` `list` `create` `delete`, `gh browse`, `gh issue create` `list`, `gh pr create` `list` `view` `merge` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) |
-| [12 · 파이썬 기초 (변수, 타입, 연산)](./12-python-basics) | 변수 할당(`=`), `print("설명", 값)`, 변수 타입(`int` `float` `str` `bool`, `type()`), 타입 바꾸기(`int()` `float()` `str()`), 사칙연산 `+` `-` `*` `/`, 몫·나머지·거듭제곱 `//` `%` `**`, 계산 순서(괄호, `**`, `* / // %`, `+ -`)와 괄호 비교 예제, `+=`, 비교 연산자, `True`·`False`, 논리연산 `and` `or` `not` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) |
+| [12 · 파이썬 기초 (변수, 타입, 연산, 문자열)](./12-python-basics) | 변수 할당(`=`), `print("설명", 값)`, 변수 타입(`int` `float` `str` `bool`, `type()`), 타입 바꾸기(`int()` `float()` `str()`), 사칙연산 `+` `-` `*` `/`, 몫·나머지·거듭제곱 `//` `%` `**`, 계산 순서(괄호, `**`, `* / // %`, `+ -`)와 괄호 비교 예제, `+=`, 비교 연산자, `True`·`False`, 논리연산 `and` `or` `not`, 문자열 인덱스·슬라이싱, `print()`의 `sep` `end`, `%` 포맷팅·`format()`·f-string, 칸 수(`{42:5d}`), 소수점(`{pi:.2f}`), 천 단위 콤마(`{price:,}`) | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) |
 
 챕터는 번호 순서대로 이어져요. 앞 챕터에서 만든 폴더와 저장소를 다음 챕터에서 그대로 써요.
 
@@ -71,6 +71,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 브랜치 이동 | 슬라이드는 `git checkout`으로 보여 줘요. 같은 일을 하는 `git switch`도 03에서 소개해요 |
 | 파이썬 프로젝트 | `uv init`으로 만들고 `uv run`으로 실행해요. 패키지는 `uv add`, `uv remove`. 가상환경을 직접 켤 땐 `source .venv/bin/activate`(Windows Git Bash는 `.venv/Scripts/activate`). uv 설치는 Mac `brew install uv`, Windows `winget install --id=astral-sh.uv -e`. `pip install`은 09에서 예전 방식 비교로만 봐요 |
 | GitHub CLI (gh) | 11에서 배워요. 로그인은 `gh auth login`(HTTPS, 브라우저). `gh repo create`에는 `--push`를 붙이지 않고 `git push origin main`을 직접 쳐요. 레포 지우기 권한은 `gh auth refresh -h github.com -s delete_repo`로 더해요 |
+| 문자열 포맷팅 | 12의 5파트에서 `%`, `format()`, f-string을 나란히 봐요. 새 코드는 f-string으로 적고, 그 앞 자료에는 f-string을 쓰지 않아요 |
 | 브랜치 이름 | `feature/login`, `fix/12-login-error`, `docs/login-guide`처럼 `타입/하는-일` |
 
 ## 저장소 구조
