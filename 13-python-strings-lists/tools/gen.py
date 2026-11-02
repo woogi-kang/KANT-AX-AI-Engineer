@@ -489,18 +489,37 @@ o.append(caption("append는 맨 뒤에 하나를 더해요. 담긴 개수가 3�
 W("list-change", o, "리스트는 담은 뒤에도 고칠 수 있어요. prices[0] = 4800은 12의 1파트의 = 와 같아요. 0번 자리에 새 값을 넣어서 4500이 4800으로 바뀌어요. prices.append(3000)은 맨 뒤에 3000을 하나 더해요. 점 뒤에 붙여 쓰는 함수라서 리스트 이름 뒤에 점을 찍고 적어요. sum, max, min은 숫자 리스트의 합계, 가장 큰 값, 가장 작은 값을 구해요. 앞 셀에서 만든 prices를 이어서 써요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("list-methods")] + head(EB6S, "넣고 빼는 메서드: append, insert, remove, pop", T6)
-o += cell({"id": "c-lmt", "lines": ['cart = ["coffee", "latte"]', 'cart.append("cake")', 'cart.insert(0, "tea")', "print(cart)", 'cart.remove("latte")', "print(cart)", "last = cart.pop()", "print(last)", "print(cart)"], "n": 4,
-           "out": ["['tea', 'coffee', 'latte', 'cake']", "['tea', 'coffee', 'cake']", "cake", "['tea', 'coffee']"]}, 96, 200, 820, sel="c-lmt")
-mt = [('cart.append("cake")', ["coffee", "latte", "cake"], (2,), "맨 뒤에 하나 더하기"), ('cart.insert(0, "tea")', ["tea", "coffee", "latte", "cake"], (0,), "0번 자리에 끼워 넣기"),
-      ('cart.remove("latte")', ["tea", "coffee", "cake"], (), "값을 찾아 지우기"), ("cart.pop()", ["tea", "coffee"], (), "맨 뒤를 꺼내 돌려주기")]
-for i, (k, its, hi, d) in enumerate(mt):
-    y = 200 + i * 172
-    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:960px;top:{y}px;width:864px;height:156px;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:12px 22px;display:flex;flex-direction:column;justify-content:center;gap:10px">'
+o += cell({"id": "c-lmt", "lines": ['cart = ["coffee", "latte"]', 'cart.append("cake")', 'cart.insert(0, "tea")', 'cart.remove("latte")', "print(cart)", "last = cart.pop()", "first = cart.pop(0)", "print(last, first)", "print(cart)"], "n": 4,
+           "out": ["['tea', 'coffee', 'cake']", "cake tea", "['coffee']"]}, 96, 200, 820, sel="c-lmt")
+
+
+def mrow(items, ret=None):
+    """items: (text, state) with state '', 'new' or 'gone'. ret: variable that receives the popped value."""
+    o_ = ['<div style="display:flex;flex-direction:row;align-items:center;gap:8px">']
+    for t_, st in items:
+        if st == "gone":
+            o_.append(p(f"width:130px;height:50px;border-radius:12px;border:3px dashed {RED};background:#FBEFEF;font-family:{MONO};font-size:22px;font-weight:700;line-height:44px;text-align:center;color:{RED};text-decoration:line-through;white-space:pre", e(t_)))
+        else:
+            o_.append(p(f"width:130px;height:50px;border-radius:12px;border:3px solid {T6 if st == 'new' else LINE};background:{T6BG if st == 'new' else CARD};font-family:{MONO};font-size:22px;font-weight:700;line-height:44px;text-align:center;color:{INK};white-space:pre", e(t_)))
+    if ret:
+        o_.append(f'<x-shape kind="arrow-right" style="width:40px;height:24px;flex:none;background:#C9CED8;margin-left:8px"></x-shape>' + mono(ret, 22, INK, "#F6F5F1"))
+    o_.append('</div>')
+    return "".join(o_)
+
+
+mt = [('cart.append("cake")', [("coffee", ""), ("latte", ""), ("cake", "new")], None, "맨 뒤에 하나 더하기"),
+      ('cart.insert(0, "tea")', [("tea", "new"), ("coffee", ""), ("latte", ""), ("cake", "")], None, "0번 자리에 끼워 넣기. 나머지는 뒤로 밀려요"),
+      ('cart.remove("latte")', [("tea", ""), ("coffee", ""), ("latte", "gone"), ("cake", "")], None, "값을 찾아 지우기. 돌려주는 값은 없어요"),
+      ("cart.pop()", [("tea", ""), ("coffee", ""), ("cake", "gone")], "last = 'cake'", "맨 뒤를 빼서 돌려줘요"),
+      ("cart.pop(0)", [("tea", "gone"), ("coffee", "")], "first = 'tea'", "0번을 빼서 돌려줘요")]
+for i, (k, its, ret, d) in enumerate(mt):
+    y = 200 + i * 148
+    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:960px;top:{y}px;width:864px;height:134px;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:12px 22px;display:flex;flex-direction:column;justify-content:center;gap:10px">'
              + '<div style="display:flex;flex-direction:row;align-items:center;gap:16px">' + mono(k, 24, T6, T6BG) + p(f"font-size:22px;color:{SUB}", e(d)) + '</div>'
-             + slots(its, 0, 0, 150, 54, hi=hi, top_lbl=False, fs=24).replace("position:absolute;left:0px;top:0px;", "") + '</div>')
-o += cell({"id": "c-lmt2", "lines": ['cart.remove("juice")'], "n": 5, "out": ["ValueError: list.remove(x): x not in list"], "err": True}, 96, 760, 820, attrs=' data-build-in="rise order 5"')
-o.append(caption("없는 값을 remove 하면 ValueError가 나요.", 940))
-W("list-methods", o, "리스트 이름 뒤에 점을 찍고 붙여 쓰는 함수를 메서드라고 불러요. append는 맨 뒤에 하나를 더해요. insert는 번호와 값을 받아 그 자리에 끼워 넣고, 원래 있던 값은 한 칸씩 뒤로 밀려요. remove는 번호가 아니라 값을 찾아 지워요. 같은 값이 여러 개면 앞의 하나만 지워요. pop은 맨 뒤 값을 꺼내 돌려줘서 last 같은 변수에 받을 수 있어요. pop(0)처럼 번호를 주면 그 자리를 꺼내요. 리스트에 없는 juice를 remove하면 ValueError가 나요. 출력은 실제로 실행한 결과예요.")
+             + mrow(its, ret) + '</div>')
+o += cell({"id": "c-lmt2", "lines": ['cart.remove("juice")'], "n": 5, "out": ["ValueError: list.remove(x): x not in list"], "err": True}, 96, 730, 820, attrs=' data-build-in="rise order 6"')
+o.append(caption("pop은 뺀 값을 돌려줘서 변수에 받을 수 있어요. 리스트는 하나 줄어요.", 940))
+W("list-methods", o, "리스트 이름 뒤에 점을 찍고 붙여 쓰는 함수를 메서드라고 불러요. append는 맨 뒤에 하나를 더해요. insert는 번호와 값을 받아 그 자리에 끼워 넣고, 원래 있던 값은 한 칸씩 뒤로 밀려요. remove는 번호가 아니라 값을 찾아 지워요. 같은 값이 여러 개면 앞의 하나만 지워요. remove는 지우기만 하고 지운 값을 돌려주지 않아요. pop은 값을 리스트에서 빼면서 그 값을 돌려줘요. 그래서 last = cart.pop()처럼 변수에 받을 수 있어요. 괄호를 비우면 맨 뒤를, pop(0)처럼 번호를 주면 그 자리를 빼요. 뺀 값은 리스트에서 사라져서 cake와 tea를 빼고 나면 coffee만 남아요. 오른쪽 그림의 빨간 점선 칸이 빠진 값이에요. 리스트에 없는 juice를 remove하면 ValueError가 나요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("list-find")] + head(EB6S, "찾고 세고 정렬하는 메서드: count, index, sort", T6)
 o += cell({"id": "c-lf", "lines": ["scores = [70, 95, 80, 95]", "print(scores.count(95))", "print(scores.index(80))", "print(95 in scores)", "scores.sort()", "print(scores)", "scores.sort(reverse=True)", "print(scores)"], "n": 6,
@@ -594,14 +613,14 @@ W("tuple", o, "튜플은 소괄호로 감싸요. 꺼내는 법은 리스트와 �
 
 o = [sec("tuple-more")] + head(EB6S, "튜플은 count, index, 꺼내 담기, 바꾸기", T6)
 o += cell({"id": "c-tm", "lines": ["date = (2026, 11, 2)", "print(date.count(2))", "print(date.index(11))", "year, month, day = date", "print(year, month, day)",
-                                   'a = "kim"', 'b = "lee"', "a, b = b, a", "print(a, b)", "print(list(date))", "print(tuple(cart))"], "n": 13,
-           "out": ["1", "1", "2026 11 2", "lee kim", "[2026, 11, 2]", "('tea', 'coffee')"]}, 96, 200, 820, sel="c-tm")
+                                   'a = "kim"', 'b = "lee"', "a, b = b, a", "print(a, b)", "print(list(date))", "print(tuple(menus))"], "n": 13,
+           "out": ["1", "1", "2026 11 2", "lee kim", "[2026, 11, 2]", "('coffee', 'latte', 'cake')"]}, 96, 200, 820, sel="c-tm")
 tm = [("date.count(2)  date.index(11)", "튜플의 메서드는 둘뿐이에요. 바꾸는 메서드가 없어요"), ("year, month, day = date", "튜플 값을 변수 여러 개에 한 번에 꺼내 담아요"),
-      ("a, b = b, a", "두 변수의 값을 맞바꿔요. lee kim"), ("list(date)  tuple(cart)", "튜플을 리스트로, 리스트를 튜플로 바꿔요")]
+      ("a, b = b, a", "두 변수의 값을 맞바꿔요. lee kim"), ("list(date)  tuple(menus)", "튜플을 리스트로, 리스트를 튜플로 바꿔요")]
 for i, (k, d) in enumerate(tm):
     o.append(card(960, 200 + i * 170, 864, 150, mono(k, 24, T6, T6BG, "align-self:flex-start") + p(f"font-size:22px;color:{INK}", e(d)), None, f' data-build-in="rise order {i + 1}"', "justify-content:center;gap:10px"))
 o.append(caption("날짜, 좌표, 주문 한 건처럼 바뀌지 않는 한 묶음은 튜플에 담아요.", 970))
-W("tuple-more", o, "튜플은 바꿀 수 없어서 메서드가 count와 index 둘뿐이에요. append, remove, sort 같은 바꾸는 메서드는 없어요. 튜플 값은 year, month, day = date처럼 이름을 나란히 적어 한 번에 꺼내 담아요. 이 모양으로 a, b = b, a를 쓰면 두 변수 값을 맞바꿀 수 있어요. 오른쪽 b, a가 먼저 ('lee', 'kim') 묶음이 되고, 그 값이 왼쪽 a, b에 나눠 들어가요. 튜플 값을 고쳐야 하면 list()로 바꿔서 고쳐요. 반대로 tuple()은 리스트를 튜플로 바꿔요. tuple(cart)의 cart는 앞 장에서 pop까지 한 장바구니예요. 출력은 실제로 실행한 결과예요.")
+W("tuple-more", o, "튜플은 바꿀 수 없어서 메서드가 count와 index 둘뿐이에요. append, remove, sort 같은 바꾸는 메서드는 없어요. 튜플 값은 year, month, day = date처럼 이름을 나란히 적어 한 번에 꺼내 담아요. 이 모양으로 a, b = b, a를 쓰면 두 변수 값을 맞바꿀 수 있어요. 오른쪽 b, a가 먼저 ('lee', 'kim') 묶음이 되고, 그 값이 왼쪽 a, b에 나눠 들어가요. 튜플 값을 고쳐야 하면 list()로 바꿔서 고쳐요. 반대로 tuple()은 리스트를 튜플로 바꿔요. tuple(menus)의 menus는 이 파트 앞에서 만든 메뉴 리스트예요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("tuple-slice")] + head(EB6S, "튜플도 꺼내고, 자르고, 이어요", T6)
 o += cell({"id": "c-tsl", "lines": ["t = (10, 20, 30, 40)", "print(t[1:3])", "print(t[::-1])", "print(t + (50,))", "print(len(t), sum(t), max(t))", "print(30 in t)", 'info = ("kim", (2026, 11, 2))', "print(info[1][0])"], "n": 14,
