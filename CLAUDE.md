@@ -44,7 +44,7 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 - Jupyter 노트북은 VS Code의 Python, Jupyter 확장(Microsoft)으로 열어요. 커널 패키지는 `uv add --dev ipykernel`로 넣고, 노트북 커널은 프로젝트의 `.venv`를 골라요. VS Code 알림의 Install 버튼(pip 설치)은 쓰지 않아요. 노트북 단축키는 Windows와 Mac을 나란히 적고, Mac 셀 실행은 VS Code 기본값인 `control+Enter`로 적어요(10 챕터).
 - uv 설치는 macOS `brew install uv`, Windows `winget install --id=astral-sh.uv -e`로 적어요. curl, PowerShell 설치 스크립트는 쓰지 않아요.
 - fastapi 예시는 `uv add fastapi`로만 넣어요. `fastapi[standard]`, uvicorn, `fastapi dev`로 서버 켜기는 쓰지 않고, `import fastapi` 뒤 `print("fastapi 버전:", fastapi.__version__)`처럼 불러오는 데까지만 보여 줘요.
-- 파이썬 예제는 수업에서 배운 범위로 적어요. f-string(`f"...{변수}"`)과 `input()`은 아직 배우지 않았으니 쓰지 않아요. 값을 보여 줄 땐 `print(변수)`, `print("설명", 변수)`나 셀 마지막 줄의 변수 이름으로 보여 줘요. 변수 할당, 사칙연산, 비교와 논리연산(`and`, `or`, `not`)은 12에서 배워요. `if` 문은 아직 배우지 않았으니 12까지의 예제에 넣지 않아요.
+- 파이썬 예제는 수업에서 배운 범위로 적어요. f-string(`f"...{변수}"`)과 `input()`은 아직 배우지 않았으니 쓰지 않아요. 값을 보여 줄 땐 `print(변수)`, `print("설명", 변수)`나 셀 마지막 줄의 변수 이름으로 보여 줘요. 변수 할당, 변수 타입과 타입 바꾸기(`int()`, `float()`, `str()`), 사칙연산, 비교와 논리연산(`and`, `or`, `not`)은 12에서 배워요. `if` 문은 아직 배우지 않았으니 12까지의 예제에 넣지 않아요.
 - 파이썬 실행은 `uv run main.py`로 적어요. `python main.py`는 가상환경을 켠 상태, 예전 방식, 오류 예시에서만 써요. `.venv`는 GitHub에 올리지 않고, `pyproject.toml`, `uv.lock`, `.python-version`은 올려요.
 
 ## 배포 전 점검
