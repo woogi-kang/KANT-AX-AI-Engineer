@@ -514,7 +514,7 @@ for i, (k, r, d) in enumerate(lf):
              + '<div style="width:400px;flex:none">' + mono(k, 22, T6, T6BG, "display:inline-block") + '</div>'
              + '<div style="flex:1;display:flex;flex-direction:column;gap:2px">' + p(f"font-family:{MONO};font-size:22px;font-weight:700;color:{INK};white-space:pre", e(r)) + p(f"font-size:20px;color:{SUB}", e(d)) + '</div></div>')
 o.append(caption("index의 답도 0부터 센 번호예요. 80은 0, 1, 2번째라서 2예요.", 940))
-W("list-find", o, "count는 값이 몇 개 들어 있는지 세요. 95가 두 번 있어서 2예요. index는 그 값이 처음 나오는 번호를 알려 줘요. 번호는 0부터 세니까 80은 2번이에요. in은 메서드는 아니지만 같이 쓰면 좋아요. 12의 4파트의 비교처럼 True나 False로 답해요. sort는 리스트를 작은 수부터 정렬해요. 새 리스트를 만드는 게 아니라 scores 자체가 바뀌어요. reverse=True를 넣으면 큰 수부터예요. 글자 리스트도 sort하면 가나다, abc 순서로 정렬돼요. 출력은 실제로 실행한 결과예요.")
+W("list-find", o, "count는 값이 몇 개 들어 있는지 세요. 95가 두 번 있어서 2예요. index는 그 값이 처음 나오는 번호를 알려 줘요. 번호는 0부터 세니까 80은 2번이에요. in은 메서드는 아니지만 같이 쓰면 좋아요. 12의 4파트의 비교처럼 True나 False로 답해요. in과 not in은 14의 1파트에서 자세히 봐요. sort는 리스트를 작은 수부터 정렬해요. 새 리스트를 만드는 게 아니라 scores 자체가 바뀌어요. reverse=True를 넣으면 큰 수부터예요. 글자 리스트도 sort하면 가나다, abc 순서로 정렬돼요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("list-method-map")] + head(EB6S, "리스트에 쓰는 메서드와 함수 한눈에", T6)
 mm = [("넣기", [("append(값)", "맨 뒤에 더하기"), ("insert(번호, 값)", "그 자리에 끼우기")]),
@@ -752,7 +752,7 @@ ls = [('["kim", "lee"]', "글자 리스트"), ("[90, 100, 7]", "숫자 리스트
 for i, (k, d) in enumerate(ls):
     o.append(card(1040, 200 + i * 118, 784, 106, mono(k, 22, T6, T6BG, "align-self:flex-start") + p(f"font-size:20px;color:{SUB}", e(d)), None, f' data-build-in="rise order {i + 1}"', "justify-content:center;gap:4px;padding:10px 24px"))
 o.append(caption("carts[0][1]처럼 안쪽 리스트도 번호를 두 번 써서 꺼내요.", 940))
-W("list-shapes", o, "리스트에는 어떤 값이든 담을 수 있어요. 팀 실습의 kim, lee, park 같은 글자도, 점수 같은 숫자도 담아요. 한 리스트에 글자, 숫자, True를 섞어도 돼요. 리스트 안에 리스트를 넣으면 손님별 장바구니처럼 표 모양이 돼요. carts[0][1]은 0번 손님 장바구니의 1번 값 cake예요. 앞 장의 orders는 리스트 안에 튜플을 넣은 모양이에요. 빈 대괄호는 빈 리스트라 len()이 0이에요. 출력은 실제로 실행한 결과예요.")
+W("list-shapes", o, "리스트에는 어떤 값이든 담을 수 있어요. 팀 실습의 kim, lee, park 같은 글자도, 점수 같은 숫자도 담아요. 한 리스트에 글자, 숫자, True를 섞어도 돼요. 리스트 안에 리스트를 넣으면 손님별 장바구니처럼 표 모양이 돼요. 이 모양은 14의 2파트에서 2차원 리스트로 자세히 다뤄요. carts[0][1]은 0번 손님 장바구니의 1번 값 cake예요. 앞 장의 orders는 리스트 안에 튜플을 넣은 모양이에요. 빈 대괄호는 빈 리스트라 len()이 0이에요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("list-err")] + head(EB6S, "없는 번호를 꺼내면 IndexError가 나요", T6)
 le = [("menus[3]", "IndexError: list index out of range", "menus는 0, 1, 2번까지", 27),
@@ -798,7 +798,7 @@ for i, (k, d, c) in enumerate(cheat):
 o.append(f'<div style="position:absolute;left:96px;top:780px;width:1728px;height:210px;background:{CARD};border:2px solid {LINE};border-radius:20px;padding:24px 36px;display:flex;flex-direction:column;justify-content:center;gap:14px">'
          + p(f"font-size:30px;font-weight:700;color:{INK}", '번호는 0부터 세요. <span style="font-family:\'JetBrains Mono\';color:' + T6 + '">[시작:끝]</span>에서 끝 번호 자리는 빠져요')
          + p(f"font-size:30px;font-weight:700;color:{INK}", '리스트 <span style="font-family:\'JetBrains Mono\';color:' + T6 + '">[ ]</span>는 바꿀 수 있고, 튜플 <span style="font-family:\'JetBrains Mono\';color:' + T6 + '">( )</span>는 바꿀 수 없어요') + '</div>')
-W("cheatsheet", o, "이번 챕터에서 쓴 기호와 메서드를 한 장에 모았어요. 번호는 0부터 센다는 것, 새 출력 코드는 f-string으로 적는다는 것만은 꼭 기억해요. 노트북에 이 장의 내용을 마크다운 셀로 정리해 두면 복습할 때 같이 봐요. 다음에 배울 if 문은 12에서 만든 True, False로 할 일을 고르는 문법이에요.")
+W("cheatsheet", o, "이번 챕터에서 쓴 기호와 메서드를 한 장에 모았어요. 번호는 0부터 센다는 것, 새 출력 코드는 f-string으로 적는다는 것만은 꼭 기억해요. 노트북에 이 장의 내용을 마크다운 셀로 정리해 두면 복습할 때 같이 봐요. 다음 14에서는 in과 not in, 리스트 안에 리스트를 넣은 2차원 리스트를 봐요.")
 
 # ---------- toc ----------
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}

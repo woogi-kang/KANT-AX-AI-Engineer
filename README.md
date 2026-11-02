@@ -21,6 +21,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [11 · 터미널에서 GitHub 다루기 (gh)](./11-gh-cli) | G&#8288;i&#8288;t&#8288;H&#8288;u&#8288;b | 레포 만들기와 PR을 터미널에서 해요 | `gh auth login` `gh repo create` `gh repo clone` `gh pr create` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) |
 | [12 · 파이썬 기초 1 (변수, 타입, 연산)](./12-python-basics) | 파&#8288;이&#8288;썬 | 변수에 값을 담아 계산하고 비교해요 | `=` `type()` `//` `%` `and` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) |
 | [13 · 파이썬 기초 2 (문자열, 리스트, for)](./13-python-strings-lists) | 파&#8288;이&#8288;썬 | 문자열과 리스트로 영수증을 찍어요 | `word[0:2]` f-string `[ ]` `append` `for` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/13-python-strings-lists/python-strings-lists-slides.html) |
+| [14 · 파이썬 기초 3 (in, 2차원 리스트)](./14-python-2d-lists) | 파&#8288;이&#8288;썬 | 값이 들어 있는지 묻고 표 모양 데이터를 다뤄요 | `in` `not in` `scores[1][2]` `len(scores[0])` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/14-python-2d-lists/python-2d-lists-slides.html) |
 
 <!-- /curriculum:chapters -->
 

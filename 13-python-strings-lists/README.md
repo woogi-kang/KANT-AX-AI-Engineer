@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/13-python-strings-lists/python-strings-lists-slides.html) | [12 · 파이썬 기초 1 (변수, 타입, 연산)](../12-python-basics) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/13-python-strings-lists/python-strings-lists-slides.html) | [12 · 파이썬 기초 1 (변수, 타입, 연산)](../12-python-basics) | [14 · 파이썬 기초 3 (in, 2차원 리스트)](../14-python-2d-lists) |
 
 <!-- /curriculum:top -->
 
@@ -329,6 +329,6 @@ node ../tools/export.js slides python-strings-lists-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 12 · 파이썬 기초 1 (변수, 타입, 연산)](../12-python-basics) · [커리큘럼](../README.md)
+[← 이전: 12 · 파이썬 기초 1 (변수, 타입, 연산)](../12-python-basics) · [커리큘럼](../README.md) · [다음: 14 · 파이썬 기초 3 (in, 2차원 리스트) →](../14-python-2d-lists)
 
 <!-- /curriculum:nav -->
