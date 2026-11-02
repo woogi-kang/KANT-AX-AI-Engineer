@@ -96,7 +96,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 │   ├── git-branch-slides.pdf     슬라이드 (강사용 인쇄본)
 │   ├── slides/                   슬라이드 원본 (한 장에 한 파일)
 │   └── tools/                    이 챕터만 쓰는 생성 스크립트
-├── …                             04 ~ 13도 같은 모양
+├── …                             04부터 마지막 챕터까지 같은 모양
 ├── extras/                       번외 자료 (주제마다 폴더 하나)
 │   └── terminal-path-help/
 ├── tools/                        모든 챕터가 같이 쓰는 검사, HTML, PDF 도구와 README 표 만들기
