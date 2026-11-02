@@ -2,9 +2,13 @@
 
 > GitHub 웹사이트에서 버튼으로 하던 일을 터미널 명령 `gh`(GitHub CLI)로 해요. 브라우저 코드로 로그인하고, 이미 있는 레포를 받고, 새 레포를 만들어요. 레포를 지울 때 권한이 모자라서 막히는 장면과 `gh auth refresh`로 권한을 더하는 법도 봐요. 마지막에 이슈와 PR을 다루는 간단한 명령을 써요. 커밋과 push는 지금까지처럼 git으로 해요.
 
+<!-- curriculum:top -->
+
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) | [10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) | [12 · 파이썬 기초 (변수, 타입, 연산, 문자열, 리스트)](../12-python-basics) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -214,23 +218,20 @@ tools/
   drive.py         가상 터미널에서 gh 질문에 답하고 화면 글자를 정리
   mock_github.py   github.com 대신 응답하는 작은 서버 (로그인, 레포, 이슈, PR, git push)
   demo-output.txt  슬라이드에 옮긴 실행 결과
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 gh-cli-slides.html  배포용 HTML
 gh-cli-slides.pdf   강사용 PDF
 ```
+
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요. demo.sh는 python3에 pexpect 패키지가 있어야 해요.
 
 ```bash
 bash tools/demo.sh > /tmp/gh-cli.log 2>&1        # 실제 출력 확인
 python3 tools/gen.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides gh-cli-slides.html
-node tools/export.js slides gh-cli-slides.pdf
+node ../tools/check.js slides shots
+node ../tools/build_player.js slides gh-cli-slides.html
+node ../tools/export.js slides gh-cli-slides.pdf
 ```
 
 gh는 스크립트로 진짜 github.com에 로그인할 수 없어요. 그래서 `tools/demo.sh`가 잠깐 `/etc/hosts`에서 github.com과 api.github.com을 이 컴퓨터로 돌리고, `tools/mock_github.py`가 GitHub 대신 응답해요. gh 2.89.0과 git 2.43은 그대로 실행돼요. 질문 화면, 코드 안내, ✓ 줄, 403 뒤의 `gh auth refresh` 안내, 표 모양은 gh가 실제로 출력한 글자예요. 레포 이름, 코드(`8F2A-71C4`), 이슈와 PR 번호, 403 메시지 본문은 mock 서버가 돌려준 값이라 실제와 다를 수 있어요. `remote:`로 시작하는 줄과 받은 바이트 수도 진짜 GitHub과 조금 달라요. 커밋 해시는 실행할 때마다 달라요.
@@ -241,4 +242,8 @@ gh는 스크립트로 진짜 github.com에 로그인할 수 없어요. 그래서
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) · [커리큘럼](../README.md) · [다음: 12 · 파이썬 기초 (변수, 타입, 연산, 문자열, 리스트) →](../12-python-basics)
+
+<!-- /curriculum:nav -->

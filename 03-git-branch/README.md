@@ -2,9 +2,13 @@
 
 > 커밋을 점으로, 브랜치를 그 점에 붙은 이름표로 그려서 명령마다 그래프가 어떻게 바뀌는지 봐요. 로그인 기능을 브랜치에서 만들고, 합치고, 충돌을 풀고, Pull Request로 팀과 합치는 데까지 이어서 해요. 02에서 만든 `hello-git` 저장소를 그대로 써요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | [02 · Git 기본 흐름](../02-git-basics) | [04 · Git diff로 확인하기](../04-git-diff) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -206,23 +210,20 @@ slides/
 tools/
   gen_branch.py    커밋 그래프 장면(g, b, d, r, u, c, p로 시작하는 장) 생성
   gen_pages.py     표지, 목차, 개념, 충돌 시나리오, PR, 에러 장 생성
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 git-branch-slides.html  배포용 HTML
 git-branch-slides.pdf   강사용 PDF
 ```
+
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
 
 ```bash
 python3 tools/gen_branch.py slides
 python3 tools/gen_pages.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides git-branch-slides.html
-node tools/export.js slides git-branch-slides.pdf
+node ../tools/check.js slides shots
+node ../tools/build_player.js slides git-branch-slides.html
+node ../tools/export.js slides git-branch-slides.pdf
 ```
 
 터미널 출력은 git 2.43에서 실제로 실행해 확인했어요. 해시는 날짜를 고정해서 만든 값이라 내 화면과 달라요. 충돌 시나리오 2~6은 시나리오마다 저장소를 따로 만들어 실행했어요. 화면 폭 때문에 줄인 출력은 발표자 노트에 적어 두었어요.
@@ -231,4 +232,8 @@ node tools/export.js slides git-branch-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 02 · Git 기본 흐름](../02-git-basics) · [커리큘럼](../README.md) · [다음: 04 · Git diff로 확인하기 →](../04-git-diff)
+
+<!-- /curriculum:nav -->

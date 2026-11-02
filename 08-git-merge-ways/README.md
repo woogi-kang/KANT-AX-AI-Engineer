@@ -2,9 +2,13 @@
 
 > 같은 예시 하나로 합치는 방법 네 가지를 나란히 놓고 결과 그림을 비교해요. fast-forward, merge(`--no-ff` 포함), rebase, squash예요. 이어서 `git pull`이 이 중 무엇을 하는지, GitHub PR의 Merge 버튼 세 개가 각각 무엇인지 연결해요. 연습용 저장소 `merge-lab`을 새로 만들어 내 컴퓨터에서만 해 봐요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) | [09 · uv로 파이썬 시작하기](../09-python-uv) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -198,23 +202,20 @@ slides/
 tools/
   gen.py           모든 장과 deck.json 생성 (커밋 그래프, 비교 카드, PR 버튼 그림)
   demo.sh          모든 방법을 새 저장소에서 다시 실행해 실제 출력 확인
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 git-merge-ways-slides.html  배포용 HTML
 git-merge-ways-slides.pdf   강사용 PDF
 ```
+
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
 
 ```bash
 bash tools/demo.sh /tmp/merge-demo
 python3 tools/gen.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides git-merge-ways-slides.html
-node tools/export.js slides git-merge-ways-slides.pdf
+node ../tools/check.js slides shots
+node ../tools/build_player.js slides git-merge-ways-slides.html
+node ../tools/export.js slides git-merge-ways-slides.pdf
 ```
 
 터미널 출력은 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 방법마다 같은 출발점을 폴더째 복사해서 시작해요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/merge-lab.git`으로 보이게 했어요. 팀원 lee와 GitHub의 Squash and merge 버튼은 같은 저장소를 하나 더 clone해서 흉내 냈어요. 날짜를 고정해서 해시가 매번 같게 나와요. pull 합치기 커밋 메시지에 폴더 경로가 들어가서 `/tmp/merge-demo`에서 실행해야 be1e0e1이 나와요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요.
@@ -223,4 +224,8 @@ node tools/export.js slides git-merge-ways-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) · [커리큘럼](../README.md) · [다음: 09 · uv로 파이썬 시작하기 →](../09-python-uv)
+
+<!-- /curriculum:nav -->

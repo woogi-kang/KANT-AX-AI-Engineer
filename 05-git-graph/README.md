@@ -2,9 +2,13 @@
 
 > VS Code 확장 Git Graph를 설치해서 터미널로 만든 커밋과 브랜치를 그림으로 봐요. 명령은 지금처럼 터미널에서 치고, 친 결과를 Git Graph로 확인해요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) | [04 · Git diff로 확인하기](../04-git-diff) | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -101,23 +105,20 @@ slides/
 tools/
   gen.py           모든 장 생성 (VS Code와 Git Graph 화면을 HTML과 SVG로 그림)
   demo.sh          실습을 새 저장소에서 다시 실행해 실제 출력 확인
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 git-graph-slides.html  배포용 HTML
 git-graph-slides.pdf   강사용 PDF
 ```
+
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
 
 ```bash
 bash tools/demo.sh /tmp/graph-demo
 python3 tools/gen.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides git-graph-slides.html
-node tools/export.js slides git-graph-slides.pdf
+node ../tools/check.js slides shots
+node ../tools/build_player.js slides git-graph-slides.html
+node ../tools/export.js slides git-graph-slides.pdf
 ```
 
 터미널 출력과 해시는 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 날짜를 고정해서 해시가 매번 같게 나와요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/hello-git.git`으로 보이게 했어요. Git Graph 화면은 확장 소스(mhutchie/vscode-git-graph)의 기본 설정을 따라 그렸어요. 이름표 모양, 선 색(#0085D9, #D9008F), HEAD 빈 점, 8자리 커밋 번호가 그 예예요. status의 안내 문구처럼 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요.
@@ -126,4 +127,8 @@ node tools/export.js slides git-graph-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 04 · Git diff로 확인하기](../04-git-diff) · [커리큘럼](../README.md) · [다음: 06 · 팀 레포에서 같이 작업하고 충돌 풀기 →](../06-team-repo)
+
+<!-- /curriculum:nav -->

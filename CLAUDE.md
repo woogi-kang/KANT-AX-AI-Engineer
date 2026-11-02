@@ -14,16 +14,26 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 
 - 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`, `06-team-repo`, `07-git-restore-stash`, `08-git-merge-ways`, `09-python-uv`, `10-vscode-jupyter`, `11-gh-cli`, `12-python-basics`)
 - 폴더마다 수강생이 읽을 `README.md`를 둬요. 무엇을 배우는지, 어떤 순서로 보면 되는지, 꼭 기억할 명령을 적어요.
-- 슬라이드가 있는 폴더에는 수강생이 바로 받을 HTML(`주제-slides.html`, 애니메이션 포함)과 PDF(`주제-slides.pdf`)를 같이 둬요. 슬라이드를 고치면 둘 다 다시 만들어요. 만드는 스크립트는 `02-git-basics/tools/`의 `build_player.js`, `export.js`예요.
+- 슬라이드가 있는 폴더에는 수강생이 바로 받을 HTML(`주제-slides.html`, 애니메이션 포함)과 PDF(`주제-slides.pdf`)를 같이 둬요. 슬라이드를 고치면 둘 다 다시 만들어요. 만드는 스크립트는 맨 위 `tools/`의 `build_player.js`, `export.js`예요. 챕터 폴더에서 `node ../tools/build_player.js slides 주제-slides.html`처럼 쳐요.
+- 새 내용은 만들기 전에 자리부터 정해요. 아래 순서로 처음 맞는 곳에 넣어요.
+  1. 이미 있는 챕터의 보강이나 예시면 그 챕터의 파트로 넣어요.
+  2. 넣었을 때 덱이 40장을 넘거나 파트가 6개를 넘으면, 같은 주제의 다음 챕터로 나눠요(예: 파이썬 기초 1, 2).
+  3. 새 도구나 새 개념이면 맨 뒤 번호로 새 챕터를 만들어요.
+  4. 배우는 순서와 상관없이 막혔을 때 보는 자료면 번외로 만들어요.
+- main에 올린 챕터의 번호와 폴더 이름은 바꾸지 않아요. 슬라이드 주소(GitHub Pages)와 수강생이 저장한 링크가 깨져요. 새 챕터는 중간에 끼우지 않고 뒤에 붙여요. 챕터를 나눌 때도 앞부분은 원래 폴더에 남겨요.
+- 챕터 README가 300줄을 넘으면 챕터를 나눌 때예요.
 - 자료 단위는 "챕터"라고 불러요. README 커리큘럼 표와 챕터 README에는 슬라이드 장수(34장 같은 표시)를 적지 않아요. 챕터 README 맨 위 표는 슬라이드, 이전 챕터, 다음 챕터 세 칸이에요.
 - README 표에서 내용이 제목보다 짧은 칸(예: `열기`)은 GitHub이 한글 제목을 글자 중간에서 끊어요. 제목과 짧은 셀은 글자 사이에 `&#8288;`(줄바꿈 막는 보이지 않는 문자)를 넣어요. 예: `슬&#8288;라&#8288;이&#8288;드`, `열&#8288;기`
-- 강사용 도구(생성·검사·PDF 내보내기 스크립트)는 해당 폴더의 `tools/`에 둬요.
+- 모든 챕터가 같이 쓰는 도구(`check.js`, `deckrender.js`, `build_player.js`, `export.js`, `icons/`)는 맨 위 `tools/`에 한 벌만 둬요. 챕터 `tools/`에는 그 챕터만 쓰는 `gen.py`, `demo.sh` 같은 파일만 둬요. 공용 도구를 고치면 모든 덱이 영향을 받으니, 한 덱을 다시 만들어서 전과 같은지 비교해요.
 - 정규 챕터에 넣지 않는 보충 자료는 "번외"라고 불러요. `extras/주제`처럼 번호 없이 영문 소문자 이름으로 만들어요. (예: `extras/terminal-path-help`)
   - 번외 폴더도 README, `주제-slides.html`, `주제-slides.pdf`, `tools/`를 챕터와 같은 방식으로 둬요.
   - 번외 README 맨 위 표는 슬라이드, 관련 챕터, 번외 목록 세 칸이에요.
-  - 새 번외는 맨 위 README의 "번외" 표와 `extras/README.md` 표에 한 줄씩 더해요. 커리큘럼 표에는 넣지 않아요.
+  - 새 번외는 `curriculum.json`의 `extras`에 한 줄 더하고 `python3 tools/build_readme.py`를 쳐요. 맨 위 README의 "번외" 표와 `extras/README.md` 표가 같이 바뀌어요. 커리큘럼 표에는 넣지 않아요.
   - 번외도 수업 규칙과 배포 전 점검을 똑같이 따라요. 아직 안 배운 명령은 관련 챕터를 밝히고 써요.
-- 레포 맨 위 `README.md`의 목차에 새 폴더와 HTML 링크를 추가해요. HTML은 GitHub Pages 주소(`https://woogi-kang.github.io/KANT-AX-AI-Engineer/폴더/파일.html`)로 걸어요. README에는 PDF 다운로드 링크를 넣지 않아요(PDF 파일은 강사용으로 계속 만들어 둬요).
+- 챕터와 번외 목록은 `curriculum.json` 한 곳에서만 고쳐요. `python3 tools/build_readme.py`가 맨 위 커리큘럼 표, 번외 표, 챕터 README 맨 위 표와 맨 아래 이동 링크를 만들어요. 만든 내용은 `<!-- curriculum:이름 -->`과 `<!-- /curriculum:이름 -->` 사이에만 들어가요. 그 사이를 README에서 직접 고치지 않아요. 올리기 전에 `python3 tools/build_readme.py --check`가 조용히 끝나는지 봐요.
+- 커리큘럼 표는 챕터, 분류, 한 줄 목표, 핵심 명령, 슬라이드 다섯 칸이에요. 분류는 터미널, Git, GitHub, 파이썬 중 하나예요. 한 줄 목표는 "~해요"로 끝나는 한 문장이에요. 핵심 명령은 다섯 개 안팎만 적고, 나머지는 챕터 README 명령어 요약에 적어요.
+- 새 챕터 README는 `templates/chapter-README.md`를 복사해서 시작해요. 절 순서는 학습 목표, 시작하기 전에, 구성, 핵심 개념, 실습, 명령어 요약, 문제 해결, 강사용이에요.
+- HTML 링크는 GitHub Pages 주소(`https://woogi-kang.github.io/KANT-AX-AI-Engineer/폴더/파일.html`)로 걸어요. README에는 PDF 다운로드 링크를 넣지 않아요(PDF 파일은 강사용으로 계속 만들어 둬요).
 
 ## 수업 규칙 (자료 내용)
 
@@ -54,7 +64,7 @@ main에 올리기 전에 매번 아래를 확인해요.
 1. 새로 넣은 장이 배우는 순서에 맞는 자리인지 봐요. 아직 안 배운 명령이나 개념이 먼저 나오면 안 돼요.
 2. 같은 덱과 다른 덱(01, 02, 03 …)의 내용, 용어, 해시, 발표자 노트의 앞 장 참조와 어긋나지 않는지 봐요.
 3. 위 수업 규칙에 어긋나는 명령이 없는지 검색해요. (`-u`, `--graph`, `--all`, `commit -am`, 07 밖의 `restore`, `stash`, 08 앞의 `rebase`, `--squash`, `--no-ff`, 09 비교 장 밖의 `pip install`)
-4. 챕터 README(구성의 쪽 번호, 명령어 요약, 실습, 문제 해결)와 맨 위 README(다루는 명령, 과정 규칙)를 슬라이드에 맞춰 고쳐요.
+4. 챕터 README(구성의 쪽 번호, 명령어 요약, 실습, 문제 해결), `curriculum.json`(한 줄 목표, 핵심 명령), 맨 위 README(과정 규칙)를 슬라이드에 맞춰 고쳐요. 그다음 `python3 tools/build_readme.py`로 표를 다시 만들어요.
 5. README의 실습 명령을 순서대로 쳤을 때 실제로 동작하는지 확인해요.
 6. HTML과 PDF를 다시 만들어요.
 

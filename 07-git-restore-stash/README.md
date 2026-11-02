@@ -2,9 +2,13 @@
 
 > 커밋하기 전의 변경을 다루는 명령 세 가지를 배워요. 고친 걸 버리는 `git restore`, add를 취소하는 `git restore --staged`, 고치던 걸 잠깐 치워 두는 `git stash`예요. 02의 네 칸 그림과 `hello-git` 저장소의 `login.md`를 그대로 써요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) | [08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -164,23 +168,20 @@ slides/
 tools/
   gen.py           모든 장 생성 (네 칸 장면과 서랍, 비교표, 팀 순서)
   demo.sh          실습을 새 저장소에서 다시 실행해 실제 출력 확인 (팀원 lee 포함)
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 git-restore-stash-slides.html  배포용 HTML
 git-restore-stash-slides.pdf   강사용 PDF
 ```
+
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
 
 ```bash
 bash tools/demo.sh /tmp/restore-demo
 python3 tools/gen.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides git-restore-stash-slides.html
-node tools/export.js slides git-restore-stash-slides.pdf
+node ../tools/check.js slides shots
+node ../tools/build_player.js slides git-restore-stash-slides.html
+node ../tools/export.js slides git-restore-stash-slides.pdf
 ```
 
 터미널 출력은 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/hello-git.git`으로 보이게 했어요. 팀원 lee는 같은 저장소를 하나 더 clone해서 흉내 냈어요. 날짜를 고정해서 해시가 매번 같게 나와요(e12ffc2, 15d92cb는 05와 같아요). 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요.
@@ -189,4 +190,8 @@ node tools/export.js slides git-restore-stash-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) · [커리큘럼](../README.md) · [다음: 08 · 갈라진 기록 합치는 방법 비교하기 →](../08-git-merge-ways)
+
+<!-- /curriculum:nav -->
