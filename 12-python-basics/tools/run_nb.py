@@ -29,10 +29,14 @@ run(['age = 25\nheight = 172.5\nuser_name = "kim"\nis_member = False\nprint(type
 print("=== 3. 사칙연산")
 run(['print(7 + 3)\nprint(7 - 3)\nprint(7 * 3)\nprint(7 / 3)', '6 / 2',
      'print(7 // 3)\nprint(7 % 3)\nprint(2 ** 3)', '2 + 3 * 4', '(2 + 3) * 4',
+     'print(2 ** 3 // 3)\nprint(2 * 3 ** 2)\nprint(-2 ** 2)\nprint((-2) ** 2)', 'print(10 - 4 + 2)\nprint(8 / 2 * 4)\nprint(7 // 2 * 2)',
+     'print(10 - 2 * 3 ** 2 // 4)',
+     'print(10 + 2 * 3)\nprint((10 + 2) * 3)\nprint(20 - 10 / 2)\nprint((20 - 10) / 2)\nprint(12 / 3 * 2)\nprint(12 / (3 * 2))\nprint(100 - 30 - 20)\nprint(100 - (30 - 20))', 'print(2 ** 2 * 3)\nprint(2 ** (2 * 3))\nprint(17 % 5 * 2)\nprint(17 % (5 * 2))\nprint(3 + 10 // 3)\nprint((3 + 10) // 3)\nprint(-3 ** 2)\nprint((-3) ** 2)', 'print(7 // 2 ** 2)\nprint(10 % 3 ** 2)\nprint(2 + 3 * 4 ** 2 // 8)\nprint(50 - 5 * 2 ** 3 % 7)',
      'price = 3000\ncount = 2\ntotal = price * count\nprint("합계:", total)',
      'total = 10000\npeople = 3\nprint("한 사람:", total // people)\nprint("남는 돈:", total % people)',
      'score = 0\nscore += 10\nscore += 5\nscore',
      '"kim" + "lee"', '"ha" * 3', '"3" + "3"', '"3" + 3', '10 / 0'])
+run(['2 ** 3 ** 2'])
 print("=== 4. 비교와 논리연산")
 run(['age = 25\nprint(age > 20)\nprint(age < 20)\nprint(age == 25)\nprint(age != 25)\nprint(age >= 25)\nprint(age <= 24)',
      'age == 30', 'age = 30\nage', 'age = 25\nis_adult = age >= 20\nprint(is_adult)\nprint(type(is_adult))',
