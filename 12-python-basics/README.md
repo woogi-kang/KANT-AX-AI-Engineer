@@ -21,6 +21,7 @@
 - 변수 값을 문자열에 끼워 넣는 세 방식(`%`, `format()`, f-string)을 읽고, 새 코드는 f-string으로 적어요.
 - 칸 수(`{42:5d}`), 소수점 자리(`{pi:.2f}`), 천 단위 콤마(`{price:,}`)를 정해 출력해요.
 - 값 여러 개를 리스트 `[ ]`와 튜플 `( )`에 담고, `orders[1][0]`처럼 번호 두 개로 꺼내요.
+- 리스트 메서드 `append` `insert` `remove` `pop` `count` `index` `sort`와 튜플 메서드 `count` `index`를 써요.
 - `menu, price, qty = orders[2]`로 튜플 값을 변수 여러 개에 한 번에 꺼내 담아요.
 - `"=" * 33`, 머리글 맞춤, 콤마로 영수증 모양 출력을 만들어요.
 - `for menu, price, qty in orders:`로 주문을 하나씩 꺼내 되풀이하고, 합계를 쌓아요.
@@ -46,8 +47,8 @@
 | 3. 사칙연산 | 15–28 | `+` `-` `*` `/`, `/`의 결과는 실수, 몫 `//`·나머지 `%`·거듭제곱 `**`, 계산 순서 네 계단, `**`가 먼저(`-2 ** 2`), 같은 순위는 왼쪽부터, 섞인 식 한 계단씩 풀기, 괄호 있고 없고 비교 예제 여덟 쌍, 직접 풀어 보기 네 문제, 변수로 계산, `+=`, 글자의 `+`와 `*` |
 | 4. 비교와 논리연산 | 29–37 | 비교 연산자 여섯 가지, `=`와 `==`, 비교 결과를 변수에, `and` `or` `not` 표, 놀이기구 조건(`and`), 할인 조건(`or`), 푸는 순서 |
 | 5. 문자열과 출력 | 38–52 | 따옴표와 `len()`, 인덱스와 `IndexError`, 슬라이싱, `print()`의 `sep` `end`, `\n` `\t`, 끼워 넣는 세 방식, `%s` `%d`와 f-string, `format()`의 `{0}` `{1}` `{2}`, 같은 주문내역을 세 방식으로, 칸 수 `%5d` `{42:5d}`, 소수점 `%0.2f` `{pi:.2f}`, 천 단위 콤마 `{price:,}`, `format()`의 모양, 표처럼 맞추기, 포맷팅 오류 |
-| 6. 리스트와 튜플 | 53–68 | `[ ]`로 담기와 `len()`, 꺼내기와 자르기, 값 바꾸기와 `append`, `sum` `max` `min`, 바꿀 수 없는 튜플, 주문 데이터 `orders`, 번호 두 개로 꺼내기, 한 번에 꺼내 담기, 주문 줄 맞추기, 한글 머리글이 두 칸인 이유, 메뉴표 영수증, `for`로 하나씩 꺼내 되풀이하기, `for`로 합계 쌓기, 가게 이름과 날짜가 들어간 영수증 한 장, 콜론과 들여쓰기 오류, 여러 모양의 리스트, `IndexError` |
-| 정리 | 69–70 | 막힐 때, 한 장 요약 |
+| 6. 리스트와 튜플 | 53–72 | `[ ]`로 담기와 `len()`, 꺼내기와 자르기, 값 바꾸기와 `append`, `sum` `max` `min`, 넣고 빼는 메서드(`append` `insert` `remove` `pop`), 찾고 세고 정렬하는 메서드(`count` `index` `in` `sort`), 메서드와 함수 한눈에, 바꿀 수 없는 튜플, 튜플의 `count` `index`와 꺼내 담기, `a, b = b, a`, `list()` `tuple()`, 주문 데이터 `orders`, 번호 두 개로 꺼내기, 한 번에 꺼내 담기, 주문 줄 맞추기, 한글 머리글이 두 칸인 이유, 메뉴표 영수증, `for`로 하나씩 꺼내 되풀이하기, `for`로 합계 쌓기, 가게 이름과 날짜가 들어간 영수증 한 장, 콜론과 들여쓰기 오류, 여러 모양의 리스트, `IndexError` |
+| 정리 | 73–74 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -211,6 +212,21 @@ f-string에서 글자는 기본이 왼쪽 맞춤이에요. `f"[{'kim':5}]"`는 `
 | `sum(prices)`, `max(prices)`, `min(prices)` | `19300`, `6500`, `3000` | 합계, 가장 큰 값, 가장 작은 값 |
 | `order = ("coffee", 4500, 2)` | | 소괄호로 묶은 튜플. 만든 뒤 못 바꿔요 |
 
+리스트 이름 뒤에 점을 찍고 쓰는 함수를 메서드라고 불러요. `cart = ["coffee", "latte"]`, `scores = [70, 95, 80, 95]`일 때 결과예요.
+
+| 메서드 | 결과 | 뜻 |
+| --- | --- | --- |
+| `cart.append("cake")` | `['coffee', 'latte', 'cake']` | 맨 뒤에 더하기 |
+| `cart.insert(0, "tea")` | `['tea', 'coffee', 'latte', 'cake']` | 그 자리에 끼우기 |
+| `cart.remove("latte")` | `['tea', 'coffee', 'cake']` | 값을 찾아 지우기. 없으면 `ValueError` |
+| `cart.pop()` | `'cake'`를 돌려주고 `['tea', 'coffee']` | 맨 뒤를 꺼내기 |
+| `scores.count(95)` | `2` | 몇 개인지 |
+| `scores.index(80)` | `2` | 몇 번 자리인지 |
+| `95 in scores` | `True` | 들어 있는지 |
+| `scores.sort()` | `[70, 80, 95, 95]` | 작은 수부터. `reverse=True`면 큰 수부터 |
+
+튜플은 바꾸는 메서드가 없고 `count`, `index`만 있어요. `year, month, day = (2026, 11, 2)`처럼 한 번에 꺼내 담고, `a, b = b, a`로 두 값을 맞바꿔요. 고쳐야 하면 `list(튜플)`로 바꿔서 고쳐요.
+
 주문 여러 건은 튜플을 리스트에 담아요. `orders = [("coffee", 4500, 2), ("latte", 5000, 1), ("cake", 6500, 3)]`에서 앞 번호는 몇째 주문, 뒤 번호는 그 안의 몇째 값이에요. `orders[1][0]`은 `'latte'`, `orders[2][1] * orders[2][2]`는 `19500`이에요. `menu, price, qty = orders[2]`처럼 쓰면 튜플 값이 순서대로 하나씩 들어가요.
 
 글자도 `<` `>` `^`로 맞춰요. 파이썬은 한글 한 글자를 한 칸으로 세지만 화면에서는 두 칸 너비라서, 한글 머리글은 한글 글자 수만큼 칸 수를 빼요. 10칸짜리 `'메뉴명'`은 `{'메뉴명':<7}`이에요. 글꼴에 따라 조금 어긋나면 머리글을 영어로 써요.
@@ -371,6 +387,24 @@ print(f"[{fee:8,}]")      # [  35,000]
 ### 6. 리스트와 튜플
 
 ```python
+cart = ["coffee", "latte"]
+cart.append("cake")
+cart.insert(0, "tea")
+print(cart)          # ['tea', 'coffee', 'latte', 'cake']
+cart.remove("latte")
+last = cart.pop()
+print(last, cart)    # cake ['tea', 'coffee']
+```
+
+```python
+scores = [70, 95, 80, 95]
+print(scores.count(95))   # 2
+print(scores.index(80))   # 2
+scores.sort(reverse=True)
+print(scores)             # [95, 95, 80, 70]
+```
+
+```python
 orders = [("coffee", 4500, 2), ("latte", 5000, 1), ("cake", 6500, 3)]
 print(len(orders))                    # 3
 print(orders[1][0])                   # latte
@@ -452,6 +486,7 @@ print(f"{'감사합니다':^28}")
 | `IndexError: string index out of range` | 없는 번호예요. 번호는 0부터 `len(값) - 1`까지예요 |
 | `TypeError: not enough arguments for format string` | `%` 자리 수와 값 수가 달라요. f-string으로 쓰면 이름을 바로 적어서 덜 틀려요 |
 | `ValueError: unsupported format character ','` | `%`에는 콤마 옵션이 없어요. `f"{price:,}"`로 써요 |
+| `ValueError: list.remove(x): x not in list` | 리스트에 없는 값을 지우려 했어요. `값 in 리스트`로 먼저 확인해요 |
 | `IndexError: list index out of range` | 리스트에 없는 번호예요. 값이 세 개면 마지막 번호는 2 |
 | `TypeError: 'tuple' object does not support item assignment` | 튜플은 바꿀 수 없어요. 바꿀 값은 리스트에 담아요 |
 | `SyntaxError: expected ':'` | `for` 줄 끝에 콜론을 빠뜨렸어요 |

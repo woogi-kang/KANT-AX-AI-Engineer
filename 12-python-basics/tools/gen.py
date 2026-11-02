@@ -969,10 +969,55 @@ o.append(card(960, 790, 864, 100, '<div style="display:flex;flex-direction:row;a
 o.append(caption("append는 맨 뒤에 하나를 더해요. 담긴 개수가 3에서 4가 돼요.", 940))
 W("list-change", o, "리스트는 담은 뒤에도 고칠 수 있어요. prices[0] = 4800은 1파트의 = 와 같아요. 0번 자리에 새 값을 넣어서 4500이 4800으로 바뀌어요. prices.append(3000)은 맨 뒤에 3000을 하나 더해요. 점 뒤에 붙여 쓰는 함수라서 리스트 이름 뒤에 점을 찍고 적어요. sum, max, min은 숫자 리스트의 합계, 가장 큰 값, 가장 작은 값을 구해요. 앞 셀에서 만든 prices를 이어서 써요. 출력은 실제로 실행한 결과예요.")
 
+o = [sec("list-methods")] + head(EB6S, "넣고 빼는 메서드: append, insert, remove, pop", T6)
+o += cell({"id": "c-lmt", "lines": ['cart = ["coffee", "latte"]', 'cart.append("cake")', 'cart.insert(0, "tea")', "print(cart)", 'cart.remove("latte")', "print(cart)", "last = cart.pop()", "print(last)", "print(cart)"], "n": 4,
+           "out": ["['tea', 'coffee', 'latte', 'cake']", "['tea', 'coffee', 'cake']", "cake", "['tea', 'coffee']"]}, 96, 200, 820, sel="c-lmt")
+mt = [('cart.append("cake")', ["coffee", "latte", "cake"], (2,), "맨 뒤에 하나 더하기"), ('cart.insert(0, "tea")', ["tea", "coffee", "latte", "cake"], (0,), "0번 자리에 끼워 넣기"),
+      ('cart.remove("latte")', ["tea", "coffee", "cake"], (), "값을 찾아 지우기"), ("cart.pop()", ["tea", "coffee"], (), "맨 뒤를 꺼내 돌려주기")]
+for i, (k, its, hi, d) in enumerate(mt):
+    y = 200 + i * 172
+    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:960px;top:{y}px;width:864px;height:156px;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:12px 22px;display:flex;flex-direction:column;justify-content:center;gap:10px">'
+             + '<div style="display:flex;flex-direction:row;align-items:center;gap:16px">' + mono(k, 24, T6, T6BG) + p(f"font-size:22px;color:{SUB}", e(d)) + '</div>'
+             + slots(its, 0, 0, 150, 54, hi=hi, top_lbl=False, fs=24).replace("position:absolute;left:0px;top:0px;", "") + '</div>')
+o += cell({"id": "c-lmt2", "lines": ['cart.remove("juice")'], "n": 5, "out": ["ValueError: list.remove(x): x not in list"], "err": True}, 96, 760, 820, attrs=' data-build-in="rise order 5"')
+o.append(caption("없는 값을 remove 하면 ValueError가 나요.", 940))
+W("list-methods", o, "리스트 이름 뒤에 점을 찍고 붙여 쓰는 함수를 메서드라고 불러요. append는 맨 뒤에 하나를 더해요. insert는 번호와 값을 받아 그 자리에 끼워 넣고, 원래 있던 값은 한 칸씩 뒤로 밀려요. remove는 번호가 아니라 값을 찾아 지워요. 같은 값이 여러 개면 앞의 하나만 지워요. pop은 맨 뒤 값을 꺼내 돌려줘서 last 같은 변수에 받을 수 있어요. pop(0)처럼 번호를 주면 그 자리를 꺼내요. 리스트에 없는 juice를 remove하면 ValueError가 나요. 출력은 실제로 실행한 결과예요.")
+
+o = [sec("list-find")] + head(EB6S, "찾고 세고 정렬하는 메서드: count, index, sort", T6)
+o += cell({"id": "c-lf", "lines": ["scores = [70, 95, 80, 95]", "print(scores.count(95))", "print(scores.index(80))", "print(95 in scores)", "scores.sort()", "print(scores)", "scores.sort(reverse=True)", "print(scores)"], "n": 6,
+           "out": ["2", "2", "True", "[70, 80, 95, 95]", "[95, 95, 80, 70]"]}, 96, 200, 820, sel="c-lf")
+o.append(slots(["70", "95", "80", "95"], 960, 200, 190, 90, hi=(1, 3), attrs=' data-build-in="rise order 1"', fs=34))
+lf = [("scores.count(95)", "2", "95가 몇 개인지"), ("scores.index(80)", "2", "80이 몇 번 자리인지"), ("95 in scores", "True", "들어 있는지 True, False로"),
+      ("scores.sort()", "[70, 80, 95, 95]", "작은 수부터 정렬. 리스트가 바뀌어요"), ("scores.sort(reverse=True)", "[95, 95, 80, 70]", "큰 수부터 정렬")]
+for i, (k, r, d) in enumerate(lf):
+    y = 360 + i * 108
+    o.append(f'<div data-build-in="rise order {i + 2}" style="position:absolute;left:960px;top:{y}px;width:864px;height:96px;background:{CARD};border:2px solid {LINE};border-radius:16px;padding:0 22px;display:flex;flex-direction:row;align-items:center;gap:16px">'
+             + '<div style="width:400px;flex:none">' + mono(k, 22, T6, T6BG, "display:inline-block") + '</div>'
+             + '<div style="flex:1;display:flex;flex-direction:column;gap:2px">' + p(f"font-family:{MONO};font-size:22px;font-weight:700;color:{INK};white-space:pre", e(r)) + p(f"font-size:20px;color:{SUB}", e(d)) + '</div></div>')
+o.append(caption("index의 답도 0부터 센 번호예요. 80은 0, 1, 2번째라서 2예요.", 940))
+W("list-find", o, "count는 값이 몇 개 들어 있는지 세요. 95가 두 번 있어서 2예요. index는 그 값이 처음 나오는 번호를 알려 줘요. 번호는 0부터 세니까 80은 2번이에요. in은 메서드는 아니지만 같이 쓰면 좋아요. 4파트의 비교처럼 True나 False로 답해요. sort는 리스트를 작은 수부터 정렬해요. 새 리스트를 만드는 게 아니라 scores 자체가 바뀌어요. reverse=True를 넣으면 큰 수부터예요. 글자 리스트도 sort하면 가나다, abc 순서로 정렬돼요. 출력은 실제로 실행한 결과예요.")
+
+o = [sec("list-method-map")] + head(EB6S, "리스트에 쓰는 메서드와 함수 한눈에", T6)
+mm = [("넣기", [("append(값)", "맨 뒤에 더하기"), ("insert(번호, 값)", "그 자리에 끼우기")]),
+      ("빼기", [("remove(값)", "값을 찾아 지우기"), ("pop()", "맨 뒤를 꺼내기")]),
+      ("찾기", [("count(값)", "몇 개인지"), ("index(값)", "몇 번 자리인지")]),
+      ("정렬", [("sort()", "작은 수부터"), ("sort(reverse=True)", "큰 수부터")])]
+for i, (t, rows) in enumerate(mm):
+    x = 96 + i * 438
+    o.append(card(x, 200, 414, 330, p(f"font-size:30px;font-weight:700;color:{T6}", t)
+                  + "".join('<div style="display:flex;flex-direction:column;gap:6px">' + mono(k, 22, T6, T6BG, "align-self:flex-start") + p(f"font-size:21px;color:{SUB}", e(d)) + '</div>' for k, d in rows),
+                  T6, f' data-build-in="rise order {i + 1}"', "gap:22px"))
+o.append(card(96, 570, 1728, 230, p(f"font-size:28px;font-weight:700;color:{INK}", "점을 찍는 메서드와 괄호로 감싸는 함수")
+              + '<div style="display:flex;flex-direction:row;gap:60px;align-items:center">'
+              + '<div style="display:flex;flex-direction:column;gap:8px">' + mono("cart.append(\"cake\")", 26, T6, T6BG, "align-self:flex-start") + p(f"font-size:22px;color:{SUB}", "메서드. 리스트 이름 뒤에 점") + '</div>'
+              + '<div style="display:flex;flex-direction:column;gap:8px">' + mono("len(cart)  sum(prices)  max(prices)  min(prices)", 26, INK, "#F1F0EC", "align-self:flex-start") + p(f"font-size:22px;color:{SUB}", "함수. 괄호 안에 리스트") + '</div></div>',
+              None, ' data-build-in="rise order 5"', "justify-content:center;gap:16px"))
+W("list-method-map", o, "앞 두 장의 메서드를 할 일별로 모았어요. 넣기는 append와 insert, 빼기는 remove와 pop, 찾기는 count와 index, 정렬은 sort예요. 아래는 헷갈리기 쉬운 두 모양이에요. append처럼 리스트 이름 뒤에 점을 찍고 쓰는 건 메서드예요. len, sum, max, min처럼 괄호 안에 리스트를 넣는 건 함수예요. 둘 다 결과는 비슷하게 쓰지만 적는 자리가 달라요.")
+
 o = [sec("tuple")] + head(EB6S, "튜플은 ( ) 에 담고 바꿀 수 없어요", T6)
-o += cell({"id": "c-tp", "lines": ['order = ("coffee", 4500, 2)', "print(order[0])", "print(order[1] * order[2])", "print(type(order))"], "n": 4,
+o += cell({"id": "c-tp", "lines": ['order = ("coffee", 4500, 2)', "print(order[0])", "print(order[1] * order[2])", "print(type(order))"], "n": 7,
            "out": ["coffee", "9000", "<class 'tuple'>"]}, 96, 210, 860, sel="c-tp")
-o += cell({"id": "c-tp2", "lines": ["order[1] = 5000"], "n": 5, "out": ["TypeError: 'tuple' object does not support item assignment"], "err": True}, 96, 640, 1728, attrs=' data-build-in="rise order 3"')
+o += cell({"id": "c-tp2", "lines": ["order[1] = 5000"], "n": 8, "out": ["TypeError: 'tuple' object does not support item assignment"], "err": True}, 96, 640, 1728, attrs=' data-build-in="rise order 3"')
 o.append(card(1010, 210, 814, 190, '<div style="display:flex;flex-direction:row;align-items:center;gap:20px">' + mono("[ ]", 34, T6, T6BG) + p(f"font-size:30px;font-weight:700;color:{INK}", "리스트") + '</div>'
               + p(f"font-size:24px;color:{SUB}", "값을 바꾸고 더할 수 있어요. 장바구니처럼 늘어나는 것"), None, ' data-build-in="rise order 1"', "justify-content:center"))
 o.append(card(1010, 420, 814, 190, '<div style="display:flex;flex-direction:row;align-items:center;gap:20px">' + mono("( )", 34, T6, T6BG) + p(f"font-size:30px;font-weight:700;color:{INK}", "튜플") + '</div>'
@@ -980,9 +1025,20 @@ o.append(card(1010, 420, 814, 190, '<div style="display:flex;flex-direction:row;
 o.append(caption("5파트의 \"%s %d\" % (name, age)에서 괄호로 묶은 것도 튜플이었어요.", 900))
 W("tuple", o, "튜플은 소괄호로 감싸요. 꺼내는 법은 리스트와 같아서 order[0]은 coffee예요. order[1] * order[2]처럼 꺼낸 값으로 계산도 해요. 다른 점은 한 번 만들면 바꿀 수 없다는 거예요. order[1] = 5000을 하면 TypeError가 나요. 메뉴, 가격, 수량처럼 한 묶음으로 같이 다니는 값은 튜플에 담고, 장바구니처럼 늘었다 줄었다 하는 건 리스트에 담아요. 5파트에서 % 뒤에 괄호로 묶어 넣은 (name, age)가 바로 튜플이었어요. 출력은 실제로 실행한 결과예요.")
 
+o = [sec("tuple-more")] + head(EB6S, "튜플은 count, index, 꺼내 담기, 바꾸기", T6)
+o += cell({"id": "c-tm", "lines": ["date = (2026, 11, 2)", "print(date.count(2))", "print(date.index(11))", "year, month, day = date", "print(year, month, day)",
+                                   'a = "kim"', 'b = "lee"', "a, b = b, a", "print(a, b)", "print(list(date))", "print(tuple(cart))"], "n": 9,
+           "out": ["1", "1", "2026 11 2", "lee kim", "[2026, 11, 2]", "('tea', 'coffee')"]}, 96, 200, 820, sel="c-tm")
+tm = [("date.count(2)  date.index(11)", "튜플의 메서드는 둘뿐이에요. 바꾸는 메서드가 없어요"), ("year, month, day = date", "튜플 값을 변수 여러 개에 한 번에 꺼내 담아요"),
+      ("a, b = b, a", "두 변수의 값을 맞바꿔요. lee kim"), ("list(date)  tuple(cart)", "튜플을 리스트로, 리스트를 튜플로 바꿔요")]
+for i, (k, d) in enumerate(tm):
+    o.append(card(960, 200 + i * 170, 864, 150, mono(k, 24, T6, T6BG, "align-self:flex-start") + p(f"font-size:22px;color:{INK}", e(d)), None, f' data-build-in="rise order {i + 1}"', "justify-content:center;gap:10px"))
+o.append(caption("날짜, 좌표, 주문 한 건처럼 바뀌지 않는 한 묶음은 튜플에 담아요.", 970))
+W("tuple-more", o, "튜플은 바꿀 수 없어서 메서드가 count와 index 둘뿐이에요. append, remove, sort 같은 바꾸는 메서드는 없어요. 튜플 값은 year, month, day = date처럼 이름을 나란히 적어 한 번에 꺼내 담아요. 이 모양으로 a, b = b, a를 쓰면 두 변수 값을 맞바꿀 수 있어요. 오른쪽 b, a가 먼저 ('lee', 'kim') 묶음이 되고, 그 값이 왼쪽 a, b에 나눠 들어가요. 튜플 값을 고쳐야 하면 list()로 바꿔서 고쳐요. 반대로 tuple()은 리스트를 튜플로 바꿔요. tuple(cart)의 cart는 앞 장에서 pop까지 한 장바구니예요. 출력은 실제로 실행한 결과예요.")
+
 o = [sec("orders")] + head(EB6S, "주문 여러 건은 튜플을 리스트에 담아요", T6)
 o += cell({"id": "c-od", "lines": ['orders = [("coffee", 4500, 2), ("latte", 5000, 1), ("cake", 6500, 3)]', "print(len(orders))", "print(orders[1])", "print(orders[1][0])",
-                                    "print(orders[2][1] * orders[2][2])", "print(orders[0:2])"], "n": 6,
+                                    "print(orders[2][1] * orders[2][2])", "print(orders[0:2])"], "n": 10,
            "out": ["3", "('latte', 5000, 1)", "latte", "19500", "[('coffee', 4500, 2), ('latte', 5000, 1)]"]}, 96, 200, 1728, sel="c-od")
 gx, gy = 330, 716
 o.append(p(f"position:absolute;left:96px;top:{gy + 6}px;width:220px;font-size:22px;color:{SUB};line-height:1.5", "앞 번호는 몇째 주문,<br>뒤 번호는 몇째 값", ' data-build-in="fade order 1"'))
@@ -1002,7 +1058,7 @@ o.append(card(1180, gy, 644, 220, p(f"font-family:{MONO};font-size:26px;font-wei
 W("orders", o, "가상의 카페 주문 데이터예요. 주문 한 건은 메뉴, 가격, 수량을 묶은 튜플이고, 주문 여러 건을 리스트에 담았어요. 표로 보면 줄이 주문이고 칸이 값이에요. 대괄호를 두 번 쓰면 표의 한 칸을 꺼내요. 앞 번호로 몇째 주문인지 고르고, 뒤 번호로 그 안의 몇째 값인지 골라요. orders[1]은 latte 주문 튜플 전체, orders[1][0]은 그중 메뉴 이름 latte예요. orders[2][1] * orders[2][2]는 cake 가격 6500에 수량 3을 곱해 19500이에요. 잘라 내는 orders[0:2]는 앞 두 주문을 담은 리스트예요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("orders-unpack")] + head(EB6S, "튜플의 값을 변수 여러 개에 한 번에 꺼내 담아요", T6)
-o += cell({"id": "c-up", "lines": ["menu, price, qty = orders[2]", "print(menu, price, qty)", 'print(f"{menu} {qty}개, {price * qty:,}원")'], "n": 7,
+o += cell({"id": "c-up", "lines": ["menu, price, qty = orders[2]", "print(menu, price, qty)", 'print(f"{menu} {qty}개, {price * qty:,}원")'], "n": 11,
            "out": ["cake 6500 3", "cake 3개, 19,500원"]}, 96, 200, 1728, sel="c-up")
 o.append(p(f"position:absolute;left:96px;top:520px;width:1728px;font-family:{MONO};font-size:30px;font-weight:700;color:{INK}", e('orders[2]  =  ("cake", 6500, 3)'), ' data-build-in="fade order 1"'))
 for i, (nm, v) in enumerate([("menu", "'cake'"), ("price", "6500"), ("qty", "3")]):
@@ -1013,7 +1069,7 @@ W("orders-unpack", o, "orders[2][0], orders[2][1]처럼 번호를 두 번씩 쓰
 o = [sec("orders-receipt")] + head(EB6S, "f-string으로 주문 영수증을 찍어요", T6)
 o += cell({"id": "c-rc", "lines": ['print(f"{orders[0][0]:<7}{orders[0][1]:>6,}원 {orders[0][2]:>2}개")', 'print(f"{orders[1][0]:<7}{orders[1][1]:>6,}원 {orders[1][2]:>2}개")',
                                     'print(f"{orders[2][0]:<7}{orders[2][1]:>6,}원 {orders[2][2]:>2}개")', "total = orders[0][1] * orders[0][2]", "total += orders[1][1] * orders[1][2]",
-                                    "total += orders[2][1] * orders[2][2]", 'print(f"합계 {total:,}원")'], "n": 8,
+                                    "total += orders[2][1] * orders[2][2]", 'print(f"합계 {total:,}원")'], "n": 12,
            "out": ["coffee  4,500원  2개", "latte   5,000원  1개", "cake    6,500원  3개", "합계 33,500원"], "wide": True}, 96, 200, 1728, sel="c-rc")
 rc = [("{orders[0][0]:<7}", "메뉴를 일곱 칸 왼쪽 맞춤"), ("{orders[0][1]:>6,}", "가격을 여섯 칸, 콤마"), ("{orders[0][2]:>2}", "수량을 두 칸 오른쪽 맞춤")]
 for i, (k, d) in enumerate(rc):
@@ -1023,7 +1079,7 @@ W("orders-receipt", o, "5파트의 칸 수와 콤마를 리스트 데이터에 �
 
 o = [sec("receipt-head")] + head(EB6S, "머리글의 한글은 화면에서 두 칸을 차지해요", T6)
 o += cell({"id": "c-rh", "lines": ["print(f\"{'메뉴명':<10}{'단가':>8}{'수량':>5}{'금액':>10}\")", "print(f\"{'menu':<10}{'price':>8}{'qty':>5}{'amount':>10}\")",
-                                   'print(f"{orders[0][0]:<10}{orders[0][1]:>8,}{orders[0][2]:>5}{orders[0][1] * orders[0][2]:>10,}")'], "n": 9,
+                                   'print(f"{orders[0][0]:<10}{orders[0][1]:>8,}{orders[0][2]:>5}{orders[0][1] * orders[0][2]:>10,}")'], "n": 13,
            "out": ["메뉴명             단가   수량        금액", "menu         price  qty    amount", "coffee       4,500    2     9,000"], "wide": True}, 96, 200, 1728, sel="c-rh")
 rh = [("< > ^", "왼쪽, 오른쪽, 가운데 맞춤", "{'메뉴명':<10}  {'단가':>8}  {'qty':^5}", "^ 는 남는 칸을 양쪽에 나눠요"),
       ("한글은 두 칸", "파이썬은 한 글자로 세는데 화면에선 두 칸이에요", "'메뉴명'은 세 글자지만 화면에선 여섯 칸", "그래서 머리글만 오른쪽으로 밀려요"),
@@ -1040,13 +1096,13 @@ o += cell({"id": "c-rcp", "lines": ['print("=" * 33)', "print(f\"{'메뉴명':<7
                                     'print(f"{orders[0][0]:<10}{orders[0][1]:>8,}{orders[0][2]:>5}{orders[0][1] * orders[0][2]:>10,}")',
                                     'print(f"{orders[1][0]:<10}{orders[1][1]:>8,}{orders[1][2]:>5}{orders[1][1] * orders[1][2]:>10,}")',
                                     'print(f"{orders[2][0]:<10}{orders[2][1]:>8,}{orders[2][2]:>5}{orders[2][1] * orders[2][2]:>10,}")',
-                                    'print("-" * 33)', "print(f\"{'합계':<6}{total:>25,}\")", 'print("=" * 33)'], "n": 10,
+                                    'print("-" * 33)', "print(f\"{'합계':<6}{total:>25,}\")", 'print("=" * 33)'], "n": 14,
            "out": ["=================================", "메뉴명        단가 수량      금액", "---------------------------------", "coffee       4,500    2     9,000",
                    "latte        5,000    1     5,000", "cake         6,500    3    19,500", "---------------------------------", "합계                       33,500", "================================="], "wide": True}, 96, 190, 1728, sel="c-rcp")
 W("receipt", o, "앞 장에서 배운 걸 모아 메뉴표 모양의 영수증을 완성해요. 맨 위와 맨 아래는 = 33개, 머리글 아래와 합계 위는 - 33개로 줄을 그었어요. 3파트에서 본 글자 곱하기라서 \"=\" * 33은 = 를 33번 이어 붙여요. 머리글은 칸 수를 한글 글자 수만큼 뺐어요. 주문 줄은 메뉴 10칸, 단가 8칸, 수량 5칸, 금액 10칸이라 모두 33칸이에요. 금액은 가격과 수량을 중괄호 안에서 바로 곱하고 콤마를 찍었어요. 합계는 orders-receipt 장에서 만든 total이에요. 합계도 한글이 두 글자라서 8칸 대신 6칸을 줬어요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("for-intro")] + head(EB6S, "for 는 리스트에서 하나씩 꺼내 같은 일을 되풀이해요", T6)
-o += cell({"id": "c-fi", "lines": ["for menu in menus:", "    print(menu)"], "n": 11, "out": ["coffee", "latte", "cake"]}, 96, 210, 760, sel="c-fi")
+o += cell({"id": "c-fi", "lines": ["for menu in menus:", "    print(menu)"], "n": 15, "out": ["coffee", "latte", "cake"]}, 96, 210, 760, sel="c-fi")
 fi = [("for menu in menus:", "menus에서 하나씩 꺼내 menu에 넣어요. 끝에 콜론"), ("    print(menu)", "네 칸 들여 쓴 줄이 되풀이할 일이에요")]
 for i, (k, d) in enumerate(fi):
     o.append(card(96, 560 + i * 170, 760, 150, mono(k, 28, T6, T6BG, "align-self:flex-start") + p(f"font-size:24px;color:{INK}", e(d)), None, f' data-build-in="rise order {i + 1}"', "justify-content:center;gap:10px"))
@@ -1060,7 +1116,7 @@ o.append(caption("값이 세 개라서 세 번 되풀이하고 끝나요.", 940)
 W("for-intro", o, "앞 장 영수증에서 주문 줄을 세 번 똑같은 모양으로 적었어요. 주문이 100건이면 100줄을 적어야 해요. for 문은 리스트에서 값을 하나씩 꺼내 같은 일을 되풀이해요. for 다음에 꺼낸 값을 담을 이름, in 다음에 리스트를 적고 끝에 콜론을 붙여요. 그 아래 네 칸 들여 쓴 줄이 되풀이할 일이에요. 첫 번째에는 menu에 coffee가 들어가 print가 coffee를 찍고, 두 번째에는 latte, 세 번째에는 cake가 들어가요. 꺼낼 값이 없으면 끝나요. menus는 이 파트 2번 셀에서 만든 리스트예요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("for-orders")] + head(EB6S, "튜플을 꺼내 담으면서 되풀이해요", T6)
-o += cell({"id": "c-fo3", "lines": ["for menu, price, qty in orders:", "    print(menu, price, qty)"], "n": 12, "out": ["coffee 4500 2", "latte 5000 1", "cake 6500 3"]}, 96, 210, 860, sel="c-fo3")
+o += cell({"id": "c-fo3", "lines": ["for menu, price, qty in orders:", "    print(menu, price, qty)"], "n": 16, "out": ["coffee 4500 2", "latte 5000 1", "cake 6500 3"]}, 96, 210, 860, sel="c-fo3")
 o.append(card(1010, 210, 814, 360, p(f"font-size:26px;font-weight:700;color:{SUB}", "for 없이 적으면")
               + p(f"font-family:{MONO};font-size:22px;line-height:1.6;color:{INK};white-space:pre", e("menu, price, qty = orders[0]\nprint(menu, price, qty)\nmenu, price, qty = orders[1]\nprint(menu, price, qty)\nmenu, price, qty = orders[2]\nprint(menu, price, qty)")),
               None, ' data-build-in="rise order 1"'))
@@ -1075,7 +1131,7 @@ for i, r in enumerate([("coffee", "4500", "2"), ("latte", "5000", "1"), ("cake",
 W("for-orders", o, "orders 장에서 본 꺼내 담기를 for에 그대로 써요. for 다음에 이름 세 개를 쉼표로 적으면, 한 번 돌 때마다 주문 튜플 하나가 menu, price, qty에 나눠 들어가요. 첫 번째에는 coffee, 4500, 2가, 두 번째에는 latte, 5000, 1이 들어가요. 오른쪽은 for 없이 같은 일을 하는 코드예요. 주문 수만큼 두 줄씩 늘어나는데, for로 쓰면 주문이 몇 건이든 두 줄이면 돼요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("for-total")] + head(EB6S, "되풀이하면서 합계를 쌓아요", T6)
-o += cell({"id": "c-ft", "lines": ["total = 0", "for menu, price, qty in orders:", "    total += price * qty", "    print(menu, total)", 'print("합계:", total)'], "n": 13,
+o += cell({"id": "c-ft", "lines": ["total = 0", "for menu, price, qty in orders:", "    total += price * qty", "    print(menu, total)", 'print("합계:", total)'], "n": 17,
            "out": ["coffee 9000", "latte 14000", "cake 33500", "합계: 33500"]}, 96, 210, 860, sel="c-ft")
 for j, hd in enumerate(["", "price * qty", "total"]):
     o.append(p(f"position:absolute;left:{1010 + [0, 260, 560][j]}px;top:210px;width:260px;font-family:{MONO};font-size:24px;font-weight:700;color:{T6}", e(hd), ' data-build-in="fade order 1"'))
@@ -1090,7 +1146,7 @@ o.append(caption("total = 0 은 for 앞에서 한 번만, total += 는 안쪽에
 W("for-total", o, "합계를 구할 땐 for 앞에서 total을 0으로 시작해요. for 안쪽에서는 3파트의 += 로 가격 곱하기 수량을 더해요. 한 번 돌 때마다 total이 9000, 14000, 33500으로 쌓여요. 들여 쓴 두 줄은 매번 실행되고, 들여 쓰지 않은 마지막 print는 for가 끝난 뒤 한 번만 실행돼서 합계를 찍어요. total = 0을 for 안에 넣으면 매번 0으로 돌아가서 합계가 쌓이지 않아요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("for-receipt")] + head(EB6S, "for 로 영수증 한 장을 완성해요", T6)
-o += cell({"id": "c-fr", "lines": ['print("=" * 33)', 'print(f"{\'KANT 카페\':^31}")', 'print(f"{\'2026-11-02  14:30\':^33}")', 'print("=" * 33)', 'print(f"{\'메뉴명\':<7}{\'단가\':>6}{\'수량\':>3}{\'금액\':>8}")', 'print("-" * 33)', 'total = 0', 'count = 0', 'for menu, price, qty in orders:', '    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")', '    total += price * qty', '    count += qty', 'print("-" * 33)', 'print(f"{\'수량\':<6}{count:>15}")', 'print(f"{\'합계\':<6}{total:>25,}")', 'print("=" * 33)', 'print(f"{\'감사합니다\':^28}")'], "n": 14}, 96, 190, 1080, sel="c-fr")
+o += cell({"id": "c-fr", "lines": ['print("=" * 33)', 'print(f"{\'KANT 카페\':^31}")', 'print(f"{\'2026-11-02  14:30\':^33}")', 'print("=" * 33)', 'print(f"{\'메뉴명\':<7}{\'단가\':>6}{\'수량\':>3}{\'금액\':>8}")', 'print("-" * 33)', 'total = 0', 'count = 0', 'for menu, price, qty in orders:', '    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")', '    total += price * qty', '    count += qty', 'print("-" * 33)', 'print(f"{\'수량\':<6}{count:>15}")', 'print(f"{\'합계\':<6}{total:>25,}")', 'print("=" * 33)', 'print(f"{\'감사합니다\':^28}")'], "n": 18}, 96, 190, 1080, sel="c-fr")
 RC_OUT = ['=================================', '            KANT 카페', '        2026-11-02  14:30', '=================================', '메뉴명        단가 수량      금액', '---------------------------------', 'coffee       4,500    2     9,000', 'latte        5,000    1     5,000', 'cake         6,500    3    19,500', '---------------------------------', '수량                  6', '합계                       33,500', '=================================', '           감사합니다']
 o.append(f'<div data-build-in="rise order 1" style="position:absolute;left:1230px;top:190px;width:594px;background:#FFFFFF;border:2px solid {LINE};border-radius:6px;box-shadow:0 12px 30px rgba(29,35,48,0.12);padding:30px 34px">'
          + p(f"font-size:20px;font-weight:700;color:{GRAY};margin-bottom:12px", "실행 결과")
@@ -1112,7 +1168,7 @@ W("for-err", o, "for에서 처음에 자주 나는 오류 두 가지예요. for 
 
 o = [sec("list-shapes")] + head(EB6S, "리스트에는 여러 모양의 값을 담아요", T6)
 o += cell({"id": "c-ls", "lines": ['names = ["kim", "lee", "park"]', "scores = [90, 100, 7]", 'mixed = ["coffee", 4500, True]', 'carts = [["coffee", "cake"], ["latte"]]', "empty = []",
-                                   "print(scores[1])", "print(mixed)", "print(carts[0][1])", "print(len(empty))"], "n": 15,
+                                   "print(scores[1])", "print(mixed)", "print(carts[0][1])", "print(len(empty))"], "n": 21,
            "out": ["100", "['coffee', 4500, True]", "cake", "0"]}, 96, 200, 900, sel="c-ls")
 ls = [('["kim", "lee"]', "글자 리스트"), ("[90, 100, 7]", "숫자 리스트. sum, max를 쓸 수 있어요"), ('["coffee", 4500, True]', "타입을 섞어도 돼요"),
       ('[["coffee", "cake"], ["latte"]]', "리스트 안의 리스트. 손님별 장바구니"), ('[("coffee", 4500, 2)]', "튜플의 리스트. 앞 장의 orders"), ("[]", "빈 리스트. 나중에 append로 채워요")]
@@ -1122,10 +1178,10 @@ o.append(caption("carts[0][1]처럼 안쪽 리스트도 번호를 두 번 써서
 W("list-shapes", o, "리스트에는 어떤 값이든 담을 수 있어요. 팀 실습의 kim, lee, park 같은 글자도, 점수 같은 숫자도 담아요. 한 리스트에 글자, 숫자, True를 섞어도 돼요. 리스트 안에 리스트를 넣으면 손님별 장바구니처럼 표 모양이 돼요. carts[0][1]은 0번 손님 장바구니의 1번 값 cake예요. 앞 장의 orders는 리스트 안에 튜플을 넣은 모양이에요. 빈 대괄호는 빈 리스트라 len()이 0이에요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("list-err")] + head(EB6S, "없는 번호를 꺼내면 IndexError가 나요", T6)
-le = [("menus[3]", "IndexError: list index out of range", "menus는 0, 1, 2번까지", 16),
-      ("orders[3]", "IndexError: list index out of range", "주문은 세 건, 마지막은 2번", 17),
-      ("orders[0][3]", "IndexError: tuple index out of range", "튜플 안은 0, 1, 2번까지", 18),
-      ("order[1] = 5000", "TypeError: 'tuple' object does not support item assignment", "튜플은 바꿀 수 없어요", 5)]
+le = [("menus[3]", "IndexError: list index out of range", "menus는 0, 1, 2번까지", 22),
+      ("orders[3]", "IndexError: list index out of range", "주문은 세 건, 마지막은 2번", 23),
+      ("orders[0][3]", "IndexError: tuple index out of range", "튜플 안은 0, 1, 2번까지", 24),
+      ("order[1] = 5000", "TypeError: 'tuple' object does not support item assignment", "튜플은 바꿀 수 없어요", 8)]
 for i, (code, err, why, n_) in enumerate(le):
     y = 200 + i * 172
     o += cell({"id": f"c-le{i}", "lines": [code], "n": n_, "out": [err], "err": True}, 96, y, 1180, attrs=f' data-build-in="rise order {i + 1}"')
@@ -1175,7 +1231,7 @@ parts = [("Archive", BL, "변수에 값 넣기", "= 로 넣기, 값 보기, 다�
          ("Activity", T2, "사칙연산", "+ - * /, 몫과 나머지, 계산 순서 네 계단과 예제, +=, 글자 연산", "ops4", "str-ops"),
          ("Check", T3, "비교와 논리연산", "== 와 =, True와 False, and, or, not", "compare", "logic-order"),
          ("Chat", T5, "문자열과 출력", "인덱스, 슬라이싱, sep, end, %, format(), f-string, 칸 수, 소수점, 콤마", "str-make", "fmt-err"),
-         ("Table", T6, "리스트와 튜플", "[ ] 와 ( ), 주문 데이터 orders, 꺼내 담기, 영수증 출력, for", "list-make", "list-err")]
+         ("Table", T6, "리스트와 튜플", "[ ] 와 ( ), 메서드, 주문 데이터 orders, 꺼내 담기, 영수증 출력, for", "list-make", "list-err")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column;gap:40px">',
      f'<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>',
      '<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:18px;flex:1">']
