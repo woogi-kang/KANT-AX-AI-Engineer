@@ -81,6 +81,6 @@ run(['prices = [4500, 5000, 6500]\nprint(prices)\nprint(len(prices))\nprint(type
      'for menu in menus:\n    print(menu)',
      'for menu, price, qty in orders:\n    print(menu, price, qty)',
      'total = 0\nfor menu, price, qty in orders:\n    total += price * qty\n    print(menu, total)\nprint("합계:", total)',
-     'print("=" * 33)\nprint(f"{\'메뉴명\':<7}{\'단가\':>6}{\'수량\':>3}{\'금액\':>8}")\nprint("-" * 33)\ntotal = 0\nfor menu, price, qty in orders:\n    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")\n    total += price * qty\nprint("-" * 33)\nprint(f"{\'합계\':<6}{total:>25,}")\nprint("=" * 33)',
+     'print("=" * 33)\nprint(f"{\'KANT 카페\':^31}")\nprint(f"{\'2026-11-02  14:30\':^33}")\nprint("=" * 33)\nprint(f"{\'메뉴명\':<7}{\'단가\':>6}{\'수량\':>3}{\'금액\':>8}")\nprint("-" * 33)\ntotal = 0\ncount = 0\nfor menu, price, qty in orders:\n    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")\n    total += price * qty\n    count += qty\nprint("-" * 33)\nprint(f"{\'수량\':<6}{count:>15}")\nprint(f"{\'합계\':<6}{total:>25,}")\nprint("=" * 33)\nprint(f"{\'감사합니다\':^28}")',
      'names = ["kim", "lee", "park"]\nscores = [90, 100, 7]\nmixed = ["coffee", 4500, True]\ncarts = [["coffee", "cake"], ["latte"]]\nempty = []\nprint(scores[1])\nprint(mixed)\nprint(carts[0][1])\nprint(len(empty))',
      'menus[3]', 'orders[3]', 'orders[0][3]', 'for menu in menus\n    print(menu)', 'for menu in menus:\nprint(menu)'])
