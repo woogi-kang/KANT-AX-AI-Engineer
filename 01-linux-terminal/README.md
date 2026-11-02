@@ -2,9 +2,13 @@
 
 > 명령을 칠 때마다 폴더 지도가 어떻게 바뀌는지 보며 터미널을 익혀요. 홈 폴더에 `kant` 폴더를 만들고, 그 안에서 파일을 만들고 옮기고 지우는 데까지 이어서 해요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) | 없음 | [02 · Git 기본 흐름](../02-git-basics) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -191,4 +195,8 @@ node ../tools/export.js slides linux-terminal-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [커리큘럼](../README.md) · [다음: 02 · Git 기본 흐름 →](../02-git-basics)
+
+<!-- /curriculum:nav -->

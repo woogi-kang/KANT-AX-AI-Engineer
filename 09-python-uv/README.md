@@ -2,9 +2,13 @@
 
 > 파이썬 프로젝트를 uv 하나로 만들고 실행해요. 먼저 예전 방식(venv, pip, requirements.txt)과 uv를 한 장에 나란히 놓고 비교해요. 그다음 `uv init`, `uv run`, `uv add`, `uv remove`, `uv sync`를 직접 쳐요. 예제 패키지는 웹 서버를 만드는 fastapi예요. uv가 만든 가상환경을 Mac과 Windows에서 직접 켜는 방법도 봐요. 마지막으로 머신러닝 수업에서 쓸 Jupyter 노트북을 VS Code에서 여는 준비까지 해요. 터미널 명령은 01, GitHub에 올리고 받는 명령은 02, 06과 같아요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) | [08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) | [10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -260,4 +264,8 @@ node ../tools/export.js slides python-uv-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) · [커리큘럼](../README.md) · [다음: 10 · VS Code에서 Jupyter 노트북 쓰기 →](../10-vscode-jupyter)
+
+<!-- /curriculum:nav -->

@@ -2,9 +2,13 @@
 
 > 정규 챕터에 들어가지 않는 번외 자료예요. 터미널에서 지금 위치를 왜 계속 확인해야 하는지, 명령을 잊었을 때 `-h`와 `--help`로 어떻게 스스로 찾는지 봐요.
 
+<!-- curriculum:top -->
+
 | 슬&#8288;라&#8288;이&#8288;드 | 관련 챕터 | 번외 목록 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) | [01 · 터미널 기초](../../01-linux-terminal), [02 · Git 기본 흐름](../../02-git-basics), [09 · uv로 파이썬 시작하기](../../09-python-uv) | [번외 목록](../README.md) |
+
+<!-- /curriculum:top -->
 
 01을 본 뒤라면 언제 봐도 돼요. git 장면은 02와 06에서 만든 `team-intro`, uv 장면은 09에서 만든 `hello-uv`를 그대로 써요.
 
@@ -162,4 +166,8 @@ node ../../tools/export.js slides terminal-path-help-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [커리큘럼](../../README.md) · [번외 목록](../README.md)
+
+<!-- /curriculum:nav -->

@@ -4,20 +4,24 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 
 ## 커리큘럼
 
-| 챕터 | 다루는 명령 | 슬&#8288;라&#8288;이&#8288;드 |
-| --- | --- | --- |
-| [01 · 터미널 기초](./01-linux-terminal) | `pwd` `ls` `cd` `mkdir` `touch` `mv` `cp` `rm` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) |
-| [02 · Git 기본 흐름](./02-git-basics) | `init` `add` `commit` `push` `pull` `clone` `reset` `revert` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) |
-| [03 · Git 브랜치와 협업](./03-git-branch) | `branch` `checkout` `switch` `merge`, `reset`, Pull Request, 충돌 해결 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) |
-| [04 · Git diff로 확인하기](./04-git-diff) | `diff` `diff --staged` `show`, 브랜치 비교, `.gitignore` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) |
-| [05 · VS Code Git Graph로 기록 보기](./05-git-graph) | Git Graph 설치, 점·이름표·HEAD·origin/main 읽기, 명령 뒤 그림 확인 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) |
-| [06 · 팀 레포에서 같이 작업하고 충돌 풀기](./06-team-repo) | Collaborator 초대, push 거절 뒤 `pull`, 자동 합치기, pull 충돌 해결, 팀 규칙, 브랜치와 PR 케이스 8가지 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) |
-| [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](./07-git-restore-stash) | `restore` `restore --staged` `stash` `stash list` `stash pop` `stash drop` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) |
-| [08 · 갈라진 기록 합치는 방법 비교하기](./08-git-merge-ways) | fast-forward, `merge --no-ff`, `rebase`, `merge --squash`, pull 설정 세 가지, PR Merge 버튼 세 가지 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) |
-| [09 · uv로 파이썬 시작하기](./09-python-uv) | 예전 방식(venv, pip)과 나란히 비교, `brew`·`winget`으로 uv 설치, `uv init` `uv run` `uv add` `uv remove` `uv tree` `uv sync`, 가상환경 켜기(`activate`), fastapi 넣고 빼기, VS Code Jupyter(`uv add --dev ipykernel`) | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) |
-| [10 · VS Code에서 Jupyter 노트북 쓰기](./10-vscode-jupyter) | 셀 실행 키 세 가지(`Shift+Enter` 등), 코드 셀과 마크다운 셀, 실행 번호, Restart와 Run All, 명령 모드와 편집 모드, 마크다운 셀로 변수 이름 규칙과 컨벤션 정리, 자료형과 `type()`, Windows·Mac 단축키 표 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/10-vscode-jupyter/vscode-jupyter-slides.html) |
-| [11 · 터미널에서 GitHub 다루기 (gh)](./11-gh-cli) | `gh auth login` `gh auth status`, 권한 더하기(`gh auth refresh -s delete_repo`), `gh repo clone` `view` `list` `create` `delete`, `gh browse`, `gh issue create` `list`, `gh pr create` `list` `view` `merge` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) |
-| [12 · 파이썬 기초 (변수, 타입, 연산, 문자열, 리스트)](./12-python-basics) | 변수 할당(`=`), `print("설명", 값)`, 변수 타입(`int` `float` `str` `bool`, `type()`), 타입 바꾸기(`int()` `float()` `str()`), 사칙연산 `+` `-` `*` `/`, 몫·나머지·거듭제곱 `//` `%` `**`, 계산 순서(괄호, `**`, `* / // %`, `+ -`)와 괄호 비교 예제, `+=`, 비교 연산자, `True`·`False`, 논리연산 `and` `or` `not`, 문자열 인덱스·슬라이싱, `print()`의 `sep` `end`, `%` 포맷팅·`format()`·f-string, 칸 수(`{42:5d}`), 소수점(`{pi:.2f}`), 천 단위 콤마(`{price:,}`), 리스트 `[ ]`와 튜플 `( )`, 자르기(`[::2]` `[::-1]`), 메서드(`append` `insert` `remove` `pop` `count` `index` `sort`), `split` `join`, 주문 데이터 `orders[1][0]`, 영수증 출력, `for`로 되풀이하기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) |
+<!-- curriculum:chapters -->
+
+| 챕터 | 분&#8288;류 | 한 줄 목표 | 핵심 명령 | 슬&#8288;라&#8288;이&#8288;드 |
+| --- | --- | --- | --- | --- |
+| [01 · 터미널 기초](./01-linux-terminal) | 터&#8288;미&#8288;널 | 터미널에서 폴더와 파일을 만들고 옮기고 지워요 | `pwd` `ls` `cd` `mkdir` `rm` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) |
+| [02 · Git 기본 흐름](./02-git-basics) | G&#8288;i&#8288;t | 변경을 커밋하고 GitHub에 올리고 받아요 | `add` `commit` `push` `pull` `clone` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) |
+| [03 · Git 브랜치와 협업](./03-git-branch) | G&#8288;i&#8288;t | 브랜치에서 작업하고 합치고 충돌을 풀어요 | `branch` `checkout` `merge` `reset` Pull Request | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) |
+| [04 · Git diff로 확인하기](./04-git-diff) | G&#8288;i&#8288;t | add, commit, merge 전에 무엇이 바뀌는지 확인해요 | `diff` `diff --staged` `show` `.gitignore` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) |
+| [05 · VS Code Git Graph로 기록 보기](./05-git-graph) | G&#8288;i&#8288;t | 터미널로 만든 커밋과 브랜치를 그림으로 확인해요 | Git Graph 확장, HEAD, `origin/main` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) |
+| [06 · 팀 레포에서 같이 작업하고 충돌 풀기](./06-team-repo) | G&#8288;i&#8288;t | 팀원과 레포 하나에서 push, pull하고 충돌을 풀어요 | Collaborator 초대, `pull`, 충돌 해결, PR | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) |
+| [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](./07-git-restore-stash) | G&#8288;i&#8288;t | 커밋 전 변경을 버리거나 잠깐 치워 둬요 | `restore` `restore --staged` `stash` `stash pop` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) |
+| [08 · 갈라진 기록 합치는 방법 비교하기](./08-git-merge-ways) | G&#8288;i&#8288;t | merge, rebase, squash 결과를 나란히 비교해요 | `merge --no-ff` `rebase` `merge --squash` pull 설정 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) |
+| [09 · uv로 파이썬 시작하기](./09-python-uv) | 파&#8288;이&#8288;썬 | uv로 파이썬 프로젝트를 만들고 패키지를 넣어요 | `uv init` `uv run` `uv add` `uv remove` `uv sync` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) |
+| [10 · VS Code에서 Jupyter 노트북 쓰기](./10-vscode-jupyter) | 파&#8288;이&#8288;썬 | 노트북 셀을 실행하고 마크다운으로 정리해요 | `Shift+Enter`, 마크다운 셀, Restart, `type()` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/10-vscode-jupyter/vscode-jupyter-slides.html) |
+| [11 · 터미널에서 GitHub 다루기 (gh)](./11-gh-cli) | G&#8288;i&#8288;t&#8288;H&#8288;u&#8288;b | 레포 만들기와 PR을 터미널에서 해요 | `gh auth login` `gh repo create` `gh repo clone` `gh pr create` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) |
+| [12 · 파이썬 기초 (변수, 타입, 연산, 문자열, 리스트)](./12-python-basics) | 파&#8288;이&#8288;썬 | 변수, 연산, 문자열, 리스트로 영수증을 찍어요 | `=` `type()` `and` f-string `[ ]` `for` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) |
+
+<!-- /curriculum:chapters -->
 
 챕터는 번호 순서대로 이어져요. 앞 챕터에서 만든 폴더와 저장소를 다음 챕터에서 그대로 써요.
 
@@ -25,9 +29,13 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 
 정규 챕터와 따로 보는 보충 자료예요. 순서 없이 필요한 것만 골라 봐요. 목록은 [extras](./extras)에도 있어요.
 
+<!-- curriculum:extras -->
+
 | 제&#8288;목 | 다루는 내용 | 슬&#8288;라&#8288;이&#8288;드 |
 | --- | --- | --- |
 | [터미널 환경에 적응하기](./extras/terminal-path-help) | 탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) |
+
+<!-- /curriculum:extras -->
 
 ## 학습 방법
 
@@ -85,24 +93,20 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 │   ├── git-branch-slides.html    슬라이드 (브라우저용)
 │   ├── git-branch-slides.pdf     슬라이드 (강사용 인쇄본)
 │   ├── slides/                   슬라이드 원본 (한 장에 한 파일)
-│   └── tools/                    슬라이드 생성, 검사, 내보내기 스크립트
-├── 04-git-diff/
-├── 05-git-graph/
-├── 06-team-repo/
-├── 07-git-restore-stash/
-├── 08-git-merge-ways/
-├── 09-python-uv/
-├── 10-vscode-jupyter/
-├── 11-gh-cli/
-├── 12-python-basics/
+│   └── tools/                    이 챕터만 쓰는 생성 스크립트
+├── …                             04 ~ 12도 같은 모양
 ├── extras/                       번외 자료 (주제마다 폴더 하나)
 │   └── terminal-path-help/
+├── tools/                        모든 챕터가 같이 쓰는 검사, HTML, PDF 도구와 README 표 만들기
+├── templates/                    새 챕터 README 틀
+├── curriculum.json               챕터와 번외 목록 (README 표의 원본)
 └── CLAUDE.md                     자료 작성 규칙
 ```
 
 ## 자료를 고칠 때
 
-- 슬라이드를 고치면 챕터의 `tools/`로 HTML과 PDF를 다시 만들어요. 명령은 챕터 README의 강사용 절에 있어요.
-- 새 챕터는 `13-주제`처럼 다음 번호로 폴더를 만들고 커리큘럼 표에 한 줄을 더해요.
-- 번외는 `extras/주제` 폴더에 번호 없이 만들고, 위 번외 표와 `extras/README.md`에 한 줄씩 더해요.
+- 슬라이드를 고치면 챕터 폴더에서 HTML과 PDF를 다시 만들어요. 명령은 챕터 README의 강사용 절에 있어요.
+- 커리큘럼 표, 번외 표, 챕터 README 맨 위 표와 맨 아래 이동 링크는 `curriculum.json`에서 만들어요. 목록을 고친 뒤 `python3 tools/build_readme.py`를 쳐요. 표를 README에서 직접 고치면 다음에 다시 만들 때 사라져요.
+- 새 챕터는 맨 뒤 번호로 만들고 `templates/chapter-README.md`를 복사해서 시작해요. 이미 올린 챕터의 번호와 폴더 이름은 바꾸지 않아요.
+- 번외는 `extras/주제` 폴더에 번호 없이 만들고 `curriculum.json`의 `extras`에 한 줄 더해요.
 - 글쓰기와 폴더 규칙은 [CLAUDE.md](./CLAUDE.md)를 따라요.

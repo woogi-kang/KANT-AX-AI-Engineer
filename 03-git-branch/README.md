@@ -2,9 +2,13 @@
 
 > 커밋을 점으로, 브랜치를 그 점에 붙은 이름표로 그려서 명령마다 그래프가 어떻게 바뀌는지 봐요. 로그인 기능을 브랜치에서 만들고, 합치고, 충돌을 풀고, Pull Request로 팀과 합치는 데까지 이어서 해요. 02에서 만든 `hello-git` 저장소를 그대로 써요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | [02 · Git 기본 흐름](../02-git-basics) | [04 · Git diff로 확인하기](../04-git-diff) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -228,4 +232,8 @@ node ../tools/export.js slides git-branch-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 02 · Git 기본 흐름](../02-git-basics) · [커리큘럼](../README.md) · [다음: 04 · Git diff로 확인하기 →](../04-git-diff)
+
+<!-- /curriculum:nav -->

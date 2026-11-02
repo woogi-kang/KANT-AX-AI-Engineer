@@ -2,9 +2,13 @@
 
 > 02의 네 칸 그림에서 diff가 어느 두 칸을 비교하는지 봐요. add 전, commit 전, merge 전에 무엇이 바뀌는지 확인하는 습관을 만들어요. 03에서 쓰던 `hello-git` 저장소와 `login.md`를 그대로 써요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/04-git-diff/git-diff-slides.html) | [03 · Git 브랜치와 협업](../03-git-branch) | [05 · VS Code Git Graph로 기록 보기](../05-git-graph) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -175,4 +179,8 @@ node ../tools/export.js slides git-diff-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 03 · Git 브랜치와 협업](../03-git-branch) · [커리큘럼](../README.md) · [다음: 05 · VS Code Git Graph로 기록 보기 →](../05-git-graph)
+
+<!-- /curriculum:nav -->

@@ -23,7 +23,7 @@ def block(text, name, body):
     pat = re.compile(re.escape(start) + r".*?" + re.escape(end), re.S)
     if not pat.search(text):
         raise SystemExit(f"표시가 없어요: {start}")
-    return pat.sub(lambda m: f"{start}\n{body}\n{end}", text, count=1)
+    return pat.sub(lambda m: f"{start}\n\n{body}\n\n{end}", text, count=1)
 
 
 def label(ch):

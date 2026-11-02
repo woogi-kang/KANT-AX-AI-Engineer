@@ -2,9 +2,13 @@
 
 > 10에서 노트북을 손에 익혔으니 이번에는 파이썬 코드를 직접 적어요. 값에 이름을 붙이는 변수 할당, 값의 종류인 변수 타입과 타입 바꾸기, 숫자를 계산하는 사칙연산, True와 False로 답하는 비교와 논리연산(`and`, `or`, `not`)을 차례로 봐요. 그다음 문자열을 자르고, 변수 값을 문장 안에 끼워 넣어 보기 좋게 출력해요. 마지막에는 주문 데이터를 리스트와 튜플에 담아 영수증 모양으로 찍어요. 모든 예제는 Jupyter 노트북 셀에 적고 실행해요.
 
+<!-- curriculum:top -->
+
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) | [11 · 터미널에서 GitHub 다루기 (gh)](../11-gh-cli) | 준비 중 |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -556,4 +560,8 @@ node ../tools/export.js slides python-basics-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 11 · 터미널에서 GitHub 다루기 (gh)](../11-gh-cli) · [커리큘럼](../README.md)
+
+<!-- /curriculum:nav -->

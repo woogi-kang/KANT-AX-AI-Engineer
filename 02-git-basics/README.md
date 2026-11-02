@@ -2,9 +2,13 @@
 
 > 명령을 칠 때마다 파일이 어느 칸으로 가는지 보며 Git을 익혀요. 내 컴퓨터에 저장소를 만들고, GitHub에 올리고, 팀원과 주고받고, 실수를 되돌리는 데까지 이어서 해요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) | [01 · 터미널 기초](../01-linux-terminal) | [03 · Git 브랜치와 협업](../03-git-branch) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -194,4 +198,8 @@ node ../tools/export.js slides git-basics-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 01 · 터미널 기초](../01-linux-terminal) · [커리큘럼](../README.md) · [다음: 03 · Git 브랜치와 협업 →](../03-git-branch)
+
+<!-- /curriculum:nav -->

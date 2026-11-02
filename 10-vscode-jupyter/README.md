@@ -2,9 +2,13 @@
 
 > 09에서 VS Code에 Jupyter를 연결하고 첫 셀을 실행했어요. 이번 챕터는 노트북을 손에 익혀요. 셀을 실행하는 키 세 가지, 실행 번호 읽는 법, Restart와 Run All, 명령 모드와 편집 모드를 차례로 봐요. 수업에서 정한 변수 이름 규칙과 컨벤션(표기법)은 마크다운 셀에, 기본 자료형은 코드 셀에 정리하고 `type()`으로 확인해요. 마지막에 Windows와 Mac 단축키를 한 표로 모았어요.
 
+<!-- curriculum:top -->
+
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/10-vscode-jupyter/vscode-jupyter-slides.html) | [09 · uv로 파이썬 시작하기](../09-python-uv) | [11 · 터미널에서 GitHub 다루기 (gh)](../11-gh-cli) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -280,4 +284,8 @@ node ../tools/export.js slides vscode-jupyter-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 09 · uv로 파이썬 시작하기](../09-python-uv) · [커리큘럼](../README.md) · [다음: 11 · 터미널에서 GitHub 다루기 (gh) →](../11-gh-cli)
+
+<!-- /curriculum:nav -->

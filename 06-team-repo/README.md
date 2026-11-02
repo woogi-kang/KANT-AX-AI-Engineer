@@ -2,9 +2,13 @@
 
 > 2~3명이 팀을 짜서 GitHub에 레포 하나를 만들고, 각자 clone해서 커밋, push, pull을 해요. push가 거절되는 장면, pull로 저절로 합쳐지는 장면, 같은 줄을 고쳐 충돌이 나는 장면을 일부러 만들고 풀어요. 마지막 5부에는 브랜치와 Pull Request로 일할 때 자주 만나는 경우 8가지를 모았어요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) | [05 · VS Code Git Graph로 기록 보기](../05-git-graph) | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -235,4 +239,8 @@ node ../tools/export.js slides team-repo-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 05 · VS Code Git Graph로 기록 보기](../05-git-graph) · [커리큘럼](../README.md) · [다음: 07 · 커밋 전 변경 취소하기와 잠깐 보관하기 →](../07-git-restore-stash)
+
+<!-- /curriculum:nav -->

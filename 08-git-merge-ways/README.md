@@ -2,9 +2,13 @@
 
 > 같은 예시 하나로 합치는 방법 네 가지를 나란히 놓고 결과 그림을 비교해요. fast-forward, merge(`--no-ff` 포함), rebase, squash예요. 이어서 `git pull`이 이 중 무엇을 하는지, GitHub PR의 Merge 버튼 세 개가 각각 무엇인지 연결해요. 연습용 저장소 `merge-lab`을 새로 만들어 내 컴퓨터에서만 해 봐요.
 
-| 슬라이드 | 이전 챕터 | 다음 챕터 |
+<!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) | [09 · uv로 파이썬 시작하기](../09-python-uv) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -220,4 +224,8 @@ node ../tools/export.js slides git-merge-ways-slides.pdf
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) · [커리큘럼](../README.md) · [다음: 09 · uv로 파이썬 시작하기 →](../09-python-uv)
+
+<!-- /curriculum:nav -->

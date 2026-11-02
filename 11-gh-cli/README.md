@@ -2,9 +2,13 @@
 
 > GitHub 웹사이트에서 버튼으로 하던 일을 터미널 명령 `gh`(GitHub CLI)로 해요. 브라우저 코드로 로그인하고, 이미 있는 레포를 받고, 새 레포를 만들어요. 레포를 지울 때 권한이 모자라서 막히는 장면과 `gh auth refresh`로 권한을 더하는 법도 봐요. 마지막에 이슈와 PR을 다루는 간단한 명령을 써요. 커밋과 push는 지금까지처럼 git으로 해요.
 
+<!-- curriculum:top -->
+
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
 | [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) | [10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) | [12 · 파이썬 기초 (변수, 타입, 연산, 문자열, 리스트)](../12-python-basics) |
+
+<!-- /curriculum:top -->
 
 ## 학습 목표
 
@@ -238,4 +242,8 @@ gh는 스크립트로 진짜 github.com에 로그인할 수 없어요. 그래서
 
 ---
 
+<!-- curriculum:nav -->
+
 [← 이전: 10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) · [커리큘럼](../README.md) · [다음: 12 · 파이썬 기초 (변수, 타입, 연산, 문자열, 리스트) →](../12-python-basics)
+
+<!-- /curriculum:nav -->
