@@ -1,0 +1,88 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-02T02:00:00Z"
+  },
+  "lists": "css",
+  "title": "터미널에서 GitHub 다루기",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "map",
+    "install",
+    "status0",
+    "login1",
+    "login2",
+    "login3",
+    "login4",
+    "code",
+    "logged",
+    "status1",
+    "gitcred",
+    "clone",
+    "clone-check",
+    "view",
+    "repo-list",
+    "create-why",
+    "create-prep",
+    "create",
+    "create-push",
+    "create-ask",
+    "del-warn",
+    "del-try",
+    "scope",
+    "refresh",
+    "status2",
+    "del-ok",
+    "issue",
+    "pr-create",
+    "pr-view",
+    "pr-merge",
+    "help",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "login": {
+      "description": "로그인",
+      "start": "login1"
+    },
+    "connect": {
+      "description": "이미 있는 레포 연결하기",
+      "start": "clone"
+    },
+    "create": {
+      "description": "새 레포 만들기",
+      "start": "create-why"
+    },
+    "delete": {
+      "description": "레포 지우기",
+      "start": "del-warn"
+    },
+    "daily": {
+      "description": "자주 쓰는 gh 명령",
+      "start": "issue"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

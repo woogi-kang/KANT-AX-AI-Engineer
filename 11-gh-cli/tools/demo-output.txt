@@ -1,0 +1,352 @@
+== part 1
+
+$ [~] gh --version
+gh version 2.89.0 (2026-03-26)
+https://github.com/cli/cli/releases/tag/v2.89.0
+[rc=0]
+
+$ [~] gh auth status
+You are not logged into any GitHub hosts. To log in, run: gh auth login
+[rc=1]
+== part 2 login
+
+$ [~] gh auth login
+? Where do you use GitHub? GitHub.com
+? What is your preferred protocol for Git operations on this host? HTTPS
+? Authenticate Git with your GitHub credentials? Yes
+? How would you like to authenticate GitHub CLI? Login with a web browser
+
+! First copy your one-time code: 8F2A-71C4
+Press Enter to open https://github.com/login/device in your browser...
+✓ Authentication complete.
+- gh config set -h github.com git_protocol https
+✓ Configured git protocol
+! Authentication credentials saved in plain text
+✓ Logged in as kim
+[rc=0]
+
+$ [~] gh auth status
+github.com
+  ✓ Logged in to github.com account kim (/home/kim/.config/gh/hosts.yml)
+  - Active account: true
+  - Git operations protocol: https
+  - Token: gho_*********
+  - Token scopes: 'gist', 'read:org', 'repo', 'workflow'
+[rc=0]
+
+$ [~] cat ~/.gitconfig
+[user]
+	name = kim
+	email = kim@example.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[credential "https://github.com"]
+	helper =
+	helper = !/usr/local/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/usr/local/bin/gh auth git-credential
+[rc=0]
+== part 3 clone
+
+$ [~/kant] gh repo clone kim/team-intro
+Cloning into 'team-intro'...
+remote: Enumerating objects: 6, done.
+remote: Counting objects: 100% (6/6), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 6 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (6/6), 512 bytes | 512.00 KiB/s, done.
+[rc=0]
+
+$ [~/kant/team-intro] git remote -v
+origin	https://github.com/kim/team-intro.git (fetch)
+origin	https://github.com/kim/team-intro.git (push)
+[rc=0]
+
+$ [~/kant/team-intro] git log --oneline
+1baff03 (HEAD -> main, origin/main, origin/HEAD) feat: kim 소개 추가
+a2a187e docs: README 추가
+[rc=0]
+
+$ [~/kant/team-intro] gh repo view
+kim/team-intro
+No description provided
+
+
+  # team-intro
+
+  우리 팀 소개 페이지예요.
+
+
+
+View this repository on GitHub: https://github.com/kim/team-intro
+[rc=0]
+
+$ [~/kant/team-intro] gh browse
+Opening https://github.com/kim/team-intro in your browser.
+[rc=0]
+
+$ [~] gh repo list
+
+Showing 2 of 2 repositories in @kim
+
+NAME            DESCRIPTION  INFO    UPDATED
+kim/hello-git                public  about 3 minutes ago
+kim/team-intro               public  about 3 minutes ago
+[rc=0]
+== part 4 create
+
+$ [~/kant/my-notes] git init
+Initialized empty Git repository in /home/kim/kant/my-notes/.git/
+[rc=0]
+
+$ [~/kant/my-notes] echo '# my-notes' > README.md && git add README.md && git commit -m 'docs: README 추가'
+[main (root-commit) f5c3a4c] docs: README 추가
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+[rc=0]
+
+$ [~/kant/my-notes] gh repo create my-notes --public --source=. --remote=origin
+✓ Created repository kim/my-notes on github.com
+  https://github.com/kim/my-notes
+✓ Added remote https://github.com/kim/my-notes.git
+[rc=0]
+
+$ [~/kant/my-notes] git remote -v
+origin	https://github.com/kim/my-notes.git (fetch)
+origin	https://github.com/kim/my-notes.git (push)
+[rc=0]
+
+$ [~/kant/my-notes] git push origin main
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/kim/my-notes.git
+ * [new branch]      main -> main
+[rc=0]
+
+$ [~] gh repo list
+
+Showing 3 of 3 repositories in @kim
+
+NAME            DESCRIPTION  INFO    UPDATED
+kim/hello-git                public  about 3 minutes ago
+kim/my-notes                 public  about 3 minutes ago
+kim/team-intro               public  about 3 minutes ago
+[rc=0]
+== part 5 delete
+
+$ [~] gh repo delete kim/my-notes
+
+? Type kim/my-notes to confirm deletion: kim/my-notes
+HTTP 403: Must have admin rights to Repository. (https://api.github.com/repos/kim/my-notes)
+This API operation needs the "delete_repo" scope. To request it, run:  gh auth refresh -h github.com -s delete_repo
+[rc=1]
+
+$ [~] gh auth refresh -h github.com -s delete_repo
+
+! First copy your one-time code: 8F2A-71C4
+Press Enter to open https://github.com/login/device in your browser...
+✓ Authentication complete.
+[rc=0]
+
+$ [~] gh auth status
+github.com
+  ✓ Logged in to github.com account kim (/home/kim/.config/gh/hosts.yml)
+  - Active account: true
+  - Git operations protocol: https
+  - Token: gho_*********
+  - Token scopes: 'delete_repo', 'gist', 'read:org', 'repo', 'workflow'
+[rc=0]
+
+$ [~] gh repo delete kim/my-notes
+
+? Type kim/my-notes to confirm deletion: kim/my-notes
+✓ Deleted repository kim/my-notes
+[rc=0]
+
+$ [~] gh repo list
+
+Showing 2 of 2 repositories in @kim
+
+NAME            DESCRIPTION  INFO    UPDATED
+kim/hello-git                public  about 3 minutes ago
+kim/team-intro               public  about 3 minutes ago
+[rc=0]
+
+$ [~/kant/my-notes] git push origin main
+fatal: repository 'https://github.com/kim/my-notes.git/' not found
+[rc=128]
+== part 6 simple
+
+$ [~/kant/team-intro] gh issue create --title "소개 페이지에 사진 넣기" --body "각자 사진 한 장씩 넣어요"
+
+Creating issue in kim/team-intro
+
+https://github.com/kim/team-intro/issues/1
+[rc=0]
+
+$ [~/kant/team-intro] gh issue list
+
+Showing 1 of 1 open issue in kim/team-intro
+
+ID  TITLE                    LABELS  UPDATED
+#1  소개 페이지에 사진 넣기          less than a minute ago
+[rc=0]
+
+$ [~/kant/team-intro] git checkout -b feature/kim-hobby
+Switched to a new branch 'feature/kim-hobby'
+[rc=0]
+
+$ [~/kant/team-intro] echo '취미: 등산' >> kim.md && git add kim.md && git commit -m 'feat: kim 취미 추가'
+[feature/kim-hobby 8039736] feat: kim 취미 추가
+ 1 file changed, 1 insertion(+)
+[rc=0]
+
+$ [~/kant/team-intro] git push origin feature/kim-hobby
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 308 bytes | 308.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/kim/team-intro.git
+ * [new branch]      feature/kim-hobby -> feature/kim-hobby
+[rc=0]
+
+$ [~/kant/team-intro] gh pr create --title "feat: kim 취미 추가" --body "kim.md에 취미를 적었어요"
+
+Creating pull request for feature/kim-hobby into main in kim/team-intro
+
+https://github.com/kim/team-intro/pull/2
+[rc=0]
+
+$ [~/kant/team-intro] gh pr list
+
+Showing 1 of 1 open pull request in kim/team-intro
+
+ID  TITLE                BRANCH             CREATED AT
+#2  feat: kim 취미 추가  feature/kim-hobby  less than a minute ago
+[rc=0]
+
+$ [~/kant/team-intro] gh pr view 2
+feat: kim 취미 추가 kim/team-intro#2
+Open • kim (kim) wants to merge 1 commit into main from feature/kim-hobby • less than a minute ago
++1 -0 • No checks
+
+
+  kim.md에 취미를 적었어요
+
+
+View this pull request on GitHub: https://github.com/kim/team-intro/pull/2
+[rc=0]
+
+$ [~/kant/team-intro] gh pr merge 2 --merge
+✓ Merged pull request kim/team-intro#2 (feat: kim 취미 추가)
+[rc=0]
+
+$ [~/kant/team-intro] git checkout main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+[rc=0]
+
+$ [~/kant/team-intro] git pull origin main
+remote: Enumerating objects: 1, done.
+remote: Counting objects: 100% (1/1), done.
+remote: Total 1 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (1/1), 495 bytes | 495.00 KiB/s, done.
+From https://github.com/kim/team-intro
+ * branch            main       -> FETCH_HEAD
+   1baff03..5487d25  main       -> origin/main
+Updating 1baff03..5487d25
+Fast-forward
+ kim.md | 1 +
+ 1 file changed, 1 insertion(+)
+[rc=0]
+
+$ [~/kant/team-intro] git log --oneline
+5487d25 (HEAD -> main, origin/main, origin/HEAD) Merge pull request #2 from kim/feature/kim-hobby
+8039736 (origin/feature/kim-hobby, feature/kim-hobby) feat: kim 취미 추가
+1baff03 feat: kim 소개 추가
+a2a187e docs: README 추가
+[rc=0]
+== extra
+
+$ [~] gh --help | head -40
+Work seamlessly with GitHub from the command line.
+
+USAGE
+  gh <command> <subcommand> [flags]
+
+CORE COMMANDS
+  auth:          Authenticate gh and git with GitHub
+  browse:        Open repositories, issues, pull requests, and more in the browser
+  codespace:     Connect to and manage codespaces
+  gist:          Manage gists
+  issue:         Manage issues
+  org:           Manage organizations
+  pr:            Manage pull requests
+  project:       Work with GitHub Projects.
+  release:       Manage releases
+  repo:          Manage repositories
+
+GITHUB ACTIONS COMMANDS
+  cache:         Manage GitHub Actions caches
+  run:           View details about workflow runs
+  workflow:      View details about GitHub Actions workflows
+
+ALIAS COMMANDS
+  co:            Alias for "pr checkout"
+
+ADDITIONAL COMMANDS
+  agent-task:    Work with agent tasks (preview)
+  alias:         Create command shortcuts
+  api:           Make an authenticated GitHub API request
+  attestation:   Work with artifact attestations
+  completion:    Generate shell completion scripts
+  config:        Manage configuration for gh
+  copilot:       Run the GitHub Copilot CLI (preview)
+  extension:     Manage gh extensions
+  gpg-key:       Manage GPG keys
+  label:         Manage labels
+  licenses:      View third-party license information
+  preview:       Execute previews for gh features
+  ruleset:       View info about repo rulesets
+  search:        Search for repositories, issues, and pull requests
+[rc=0]
+
+$ [~] gh repo --help | head -30
+Work with GitHub repositories.
+
+USAGE
+  gh repo <command> [flags]
+
+GENERAL COMMANDS
+  create:        Create a new repository
+  list:          List repositories owned by user or organization
+
+TARGETED COMMANDS
+  archive:       Archive a repository
+  autolink:      Manage autolink references
+  clone:         Clone a repository locally
+  delete:        Delete a repository
+  deploy-key:    Manage deploy keys in a repository
+  edit:          Edit repository settings
+  fork:          Create a fork of a repository
+  gitignore:     List and view available repository gitignore templates
+  license:       Explore repository licenses
+  rename:        Rename a repository
+  set-default:   Configure default repository for this directory
+  sync:          Sync a repository
+  unarchive:     Unarchive a repository
+  view:          View a repository
+
+INHERITED FLAGS
+  --help   Show help for command
+
+ARGUMENTS
+  A repository can be supplied as an argument in any of the following formats:
+[rc=0]

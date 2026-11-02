@@ -4,7 +4,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/10-vscode-jupyter/vscode-jupyter-slides.html) | [09 · uv로 파이썬 시작하기](../09-python-uv) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/10-vscode-jupyter/vscode-jupyter-slides.html) | [09 · uv로 파이썬 시작하기](../09-python-uv) | [11 · 터미널에서 GitHub 다루기 (gh)](../11-gh-cli) |
 
 ## 학습 목표
 
@@ -283,4 +283,4 @@ node tools/export.js slides vscode-jupyter-slides.pdf
 
 ---
 
-[← 이전: 09 · uv로 파이썬 시작하기](../09-python-uv) · [커리큘럼](../README.md)
+[← 이전: 09 · uv로 파이썬 시작하기](../09-python-uv) · [커리큘럼](../README.md) · [다음: 11 · 터미널에서 GitHub 다루기 (gh) →](../11-gh-cli)
