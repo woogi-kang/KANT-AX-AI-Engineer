@@ -494,11 +494,59 @@ o.append(card(1260, 210, 564, 560, p(f"font-size:28px;font-weight:700;color:{INK
 o.append(caption("직접 짤 땐 10 - (2 * 3 ** 2) // 4처럼 괄호로 순서를 보여 줘요.", 920))
 W("order-mix", o, "네 계단이 모두 섞인 식을 한 단계씩 풀어 봐요. 괄호가 없으니 2단계 거듭제곱부터예요. 3 ** 2 = 9. 다음은 3단계인데, 곱하기와 몫이 같은 순위라서 왼쪽의 2 * 9 = 18을 먼저 하고 18 // 4 = 4를 해요. 마지막 4단계에서 10 - 4 = 6이에요. 출력 6은 셀에서 실제로 실행한 결과예요. 이런 식을 직접 쓸 때는 괄호로 묶어서 읽는 사람이 순서를 바로 알게 해요. 괄호를 쳐도 결과는 같은 6이에요.")
 
+def pair_slide(sid, title, n_, pairs, cap, notes):
+    o = [sec(sid)] + head(EB2, title, T2)
+    lines = [f"print({a})" for a, _, b, _, _ in pairs for a in (a,)] if False else []
+    for a, ra, b, rb, _ in pairs:
+        lines += [f"print({a})", f"print({b})"]
+    o += cell({"id": f"c-{sid}", "lines": lines, "n": n_, "out": [r for _, ra, _, rb, _ in pairs for r in (ra, rb)]}, 96, 200, 560, sel=f"c-{sid}")
+    o.append(f'<div style="position:absolute;left:720px;top:200px;width:1104px;display:flex;flex-direction:row;gap:20px;padding:0 26px">'
+             + p(f"width:420px;flex:none;font-size:22px;font-weight:700;color:{GRAY}", "괄호 없이") + p(f"flex:1;font-size:22px;font-weight:700;color:{T2}", "괄호를 치면") + '</div>')
+    for i, (a, ra, b, rb, note) in enumerate(pairs):
+        y = 244 + i * 162
+        o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:720px;top:{y}px;width:1104px;height:146px;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:14px 26px;display:flex;flex-direction:column;gap:8px">'
+                 + '<div style="display:flex;flex-direction:row;align-items:center;gap:14px">'
+                 + f'<div style="width:420px;flex:none;display:flex;flex-direction:row;align-items:center;gap:14px">' + mono(a, 28) + p(f"font-family:{MONO};font-size:22px;color:{GRAY}", "→") + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{INK}", e(ra)) + '</div>'
+                 + '<div style="flex:1;display:flex;flex-direction:row;align-items:center;gap:14px">' + mono(b, 28, T2, "#E3F3F4") + p(f"font-family:{MONO};font-size:22px;color:{GRAY}", "→") + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{T2}", e(rb)) + '</div></div>'
+                 + p(f"font-size:22px;color:{SUB}", e(note)) + '</div>')
+    o.append(caption(cap, 950))
+    W(sid, o, notes)
+
+
+pair_slide("order-paren1", "괄호 하나로 답이 달라져요 1 · 더하기와 곱하기", 9,
+           [("10 + 2 * 3", "16", "(10 + 2) * 3", "36", "곱하기 먼저 6, 더해서 16 · 괄호면 12를 먼저, 곱해서 36"),
+            ("20 - 10 / 2", "15.0", "(20 - 10) / 2", "5.0", "나누기 먼저 5.0, 빼서 15.0 · 괄호면 10을 먼저, 나눠서 5.0"),
+            ("12 / 3 * 2", "8.0", "12 / (3 * 2)", "2.0", "같은 순위라 왼쪽부터 4.0 * 2 · 괄호면 12 / 6"),
+            ("100 - 30 - 20", "50", "100 - (30 - 20)", "90", "왼쪽부터 70 - 20 · 괄호면 100 - 10")],
+           "같은 숫자라도 괄호 자리에 따라 결과가 달라져요.",
+           "괄호가 없을 때와 있을 때를 나란히 놓았어요. 왼쪽 셀의 여덟 줄을 한 번에 실행한 실제 결과예요. 위 두 줄은 곱하기, 나누기가 더하기, 빼기보다 먼저라는 규칙이에요. 아래 두 줄은 같은 순위끼리 왼쪽부터 푼다는 규칙이에요. 12 / 3 * 2를 12 / 6으로 읽으면 2.0이 되는데, 파이썬은 왼쪽부터 12 / 3 = 4.0을 먼저 해요. 나누기가 들어간 식은 결과가 실수라서 .0이 붙어요. 수업에서는 결과를 먼저 예상해 보게 한 뒤 클릭해서 확인해요.")
+
+pair_slide("order-paren2", "괄호 하나로 답이 달라져요 2 · 거듭제곱, 몫, 나머지", 10,
+           [("2 ** 2 * 3", "12", "2 ** (2 * 3)", "64", "** 먼저 4, 곱해서 12 · 괄호면 2 ** 6"),
+            ("17 % 5 * 2", "4", "17 % (5 * 2)", "7", "같은 순위라 왼쪽부터 2 * 2 · 괄호면 17 % 10"),
+            ("3 + 10 // 3", "6", "(3 + 10) // 3", "4", "몫 먼저 3, 더해서 6 · 괄호면 13 // 3"),
+            ("-3 ** 2", "-9", "(-3) ** 2", "9", "** 가 빼기 기호보다 먼저 · 괄호면 -3을 제곱")],
+           "%, // 는 곱하기와 같은 순위, ** 는 그보다 먼저예요.",
+           "이번에는 거듭제곱, 몫, 나머지가 섞인 식이에요. 2 ** 2 * 3은 ** 가 먼저라서 4 * 3 = 12예요. 17 % 5 * 2는 % 와 * 가 같은 순위라서 왼쪽의 17 % 5 = 2를 먼저 하고 2를 곱해 4예요. 3 + 10 // 3은 몫이 더하기보다 먼저라서 3 + 3 = 6이에요. -3 ** 2는 앞 장의 -2 ** 2처럼 ** 가 먼저라 -9예요. 모두 왼쪽 셀을 실제로 실행한 결과예요.")
+
+o = [sec("order-quiz")] + head(EB2, "직접 풀어 봐요", T2)
+quiz = [("7 // 2 ** 2", ["2 ** 2 = 4", "7 // 4 = 1"], "1"), ("10 % 3 ** 2", ["3 ** 2 = 9", "10 % 9 = 1"], "1"),
+        ("2 + 3 * 4 ** 2 // 8", ["4 ** 2 = 16", "3 * 16 = 48", "48 // 8 = 6", "2 + 6 = 8"], "8"), ("50 - 5 * 2 ** 3 % 7", ["2 ** 3 = 8", "5 * 8 = 40", "40 % 7 = 5", "50 - 5 = 45"], "45")]
+for k, (ex, steps, ans) in enumerate(quiz):
+    x, y = 96 + (k % 2) * 884, 200 + (k // 2) * 340
+    o.append(f'<div data-build-in="rise order {k * 2 + 1}" style="position:absolute;left:{x}px;top:{y}px;width:844px;height:316px;background:{CARD};border:2px solid {LINE};border-top:10px solid {T2};border-radius:20px;padding:22px 30px;display:flex;flex-direction:column;gap:14px">'
+             + '<div style="display:flex;flex-direction:row;align-items:center;gap:18px">' + num(k + 1, T2, 32) + mono(ex, 36) + '</div></div>')
+    o.append(f'<div data-build-in="fade order {k * 2 + 2}" style="position:absolute;left:{x + 32}px;top:{y + 112}px;width:780px;display:flex;flex-direction:row;align-items:flex-end;gap:30px">'
+             + '<div style="flex:1;display:flex;flex-direction:column;gap:4px">' + "".join(p(f"font-family:{MONO};font-size:24px;line-height:1.45;color:{SUB}", f"{j + 1}. " + e(s_)) for j, s_ in enumerate(steps)) + '</div>'
+             + p(f"font-family:{MONO};font-size:60px;font-weight:700;color:{T2};background:#E3F3F4;border-radius:14px;padding:4px 26px", ans) + '</div>')
+o.append(caption("셀에 print()로 적고 실행해서 답을 맞춰 봐요.", 900))
+W("order-quiz", o, "앞에서 본 계단 순서로 풀어 보는 문제예요. 식을 먼저 보여 주고 잠깐 풀게 한 뒤 클릭하면 푸는 과정과 답이 나와요. 1번과 2번은 ** 가 몫, 나머지보다 먼저라는 점을 확인해요. 3번과 4번은 네 계단이 다 나오는 식이에요. 3번은 4 ** 2 = 16, 3 * 16 = 48, 48 // 8 = 6, 2 + 6 = 8이에요. 4번은 2 ** 3 = 8, 5 * 8 = 40, 40 % 7 = 5, 50 - 5 = 45예요. 네 답은 print(7 // 2 ** 2)처럼 셀에 적어 실제로 실행해 확인한 값이에요.")
+
 o = [sec("vars-calc")] + head(EB2, "숫자에 이름을 붙여 계산해요", T2)
 o.append(p(f"position:absolute;left:96px;top:210px;width:840px;font-size:30px;font-weight:700;color:{T2}", "장보기 합계"))
-o += cell({"id": "c-vc1", "lines": ["price = 3000", "count = 2", "total = price * count", 'print("합계:", total)'], "n": 9, "out": ["합계: 6000"]}, 96, 270, 840, attrs=' data-build-in="rise order 1"')
+o += cell({"id": "c-vc1", "lines": ["price = 3000", "count = 2", "total = price * count", 'print("합계:", total)'], "n": 12, "out": ["합계: 6000"]}, 96, 270, 840, attrs=' data-build-in="rise order 1"')
 o.append(p(f"position:absolute;left:984px;top:210px;width:840px;font-size:30px;font-weight:700;color:{T2}", "세 사람이 나눠 내기", ' data-build-in="fade order 2"'))
-o += cell({"id": "c-vc2", "lines": ["total = 10000", "people = 3", 'print("한 사람:", total // people)', 'print("남는 돈:", total % people)'], "n": 10, "out": ["한 사람: 3333", "남는 돈: 1"]}, 984, 270, 840, sel="c-vc2", attrs=' data-build-in="rise order 2"')
+o += cell({"id": "c-vc2", "lines": ["total = 10000", "people = 3", 'print("한 사람:", total // people)', 'print("남는 돈:", total % people)'], "n": 13, "out": ["한 사람: 3333", "남는 돈: 1"]}, 984, 270, 840, sel="c-vc2", attrs=' data-build-in="rise order 2"')
 o.append(card(96, 680, 1728, 170, '<div style="display:flex;flex-direction:row;align-items:center;gap:30px">'
               + mono("3000 * 2", 34, GRAY) + p(f"font-size:28px;color:{SUB}", "무슨 숫자인지 몰라요") + '<div style="width:30px"></div>'
               + mono("price * count", 34, T2, "#E3F3F4") + p(f"font-size:28px;color:{SUB}", "가격 곱하기 개수") + '</div>', None, ' data-build-in="rise order 3"', "justify-content:center"))
@@ -506,7 +554,7 @@ o.append(caption("price만 바꾸고 다시 실행하면 합계도 새로 계산
 W("vars-calc", o, "숫자를 그대로 적어도 계산은 되지만, 변수에 이름을 붙여 두면 무슨 계산인지 읽혀요. 왼쪽은 3000원짜리를 2개 산 합계예요. total = price * count도 = 오른쪽을 먼저 계산해서 6000을 total에 넣어요. 오른쪽은 만 원을 세 사람이 나눠 내는 계산이에요. 몫 // 로 한 사람이 낼 돈 3333원, 나머지 % 로 남는 1원을 구했어요. 오른쪽 셀이 total에 10000을 다시 넣어서 왼쪽의 6000은 사라졌어요.")
 
 o = [sec("plus-eq")] + head(EB2, "+= 는 지금 값에 더해서 다시 넣어요", T2)
-o += cell({"id": "c-pe", "lines": ["score = 0", "score += 10", "score += 5", "score"], "n": 11, "out": ["15"]}, 96, 220, 760, sel="c-pe")
+o += cell({"id": "c-pe", "lines": ["score = 0", "score += 10", "score += 5", "score"], "n": 14, "out": ["15"]}, 96, 220, 760, sel="c-pe")
 for i, (v, lbl) in enumerate([("0", "score = 0"), ("10", "score += 10"), ("15", "score += 5")]):
     x = 940 + i * 300
     o.append(f'<div data-build-in="pop order {i + 1}" style="position:absolute;left:{x}px;top:220px;width:240px;display:flex;flex-direction:column;align-items:center;gap:14px">'
@@ -686,7 +734,7 @@ W("cheatsheet", o, "이번 챕터에서 쓴 기호와 함수를 한 장에 모�
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 parts = [("Archive", BL, "변수에 값 넣기", "= 로 넣기, 값 보기, 다시 넣기, NameError", "assign", "name-err"),
          ("Database", TT, "변수 타입", "int, float, str, bool, type(), 타입 바꾸기", "types", "convert-err"),
-         ("Activity", T2, "사칙연산", "+ - * /, 몫과 나머지, 계산 순서 네 계단, +=, 글자 연산", "ops4", "str-ops"),
+         ("Activity", T2, "사칙연산", "+ - * /, 몫과 나머지, 계산 순서 네 계단과 예제, +=, 글자 연산", "ops4", "str-ops"),
          ("Check", T3, "비교와 논리연산", "== 와 =, True와 False, and, or, not", "compare", "logic-order")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      f'<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>',
