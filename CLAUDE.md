@@ -12,7 +12,7 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 
 ## 폴더 규칙
 
-- 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`, `06-team-repo`, `07-git-restore-stash`, `08-git-merge-ways`, `09-python-uv`, `10-vscode-jupyter`, `11-gh-cli`)
+- 자료는 배우는 순서대로 `01-주제`, `02-주제`처럼 두 자리 번호와 영문 소문자 이름으로 만들어요. (예: `01-linux-terminal`, `02-git-basics`, `03-git-branch`, `04-git-diff`, `05-git-graph`, `06-team-repo`, `07-git-restore-stash`, `08-git-merge-ways`, `09-python-uv`, `10-vscode-jupyter`, `11-gh-cli`, `12-python-basics`)
 - 폴더마다 수강생이 읽을 `README.md`를 둬요. 무엇을 배우는지, 어떤 순서로 보면 되는지, 꼭 기억할 명령을 적어요.
 - 슬라이드가 있는 폴더에는 수강생이 바로 받을 HTML(`주제-slides.html`, 애니메이션 포함)과 PDF(`주제-slides.pdf`)를 같이 둬요. 슬라이드를 고치면 둘 다 다시 만들어요. 만드는 스크립트는 `02-git-basics/tools/`의 `build_player.js`, `export.js`예요.
 - 자료 단위는 "챕터"라고 불러요. README 커리큘럼 표와 챕터 README에는 슬라이드 장수(34장 같은 표시)를 적지 않아요. 챕터 README 맨 위 표는 슬라이드, 이전 챕터, 다음 챕터 세 칸이에요.
@@ -44,7 +44,7 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
 - Jupyter 노트북은 VS Code의 Python, Jupyter 확장(Microsoft)으로 열어요. 커널 패키지는 `uv add --dev ipykernel`로 넣고, 노트북 커널은 프로젝트의 `.venv`를 골라요. VS Code 알림의 Install 버튼(pip 설치)은 쓰지 않아요. 노트북 단축키는 Windows와 Mac을 나란히 적고, Mac 셀 실행은 VS Code 기본값인 `control+Enter`로 적어요(10 챕터).
 - uv 설치는 macOS `brew install uv`, Windows `winget install --id=astral-sh.uv -e`로 적어요. curl, PowerShell 설치 스크립트는 쓰지 않아요.
 - fastapi 예시는 `uv add fastapi`로만 넣어요. `fastapi[standard]`, uvicorn, `fastapi dev`로 서버 켜기는 쓰지 않고, `import fastapi` 뒤 `print("fastapi 버전:", fastapi.__version__)`처럼 불러오는 데까지만 보여 줘요.
-- 파이썬 예제는 수업에서 배운 범위로 적어요. f-string(`f"...{변수}"`)과 `input()`은 아직 배우지 않았으니 쓰지 않아요. 값을 보여 줄 땐 `print(변수)`, `print("설명", 변수)`나 셀 마지막 줄의 변수 이름으로 보여 줘요.
+- 파이썬 예제는 수업에서 배운 범위로 적어요. f-string(`f"...{변수}"`)과 `input()`은 아직 배우지 않았으니 쓰지 않아요. 값을 보여 줄 땐 `print(변수)`, `print("설명", 변수)`나 셀 마지막 줄의 변수 이름으로 보여 줘요. 변수 할당, 사칙연산, 비교와 논리연산(`and`, `or`, `not`)은 12에서 배워요. `if` 문은 아직 배우지 않았으니 12까지의 예제에 넣지 않아요.
 - 파이썬 실행은 `uv run main.py`로 적어요. `python main.py`는 가상환경을 켠 상태, 예전 방식, 오류 예시에서만 써요. `.venv`는 GitHub에 올리지 않고, `pyproject.toml`, `uv.lock`, `.python-version`은 올려요.
 
 ## 배포 전 점검

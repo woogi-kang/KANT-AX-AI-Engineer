@@ -17,6 +17,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [09 · uv로 파이썬 시작하기](./09-python-uv) | 예전 방식(venv, pip)과 나란히 비교, `brew`·`winget`으로 uv 설치, `uv init` `uv run` `uv add` `uv remove` `uv tree` `uv sync`, 가상환경 켜기(`activate`), fastapi 넣고 빼기, VS Code Jupyter(`uv add --dev ipykernel`) | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) |
 | [10 · VS Code에서 Jupyter 노트북 쓰기](./10-vscode-jupyter) | 셀 실행 키 세 가지(`Shift+Enter` 등), 코드 셀과 마크다운 셀, 실행 번호, Restart와 Run All, 명령 모드와 편집 모드, 마크다운 셀로 변수 이름 규칙과 컨벤션 정리, 자료형과 `type()`, Windows·Mac 단축키 표 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/10-vscode-jupyter/vscode-jupyter-slides.html) |
 | [11 · 터미널에서 GitHub 다루기 (gh)](./11-gh-cli) | `gh auth login` `gh auth status`, 권한 더하기(`gh auth refresh -s delete_repo`), `gh repo clone` `view` `list` `create` `delete`, `gh browse`, `gh issue create` `list`, `gh pr create` `list` `view` `merge` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) |
+| [12 · 파이썬 기초, 변수와 연산](./12-python-basics) | 변수 할당(`=`), `print("설명", 값)`, 사칙연산 `+` `-` `*` `/`, 몫·나머지·거듭제곱 `//` `%` `**`, 계산 순서, `+=`, 비교 연산자, `True`·`False`, 논리연산 `and` `or` `not` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) |
 
 챕터는 번호 순서대로 이어져요. 앞 챕터에서 만든 폴더와 저장소를 다음 챕터에서 그대로 써요.
 
@@ -92,6 +93,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 ├── 09-python-uv/
 ├── 10-vscode-jupyter/
 ├── 11-gh-cli/
+├── 12-python-basics/
 ├── extras/                       번외 자료 (주제마다 폴더 하나)
 │   └── terminal-path-help/
 └── CLAUDE.md                     자료 작성 규칙
@@ -100,6 +102,6 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 ## 자료를 고칠 때
 
 - 슬라이드를 고치면 챕터의 `tools/`로 HTML과 PDF를 다시 만들어요. 명령은 챕터 README의 강사용 절에 있어요.
-- 새 챕터는 `12-주제`처럼 다음 번호로 폴더를 만들고 커리큘럼 표에 한 줄을 더해요.
+- 새 챕터는 `13-주제`처럼 다음 번호로 폴더를 만들고 커리큘럼 표에 한 줄을 더해요.
 - 번외는 `extras/주제` 폴더에 번호 없이 만들고, 위 번외 표와 `extras/README.md`에 한 줄씩 더해요.
 - 글쓰기와 폴더 규칙은 [CLAUDE.md](./CLAUDE.md)를 따라요.
