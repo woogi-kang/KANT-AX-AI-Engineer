@@ -238,23 +238,20 @@ tools/
   gen.py           모든 장과 deck.json 생성 (폴더 그림, 세 곳 카드, 나란히 비교)
   demo.sh          모든 명령을 새 폴더에서 다시 실행해 실제 출력 확인
   run_nb.py        노트북 셀을 프로젝트 커널로 실행해 출력 확인 (demo.sh가 불러요)
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 python-uv-slides.html  배포용 HTML
 python-uv-slides.pdf   강사용 PDF
 ```
+
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
 
 ```bash
 bash tools/demo.sh /tmp/uv-demo > /tmp/uv-demo.log 2>&1
 python3 tools/gen.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides python-uv-slides.html
-node tools/export.js slides python-uv-slides.pdf
+node ../tools/check.js slides shots
+node ../tools/build_player.js slides python-uv-slides.html
+node ../tools/export.js slides python-uv-slides.pdf
 ```
 
 터미널 출력은 `tools/demo.sh`로 uv 0.11.32, Python 3.14.6에서 실제로 실행해 옮겼어요. uv 캐시와 파이썬 설치 폴더를 실습 폴더 안에 새로 만들어서, 파이썬이 없는 컴퓨터처럼 첫 실행에 파이썬을 받아요. lee 컴퓨터는 캐시와 파이썬 폴더를 따로 둬서 처음 받는 모습을 재현했어요. 예전 방식은 uv가 받은 Python 3.14.6을 `python3`로 써서 실행했어요. 예전 방식의 `pip uninstall fastapi` 뒤 남은 10개는 `pip freeze | wc -l`로 셌어요. 노트북 셀 출력은 `tools/run_nb.py`가 hello-uv 복사본의 커널(ipykernel)로 셀을 실행한 결과예요. VS Code 화면(확장, 커널 고르기)은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/hello-uv.git`으로 보이게 했어요. 출력의 폴더 주소는 01처럼 `/home/kim`으로 바꿨어요. `brew install uv`, `winget install` 출력은 이 환경에서 칠 수 없고 버전마다 달라서 옮기지 않았어요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요. 패키지 버전과 걸린 시간(ms)은 실행한 날에 따라 달라요.

@@ -212,14 +212,11 @@ tools/
   gen.py           모든 장 생성 (네 칸 저장소 그림, 터미널, GitHub 화면)
   demo.sh          kim, lee, park 실습(1~3부)을 새 저장소에서 다시 실행해 실제 출력 확인
   cases.sh         5부 팀 작업 케이스를 kim, lee로 다시 실행 (PR Merge 버튼은 세 번째 clone이 대신)
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 team-repo-slides.html  배포용 HTML
 team-repo-slides.pdf   강사용 PDF
 ```
+
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
 
@@ -227,9 +224,9 @@ team-repo-slides.pdf   강사용 PDF
 bash tools/demo.sh /tmp/team-demo
 bash tools/cases.sh /tmp/team-cases
 python3 tools/gen.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides team-repo-slides.html
-node tools/export.js slides team-repo-slides.pdf
+node ../tools/check.js slides shots
+node ../tools/build_player.js slides team-repo-slides.html
+node ../tools/export.js slides team-repo-slides.pdf
 ```
 
 터미널 출력과 해시는 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 사람마다 HOME을 따로 둬서 설정이 섞이지 않아요. 날짜를 고정해서 해시가 매번 같아요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/team-intro.git`으로 보이게 했어요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요. 403 메시지는 GitHub이 보내는 것이라 로컬에서 재현하지 못했어요.

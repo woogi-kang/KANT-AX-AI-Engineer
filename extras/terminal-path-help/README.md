@@ -142,21 +142,18 @@ slides/
 tools/
   gen.py           모든 장 생성 (탐색기, 터미널, 폴더 지도 장면)
   demo.sh          슬라이드에 넣은 출력을 실제로 실행 (/home/kim을 만들어서 root로 실행)
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 terminal-path-help-slides.html  배포용 HTML
 terminal-path-help-slides.pdf   강사용 PDF
 ```
 
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
+
 ```bash
 bash tools/demo.sh > /tmp/path-help.log 2>&1   # 실제 출력 확인
 python3 tools/gen.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides terminal-path-help-slides.html
-node tools/export.js slides terminal-path-help-slides.pdf
+node ../../tools/check.js slides shots
+node ../../tools/build_player.js slides terminal-path-help-slides.html
+node ../../tools/export.js slides terminal-path-help-slides.pdf
 ```
 
 터미널 출력은 bash 5.2, GNU coreutils 9.4, git 2.43, uv 0.11.32에서 실제로 실행했어요. 터미널 창에서 보이는 모양대로 `ls`는 가로로 옮겼어요. Mac의 `ls --help`, 설명서 화면, `open .`, `explorer .`는 이 환경에서 실행할 수 없어서 출력을 옮기지 않았어요.

@@ -153,23 +153,20 @@ slides/
 tools/
   gen.py           모든 장 생성 (네 칸 장면, 출력 읽기, 브랜치 그래프, .gitignore)
   demo.sh          실습을 새 저장소에서 다시 실행해 실제 출력 확인
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 git-diff-slides.html  배포용 HTML
 git-diff-slides.pdf   강사용 PDF
 ```
+
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
 
 ```bash
 bash tools/demo.sh /tmp/diff-demo
 python3 tools/gen.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides git-diff-slides.html
-node tools/export.js slides git-diff-slides.pdf
+node ../tools/check.js slides shots
+node ../tools/build_player.js slides git-diff-slides.html
+node ../tools/export.js slides git-diff-slides.pdf
 ```
 
 터미널 출력은 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 날짜를 고정해서 해시가 매번 같게 나와요. 수강생 화면의 해시는 달라요. status의 안내 문구처럼 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요.

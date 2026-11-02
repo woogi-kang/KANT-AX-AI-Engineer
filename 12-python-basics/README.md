@@ -511,23 +511,20 @@ tools/
   gen.py           모든 장과 deck.json 생성 (노트북 셀, 변수 상자, 타입 카드, True·False 표, % 와 f-string 나란히, 리스트 칸)
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 python-basics-slides.html  배포용 HTML
 python-basics-slides.pdf   강사용 PDF
 ```
+
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
 
 ```bash
 bash tools/demo.sh /tmp/basics-demo > /tmp/basics-demo.log 2>&1
 python3 tools/gen.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides python-basics-slides.html
-node tools/export.js slides python-basics-slides.pdf
+node ../tools/check.js slides shots
+node ../tools/build_player.js slides python-basics-slides.html
+node ../tools/export.js slides python-basics-slides.pdf
 ```
 
 셀 출력은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 위에서부터 차례로 실행해서, 슬라이드의 셀 번호가 파트마다 [1]부터 시작해요. 오류는 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요. demo.sh 환경의 커널은 Python 3.13이었고, 이 챕터의 출력과 메시지는 3.14와 같아요. f-string은 5파트에서 처음 배워서 1~4파트 예제에는 쓰지 않았어요. `input()`은 아직 배우지 않아서 쓰지 않았어요. 6파트는 주문 줄을 먼저 한 줄씩 적어 보고, 그 뒤에 for로 같은 영수증을 다시 찍어요. `if`는 아직 쓰지 않았어요. 오류 메시지 뒤 괄호 안의 위치 표시는 빼고 옮겼어요. 영수증 출력의 한글은 슬라이드에서 영어 두 칸 너비로 그렸어요.

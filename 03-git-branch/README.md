@@ -206,23 +206,20 @@ slides/
 tools/
   gen_branch.py    커밋 그래프 장면(g, b, d, r, u, c, p로 시작하는 장) 생성
   gen_pages.py     표지, 목차, 개념, 충돌 시나리오, PR, 에러 장 생성
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 git-branch-slides.html  배포용 HTML
 git-branch-slides.pdf   강사용 PDF
 ```
+
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
 
 ```bash
 python3 tools/gen_branch.py slides
 python3 tools/gen_pages.py slides
-node tools/check.js slides shots
-node tools/build_player.js slides git-branch-slides.html
-node tools/export.js slides git-branch-slides.pdf
+node ../tools/check.js slides shots
+node ../tools/build_player.js slides git-branch-slides.html
+node ../tools/export.js slides git-branch-slides.pdf
 ```
 
 터미널 출력은 git 2.43에서 실제로 실행해 확인했어요. 해시는 날짜를 고정해서 만든 값이라 내 화면과 달라요. 충돌 시나리오 2~6은 시나리오마다 저장소를 따로 만들어 실행했어요. 화면 폭 때문에 줄인 출력은 발표자 노트에 적어 두었어요.

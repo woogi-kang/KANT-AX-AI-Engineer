@@ -169,23 +169,20 @@ slides/
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
   gen_scenes.py    터미널과 폴더 지도 장면 생성
-  check.js         글자 넘침, 겹침, 여백 검사와 스크린샷
-  deckrender.js    export.js와 build_player.js가 같이 쓰는 렌더링 코드
-  export.js        PDF 내보내기
-  build_player.js  애니메이션이 재생되는 HTML 한 파일 만들기
-  icons/           아이콘 (Lucide, ISC 라이선스)
 linux-terminal-slides.html  배포용 HTML
 linux-terminal-slides.pdf   강사용 PDF
 ```
 
 폴더 지도가 나오는 장면(`tree-map`, `s*`, `paths`, `special`, `err-*`)은 스크립트를 고친 뒤 다시 만들어요. 나머지 장은 `slides/`에서 바로 고쳐요.
 
+검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
+
 ```bash
 python3 tools/gen_scenes.py slides
-node tools/check.js slides shots                              # 전체 검사 (Playwright 필요)
-node tools/check.js slides shots s12-mv                       # 특정 장만
-node tools/build_player.js slides linux-terminal-slides.html
-node tools/export.js slides linux-terminal-slides.pdf
+node ../tools/check.js slides shots                              # 전체 검사 (Playwright 필요)
+node ../tools/check.js slides shots s12-mv                       # 특정 장만
+node ../tools/build_player.js slides linux-terminal-slides.html
+node ../tools/export.js slides linux-terminal-slides.pdf
 ```
 
 터미널 출력은 bash 5.2, GNU coreutils 9.4에서 실제로 실행해 확인했어요. 프롬프트는 화면을 아끼려고 `~/kant $`처럼 위치만 남겼어요.
