@@ -1,12 +1,12 @@
-# 12 · 파이썬 기초 (변수, 타입, 연산, 문자열, 리스트)
+# 12 · 파이썬 기초 1 (변수, 타입, 연산)
 
-> 10에서 노트북을 손에 익혔으니 이번에는 파이썬 코드를 직접 적어요. 값에 이름을 붙이는 변수 할당, 값의 종류인 변수 타입과 타입 바꾸기, 숫자를 계산하는 사칙연산, True와 False로 답하는 비교와 논리연산(`and`, `or`, `not`)을 차례로 봐요. 그다음 문자열을 자르고, 변수 값을 문장 안에 끼워 넣어 보기 좋게 출력해요. 마지막에는 주문 데이터를 리스트와 튜플에 담아 영수증 모양으로 찍어요. 모든 예제는 Jupyter 노트북 셀에 적고 실행해요.
+> 10에서 노트북을 손에 익혔으니 이번에는 파이썬 코드를 직접 적어요. 값에 이름을 붙이는 변수 할당, 값의 종류인 변수 타입과 타입 바꾸기, 숫자를 계산하는 사칙연산, True와 False로 답하는 비교와 논리연산(`and`, `or`, `not`)을 차례로 봐요. 문자열과 리스트는 [13 · 파이썬 기초 2](../13-python-strings-lists)에서 이어서 봐요. 모든 예제는 Jupyter 노트북 셀에 적고 실행해요.
 
 <!-- curriculum:top -->
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) | [11 · 터미널에서 GitHub 다루기 (gh)](../11-gh-cli) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) | [11 · 터미널에서 GitHub 다루기 (gh)](../11-gh-cli) | [13 · 파이썬 기초 2 (문자열, 리스트, for)](../13-python-strings-lists) |
 
 <!-- /curriculum:top -->
 
@@ -21,17 +21,7 @@
 - `+=`로 지금 값에 더해서 다시 넣어요.
 - `==` `!=` `>` `<` `>=` `<=`로 비교하고, 결과가 `True` 또는 `False`라는 것을 알아요.
 - `and`, `or`, `not`으로 조건을 이어서 True, False를 구해요.
-- 문자열에서 `word[0]`, `word[0:2]`로 글자를 꺼내고, `print()`의 `sep`, `end`와 `\n`, `\t`를 써요.
-- 변수 값을 문자열에 끼워 넣는 세 방식(`%`, `format()`, f-string)을 읽고, 새 코드는 f-string으로 적어요.
-- 칸 수(`{42:5d}`), 소수점 자리(`{pi:.2f}`), 천 단위 콤마(`{price:,}`)를 정해 출력해요.
-- 값 여러 개를 리스트 `[ ]`와 튜플 `( )`에 담고, `orders[1][0]`처럼 번호 두 개로 꺼내요.
-- 리스트 메서드 `append` `insert` `remove` `pop` `count` `index` `sort` `extend` `reverse` `copy` `clear`와 튜플 메서드 `count` `index`를 써요.
-- `[시작:끝:간격]`으로 자르고(`[::2]`, `[::-1]`), `table[1][2]`처럼 안쪽 값을 꺼내요.
-- `split`으로 글자를 리스트로, `join`으로 리스트를 글자로 바꿔요.
-- `menu, price, qty = orders[2]`로 튜플 값을 변수 여러 개에 한 번에 꺼내 담아요.
-- `"=" * 33`, 머리글 맞춤, 콤마로 영수증 모양 출력을 만들어요.
-- `for menu, price, qty in orders:`로 주문을 하나씩 꺼내 되풀이하고, 합계를 쌓아요.
-- `NameError`, `TypeError`, `ValueError`, `IndexError`, `ZeroDivisionError`의 마지막 줄을 읽고 고쳐요.
+- `NameError`, `TypeError`, `ValueError`, `ZeroDivisionError`의 마지막 줄을 읽고 고쳐요.
 
 ## 시작하기 전에
 
@@ -52,9 +42,7 @@
 | 2. 변수 타입 | 10–14 | `int` `float` `str` `bool`과 `type()`, 타입은 값을 따라간다, `25`와 `"25"`, `int()` `float()` `str()`로 바꾸기, `ValueError` |
 | 3. 사칙연산 | 15–28 | `+` `-` `*` `/`, `/`의 결과는 실수, 몫 `//`·나머지 `%`·거듭제곱 `**`, 계산 순서 네 계단, `**`가 먼저(`-2 ** 2`), 같은 순위는 왼쪽부터, 섞인 식 한 계단씩 풀기, 괄호 있고 없고 비교 예제 여덟 쌍, 직접 풀어 보기 네 문제, 변수로 계산, `+=`, 글자의 `+`와 `*` |
 | 4. 비교와 논리연산 | 29–37 | 비교 연산자 여섯 가지, `=`와 `==`, 비교 결과를 변수에, `and` `or` `not` 표, 놀이기구 조건(`and`), 할인 조건(`or`), 푸는 순서 |
-| 5. 문자열과 출력 | 38–52 | 따옴표와 `len()`, 인덱스와 `IndexError`, 슬라이싱, `print()`의 `sep` `end`, `\n` `\t`, 끼워 넣는 세 방식, `%s` `%d`와 f-string, `format()`의 `{0}` `{1}` `{2}`, 같은 주문내역을 세 방식으로, 칸 수 `%5d` `{42:5d}`, 소수점 `%0.2f` `{pi:.2f}`, 천 단위 콤마 `{price:,}`, `format()`의 모양, 표처럼 맞추기, 포맷팅 오류 |
-| 6. 리스트와 튜플 | 53–77 | `[ ]`로 담기와 `len()`, 꺼내기와 자르기, 값 바꾸기와 `append`, `sum` `max` `min`, 넣고 빼는 메서드(`append` `insert` `remove` `pop`), 찾고 세고 정렬하는 메서드(`count` `index` `in` `sort`), 메서드와 함수 한눈에, `[시작:끝:간격]` 자르기, 안쪽 리스트와 글자 꺼내기, `+` `*` `extend` `sorted` `reverse` `copy` `clear`, `split`과 `join`, 바꿀 수 없는 튜플, 튜플의 `count` `index`와 꺼내 담기, `a, b = b, a`, `list()` `tuple()`, 튜플 자르기와 잇기, 주문 데이터 `orders`, 번호 두 개로 꺼내기, 한 번에 꺼내 담기, 주문 줄 맞추기, 한글 머리글이 두 칸인 이유, 메뉴표 영수증, `for`로 하나씩 꺼내 되풀이하기, `for`로 합계 쌓기, 가게 이름과 날짜가 들어간 영수증 한 장, 콜론과 들여쓰기 오류, 여러 모양의 리스트, `IndexError` |
-| 정리 | 78–79 | 막힐 때, 한 장 요약 |
+| 정리 | 38–39 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -170,87 +158,6 @@
 
 여러 연산이 섞이면 계산, 비교, `not`, `and`, `or` 순서로 풀어요. `2 + 3 > 4 and not False`는 `5 > 4 and not False`, `True and True`를 거쳐 `True`가 돼요.
 
-### 문자열 꺼내기와 print
-
-`word = "python"`일 때 결과예요. 번호(인덱스)는 0부터 세요.
-
-| 코드 | 결과 | 뜻 |
-| --- | --- | --- |
-| `word[0]` | `'p'` | 첫 글자 |
-| `word[-1]` | `'n'` | 뒤에서 첫 글자 |
-| `word[0:2]` | `'py'` | 0번부터 2번 앞까지 |
-| `word[2:]` | `'thon'` | 2번부터 끝까지 |
-| `word[6]` | `IndexError` | 0~5번까지만 있어요 |
-
-`print("kim", "lee", sep="-")`는 `kim-lee`, `print("hello", end=" ")`는 줄을 바꾸지 않고 한 칸 띄워요. 따옴표 안의 `\n`은 줄바꿈, `\t`는 탭이에요.
-
-### 값을 끼워 넣는 세 방식
-
-| 방식 | 예 | 언제 |
-| --- | --- | --- |
-| `%` 포맷팅 | `"%s 님은 %d살" % (name, age)` | 가장 옛 방식. 옛 코드와 책에서 봐요 |
-| `format()` | `"{0} 님은 {1}살".format(name, age)` | 파이썬 3.0부터. 번호로 값을 골라요 |
-| f-string | `f"{name} 님은 {age}살"` | 파이썬 3.6부터. 요즘 표준이라 새 코드는 이걸로 써요 |
-
-`format()`은 중괄호 번호로 값을 골라요. 번호는 0부터 세요. `"주문내역은 : {0}, {1}, {2}".format(cake, price, qty)`에서 `{0}`은 cake, `{1}`은 price, `{2}`는 qty예요. 번호를 바꾸면 순서를 바꿀 수 있고, `{0}`을 여러 번 써도 돼요.
-
-콜론 뒤에 모양을 적어요. `format()`은 콜론 앞에 번호를, f-string은 이름을 적고, 콜론 뒤는 같아요.
-
-| `%` | f-string | 결과 | 뜻 |
-| --- | --- | --- | --- |
-| `"[%5d]" % 42` | `f"[{42:5d}]"` | `[   42]` | 다섯 칸 확보, 오른쪽 맞춤 |
-| `"[%-5d]" % 42` | `f"[{42:<5d}]"` | `[42   ]` | 왼쪽 맞춤 |
-| `"[%05d]" % 42` | `f"[{42:05d}]"` | `[00042]` | 빈칸을 0으로 |
-| `"%0.2f" % pi` | `f"{pi:.2f}"` | `3.14` | 소수점 두 자리 (`pi = 3.141592`) |
-| 없음 | `f"{price:,}"` | `1,234,567` | 천 단위 콤마 (`price = 1234567`) |
-| 없음 | `f"[{fee:8,}]"` | `[  35,000]` | 여덟 칸 확보와 콤마 (`fee = 35000`) |
-
-f-string에서 글자는 기본이 왼쪽 맞춤이에요. `f"[{'kim':5}]"`는 `[kim  ]`이고, 오른쪽으로 보내려면 `{'kim':>5}`처럼 `>`를 붙여요. `%` 방식에는 콤마 옵션이 없어서 `"%,d" % price`는 `ValueError`가 나요.
-
-### 리스트와 튜플
-
-| 코드 | 결과 | 뜻 |
-| --- | --- | --- |
-| `prices = [4500, 5000, 6500]` | | 대괄호에 값 여러 개를 담은 리스트 |
-| `len(prices)` | `3` | 담긴 개수 |
-| `prices[0] = 4800` | | 0번 값을 바꿔요 |
-| `prices.append(3000)` | | 맨 뒤에 하나 더해요 |
-| `sum(prices)`, `max(prices)`, `min(prices)` | `19300`, `6500`, `3000` | 합계, 가장 큰 값, 가장 작은 값 |
-| `order = ("coffee", 4500, 2)` | | 소괄호로 묶은 튜플. 만든 뒤 못 바꿔요 |
-
-리스트 이름 뒤에 점을 찍고 쓰는 함수를 메서드라고 불러요. `cart = ["coffee", "latte"]`, `scores = [70, 95, 80, 95]`일 때 결과예요.
-
-| 메서드 | 결과 | 뜻 |
-| --- | --- | --- |
-| `cart.append("cake")` | `['coffee', 'latte', 'cake']` | 맨 뒤에 더하기 |
-| `cart.insert(0, "tea")` | `['tea', 'coffee', 'latte', 'cake']` | 그 자리에 끼우기 |
-| `cart.remove("latte")` | `['tea', 'coffee', 'cake']` | 값을 찾아 지우기. 없으면 `ValueError` |
-| `cart.pop()` | `'cake'`를 돌려주고 `['tea', 'coffee']` | 맨 뒤를 꺼내기 |
-| `scores.count(95)` | `2` | 몇 개인지 |
-| `scores.index(80)` | `2` | 몇 번 자리인지 |
-| `95 in scores` | `True` | 들어 있는지 |
-| `scores.sort()` | `[70, 80, 95, 95]` | 작은 수부터. `reverse=True`면 큰 수부터 |
-
-자르기는 `[시작:끝:간격]`이에요. `nums = [10, 20, 30, 40, 50, 60]`이면 `nums[1:4]`는 `[20, 30, 40]`, `nums[-2:]`는 `[50, 60]`, `nums[::2]`는 `[10, 30, 50]`, `nums[::-1]`은 거꾸로 전부예요. 안쪽 리스트는 `table[1][2]`처럼 번호를 두 번 써요.
-
-| 더 쓰는 것 | 뜻 |
-| --- | --- |
-| `a + b`, `a * 2` | 이어 붙인 새 리스트, 반복한 새 리스트 |
-| `a.extend(b)` | a 뒤에 b를 이어 붙여요. a가 바뀌어요 |
-| `sorted(a)` | 정렬한 새 리스트. a는 그대로 |
-| `a.reverse()` | 순서만 거꾸로 |
-| `a.copy()`, `a.clear()` | 복사본 만들기, 전부 비우기 |
-| `"a,b".split(",")` | 글자를 잘라 리스트로 `['a', 'b']` |
-| `" / ".join(words)` | 리스트를 사이에 글자를 넣어 하나로 |
-
-튜플은 바꾸는 메서드가 없고 `count`, `index`만 있어요. `year, month, day = (2026, 11, 2)`처럼 한 번에 꺼내 담고, `a, b = b, a`로 두 값을 맞바꿔요. 고쳐야 하면 `list(튜플)`로 바꿔서 고쳐요.
-
-주문 여러 건은 튜플을 리스트에 담아요. `orders = [("coffee", 4500, 2), ("latte", 5000, 1), ("cake", 6500, 3)]`에서 앞 번호는 몇째 주문, 뒤 번호는 그 안의 몇째 값이에요. `orders[1][0]`은 `'latte'`, `orders[2][1] * orders[2][2]`는 `19500`이에요. `menu, price, qty = orders[2]`처럼 쓰면 튜플 값이 순서대로 하나씩 들어가요.
-
-글자도 `<` `>` `^`로 맞춰요. 파이썬은 한글 한 글자를 한 칸으로 세지만 화면에서는 두 칸 너비라서, 한글 머리글은 한글 글자 수만큼 칸 수를 빼요. 10칸짜리 `'메뉴명'`은 `{'메뉴명':<7}`이에요. 글꼴에 따라 조금 어긋나면 머리글을 영어로 써요.
-
-`for 이름 in 리스트:`는 리스트에서 값을 하나씩 꺼내 이름에 넣고, 아래 네 칸 들여 쓴 줄을 되풀이해요. `for menu, price, qty in orders:`처럼 이름 세 개를 적으면 주문 튜플 하나가 세 이름에 나눠 들어가요. 합계는 for 앞에서 `total = 0`으로 시작하고, 안쪽에서 `total += price * qty`로 쌓아요. 줄 끝 콜론을 빠뜨리면 `SyntaxError`, 들여 쓰지 않으면 `IndentationError`가 나요.
-
 ## 실습
 
 VS Code에서 `hello-uv` 폴더를 열고 새 파일 `basics.ipynb`를 만들어요. 오른쪽 위 커널로 `.venv`를 고른 뒤, 아래 코드를 셀 하나에 한 덩어리씩 적고 `Shift+Enter`로 실행해요. 주석(`#` 뒤)은 실제 출력이에요.
@@ -358,147 +265,6 @@ is_member or total >= 50000   # True
 not is_member                 # True
 ```
 
-### 5. 문자열과 출력
-
-```python
-word = "python"
-print(word[0])      # p
-print(word[-1])     # n
-print(word[0:2])    # py
-print(word[2:])     # thon
-```
-
-```python
-print("kim", "lee", sep="-")    # kim-lee
-print("hello", end=" ")
-print("world")                  # hello world
-print("첫째 줄\n둘째 줄")
-# 첫째 줄
-# 둘째 줄
-```
-
-```python
-cake = "치즈케이크"
-price = 5000
-qty = 2
-print("주문내역은 : %s, %d, %d" % (cake, price, qty))          # 주문내역은 : 치즈케이크, 5000, 2
-print("주문내역은 : {0}, {1}, {2}".format(cake, price, qty))   # 주문내역은 : 치즈케이크, 5000, 2
-print(f"주문내역은 : {cake}, {price}, {qty}")                  # 주문내역은 : 치즈케이크, 5000, 2
-print(f"{cake} {qty}개, 합계 {price * qty:,}원")               # 치즈케이크 2개, 합계 10,000원
-```
-
-```python
-pi = 3.141592
-print("%0.2f" % pi)       # 3.14
-print(f"{pi:.2f}")        # 3.14
-print("[%5d]" % 42)       # [   42]
-print(f"[{42:5d}]")       # [   42]
-```
-
-```python
-price = 1234567
-print(f"{price:,}원")     # 1,234,567원
-fee = 35000
-print(f"[{fee:8,}]")      # [  35,000]
-```
-
-### 6. 리스트와 튜플
-
-```python
-cart = ["coffee", "latte"]
-cart.append("cake")
-cart.insert(0, "tea")
-print(cart)          # ['tea', 'coffee', 'latte', 'cake']
-cart.remove("latte")
-last = cart.pop()
-print(last, cart)    # cake ['tea', 'coffee']
-```
-
-```python
-nums = [10, 20, 30, 40, 50, 60]
-print(nums[1:4])    # [20, 30, 40]
-print(nums[::2])    # [10, 30, 50]
-print(nums[::-1])   # [60, 50, 40, 30, 20, 10]
-words = "coffee,latte,cake".split(",")
-print(" / ".join(words))   # coffee / latte / cake
-```
-
-```python
-scores = [70, 95, 80, 95]
-print(scores.count(95))   # 2
-print(scores.index(80))   # 2
-scores.sort(reverse=True)
-print(scores)             # [95, 95, 80, 70]
-```
-
-```python
-orders = [("coffee", 4500, 2), ("latte", 5000, 1), ("cake", 6500, 3)]
-print(len(orders))                    # 3
-print(orders[1][0])                   # latte
-menu, price, qty = orders[2]
-print(f"{menu} {qty}개, {price * qty:,}원")   # cake 3개, 19,500원
-```
-
-```python
-total = orders[0][1] * orders[0][2]
-total += orders[1][1] * orders[1][2]
-total += orders[2][1] * orders[2][2]
-print("=" * 33)
-print(f"{'메뉴명':<7}{'단가':>6}{'수량':>3}{'금액':>8}")
-print("-" * 33)
-print(f"{orders[0][0]:<10}{orders[0][1]:>8,}{orders[0][2]:>5}{orders[0][1] * orders[0][2]:>10,}")
-print(f"{orders[1][0]:<10}{orders[1][1]:>8,}{orders[1][2]:>5}{orders[1][1] * orders[1][2]:>10,}")
-print(f"{orders[2][0]:<10}{orders[2][1]:>8,}{orders[2][2]:>5}{orders[2][1] * orders[2][2]:>10,}")
-print("-" * 33)
-print(f"{'합계':<6}{total:>25,}")
-print("=" * 33)
-# =================================
-# 메뉴명        단가 수량      금액
-# ---------------------------------
-# coffee       4,500    2     9,000
-# latte        5,000    1     5,000
-# cake         6,500    3    19,500
-# ---------------------------------
-# 합계                       33,500
-# =================================
-```
-
-같은 주문을 for로 찍어 영수증 한 장을 완성해요. 주문 줄 세 줄이 for 두 줄로 줄어요.
-
-```python
-print("=" * 33)
-print(f"{'KANT 카페':^31}")
-print(f"{'2026-11-02  14:30':^33}")
-print("=" * 33)
-print(f"{'메뉴명':<7}{'단가':>6}{'수량':>3}{'금액':>8}")
-print("-" * 33)
-total = 0
-count = 0
-for menu, price, qty in orders:
-    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")
-    total += price * qty
-    count += qty
-print("-" * 33)
-print(f"{'수량':<6}{count:>15}")
-print(f"{'합계':<6}{total:>25,}")
-print("=" * 33)
-print(f"{'감사합니다':^28}")
-# =================================
-#             KANT 카페
-#         2026-11-02  14:30
-# =================================
-# 메뉴명        단가 수량      금액
-# ---------------------------------
-# coffee       4,500    2     9,000
-# latte        5,000    1     5,000
-# cake         6,500    3    19,500
-# ---------------------------------
-# 수량                  6
-# 합계                       33,500
-# =================================
-#            감사합니다
-```
-
 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
 
 ## 문제 해결
@@ -510,17 +276,6 @@ print(f"{'감사합니다':^28}")
 | `TypeError: can only concatenate str (not "int") to str` | 따옴표 글자와 숫자를 더했어요. `int("3") + 3`처럼 타입을 맞춰요 |
 | `ValueError: invalid literal for int() with base 10: '삼'` | `int()`가 숫자로 못 읽는 글자예요. 소수점 글자는 `float()` |
 | `ZeroDivisionError: division by zero` | 0으로 나눴어요. 나누는 수를 확인해요 |
-| `IndexError: string index out of range` | 없는 번호예요. 번호는 0부터 `len(값) - 1`까지예요 |
-| `TypeError: not enough arguments for format string` | `%` 자리 수와 값 수가 달라요. f-string으로 쓰면 이름을 바로 적어서 덜 틀려요 |
-| `ValueError: unsupported format character ','` | `%`에는 콤마 옵션이 없어요. `f"{price:,}"`로 써요 |
-| `ValueError: list.remove(x): x not in list` | 리스트에 없는 값을 지우려 했어요. `값 in 리스트`로 먼저 확인해요 |
-| `IndexError: list index out of range` | 리스트에 없는 번호예요. 값이 세 개면 마지막 번호는 2 |
-| `TypeError: 'tuple' object does not support item assignment` | 튜플은 바꿀 수 없어요. 바꿀 값은 리스트에 담아요 |
-| `SyntaxError: expected ':'` | `for` 줄 끝에 콜론을 빠뜨렸어요 |
-| `IndentationError: expected an indented block after 'for' statement on line 1` | 되풀이할 줄을 네 칸 들여 써요 |
-| 합계가 쌓이지 않아요 | `total = 0`을 for 안에 넣었어요. for 앞으로 옮겨요 |
-| 한글 머리글만 칸이 밀려요 | 한글은 화면에서 두 칸이에요. 한글 글자 수만큼 칸 수를 빼거나 머리글을 영어로 |
-| `ValueError: Unknown format code 'd' for object of type 'str'` | 글자에 `d`(정수 모양)를 줬어요. 값의 타입을 확인해요 |
 | 비교했는데 값이 바뀌었어요 | `=`를 하나만 썼어요. 비교는 `==` |
 | `6 / 2`가 `3.0`으로 나와요 | `/`의 결과는 항상 실수예요. 몫만 필요하면 `//` |
 | 셀에 적은 값 중 하나만 보여요 | 이름만 적으면 마지막 줄만 보여요. 줄마다 `print()` |
@@ -535,7 +290,7 @@ slides/
   deck.json        슬라이드 순서와 파트 구분 (gen.py가 만들어요)
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장과 deck.json 생성 (노트북 셀, 변수 상자, 타입 카드, True·False 표, % 와 f-string 나란히, 리스트 칸)
+  gen.py           모든 장과 deck.json 생성 (노트북 셀, 변수 상자, 타입 카드, 계산 계단, True·False 표)
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
 python-basics-slides.html  배포용 HTML
@@ -554,7 +309,7 @@ node ../tools/build_player.js slides python-basics-slides.html
 node ../tools/export.js slides python-basics-slides.pdf
 ```
 
-셀 출력은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 위에서부터 차례로 실행해서, 슬라이드의 셀 번호가 파트마다 [1]부터 시작해요. 오류는 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요. demo.sh 환경의 커널은 Python 3.13이었고, 이 챕터의 출력과 메시지는 3.14와 같아요. f-string은 5파트에서 처음 배워서 1~4파트 예제에는 쓰지 않았어요. `input()`은 아직 배우지 않아서 쓰지 않았어요. 6파트는 주문 줄을 먼저 한 줄씩 적어 보고, 그 뒤에 for로 같은 영수증을 다시 찍어요. `if`는 아직 쓰지 않았어요. 오류 메시지 뒤 괄호 안의 위치 표시는 빼고 옮겼어요. 영수증 출력의 한글은 슬라이드에서 영어 두 칸 너비로 그렸어요.
+셀 출력은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 위에서부터 차례로 실행해서, 슬라이드의 셀 번호가 파트마다 [1]부터 시작해요. 오류는 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요. demo.sh 환경의 커널은 Python 3.13이었고, 이 챕터의 출력과 메시지는 3.14와 같아요. f-string은 13에서 처음 배워서 이 챕터 예제에는 쓰지 않았어요. `input()`과 `if`는 아직 배우지 않아서 쓰지 않았어요.
 
 </details>
 
@@ -562,6 +317,6 @@ node ../tools/export.js slides python-basics-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 11 · 터미널에서 GitHub 다루기 (gh)](../11-gh-cli) · [커리큘럼](../README.md)
+[← 이전: 11 · 터미널에서 GitHub 다루기 (gh)](../11-gh-cli) · [커리큘럼](../README.md) · [다음: 13 · 파이썬 기초 2 (문자열, 리스트, for) →](../13-python-strings-lists)
 
 <!-- /curriculum:nav -->

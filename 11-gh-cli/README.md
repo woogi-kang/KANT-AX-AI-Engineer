@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) | [10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) | [12 · 파이썬 기초 (변수, 타입, 연산, 문자열, 리스트)](../12-python-basics) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) | [10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) | [12 · 파이썬 기초 1 (변수, 타입, 연산)](../12-python-basics) |
 
 <!-- /curriculum:top -->
 
@@ -244,6 +244,6 @@ gh는 스크립트로 진짜 github.com에 로그인할 수 없어요. 그래서
 
 <!-- curriculum:nav -->
 
-[← 이전: 10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) · [커리큘럼](../README.md) · [다음: 12 · 파이썬 기초 (변수, 타입, 연산, 문자열, 리스트) →](../12-python-basics)
+[← 이전: 10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) · [커리큘럼](../README.md) · [다음: 12 · 파이썬 기초 1 (변수, 타입, 연산) →](../12-python-basics)
 
 <!-- /curriculum:nav -->

@@ -34,9 +34,12 @@
     {"dir": "11-gh-cli", "title": "터미널에서 GitHub 다루기 (gh)", "track": "GitHub",
      "goal": "레포 만들기와 PR을 터미널에서 해요",
      "commands": "`gh auth login` `gh repo create` `gh repo clone` `gh pr create`", "slides": "gh-cli-slides.html"},
-    {"dir": "12-python-basics", "title": "파이썬 기초 (변수, 타입, 연산, 문자열, 리스트)", "track": "파이썬",
-     "goal": "변수, 연산, 문자열, 리스트로 영수증을 찍어요",
-     "commands": "`=` `type()` `and` f-string `[ ]` `for`", "slides": "python-basics-slides.html"}
+    {"dir": "12-python-basics", "title": "파이썬 기초 1 (변수, 타입, 연산)", "track": "파이썬",
+     "goal": "변수에 값을 담아 계산하고 비교해요",
+     "commands": "`=` `type()` `//` `%` `and`", "slides": "python-basics-slides.html"},
+    {"dir": "13-python-strings-lists", "title": "파이썬 기초 2 (문자열, 리스트, for)", "track": "파이썬",
+     "goal": "문자열과 리스트로 영수증을 찍어요",
+     "commands": "`word[0:2]` f-string `[ ]` `append` `for`", "slides": "python-strings-lists-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
