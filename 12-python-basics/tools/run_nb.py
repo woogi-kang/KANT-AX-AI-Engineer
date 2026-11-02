@@ -78,5 +78,9 @@ run(['prices = [4500, 5000, 6500]\nprint(prices)\nprint(len(prices))\nprint(type
      'print(f"{orders[0][0]:<7}{orders[0][1]:>6,}원 {orders[0][2]:>2}개")\nprint(f"{orders[1][0]:<7}{orders[1][1]:>6,}원 {orders[1][2]:>2}개")\nprint(f"{orders[2][0]:<7}{orders[2][1]:>6,}원 {orders[2][2]:>2}개")\ntotal = orders[0][1] * orders[0][2]\ntotal += orders[1][1] * orders[1][2]\ntotal += orders[2][1] * orders[2][2]\nprint(f"합계 {total:,}원")',
      'print(f"{\'메뉴명\':<10}{\'단가\':>8}{\'수량\':>5}{\'금액\':>10}")\nprint(f"{\'menu\':<10}{\'price\':>8}{\'qty\':>5}{\'amount\':>10}")\nprint(f"{orders[0][0]:<10}{orders[0][1]:>8,}{orders[0][2]:>5}{orders[0][1] * orders[0][2]:>10,}")',
      'print("=" * 33)\nprint(f"{\'메뉴명\':<7}{\'단가\':>6}{\'수량\':>3}{\'금액\':>8}")\nprint("-" * 33)\nprint(f"{orders[0][0]:<10}{orders[0][1]:>8,}{orders[0][2]:>5}{orders[0][1] * orders[0][2]:>10,}")\nprint(f"{orders[1][0]:<10}{orders[1][1]:>8,}{orders[1][2]:>5}{orders[1][1] * orders[1][2]:>10,}")\nprint(f"{orders[2][0]:<10}{orders[2][1]:>8,}{orders[2][2]:>5}{orders[2][1] * orders[2][2]:>10,}")\nprint("-" * 33)\nprint(f"{\'합계\':<6}{total:>25,}")\nprint("=" * 33)',
+     'for menu in menus:\n    print(menu)',
+     'for menu, price, qty in orders:\n    print(menu, price, qty)',
+     'total = 0\nfor menu, price, qty in orders:\n    total += price * qty\n    print(menu, total)\nprint("합계:", total)',
+     'print("=" * 33)\nprint(f"{\'메뉴명\':<7}{\'단가\':>6}{\'수량\':>3}{\'금액\':>8}")\nprint("-" * 33)\ntotal = 0\nfor menu, price, qty in orders:\n    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")\n    total += price * qty\nprint("-" * 33)\nprint(f"{\'합계\':<6}{total:>25,}")\nprint("=" * 33)',
      'names = ["kim", "lee", "park"]\nscores = [90, 100, 7]\nmixed = ["coffee", 4500, True]\ncarts = [["coffee", "cake"], ["latte"]]\nempty = []\nprint(scores[1])\nprint(mixed)\nprint(carts[0][1])\nprint(len(empty))',
-     'menus[3]', 'orders[3]', 'orders[0][3]'])
+     'menus[3]', 'orders[3]', 'orders[0][3]', 'for menu in menus\n    print(menu)', 'for menu in menus:\nprint(menu)'])
