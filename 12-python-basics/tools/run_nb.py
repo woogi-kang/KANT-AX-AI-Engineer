@@ -66,3 +66,17 @@ run(['a = \'kim\'\nb = "kim"\nprint(a == b)\nprint(len("hello"))\nprint("It\'s m
      'print("%-6s %5d" % ("kim", 90))\nprint("%-6s %5d" % ("lee", 100))\nprint("%-6s %5d" % ("park", 7))\nprint("할인 %d%%" % 30)',
      'print(f"{\'kim\':<6} {90:5d}")\nprint(f"{\'lee\':<6} {100:5d}")\nprint(f"{\'park\':<6} {7:5d}")\nprint(f"할인 {30}%")',
      '"%d살" % "kim"', '"%s 님은 %d살" % name', '"%s" % (name, age)', 'f"{name:d}"'])
+
+print("=== 6. 리스트와 튜플")
+run(['prices = [4500, 5000, 6500]\nprint(prices)\nprint(len(prices))\nprint(type(prices))',
+     'menus = ["coffee", "latte", "cake"]\nprint(menus[0])\nprint(menus[-1])\nprint(menus[0:2])',
+     'prices[0] = 4800\nprices.append(3000)\nprint(prices)\nprint(sum(prices))\nprint(max(prices))\nprint(min(prices))',
+     'order = ("coffee", 4500, 2)\nprint(order[0])\nprint(order[1] * order[2])\nprint(type(order))',
+     'order[1] = 5000',
+     'orders = [("coffee", 4500, 2), ("latte", 5000, 1), ("cake", 6500, 3)]\nprint(len(orders))\nprint(orders[1])\nprint(orders[1][0])\nprint(orders[2][1] * orders[2][2])\nprint(orders[0:2])',
+     'menu, price, qty = orders[2]\nprint(menu, price, qty)\nprint(f"{menu} {qty}개, {price * qty:,}원")',
+     'print(f"{orders[0][0]:<7}{orders[0][1]:>6,}원 {orders[0][2]:>2}개")\nprint(f"{orders[1][0]:<7}{orders[1][1]:>6,}원 {orders[1][2]:>2}개")\nprint(f"{orders[2][0]:<7}{orders[2][1]:>6,}원 {orders[2][2]:>2}개")\ntotal = orders[0][1] * orders[0][2]\ntotal += orders[1][1] * orders[1][2]\ntotal += orders[2][1] * orders[2][2]\nprint(f"합계 {total:,}원")',
+     'print(f"{\'메뉴명\':<10}{\'단가\':>8}{\'수량\':>5}{\'금액\':>10}")\nprint(f"{\'menu\':<10}{\'price\':>8}{\'qty\':>5}{\'amount\':>10}")\nprint(f"{orders[0][0]:<10}{orders[0][1]:>8,}{orders[0][2]:>5}{orders[0][1] * orders[0][2]:>10,}")',
+     'print("=" * 33)\nprint(f"{\'메뉴명\':<7}{\'단가\':>6}{\'수량\':>3}{\'금액\':>8}")\nprint("-" * 33)\nprint(f"{orders[0][0]:<10}{orders[0][1]:>8,}{orders[0][2]:>5}{orders[0][1] * orders[0][2]:>10,}")\nprint(f"{orders[1][0]:<10}{orders[1][1]:>8,}{orders[1][2]:>5}{orders[1][1] * orders[1][2]:>10,}")\nprint(f"{orders[2][0]:<10}{orders[2][1]:>8,}{orders[2][2]:>5}{orders[2][1] * orders[2][2]:>10,}")\nprint("-" * 33)\nprint(f"{\'합계\':<6}{total:>25,}")\nprint("=" * 33)',
+     'names = ["kim", "lee", "park"]\nscores = [90, 100, 7]\nmixed = ["coffee", 4500, True]\ncarts = [["coffee", "cake"], ["latte"]]\nempty = []\nprint(scores[1])\nprint(mixed)\nprint(carts[0][1])\nprint(len(empty))',
+     'menus[3]', 'orders[3]', 'orders[0][3]'])

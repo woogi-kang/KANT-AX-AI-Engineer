@@ -5,7 +5,7 @@
     "at": "2026-11-02T03:00:00Z"
   },
   "lists": "css",
-  "title": "파이썬 기초 (변수, 타입, 연산, 문자열)",
+  "title": "파이썬 기초 (변수, 타입, 연산, 문자열, 리스트)",
   "order": [
     "cover",
     "toc",
@@ -59,6 +59,17 @@
     "fmt-format2",
     "fmt-align",
     "fmt-err",
+    "list-make",
+    "list-index",
+    "list-change",
+    "tuple",
+    "orders",
+    "orders-unpack",
+    "orders-receipt",
+    "receipt-head",
+    "receipt",
+    "list-shapes",
+    "list-err",
     "trouble",
     "cheatsheet"
   ],
@@ -86,6 +97,10 @@
     "strings": {
       "description": "문자열과 출력",
       "start": "str-make"
+    },
+    "lists": {
+      "description": "리스트와 튜플",
+      "start": "list-make"
     },
     "trouble": {
       "description": "정리",
