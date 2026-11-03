@@ -104,19 +104,17 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   ctxRef = ctx;
   const page = await ctx.newPage();
 
-  // 1. 좌우 끝을 눌러야 넘어가요
+  // 1. 양옆 화살표 버튼을 누르면 바로 넘어가요
   await open(page, GIT, 4); await buildAll(page);
-  await page.mouse.move(W - 40, H / 2);
-  // 화살표는 마우스가 있는 쪽만 나타나요. 안내 그림에서는 양쪽을 같이 보여 줘요
-  await page.evaluate(() => document.body.classList.add('edge-l', 'edge-r'));
+  await page.mouse.move(W / 2, H * 0.45);
   await page.waitForTimeout(400);
-  const edge = W * 0.15;
+  const hl = await rect(page, '#pl-hl'), hr = await rect(page, '#pl-hr');
   await annotate(page, [
-    { box: { x: 4, y: 4, w: edge - 8, h: H - 8 }, dashed: true },
-    { box: { x: W - edge + 4, y: 4, w: edge - 8, h: H - 8 }, dashed: true },
-    { label: '여기를 클릭하면<br>이전 장', at: { x: 22, y: 60 }, width: edge - 40 },
-    { label: '여기를 클릭하면<br>다음 장', at: { x: W - edge + 18, y: 60 }, width: edge - 40 },
-    { label: '가운데는 클릭해도 넘어가지 않아요', at: { x: W / 2, y: H - 120 }, anchor: 'translateX(-50%)', color: '#1D2330', nowrap: true },
+    { box: pad(hl, 8) },
+    { box: pad(hr, 8) },
+    { label: '누르면 바로<br>이전 장', at: { x: hl.x - 4, bottom: H - hl.y + 28 }, width: 200 },
+    { label: '누르면 바로<br>다음 장', at: { right: W - (hr.x + hr.w) - 4, bottom: H - hr.y + 28 }, width: 200 },
+    { label: '애니메이션을 하나씩 보려면 방향키나 Space를 눌러요. 슬라이드를 클릭해도 넘어가지 않아요', at: { x: W / 2, y: H - 130 }, anchor: 'translateX(-50%)', color: '#1D2330', nowrap: true, width: 1200 },
   ]);
   await shot(page, '01-edge-click.png');
 
@@ -126,14 +124,13 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
     const p = [...document.querySelectorAll('#pl-stage>section.on p')].find(p => p.textContent.startsWith('변수 하나에'));
     const r = p.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height };
   });
-  // 드래그 선택은 끝에서 시작해도 넘어가지 않아요. 끝을 그냥 누르는 것만 넘겨요
   const x1 = para.x + 2, x2 = para.x + para.w - 2, y = para.y + para.h / 2;
   const drag = async () => { await page.mouse.move(x1, y); await page.mouse.down(); await page.mouse.move(x2, y, { steps: 8 }); await page.mouse.up(); };
   const before = await page.evaluate(() => location.hash);
   await drag();
   await page.mouse.click(W / 2, H * 0.7); // 선택한 뒤 가운데를 눌러도
   await drag();
-  await page.mouse.move(W / 2, H * 0.45); // 끝 화살표가 보이지 않게 마우스를 가운데로
+  await page.mouse.move(W / 2, H * 0.45);
   if (await page.evaluate(() => location.hash) !== before) throw new Error('selection turned the page');
   await page.waitForTimeout(300);
   const sel = await page.evaluate(() => { const r = getSelection().getRangeAt(0).getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; });
@@ -237,7 +234,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
   // 0. 한 장 요약 (슬랙 첫 이미지)
   const items = [
-    ['페이지 넘김이 화면 양쪽 끝 클릭으로 바뀌었어요', '끝에 마우스를 올리면 화살표가 나타나요'],
+    ['화살표 버튼을 누르면 바로 다음 장으로 넘어가요', '애니메이션을 하나씩 보려면 방향키를 눌러요'],
     ['글자를 드래그해서 선택할 수 있어요', '선택해도 장이 넘어가지 않아요'],
     ['코드 복사 버튼이 추가되었어요', '터미널은 $ 뒤 명령만, 파이썬은 코드 전체'],
     ['이전 장으로 돌아가면 완성된 화면이 바로 보여요', '처음부터 다시 클릭할 필요가 없어요'],
