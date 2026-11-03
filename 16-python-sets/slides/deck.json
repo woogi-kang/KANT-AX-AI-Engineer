@@ -1,0 +1,81 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-03T02:00:00Z"
+  },
+  "lists": "css",
+  "title": "파이썬 기초 5 (집합)",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "s-why",
+    "s-four",
+    "s-make",
+    "s-order",
+    "s-dedup",
+    "s-long",
+    "s-str",
+    "s-empty",
+    "s-hash",
+    "s-add",
+    "s-remove",
+    "s-update",
+    "s-pop",
+    "s-in",
+    "s-noindex",
+    "s-for",
+    "s-venn",
+    "s-union",
+    "s-inter",
+    "s-diff",
+    "s-ops",
+    "s-long2",
+    "x-kinds",
+    "x-class",
+    "x-menu",
+    "x-bill",
+    "x-choose",
+    "x-err",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "what": {
+      "description": "집합이 뭔가요",
+      "start": "s-why"
+    },
+    "change": {
+      "description": "바꾸고 확인하기",
+      "start": "s-add"
+    },
+    "ops": {
+      "description": "집합 연산",
+      "start": "s-venn"
+    },
+    "practice": {
+      "description": "실습",
+      "start": "x-kinds"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

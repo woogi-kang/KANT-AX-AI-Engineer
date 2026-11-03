@@ -23,6 +23,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [13 · 파이썬 기초 2 (문자열, 리스트, for)](./13-python-strings-lists) | 파&#8288;이&#8288;썬 | 문자열과 리스트로 영수증을 찍어요 | `word[0:2]` f-string `[ ]` `append` `for` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/13-python-strings-lists/python-strings-lists-slides.html) |
 | [14 · 파이썬 기초 3 (in, 2차원 리스트)](./14-python-2d-lists) | 파&#8288;이&#8288;썬 | 값이 들어 있는지 묻고 표 모양 데이터를 다뤄요 | `in` `not in` `scores[1][2]` `len(scores[0])` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/14-python-2d-lists/python-2d-lists-slides.html) |
 | [15 · 파이썬 기초 4 (딕셔너리)](./15-python-dict) | 파&#8288;이&#8288;썬 | 키로 값을 찾고 바꾸는 딕셔너리를 다뤄요 | `{키: 값}` `menu["latte"]` `get` `del` `items()` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/15-python-dict/python-dict-slides.html) |
+| [16 · 파이썬 기초 5 (집합)](./16-python-sets) | 파&#8288;이&#8288;썬 | 중복을 없애고 두 목록에서 겹치는 값을 찾아요 | `set()` `add` `discard` `\|` `&` `-` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/16-python-sets/python-sets-slides.html) |
 
 <!-- /curriculum:chapters -->
 
@@ -69,7 +70,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | Windows | Git Bash | [Git for Windows](https://git-scm.com/download/win)를 설치하면 함께 설치 |
 | Linux | 기본 터미널 | 기본 설치 |
 
-슬라이드의 출력은 bash 5.2, GNU coreutils 9.4, git 2.43, uv 0.11.32(Python 3.14), gh 2.89.0에서 실제로 실행한 결과예요. 커밋 해시는 실행할 때마다 달라요.
+슬라이드의 출력은 bash 5.2, GNU coreutils 9.4, git 2.43, uv 0.11.32(Python 3.14), gh 2.89.0에서 실제로 실행한 결과예요. 커밋 해시와 집합(set)을 찍은 순서는 실행할 때마다 달라요.
 
 ## 과정 규칙
 
