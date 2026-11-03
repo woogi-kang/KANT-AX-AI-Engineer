@@ -47,6 +47,9 @@ run([MENUS + '\nmenus.add("tea")\nprint(menus)\nmenus.add("coffee")\nprint(menus
      MENUS + '\nprint("latte" in menus)\nprint("tea" in menus)\nprint("tea" not in menus)',
      'menus[0]',
      'print(sorted(menus))\nprint(sorted(menus)[0])\nprint(list(menus))',
+     'menus.sort()',
+     'nums = {30, 10, 20}\nprint(sorted(nums))\nprint(sorted(nums, reverse=True))\nprint(sorted(menus, reverse=True))\nprint(type(sorted(menus)))\nprint(menus)',
+     'orders = ["tea", "cake", "tea", "coffee", "cake"]\nprint(sorted(set(orders)))',
      'for m in menus:\n    print(m)',
      'for m in sorted(menus):\n    print(m)'], seed=22)
 print("=== 3. 집합 연산")

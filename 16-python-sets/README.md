@@ -42,10 +42,10 @@
 | --- | :---: | --- |
 | 들어가기 | 1–3 | 표지, 오늘의 순서, `basics.ipynb` 다시 열기 |
 | 1. 집합이 뭔가요 | 4–12 | 같은 값은 한 번만 담는 주머니, 리스트·튜플·딕셔너리·집합 비교, `{3, 1, 2, 3}`과 `type` `len`, 순서가 없어서 커널마다 다르게 찍히는 `print`와 `sorted()`, `set(리스트)`로 중복 없애기, 같은 일을 `for`와 `add`로 길게 쓰기(참고: 리스트와 `if`로 쓰는 원래 방법), `set("banana")` 함정, 빈 집합 `set()`, 담을 수 있는 값과 `unhashable type: 'list'` |
-| 2. 바꾸고 확인하기 | 13–19 | `add`, `remove`와 `discard`(참고: `if`로 길게 쓰면), `update`, 아무거나 빼는 `pop`과 `clear`, `in`과 `not in`, 번호로 못 꺼내기(`TypeError`)와 `sorted(menus)[0]`, `for m in menus:`와 `for m in sorted(menus):` |
-| 3. 집합 연산 | 20–25 | 벤 다이어그램, 합집합 `a \| b`, 교집합 `a & b`, 차집합 `a - b`와 `b - a`, `union` `intersection` `difference`, 연산 뒤에도 그대로인 `a`와 `b`, 세 기호를 `for`로 길게 쓰면 |
-| 4. 실습 | 26–31 | 하루 주문에서 팔린 메뉴 종류와 잔 수, 두 반을 다 듣는 사람과 한쪽만 듣는 사람, 메뉴판에 없는 주문 찾기, 팔 수 있는 주문만 계산하기, 무엇에 담을지 고르기, 자주 나는 오류 |
-| 정리 | 32–33 | 막힐 때, 한 장 요약 |
+| 2. 바꾸고 확인하기 | 13–20 | `add`, `remove`와 `discard`(참고: `if`로 길게 쓰면), `update`, 아무거나 빼는 `pop`과 `clear`, `in`과 `not in`, 번호로 못 꺼내기(`TypeError`)와 `sorted(menus)[0]`, 집합에는 없는 `sort()`(`AttributeError`)와 `sorted(nums, reverse=True)`, `sorted(set(orders))`, `for m in menus:`와 `for m in sorted(menus):` |
+| 3. 집합 연산 | 21–26 | 벤 다이어그램, 합집합 `a \| b`, 교집합 `a & b`, 차집합 `a - b`와 `b - a`, `union` `intersection` `difference`, 연산 뒤에도 그대로인 `a`와 `b`, 세 기호를 `for`로 길게 쓰면 |
+| 4. 실습 | 27–32 | 하루 주문에서 팔린 메뉴 종류와 잔 수, 두 반을 다 듣는 사람과 한쪽만 듣는 사람, 메뉴판에 없는 주문 찾기, 팔 수 있는 주문만 계산하기, 무엇에 담을지 고르기, 자주 나는 오류 |
+| 정리 | 33–34 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -140,6 +140,17 @@ print("cake" in menus)         # True
 print("latte" not in menus)    # True
 ```
 
+집합에는 리스트의 `sort()`가 없어서 `menus.sort()`는 `AttributeError`가 나요. 대신 새 리스트를 주는 `sorted()`를 써요.
+
+```python
+nums = {30, 10, 20}
+print(sorted(nums))                  # [10, 20, 30]
+print(sorted(nums, reverse=True))    # [30, 20, 10]
+print(type(sorted(nums)))            # <class 'list'>
+orders = ["tea", "cake", "tea", "coffee", "cake"]
+print(sorted(set(orders)))           # ['cake', 'coffee', 'tea']
+```
+
 ```python
 for m in sorted(menus):
     print(m)
@@ -160,7 +171,7 @@ print(a - b)     # {1, 2}
 print(b - a)     # {5, 6}
 ```
 
-`a | b`를 길게 쓰면 이렇게 돼요. `a & b`, `a - b`를 길게 쓰려면 아직 배우지 않은 `if`가 필요해서 슬라이드 25쪽에서 읽기만 해요.
+`a | b`를 길게 쓰면 이렇게 돼요. `a & b`, `a - b`를 길게 쓰려면 아직 배우지 않은 `if`가 필요해서 슬라이드 26쪽에서 읽기만 해요.
 
 ```python
 c = set(a)
@@ -224,7 +235,9 @@ print(f"합계 {total:,}원")
 | `s.pop()` `s.clear()` | 아무거나 하나 빼기, 모두 비우기 |
 | `값 in s`, `값 not in s` | 들어 있는지 묻기 |
 | `len(s)` | 값의 개수 |
-| `sorted(s)` | abc 순서로 줄 세운 리스트 |
+| `sorted(s)` | abc 순서로 줄 세운 리스트. 집합에는 `sort()`가 없어요 |
+| `sorted(s, reverse=True)` | 큰 것부터 줄 세운 리스트 |
+| `sorted(set(리스트))` | 중복을 없애고 줄 세운 리스트 |
 | `a \| b` `a & b` `a - b` | 합집합, 교집합, 차집합 |
 | `a.union(b)` `a.intersection(b)` `a.difference(b)` | 위 세 연산의 이름 버전 |
 
@@ -234,6 +247,7 @@ print(f"합계 {total:,}원")
 | --- | --- |
 | `AttributeError: 'dict' object has no attribute 'add'` | 빈 집합을 `{}`로 만들었어요. `{}`는 빈 딕셔너리예요. `set()`으로 만들어요 |
 | `TypeError: 'set' object is not subscriptable` | 집합에 번호를 붙였어요. `sorted(menus)[0]`처럼 리스트로 바꾼 뒤 꺼내요 |
+| `AttributeError: 'set' object has no attribute 'sort'` | 집합에 `sort()`를 썼어요. `sorted(menus)`로 줄 세운 리스트를 받아요 |
 | `KeyError: 'juice'` | 없는 값을 `remove`했어요. 있는지 모르면 `discard`를 써요 |
 | `TypeError: unhashable type: 'list'` | 집합이나 딕셔너리 키에 리스트를 넣었어요. 바뀌지 않는 튜플로 바꿔요 |
 | `{'b', 'a', 'n'}`처럼 글자만 나와요 | `set()`에 문자열을 넣었어요. 단어 하나는 `{"banana"}`로 적어요 |
@@ -272,7 +286,7 @@ node ../tools/export.js slides python-sets-slides.pdf
 
 글자를 담은 집합은 커널마다 찍히는 순서가 달라요. 다시 만들어도 같은 출력이 나오도록 `run_nb.py`가 커널마다 `PYTHONHASHSEED`를 고정해요(파트 실행은 22, 7쪽의 다시 실행 예시는 13). 22는 순서가 abc 순서나 적은 순서와 다르게 나오는 값으로 골랐어요. 수업에서는 수강생 화면의 순서가 다르다고 질문이 나오면 7쪽을 보여 줘요. 16쪽 `pop()`의 결과도 실행할 때마다 달라요.
 
-9쪽과 25쪽, 13쪽 아래 칸은 줄여 쓴 기능을 원래 긴 코드와 나란히 보여 줘요. `if`가 없는 긴 코드(`for`와 `add`)는 셀로 실행하고, `if`가 필요한 코드는 점선 "참고" 칸에 넣어 읽기만 하게 했어요. 참고 코드도 `run_nb.py`의 마지막 실행에서 실제로 돌린 결과예요.
+9쪽과 26쪽, 13쪽 아래 칸은 줄여 쓴 기능을 원래 긴 코드와 나란히 보여 줘요. `if`가 없는 긴 코드(`for`와 `add`)는 셀로 실행하고, `if`가 필요한 코드는 점선 "참고" 칸에 넣어 읽기만 하게 했어요. 참고 코드도 `run_nb.py`의 마지막 실행에서 실제로 돌린 결과예요.
 
 범위는 처음 제안한 여섯 묶음에 for, `pop` `clear` `update`, 메서드 이름 버전, 문자열 함정, 담을 수 있는 값, 무엇에 담을지 고르기를 더했어요. 대칭차집합 `^`, `issubset`, frozenset은 다루지 않아요. `if`는 아직 배우지 않아서 실습도 `&`로 먼저 걸러서 풀었어요. 세 연산은 결과가 늘 작은 수부터 찍히는 숫자 집합으로 먼저 보여 주고, 4파트에서 메뉴와 이름으로 넘어가요.
 
