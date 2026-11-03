@@ -591,9 +591,23 @@ o.append(note_card(96, 640, 860, 230, "15의 keys()와 같아요", "list()로 �
 o.append(caption("번호가 필요하면 sorted()로 줄 세운 리스트를 써요.", 920))
 W("s-noindex", o, "집합에 menus[0]처럼 번호를 붙이면 TypeError가 나요. subscriptable은 대괄호로 꺼낼 수 있다는 뜻인데, 집합은 칸 번호가 없어서 안 돼요. 꼭 번호로 꺼내야 하면 리스트로 바꿔요. sorted()는 abc 순서로 줄 세운 리스트를 줘서 [0]이 늘 cake예요. list()도 리스트를 주지만 집합이 찍히던 순서를 그대로 따라서 실행할 때마다 다를 수 있어요. 15에서 keys()에 번호를 붙이려고 list()로 바꾼 것과 같은 방법이에요." + REAL)
 
+o = [sec("s-sort")] + head(EB2, "집합에는 sort()가 없어요. sorted()를 써요", K2)
+o += cell({"id": "c-so1", "lines": ["menus.sort()"], "n": 11, "out": ["AttributeError: 'set' object has no attribute 'sort'"], "err": True}, 96, 200, 860, sel="c-so1")
+o += cell({"id": "c-so2", "lines": ["nums = {30, 10, 20}", "print(sorted(nums))", "print(sorted(nums, reverse=True))", "print(sorted(menus, reverse=True))", "print(type(sorted(menus)))", "print(menus)"], "n": 12,
+           "out": ["[10, 20, 30]", "[30, 20, 10]", "['latte', 'coffee', 'cake']", "<class 'list'>", "{'latte', 'cake', 'coffee'}"]}, 96, 340, 860, attrs=' data-build-in="rise order 2"')
+o.append(warn(1010, 200, 814, 190, "sort()는 리스트에만 있어요", "13의 리스트 sort()는 리스트 자리를 바꿔 줄 세워요. 집합은 자리가 없어서 sort()가 없어요.", ' data-build-in="rise order 1"'))
+o.append(note_card(1010, 410, 814, 210, "sorted()는 새 리스트를 줘요", "작은 것부터, reverse=True면 큰 것부터예요. 결과는 리스트이고 menus는 그대로 집합이에요.", GR, ' data-build-in="rise order 2"'))
+o.append(label("중복 없애고 줄 세우기", 1010, 650, K2, ' data-build-in="fade order 3"', 814, 24))
+o += cell({"id": "c-so3", "lines": ['orders = ["tea", "cake", "tea", "coffee", "cake"]', "print(sorted(set(orders)))"], "n": 13, "out": ["['cake', 'coffee', 'tea']"]}, 1010, 694, 814, attrs=' data-build-in="rise order 3"')
+i3 = next(i for i, x in enumerate(o) if 'id="c-so3"' in x)
+o = o[:i3] + [x.replace("font-size:26px;line-height:1.45", "font-size:22px;line-height:1.45") for x in o[i3:]]
+o = [x.replace("font-size:26px;line-height:1.45;white-space:pre;color:#A33131", "font-size:22px;line-height:1.45;white-space:pre;color:#A33131") for x in o]
+o.append(caption("set()으로 중복을 없애고 sorted()로 줄 세우면 깔끔한 목록이 돼요.", 920))
+W("s-sort", o, "13에서 리스트는 sort()로 제자리 정렬을 했어요. 집합에 sort()를 쓰면 AttributeError가 나요. 집합에는 자리가 없어서 자리를 바꿔 줄 세우는 sort()가 없기 때문이에요. 대신 sorted()를 써요. sorted()는 집합을 그대로 두고, 줄 세운 새 리스트를 돌려줘요. 13에서 본 reverse=True를 넣으면 큰 것부터, 글자는 z 쪽부터예요. type으로 보면 결과는 list이고, menus는 여전히 집합이에요. 실제로 가장 많이 쓰는 모양은 sorted(set(orders))예요. 겹친 주문을 없애고 abc 순서로 줄 세운 목록이 한 줄에 나와요." + REAL)
+
 o = [sec("s-for")] + head(EB2, "for로 하나씩 꺼낼 수 있어요", K2)
-o += cell({"id": "c-f1", "lines": ["for m in menus:", "    print(m)"], "n": 11, "out": ["latte", "cake", "coffee"]}, 96, 200, 820, sel="c-f1")
-o += cell({"id": "c-f2", "lines": ["for m in sorted(menus):", "    print(m)"], "n": 12, "out": ["cake", "coffee", "latte"]}, 1004, 200, 820, attrs=' data-build-in="rise order 2"')
+o += cell({"id": "c-f1", "lines": ["for m in menus:", "    print(m)"], "n": 14, "out": ["latte", "cake", "coffee"]}, 96, 200, 820, sel="c-f1")
+o += cell({"id": "c-f2", "lines": ["for m in sorted(menus):", "    print(m)"], "n": 15, "out": ["cake", "coffee", "latte"]}, 1004, 200, 820, attrs=' data-build-in="rise order 2"')
 o.append(note_card(96, 480, 820, 260, "순서는 정해져 있지 않아요", "주머니에서 손에 잡히는 대로 하나씩 꺼내요. 개수 세기나 합계처럼 순서가 상관없는 일에 그대로 써요.", OR, ' data-build-in="rise order 1"'))
 o.append(note_card(1004, 480, 820, 260, "순서가 필요하면 sorted()", "sorted()로 줄 세운 리스트를 for에 넣어요. 화면에 찍을 때는 이쪽이 읽기 좋아요.", GR, ' data-build-in="rise order 2"'))
 o.append(f'<div data-build-in="rise order 3" style="position:absolute;left:96px;top:770px;width:1728px;height:110px;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:0 30px;display:flex;flex-direction:row;align-items:center;gap:24px">'
@@ -770,7 +784,7 @@ W("cheatsheet", o, "이번 챕터에서 쓴 코드를 한 장에 모았어요. �
 # ---------- toc ----------
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 parts = [("Archive", K1, "집합이 뭔가요", "중복 없는 주머니, 네 그릇 비교, { }로 만들기, 순서 없음과 sorted(), set(리스트)와 긴 방법, 문자열 함정, 빈 집합 set(), 담을 수 있는 값", "s-why", "s-hash"),
-         ("Wrench", K2, "바꾸고 확인하기", "add, remove와 discard, update, pop과 clear, in, 번호로 못 꺼내기, for", "s-add", "s-for"),
+         ("Wrench", K2, "바꾸고 확인하기", "add, remove와 discard, update, pop과 clear, in, 번호로 못 꺼내기, sort 대신 sorted(), for", "s-add", "s-for"),
          ("Activity", K3, "집합 연산", "벤 다이어그램, 합집합 |, 교집합 &, 차집합 -, union, intersection, difference, for로 길게 쓰면", "s-venn", "s-long2"),
          ("Database", K4, "실습", "팔린 메뉴 종류, 두 반 명단, 메뉴판에 없는 주문, 무엇에 담을지, 오류", "x-kinds", "x-err")]
 TOC_NOTE = "네 파트로 나눴어요. 1파트는 집합이 무엇인지 그림으로 잡고, 2파트는 값을 넣고 빼고 확인해요. 3파트는 원 두 개로 집합 연산을 보고, 4파트는 앞에서 배운 것을 섞어 실제 주문과 명단을 정리해요. 파트마다 새 커널에서 위에서부터 차례로 실행해요."
