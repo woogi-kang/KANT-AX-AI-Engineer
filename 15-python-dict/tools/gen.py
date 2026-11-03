@@ -353,6 +353,23 @@ o.append(card(984, 600, 840, 260, mono('menu.get("tea", 0)', 28, GR, "#E6F4EC", 
 o.append(caption("None은 '값이 없어요'를 뜻하는 파이썬 값이에요.", 920))
 W("d-get", o, "get은 대괄호 꺼내기와 비슷하지만, 없는 키를 물어도 오류가 나지 않아요. 키가 있으면 값을 돌려주고, 없으면 None을 돌려줘요. None은 값이 없다는 뜻의 파이썬 값이에요. 괄호 안에 쉼표 뒤로 값을 하나 더 적으면, 키가 없을 때 None 대신 그 값을 돌려줘요. 가격이나 개수처럼 숫자를 다룰 때는 0을 많이 적어요. 키가 꼭 있어야 하는 곳은 대괄호, 없을 수도 있는 곳은 get을 써요. 실제로 쓰는 곳은 3파트 끝에서 봐요. 출력은 실제로 실행한 결과예요.")
 
+o = [sec("d-short")] + head(EB1, "get은 긴 코드를 한 줄로 줄인 거예요", K1)
+o += cell({"id": "c-s1", "lines": ['print(menu["cakee"] if "cakee" in menu else 5000)', 'print(menu.get("cakee", 5000))', 'print(menu["cake"] if "cake" in menu else 5000)', 'print(menu.get("cake", 5000))'], "n": 7,
+           "out": ["5000", "5000", "6500", "6500"]}, 96, 200, 1100, sel="c-s1")
+o.append(card(1240, 200, 584, 336, p(f"font-size:26px;font-weight:700;color:{INK}", "같은 뜻이에요")
+              + p(f"font-size:21px;font-weight:700;color:{GRAY}", "참고 · 원래 긴 방법")
+              + mono('menu["cakee"] if "cakee" in menu else 5000', 18, GRAY, "#EEEFF2", "align-self:flex-start")
+              + p(f"font-size:21px;font-weight:700;color:{K1}", "줄인 방법")
+              + mono('menu.get("cakee", 5000)', 24, K1, K1BG, "align-self:flex-start")
+              + p(f"font-size:20px;line-height:1.4;color:{SUB}", "if는 나중에 배워요. 지금은 읽기만 해요"), None, ' data-build-in="rise order 1"', "gap:10px;padding:20px 26px"))
+o += cell({"id": "c-s2", "lines": ['sale = {"cake": None}', 'print(sale.get("cake", 5000))', 'print(sale.get("cakee", 5000))'], "n": 8, "out": ["None", "5000"]}, 96, 590, 840, attrs=' data-build-in="rise order 2"')
+sh = [('sale.get("cake", 5000)', "None", "키는 있어요. 값이 None이어도 그대로 줘요"), ('sale.get("cakee", 5000)', "5000", "키가 없을 때만 기본값을 줘요")]
+o.append(card(984, 590, 840, 290, p(f"font-size:26px;font-weight:700;color:{INK}", "기본값은 키가 없을 때만 써요")
+              + "".join('<div style="display:flex;flex-direction:row;align-items:center;gap:14px">' + mono(k, 22, K1, K1BG) + p(f"font-family:{MONO};font-size:22px;font-weight:700;color:{INK}", r) + '</div>'
+                        + p(f"font-size:21px;color:{SUB};margin-top:-6px", e(d)) for k, r, d in sh), RED, ' data-build-in="rise order 3"', "gap:12px;padding:20px 26px"))
+o.append(caption("get은 '키가 있으면 꺼내고, 없으면 기본값'을 한 줄로 줄인 거예요.", 920))
+W("d-short", o, "파이썬에는 자주 쓰는 긴 코드를 줄여 둔 메서드가 많아요. get도 그중 하나예요. 원래는 키가 menu에 있는지 in으로 묻고, 있으면 대괄호로 꺼내고, 없으면 5000을 쓰는 코드를 써야 해요. if와 else는 나중에 배우니 지금은 이런 뜻이라고 읽기만 해요. cakee는 오타라 키가 없어서 두 줄 모두 5000, cake는 키가 있어서 두 줄 모두 6500이에요. 주의할 점이 하나 있어요. get의 기본값은 키가 없을 때만 써요. sale처럼 cake 키가 있고 값이 None이면 None이 그대로 나와요. 출력은 실제로 실행한 결과예요.")
+
 # ---------- part 2: change ----------
 o = [sec("d-add")] + head(EB2, "없는 키면 추가, 있는 키면 수정이에요", K2)
 o += cell({"id": "c-a", "lines": [MENU, 'menu["tea"] = 4000', "print(menu)", 'menu["latte"] = 5500', "print(menu)", "print(len(menu))"], "n": 1,
@@ -604,7 +621,7 @@ W("cheatsheet", o, "이번 챕터에서 쓴 코드를 한 장에 모았어요. �
 
 # ---------- toc ----------
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
-parts = [("Key", K1, "만들고 꺼내기", "번호 대신 키로 찾기, { 키: 값 }, [키]로 꺼내기, KeyError와 get", "d-why", "d-get"),
+parts = [("Key", K1, "만들고 꺼내기", "번호 대신 키로 찾기, { 키: 값 }, [키]로 꺼내기, KeyError와 get, get이 줄인 긴 코드", "d-why", "d-short"),
          ("Wrench", K2, "바꾸고 지우기", "추가와 수정, 키는 겹치지 않기, del과 pop, 키를 보는 in", "d-add", "d-in"),
          ("Search", K3, "둘러보기", "keys, values, items, list()로 바꿔 번호로 꺼내기, for로 한 쌍씩, sum과 sorted, get을 쓰는 곳(기본값, 개수 세기)", "d-views", "d-count"),
          ("Database", K4, "리스트와 섞기", "값이 리스트인 딕셔너리, 딕셔너리 리스트, 영수증, 메뉴판에서 가격 찾기, 오류", "x-listval", "x-err")]
