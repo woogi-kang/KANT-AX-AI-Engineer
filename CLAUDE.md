@@ -31,6 +31,7 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
   - 번외 README 맨 위 표는 슬라이드, 관련 챕터, 번외 목록 세 칸이에요.
   - 새 번외는 `curriculum.json`의 `extras`에 한 줄 더하고 `python3 tools/build_readme.py`를 쳐요. 맨 위 README의 "번외" 표와 `extras/README.md` 표가 같이 바뀌어요. 커리큘럼 표에는 넣지 않아요.
   - 번외도 수업 규칙과 배포 전 점검을 똑같이 따라요. 아직 안 배운 명령은 관련 챕터를 밝히고 써요.
+- 학생에게 알릴 변경(플레이어 조작, 여러 덱에 걸친 수정)은 업데이트 로그로 남겨요. `updates/날짜-주제/README.md`에 실제 덱 스크린샷(`img/`)과 같이 쓰고, 찍는 스크립트는 그 폴더 `tools/`에 둬요. `updates/README.md` 표와 맨 위 README "업데이트 로그" 표에 최신을 맨 위로 한 줄씩 더해요.
 - 챕터와 번외 목록은 `curriculum.json` 한 곳에서만 고쳐요. `python3 tools/build_readme.py`가 맨 위 커리큘럼 표, 번외 표, 챕터 README 맨 위 표와 맨 아래 이동 링크를 만들어요. 만든 내용은 `<!-- curriculum:이름 -->`과 `<!-- /curriculum:이름 -->` 사이에만 들어가요. 그 사이를 README에서 직접 고치지 않아요. 올리기 전에 `python3 tools/build_readme.py --check`가 조용히 끝나는지 봐요.
 - 커리큘럼 표는 챕터, 분류, 한 줄 목표, 핵심 명령, 슬라이드 다섯 칸이에요. 분류는 터미널, Git, GitHub, 파이썬 중 하나예요. 한 줄 목표는 "~해요"로 끝나는 한 문장이에요. 핵심 명령은 다섯 개 안팎만 적고, 나머지는 챕터 README 명령어 요약에 적어요.
 - 새 챕터 README는 `templates/chapter-README.md`를 복사해서 시작해요. 절 순서는 학습 목표, 시작하기 전에, 구성, 핵심 개념, 실습, 명령어 요약, 문제 해결, 강사용이에요.
