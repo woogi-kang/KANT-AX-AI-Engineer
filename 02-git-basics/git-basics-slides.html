@@ -16,17 +16,16 @@ html,body{margin:0;height:100%;background:#0E1117;overflow:hidden;font-family:'N
 #pl-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
 #pl-stage>section{position:absolute;left:0;top:0;visibility:hidden}
 #pl-stage>section.on{visibility:visible}
-body.edge #pl-stage{cursor:pointer}
 [data-build-in]{transition:opacity .45s ease,transform .45s ease}
 .pending{opacity:0!important}
 .pending.rise{transform:translateY(40px)!important}
 .pending.pop{transform:scale(.85)!important}
-.hint{position:fixed;top:0;bottom:0;width:15%;display:flex;align-items:center;pointer-events:none;opacity:0;transition:opacity .2s}
-.hint span{width:56px;height:56px;flex:none;border-radius:50%;background:rgba(14,17,23,.6);display:flex;align-items:center;justify-content:center}
+.hint{position:fixed;top:50%;width:56px;height:56px;margin-top:-28px;padding:0;border:0;border-radius:50%;background:rgba(14,17,23,.6);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .2s,background .2s}
 .hint svg{display:block;width:24px;height:24px}
-#pl-hl{left:0;justify-content:flex-start;padding-left:20px;background:linear-gradient(90deg,rgba(14,17,23,.18),transparent)}
-#pl-hr{right:0;justify-content:flex-end;padding-right:20px;background:linear-gradient(270deg,rgba(14,17,23,.18),transparent)}
-body.edge-l #pl-hl,body.edge-r #pl-hr{opacity:1}
+#pl-hl{left:20px}
+#pl-hr{right:20px}
+body:hover .hint{opacity:.7}
+body:hover .hint:hover{opacity:1;background:rgba(14,17,23,.85)}
 #pl-copy{position:fixed;display:none;transform:translateX(-100%);padding:6px 12px;border:1px solid #C9CED8;border-radius:8px;background:#FFFFFF;color:#1D2330;font:500 14px 'Noto Sans KR',Arial,sans-serif;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
 #pl-copy.done{background:#1F8A4C;border-color:#1F8A4C;color:#FFFFFF}
 #pl-toast{position:fixed;left:50%;top:24px;transform:translateX(-50%);padding:10px 20px;border-radius:10px;background:rgba(14,17,23,.9);color:#FFFFFF;font-size:18px;opacity:0;transition:opacity .2s;pointer-events:none}
@@ -2484,7 +2483,7 @@ body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
 <aside>수업 끝에 이 장을 띄워 두고, 지금 내 파일이 몇 번 칸에 있는지 학생이 직접 말해 보게 하세요. 막히면 git status, GitHub과 비교할 땐 fetch 후 git log --oneline. 이 두 가지만 기억해도 대부분 풀려요.</aside>
 </section>
 </div>
-<div id="pl-hl" class="hint"><span><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></span></div><div id="pl-hr" class="hint"><span><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></span></div>
+<button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
 <button id="pl-copy"></button>
 <div id="pl-toast"></div>
 <div id="pl-notes"></div>
@@ -2548,6 +2547,8 @@ function show(n,dir){
 }
 function next(){if(animOn&&step<steps[cur].length){step++;seen[cur]=Math.max(seen[cur],step);setBuild(cur,step,true);update();}else show(cur+1,1);}
 function prev(){show(cur-1,-1);}
+// the on-screen arrows turn the page at once, without stepping through the builds left on this slide
+function nextPage(){show(cur+1,1);}
 function go(n){n=Math.max(0,Math.min(slides.length-1,n));if(n!==cur)show(n,n<cur?-1:1);}
 function update(){
   $('pl-count').textContent=(cur+1)+' / '+slides.length;
@@ -2582,17 +2583,9 @@ addEventListener('keydown',e=>{
   else if(e.key==='a'||e.key==='A')setAnim(!animOn);
   else if(e.key==='f'||e.key==='F')fullscreen();
 });
-// Mouse: only a plain click near the left or right edge turns the page.
-// Clicks in the middle, drags and clicks that end a text selection do nothing, so text can be selected and copied.
-const EDGE=.15;
-function zone(x){return x<innerWidth*EDGE?-1:x>innerWidth*(1-EDGE)?1:0;}
-let down=null;
-stage.addEventListener('mousedown',e=>{down={x:e.clientX,y:e.clientY,sel:String(getSelection())!==''};});
-stage.addEventListener('click',e=>{
-  const d=down;down=null;
-  if(!d||d.sel||Math.hypot(e.clientX-d.x,e.clientY-d.y)>5||String(getSelection())!=='')return;
-  const z=zone(e.clientX);if(z<0)prev();else if(z>0)next();
-});
+// Mouse: only the left and right arrow buttons turn the page. Clicks on the slide itself do nothing,
+// so text can be selected and copied anywhere.
+$('pl-hl').onclick=prev;$('pl-hr').onclick=nextPage;
 // Copy button on code blocks: boxes whose text lines are all monospace.
 // Terminal blocks copy only the commands after "$ ", other blocks copy every line.
 const isMono=el=>/JetBrains/.test(getComputedStyle(el).fontFamily);
@@ -2624,10 +2617,7 @@ function showCopy(el){
 }
 addEventListener('mousemove',e=>{
   const t=e.target;
-  const onUi=t.closest&&t.closest('#pl-bar,#pl-notes,#pl-copy');
-  const z=onUi?0:zone(e.clientX);
-  document.body.classList.toggle('edge',z!==0);
-  document.body.classList.toggle('edge-l',z<0);document.body.classList.toggle('edge-r',z>0);
+  const onUi=t.closest&&t.closest('#pl-bar,#pl-notes,#pl-copy,.hint');
   if(t===copyBtn)return;
   // find the box by position, because drawings placed over a box can be the event target
   let c=null,area=Infinity;
@@ -2638,7 +2628,6 @@ addEventListener('mousemove',e=>{
   }
   if(c)showCopy(c);else hideCopy();
 });
-document.addEventListener('mouseleave',()=>{document.body.classList.remove('edge','edge-l','edge-r');});
 async function writeClip(text){
   try{await navigator.clipboard.writeText(text);return true;}catch(e){}
   const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
