@@ -34,6 +34,7 @@ def main():
     check = "--check" in sys.argv
     data = json.loads((ROOT / "curriculum.json").read_text(encoding="utf-8"))
     pages, chapters, extras = data["pages"], data["chapters"], data["extras"]
+    updates = data.get("updates", [])
     by_dir = {c["dir"]: c for c in chapters}
     out = {}
 
@@ -69,6 +70,20 @@ def main():
     ]
     edit("README.md", ("chapters", "\n".join(rows)), ("extras", "\n".join(extra_rows("./extras/"))))
     edit("extras/README.md", ("extras", "\n".join(extra_rows("./"))))
+
+    # 릴리스 노트: 맨 위 README에는 최근 3개, updates/README.md에는 전부 (최신이 위)
+    for u in updates:
+        if not (ROOT / "updates" / u["dir"] / "README.md").exists():
+            raise SystemExit(f"파일이 없어요: updates/{u['dir']}/README.md")
+    news = sorted(updates, key=lambda u: u["date"], reverse=True)
+    note_rows = lambda items, prefix: [
+        f"| {nobreak('날짜')} | 릴리스 노트 | 바뀐 점 |",
+        "| --- | --- | --- |",
+    ] + [f"| {u['date']} | [{u['title']}]({prefix}{u['dir']}) | {u['summary']} |" for u in items]
+    edit("README.md", ("updates", "\n".join(note_rows(news[:3], "./updates/") + ["", "지난 릴리스 노트는 [전체 목록](./updates)에서 봐요."])))
+    edit("updates/README.md", ("updates", "\n".join(note_rows(news, "./"))))
+    for u in updates:
+        edit(f"updates/{u['dir']}/README.md", ("nav", "[릴리스 노트 목록](../README.md) · [커리큘럼](../../README.md)"))
 
     # 챕터 README: 맨 위 표와 맨 아래 이동 링크
     for i, c in enumerate(chapters):
