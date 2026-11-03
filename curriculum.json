@@ -45,7 +45,10 @@
      "commands": "`in` `not in` `scores[1][2]` `len(scores[0])`", "slides": "python-2d-lists-slides.html"},
     {"dir": "15-python-dict", "title": "파이썬 기초 4 (딕셔너리)", "track": "파이썬",
      "goal": "키로 값을 찾고 바꾸는 딕셔너리를 다뤄요",
-     "commands": "`{키: 값}` `menu[\"latte\"]` `get` `del` `items()`", "slides": "python-dict-slides.html"}
+     "commands": "`{키: 값}` `menu[\"latte\"]` `get` `del` `items()`", "slides": "python-dict-slides.html"},
+    {"dir": "16-python-sets", "title": "파이썬 기초 5 (집합)", "track": "파이썬",
+     "goal": "중복을 없애고 두 목록에서 겹치는 값을 찾아요",
+     "commands": "`set()` `add` `discard` `|` `&` `-`", "slides": "python-sets-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

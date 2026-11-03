@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/15-python-dict/python-dict-slides.html) | [14 · 파이썬 기초 3 (in, 2차원 리스트)](../14-python-2d-lists) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/15-python-dict/python-dict-slides.html) | [14 · 파이썬 기초 3 (in, 2차원 리스트)](../14-python-2d-lists) | [16 · 파이썬 기초 5 (집합)](../16-python-sets) |
 
 <!-- /curriculum:top -->
 
@@ -265,6 +265,6 @@ node ../tools/export.js slides python-dict-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 14 · 파이썬 기초 3 (in, 2차원 리스트)](../14-python-2d-lists) · [커리큘럼](../README.md)
+[← 이전: 14 · 파이썬 기초 3 (in, 2차원 리스트)](../14-python-2d-lists) · [커리큘럼](../README.md) · [다음: 16 · 파이썬 기초 5 (집합) →](../16-python-sets)
 
 <!-- /curriculum:nav -->
