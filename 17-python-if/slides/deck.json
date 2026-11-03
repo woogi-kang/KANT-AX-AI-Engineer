@@ -1,0 +1,92 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-03T03:00:00Z"
+  },
+  "lists": "css",
+  "title": "제어문 1 (조건문 if)",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "i-why",
+    "i-big",
+    "i-min",
+    "i-bool",
+    "i-false",
+    "i-indent",
+    "i-else",
+    "i-elif",
+    "i-order",
+    "i-ifif",
+    "i-and",
+    "i-nested",
+    "i-or",
+    "i-not",
+    "i-range",
+    "i-truthy",
+    "i-empty",
+    "f-pick",
+    "f-count",
+    "f-dict",
+    "f-oneline",
+    "f-get",
+    "f-set",
+    "e-eq",
+    "e-colon",
+    "e-or",
+    "e-type",
+    "x-sale",
+    "x-grade",
+    "x-receipt",
+    "x-choose",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "참과 거짓으로 길 고르기",
+      "start": "i-why"
+    },
+    "p2": {
+      "description": "if, else, elif",
+      "start": "i-false"
+    },
+    "p3": {
+      "description": "조건 합치기",
+      "start": "i-and"
+    },
+    "p4": {
+      "description": "for와 함께, 줄여 쓰기",
+      "start": "f-pick"
+    },
+    "p5": {
+      "description": "자주 나는 오류",
+      "start": "e-eq"
+    },
+    "p6": {
+      "description": "실습",
+      "start": "x-sale"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

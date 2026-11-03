@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/16-python-sets/python-sets-slides.html) | [15 · 파이썬 기초 4 (딕셔너리)](../15-python-dict) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/16-python-sets/python-sets-slides.html) | [15 · 파이썬 기초 4 (딕셔너리)](../15-python-dict) | [17 · 제어문 1 (조건문 if)](../17-python-if) |
 
 <!-- /curriculum:top -->
 
@@ -296,6 +296,6 @@ node ../tools/export.js slides python-sets-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 15 · 파이썬 기초 4 (딕셔너리)](../15-python-dict) · [커리큘럼](../README.md)
+[← 이전: 15 · 파이썬 기초 4 (딕셔너리)](../15-python-dict) · [커리큘럼](../README.md) · [다음: 17 · 제어문 1 (조건문 if) →](../17-python-if)
 
 <!-- /curriculum:nav -->

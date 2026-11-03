@@ -1,0 +1,91 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-03T03:00:00Z"
+  },
+  "lists": "css",
+  "title": "제어문 2 (반복 제어 while, break)",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "w-why",
+    "w-big",
+    "w-min",
+    "r-range",
+    "r-step",
+    "r-for",
+    "r-index",
+    "r-enum",
+    "w-shape",
+    "w-trace",
+    "w-inf",
+    "w-vs",
+    "b-break",
+    "b-continue",
+    "b-jump",
+    "b-long",
+    "b-true",
+    "a-sum",
+    "a-count",
+    "a-max",
+    "n-gugu",
+    "n-2d",
+    "n-break",
+    "t-remove",
+    "t-indent",
+    "t-range",
+    "x-stock",
+    "x-soldout",
+    "x-gugu",
+    "x-guess",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "w-why"
+    },
+    "p2": {
+      "description": "range와 번호",
+      "start": "r-range"
+    },
+    "p3": {
+      "description": "while",
+      "start": "w-shape"
+    },
+    "p4": {
+      "description": "break와 continue",
+      "start": "b-break"
+    },
+    "p5": {
+      "description": "쌓기와 겹친 반복",
+      "start": "a-sum"
+    },
+    "p6": {
+      "description": "함정과 실습",
+      "start": "t-remove"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
