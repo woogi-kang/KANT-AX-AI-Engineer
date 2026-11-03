@@ -54,5 +54,9 @@
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
      "summary": "탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기",
      "slides": "terminal-path-help-slides.html"}
+  ],
+  "updates": [
+    {"dir": "2026-11-03-slide-player", "date": "2026-11-03", "title": "슬라이드 보는 방법이 개선되었어요",
+     "summary": "양쪽 끝 클릭으로 넘기기, 코드 복사 버튼, 이전 장으로 돌아가면 완성된 화면, `A`로 애니메이션 끄기, 쪽 번호 뒤 `Enter`로 이동"}
   ]
 }

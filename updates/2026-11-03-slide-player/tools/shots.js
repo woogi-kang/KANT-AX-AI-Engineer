@@ -1,4 +1,4 @@
-// 업데이트 로그에 넣을 스크린샷을 실제 덱(02, 13)으로 찍어요.
+// 릴리스 노트에 넣을 스크린샷을 실제 덱(02, 13)으로 찍어요.
 // 사용법 (레포 맨 위에서): node updates/2026-11-03-slide-player/tools/shots.js
 const { chromium } = require('playwright');
 const path = require('path');
