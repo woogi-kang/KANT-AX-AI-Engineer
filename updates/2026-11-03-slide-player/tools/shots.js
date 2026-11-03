@@ -228,12 +228,12 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
   // 0. 한 장 요약 (슬랙 첫 이미지)
   const items = [
-    ['화면 왼쪽, 오른쪽 끝을 클릭해서 넘겨요', '끝에 마우스를 올리면 화살표가 나타나요'],
+    ['페이지 넘김이 화면 양쪽 끝 클릭으로 바뀌었어요', '끝에 마우스를 올리면 화살표가 나타나요'],
     ['글자를 드래그해서 선택할 수 있어요', '선택해도 장이 넘어가지 않아요'],
-    ['코드 칸에 복사 버튼이 생겼어요', '터미널은 $ 뒤 명령만, 파이썬은 코드 전체'],
-    ['앞 장으로 돌아가면 완성된 화면이 나와요', '처음부터 다시 클릭할 필요가 없어요'],
-    ['A 키로 애니메이션을 꺼요', '브라우저가 설정을 기억해요'],
-    ['쪽 번호를 치고 Enter로 바로 가요', '아래 막대의 쪽 번호 칸에 입력해도 돼요'],
+    ['코드 복사 버튼이 추가되었어요', '터미널은 $ 뒤 명령만, 파이썬은 코드 전체'],
+    ['이전 장으로 돌아가면 완성된 화면이 바로 보여요', '처음부터 다시 클릭할 필요가 없어요'],
+    ['A 키로 애니메이션을 끌 수 있어요', '브라우저가 설정을 기억해요'],
+    ['쪽 번호로 바로 이동할 수 있어요', '쪽 번호를 치고 Enter를 눌러요'],
   ];
   const card = await ctx.newPage();
   await card.setViewportSize({ width: 1600, height: 790 });
@@ -241,7 +241,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   <body style="margin:0;background:#F6F5F1;font-family:'Noto Sans KR';color:#1D2330">
   <div style="padding:64px 80px">
     <div style="font-size:24px;font-weight:700;color:#5A3BB8">2026년 11월 3일 · 슬라이드 업데이트</div>
-    <div style="font-size:60px;font-weight:900;margin:8px 0 44px">슬라이드 보는 법이 이렇게 바뀌었어요</div>
+    <div style="font-size:60px;font-weight:900;margin:8px 0 44px">슬라이드 보는 방법이 개선되었어요</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px 28px">
     ${items.map(([t, s], i) => `<div style="display:flex;gap:20px;align-items:center;background:#fff;border:2px solid #E1DED6;border-radius:16px;padding:22px 26px">
       <div style="flex:none;width:52px;height:52px;border-radius:50%;background:${RED};color:#fff;font-size:26px;font-weight:900;display:flex;align-items:center;justify-content:center">${i + 1}</div>
