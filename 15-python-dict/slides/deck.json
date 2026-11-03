@@ -22,6 +22,8 @@
     "d-list",
     "d-for",
     "d-calc",
+    "d-getuse",
+    "d-count",
     "x-listval",
     "x-dictlist",
     "x-for",

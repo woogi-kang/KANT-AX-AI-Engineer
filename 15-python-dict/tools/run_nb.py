@@ -37,7 +37,11 @@ run([MENU + '\nprint(menu.keys())\nprint(menu.values())\nprint(menu.items())\npr
      'menu.keys()[0]',
      'for name in menu:\n    print(name)',
      'for name, price in menu.items():\n    print(f"{name:<8}{price:>6,}원")',
-     'print(sum(menu.values()))\nprint(max(menu.values()))\nprint(5000 in menu.values())\nprint(sorted(menu))'])
+     'print(sum(menu.values()))\nprint(max(menu.values()))\nprint(5000 in menu.values())\nprint(sorted(menu))',
+     'settings = {"name": "kim"}\nprint(settings.get("name", "guest"))\nprint(settings.get("lang", "ko"))\nprint(settings.get("theme", "light"))\nprint(settings)',
+     'cart = {"coffee": 2, "tea": 1}\ntotal = 0\nfor name, qty in cart.items():\n    price = menu.get(name, 0)\n    print(name, qty, price * qty)\n    total += price * qty\nprint("합계:", total)',
+     'words = "coffee latte coffee cake coffee latte".split()\ncount = {}\nfor w in words:\n    count[w] = count.get(w, 0) + 1\nprint(count)\nprint(count["coffee"])',
+     'votes = {}\nvotes["coffee"] = votes["coffee"] + 1'])
 print("=== 4. 리스트와 섞기")
 run(['scores = {"kim": [90, 85, 77],\n          "lee": [70, 95, 88],\n          "park": [60, 75, 99]}\nprint(scores["lee"])\nprint(scores["lee"][1])\nfor name, s in scores.items():\n    print(name, sum(s), max(s))',
      'orders = [{"menu": "coffee", "price": 4500, "qty": 2},\n          {"menu": "latte", "price": 5000, "qty": 1},\n          {"menu": "cake", "price": 6500, "qty": 3}]\nprint(len(orders))\nprint(orders[1])\nprint(orders[1]["menu"])\nprint(orders[2]["price"] * orders[2]["qty"])',
