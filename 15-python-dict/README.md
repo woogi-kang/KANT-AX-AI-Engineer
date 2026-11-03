@@ -22,6 +22,7 @@
 - `del`과 `pop`으로 키와 값을 지워요.
 - `in`과 `not in`이 키 쪽만 본다는 걸 알고, 값은 `menu.values()`에서 찾아요.
 - `keys()`, `values()`, `items()`로 모으고, `for name, price in menu.items():`로 한 쌍씩 꺼내요.
+- `list(menu.keys())[0]`처럼 `list()`로 바꾼 뒤 번호로 꺼내요.
 - 값이 리스트인 딕셔너리와 딕셔너리를 담은 리스트를 만들고 `orders[1]["menu"]`처럼 꺼내요.
 
 ## 시작하기 전에
@@ -42,9 +43,9 @@
 | 들어가기 | 1–3 | 표지, 오늘의 순서, `basics.ipynb` 다시 열기 |
 | 1. 만들고 꺼내기 | 4–7 | 번호 대신 키로 찾기(사물함 그림), `{키: 값}`과 `type` `len`, 빈 딕셔너리 `{}`, `menu["latte"]`로 꺼내기와 `KeyError`, `get`과 기본값, `None` |
 | 2. 바꾸고 지우기 | 8–11 | 없는 키면 추가, 있는 키면 수정, 키는 겹치지 않기(`{"latte": 5000, "latte": 5500}`), 값은 겹쳐도 되기, `del`과 `pop`, 키를 보는 `in`과 `not in` |
-| 3. 둘러보기 | 12–14 | `keys()` `values()` `items()`와 `list()`, `for name in menu:`, `for name, price in menu.items():`, `values()`의 `sum` `max` `in`, `sorted(menu)` |
-| 4. 리스트와 섞기 | 15–20 | 값이 리스트인 딕셔너리, 딕셔너리 리스트 `orders[1]["menu"]`, `for order in orders:`, KANT 카페 영수증 다시 찍기, 메뉴판과 장바구니 딕셔너리, 자주 나는 오류 |
-| 정리 | 21–22 | 막힐 때, 한 장 요약 |
+| 3. 둘러보기 | 12–15 | `keys()` `values()` `items()`와 `list()`, `list(menu.keys())[0]`처럼 리스트로 바꿔 번호로 꺼내기와 `TypeError`, `for name in menu:`, `for name, price in menu.items():`, `values()`의 `sum` `max` `in`, `sorted(menu)` |
+| 4. 리스트와 섞기 | 16–21 | 값이 리스트인 딕셔너리, 딕셔너리 리스트 `orders[1]["menu"]`, `for order in orders:`, KANT 카페 영수증 다시 찍기, 메뉴판과 장바구니 딕셔너리, 자주 나는 오류 |
+| 정리 | 22–23 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -85,6 +86,9 @@ menu = {"coffee": 4500, "latte": 5000, "cake": 6500}
 | `menu.keys()` | `dict_keys(['coffee', 'latte', 'cake'])` |
 | `menu.values()` | `dict_values([4500, 5000, 6500])` |
 | `menu.items()` | `dict_items([('coffee', 4500), ('latte', 5000), ('cake', 6500)])` |
+| `list(menu.keys())[0]` | `'coffee'` |
+| `list(menu.items())[1]` | `('latte', 5000)` |
+| `menu.keys()[0]` | `TypeError` (리스트로 바꾸지 않으면 번호로 못 꺼내요) |
 | `sorted(menu)` | `['cake', 'coffee', 'latte']` |
 | `scores["lee"][1]` | 값이 리스트면 키로 꺼낸 뒤 번호로 한 번 더 꺼내요 |
 | `orders[1]["menu"]` | 리스트 안 딕셔너리는 번호로 꺼낸 뒤 키로 꺼내요 |
@@ -142,8 +146,13 @@ for name, price in menu.items():
 # coffee   4,500원
 # latte    5,000원
 # cake     6,500원
-print(sum(menu.values()))     # 16000
-print(sorted(menu))           # ['cake', 'coffee', 'latte']
+keys = list(menu.keys())
+print(keys[0])                    # coffee
+pair = list(menu.items())[1]
+print(pair)                       # ('latte', 5000)
+print(pair[0], pair[1])           # latte 5000
+print(sum(menu.values()))         # 16000
+print(sorted(menu))               # ['cake', 'coffee', 'latte']
 ```
 
 ### 4. 리스트와 섞기
@@ -173,7 +182,7 @@ print(f"합계 {total:,}원")
 # 합계 28,500원
 ```
 
-13의 KANT 카페 영수증을 딕셔너리 리스트로 다시 찍는 코드는 슬라이드 18쪽에 있어요. 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
+13의 KANT 카페 영수증을 딕셔너리 리스트로 다시 찍는 코드는 슬라이드 19쪽에 있어요. 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
 
 ## 명령어 요약
 
@@ -189,6 +198,7 @@ print(f"합계 {total:,}원")
 | `len(d)` | 쌍의 개수 |
 | `d.keys()` `d.values()` `d.items()` | 키만, 값만, (키, 값) 쌍 모으기 |
 | `for k, v in d.items():` | 한 쌍씩 꺼내기 |
+| `list(d.keys())[0]` | 리스트로 바꿔 번호로 꺼내기 |
 
 ## 문제 해결
 
@@ -199,6 +209,7 @@ print(f"합계 {total:,}원")
 | `KeyError: 'Latte'` | 키는 대문자와 소문자를 구분해요. 만들 때 적은 그대로 적어요 |
 | `TypeError: list indices must be integers or slices, not str` | 리스트에 키를 넣었어요. `orders[0]["menu"]`처럼 번호부터 적어요 |
 | 넣은 값 하나가 사라졌어요 | 같은 키를 두 번 넣었어요. 키가 겹치면 마지막 값만 남아요 |
+| `TypeError: 'dict_keys' object is not subscriptable` | `keys()`에 바로 번호를 붙였어요. `list(menu.keys())[0]`처럼 리스트로 바꾼 뒤 꺼내요 |
 | `5500 in menu`가 `False`예요 | `in`은 키만 봐요. 값은 `5500 in menu.values()`로 물어요 |
 
 ## 강사용
