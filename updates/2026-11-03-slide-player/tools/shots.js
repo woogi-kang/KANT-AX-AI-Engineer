@@ -98,18 +98,18 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   ]);
   await shot(page, '01-edge-click.png');
 
-  // 2. 글자를 골라도 넘어가지 않아요
+  // 2. 글자를 드래그해서 선택해도 넘어가지 않아요
   await open(page, PY, 19); await buildAll(page);
   const para = await page.evaluate(() => {
     const p = [...document.querySelectorAll('#pl-stage>section.on p')].find(p => p.textContent.startsWith('변수 하나에'));
     const r = p.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height };
   });
-  // 끌어서 고르기는 끝에서 시작해도 넘어가지 않아요. 끝을 그냥 누르는 것만 넘겨요
+  // 드래그 선택은 끝에서 시작해도 넘어가지 않아요. 끝을 그냥 누르는 것만 넘겨요
   const x1 = para.x + 2, x2 = para.x + para.w - 2, y = para.y + para.h / 2;
   const drag = async () => { await page.mouse.move(x1, y); await page.mouse.down(); await page.mouse.move(x2, y, { steps: 8 }); await page.mouse.up(); };
   const before = await page.evaluate(() => location.hash);
   await drag();
-  await page.mouse.click(W / 2, H * 0.7); // 고른 뒤 가운데를 눌러도
+  await page.mouse.click(W / 2, H * 0.7); // 선택한 뒤 가운데를 눌러도
   await drag();
   await page.mouse.move(W / 2, H * 0.45); // 끝 화살표가 보이지 않게 마우스를 가운데로
   if (await page.evaluate(() => location.hash) !== before) throw new Error('selection turned the page');
@@ -117,7 +117,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const sel = await page.evaluate(() => { const r = getSelection().getRangeAt(0).getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; });
   await annotate(page, [
     { box: pad(sel, 10) },
-    { label: '글자를 끌어서 골라도 장이 그대로예요. 고른 뒤 Ctrl+C(Mac은 command+C)로 복사해요', at: { x: sel.x, bottom: H - sel.y + 24 }, width: 600 },
+    { label: '드래그해서 선택해도 장이 넘어가지 않아요. 선택한 뒤 Ctrl+C(Mac은 command+C)로 복사해요', at: { x: sel.x, bottom: H - sel.y + 24 }, width: 600 },
   ]);
   await shot(page, '02-select-text.png');
 
@@ -229,7 +229,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   // 0. 한 장 요약 (슬랙 첫 이미지)
   const items = [
     ['화면 좌우 끝을 눌러야 넘어가요', '끝에 마우스를 올리면 화살표가 보여요'],
-    ['글자를 끌어서 골라도 그대로예요', '가운데를 눌러도 넘어가지 않아요'],
+    ['글자를 드래그해서 선택할 수 있어요', '선택해도 장이 넘어가지 않아요'],
     ['코드 칸에 복사 버튼이 생겼어요', '터미널은 $ 뒤 명령만, 파이썬은 모든 줄'],
     ['뒤로 가면 다 펼쳐진 화면이 나와요', '애니메이션을 다시 누를 필요가 없어요'],
     ['A 키로 애니메이션을 꺼요', '브라우저가 설정을 기억해요'],
