@@ -22,6 +22,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [12 · 파이썬 기초 1 (변수, 타입, 연산)](./12-python-basics) | 파&#8288;이&#8288;썬 | 변수에 값을 담아 계산하고 비교해요 | `=` `type()` `//` `%` `and` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/12-python-basics/python-basics-slides.html) |
 | [13 · 파이썬 기초 2 (문자열, 리스트, for)](./13-python-strings-lists) | 파&#8288;이&#8288;썬 | 문자열과 리스트로 영수증을 찍어요 | `word[0:2]` f-string `[ ]` `append` `for` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/13-python-strings-lists/python-strings-lists-slides.html) |
 | [14 · 파이썬 기초 3 (in, 2차원 리스트)](./14-python-2d-lists) | 파&#8288;이&#8288;썬 | 값이 들어 있는지 묻고 표 모양 데이터를 다뤄요 | `in` `not in` `scores[1][2]` `len(scores[0])` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/14-python-2d-lists/python-2d-lists-slides.html) |
+| [15 · 파이썬 기초 4 (딕셔너리)](./15-python-dict) | 파&#8288;이&#8288;썬 | 키로 값을 찾고 바꾸는 딕셔너리를 다뤄요 | `{키: 값}` `menu["latte"]` `get` `del` `items()` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/15-python-dict/python-dict-slides.html) |
 
 <!-- /curriculum:chapters -->
 

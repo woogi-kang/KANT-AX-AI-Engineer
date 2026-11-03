@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/14-python-2d-lists/python-2d-lists-slides.html) | [13 · 파이썬 기초 2 (문자열, 리스트, for)](../13-python-strings-lists) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/14-python-2d-lists/python-2d-lists-slides.html) | [13 · 파이썬 기초 2 (문자열, 리스트, for)](../13-python-strings-lists) | [15 · 파이썬 기초 4 (딕셔너리)](../15-python-dict) |
 
 <!-- /curriculum:top -->
 
@@ -233,6 +233,6 @@ node ../tools/export.js slides python-2d-lists-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 13 · 파이썬 기초 2 (문자열, 리스트, for)](../13-python-strings-lists) · [커리큘럼](../README.md)
+[← 이전: 13 · 파이썬 기초 2 (문자열, 리스트, for)](../13-python-strings-lists) · [커리큘럼](../README.md) · [다음: 15 · 파이썬 기초 4 (딕셔너리) →](../15-python-dict)
 
 <!-- /curriculum:nav -->
