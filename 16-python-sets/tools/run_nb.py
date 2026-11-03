@@ -27,6 +27,7 @@ run(['nums = [3, 1, 3, 2, 1]\nprint(nums)\nprint(set(nums))',
      'nums = {3, 1, 2, 3}\nprint(nums)\nprint(type(nums))\nprint(len(nums))',
      MENUS + '\nprint(menus)\nprint(sorted(menus))',
      'orders = ["coffee", "latte", "coffee", "cake", "latte"]\nkinds = set(orders)\nprint(kinds)\nprint(len(orders), len(kinds))\nprint(sorted(kinds))',
+     'kinds = set()\nfor o in orders:\n    kinds.add(o)\nprint(sorted(kinds))',
      'print(set("banana"))\nprint(len(set("banana")))\nprint(set(["banana"]))\nprint({"banana"})',
      'a = {}\nprint(type(a))\nb = set()\nprint(type(b))\nprint(b)\nprint(len(b))',
      'ok = {1, "kim", (2, 3)}\nprint(len(ok))',
@@ -52,7 +53,8 @@ print("=== 3. 집합 연산")
 run(['a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nprint(a | b)\nprint(a.union(b))',
      'print(a & b)\nprint(a.intersection(b))',
      'print(a - b)\nprint(b - a)\nprint(a.difference(b))',
-     'c = a | b\nprint(a, b)\nprint(len(c), len(a & b))'], seed=22)
+     'c = a | b\nprint(a, b)\nprint(len(c), len(a & b))',
+     'c = set(a)\nfor x in b:\n    c.add(x)\nprint(c)'], seed=22)
 print("=== 4. 실습")
 run(['orders = ["coffee", "latte", "coffee", "cake",\n          "coffee", "latte", "tea"]\nkinds = set(orders)\nprint(f"주문 {len(orders)}잔, 메뉴 {len(kinds)}가지")\nfor m in sorted(kinds):\n    print(m, orders.count(m))',
      'python_class = {"kim", "lee", "park", "choi"}\ndata_class = {"park", "choi", "jung", "kang"}\nboth = python_class & data_class\nprint(sorted(both))\nprint(sorted(python_class - data_class))\nprint(sorted(data_class - python_class))\nprint(f"모두 {len(python_class | data_class)}명")',
@@ -62,3 +64,8 @@ run(['orders = ["coffee", "latte", "coffee", "cake",\n          "coffee", "latte
      'menus = {"coffee", "latte"}\nmenus[0]',
      'menus.remove("tea")',
      'print(set("latte"))\nprint({"latte"})'], seed=22)
+print("=== 참고 (if, 읽기만)")
+run(['orders = ["coffee", "latte", "coffee", "cake", "latte"]\nkinds = []\nfor o in orders:\n    if o not in kinds:\n        kinds.append(o)\nprint(kinds)',
+     'a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nboth = set()\nfor x in a:\n    if x in b:\n        both.add(x)\nprint(both)',
+     'only_a = set()\nfor x in a:\n    if x not in b:\n        only_a.add(x)\nprint(only_a)',
+     'menus = {"coffee", "cake"}\nif "juice" in menus:\n    menus.remove("juice")\nprint(sorted(menus))'], seed=22)
