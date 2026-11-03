@@ -1,0 +1,70 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-03T01:00:00Z"
+  },
+  "lists": "css",
+  "title": "파이썬 기초 4 (딕셔너리)",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "d-why",
+    "d-make",
+    "d-key",
+    "d-get",
+    "d-add",
+    "d-dup",
+    "d-del",
+    "d-in",
+    "d-views",
+    "d-for",
+    "d-calc",
+    "x-listval",
+    "x-dictlist",
+    "x-for",
+    "x-receipt",
+    "x-cart",
+    "x-err",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "make": {
+      "description": "만들고 꺼내기",
+      "start": "d-why"
+    },
+    "change": {
+      "description": "바꾸고 지우기",
+      "start": "d-add"
+    },
+    "browse": {
+      "description": "둘러보기",
+      "start": "d-views"
+    },
+    "mix": {
+      "description": "리스트와 섞기",
+      "start": "x-listval"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

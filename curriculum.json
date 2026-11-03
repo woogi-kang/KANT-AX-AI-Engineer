@@ -42,7 +42,10 @@
      "commands": "`word[0:2]` f-string `[ ]` `append` `for`", "slides": "python-strings-lists-slides.html"},
     {"dir": "14-python-2d-lists", "title": "파이썬 기초 3 (in, 2차원 리스트)", "track": "파이썬",
      "goal": "값이 들어 있는지 묻고 표 모양 데이터를 다뤄요",
-     "commands": "`in` `not in` `scores[1][2]` `len(scores[0])`", "slides": "python-2d-lists-slides.html"}
+     "commands": "`in` `not in` `scores[1][2]` `len(scores[0])`", "slides": "python-2d-lists-slides.html"},
+    {"dir": "15-python-dict", "title": "파이썬 기초 4 (딕셔너리)", "track": "파이썬",
+     "goal": "키로 값을 찾고 바꾸는 딕셔너리를 다뤄요",
+     "commands": "`{키: 값}` `menu[\"latte\"]` `get` `del` `items()`", "slides": "python-dict-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
