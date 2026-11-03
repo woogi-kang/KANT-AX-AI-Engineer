@@ -57,8 +57,8 @@ run([ORD + '\nfor o in orders:\n    if o in soldout:\n        print(f"{o} 품절
 print("=== 5. 누적과 중첩")
 run(['prices = [4500, 5000, 6500, 4500]\ntotal = 0\nfor p in prices:\n    total += p\nprint(total)\nprint(sum(prices))',
      'n = 0\nfor p in prices:\n    if p >= 5000:\n        n += 1\nprint(n)\nprint(prices.count(4500))',
-     'big = prices[0]\nfor p in prices:\n    if p > big:\n        big = p\nprint(big)\nprint(max(prices), min(prices))',
      'big = []\nfor p in prices:\n    if p >= 5000:\n        big.append(p)\nprint(big)\nprint(len(big))',
+     'big = prices[0]\nfor p in prices:\n    if p > big:\n        big = p\nprint(big)\nprint(max(prices), min(prices))',
      'for dan in range(2, 4):\n    for i in range(1, 4):\n        print(f"{dan} x {i} = {dan * i}")\n    print("---")',
      'scores = [[90, 85, 77],\n          [70, 95, 88],\n          [60, 75, 99]]\nfor i in range(len(scores)):\n    for j in range(len(scores[i])):\n        if scores[i][j] < 70:\n            print(f"{i}행 {j}열: {scores[i][j]}점")',
      'for row in scores:\n    for s in row:\n        if s < 80:\n            print("80점 아래", s, "찾음")\n            break\n    print("이 행 확인 끝", row)'])

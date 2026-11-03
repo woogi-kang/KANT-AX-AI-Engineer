@@ -476,7 +476,7 @@ for i, (k, r, d) in enumerate(cc):
 o.append(card(96, 600, 860, 270, mono("sorted(menu)", 28, K3, K3BG, "align-self:flex-start") + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", e("['cake', 'coffee', 'latte']"))
               + p(f"font-size:24px;line-height:1.45;color:{INK}", "딕셔너리를 그대로 넣으면 키만 abc 순으로 정렬해 리스트로 줘요"), K3, ' data-build-in="rise order 4"'))
 o.append(card(1010, 600, 814, 270, p(f"font-size:28px;font-weight:700;color:{INK}", "13에서 리스트에 쓴 함수 그대로")
-              + p(f"font-size:24px;line-height:1.5;color:{INK}", "sum, max, min, sorted는 values()에도, keys()에도 써요."), None, ' data-build-in="rise order 5"'))
+              + p(f"font-size:24px;line-height:1.5;color:{INK}", "max, min, sorted는 keys()에도 써요. sum은 숫자가 담긴 values()에 써요."), None, ' data-build-in="rise order 5"'))
 o.append(caption("값으로 계산할 때는 values()를 꺼내서 써요.", 920))
 W("d-calc", o, "values()로 모은 값에는 13에서 리스트에 쓴 sum, max를 그대로 써요. 메뉴 가격을 모두 더하면 16000, 가장 비싼 값은 6500이에요. 2파트에서 in은 키만 본다고 했어요. 값에서 찾으려면 values()에 in을 써요. sorted에 딕셔너리를 그대로 넣으면 키만 abc 순으로 정렬한 리스트가 나와요. 딕셔너리 자체는 바뀌지 않아요. 출력은 실제로 실행한 결과예요.")
 

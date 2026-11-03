@@ -429,7 +429,7 @@ for i, (nm, lit, ty, c, vals) in enumerate(cols):
                   + p(f"font-size:30px;font-weight:700;color:{K1 if on else INK};white-space:nowrap", v) + '</div>')
     o.append(card(x, 196, 414, 660, inner, c, f' data-build-in="rise order {1 if i < 2 else i}"', "gap:34px", K1BG if on else CARD))
 o.append(caption("중괄호 안에 키: 값이 있으면 딕셔너리, 값만 있으면 집합이에요.", 920))
-W("s-four", o, "지금까지 배운 담는 그릇 네 가지를 나란히 놓아요. 리스트와 튜플은 순서가 있어서 번호로 꺼내고, 튜플은 만든 뒤 바꿀 수 없어요. 딕셔너리는 15에서 본 것처럼 넣은 순서를 지키고 키로 꺼내요. 집합은 딕셔너리와 같은 중괄호를 쓰지만 키: 값이 아니라 값만 적어요. 순서가 없고 중복이 없어서 번호로도, 키로도 꺼낼 수 없어요. 그 대신 값을 넣고 빼는 것은 돼요. 괄호 모양 type 이름은 다음 장에서 확인해요.")
+W("s-four", o, "지금까지 배운 담는 그릇 네 가지를 나란히 놓아요. 리스트와 튜플은 순서가 있어서 번호로 꺼내고, 튜플은 만든 뒤 바꿀 수 없어요. 딕셔너리는 15에서 본 것처럼 넣은 순서를 지키고 키로 꺼내요. 집합은 딕셔너리와 같은 중괄호를 쓰지만 키: 값이 아니라 값만 적어요. 순서가 없고 중복이 없어서 번호로도, 키로도 꺼낼 수 없어요. 그 대신 값을 넣고 빼는 것은 돼요. 중괄호로 만든 집합의 type은 다음 장에서 확인해요.")
 
 o = [sec("s-make")] + head(EB1, "중괄호 안에 값만 쉼표로 이어요", K1)
 o += cell({"id": "c-m", "lines": ["nums = {3, 1, 2, 3}", "print(nums)", "print(type(nums))", "print(len(nums))"], "n": 2, "out": ["{1, 2, 3}", "<class 'set'>", "3"]}, 96, 200, 860, sel="c-m")
@@ -577,7 +577,7 @@ for i, (k, r_, d) in enumerate(inn):
     o.append(row_card(1010, 520 + i * 116, 814, 100, k, r_, d, i + 1, K2, K2BG, 330))
 o.append(note_card(96, 560, 860, 310, "14에서 배운 in 그대로예요", "리스트, 튜플, 문자열에 쓰던 in과 not in을 집합에도 써요. 답은 True 아니면 False예요.", None, ' data-build-in="rise order 4"'))
 o.append(caption("집합은 꺼내기보다 들어 있는지 묻는 데 써요.", 920))
-W("s-in", o, "14에서 리스트, 튜플, 문자열에 쓴 in과 not in을 집합에도 그대로 써요. latte는 들어 있어서 True, tea는 없어서 False예요. not in은 반대로 물어요. 집합은 번호로 꺼낼 수 없어서, 값이 있는지 묻는 게 주로 하는 일이에요. 나중에 배울 if와 함께 쓰면 있는 메뉴만 계산하는 코드를 만들어요. 이 셀에서 2파트 앞에서 비웠던 menus를 다시 만들었어요." + REAL)
+W("s-in", o, "14에서 리스트, 튜플, 문자열에 쓴 in과 not in을 집합에도 그대로 써요. latte는 들어 있어서 True, tea는 없어서 False예요. not in은 반대로 물어요. 집합은 번호로 꺼낼 수 없어서, 값이 있는지 묻는 게 주로 하는 일이에요. 나중에 배울 if와 함께 쓰면 있는 메뉴만 계산하는 코드를 만들어요. 앞 장에서 clear로 비운 menus를 이 셀에서 다시 만들었어요." + REAL)
 
 o = [sec("s-noindex")] + head(EB2, "번호로 못 꺼내요. 필요하면 sorted()로 바꿔요", K2)
 o += cell({"id": "c-n1", "lines": ["menus[0]"], "n": 9, "out": ["TypeError: 'set' object is not subscriptable"], "err": True}, 96, 200, 860, sel="c-n1")
@@ -625,7 +625,7 @@ ex = [("a에만 있는 값", "1, 2", VA, K1BG), ("a와 b에 다 있는 값", "3,
 for i, (t, v, c, bg) in enumerate(ex):
     o.append(card(1010, 200 + i * 230, 814, 210, p(f"font-size:28px;font-weight:700;color:{INK}", t) + mono(v, 34, c, bg, "align-self:flex-start"), c, f' data-build-in="rise order {i + 1}"'))
 o.append(caption("겹친 곳에는 두 집합에 다 있는 값이 들어가요.", 920))
-W("s-venn", o, "이제 집합 두 개를 비교해요. 원 하나가 집합 하나예요. a는 1부터 4, b는 3부터 6이에요. 3과 4는 두 집합에 다 있어서 원이 겹친 곳에 그려요. 1과 2는 a에만, 5와 6은 b에만 있어요. 이 그림을 벤 다이어그램이라고 불러요. 이 파트는 이 그림 하나에 색을 칠하면서 세 가지 연산을 봐요. 숫자로 시작하는 이유는 결과가 늘 작은 수부터 찍혀서 읽기 쉽기 때문이에요.", ("ops", "집합 연산"))
+W("s-venn", o, "이제 집합 두 개를 비교해요. 원 하나가 집합 하나예요. a는 1부터 4, b는 3부터 6이에요. 3과 4는 두 집합에 다 있어서 원이 겹친 곳에 그려요. 1과 2는 a에만, 5와 6은 b에만 있어요. 이 그림을 벤 다이어그램이라고 불러요. 이 파트는 이 그림 하나에 색을 칠하면서 세 가지 연산을 봐요. 숫자로 시작하는 이유는 작은 정수 집합이 보통 작은 수부터 찍혀서 읽기 쉽기 때문이에요.", ("ops", "집합 연산"))
 
 o = [sec("s-union", "magic")] + head(EB3, "합집합 | 은 어느 쪽이든 있는 값이에요", K3)
 o.append(f'<div id="ab-code" style="position:absolute;left:96px;top:196px;display:flex;flex-direction:row;gap:20px">' + mono(A_, 30, VA, K1BG) + mono(B_, 30, VB, K2BG) + '</div>')
