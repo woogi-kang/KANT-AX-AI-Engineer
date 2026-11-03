@@ -351,6 +351,16 @@ def note_card(left, top, w, h, title, body, color=None, attrs="", extra=""):
     return card(left, top, w, h, p(f"font-size:28px;font-weight:700;color:{INK}", title) + p(f"font-size:24px;line-height:1.5;color:{INK}", body), color, attrs, extra)
 
 
+def ref_box(left, top, w, h, lines, out, attrs="", title="참고 · 원래는 이렇게", fs=24):
+    """Longer code that the shortcut replaces. It uses if, which students have not learned yet, so it is read-only."""
+    code = "".join(p(f"font-family:{MONO};font-size:{fs}px;line-height:1.4;white-space:pre;color:{INK}", e(l) if l else "&#160;") for l in lines)
+    res = "".join(p(f"font-family:{MONO};font-size:{fs}px;line-height:1.4;white-space:pre;color:{SUB}", e(l)) for l in out)
+    return (f'<div{attrs} style="position:absolute;left:{left}px;top:{top}px;width:{w}px;height:{h}px;background:#FAF8F3;border:3px dashed #B4B9C3;border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;gap:12px">'
+            + '<div style="display:flex;flex-direction:row;align-items:center;gap:14px">' + p(f"font-size:24px;font-weight:700;color:#FFFFFF;background:{GRAY};border-radius:8px;padding:2px 12px", e(title)) + '</div>'
+            + f'<div style="display:flex;flex-direction:column">{code}</div>' + f'<div style="display:flex;flex-direction:column;border-top:2px solid {LINE};padding-top:8px">{res}</div>'
+            + '<div style="flex:1"></div>' + p(f"font-size:22px;color:{GRAY}", "if는 다음에 배워요. 따라 치지 말고 읽기만 해요.") + '</div>')
+
+
 MENUS = 'menus = {"coffee", "latte", "cake"}'
 REAL = " 출력은 실제로 실행한 결과예요."
 
@@ -460,8 +470,18 @@ o.append(row_card(96, 736, 1000, 100, "sorted(kinds)", "['cake', 'coffee', 'latt
 o.append(caption("몇 가지인지 셀 때는 set으로 바꾸고 len을 써요.", 920))
 W("s-dedup", o, "set() 괄호 안에 리스트를 넣으면 리스트의 값으로 집합을 만들어요. 겹친 coffee와 latte는 하나씩만 남아요. 주문은 5잔이지만 메뉴 종류는 3가지예요. 리스트 orders는 그대로 남아 있어요. 집합을 다시 리스트로 보고 싶으면 sorted()에 넣어요. 4파트에서 이 방법으로 하루 주문을 정리해요." + REAL)
 
+o = [sec("s-long")] + head(EB1, "set(리스트)는 긴 반복을 한 줄로 줄인 거예요", K1)
+o.append(card(96, 200, 860, 140, '<div style="display:flex;flex-direction:row;align-items:center;gap:18px">' + p(f"font-size:26px;font-weight:700;color:{K1}", "줄여 쓴 방법") + mono("kinds = set(orders)", 32, K1, K1BG) + '</div>', K1, ' data-build-in="rise order 1"', "justify-content:center"))
+o.append(label("for와 add로 길게 쓰면", 96, 372, K1, ' data-build-in="fade order 2"', 860, 24))
+o += cell({"id": "c-l", "lines": ["kinds = set()", "for o in orders:", "    kinds.add(o)", "print(sorted(kinds))"], "n": 5, "out": ["['cake', 'coffee', 'latte']"]}, 96, 414, 860, sel="c-l", attrs=' data-build-in="rise order 2"')
+o.append(note_card(96, 680, 860, 200, "결과는 같아요", "빈 주머니에서 시작해 하나씩 add해요. add는 이미 있으면 그대로라서 겹친 주문이 하나만 남아요.", None, ' data-build-in="rise order 3"'))
+o.append(ref_box(1010, 200, 814, 420, ["kinds = []", "for o in orders:", "    if o not in kinds:", "        kinds.append(o)", "print(kinds)"], ["['coffee', 'latte', 'cake']"], ' data-build-in="rise order 4"', "참고 · 집합이 없으면 이렇게"))
+o.append(note_card(1010, 650, 814, 230, "리스트로는 하나씩 물어봐야 해요", "아직 없을 때만 append해요. 집합은 그 일을 알아서 해요.", None, ' data-build-in="rise order 5"'))
+o.append(caption("한 줄짜리 기능은 이런 반복을 대신해 줘요. 원래 모양을 알면 결과를 읽기 쉬워요.", 920))
+W("s-long", o, "set(orders) 한 줄이 실제로 하는 일을 길게 풀어 봐요. 빈 집합 kinds에서 시작해 for로 주문을 하나씩 꺼내 add해요. 2파트에서 볼 add는 이미 있는 값이면 아무 일도 하지 않아서, 겹친 주문은 하나만 남아요. 결과는 set(orders)와 같아요. 집합이 없으면 리스트에 담으면서 '아직 없을 때만 넣기'를 직접 물어야 해요. 그때 쓰는 if는 아직 배우지 않았으니 오른쪽은 읽기만 해요. 리스트는 처음 나온 순서를 지켜서 coffee, latte, cake 순서예요. 왼쪽 셀과 오른쪽 참고 코드 모두 실제로 실행한 결과예요.")
+
 o = [sec("s-str")] + head(EB1, "문자열을 넣으면 글자로 쪼개져요", K1)
-o += cell({"id": "c-s", "lines": ['print(set("banana"))', 'print(len(set("banana")))', 'print(set(["banana"]))', 'print({"banana"})'], "n": 5, "out": ["{'b', 'a', 'n'}", "3", "{'banana'}", "{'banana'}"]}, 96, 200, 860, sel="c-s")
+o += cell({"id": "c-s", "lines": ['print(set("banana"))', 'print(len(set("banana")))', 'print(set(["banana"]))', 'print({"banana"})'], "n": 6, "out": ["{'b', 'a', 'n'}", "3", "{'banana'}", "{'banana'}"]}, 96, 200, 860, sel="c-s")
 o.append(label('set("banana")', 1010, 200, RED, ' data-build-in="fade order 1"', 814))
 o.append(slots(list("banana"), 1010, 246, 58, 70, hi=(0, 1, 2), attrs=' data-build-in="rise order 1"', fs=28, color=GRAY, bg="#EEEFF2"))
 o.append(bag(["'b'", "'a'", "'n'"], 1010, 400, 380, 260, RED, "#F8E6E6", ' data-build-in="rise order 1"', 28, pos=[(0.28, 0.36), (0.70, 0.40), (0.48, 0.72)]))
@@ -472,7 +492,7 @@ o.append(caption('단어 하나를 담으려면 {"banana"}로 적거나 리스�
 W("s-str", o, "set() 괄호 안에 문자열을 바로 넣으면 단어 하나가 아니라 글자가 들어가요. 13에서 문자열도 리스트처럼 번호로 한 글자씩 꺼냈던 것과 같은 이유예요. banana에서 a와 n이 겹쳐서 b, a, n 세 글자만 남아요. 단어를 통째로 하나 담고 싶으면 중괄호에 바로 적거나, 리스트로 감싼 뒤 set()에 넣어요. 앞 장의 set(orders)는 리스트를 넣어서 단어가 그대로 들어갔어요." + REAL)
 
 o = [sec("s-empty")] + head(EB1, "빈 집합은 {}가 아니라 set()이에요", K1)
-o += cell({"id": "c-e", "lines": ["a = {}", "print(type(a))", "b = set()", "print(type(b))", "print(b)", "print(len(b))"], "n": 6, "out": ["<class 'dict'>", "<class 'set'>", "set()", "0"]}, 96, 200, 860, sel="c-e")
+o += cell({"id": "c-e", "lines": ["a = {}", "print(type(a))", "b = set()", "print(type(b))", "print(b)", "print(len(b))"], "n": 7, "out": ["<class 'dict'>", "<class 'set'>", "set()", "0"]}, 96, 200, 860, sel="c-e")
 o.append(card(1010, 200, 814, 300, '<div style="display:flex;flex-direction:row;align-items:center;gap:18px">' + mono("{}", 40, RED, "#F8E6E6") + f'<x-shape kind="arrow-right" style="width:44px;height:26px;flex:none;background:#C9CED8"></x-shape>'
               + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", e("<class 'dict'>")) + '</div>'
               + p(f"font-size:26px;line-height:1.5;color:{INK}", "15에서 본 빈 딕셔너리예요. 중괄호가 딕셔너리 차지가 됐어요."), RED, ' data-build-in="rise order 1"'))
@@ -484,9 +504,9 @@ o.append(caption("빈 주머니에서 시작해서 2파트의 add로 하나씩 �
 W("s-empty", o, "빈 중괄호는 집합이 아니라 빈 딕셔너리예요. 딕셔너리가 먼저 중괄호를 쓰고 있었기 때문이에요. type으로 보면 dict라고 나와요. 빈 집합은 set()으로 만들어요. print로 찍어도 {}가 아니라 set()이라고 나와서 딕셔너리와 헷갈리지 않아요. 빈 딕셔너리에 집합처럼 add를 쓰면 어떤 오류가 나는지는 4파트 끝에서 봐요." + REAL)
 
 o = [sec("s-hash")] + head(EB1, "숫자, 문자열, 튜플은 담고 리스트는 못 담아요", K1)
-o += cell({"id": "c-h1", "lines": ['ok = {1, "kim", (2, 3)}', "print(len(ok))"], "n": 7, "out": ["3"]}, 96, 200, 860, sel="c-h1")
-o += cell({"id": "c-h2", "lines": ["bad = {[1, 2], 3}"], "n": 8, "out": ["TypeError: unhashable type: 'list'"], "err": True}, 96, 380, 860, attrs=' data-build-in="rise order 2"')
-o += cell({"id": "c-h3", "lines": ['d = {[1, 2]: "a"}'], "n": 9, "out": ["TypeError: unhashable type: 'list'"], "err": True}, 96, 520, 860, attrs=' data-build-in="rise order 3"')
+o += cell({"id": "c-h1", "lines": ['ok = {1, "kim", (2, 3)}', "print(len(ok))"], "n": 8, "out": ["3"]}, 96, 200, 860, sel="c-h1")
+o += cell({"id": "c-h2", "lines": ["bad = {[1, 2], 3}"], "n": 9, "out": ["TypeError: unhashable type: 'list'"], "err": True}, 96, 380, 860, attrs=' data-build-in="rise order 2"')
+o += cell({"id": "c-h3", "lines": ['d = {[1, 2]: "a"}'], "n": 10, "out": ["TypeError: unhashable type: 'list'"], "err": True}, 96, 520, 860, attrs=' data-build-in="rise order 3"')
 for i, (v, ok_) in enumerate([("1", True), ('"kim"', True), ("(2, 3)", True), ("[1, 2]", False)]):
     x = 1010 + i * 206
     c = GR if ok_ else RED
@@ -519,8 +539,12 @@ o.append(card(1010, 200, 814, 250, mono('remove("juice")', 30, RED, "#F8E6E6", "
               + p(f"font-size:26px;line-height:1.5;color:{INK}", "없는 값을 빼려고 하면 셀이 멈춰요. 꼭 있어야 하는 값에 써요."), RED, ' data-build-in="rise order 2"'))
 o.append(card(1010, 470, 814, 250, mono('discard("juice")', 30, GR, "#E6F4EC", "align-self:flex-start") + p(f"font-size:26px;font-weight:700;color:{GR}", "오류 없음")
               + p(f"font-size:26px;line-height:1.5;color:{INK}", "있으면 빼고, 없으면 그냥 넘어가요. 있는지 모를 때 써요."), GR, ' data-build-in="rise order 3"'))
+o.append(f'<div data-build-in="rise order 4" style="position:absolute;left:1010px;top:740px;width:814px;height:150px;background:#FAF8F3;border:3px dashed #B4B9C3;border-radius:18px;padding:14px 26px;display:flex;flex-direction:row;align-items:center;gap:22px">'
+         + p(f"width:190px;flex:none;font-size:22px;font-weight:700;line-height:1.4;color:{GRAY}", "참고<br>discard를 길게 쓰면")
+         + '<div style="display:flex;flex-direction:column">' + p(f"font-family:{MONO};font-size:24px;line-height:1.4;white-space:pre;color:{INK}", e('if "juice" in menus:')) + p(f"font-family:{MONO};font-size:24px;line-height:1.4;white-space:pre;color:{INK}", e('    menus.remove("juice")')) + '</div>'
+         + p(f"font-size:20px;color:{GRAY}", "if는 다음에<br>배워요") + '</div>')
 o.append(caption("15의 대괄호와 get처럼, remove와 discard도 짝이에요.", 920))
-W("s-remove", o, "값을 빼는 방법은 두 가지예요. remove는 latte처럼 있는 값을 빼요. 없는 juice를 remove하면 KeyError가 나고 셀이 멈춰요. discard는 있으면 빼고 없으면 아무 일도 하지 않아요. juice는 없어서 그냥 넘어갔고, tea는 있어서 빠졌어요. 15에서 menu[\"tea\"]는 없으면 오류, menu.get(\"tea\")는 오류 없이 넘어갔던 것과 같은 관계예요." + REAL)
+W("s-remove", o, "값을 빼는 방법은 두 가지예요. remove는 latte처럼 있는 값을 빼요. 없는 juice를 remove하면 KeyError가 나고 셀이 멈춰요. discard는 있으면 빼고 없으면 아무 일도 하지 않아요. juice는 없어서 그냥 넘어갔고, tea는 있어서 빠졌어요. 15에서 menu[\"tea\"]는 없으면 오류, menu.get(\"tea\")는 오류 없이 넘어갔던 것과 같은 관계예요. 아래 참고 칸은 discard가 줄여 준 원래 코드예요. 있는지 먼저 묻고 있을 때만 remove해요. if는 아직 배우지 않았으니 읽기만 해요." + REAL)
 
 o = [sec("s-update")] + head(EB2, "update로 여러 개를 한 번에 넣어요", K2)
 o += cell({"id": "c-u", "lines": ['menus.update(["juice", "tea", "coffee"])', "print(menus)", "print(len(menus))"], "n": 5, "out": ["{'tea', 'cake', 'coffee', 'juice'}", "4"]}, 96, 200, 860, sel="c-u")
@@ -631,6 +655,17 @@ o.append(note_card(1150, 640, 674, 230, "a와 b는 그대로예요", "연산은 
 o.append(caption("기호가 헷갈리면 union, intersection, difference로 적어요.", 920))
 W("s-ops", o, "세 연산을 나란히 놓았어요. 어느 쪽이든 있으면 |, 둘 다 있으면 &, 앞에만 있으면 - 예요. 기호 대신 union, intersection, difference라는 이름으로 써도 같아요. 연산을 해도 a와 b는 바뀌지 않아요. 결과는 새 집합이라 c = a | b처럼 변수에 담아서 써요. len(c)는 6, 겹치는 값의 개수 len(a & b)는 2예요. 대칭차집합 ^, 부분집합 issubset, frozenset은 이번 챕터에서 다루지 않아요." + REAL)
 
+o = [sec("s-long2")] + head(EB3, "연산 기호도 for를 줄인 거예요", K3)
+o.append(f'<div data-build-in="rise order 1" style="position:absolute;left:96px;top:200px;width:860px;display:flex;flex-direction:row;align-items:center;gap:16px">' + mono("a | b", 32, K3, K3BG) + p(f"font-size:26px;font-weight:700;color:{INK}", "를 for와 add로 길게 쓰면") + '</div>')
+o += cell({"id": "c-l2", "lines": ["c = set(a)", "for x in b:", "    c.add(x)", "print(c)"], "n": 5, "out": ["{1, 2, 3, 4, 5, 6}"]}, 96, 268, 860, sel="c-l2", attrs=' data-build-in="rise order 1"')
+mp = [("a | b", "a를 담고, b를 하나씩 add"), ("a & b", "a에서 b에도 있는 것만 담기"), ("a - b", "a에서 b에 없는 것만 담기")]
+o.append(card(96, 540, 860, 340, p(f"font-size:28px;font-weight:700;color:{INK}", "기호 하나가 하는 일")
+              + "".join('<div style="display:flex;flex-direction:row;align-items:center;gap:20px">' + mono(k, 28, K3, K3BG) + p(f"font-size:26px;color:{INK}", e(d)) + '</div>' for k, d in mp), K3, ' data-build-in="rise order 4"'))
+o.append(ref_box(1010, 196, 814, 340, ["both = set()", "for x in a:", "    if x in b:", "        both.add(x)", "print(both)"], ["{3, 4}"], ' data-build-in="rise order 2"', "참고 · a & b를 길게 쓰면", 22))
+o.append(ref_box(1010, 556, 814, 340, ["only_a = set()", "for x in a:", "    if x not in b:", "        only_a.add(x)", "print(only_a)"], ["{1, 2}"], ' data-build-in="rise order 3"', "참고 · a - b를 길게 쓰면", 22))
+o.append(caption("긴 코드를 알면 기호의 뜻이 보여요. 실제로 쓸 때는 기호 한 줄로 적어요.", 920))
+W("s-long2", o, "앞에서 본 세 연산을 길게 풀면 이렇게 돼요. 합집합은 a를 그대로 담은 새 집합에 b의 값을 하나씩 add하면 돼요. 이건 지금까지 배운 것만으로 쓸 수 있어서 셀로 실행해요. 교집합과 차집합은 b에 있는지, 없는지 물어서 담을지 정해야 해서 if가 필요해요. if는 다음에 배우니 오른쪽 두 칸은 읽기만 해요. 결과는 각각 {3, 4}, {1, 2}로 & 와 - 결과와 같아요. 실제로는 기호 한 줄로 쓰고, 긴 코드는 기호가 무슨 일을 하는지 이해하는 데 써요." + REAL)
+
 # ---------- part 4: practice ----------
 o = [sec("x-kinds")] + head(EB4, "하루 주문에서 팔린 메뉴 종류를 뽑아요", K4)
 o += cell({"id": "c-k", "lines": ['orders = ["coffee", "latte", "coffee", "cake",', '          "coffee", "latte", "tea"]', "kinds = set(orders)", 'print(f"주문 {len(orders)}잔, 메뉴 {len(kinds)}가지")', "for m in sorted(kinds):", "    print(m, orders.count(m))"], "n": 1,
@@ -734,9 +769,9 @@ W("cheatsheet", o, "이번 챕터에서 쓴 코드를 한 장에 모았어요. �
 
 # ---------- toc ----------
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
-parts = [("Archive", K1, "집합이 뭔가요", "중복 없는 주머니, 네 그릇 비교, { }로 만들기, 순서 없음과 sorted(), set(리스트), 문자열 함정, 빈 집합 set(), 담을 수 있는 값", "s-why", "s-hash"),
+parts = [("Archive", K1, "집합이 뭔가요", "중복 없는 주머니, 네 그릇 비교, { }로 만들기, 순서 없음과 sorted(), set(리스트)와 긴 방법, 문자열 함정, 빈 집합 set(), 담을 수 있는 값", "s-why", "s-hash"),
          ("Wrench", K2, "바꾸고 확인하기", "add, remove와 discard, update, pop과 clear, in, 번호로 못 꺼내기, for", "s-add", "s-for"),
-         ("Activity", K3, "집합 연산", "벤 다이어그램, 합집합 |, 교집합 &, 차집합 -, union, intersection, difference", "s-venn", "s-ops"),
+         ("Activity", K3, "집합 연산", "벤 다이어그램, 합집합 |, 교집합 &, 차집합 -, union, intersection, difference, for로 길게 쓰면", "s-venn", "s-long2"),
          ("Database", K4, "실습", "팔린 메뉴 종류, 두 반 명단, 메뉴판에 없는 주문, 무엇에 담을지, 오류", "x-kinds", "x-err")]
 TOC_NOTE = "네 파트로 나눴어요. 1파트는 집합이 무엇인지 그림으로 잡고, 2파트는 값을 넣고 빼고 확인해요. 3파트는 원 두 개로 집합 연산을 보고, 4파트는 앞에서 배운 것을 섞어 실제 주문과 명단을 정리해요. 파트마다 새 커널에서 위에서부터 차례로 실행해요."
 
