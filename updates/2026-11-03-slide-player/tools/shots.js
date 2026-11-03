@@ -76,17 +76,39 @@ async function codeBox(page) {
   });
 }
 const shot = (page, name) => page.screenshot({ path: path.join(OUT, name) });
+// 스크린샷 두 장을 제목과 함께 나란히 붙여요
+let ctxRef;
+async function sideBySide(name, panels) {
+  const cmp = await ctxRef.newPage();
+  await cmp.setViewportSize({ width: 1600, height: 100 });
+  const img = b => 'data:image/png;base64,' + b.toString('base64');
+  await cmp.setContent(`<html><head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap"></head>
+  <body style="margin:0;background:#F6F5F1;font-family:'Noto Sans KR'">
+  <div style="display:flex;gap:56px;padding:36px 40px;align-items:flex-start;position:relative">
+  ${panels.map(([b, t, sub, c], i) => `
+  <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:28px;font-weight:700;color:${c}">${t} <span style="font-weight:500;color:#1D2330">· ${sub}</span></div>
+    <img src="${img(b)}" style="width:100%;border-radius:12px;border:4px solid ${c};box-sizing:border-box">
+  </div>${i < panels.length - 1 ? '<div style="align-self:center;font-size:44px;color:#1D2330;margin:40px -40px 0">&#8594;</div>' : ''}`).join('')}
+  </div></body></html>`);
+  await cmp.evaluate(() => document.fonts.ready); await cmp.waitForTimeout(400);
+  await cmp.screenshot({ path: path.join(OUT, name), fullPage: true });
+  await cmp.close();
+}
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
   const browser = await chromium.launch();
   const ctx = await browser.newContext({ viewport: { width: W, height: H }, permissions: ['clipboard-read', 'clipboard-write'] });
+  ctxRef = ctx;
   const page = await ctx.newPage();
 
   // 1. 좌우 끝을 눌러야 넘어가요
   await open(page, GIT, 4); await buildAll(page);
   await page.mouse.move(W - 40, H / 2);
+  // 화살표는 마우스가 있는 쪽만 나타나요. 안내 그림에서는 양쪽을 같이 보여 줘요
+  await page.evaluate(() => document.body.classList.add('edge-l', 'edge-r'));
   await page.waitForTimeout(400);
   const edge = W * 0.15;
   await annotate(page, [
@@ -121,37 +143,35 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   ]);
   await shot(page, '02-select-text.png');
 
-  // 3. 터미널 칸 복사: $ 뒤 명령만
-  await open(page, GIT, 12); await buildAll(page);
-  let box = await codeBox(page);
-  await page.mouse.move(box.x + box.w / 2, box.y + box.h / 2);
-  await page.waitForTimeout(300);
-  await page.click('#pl-copy');
-  await page.waitForTimeout(300);
-  let clip = await page.evaluate(() => navigator.clipboard.readText());
-  const btn = await rect(page, '#pl-copy');
-  await annotate(page, [
-    { box: pad(box, 6) },
-    { box: pad(btn, 6), color: '#1F8A4C' },
-    { label: '복사된 내용<pre style="margin:8px 0 0;font:500 20px/1.5 \'JetBrains Mono\',monospace;white-space:pre">' + esc(clip) + '</pre>', at: { right: W - (box.x + box.w) + 24, top: btn.y + btn.h + 24 }, width: 520, color: '#1F8A4C' },
-  ]);
-  await shot(page, '03-copy-terminal.png');
-
-  // 4. 파이썬 칸 복사: 모든 줄
-  await open(page, PY, 19); await buildAll(page);
-  box = await codeBox(page);
-  await page.mouse.move(box.x + box.w / 2, box.y + box.h / 2);
-  await page.waitForTimeout(300);
-  await page.click('#pl-copy');
-  await page.waitForTimeout(300);
-  clip = await page.evaluate(() => navigator.clipboard.readText());
-  const btn2 = await rect(page, '#pl-copy');
-  await annotate(page, [
-    { box: pad(box, 6) },
-    { box: pad(btn2, 6), color: '#1F8A4C' },
-    { label: '복사된 내용<pre style="margin:8px 0 0;font:500 20px/1.5 \'JetBrains Mono\',monospace;white-space:pre">' + esc(clip) + '</pre>', at: { x: box.x + 160, y: box.y + box.h + 150 }, width: 520, color: '#1F8A4C' },
-  ]);
-  await shot(page, '04-copy-python.png');
+  // 3, 4. 복사 버튼: 마우스를 올린 화면과 누른 뒤 화면을 나란히 붙여요
+  async function copyShot(url, n, name, area, noteAt, labels) {
+    await open(page, url, n); await buildAll(page);
+    const box = await codeBox(page);
+    await page.mouse.move(box.x + box.w / 2, box.y + box.h / 2);
+    await page.waitForTimeout(300);
+    let btn = await rect(page, '#pl-copy');
+    const label = await page.evaluate(() => document.getElementById('pl-copy').textContent);
+    await annotate(page, [{ box: pad(btn, 6) }]);
+    const clip = { x: area.x, y: area.y, width: area.w, height: area.h };
+    const hover = await page.screenshot({ clip });
+    await page.click('#pl-copy');
+    await page.waitForTimeout(300);
+    const text = await page.evaluate(() => navigator.clipboard.readText());
+    btn = await rect(page, '#pl-copy');
+    await annotate(page, [
+      { box: pad(btn, 6), color: '#1F8A4C' },
+      { label: '복사된 내용<pre style="margin:8px 0 0;font:500 20px/1.5 \'JetBrains Mono\',monospace;white-space:pre">' + esc(text) + '</pre>', at: noteAt(box, btn), width: 520, color: '#1F8A4C' },
+    ]);
+    const done = await page.screenshot({ clip });
+    await sideBySide(name, [
+      [hover, '1. 마우스를 올리면', `오른쪽 위에 "${label}" 버튼이 나타나요`, RED],
+      [done, '2. 버튼을 누르면', labels, '#1F8A4C'],
+    ]);
+  }
+  await copyShot(GIT, 12, '03-copy-terminal.png', { x: 60, y: 545, w: 1000, h: 308 },
+    (box, btn) => ({ right: W - (box.x + box.w) + 24, top: btn.y + btn.h + 24 }), '$ 뒤 명령만 복사돼요');
+  await copyShot(PY, 19, '04-copy-python.png', { x: 60, y: 150, w: 720, h: 490 },
+    (box) => ({ x: box.x + 10, y: box.y + box.h + 130 }), '코드 전체가 복사돼요');
 
   // 5. 뒤로 가면 다 펼쳐진 화면 (두 장을 찍어서 나란히 붙여요)
   await open(page, PY, 20);
@@ -166,21 +186,10 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   await page.keyboard.press('ArrowLeft'); // 5쪽에서 4쪽으로 돌아오면
   await page.waitForTimeout(900);
   const back = await page.screenshot();
-  const cmp = await ctx.newPage();
-  await cmp.setViewportSize({ width: 1600, height: 560 });
-  const img = b => 'data:image/png;base64,' + b.toString('base64');
-  await cmp.setContent(`<html><head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap"></head>
-  <body style="margin:0;background:#F6F5F1;font-family:'Noto Sans KR';display:flex;gap:40px;padding:36px 40px;box-sizing:border-box;height:560px">
-  ${[[fwd, '처음 볼 때', '애니메이션이 하나씩 나와요', '#6A7180'], [back, '다시 돌아오면', '완성된 화면이 바로 나와요', RED]].map(([b, t, s, c]) => `
-  <div style="flex:1;display:flex;flex-direction:column;gap:14px">
-    <div style="font-size:28px;font-weight:700;color:${c}">${t} <span style="font-weight:500;color:#1D2330">· ${s}</span></div>
-    <img src="${img(b)}" style="width:100%;border-radius:12px;border:4px solid ${c};box-sizing:border-box">
-  </div>`).join('')}
-  <div style="position:absolute;left:50%;top:300px;transform:translateX(-50%);font-size:44px;color:#1D2330">&#8594;</div>
-  </body></html>`);
-  await cmp.evaluate(() => document.fonts.ready); await cmp.waitForTimeout(400);
-  await cmp.screenshot({ path: path.join(OUT, '05-back-finished.png') });
-  await cmp.close();
+  await sideBySide('05-back-finished.png', [
+    [fwd, '처음 볼 때', '애니메이션이 하나씩 나와요', '#6A7180'],
+    [back, '다시 돌아오면', '완성된 화면이 바로 나와요', RED],
+  ]);
 
   // 6. A 키로 애니메이션 끄기
   await page.evaluate(() => { try { localStorage.removeItem('slides-anim'); } catch (e) {} });
