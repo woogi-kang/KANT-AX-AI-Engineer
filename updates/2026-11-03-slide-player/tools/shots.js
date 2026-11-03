@@ -92,9 +92,9 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   await annotate(page, [
     { box: { x: 4, y: 4, w: edge - 8, h: H - 8 }, dashed: true },
     { box: { x: W - edge + 4, y: 4, w: edge - 8, h: H - 8 }, dashed: true },
-    { label: '여기를 누르면<br>이전 장', at: { x: 22, y: 60 }, width: edge - 40 },
-    { label: '여기를 누르면<br>다음 장', at: { x: W - edge + 18, y: 60 }, width: edge - 40 },
-    { label: '가운데는 눌러도 그대로예요', at: { x: W / 2, y: H - 120 }, anchor: 'translateX(-50%)', color: '#1D2330', nowrap: true },
+    { label: '여기를 클릭하면<br>이전 장', at: { x: 22, y: 60 }, width: edge - 40 },
+    { label: '여기를 클릭하면<br>다음 장', at: { x: W - edge + 18, y: 60 }, width: edge - 40 },
+    { label: '가운데는 클릭해도 넘어가지 않아요', at: { x: W / 2, y: H - 120 }, anchor: 'translateX(-50%)', color: '#1D2330', nowrap: true },
   ]);
   await shot(page, '01-edge-click.png');
 
@@ -171,7 +171,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const img = b => 'data:image/png;base64,' + b.toString('base64');
   await cmp.setContent(`<html><head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap"></head>
   <body style="margin:0;background:#F6F5F1;font-family:'Noto Sans KR';display:flex;gap:40px;padding:36px 40px;box-sizing:border-box;height:560px">
-  ${[[fwd, '처음 넘어오면', '애니메이션이 하나씩 나와요', '#6A7180'], [back, '뒤로 돌아오면', '다 펼쳐진 화면이 바로 나와요', RED]].map(([b, t, s, c]) => `
+  ${[[fwd, '처음 볼 때', '애니메이션이 하나씩 나와요', '#6A7180'], [back, '다시 돌아오면', '완성된 화면이 바로 나와요', RED]].map(([b, t, s, c]) => `
   <div style="flex:1;display:flex;flex-direction:column;gap:14px">
     <div style="font-size:28px;font-weight:700;color:${c}">${t} <span style="font-weight:500;color:#1D2330">· ${s}</span></div>
     <img src="${img(b)}" style="width:100%;border-radius:12px;border:4px solid ${c};box-sizing:border-box">
@@ -193,7 +193,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   await annotate(page, [
     { box: pad(toast1, 6) },
     { box: pad(animBtn, 6) },
-    { label: 'A 키나 이 버튼으로 끄고 켜요. 끄면 장이 다 펼쳐진 채로 나와요. 브라우저가 이 설정을 기억해요', at: { right: W - (animBtn.x + animBtn.w), bottom: H - animBtn.y + 24 }, width: 520 },
+    { label: 'A 키나 이 버튼으로 끄고 켜요. 끄면 애니메이션 없이 완성된 화면이 나와요. 브라우저가 이 설정을 기억해요', at: { right: W - (animBtn.x + animBtn.w), bottom: H - animBtn.y + 24 }, width: 520 },
   ]);
   await shot(page, '06-animation-off.png');
   await page.keyboard.press('a'); // 다시 켜 둬요
@@ -208,9 +208,9 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const go = await rect(page, '#pl-go');
   await annotate(page, [
     { box: pad(toast2, 6) },
-    { label: '숫자를 치고 Enter를 누르면 그 장으로 가요', at: { x: toast2.x + toast2.w + 24, y: toast2.y - 4 }, width: 520, nowrap: true },
+    { label: '쪽 번호를 치고 Enter를 누르면 그 장으로 바로 가요', at: { x: toast2.x + toast2.w + 24, y: toast2.y - 4 }, width: 520, nowrap: true },
     { box: pad(go, 6) },
-    { label: '아래 막대의 쪽 번호 칸에 쳐도 돼요', at: { x: go.x, bottom: H - go.y + 24 }, width: 520, nowrap: true },
+    { label: '아래 막대의 쪽 번호 칸에 입력해도 돼요', at: { x: go.x, bottom: H - go.y + 24 }, width: 520, nowrap: true },
   ]);
   await shot(page, '07-page-jump.png');
   await page.keyboard.press('Escape');
@@ -222,18 +222,18 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const bar = await rect(page, '#pl-bar');
   await annotate(page, [
     { box: pad(bar, 0) },
-    { label: '마우스를 화면에 올리면 아래 막대가 보여요. 방향키, Space, N(노트), F(전체 화면)는 전과 같아요', at: { x: W / 2, bottom: H - bar.y + 30 }, anchor: 'translateX(-50%)', width: 1000, nowrap: true },
+    { label: '마우스를 화면에 올리면 아래 막대가 나타나요. 방향키, Space, N(노트), F(전체 화면)는 전과 같아요', at: { x: W / 2, bottom: H - bar.y + 30 }, anchor: 'translateX(-50%)', width: 1000, nowrap: true },
   ]);
   await shot(page, '08-bottom-bar.png');
 
   // 0. 한 장 요약 (슬랙 첫 이미지)
   const items = [
-    ['화면 좌우 끝을 눌러야 넘어가요', '끝에 마우스를 올리면 화살표가 보여요'],
+    ['화면 왼쪽, 오른쪽 끝을 클릭해서 넘겨요', '끝에 마우스를 올리면 화살표가 나타나요'],
     ['글자를 드래그해서 선택할 수 있어요', '선택해도 장이 넘어가지 않아요'],
-    ['코드 칸에 복사 버튼이 생겼어요', '터미널은 $ 뒤 명령만, 파이썬은 모든 줄'],
-    ['뒤로 가면 다 펼쳐진 화면이 나와요', '애니메이션을 다시 누를 필요가 없어요'],
+    ['코드 칸에 복사 버튼이 생겼어요', '터미널은 $ 뒤 명령만, 파이썬은 코드 전체'],
+    ['앞 장으로 돌아가면 완성된 화면이 나와요', '처음부터 다시 클릭할 필요가 없어요'],
     ['A 키로 애니메이션을 꺼요', '브라우저가 설정을 기억해요'],
-    ['숫자 뒤 Enter로 그 장에 가요', '아래 막대의 쪽 번호 칸도 돼요'],
+    ['쪽 번호를 치고 Enter로 바로 가요', '아래 막대의 쪽 번호 칸에 입력해도 돼요'],
   ];
   const card = await ctx.newPage();
   await card.setViewportSize({ width: 1600, height: 790 });
@@ -247,7 +247,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
       <div style="flex:none;width:52px;height:52px;border-radius:50%;background:${RED};color:#fff;font-size:26px;font-weight:900;display:flex;align-items:center;justify-content:center">${i + 1}</div>
       <div><div style="font-size:28px;font-weight:700">${esc(t)}</div><div style="font-size:21px;color:#6A7180;margin-top:4px">${esc(s)}</div></div></div>`).join('')}
     </div>
-    <div style="margin-top:36px;font-size:22px;color:#6A7180">방향키, Space, N(노트), F(전체 화면)는 전과 같아요. 01부터 모든 챕터와 번외 슬라이드에 똑같이 적용돼요.</div>
+    <div style="margin-top:36px;font-size:22px;color:#6A7180">방향키, Space, N(노트), F(전체 화면)는 전과 같아요. 01부터 모든 챕터와 번외 슬라이드에 적용돼요.</div>
   </div></body></html>`);
   await card.evaluate(() => document.fonts.ready); await card.waitForTimeout(400);
   await card.screenshot({ path: path.join(OUT, '00-summary.png') });
