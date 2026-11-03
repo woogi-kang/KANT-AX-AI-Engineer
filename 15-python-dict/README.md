@@ -17,6 +17,7 @@
 - `{"coffee": 4500, "latte": 5000}`처럼 키: 값 쌍으로 딕셔너리를 만들고, `len()`으로 쌍의 개수를 세요.
 - `menu["latte"]`로 값을 꺼내고, 없는 키를 꺼낼 때 나는 `KeyError`를 읽어요.
 - `menu.get("tea", 0)`으로 없는 키에도 오류 없이 기본값을 받아요.
+- 설정값의 기본값, 메뉴판에 없는 주문, `count[w] = count.get(w, 0) + 1` 개수 세기처럼 get을 쓰는 곳을 알아요.
 - `menu["tea"] = 4000` 한 문법으로 없는 키는 추가하고, 있는 키는 수정해요.
 - 키는 겹치지 않아서 같은 키에 다시 넣으면 값이 덮어써진다는 걸 알아요. 값은 겹쳐도 돼요.
 - `del`과 `pop`으로 키와 값을 지워요.
@@ -43,9 +44,9 @@
 | 들어가기 | 1–3 | 표지, 오늘의 순서, `basics.ipynb` 다시 열기 |
 | 1. 만들고 꺼내기 | 4–7 | 번호 대신 키로 찾기(사물함 그림), `{키: 값}`과 `type` `len`, 빈 딕셔너리 `{}`, `menu["latte"]`로 꺼내기와 `KeyError`, `get`과 기본값, `None` |
 | 2. 바꾸고 지우기 | 8–11 | 없는 키면 추가, 있는 키면 수정, 키는 겹치지 않기(`{"latte": 5000, "latte": 5500}`), 값은 겹쳐도 되기, `del`과 `pop`, 키를 보는 `in`과 `not in` |
-| 3. 둘러보기 | 12–15 | `keys()` `values()` `items()`와 `list()`, `list(menu.keys())[0]`처럼 리스트로 바꿔 번호로 꺼내기와 `TypeError`, `for name in menu:`, `for name, price in menu.items():`, `values()`의 `sum` `max` `in`, `sorted(menu)` |
-| 4. 리스트와 섞기 | 16–21 | 값이 리스트인 딕셔너리, 딕셔너리 리스트 `orders[1]["menu"]`, `for order in orders:`, KANT 카페 영수증 다시 찍기, 메뉴판과 장바구니 딕셔너리, 자주 나는 오류 |
-| 정리 | 22–23 | 막힐 때, 한 장 요약 |
+| 3. 둘러보기 | 12–17 | `keys()` `values()` `items()`와 `list()`, `list(menu.keys())[0]`처럼 리스트로 바꿔 번호로 꺼내기와 `TypeError`, `for name in menu:`, `for name, price in menu.items():`, `values()`의 `sum` `max` `in`, `sorted(menu)`, get을 쓰는 곳(설정 기본값, 메뉴판에 없는 주문은 0원, 개수 세기) |
+| 4. 리스트와 섞기 | 18–23 | 값이 리스트인 딕셔너리, 딕셔너리 리스트 `orders[1]["menu"]`, `for order in orders:`, KANT 카페 영수증 다시 찍기, 메뉴판과 장바구니 딕셔너리, 자주 나는 오류 |
+| 정리 | 24–25 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -155,6 +156,18 @@ print(sum(menu.values()))         # 16000
 print(sorted(menu))               # ['cake', 'coffee', 'latte']
 ```
 
+get은 없을 수도 있는 키에 써요. 처음 나온 단어는 get이 0을 줘서 1부터 세요.
+
+```python
+settings = {"name": "kim"}
+print(settings.get("lang", "ko"))     # ko
+words = "coffee latte coffee cake coffee latte".split()
+count = {}
+for w in words:
+    count[w] = count.get(w, 0) + 1
+print(count)                          # {'coffee': 3, 'latte': 2, 'cake': 1}
+```
+
 ### 4. 리스트와 섞기
 
 ```python
@@ -182,7 +195,7 @@ print(f"합계 {total:,}원")
 # 합계 28,500원
 ```
 
-13의 KANT 카페 영수증을 딕셔너리 리스트로 다시 찍는 코드는 슬라이드 19쪽에 있어요. 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
+13의 KANT 카페 영수증을 딕셔너리 리스트로 다시 찍는 코드는 슬라이드 21쪽에 있어요. 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
 
 ## 명령어 요약
 
@@ -191,6 +204,7 @@ print(f"합계 {total:,}원")
 | `{}` | 빈 딕셔너리 |
 | `d[키]` | 값 꺼내기. 없으면 `KeyError` |
 | `d.get(키, 기본값)` | 값 꺼내기. 없으면 기본값(안 적으면 `None`) |
+| `d[k] = d.get(k, 0) + 1` | 개수 세기. 처음 나온 키는 1부터 |
 | `d[키] = 값` | 없으면 추가, 있으면 수정 |
 | `del d[키]` | 키와 값 지우기 |
 | `d.pop(키)` | 지우면서 값 돌려받기 |

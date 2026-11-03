@@ -351,7 +351,7 @@ o.append(card(96, 600, 840, 260, mono('menu["tea"]', 28, RED, "#F8E6E6", "align-
 o.append(card(984, 600, 840, 260, mono('menu.get("tea", 0)', 28, GR, "#E6F4EC", "align-self:flex-start") + p(f"font-family:{MONO};font-size:26px;font-weight:700;color:{GR}", "0")
               + p(f"font-size:24px;line-height:1.45;color:{INK}", "없으면 0을 돌려주고 다음 줄로 넘어가요"), GR, ' data-build-in="rise order 5"'))
 o.append(caption("None은 '값이 없어요'를 뜻하는 파이썬 값이에요.", 920))
-W("d-get", o, "get은 대괄호 꺼내기와 비슷하지만, 없는 키를 물어도 오류가 나지 않아요. 키가 있으면 값을 돌려주고, 없으면 None을 돌려줘요. None은 값이 없다는 뜻의 파이썬 값이에요. 괄호 안에 쉼표 뒤로 값을 하나 더 적으면, 키가 없을 때 None 대신 그 값을 돌려줘요. 가격이나 개수처럼 숫자를 다룰 때는 0을 많이 적어요. 키가 꼭 있어야 하는 곳은 대괄호, 없을 수도 있는 곳은 get을 써요. 출력은 실제로 실행한 결과예요.")
+W("d-get", o, "get은 대괄호 꺼내기와 비슷하지만, 없는 키를 물어도 오류가 나지 않아요. 키가 있으면 값을 돌려주고, 없으면 None을 돌려줘요. None은 값이 없다는 뜻의 파이썬 값이에요. 괄호 안에 쉼표 뒤로 값을 하나 더 적으면, 키가 없을 때 None 대신 그 값을 돌려줘요. 가격이나 개수처럼 숫자를 다룰 때는 0을 많이 적어요. 키가 꼭 있어야 하는 곳은 대괄호, 없을 수도 있는 곳은 get을 써요. 실제로 쓰는 곳은 3파트 끝에서 봐요. 출력은 실제로 실행한 결과예요.")
 
 # ---------- part 2: change ----------
 o = [sec("d-add")] + head(EB2, "없는 키면 추가, 있는 키면 수정이에요", K2)
@@ -462,6 +462,34 @@ o.append(card(1010, 600, 814, 270, p(f"font-size:28px;font-weight:700;color:{INK
               + p(f"font-size:24px;line-height:1.5;color:{INK}", "sum, max, min, sorted는 values()에도, keys()에도 써요."), None, ' data-build-in="rise order 5"'))
 o.append(caption("값으로 계산할 때는 values()를 꺼내서 써요.", 920))
 W("d-calc", o, "values()로 모은 값에는 13에서 리스트에 쓴 sum, max를 그대로 써요. 메뉴 가격을 모두 더하면 16000, 가장 비싼 값은 6500이에요. 2파트에서 in은 키만 본다고 했어요. 값에서 찾으려면 values()에 in을 써요. sorted에 딕셔너리를 그대로 넣으면 키만 abc 순으로 정렬한 리스트가 나와요. 딕셔너리 자체는 바뀌지 않아요. 출력은 실제로 실행한 결과예요.")
+
+o = [sec("d-getuse")] + head(EB3, "get은 없을 수도 있는 키에 써요", K3)
+o += cell({"id": "c-u1", "lines": ['settings = {"name": "kim"}', 'print(settings.get("name", "guest"))', 'print(settings.get("lang", "ko"))', 'print(settings.get("theme", "light"))', "print(settings)"], "n": 7,
+           "out": ["kim", "ko", "light", "{'name': 'kim'}"]}, 96, 200, 840)
+o += cell({"id": "c-u2", "lines": ['cart = {"coffee": 2, "tea": 1}', "total = 0", "for name, qty in cart.items():", "    price = menu.get(name, 0)", "    print(name, qty, price * qty)", "    total += price * qty", 'print("합계:", total)'], "n": 8,
+           "out": ["coffee 2 9000", "tea 1 0", "합계: 9000"]}, 984, 200, 840, sel="c-u2", attrs=' data-build-in="rise order 2"')
+o.append(card(96, 640, 840, 230, p(f"font-size:26px;font-weight:700;color:{INK}", "1. 넣지 않은 설정은 기본값으로")
+              + mono('settings.get("lang", "ko")', 24, K3, K3BG, "align-self:flex-start") + p(f"font-size:23px;line-height:1.45;color:{INK}", "lang을 적지 않았으면 ko를 써요. settings는 그대로예요"), K3, ' data-build-in="rise order 1"'))
+o.append(card(984, 660, 840, 210, p(f"font-size:26px;font-weight:700;color:{INK}", "2. 메뉴판에 없는 주문은 0원으로")
+              + mono("menu.get(name, 0)", 24, K3, K3BG, "align-self:flex-start") + p(f"font-size:23px;line-height:1.45;color:{INK}", "menu[name]이었다면 tea에서 KeyError로 멈춰요"), K3, ' data-build-in="rise order 3"'))
+o.append(caption("키가 꼭 있으면 대괄호, 없을 수도 있으면 get으로 꺼내요.", 920))
+W("d-getuse", o, "1파트에서 본 get을 실제로 쓰는 곳이에요. 첫째는 설정값이에요. 사용자가 이름만 적고 언어와 테마는 적지 않았으면, get의 두 번째 값으로 정해 둔 기본값을 써요. get은 꺼내기만 해서 settings는 바뀌지 않아요. 둘째는 장바구니예요. 메뉴판에 없는 tea가 들어와도 menu.get(name, 0)은 0을 줘서 for가 끝까지 돌아요. menu[name]으로 꺼냈다면 tea에서 KeyError가 나고 셀이 멈춰요. 출력은 실제로 실행한 결과예요.")
+
+o = [sec("d-count")] + head(EB3, "get으로 개수를 세요", K3)
+o += cell({"id": "c-q1", "lines": ['words = "coffee latte coffee cake coffee latte".split()', "count = {}", "for w in words:", "    count[w] = count.get(w, 0) + 1", "print(count)", 'print(count["coffee"])'], "n": 9,
+           "out": ["{'coffee': 3, 'latte': 2, 'cake': 1}", "3"]}, 96, 200, 1000, sel="c-q1")
+o += cell({"id": "c-q2", "lines": ["votes = {}", 'votes["coffee"] = votes["coffee"] + 1'], "n": 10, "out": ["KeyError: 'coffee'"], "err": True}, 96, 590, 1000, attrs=' data-build-in="rise order 5"')
+o.append(card(96, 770, 1000, 110, p(f"font-size:24px;line-height:1.45;color:{INK}", "대괄호로 꺼내면 처음 나온 키에서 멈춰요. 처음엔 아무 키도 없어서예요."), RED, ' data-build-in="rise order 5"', "justify-content:center;padding:14px 26px"))
+hd = [("w", 170), ("count.get(w, 0)", 250), ("넣는 값", 150)]
+o.append(f'<div data-build-in="fade order 1" style="position:absolute;left:1150px;top:200px;width:674px;height:50px;display:flex;flex-direction:row;align-items:center;padding:0 22px;gap:14px">'
+         + "".join(p(f"width:{w_}px;flex:none;font-family:{MONO};font-size:20px;font-weight:700;color:{GRAY}", e(t)) for t, w_ in hd) + '</div>')
+steps = [("coffee", 0), ("latte", 0), ("coffee", 1), ("cake", 0), ("coffee", 2), ("latte", 1)]
+for i, (w_, g) in enumerate(steps):
+    o.append(f'<div data-build-in="rise order {i // 2 + 1}" style="position:absolute;left:1150px;top:{254 + i * 68}px;width:674px;height:60px;background:{CARD};border:2px solid {LINE};border-radius:12px;padding:0 22px;display:flex;flex-direction:row;align-items:center;gap:14px">'
+             + "".join(p(f"width:{w2}px;flex:none;font-family:{MONO};font-size:24px;font-weight:700;color:{c};white-space:pre", e(t)) for t, w2, c in ((f'"{w_}"', 170, INK), (str(g), 250, GRAY if g == 0 else INK), (f"{g} + 1 = {g + 1}", 150, K3))) + '</div>')
+o.append(lockers([('"coffee"', "3"), ('"latte"', "2"), ('"cake"', "1")], 1150, 676, 210, 130, K3, K3BG, hi=(0, 1, 2), attrs=' data-build-in="rise order 4"', fs=40))
+o.append(caption("처음 보는 키는 get이 0을 줘서 0 + 1 = 1부터 세요.", 920))
+W("d-count", o, "주문이나 단어가 몇 번 나왔는지 세는 것도 get을 쓰는 대표적인 곳이에요. 빈 딕셔너리 count에서 시작해요. for로 단어를 하나씩 꺼내서 count.get(w, 0) + 1을 다시 그 키에 넣어요. 처음 나온 단어는 키가 없어서 get이 0을 주고, 1이 들어가요. 두 번째부터는 지금까지 센 값에 1을 더해요. 2파트에서 본 것처럼 없는 키면 추가, 있는 키면 수정이라 한 줄로 둘 다 돼요. 대괄호로 꺼내면 처음 나온 키에서 KeyError가 나요. 출력은 실제로 실행한 결과예요.")
 
 # ---------- part 4: mix with lists ----------
 o = [sec("x-listval")] + head(EB4, "값에 리스트를 넣을 수 있어요", K4)
@@ -578,7 +606,7 @@ W("cheatsheet", o, "이번 챕터에서 쓴 코드를 한 장에 모았어요. �
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 parts = [("Key", K1, "만들고 꺼내기", "번호 대신 키로 찾기, { 키: 값 }, [키]로 꺼내기, KeyError와 get", "d-why", "d-get"),
          ("Wrench", K2, "바꾸고 지우기", "추가와 수정, 키는 겹치지 않기, del과 pop, 키를 보는 in", "d-add", "d-in"),
-         ("Search", K3, "둘러보기", "keys, values, items, list()로 바꿔 번호로 꺼내기, for로 한 쌍씩, sum과 sorted", "d-views", "d-calc"),
+         ("Search", K3, "둘러보기", "keys, values, items, list()로 바꿔 번호로 꺼내기, for로 한 쌍씩, sum과 sorted, get을 쓰는 곳(기본값, 개수 세기)", "d-views", "d-count"),
          ("Database", K4, "리스트와 섞기", "값이 리스트인 딕셔너리, 딕셔너리 리스트, 영수증, 메뉴판에서 가격 찾기, 오류", "x-listval", "x-err")]
 TOC_NOTE = "네 파트로 나눴어요. 1파트는 딕셔너리를 만들고 키로 꺼내는 법, 2파트는 추가, 수정, 삭제예요. 3파트는 for로 딕셔너리를 둘러보고, 4파트는 리스트와 섞어 13의 영수증을 다시 찍어요. 파트마다 새 커널에서 위에서부터 차례로 실행해요."
 
