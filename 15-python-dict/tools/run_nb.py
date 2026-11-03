@@ -24,7 +24,9 @@ run(['student = ["kim", 90, 85, 77]\nprint(student[2])',
      MENU + '\nprint(menu)\nprint(type(menu))\nprint(len(menu))\ncart = {}\nprint(cart)\nprint(len(cart))',
      'print(menu["latte"])\nprice = menu["cake"]\nprint(price * 2)',
      'menu["tea"]',
-     'print(menu.get("latte"))\nprint(menu.get("tea"))\nprint(menu.get("tea", 0))'])
+     'print(menu.get("latte"))\nprint(menu.get("tea"))\nprint(menu.get("tea", 0))',
+     'print(menu["cakee"] if "cakee" in menu else 5000)\nprint(menu.get("cakee", 5000))\nprint(menu["cake"] if "cake" in menu else 5000)\nprint(menu.get("cake", 5000))',
+     'sale = {"cake": None}\nprint(sale.get("cake", 5000))\nprint(sale.get("cakee", 5000))'])
 print("=== 2. 바꾸기")
 run([MENU + '\nmenu["tea"] = 4000\nprint(menu)\nmenu["latte"] = 5500\nprint(menu)\nprint(len(menu))',
      'dup = {"latte": 5000, "latte": 5500}\nprint(dup)\nprint(len(dup))\nscore = {"kim": 90, "lee": 90, "park": 90}\nprint(score)',

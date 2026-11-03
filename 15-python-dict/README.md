@@ -16,7 +16,7 @@
 
 - `{"coffee": 4500, "latte": 5000}`처럼 키: 값 쌍으로 딕셔너리를 만들고, `len()`으로 쌍의 개수를 세요.
 - `menu["latte"]`로 값을 꺼내고, 없는 키를 꺼낼 때 나는 `KeyError`를 읽어요.
-- `menu.get("tea", 0)`으로 없는 키에도 오류 없이 기본값을 받아요.
+- `menu.get("tea", 0)`으로 없는 키에도 오류 없이 기본값을 받아요. get은 '키가 있으면 꺼내고, 없으면 기본값'을 줄인 메서드라는 걸 알아요.
 - 설정값의 기본값, 메뉴판에 없는 주문, `count[w] = count.get(w, 0) + 1` 개수 세기처럼 get을 쓰는 곳을 알아요.
 - `menu["tea"] = 4000` 한 문법으로 없는 키는 추가하고, 있는 키는 수정해요.
 - 키는 겹치지 않아서 같은 키에 다시 넣으면 값이 덮어써진다는 걸 알아요. 값은 겹쳐도 돼요.
@@ -42,11 +42,11 @@
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
 | 들어가기 | 1–3 | 표지, 오늘의 순서, `basics.ipynb` 다시 열기 |
-| 1. 만들고 꺼내기 | 4–7 | 번호 대신 키로 찾기(사물함 그림), `{키: 값}`과 `type` `len`, 빈 딕셔너리 `{}`, `menu["latte"]`로 꺼내기와 `KeyError`, `get`과 기본값, `None` |
-| 2. 바꾸고 지우기 | 8–11 | 없는 키면 추가, 있는 키면 수정, 키는 겹치지 않기(`{"latte": 5000, "latte": 5500}`), 값은 겹쳐도 되기, `del`과 `pop`, 키를 보는 `in`과 `not in` |
-| 3. 둘러보기 | 12–17 | `keys()` `values()` `items()`와 `list()`, `list(menu.keys())[0]`처럼 리스트로 바꿔 번호로 꺼내기와 `TypeError`, `for name in menu:`, `for name, price in menu.items():`, `values()`의 `sum` `max` `in`, `sorted(menu)`, get을 쓰는 곳(설정 기본값, 메뉴판에 없는 주문은 0원, 개수 세기) |
-| 4. 리스트와 섞기 | 18–23 | 값이 리스트인 딕셔너리, 딕셔너리 리스트 `orders[1]["menu"]`, `for order in orders:`, KANT 카페 영수증 다시 찍기, 메뉴판과 장바구니 딕셔너리, 자주 나는 오류 |
-| 정리 | 24–25 | 막힐 때, 한 장 요약 |
+| 1. 만들고 꺼내기 | 4–8 | 번호 대신 키로 찾기(사물함 그림), `{키: 값}`과 `type` `len`, 빈 딕셔너리 `{}`, `menu["latte"]`로 꺼내기와 `KeyError`, `get`과 기본값, `None`, get이 줄인 긴 코드(`menu["cakee"] if "cakee" in menu else 5000`)와 값이 `None`일 때 |
+| 2. 바꾸고 지우기 | 9–12 | 없는 키면 추가, 있는 키면 수정, 키는 겹치지 않기(`{"latte": 5000, "latte": 5500}`), 값은 겹쳐도 되기, `del`과 `pop`, 키를 보는 `in`과 `not in` |
+| 3. 둘러보기 | 13–18 | `keys()` `values()` `items()`와 `list()`, `list(menu.keys())[0]`처럼 리스트로 바꿔 번호로 꺼내기와 `TypeError`, `for name in menu:`, `for name, price in menu.items():`, `values()`의 `sum` `max` `in`, `sorted(menu)`, get을 쓰는 곳(설정 기본값, 메뉴판에 없는 주문은 0원, 개수 세기) |
+| 4. 리스트와 섞기 | 19–24 | 값이 리스트인 딕셔너리, 딕셔너리 리스트 `orders[1]["menu"]`, `for order in orders:`, KANT 카페 영수증 다시 찍기, 메뉴판과 장바구니 딕셔너리, 자주 나는 오류 |
+| 정리 | 25–26 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -113,6 +113,9 @@ price = menu["cake"]
 print(price * 2)             # 13000
 print(menu.get("tea"))       # None
 print(menu.get("tea", 0))    # 0
+print(menu.get("cakee", 5000))   # 5000
+sale = {"cake": None}
+print(sale.get("cake", 5000))    # None
 ```
 
 ### 2. 바꾸고 지우기
@@ -195,7 +198,7 @@ print(f"합계 {total:,}원")
 # 합계 28,500원
 ```
 
-13의 KANT 카페 영수증을 딕셔너리 리스트로 다시 찍는 코드는 슬라이드 21쪽에 있어요. 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
+13의 KANT 카페 영수증을 딕셔너리 리스트로 다시 찍는 코드는 슬라이드 22쪽에 있어요. 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
 
 ## 명령어 요약
 
@@ -203,7 +206,7 @@ print(f"합계 {total:,}원")
 | --- | --- |
 | `{}` | 빈 딕셔너리 |
 | `d[키]` | 값 꺼내기. 없으면 `KeyError` |
-| `d.get(키, 기본값)` | 값 꺼내기. 없으면 기본값(안 적으면 `None`) |
+| `d.get(키, 기본값)` | 값 꺼내기. 키가 없을 때만 기본값(안 적으면 `None`). 키가 있고 값이 `None`이면 `None` |
 | `d[k] = d.get(k, 0) + 1` | 개수 세기. 처음 나온 키는 1부터 |
 | `d[키] = 값` | 없으면 추가, 있으면 수정 |
 | `del d[키]` | 키와 값 지우기 |
