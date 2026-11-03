@@ -61,7 +61,7 @@ async function buildAll(page) {
   // 지금 장의 애니메이션을 끝까지 펼쳐요 (Space를 누르다 장이 바뀌기 직전에 멈춰요)
   const start = await page.evaluate(() => location.hash);
   for (let i = 0; i < 20; i++) {
-    const left = await page.evaluate(() => document.querySelectorAll('#stage>section.on .pending').length);
+    const left = await page.evaluate(() => document.querySelectorAll('#pl-stage>section.on .pending').length);
     if (!left) break;
     await page.keyboard.press('Space');
     await page.waitForTimeout(150);
@@ -71,7 +71,7 @@ async function buildAll(page) {
 }
 async function codeBox(page) {
   return page.evaluate(() => {
-    const r = document.querySelector('#stage>section.on [data-code]').getBoundingClientRect();
+    const r = document.querySelector('#pl-stage>section.on [data-code]').getBoundingClientRect();
     return { x: r.left, y: r.top, w: r.width, h: r.height };
   });
 }
@@ -101,7 +101,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   // 2. 글자를 골라도 넘어가지 않아요
   await open(page, PY, 19); await buildAll(page);
   const para = await page.evaluate(() => {
-    const p = [...document.querySelectorAll('#stage>section.on p')].find(p => p.textContent.startsWith('변수 하나에'));
+    const p = [...document.querySelectorAll('#pl-stage>section.on p')].find(p => p.textContent.startsWith('변수 하나에'));
     const r = p.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height };
   });
   // 끌어서 고르기는 끝에서 시작해도 넘어가지 않아요. 끝을 그냥 누르는 것만 넘겨요
@@ -126,10 +126,10 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   let box = await codeBox(page);
   await page.mouse.move(box.x + box.w / 2, box.y + box.h / 2);
   await page.waitForTimeout(300);
-  await page.click('#copy');
+  await page.click('#pl-copy');
   await page.waitForTimeout(300);
   let clip = await page.evaluate(() => navigator.clipboard.readText());
-  const btn = await rect(page, '#copy');
+  const btn = await rect(page, '#pl-copy');
   await annotate(page, [
     { box: pad(box, 6) },
     { box: pad(btn, 6), color: '#1F8A4C' },
@@ -142,10 +142,10 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   box = await codeBox(page);
   await page.mouse.move(box.x + box.w / 2, box.y + box.h / 2);
   await page.waitForTimeout(300);
-  await page.click('#copy');
+  await page.click('#pl-copy');
   await page.waitForTimeout(300);
   clip = await page.evaluate(() => navigator.clipboard.readText());
-  const btn2 = await rect(page, '#copy');
+  const btn2 = await rect(page, '#pl-copy');
   await annotate(page, [
     { box: pad(box, 6) },
     { box: pad(btn2, 6), color: '#1F8A4C' },
@@ -188,8 +188,8 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   await page.mouse.move(W / 2, H / 2);
   await page.keyboard.press('a');
   await page.waitForTimeout(700);
-  const animBtn = await rect(page, '#anim');
-  const toast1 = await rect(page, '#toast');
+  const animBtn = await rect(page, '#pl-anim');
+  const toast1 = await rect(page, '#pl-toast');
   await annotate(page, [
     { box: pad(toast1, 6) },
     { box: pad(animBtn, 6) },
@@ -204,8 +204,8 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   await page.mouse.move(W / 2, H / 2);
   await page.keyboard.press('2'); await page.keyboard.press('4');
   await page.waitForTimeout(400);
-  const toast2 = await rect(page, '#toast');
-  const go = await rect(page, '#go');
+  const toast2 = await rect(page, '#pl-toast');
+  const go = await rect(page, '#pl-go');
   await annotate(page, [
     { box: pad(toast2, 6) },
     { label: '숫자를 치고 Enter를 누르면 그 장으로 가요', at: { x: toast2.x + toast2.w + 24, y: toast2.y - 4 }, width: 520, nowrap: true },
@@ -219,7 +219,7 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   await open(page, GIT, 4);
   await page.mouse.move(W / 2, H - 20);
   await page.waitForTimeout(400);
-  const bar = await rect(page, '#bar');
+  const bar = await rect(page, '#pl-bar');
   await annotate(page, [
     { box: pad(bar, 0) },
     { label: '마우스를 화면에 올리면 아래 막대가 보여요. 방향키, Space, N(노트), F(전체 화면)는 전과 같아요', at: { x: W / 2, bottom: H - bar.y + 30 }, anchor: 'translateX(-50%)', width: 1000, nowrap: true },
