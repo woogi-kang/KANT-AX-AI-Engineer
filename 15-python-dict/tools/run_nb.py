@@ -33,6 +33,8 @@ run([MENU + '\nmenu["tea"] = 4000\nprint(menu)\nmenu["latte"] = 5500\nprint(menu
      'print("latte" in menu)\nprint("tea" in menu)\nprint("tea" not in menu)\nprint(5500 in menu)\nprint(len(menu))'])
 print("=== 3. 둘러보기")
 run([MENU + '\nprint(menu.keys())\nprint(menu.values())\nprint(menu.items())\nprint(list(menu.keys()))',
+     'keys = list(menu.keys())\nprint(keys)\nprint(keys[0])\nprint(list(menu.values())[-1])\npair = list(menu.items())[1]\nprint(pair)\nprint(pair[0], pair[1])',
+     'menu.keys()[0]',
      'for name in menu:\n    print(name)',
      'for name, price in menu.items():\n    print(f"{name:<8}{price:>6,}원")',
      'print(sum(menu.values()))\nprint(max(menu.values()))\nprint(5000 in menu.values())\nprint(sorted(menu))'])

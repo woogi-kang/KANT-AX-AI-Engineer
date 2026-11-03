@@ -413,7 +413,7 @@ o = [sec("d-views")] + head(EB3, "keys, values, items로 모아 봐요", K3)
 o += cell({"id": "c-v", "lines": [MENU, "print(menu.keys())", "print(menu.values())", "print(menu.items())", "print(list(menu.keys()))"], "n": 1,
            "out": ["dict_keys(['coffee', 'latte', 'cake'])", "dict_values([4500, 5000, 6500])", "dict_items([('coffee', 4500), ('latte', 5000), ('cake', 6500)])", "['coffee', 'latte', 'cake']"]}, 96, 200, 1180, sel="c-v")
 o.append(card(1320, 200, 504, 374, p(f"font-size:28px;font-weight:700;color:{INK}", "리스트가 필요하면")
-              + mono("list(menu.keys())", 26, K3, K3BG, "align-self:flex-start") + p(f"font-size:24px;line-height:1.5;color:{INK}", "13의 list()로 감싸면 보통 리스트가 돼요"), K3, ' data-build-in="rise order 4"'))
+              + mono("list(menu.keys())", 26, K3, K3BG, "align-self:flex-start") + p(f"font-size:24px;line-height:1.5;color:{INK}", "13의 list()로 감싸면 보통 리스트가 돼요. 다음 장에서 번호로 꺼내 봐요"), K3, ' data-build-in="rise order 4"'))
 vw = [("menu.keys()", "키만", "key"), ("menu.values()", "값만", "val"), ("menu.items()", "(키, 값) 쌍", None)]
 for i, (k, d, md) in enumerate(vw):
     o.append(card(96 + i * 584, 620, 560, 270, '<div style="display:flex;flex-direction:row;align-items:center;gap:16px">' + mono(k, 26, K3, K3BG) + p(f"font-size:26px;font-weight:700;color:{INK}", d) + '</div>'
@@ -421,9 +421,23 @@ for i, (k, d, md) in enumerate(vw):
 o.append(caption("items()는 (키, 값) 튜플을 하나씩 담아요.", 920))
 W("d-views", o, "딕셔너리에서 키만, 값만, 쌍을 따로 모아 볼 수 있어요. keys는 키만, values는 값만 모아요. items는 키와 값을 튜플 하나로 묶어서 모아요. 출력의 dict_keys, dict_values, dict_items는 딕셔너리에서 꺼내 보여 주는 모양이라는 뜻이에요. 보통 리스트가 필요하면 13에서 배운 list()로 감싸요. 이 파트도 새 커널이라 menu를 다시 만들어요. 출력은 실제로 실행한 결과예요.", ("browse", "둘러보기"))
 
+o = [sec("d-list")] + head(EB3, "list()로 바꾸면 번호로 꺼낼 수 있어요", K3)
+o += cell({"id": "c-n", "lines": ["keys = list(menu.keys())", "print(keys)", "print(keys[0])", "print(list(menu.values())[-1])", "pair = list(menu.items())[1]", "print(pair)", "print(pair[0], pair[1])"], "n": 2,
+           "out": ["['coffee', 'latte', 'cake']", "coffee", "6500", "('latte', 5000)", "latte 5000"]}, 96, 200, 860, sel="c-n")
+o += cell({"id": "c-n2", "lines": ["menu.keys()[0]"], "n": 3, "out": ["TypeError: 'dict_keys' object is not subscriptable"], "err": True}, 96, 724, 860, attrs=' data-build-in="rise order 5"')
+ln = [("list(menu.keys())[0]", "coffee", "키 0번"), ("list(menu.values())[-1]", "6500", "값 맨 뒤"), ("list(menu.items())[1]", "('latte', 5000)", "1번 쌍")]
+for i, (k, r, d) in enumerate(ln):
+    o.append(row_card(1000, 200 + i * 120, 824, 104, k, r, d, i + 1, K3, K3BG, 380))
+o.append(card(1000, 572, 824, 124, '<div style="display:flex;flex-direction:row;align-items:center;gap:16px">' + mono("pair[0], pair[1]", 24, K3, K3BG) + p(f"font-family:{MONO};font-size:24px;font-weight:700;color:{INK}", "latte 5000")
+              + p(f"font-size:22px;color:{SUB}", "튜플도 번호로 꺼내요") + '</div>', None, ' data-build-in="rise order 4"', "justify-content:center;padding:14px 22px"))
+o.append(card(1000, 716, 824, 150, '<div style="display:flex;flex-direction:row;align-items:center;gap:14px">' + f'<x-icon name="Warning" style="width:36px;height:36px;color:{RED}"></x-icon>' + p(f"font-size:26px;font-weight:700;color:{INK}", "keys()는 리스트가 아니에요") + '</div>'
+              + p(f"font-size:23px;line-height:1.45;color:{INK}", "번호로 꺼내려면 list()로 먼저 바꿔요"), RED, ' data-build-in="rise order 5"', "padding:18px 26px;gap:8px"))
+o.append(caption("번호가 꼭 필요할 때만 list()로 바꿔요. 보통은 키로 꺼내요.", 930))
+W("d-list", o, "keys, values, items로 모은 것은 보여 주기용 모양이라 번호로 꺼낼 수 없어요. menu.keys()[0]처럼 바로 번호를 붙이면 TypeError가 나요. 13에서 배운 list()로 감싸면 보통 리스트가 돼서 [0], [-1]처럼 번호로 꺼내요. items()를 리스트로 바꾸면 값 하나하나가 (키, 값) 튜플이에요. 그래서 [1]로 꺼낸 pair에 다시 [0], [1]을 붙이면 키와 값이 나와요. 첫 번째 메뉴처럼 순서가 필요할 때 쓰고, 보통은 menu[\"latte\"]처럼 키로 꺼내요. 출력은 실제로 실행한 결과예요.")
+
 o = [sec("d-for")] + head(EB3, "for로 한 쌍씩 꺼내요", K3)
-o += cell({"id": "c-f1", "lines": ["for name in menu:", "    print(name)"], "n": 2, "out": ["coffee", "latte", "cake"]}, 96, 200, 700)
-o += cell({"id": "c-f2", "lines": ["for name, price in menu.items():", '    print(f"{name:<8}{price:>6,}원")'], "n": 3, "out": ["coffee   4,500원", "latte    5,000원", "cake     6,500원"], "wide": True},
+o += cell({"id": "c-f1", "lines": ["for name in menu:", "    print(name)"], "n": 4, "out": ["coffee", "latte", "cake"]}, 96, 200, 700)
+o += cell({"id": "c-f2", "lines": ["for name, price in menu.items():", '    print(f"{name:<8}{price:>6,}원")'], "n": 5, "out": ["coffee   4,500원", "latte    5,000원", "cake     6,500원"], "wide": True},
           860, 200, 964, sel="c-f2", attrs=' data-build-in="rise order 1"')
 for i, (k, v, outl) in enumerate([("coffee", 4500, "coffee   4,500원"), ("latte", 5000, "latte    5,000원"), ("cake", 6500, "cake     6,500원")]):
     y = 480 + i * 128
@@ -437,7 +451,7 @@ o.append(caption("for 뒤에 변수를 두 개 적으면 쌍을 나눠 담아요
 W("d-for", o, "딕셔너리를 for에 그대로 넣으면 키만 하나씩 나와요. 키와 값을 같이 쓰려면 items()를 넣어요. items()의 값 하나는 (키, 값) 튜플이라서, for 뒤에 변수를 두 개 적으면 name과 price에 나눠 담겨요. 13에서 for menu, price, qty in orders:로 튜플을 나눠 담은 것과 같은 모양이에요. 출력의 칸 맞추기와 콤마는 13의 1파트 f-string이에요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("d-calc")] + head(EB3, "values()에도 sum, max, in을 써요", K3)
-o += cell({"id": "c-c", "lines": ["print(sum(menu.values()))", "print(max(menu.values()))", "print(5000 in menu.values())", "print(sorted(menu))"], "n": 4,
+o += cell({"id": "c-c", "lines": ["print(sum(menu.values()))", "print(max(menu.values()))", "print(5000 in menu.values())", "print(sorted(menu))"], "n": 6,
            "out": ["16000", "6500", "True", "['cake', 'coffee', 'latte']"]}, 96, 200, 860, sel="c-c")
 cc = [("sum(menu.values())", "16000", "값을 모두 더해요"), ("max(menu.values())", "6500", "가장 큰 값"), ("5000 in menu.values()", "True", "값 쪽에서 찾아요")]
 for i, (k, r, d) in enumerate(cc):
@@ -564,7 +578,7 @@ W("cheatsheet", o, "이번 챕터에서 쓴 코드를 한 장에 모았어요. �
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 parts = [("Key", K1, "만들고 꺼내기", "번호 대신 키로 찾기, { 키: 값 }, [키]로 꺼내기, KeyError와 get", "d-why", "d-get"),
          ("Wrench", K2, "바꾸고 지우기", "추가와 수정, 키는 겹치지 않기, del과 pop, 키를 보는 in", "d-add", "d-in"),
-         ("Search", K3, "둘러보기", "keys, values, items, for로 한 쌍씩, sum과 sorted", "d-views", "d-calc"),
+         ("Search", K3, "둘러보기", "keys, values, items, list()로 바꿔 번호로 꺼내기, for로 한 쌍씩, sum과 sorted", "d-views", "d-calc"),
          ("Database", K4, "리스트와 섞기", "값이 리스트인 딕셔너리, 딕셔너리 리스트, 영수증, 메뉴판에서 가격 찾기, 오류", "x-listval", "x-err")]
 TOC_NOTE = "네 파트로 나눴어요. 1파트는 딕셔너리를 만들고 키로 꺼내는 법, 2파트는 추가, 수정, 삭제예요. 3파트는 for로 딕셔너리를 둘러보고, 4파트는 리스트와 섞어 13의 영수증을 다시 찍어요. 파트마다 새 커널에서 위에서부터 차례로 실행해요."
 
