@@ -24,6 +24,8 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [14 · 파이썬 기초 3 (in, 2차원 리스트)](./14-python-2d-lists) | 파&#8288;이&#8288;썬 | 값이 들어 있는지 묻고 표 모양 데이터를 다뤄요 | `in` `not in` `scores[1][2]` `len(scores[0])` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/14-python-2d-lists/python-2d-lists-slides.html) |
 | [15 · 파이썬 기초 4 (딕셔너리)](./15-python-dict) | 파&#8288;이&#8288;썬 | 키로 값을 찾고 바꾸는 딕셔너리를 다뤄요 | `{키: 값}` `menu["latte"]` `get` `del` `items()` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/15-python-dict/python-dict-slides.html) |
 | [16 · 파이썬 기초 5 (집합)](./16-python-sets) | 파&#8288;이&#8288;썬 | 중복을 없애고 두 목록에서 겹치는 값을 찾아요 | `set()` `add` `discard` `\|` `&` `-` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/16-python-sets/python-sets-slides.html) |
+| [17 · 제어문 1 (조건문 if)](./17-python-if) | 파&#8288;이&#8288;썬 | 조건에 따라 실행할 줄을 골라요 | `if` `elif` `else` `and` `not in` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/17-python-if/python-if-slides.html) |
+| [18 · 제어문 2 (반복 제어 while, break)](./18-python-while) | 파&#8288;이&#8288;썬 | 조건이 맞는 동안 반복하고 필요하면 멈춰요 | `range()` `enumerate()` `while` `break` `continue` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/18-python-while/python-while-slides.html) |
 
 <!-- /curriculum:chapters -->
 
@@ -104,6 +106,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 파이썬 프로젝트 | `uv init`으로 만들고 `uv run`으로 실행해요. 패키지는 `uv add`, `uv remove`. 가상환경을 직접 켤 땐 `source .venv/bin/activate`(Windows Git Bash는 `.venv/Scripts/activate`). uv 설치는 Mac `brew install uv`, Windows `winget install --id=astral-sh.uv -e`. `pip install`은 09에서 예전 방식 비교로만 봐요 |
 | GitHub CLI (gh) | 11에서 배워요. 로그인은 `gh auth login`(HTTPS, 브라우저). `gh repo create`에는 `--push`를 붙이지 않고 `git push origin main`을 직접 쳐요. 레포 지우기 권한은 `gh auth refresh -h github.com -s delete_repo`로 더해요 |
 | 문자열 포맷팅 | 13의 1파트에서 `%`, `format()`, f-string을 나란히 봐요. 새 코드는 f-string으로 적고, 그 앞 자료에는 f-string을 쓰지 않아요 |
+| 제어문 | `if`, `elif`, `else`는 17, `range()`, `enumerate()`, `while`, `break`, `continue`는 18에서 배워요. 그 앞 자료는 `if`가 들어간 코드를 "참고, 읽기만"으로만 보여 줘요 |
 | 브랜치 이름 | `feature/login`, `fix/12-login-error`, `docs/login-guide`처럼 `타입/하는-일` |
 
 ## 저장소 구조
