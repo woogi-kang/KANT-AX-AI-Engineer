@@ -54,7 +54,13 @@
      "commands": "`if` `elif` `else` `and` `not in`", "slides": "python-if-slides.html"},
     {"dir": "18-python-while", "title": "제어문 2 (반복 제어 while, break)", "track": "파이썬",
      "goal": "조건이 맞는 동안 반복하고 필요하면 멈춰요",
-     "commands": "`range()` `enumerate()` `while` `break` `continue`", "slides": "python-while-slides.html"}
+     "commands": "`range()` `enumerate()` `while` `break` `continue`", "slides": "python-while-slides.html"},
+    {"dir": "19-python-functions", "title": "함수 1 (정의, 매개변수, return)", "track": "파이썬",
+     "goal": "자주 쓰는 코드를 함수로 묶고 결과를 돌려받아요",
+     "commands": "`def` `이름()` 매개변수 `return` `None`", "slides": "python-functions-slides.html"},
+    {"dir": "20-python-scope", "title": "함수 2 (기본값, 지역 변수와 전역 변수)", "track": "파이썬",
+     "goal": "기본값을 쓰고 함수 안과 밖의 변수를 구분해요",
+     "commands": "`size=\"M\"` 키워드 인자 지역 변수 `global` `x = f(x)`", "slides": "python-scope-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

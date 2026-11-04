@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/18-python-while/python-while-slides.html) | [17 · 제어문 1 (조건문 if)](../17-python-if) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/18-python-while/python-while-slides.html) | [17 · 제어문 1 (조건문 if)](../17-python-if) | [19 · 함수 1 (정의, 매개변수, return)](../19-python-functions) |
 
 <!-- /curriculum:top -->
 
@@ -270,6 +270,6 @@ node ../tools/export.js slides python-while-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 17 · 제어문 1 (조건문 if)](../17-python-if) · [커리큘럼](../README.md)
+[← 이전: 17 · 제어문 1 (조건문 if)](../17-python-if) · [커리큘럼](../README.md) · [다음: 19 · 함수 1 (정의, 매개변수, return) →](../19-python-functions)
 
 <!-- /curriculum:nav -->

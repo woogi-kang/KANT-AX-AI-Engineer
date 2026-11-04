@@ -1,0 +1,83 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-03T03:00:00Z"
+  },
+  "lists": "css",
+  "title": "함수 2 (기본값, 지역 변수와 전역 변수)",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "s-why",
+    "s-big",
+    "s-min",
+    "k-default",
+    "k-keyword",
+    "k-rule",
+    "k-known",
+    "l-local",
+    "l-param",
+    "l-life",
+    "g-read",
+    "g-same",
+    "g-unbound",
+    "g-global",
+    "g-return",
+    "m-list",
+    "m-int",
+    "m-dict",
+    "m-copy",
+    "x-order",
+    "x-receipt",
+    "x-point",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "s-why"
+    },
+    "p2": {
+      "description": "기본값과 키워드 인자",
+      "start": "k-default"
+    },
+    "p3": {
+      "description": "지역 변수",
+      "start": "l-local"
+    },
+    "p4": {
+      "description": "전역 변수",
+      "start": "g-read"
+    },
+    "p5": {
+      "description": "리스트와 딕셔너리 넘기기",
+      "start": "m-list"
+    },
+    "p6": {
+      "description": "실습",
+      "start": "x-order"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
