@@ -1,0 +1,87 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T03:00:00Z"
+  },
+  "lists": "css",
+  "title": "정렬과 sorted, max, min 제대로 쓰기",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "s-why",
+    "s-big",
+    "s-min",
+    "o-two",
+    "o-none",
+    "o-rev",
+    "o-what",
+    "k-len",
+    "k-lower",
+    "p-tuple",
+    "p-index",
+    "p-multi",
+    "p-dict",
+    "p-items",
+    "p-get",
+    "m-basic",
+    "m-dict",
+    "m-default",
+    "m-with",
+    "t-mix",
+    "t-paren",
+    "t-lambda",
+    "x-rank",
+    "x-price",
+    "x-board",
+    "x-score",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "s-why"
+    },
+    "p2": {
+      "description": "sorted, sort, key",
+      "start": "o-two"
+    },
+    "p3": {
+      "description": "튜플과 딕셔너리 정렬",
+      "start": "p-tuple"
+    },
+    "p4": {
+      "description": "max와 min",
+      "start": "m-basic"
+    },
+    "p5": {
+      "description": "오류와 함정",
+      "start": "t-mix"
+    },
+    "p6": {
+      "description": "실습",
+      "start": "x-rank"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

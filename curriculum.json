@@ -60,7 +60,16 @@
      "commands": "`def` `이름()` 매개변수 `return` `None`", "slides": "python-functions-slides.html"},
     {"dir": "20-python-scope", "title": "함수 2 (기본값, 지역 변수와 전역 변수)", "track": "파이썬",
      "goal": "기본값을 쓰고 함수 안과 밖의 변수를 구분해요",
-     "commands": "`size=\"M\"` 키워드 인자 지역 변수 `global` `x = f(x)`", "slides": "python-scope-slides.html"}
+     "commands": "`size=\"M\"` 키워드 인자 지역 변수 `global` `x = f(x)`", "slides": "python-scope-slides.html"},
+    {"dir": "21-python-lambda", "title": "함수 3 (lambda, map, filter)", "track": "파이썬",
+     "goal": "짧은 함수를 lambda로 만들고 map, filter로 리스트 전체에 써요",
+     "commands": "`lambda x: x + 10` `map` `filter` `list(map(...))`", "slides": "python-lambda-slides.html"},
+    {"dir": "22-python-sorting", "title": "정렬과 sorted, max, min 제대로 쓰기", "track": "파이썬",
+     "goal": "key로 비교 기준을 정해 줄 세우고 가장 큰 값을 골라요",
+     "commands": "`sorted(key=)` `sort()` `reverse=True` `max(d, key=d.get)` `default=`", "slides": "python-sorting-slides.html"},
+    {"dir": "23-python-comprehension", "title": "리스트 컴프리헨션", "track": "파이썬",
+     "goal": "바꾸고 고르는 for를 대괄호 한 줄로 써요",
+     "commands": "`[x for x in xs]` `if` `if else` `{k: v for ...}` `{x for ...}`", "slides": "python-comprehension-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

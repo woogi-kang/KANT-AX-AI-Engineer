@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/20-python-scope/python-scope-slides.html) | [19 · 함수 1 (정의, 매개변수, return)](../19-python-functions) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/20-python-scope/python-scope-slides.html) | [19 · 함수 1 (정의, 매개변수, return)](../19-python-functions) | [21 · 함수 3 (lambda, map, filter)](../21-python-lambda) |
 
 <!-- /curriculum:top -->
 
@@ -274,6 +274,6 @@ node ../tools/export.js slides python-scope-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 19 · 함수 1 (정의, 매개변수, return)](../19-python-functions) · [커리큘럼](../README.md)
+[← 이전: 19 · 함수 1 (정의, 매개변수, return)](../19-python-functions) · [커리큘럼](../README.md) · [다음: 21 · 함수 3 (lambda, map, filter) →](../21-python-lambda)
 
 <!-- /curriculum:nav -->
