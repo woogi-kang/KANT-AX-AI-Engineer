@@ -602,7 +602,7 @@ W("i-range", o, "가게가 9시부터 18시 전까지 열어요. hour가 이 사
 o = [sec("i-truthy")] + head(EB3, "비어 있는 값은 False로 봐요", K3)
 o += cell({"id": "c-t", "lines": ["print(bool(0), bool(4500))", 'print(bool(""), bool("tea"))', 'print(bool([]), bool(["tea"]))', "print(bool({}), bool(set()))", "print(bool(None))"], "n": 8,
            "out": ["False True", "False True", "False True", "False False", "False"]}, 96, 200, 860, sel="c-t")
-vals = [("0", "4500", "숫자"), ('""', '"tea"', "문자열"), ("[]", '["tea"]', "리스트"), ("{}  set()", "{\"a\": 1}", "딕셔너리, 집합"), ("None", "", "15의 None")]
+vals = [("0", "4500", "숫자"), ('""', '"tea"', "문자열"), ("[]", '["tea"]', "리스트"), ("{}  set()", "{\"a\": 1}  {\"tea\"}", "딕셔너리, 집합"), ("None", "", "15의 None")]
 o.append(f'<div data-build-in="fade order 1" style="position:absolute;left:1010px;top:200px;width:814px;height:50px;display:flex;flex-direction:row;align-items:center;gap:16px;padding:0 22px">'
          + p(f"width:220px;flex:none;font-size:22px;font-weight:700;color:{GRAY}", "종류") + p(f"width:240px;flex:none;font-size:22px;font-weight:700;color:{RED}", "False로 봐요") + p(f"font-size:22px;font-weight:700;color:{GR}", "True로 봐요") + '</div>')
 for i, (f_, t_, k) in enumerate(vals):
