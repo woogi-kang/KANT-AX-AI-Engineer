@@ -496,7 +496,11 @@ o = [sec("d-count")] + head(EB3, "get으로 개수를 세요", K3)
 o += cell({"id": "c-q1", "lines": ['words = "coffee latte coffee cake coffee latte".split()', "count = {}", "for w in words:", "    count[w] = count.get(w, 0) + 1", "print(count)", 'print(count["coffee"])'], "n": 9,
            "out": ["{'coffee': 3, 'latte': 2, 'cake': 1}", "3"]}, 96, 200, 1000, sel="c-q1")
 o += cell({"id": "c-q2", "lines": ["votes = {}", 'votes["coffee"] = votes["coffee"] + 1'], "n": 10, "out": ["KeyError: 'coffee'"], "err": True}, 96, 590, 1000, attrs=' data-build-in="rise order 5"')
-o.append(card(96, 770, 1000, 110, p(f"font-size:24px;line-height:1.45;color:{INK}", "대괄호로 꺼내면 처음 나온 키에서 멈춰요. 처음엔 아무 키도 없어서예요."), RED, ' data-build-in="rise order 5"', "justify-content:center;padding:14px 26px"))
+o.append(card(96, 756, 1000, 140, p(f"font-size:24px;line-height:1.45;color:{INK}", "대괄호로 꺼내면 처음 나온 키에서 멈춰요. 처음엔 아무 키도 없어서예요.")
+              + '<div data-build-in="rise order 6" style="display:flex;flex-direction:row;align-items:center;gap:14px">'
+              + p(f"font-size:20px;font-weight:700;color:{GRAY};white-space:nowrap", "참고 · 길게 쓰면")
+              + mono("count[w] = (count[w] if w in count else 0) + 1", 18, GRAY, "#EEEFF2")
+              + p(f"font-size:18px;color:{SUB};white-space:nowrap", "if는 나중에 배워요. 읽기만 해요") + '</div>', RED, ' data-build-in="rise order 5"', "justify-content:center;gap:8px;padding:12px 26px"))
 hd = [("w", 170), ("count.get(w, 0)", 250), ("넣는 값", 150)]
 o.append(f'<div data-build-in="fade order 1" style="position:absolute;left:1150px;top:200px;width:674px;height:50px;display:flex;flex-direction:row;align-items:center;padding:0 22px;gap:14px">'
          + "".join(p(f"width:{w_}px;flex:none;font-family:{MONO};font-size:20px;font-weight:700;color:{GRAY}", e(t)) for t, w_ in hd) + '</div>')
@@ -506,7 +510,7 @@ for i, (w_, g) in enumerate(steps):
              + "".join(p(f"width:{w2}px;flex:none;font-family:{MONO};font-size:24px;font-weight:700;color:{c};white-space:pre", e(t)) for t, w2, c in ((f'"{w_}"', 170, INK), (str(g), 250, GRAY if g == 0 else INK), (f"{g} + 1 = {g + 1}", 150, K3))) + '</div>')
 o.append(lockers([('"coffee"', "3"), ('"latte"', "2"), ('"cake"', "1")], 1150, 676, 210, 130, K3, K3BG, hi=(0, 1, 2), attrs=' data-build-in="rise order 4"', fs=40))
 o.append(caption("처음 보는 키는 get이 0을 줘서 0 + 1 = 1부터 세요.", 920))
-W("d-count", o, "주문이나 단어가 몇 번 나왔는지 세는 것도 get을 쓰는 대표적인 곳이에요. 빈 딕셔너리 count에서 시작해요. for로 단어를 하나씩 꺼내서 count.get(w, 0) + 1을 다시 그 키에 넣어요. 처음 나온 단어는 키가 없어서 get이 0을 주고, 1이 들어가요. 두 번째부터는 지금까지 센 값에 1을 더해요. 2파트에서 본 것처럼 없는 키면 추가, 있는 키면 수정이라 한 줄로 둘 다 돼요. 대괄호로 꺼내면 처음 나온 키에서 KeyError가 나요. 출력은 실제로 실행한 결과예요.")
+W("d-count", o, "주문이나 단어가 몇 번 나왔는지 세는 것도 get을 쓰는 대표적인 곳이에요. 빈 딕셔너리 count에서 시작해요. for로 단어를 하나씩 꺼내서 count.get(w, 0) + 1을 다시 그 키에 넣어요. 처음 나온 단어는 키가 없어서 get이 0을 주고, 1이 들어가요. 두 번째부터는 지금까지 센 값에 1을 더해요. 2파트에서 본 것처럼 없는 키면 추가, 있는 키면 수정이라 한 줄로 둘 다 돼요. 대괄호로 꺼내면 처음 나온 키에서 KeyError가 나요. 빨간 칸 아래 참고 줄은 get이 줄여 준 원래 코드예요. 키가 있으면 그 값, 없으면 0에 1을 더해요. if는 나중에 배우니 읽기만 해요. 출력은 실제로 실행한 결과예요.")
 
 # ---------- part 4: mix with lists ----------
 o = [sec("x-listval")] + head(EB4, "값에 리스트를 넣을 수 있어요", K4)

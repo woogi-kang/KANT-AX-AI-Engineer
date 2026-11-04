@@ -646,7 +646,7 @@ o.append(caption("쌓을 변수를 반복 밖에서 0으로 두고, 안에서 +=
 W("a-sum", o, "반복으로 값을 쌓는 기본 모양이에요. 반복 밖에서 total을 0으로 두고, 안에서 가격을 하나씩 더해요. 오른쪽 표처럼 0에서 4500, 9500, 16000, 20500으로 늘어요. 13에서 배운 sum(prices)는 이 세 줄을 한 번에 해 주는 함수예요. 결과가 20500으로 같아요. 숫자 리스트의 합계는 sum을 쓰면 돼요. 다음 장부터는 sum처럼 한 줄로 되지 않는 일을 같은 모양으로 풀어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p5", "쌓기와 겹친 반복"))
 
 o = [sec("a-count")] + head(EB5, "조건에 맞는 것을 세고 모아요", K5)
-o += cell({"id": "c-a2", "lines": ["n = 0", "for p in prices:", "    if p >= 5000:", "        n += 1", "print(n)", "print(prices.count(4500))"], "n": 2, "out": ["2", "2"]}, 96, 200, 840, sel="c-a2")
+o += cell({"id": "c-a2", "lines": ["n = 0", "for p in prices:", "    if p >= 5000:", "        n += 1", "print(n)", "print(prices.count(5000))"], "n": 2, "out": ["2", "1"]}, 96, 200, 840, sel="c-a2")
 o += cell({"id": "c-a4", "lines": ["big = []", "for p in prices:", "    if p >= 5000:", "        big.append(p)", "print(big)", "print(len(big))"], "n": 3, "out": ["[5000, 6500]", "2"]}, 984, 200, 840, attrs=' data-build-in="rise order 2"')
 o.append(hl(96, 200, 840, 3, 1, "run", 1, "세기"))
 o.append(hl(984, 200, 840, 3, 1, "run", 2, "모으기"))
@@ -654,7 +654,7 @@ o.append(slots(["4500", "5000", "6500", "4500"], 96, 560, 190, 84, top_lbl=False
 o.append(note_card(96, 680, 840, 180, "count()는 같은 값만 세요", "5000 이상처럼 조건이 붙으면 for와 if로 세요.", None, ' data-build-in="rise order 3"', "gap:8px"))
 o.append(note_card(984, 600, 840, 260, "모으면 개수도 알아요", "17의 골라 담기와 같아요. 모은 리스트의 len이 개수예요. 값도 필요하면 모으고, 개수만 필요하면 세요.", K5, ' data-build-in="rise order 3"'))
 o.append(caption("세기는 n += 1, 모으기는 append예요. 둘 다 if 안에 둬요.", 920))
-W("a-count", o, "가격이 5000원 이상인 메뉴가 몇 개인지 세요. n을 0으로 두고 조건이 True일 때만 1을 더해요. 5000과 6500, 두 개예요. 13의 count는 4500처럼 같은 값만 셀 수 있어서 이런 조건에는 못 써요. 오른쪽은 같은 조건으로 값을 모은 거예요. 17의 골라 담기 모양이에요. 모은 리스트의 len을 보면 개수도 알 수 있어요." + REAL)
+W("a-count", o, "가격이 5000원 이상인 메뉴가 몇 개인지 세요. n을 0으로 두고 조건이 True일 때만 1을 더해요. 5000과 6500, 두 개예요. 아래 줄의 13의 count는 5000과 같은 값 하나만 세서 1이 나와요. count는 5000 이상처럼 범위가 붙은 조건에는 못 써요. 오른쪽은 같은 조건으로 값을 모은 거예요. 17의 골라 담기 모양이에요. 모은 리스트의 len을 보면 개수도 알 수 있어요." + REAL)
 
 o = [sec("a-max")] + head(EB5, "가장 큰 값은 지금까지 1등과 비교해요", K5)
 o += cell({"id": "c-a3", "lines": ["big = prices[0]", "for p in prices:", "    if p > big:", "        big = p", "print(big)", "print(max(prices), min(prices))"], "n": 4, "out": ["6500", "6500 4500"]}, 96, 200, 860, sel="c-a3")

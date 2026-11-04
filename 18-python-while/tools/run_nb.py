@@ -56,7 +56,7 @@ run([ORD + '\nfor o in orders:\n    if o in soldout:\n        print(f"{o} 품절
 
 print("=== 5. 누적과 중첩")
 run(['prices = [4500, 5000, 6500, 4500]\ntotal = 0\nfor p in prices:\n    total += p\nprint(total)\nprint(sum(prices))',
-     'n = 0\nfor p in prices:\n    if p >= 5000:\n        n += 1\nprint(n)\nprint(prices.count(4500))',
+     'n = 0\nfor p in prices:\n    if p >= 5000:\n        n += 1\nprint(n)\nprint(prices.count(5000))',
      'big = []\nfor p in prices:\n    if p >= 5000:\n        big.append(p)\nprint(big)\nprint(len(big))',
      'big = prices[0]\nfor p in prices:\n    if p > big:\n        big = p\nprint(big)\nprint(max(prices), min(prices))',
      'for dan in range(2, 4):\n    for i in range(1, 4):\n        print(f"{dan} x {i} = {dan * i}")\n    print("---")',
