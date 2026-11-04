@@ -28,6 +28,9 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [18 · 제어문 2 (반복 제어 while, break)](./18-python-while) | 파&#8288;이&#8288;썬 | 조건이 맞는 동안 반복하고 필요하면 멈춰요 | `range()` `enumerate()` `while` `break` `continue` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/18-python-while/python-while-slides.html) |
 | [19 · 함수 1 (정의, 매개변수, return)](./19-python-functions) | 파&#8288;이&#8288;썬 | 자주 쓰는 코드를 함수로 묶고 결과를 돌려받아요 | `def` `이름()` 매개변수 `return` `None` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/19-python-functions/python-functions-slides.html) |
 | [20 · 함수 2 (기본값, 지역 변수와 전역 변수)](./20-python-scope) | 파&#8288;이&#8288;썬 | 기본값을 쓰고 함수 안과 밖의 변수를 구분해요 | `size="M"` 키워드 인자 지역 변수 `global` `x = f(x)` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/20-python-scope/python-scope-slides.html) |
+| [21 · 함수 3 (lambda, map, filter)](./21-python-lambda) | 파&#8288;이&#8288;썬 | 짧은 함수를 lambda로 만들고 map, filter로 리스트 전체에 써요 | `lambda x: x + 10` `map` `filter` `list(map(...))` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/21-python-lambda/python-lambda-slides.html) |
+| [22 · 정렬과 sorted, max, min 제대로 쓰기](./22-python-sorting) | 파&#8288;이&#8288;썬 | key로 비교 기준을 정해 줄 세우고 가장 큰 값을 골라요 | `sorted(key=)` `sort()` `reverse=True` `max(d, key=d.get)` `default=` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/22-python-sorting/python-sorting-slides.html) |
+| [23 · 리스트 컴프리헨션](./23-python-comprehension) | 파&#8288;이&#8288;썬 | 바꾸고 고르는 for를 대괄호 한 줄로 써요 | `[x for x in xs]` `if` `if else` `{k: v for ...}` `{x for ...}` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/23-python-comprehension/python-comprehension-slides.html) |
 
 <!-- /curriculum:chapters -->
 
@@ -110,6 +113,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 문자열 포맷팅 | 13의 1파트에서 `%`, `format()`, f-string을 나란히 봐요. 새 코드는 f-string으로 적고, 그 앞 자료에는 f-string을 쓰지 않아요 |
 | 제어문 | `if`, `elif`, `else`는 17, `range()`, `enumerate()`, `while`, `break`, `continue`는 18에서 배워요. 그 앞 자료는 `if`가 들어간 코드를 "참고, 읽기만"으로만 보여 줘요 |
 | 함수 | `def`, 매개변수와 인자, `return`, `None`은 19, 기본값, 키워드 인자, 지역 변수와 전역 변수, `global`은 20에서 배워요. 바깥 값을 바꿀 땐 `global`보다 인자로 넣고 `return`으로 돌려받는 쪽을 권해요 |
+| 함수 넘기기, 정렬, 컴프리헨션 | `lambda`, `map`, `filter`는 21, `sorted`·`max`·`min`의 `key=`와 `default=`는 22, 리스트·딕셔너리·집합 컴프리헨션은 23에서 배워요. `reduce`, `zip()`, `*args`는 다루지 않아요 |
 | 브랜치 이름 | `feature/login`, `fix/12-login-error`, `docs/login-guide`처럼 `타입/하는-일` |
 
 ## 저장소 구조

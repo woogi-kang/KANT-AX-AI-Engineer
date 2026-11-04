@@ -1,0 +1,85 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T03:00:00Z"
+  },
+  "lists": "css",
+  "title": "함수 3 (lambda, map, filter)",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "l-why",
+    "l-big",
+    "l-min",
+    "v-value",
+    "v-pass",
+    "d-side",
+    "d-call",
+    "d-more",
+    "m-three",
+    "m-pic",
+    "m-obj",
+    "m-builtin",
+    "f-for",
+    "f-pic",
+    "f-dict",
+    "f-chain",
+    "t-list",
+    "t-twice",
+    "t-paren",
+    "t-return",
+    "t-long",
+    "x-raise",
+    "x-soldout",
+    "x-orders",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "l-why"
+    },
+    "p2": {
+      "description": "함수를 값처럼, lambda",
+      "start": "v-value"
+    },
+    "p3": {
+      "description": "map",
+      "start": "m-three"
+    },
+    "p4": {
+      "description": "filter",
+      "start": "f-for"
+    },
+    "p5": {
+      "description": "오류와 함정",
+      "start": "t-list"
+    },
+    "p6": {
+      "description": "실습",
+      "start": "x-raise"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

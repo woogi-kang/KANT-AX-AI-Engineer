@@ -1,0 +1,84 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-04T03:00:00Z"
+  },
+  "lists": "css",
+  "title": "리스트 컴프리헨션",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "c-why",
+    "c-big",
+    "c-min",
+    "b-three",
+    "b-read",
+    "b-filter",
+    "b-both",
+    "b-ifelse",
+    "b-pos",
+    "r-str",
+    "r-tuple",
+    "r-dict",
+    "r-set",
+    "w-sum",
+    "w-sorted",
+    "w-when",
+    "t-else",
+    "t-print",
+    "t-paren",
+    "t-name",
+    "x-receipt",
+    "x-stock",
+    "x-grades",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "c-why"
+    },
+    "p2": {
+      "description": "만들기와 고르기",
+      "start": "b-three"
+    },
+    "p3": {
+      "description": "여러 데이터에 쓰기",
+      "start": "r-str"
+    },
+    "p4": {
+      "description": "함수와 함께 쓰기",
+      "start": "w-sum"
+    },
+    "p5": {
+      "description": "오류와 함정",
+      "start": "t-else"
+    },
+    "p6": {
+      "description": "실습",
+      "start": "x-receipt"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
