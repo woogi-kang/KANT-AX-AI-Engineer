@@ -26,6 +26,8 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [16 · 파이썬 기초 5 (집합)](./16-python-sets) | 파&#8288;이&#8288;썬 | 중복을 없애고 두 목록에서 겹치는 값을 찾아요 | `set()` `add` `discard` `\|` `&` `-` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/16-python-sets/python-sets-slides.html) |
 | [17 · 제어문 1 (조건문 if)](./17-python-if) | 파&#8288;이&#8288;썬 | 조건에 따라 실행할 줄을 골라요 | `if` `elif` `else` `and` `not in` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/17-python-if/python-if-slides.html) |
 | [18 · 제어문 2 (반복 제어 while, break)](./18-python-while) | 파&#8288;이&#8288;썬 | 조건이 맞는 동안 반복하고 필요하면 멈춰요 | `range()` `enumerate()` `while` `break` `continue` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/18-python-while/python-while-slides.html) |
+| [19 · 함수 1 (정의, 매개변수, return)](./19-python-functions) | 파&#8288;이&#8288;썬 | 자주 쓰는 코드를 함수로 묶고 결과를 돌려받아요 | `def` `이름()` 매개변수 `return` `None` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/19-python-functions/python-functions-slides.html) |
+| [20 · 함수 2 (기본값, 지역 변수와 전역 변수)](./20-python-scope) | 파&#8288;이&#8288;썬 | 기본값을 쓰고 함수 안과 밖의 변수를 구분해요 | `size="M"` 키워드 인자 지역 변수 `global` `x = f(x)` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/20-python-scope/python-scope-slides.html) |
 
 <!-- /curriculum:chapters -->
 
@@ -107,6 +109,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | GitHub CLI (gh) | 11에서 배워요. 로그인은 `gh auth login`(HTTPS, 브라우저). `gh repo create`에는 `--push`를 붙이지 않고 `git push origin main`을 직접 쳐요. 레포 지우기 권한은 `gh auth refresh -h github.com -s delete_repo`로 더해요 |
 | 문자열 포맷팅 | 13의 1파트에서 `%`, `format()`, f-string을 나란히 봐요. 새 코드는 f-string으로 적고, 그 앞 자료에는 f-string을 쓰지 않아요 |
 | 제어문 | `if`, `elif`, `else`는 17, `range()`, `enumerate()`, `while`, `break`, `continue`는 18에서 배워요. 그 앞 자료는 `if`가 들어간 코드를 "참고, 읽기만"으로만 보여 줘요 |
+| 함수 | `def`, 매개변수와 인자, `return`, `None`은 19, 기본값, 키워드 인자, 지역 변수와 전역 변수, `global`은 20에서 배워요. 바깥 값을 바꿀 땐 `global`보다 인자로 넣고 `return`으로 돌려받는 쪽을 권해요 |
 | 브랜치 이름 | `feature/login`, `fix/12-login-error`, `docs/login-guide`처럼 `타입/하는-일` |
 
 ## 저장소 구조
