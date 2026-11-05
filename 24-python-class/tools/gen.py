@@ -543,7 +543,7 @@ LV, LF, LI = GR, TEAL, RED                        # same parts on light cards
 def seg(parts, size=40):
     """A line on a dark box with colored pieces: parts = [(text, color), ...]."""
     return p(f"font-family:{MONO};font-size:{size}px;font-weight:700;line-height:1.5;color:#E6E9EF;white-space:pre",
-             "".join(f'<span style="color:{c}">{e(t)}</span>' for t, c in parts))
+             "".join(f'<span{(" id=" + chr(34) + x[2] + chr(34)) if len(x) > 2 else ""} style="color:{x[1]}">{e(x[0])}</span>' for x in parts))
 
 
 def dark(left, top, w, h, lines, attrs=""):
@@ -723,13 +723,13 @@ for i, (k, d, c) in enumerate([("들여쓰기", "class 아래로 넣어요", MD)
 W("s-move", o, "왼쪽은 앞 장의 setup 함수, 오른쪽은 같은 일을 틀 안에 넣은 모양이에요. 다른 점은 네 가지예요. 첫째, 함수를 class 아래로 들여 써서 틀 안에 넣었어요. 둘째, 이름을 __init__으로 바꿨어요. 이 이름은 파이썬과 약속된 이름이라, 붕어빵을 찍을 때 저절로 불려요. 셋째, 첫 번째 칸 이름이 bread에서 self로 바뀌었어요. 이름만 바뀌었고 어느 붕어빵에 붙일지 정하는 칸인 건 같아요. 넷째, 부를 때 a를 넘기지 않아요. 파이썬이 방금 찍은 붕어빵을 첫 칸에 넣어 줘요. 두 셀의 결과는 똑같아요." + REAL)
 
 o = [sec("s-init")] + head(EB3, "괄호 안의 재료가 __init__의 칸에 들어가요", K3)
-o.append(code_box(96, 196, 1728, [[("a = Bread(", W_), ('"팥"', CA), (", ", W_), ("1000", CA), (")", W_), ("          ", W_), ("# 찍는 줄", "#9AA1AE")],
+o.append(code_box(96, 196, 1728, [[("a = ", W_), ("Bread", W_, "si-new"), ("(", W_), ('"팥"', CA, "si-a1"), (", ", W_), ("1000", CA, "si-a2"), (")", W_), ("          ", W_), ("# 찍는 줄", "#9AA1AE")],
                                   [("def __init__(", W_), ("self", CS), (", ", W_), ("flavor", CA), (", ", W_), ("price", CA), ("):", W_), ("  ", W_), ("# 틀 안의 첫 줄", "#9AA1AE")]], "", 36, 170))
 for i, (top_, bot, c, bg, o_) in enumerate([("새 붕어빵", "self", BR, BRBG, 1), ('"팥"', "flavor", TEAL, K3BG, 2), ("1000", "price", TEAL, K3BG, 3)]):
     x = 96 + i * 590
-    o.append(p(f"position:absolute;left:{x}px;top:410px;width:548px;height:96px;border-radius:18px;border:3px {'dashed' if i == 0 else 'solid'} {c};background:{CARD};font-family:{MONO if i else SANS};font-size:34px;font-weight:700;line-height:90px;text-align:center;color:{INK}", e(top_), f' data-build-in="rise order {o_}"'))
+    o.append(p(f"position:absolute;left:{x}px;top:410px;width:548px;height:96px;border-radius:18px;border:3px {'dashed' if i == 0 else 'solid'} {c};background:{CARD};font-family:{MONO if i else SANS};font-size:34px;font-weight:700;line-height:90px;text-align:center;color:{INK}", e(top_), f' data-build-in="fly order {o_}" data-from="{["si-new", "si-a1", "si-a2"][i]}"'))
     o.append(harrow(x + 244, 540, 60, c, f' data-build-in="fade order {o_}"', 90))
-    o.append(p(f"position:absolute;left:{x}px;top:610px;width:548px;height:96px;border-radius:18px;background:{bg};border:3px solid {c};font-family:{MONO};font-size:36px;font-weight:700;line-height:90px;text-align:center;color:{INK}", e(bot), f' data-build-in="rise order {o_}"'))
+    o.append(p(f"position:absolute;left:{x}px;top:610px;width:548px;height:96px;border-radius:18px;background:{bg};border:3px solid {c};font-family:{MONO};font-size:36px;font-weight:700;line-height:90px;text-align:center;color:{INK}", e(bot)))
 o.append(p(f"position:absolute;left:96px;top:370px;width:548px;text-align:center;font-size:22px;font-weight:700;color:{BR}", "파이썬이 넣어 줘요", ' data-build-in="fade order 1"'))
 o.append(p(f"position:absolute;left:686px;top:370px;width:1138px;text-align:center;font-size:22px;font-weight:700;color:{TEAL}", "괄호 안의 재료가 순서대로 (19의 매개변수)", ' data-build-in="fade order 2"'))
 o.append(note_card(96, 750, 846, 170, "self는 적지 않아요", "칸은 세 개, 재료는 두 개예요. 첫 칸은 파이썬 몫이에요.", BR, ' data-build-in="rise order 4"'))
@@ -768,15 +768,69 @@ ST5 = [("①", 'Bread("팥", 1000)', "빈 붕어빵이 하나 생겨요"),
        ("④", "self.price = 1000", "가격 칸을 붙여요"),
        ("⑤", "a = 다 된 붕어빵", "끝나면 a에 담아요")]
 for i, (n_, code, what) in enumerate(ST5):
-    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:96px;top:{200 + i * 140}px;width:1160px;height:124px;background:{CARD};border:2px solid {LINE};border-left:10px solid {K3};border-radius:16px;padding:0 26px;display:flex;flex-direction:column;justify-content:center;gap:6px">'
+    o.append(f'<div id="stp-{i + 1}" data-build-in="rise order {i + 1}" style="position:absolute;left:96px;top:{200 + i * 140}px;width:1160px;height:124px;background:{CARD};border:2px solid {LINE};border-left:10px solid {K3};border-radius:16px;padding:0 26px;display:flex;flex-direction:column;justify-content:center;gap:6px">'
              + '<div style="display:flex;flex-direction:row;gap:18px;align-items:center">' + p(f"font-size:32px;font-weight:900;color:{K3}", e(n_)) + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{INK};white-space:pre", e(code)) + '</div>'
              + p(f"padding-left:52px;font-size:26px;color:{SUB}", e(what)) + '</div>')
 o.append(obj("빈 붕어빵", [], 1320, 200, 504, empty="아직 칸이 없어요", attrs=' data-build-in="rise order 1"'))
-o.append(obj("self", [("flavor", '"팥"')], 1320, 200, 504, attrs=' data-build-in="rise order 3"'))
-o.append(obj("self", [("flavor", '"팥"'), ("price", "1000")], 1320, 200, 504, attrs=' data-build-in="rise order 4"'))
-o.append(obj("a", [("flavor", '"팥"'), ("price", "1000")], 1320, 200, 504, attrs=' data-build-in="rise order 5"'))
+o.append(obj("self", [("flavor", '"팥"')], 1320, 200, 504, attrs=' data-build-in="fly order 3" data-from="stp-3"'))
+o.append(obj("self", [("flavor", '"팥"'), ("price", "1000")], 1320, 200, 504, attrs=' data-build-in="fly order 4" data-from="stp-4"'))
+o.append(obj("a", [("flavor", '"팥"'), ("price", "1000")], 1320, 200, 504, attrs=' data-build-in="fly order 5" data-from="stp-5"'))
 o.append(note_card(1320, 520, 504, 360, "self는 누구?", "②부터 ④까지 self는 방금 생긴 그 붕어빵이에요. ⑤에서 그 붕어빵에 a라는 이름이 붙어요.", K3, ' data-build-in="rise order 6"'))
 W("s-steps", o, "a = Bread(팥, 1000) 한 줄을 다섯 단계로 나눠 봐요. 먼저 빈 붕어빵이 하나 생겨요. 파이썬이 그 빈 붕어빵을 self 칸에, 팥과 1000을 나머지 칸에 넣어 __init__을 불러요. __init__ 안에서 self에 맛 칸과 가격 칸이 붙어요. 오른쪽 그림에서 칸이 하나씩 늘어나는 걸 보세요. __init__이 끝나면 다 된 붕어빵이 등호 왼쪽의 a에 담겨요. 12에서 배운 대로 오른쪽을 먼저 끝내고 왼쪽 변수에 담는 순서예요.")
+
+# ---------- 붕어빵 기계: a slide students press in the browser (tools/lab_stamp.js) ----------
+LAB_CSS = ("<style>"
+           "#s-lab button{font-family:" + SANS.replace("'", '"') + ";font-size:26px;font-weight:700;border-radius:14px;padding:10px 22px;cursor:pointer;border:3px solid #C9CED8;background:#FFFFFF;color:#1D2330}"
+           "#s-lab .lb-pick button.lb-on{background:#9A5B13;border-color:#9A5B13;color:#FFFFFF}"
+           "#s-lab button:disabled{opacity:.45;cursor:default}"
+           "#s-lab .lb-go{background:#0F7C86;border-color:#0F7C86;color:#FFFFFF}"
+           "#s-lab code{font-family:" + MONO.replace("'", '"') + ";font-size:28px;color:#1D2330;background:#F1F0EC;border-radius:8px;padding:2px 8px}"
+           "@keyframes lbPop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}"
+           "</style>")
+
+
+def lab_btns(rid, label, vals, on):
+    bs = "".join(f'<button data-v="{e(v)}" class="{"lb-on" if v == on else ""}">{e(v)}</button>' for v in vals)
+    return (f'<div id="{rid}" class="lb-pick" style="display:flex;flex-direction:row;align-items:center;gap:14px">'
+            + p(f"width:90px;font-size:26px;font-weight:700;color:{SUB}", e(label)) + bs + '</div>')
+
+
+def code_line(txt, c=W_, sid=None):
+    idp = f' id="{sid}"' if sid else ""
+    return p(f"height:58px;font-family:{MONO};font-size:30px;font-weight:700;line-height:58px;color:{c};white-space:pre", txt, idp)
+
+
+o = [sec("s-lab"), LAB_CSS] + head(EB3, "눌러 보기: 붕어빵 기계로 한 단계씩 찍어 봐요", K3)
+o.append(card(96, 196, 820, 224, '<div style="display:flex;flex-direction:column;gap:18px;padding:26px 30px">'
+              + lab_btns("lb-flavors", "맛", ["팥", "슈크림", "피자", "고구마"], "팥") + lab_btns("lb-prices", "가격", ["1000", "1200", "1500"], "1000") + '</div>'))
+o.append('<div style="position:absolute;left:96px;top:440px;width:820px;height:396px;background:#252B36;border-radius:22px;padding:24px 34px;overflow:hidden">'
+         + f'<div id="lb-hl" style="position:absolute;left:0;top:24px;width:820px;height:58px;background:rgba(242,196,141,.20);border-left:8px solid {CS};opacity:0;transition:top .45s ease,opacity .3s"></div>'
+         + code_line(f'<span style="color:{CK}">class</span> Bread:')
+         + code_line(f'    <span style="color:{CK}">def</span> <span style="color:{CM}">__init__</span>(<span style="color:{CS}">self</span>, <span style="color:{CA}">flavor</span>, <span style="color:{CA}">price</span>):')
+         + code_line(f'        <span style="color:{CS}">self</span>.flavor = <span style="color:{CA}">flavor</span>')
+         + code_line(f'        <span style="color:{CS}">self</span>.price = <span style="color:{CA}">price</span>')
+         + code_line("&#160;")
+         + code_line(f'<span style="color:{CS}">a</span> = Bread(<span style="color:{CA}">"팥"</span>, <span style="color:{CA}">1000</span>)', sid="lb-call")
+         + '</div>')
+o.append('<div style="position:absolute;left:96px;top:852px;width:820px;display:flex;flex-direction:row;gap:16px">'
+         '<button id="lb-next" class="lb-go">한 단계씩 ▶</button><button id="lb-auto">한 번에 찍기</button><button id="lb-reset">처음부터</button></div>')
+o.append(mold(960, 196, 400, 190, "Bread", ["__init__(self, flavor,", "         price)"], fs=22))
+o.append(f'<div id="lb-locals" style="position:absolute;left:1400px;top:196px;width:424px;height:190px;background:{K3BG};border:3px dashed {TEAL};border-radius:22px;padding:18px 26px;display:flex;flex-direction:column;gap:8px;opacity:0;transition:opacity .5s">'
+         + p(f"font-size:22px;font-weight:700;color:{TEAL}", "__init__ 안의 재료 (지역 변수)")
+         + f'<div style="display:flex;flex-direction:row;gap:12px">{p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{SUB}", "flavor =")}{p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", "&quot;팥&quot;", " id=\"lb-lf\"")}</div>'
+         + f'<div style="display:flex;flex-direction:row;gap:12px">{p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{SUB}", "price =")}{p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", "1000", " id=\"lb-lp\"")}</div></div>')
+o.append(f'<div id="lb-self" style="position:absolute;left:980px;top:440px;width:310px;height:80px;display:flex;flex-direction:row;align-items:center;gap:14px;opacity:0;transition:opacity .4s">'
+         + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{INK};background:{CS};border-radius:999px;padding:8px 26px", "self")
+         + f'<x-shape kind="arrow-right" style="width:130px;height:30px;background:{BR}"></x-shape></div>')
+o.append(p(f"position:absolute;left:1300px;top:470px;width:480px;font-size:24px;color:{GRAY};text-align:center", "찍으면 여기서 붕어빵이 만들어져요"))
+o.append(f'<div style="position:absolute;left:960px;top:680px;width:864px;height:222px;background:{CARD};border:2px solid {LINE};border-radius:22px;padding:18px 26px;display:flex;flex-direction:column;gap:14px">'
+         + '<div style="display:flex;flex-direction:row;gap:14px;align-items:center">' + p(f"font-size:24px;font-weight:700;color:{BR}", "찍은 붕어빵") + p(f"font-size:24px;font-weight:700;color:{GRAY}", "", ' id="lb-count"') + '</div>'
+         + f'<div id="lb-tray" style="display:flex;flex-direction:row;gap:16px;align-items:center;height:124px">{p(f"font-size:24px;color:{GRAY}", "아직 없어요. 찍으면 여기에 쌓여요.")}</div></div>')
+o.append(f'<div style="position:absolute;left:96px;top:930px;width:1728px;height:106px;background:{CARD};border:2px solid {LINE};border-left:10px solid {TEAL};border-radius:18px;padding:0 30px;display:flex;align-items:center">'
+         + p(f"font-size:30px;font-weight:500;line-height:1.4;color:{INK}", "맛과 가격을 고르고 <b>한 단계씩</b>이나 <b>한 번에 찍기</b>를 눌러요. 브라우저로 슬라이드를 열면 눌러져요.", ' id="lb-msg"') + '</div>')
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "lab_stamp.js")) as f:
+    o.append('<script type="text/slide-js">\n' + f.read() + '</script>')
+W("s-lab", o, "앞 장의 다섯 단계를 직접 눌러 보는 장이에요. 브라우저로 슬라이드를 열면 버튼이 눌러져요. 맛과 가격을 고르고 한 단계씩을 누르면 왼쪽 코드에서 지금 실행하는 줄에 불이 들어와요. 오른쪽에서는 빈 붕어빵이 생기고, self가 그 붕어빵을 가리키고, 맛 칸과 가격 칸이 하나씩 붙어요. __init__이 끝나면 재료 칸은 사라지고 붕어빵에 a라는 이름이 붙어요. 한 번 더 찍으면 이번엔 b가 만들어지고 self는 새 붕어빵을 가리켜요. 수강생에게 다음 단계에서 무엇이 바뀔지 먼저 물어보고 눌러 보세요.")
 
 o = [sec("s-lr")] + head(EB3, "self.flavor = flavor는 왼쪽과 오른쪽이 달라요", K3)
 o.append(code_box(96, 200, 1728, [[("self.flavor", CS), (" = ", W_), ("flavor", CA)]], ' data-build-in="rise order 1"', 56, 150))

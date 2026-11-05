@@ -242,3 +242,39 @@ for m in menu:
     print(m)
 print("찍은 붕어빵:", Bread.count)
 print([m.flavor for m in menu if isinstance(m, MiniBread)])'''])
+
+print("=== 눌러 보기 (메서드 찾기 장의 출력)")
+run(['''class Bread:
+    shop = "붕어빵 1호점"
+
+    def __init__(self, flavor, price):
+        self.flavor = flavor
+        self.price = price
+
+    def intro(self):
+        print(self.flavor, "붕어빵", self.price, "원")
+
+class CreamBread(Bread):
+    def __init__(self, flavor, price, cream):
+        super().__init__(flavor, price)
+        self.cream = cream
+
+    def intro(self):
+        super().intro()
+        print("  크림:", self.cream)
+
+    def keep(self):
+        print(self.flavor, "붕어빵은 차갑게 보관해요")
+
+a = Bread("팥", 1000)
+c = CreamBread("슈크림", 1200, "많이")''',
+     '''a.intro()''',
+     '''c.intro()''',
+     '''a.keep()''',
+     '''c.keep()''',
+     '''print(a.shop)''',
+     '''print(c.shop)''',
+     '''print(a.cream)''',
+     '''print(c.cream)''',
+     '''print(a.flavor)''',
+     '''print(c.flavor)'''])

@@ -42,11 +42,11 @@
 | 들어가기 | 1–3 | 표지, 오늘의 순서, `basics.ipynb` 다시 열기 |
 | 1. 왜 필요한가 | 4–6 | 딕셔너리와 함수로 만든 붕어빵의 불편함(왜 필요한가), 틀과 붕어빵 그림(큰 그림), `type()`으로 본 int, str, list 틀 |
 | 2. 가장 작은 틀 | 7–9 | `class`와 `pass`, 점으로 값 붙이기, 손으로 붙일 때 빠뜨리는 문제 |
-| 3. self와 `__init__` | 10–19 | 19의 함수 `setup(bread, ...)`로 붙이기, 틀 안으로 옮겨 `__init__`, 괄호 안 재료와 칸, 찍을 때 저절로 불리는지 확인, `self` 따라가기 두 장, 한 줄에서 일어나는 다섯 단계, `self.flavor = flavor` 왼쪽과 오른쪽, `self.`를 빼면, 재료로 받지 않는 칸 |
-| 4. 메서드 | 20–23 | `intro` 만들기, `a.intro()`는 `Bread.intro(a)`, 값 바꾸기와 `return`, 딕셔너리와 비교 |
-| 5. 오류와 함정 | 24–27 | 재료 수, 메서드의 `self` 빠짐, `_init_` 밑줄, 붕어빵을 print하면 |
-| 6. 실습 | 28–30 | 붕어빵 주문과 합계, 카페 음료 이름표, 도장 카드 |
-| 정리 | 31–32 | 막힐 때, 한 장 요약 |
+| 3. self와 `__init__` | 10–20 | 19의 함수 `setup(bread, ...)`로 붙이기, 틀 안으로 옮겨 `__init__`, 괄호 안 재료가 칸으로 날아가는 그림, 찍을 때 저절로 불리는지 확인, `self` 따라가기 두 장, 한 줄에서 일어나는 다섯 단계, 눌러 보기(붕어빵 기계), `self.flavor = flavor` 왼쪽과 오른쪽, `self.`를 빼면, 재료로 받지 않는 칸 |
+| 4. 메서드 | 21–24 | `intro` 만들기, `a.intro()`는 `Bread.intro(a)`, 값 바꾸기와 `return`, 딕셔너리와 비교 |
+| 5. 오류와 함정 | 25–28 | 재료 수, 메서드의 `self` 빠짐, `_init_` 밑줄, 붕어빵을 print하면 |
+| 6. 실습 | 29–31 | 붕어빵 주문과 합계, 카페 음료 이름표, 도장 카드 |
+| 정리 | 32–33 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -247,6 +247,7 @@ tools/
   gen.py           모든 장과 deck.json 생성 (노트북 셀, 붕어빵 틀과 붕어빵 그림, self 따라가기)
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
+  lab_stamp.js     17쪽 붕어빵 기계의 버튼 동작 (gen.py가 그 장에 넣어요)
 python-class-slides.html  배포용 HTML
 python-class-slides.pdf   강사용 PDF
 ```
@@ -263,7 +264,9 @@ node ../tools/build_player.js slides python-class-slides.html
 node ../tools/export.js slides python-class-slides.pdf
 ```
 
-셀 출력은 `tools/demo.sh`가 hello-uv(Python 3.14.6)를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 위에서부터 차례로 실행해서, 셀 번호가 파트마다 [1]부터 시작해요. 오류는 Traceback 마지막 줄만 옮겼어요. 27쪽의 `0x` 주소는 다시 실행하면 바뀌니, 출력을 다시 받으면 gen.py의 주소도 같이 바꿔요.
+셀 출력은 `tools/demo.sh`가 hello-uv(Python 3.14.6)를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 위에서부터 차례로 실행해서, 셀 번호가 파트마다 [1]부터 시작해요. 오류는 Traceback 마지막 줄만 옮겼어요. 28쪽의 `0x` 주소는 다시 실행하면 바뀌니, 출력을 다시 받으면 gen.py의 주소도 같이 바꿔요.
+
+눌러 보기 장은 장 안의 `<script type="text/slide-js">`를 `build_player.js`가 실행해서 움직여요. 그래서 버튼은 배포용 HTML에서만 눌러지고, PDF에는 처음 화면이 들어가요. 눌러 보기에 나오는 출력도 `tools/run_nb.py`로 실제로 실행한 결과예요.
 
 범위: `pass`와 클래스, `__init__`, `self`, 메서드를 처음 다뤄요. `__str__`, `__repr__`은 25, 클래스 변수와 상속은 26에서 다뤄요. `@property`, `classmethod`, `staticmethod`, `_`로 숨기기, `dataclass`, 타입 힌트는 다루지 않아요. VS Code 디버거로 `self`가 생기는 과정을 따라가는 자료는 번외로 따로 만들 예정이에요.
 
