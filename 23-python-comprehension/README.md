@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/23-python-comprehension/python-comprehension-slides.html) | [22 · 정렬과 sorted, max, min 제대로 쓰기](../22-python-sorting) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/23-python-comprehension/python-comprehension-slides.html) | [22 · 정렬과 sorted, max, min 제대로 쓰기](../22-python-sorting) | [24 · 클래스 1 (붕어빵 틀과 붕어빵)](../24-python-class) |
 
 <!-- /curriculum:top -->
 
@@ -236,6 +236,6 @@ node ../tools/export.js slides python-comprehension-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 22 · 정렬과 sorted, max, min 제대로 쓰기](../22-python-sorting) · [커리큘럼](../README.md)
+[← 이전: 22 · 정렬과 sorted, max, min 제대로 쓰기](../22-python-sorting) · [커리큘럼](../README.md) · [다음: 24 · 클래스 1 (붕어빵 틀과 붕어빵) →](../24-python-class)
 
 <!-- /curriculum:nav -->
