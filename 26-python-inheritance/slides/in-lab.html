@@ -1,0 +1,96 @@
+<section id="in-lab" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
+<style>#in-lab button{font-family:"JetBrains Mono", "Noto Sans KR", monospace;font-size:25px;font-weight:700;border-radius:14px;padding:8px 18px;cursor:pointer;border:3px solid #C9CED8;background:#FFFFFF;color:#1D2330}#in-lab button:disabled{opacity:.5;cursor:default}#in-lab button.lf-on{border-color:#2F7D6B;background:#E3F2EE}#in-lab #lf-go{font-family:"Noto Sans KR", Arial, sans-serif;background:#2F7D6B;border-color:#2F7D6B;color:#FFFFFF}#in-lab code{font-family:"JetBrains Mono", "Noto Sans KR", monospace;font-size:24px;background:#F1F0EC;border-radius:8px;padding:1px 8px}#in-lab .lf-box{transition:box-shadow .3s,opacity .3s}#in-lab .lf-look{box-shadow:0 0 0 8px rgba(178,106,0,.45)}#in-lab .lf-box.lf-yes{box-shadow:0 0 0 8px rgba(31,138,76,.40)}#in-lab .lf-box.lf-no{opacity:.55}#in-lab .lf-row{transition:all .3s;border:2px solid transparent}#in-lab .lf-row.lf-yes{background:#D7F0DF!important;border-color:#1F8A4C}#in-lab .lf-row.lf-super{background:#FFF1D9!important;border-color:#B26A00}@keyframes lfIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}</style>
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#0F7C86">3. 상속</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">눌러 보기: 파이썬은 어디서부터 찾을까요</h2>
+<div id="lf-m-Bread" class="lf-box" style="position:absolute;left:96px;top:196px;width:620px;background:#EFE8DF;border:5px dashed #5B4636;border-radius:26px;padding:16px 22px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;flex-direction:row;align-items:center;gap:12px"><p style="font-size:20px;font-weight:700;color:#FFFFFF;background:#5B4636;border-radius:10px;padding:3px 12px">틀</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#5B4636">class Bread</p></div><div id="lf-m-Bread-shop" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:pre">shop = "붕어빵 1호점"</p></div><div id="lf-m-Bread-__init__" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:pre">__init__(self, flavor, price)</p></div><div id="lf-m-Bread-intro" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:pre">intro(self)</p></div></div>
+<x-shape kind="arrow-right" style="position:absolute;left:366px;top:476px;width:80px;height:30px;transform:rotate(-90deg);background:#2F7D6B"></x-shape>
+<p style="position:absolute;left:456px;top:472px;font-size:24px;font-weight:700;color:#2F7D6B">물려받기</p>
+<div id="lf-m-CreamBread" class="lf-box" style="position:absolute;left:96px;top:540px;width:620px;background:#E3F2EE;border:5px dashed #2F7D6B;border-radius:26px;padding:16px 22px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;flex-direction:row;align-items:center;gap:12px"><p style="font-size:20px;font-weight:700;color:#FFFFFF;background:#2F7D6B;border-radius:10px;padding:3px 12px">틀</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#2F7D6B">class CreamBread(Bread)</p></div><div id="lf-m-CreamBread-__init__" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:pre">__init__(self, flavor, price, cream)</p></div><div id="lf-m-CreamBread-intro" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:pre">intro(self)  # super().intro() + 크림</p></div><div id="lf-m-CreamBread-keep" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:pre">keep(self)</p></div></div>
+<div id="lf-o-a" class="lf-box" style="position:absolute;left:762px;top:226px;width:300px;background:#FFFFFF;border:3px solid #9A5B13;border-radius:22px;overflow:hidden"><div style="height:56px;background:#9A5B13;display:flex;align-items:center;padding:0 18px;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#FFFFFF">a</p><div style="flex:1"></div><p style="font-size:18px;font-weight:700;color:#FFFFFF;opacity:.85">Bread</p></div><div style="padding:10px 14px;display:flex;flex-direction:column;gap:6px"><div id="lf-o-a-flavor" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:pre">flavor  "팥"</p></div><div id="lf-o-a-price" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:pre">price  1000</p></div></div></div>
+<div id="lf-o-c" class="lf-box" style="position:absolute;left:762px;top:560px;width:300px;background:#FFFFFF;border:3px solid #2F7D6B;border-radius:22px;overflow:hidden"><div style="height:56px;background:#2F7D6B;display:flex;align-items:center;padding:0 18px;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#FFFFFF">c</p><div style="flex:1"></div><p style="font-size:18px;font-weight:700;color:#FFFFFF;opacity:.85">CreamBread</p></div><div style="padding:10px 14px;display:flex;flex-direction:column;gap:6px"><div id="lf-o-c-flavor" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:pre">flavor  "슈크림"</p></div><div id="lf-o-c-price" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:pre">price  1200</p></div><div id="lf-o-c-cream" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:pre">cream  "많이"</p></div></div></div>
+<p style="position:absolute;left:762px;top:452px;width:300px;font-size:22px;color:#4A5262;text-align:center">Bread 틀로 찍었어요</p>
+<p style="position:absolute;left:762px;top:842px;width:300px;font-size:22px;color:#4A5262;text-align:center">CreamBread 틀로 찍었어요</p>
+<div style="position:absolute;left:1100px;top:196px;width:724px;height:286px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:18px 24px;display:flex;flex-direction:column;gap:14px"><div id="lf-who" style="display:flex;flex-direction:row;gap:12px;align-items:center"><p style="width:96px;font-size:24px;font-weight:700;color:#4A5262">누구에게</p><button data-o="a">a</button><button data-o="c">c</button></div><div id="lf-what" style="display:flex;flex-direction:row;flex-wrap:wrap;gap:10px;align-items:center"><p style="width:96px;font-size:24px;font-weight:700;color:#4A5262">무엇을</p><button data-k="intro">.intro()</button><button data-k="keep">.keep()</button><button data-k="shop">.shop</button><button data-k="cream">.cream</button><button data-k="flavor">.flavor</button></div><div style="display:flex;flex-direction:row;gap:16px;align-items:center"><button id="lf-go">찾아보기 ▶</button><p id="lf-code" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330">c.intro()</p></div></div>
+<div id="lf-log" style="position:absolute;left:1100px;top:502px;width:724px;height:236px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:18px 24px;display:flex;flex-direction:column;gap:6px"><p style="font-size:25px;color:#6A7180">찾는 길이 여기에 한 줄씩 나와요.</p></div>
+<div style="position:absolute;left:1100px;top:758px;width:724px;height:150px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #B8560F;border-radius:22px;padding:16px 24px;display:flex;flex-direction:column;gap:8px"><p style="font-size:24px;font-weight:700;color:#B8560F">출력</p><p id="lf-out" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre-wrap;overflow-wrap:break-word"></p></div>
+<div style="position:absolute;left:96px;top:930px;width:1728px;height:106px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #2F7D6B;border-radius:18px;padding:0 30px;display:flex;align-items:center"><p id="lf-msg" style="font-size:30px;font-weight:500;line-height:1.4;color:#1D2330">누구에게 무엇을 물을지 고르고 찾아보기를 눌러요. 브라우저로 슬라이드를 열면 눌러져요.</p></div>
+<script type="text/slide-js">
+// 메서드 찾기 (26): pick a 붕어빵 and what to ask it for, then watch Python look in the 붕어빵, its 틀 and the
+// parent 틀, in that order. Runs inside the slide player as function(sec, api).
+// The outputs are the ones the real kernel printed in tools/demo.sh (the last run in tools/run_nb.py).
+const $ = id => sec.querySelector('#' + id);
+const OBJS = { a: { cls: 'Bread', attrs: ['flavor', 'price'] }, c: { cls: 'CreamBread', attrs: ['flavor', 'price', 'cream'] } };
+const CLS = { CreamBread: { parent: 'Bread', attrs: ['__init__', 'intro', 'keep'] }, Bread: { parent: null, attrs: ['shop', '__init__', 'intro'] } };
+const METHOD = { intro: true, keep: true };
+const JOSA = { intro: '가', keep: '이', shop: '이', cream: '이', flavor: '가' };   // 인트로가, 킵이, 숍이, 크림이, 플레이버가
+const OUT = {
+  'a.intro': '팥 붕어빵 1000 원', 'c.intro': '슈크림 붕어빵 1200 원\n  크림: 많이',
+  'a.keep': "AttributeError: 'Bread' object has no attribute 'keep'", 'c.keep': '슈크림 붕어빵은 차갑게 보관해요',
+  'a.shop': '붕어빵 1호점', 'c.shop': '붕어빵 1호점',
+  'a.cream': "AttributeError: 'Bread' object has no attribute 'cream'", 'c.cream': '많이',
+  'a.flavor': '팥', 'c.flavor': '슈크림',
+};
+let who = 'c', what = 'intro', timers = [], busy = false;
+const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+const code = () => METHOD[what] ? `${who}.${what}()` : `print(${who}.${what})`;
+
+function clear() {
+  for (const el of sec.querySelectorAll('.lf-look,.lf-yes,.lf-no,.lf-super')) el.classList.remove('lf-look', 'lf-yes', 'lf-no', 'lf-super');
+  $('lf-log').innerHTML = ''; $('lf-out').textContent = ''; $('lf-out').style.color = '#1D2330';
+}
+function pick() {
+  for (const b of sec.querySelectorAll('#lf-who button')) b.classList.toggle('lf-on', b.dataset.o === who);
+  for (const b of sec.querySelectorAll('#lf-what button')) b.classList.toggle('lf-on', b.dataset.k === what);
+  $('lf-code').textContent = code();
+}
+function log(n, text, ok) {
+  $('lf-log').insertAdjacentHTML('beforeend', `<p style="font-size:25px;line-height:1.45;color:#1D2330;animation:lfIn .35s ease">`
+    + `<b style="color:#2F7D6B;margin-right:10px">${'①②③④'[n]}</b>${text}`
+    + (ok === undefined ? '' : ` <b style="color:${ok ? '#1F8A4C' : '#A33131'}">${ok ? '있어요' : '없어요'}</b>`) + '</p>');
+}
+function lock(on) { busy = on; for (const b of sec.querySelectorAll('button')) b.disabled = on; }
+function run() {
+  if (busy) return;
+  clear(); lock(true);
+  const o = OBJS[who];
+  const places = [{ el: 'lf-o-' + who, name: `${who} 붕어빵`, has: o.attrs, row: k => `lf-o-${who}-${k}` }];
+  for (let c = o.cls; c; c = CLS[c].parent) places.push({ el: 'lf-m-' + c, name: `${c} 틀`, has: CLS[c].attrs, row: k => `lf-m-${c}-${k}` });
+  let t = 250, n = 0, found = null;
+  for (const pl of places) {
+    const hit = pl.has.includes(what), i = n++;
+    later(t, () => $(pl.el).classList.add('lf-look'));
+    t += 600;
+    later(t, () => {
+      $(pl.el).classList.remove('lf-look');
+      $(pl.el).classList.add(hit ? 'lf-yes' : 'lf-no');
+      if (hit) $(pl.row(what)).classList.add('lf-yes');
+      log(i, `${pl.name}에 <code>${what}</code>${JOSA[what]} 있나요?`, hit);
+    });
+    t += 500;
+    if (hit) { found = pl; break; }
+  }
+  if (found && who === 'c' && what === 'intro') {
+    later(t, () => { $('lf-m-Bread-intro').classList.add('lf-super'); log(n, '자식의 intro 안에서 <code>super().intro()</code>로 부모 Bread의 intro도 불러요.'); });
+    t += 900;
+  }
+  later(t, () => {
+    const out = OUT[who + '.' + what];
+    $('lf-out').textContent = out;
+    if (!found) $('lf-out').style.color = '#A33131';
+    $('lf-msg').innerHTML = !found
+      ? `Bread 틀까지 찾아도 없어서 AttributeError가 나요. ${who === 'a' ? 'a는 Bread로 찍어서 자식 틀 CreamBread는 보지 않아요.' : ''}`
+      : found.el.startsWith('lf-o-') ? '붕어빵에 붙은 칸이라 붕어빵에서 바로 찾았어요.'
+      : found.name === `${OBJS[who].cls} 틀` ? '붕어빵에는 없어서, 그 붕어빵을 찍은 틀에서 찾았어요.'
+      : '자기 틀에도 없어서 부모 틀까지 올라가 찾았어요. 물려받은 거예요.';
+    lock(false);
+  });
+}
+function stop() { timers.forEach(clearTimeout); timers = []; lock(false); }
+for (const b of sec.querySelectorAll('#lf-who button')) b.onclick = () => { who = b.dataset.o; pick(); clear(); };
+for (const b of sec.querySelectorAll('#lf-what button')) b.onclick = () => { what = b.dataset.k; pick(); clear(); };
+$('lf-go').onclick = run;
+pick();
+return { leave: stop };
+</script>
+<aside>메서드와 값을 어디서 찾는지 직접 눌러 보는 장이에요. 브라우저로 슬라이드를 열면 버튼이 눌러져요. 붕어빵과 물을 것을 고르고 찾아보기를 누르면 파이썬이 찾는 순서대로 불이 들어와요. 먼저 붕어빵 자신, 다음은 그 붕어빵을 찍은 틀, 그다음은 부모 틀이에요. c.intro()는 자식 틀에서 찾고, 안에서 super().intro()로 부모 것도 불러요. c.shop은 부모 틀까지 올라가서 찾아요. a.keep()은 부모 틀 Bread에서 끝나서 AttributeError가 나요. 자식 틀은 보지 않기 때문이에요. 누르기 전에 어디서 찾을지 수강생에게 먼저 물어보세요. 출력은 tools/demo.sh로 실제로 실행한 결과예요.</aside>
+</section>

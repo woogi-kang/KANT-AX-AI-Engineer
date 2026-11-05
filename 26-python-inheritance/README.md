@@ -37,11 +37,11 @@
 | 들어가기 | 1–3 | 표지, 오늘의 순서, `basics.ipynb` 다시 열기 |
 | 1. 왜 필요한가 | 4–5 | 복사해서 만든 슈크림 붕어빵 틀(왜 필요한가), 틀에 새긴 값과 물려받는 틀 그림(큰 그림) |
 | 2. 클래스 변수 | 6–9 | 틀에 적은 값, 한 번에 바꾸기, 찍을 때마다 개수 세기, 인스턴스 변수와 비교 |
-| 3. 상속 | 10–16 | `pass`로 전부 물려받기, 자식에 메서드 더하기, `super().__init__`, 한 줄에서 일어나는 다섯 단계, 덮어쓰기, `super().intro()`, 섞어 담기와 `isinstance` |
-| 4. 복사와 상속 비교 | 17–18 | 고칠 곳이 한 군데, "~는 ~의 한 종류"일 때만 |
-| 5. 오류와 함정 | 19–23 | `super().__init__` 빠짐, `self` 두 번, 자식 재료 수, `a.shop =`, `self.count` |
-| 6. 실습 | 24–27 | 도장 카드와 VIP 카드 두 장, 붕어빵과 미니 붕어빵 메뉴판 두 장 |
-| 정리 | 28–29 | 막힐 때, 한 장 요약 |
+| 3. 상속 | 10–17 | `pass`로 전부 물려받기, 자식에 메서드 더하기, `super().__init__`, 한 줄에서 일어나는 다섯 단계, 덮어쓰기, `super().intro()`, 섞어 담기와 `isinstance`, 눌러 보기(어디서부터 찾을까) |
+| 4. 복사와 상속 비교 | 18–19 | 고칠 곳이 한 군데, "~는 ~의 한 종류"일 때만 |
+| 5. 오류와 함정 | 20–24 | `super().__init__` 빠짐, `self` 두 번, 자식 재료 수, `a.shop =`, `self.count` |
+| 6. 실습 | 25–28 | 도장 카드와 VIP 카드 두 장, 붕어빵과 미니 붕어빵 메뉴판 두 장 |
+| 정리 | 29–30 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -244,6 +244,7 @@ tools/
   gen.py           모든 장과 deck.json 생성 (노트북 셀, 부모와 자식 틀 그림, super 단계)
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
+  lab_find.js      17쪽 어디서부터 찾을까의 버튼 동작 (gen.py가 그 장에 넣어요)
 python-inheritance-slides.html  배포용 HTML
 python-inheritance-slides.pdf   강사용 PDF
 ```
@@ -259,6 +260,8 @@ node ../tools/export.js slides python-inheritance-slides.pdf
 ```
 
 셀 출력은 `tools/demo.sh`가 hello-uv(Python 3.14.6)를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 차례로 실행해서 셀 번호가 파트마다 [1]부터 시작해요. 4파트는 셀 없이 그림과 표만 있어요. 4쪽은 한 셀을 두 칸으로 나눠 보여 줘요. 오류는 Traceback 마지막 줄만 옮겼어요.
+
+눌러 보기 장은 장 안의 `<script type="text/slide-js">`를 `build_player.js`가 실행해서 움직여요. 그래서 버튼은 배포용 HTML에서만 눌러지고, PDF에는 처음 화면이 들어가요. 눌러 보기에 나오는 출력도 `tools/run_nb.py`로 실제로 실행한 결과예요.
 
 범위: 클래스 변수, 상속, `super()`, 덮어쓰기, `isinstance`를 처음 다뤄요. 다중 상속, `classmethod`, `staticmethod`, `@property`, 추상 클래스, `_`로 숨기기는 다루지 않아요.
 

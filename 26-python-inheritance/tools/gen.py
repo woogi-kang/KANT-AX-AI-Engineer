@@ -747,13 +747,13 @@ ST5 = [("①", "CreamBread.__init__", "자식의 __init__이 불려요. self는 
        ("④", "self.cream = cream", "자식으로 돌아와 크림 칸을 붙여요"),
        ("⑤", "c = 다 된 붕어빵", "세 칸이 다 붙은 붕어빵이 c에 담겨요")]
 for i, (n_, code, what) in enumerate(ST5):
-    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:96px;top:{196 + i * 140}px;width:1160px;height:124px;background:{CARD};border:2px solid {LINE};border-left:10px solid {CR if i != 2 else MD};border-radius:16px;padding:0 26px;display:flex;flex-direction:column;justify-content:center;gap:6px">'
+    o.append(f'<div id="stp-{i + 1}" data-build-in="rise order {i + 1}" style="position:absolute;left:96px;top:{196 + i * 140}px;width:1160px;height:124px;background:{CARD};border:2px solid {LINE};border-left:10px solid {CR if i != 2 else MD};border-radius:16px;padding:0 26px;display:flex;flex-direction:column;justify-content:center;gap:6px">'
              + '<div style="display:flex;flex-direction:row;gap:18px;align-items:center">' + p(f"font-size:32px;font-weight:900;color:{CR}", e(n_)) + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{INK};white-space:pre", e(code)) + '</div>'
              + p(f"padding-left:52px;font-size:26px;color:{SUB}", e(what)) + '</div>')
 o.append(obj("self", [], 1320, 196, 504, cls="CreamBread", color=CR, bg=CRBG, empty="아직 칸이 없어요", attrs=' data-build-in="rise order 1"'))
-o.append(obj("self", [("flavor", '"슈크림"'), ("price", "1200")], 1320, 196, 504, cls="CreamBread", color=CR, bg=CRBG, attrs=' data-build-in="rise order 3"'))
-o.append(obj("self", [("flavor", '"슈크림"'), ("price", "1200"), ("cream", '"많이"')], 1320, 196, 504, cls="CreamBread", color=CR, bg=CRBG, attrs=' data-build-in="rise order 4"'))
-o.append(obj("c", [("flavor", '"슈크림"'), ("price", "1200"), ("cream", '"많이"')], 1320, 196, 504, cls="CreamBread", color=CR, bg=CRBG, attrs=' data-build-in="rise order 5"'))
+o.append(obj("self", [("flavor", '"슈크림"'), ("price", "1200")], 1320, 196, 504, cls="CreamBread", color=CR, bg=CRBG, attrs=' data-build-in="fly order 3" data-from="stp-3"'))
+o.append(obj("self", [("flavor", '"슈크림"'), ("price", "1200"), ("cream", '"많이"')], 1320, 196, 504, cls="CreamBread", color=CR, bg=CRBG, attrs=' data-build-in="fly order 4" data-from="stp-4"'))
+o.append(obj("c", [("flavor", '"슈크림"'), ("price", "1200"), ("cream", '"많이"')], 1320, 196, 504, cls="CreamBread", color=CR, bg=CRBG, attrs=' data-build-in="fly order 5" data-from="stp-5"'))
 o.append(note_card(1320, 560, 504, 320, "self는 하나예요", "부모의 __init__에서도 자식의 __init__에서도 같은 새 붕어빵이에요.", CR, ' data-build-in="rise order 6"'))
 W("in-super2", o, "24의 다섯 단계 그림처럼 이 줄을 나눠 봐요. 찍으면 자식의 __init__이 먼저 불려요. 첫 줄에서 super().__init__을 만나 부모의 __init__으로 가요. 부모가 같은 self에 맛과 가격 칸을 붙이고 돌아오면, 자식이 크림 칸을 붙여요. 오른쪽 그림에서 칸이 늘어나는 걸 보세요. 부모의 __init__과 자식의 __init__에서 self는 같은 붕어빵 하나예요.")
 
@@ -779,6 +779,64 @@ o += cell({"id": "c-i7", "lines": ['order = [Bread("팥", 1000), CreamBread("슈
 o += cell({"id": "c-i8", "lines": ["print(isinstance(c, CreamBread))", "print(isinstance(c, Bread))", "print(isinstance(a, CreamBread))"], "n": 8, "out": ["True", "True", "False"], "attrs": ' data-build-in="rise order 2"'}, 96, 560, 900, sel="c-i8")
 o.append(note_card(1040, 560, 784, 340, "isinstance(값, 틀)", "그 틀(또는 그 틀의 자식)로 찍었는지 True, False로 알려 줘요. 슈크림 붕어빵도 붕어빵이라 Bread에 True예요.", CR, ' data-build-in="rise order 3"'))
 W("in-list", o, "팥, 슈크림, 피자 붕어빵을 한 리스트에 섞어 담았어요. for로 하나씩 b.intro()를 부르면 붕어빵마다 자기 틀의 intro가 불려요. 슈크림 붕어빵만 크림 줄이 더 나와요. 부르는 쪽은 어떤 붕어빵인지 몰라도 돼요. 어떤 틀로 찍었는지 알고 싶으면 isinstance를 써요. 슈크림 붕어빵은 CreamBread이면서 Bread이기도 해서 둘 다 True예요. 팥 붕어빵 a는 CreamBread가 아니라서 False예요." + REAL)
+
+# ---------- 메서드 찾기: a slide students press in the browser (tools/lab_find.js) ----------
+LF_CSS = ("<style>"
+          "#in-lab button{font-family:" + MONO.replace("'", '"') + ";font-size:25px;font-weight:700;border-radius:14px;padding:8px 18px;cursor:pointer;border:3px solid #C9CED8;background:#FFFFFF;color:#1D2330}"
+          "#in-lab button:disabled{opacity:.5;cursor:default}"
+          "#in-lab button.lf-on{border-color:#2F7D6B;background:#E3F2EE}"
+          "#in-lab #lf-go{font-family:" + SANS.replace("'", '"') + ";background:#2F7D6B;border-color:#2F7D6B;color:#FFFFFF}"
+          "#in-lab code{font-family:" + MONO.replace("'", '"') + ";font-size:24px;background:#F1F0EC;border-radius:8px;padding:1px 8px}"
+          "#in-lab .lf-box{transition:box-shadow .3s,opacity .3s}"
+          "#in-lab .lf-look{box-shadow:0 0 0 8px rgba(178,106,0,.45)}"
+          "#in-lab .lf-box.lf-yes{box-shadow:0 0 0 8px rgba(31,138,76,.40)}"
+          "#in-lab .lf-box.lf-no{opacity:.55}"
+          "#in-lab .lf-row{transition:all .3s;border:2px solid transparent}"
+          "#in-lab .lf-row.lf-yes{background:#D7F0DF!important;border-color:#1F8A4C}"
+          "#in-lab .lf-row.lf-super{background:#FFF1D9!important;border-color:#B26A00}"
+          "@keyframes lfIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}"
+          "</style>")
+
+
+def lf_row(sid, txt, fs=23):
+    return (f'<div id="{sid}" class="lf-row" style="height:50px;border-radius:10px;background:#FFFFFF;padding:0 14px;display:flex;align-items:center">'
+            + p(f"font-family:{MONO};font-size:{fs}px;font-weight:700;color:{INK};white-space:pre", e(txt)) + '</div>')
+
+
+def lf_mold(sid, left, top, title, rows, color, bg):
+    return (f'<div id="{sid}" class="lf-box" style="position:absolute;left:{left}px;top:{top}px;width:620px;background:{bg};border:5px dashed {color};border-radius:26px;padding:16px 22px;display:flex;flex-direction:column;gap:8px">'
+            + '<div style="display:flex;flex-direction:row;align-items:center;gap:12px">' + p(f"font-size:20px;font-weight:700;color:#FFFFFF;background:{color};border-radius:10px;padding:3px 12px", "틀") + p(f"font-family:{MONO};font-size:27px;font-weight:700;color:{color}", e(title)) + '</div>'
+            + "".join(lf_row(f"{sid}-{k}", t) for k, t in rows) + '</div>')
+
+
+def lf_obj(name, cls, rows, left, top, color):
+    return (f'<div id="lf-o-{name}" class="lf-box" style="position:absolute;left:{left}px;top:{top}px;width:300px;background:{CARD};border:3px solid {color};border-radius:22px;overflow:hidden">'
+            + f'<div style="height:56px;background:{color};display:flex;align-items:center;padding:0 18px;gap:10px">' + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:#FFFFFF", e(name)) + '<div style="flex:1"></div>' + p("font-size:18px;font-weight:700;color:#FFFFFF;opacity:.85", e(cls)) + '</div>'
+            + '<div style="padding:10px 14px;display:flex;flex-direction:column;gap:6px">' + "".join(lf_row(f"lf-o-{name}-{k}", f"{k}  {v}", 21) for k, v in rows) + '</div></div>')
+
+
+o = [sec("in-lab"), LF_CSS] + head(EB3, "눌러 보기: 파이썬은 어디서부터 찾을까요", K3)
+o.append(lf_mold("lf-m-Bread", 96, 196, "class Bread", [("shop", 'shop = "붕어빵 1호점"'), ("__init__", "__init__(self, flavor, price)"), ("intro", "intro(self)")], MD, MDBG))
+o.append(f'<x-shape kind="arrow-right" style="position:absolute;left:366px;top:476px;width:80px;height:30px;transform:rotate(-90deg);background:{CR}"></x-shape>')
+o.append(p(f"position:absolute;left:456px;top:472px;font-size:24px;font-weight:700;color:{CR}", "물려받기"))
+o.append(lf_mold("lf-m-CreamBread", 96, 540, "class CreamBread(Bread)", [("__init__", "__init__(self, flavor, price, cream)"), ("intro", "intro(self)  # super().intro() + 크림"), ("keep", "keep(self)")], CR, CRBG))
+o.append(lf_obj("a", "Bread", [("flavor", '"팥"'), ("price", "1000")], 762, 226, BR))
+o.append(lf_obj("c", "CreamBread", [("flavor", '"슈크림"'), ("price", "1200"), ("cream", '"많이"')], 762, 560, CR))
+o.append(p(f"position:absolute;left:762px;top:452px;width:300px;font-size:22px;color:{SUB};text-align:center", "Bread 틀로 찍었어요"))
+o.append(p(f"position:absolute;left:762px;top:842px;width:300px;font-size:22px;color:{SUB};text-align:center", "CreamBread 틀로 찍었어요"))
+o.append(f'<div style="position:absolute;left:1100px;top:196px;width:724px;height:286px;background:{CARD};border:2px solid {LINE};border-radius:22px;padding:18px 24px;display:flex;flex-direction:column;gap:14px">'
+         + f'<div id="lf-who" style="display:flex;flex-direction:row;gap:12px;align-items:center">{p(f"width:96px;font-size:24px;font-weight:700;color:{SUB}", "누구에게")}<button data-o="a">a</button><button data-o="c">c</button></div>'
+         + f'<div id="lf-what" style="display:flex;flex-direction:row;flex-wrap:wrap;gap:10px;align-items:center">{p(f"width:96px;font-size:24px;font-weight:700;color:{SUB}", "무엇을")}<button data-k="intro">.intro()</button><button data-k="keep">.keep()</button><button data-k="shop">.shop</button><button data-k="cream">.cream</button><button data-k="flavor">.flavor</button></div>'
+         + f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><button id="lf-go">찾아보기 ▶</button>{p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", "c.intro()", " id=\"lf-code\"")}</div></div>')
+o.append(f'<div id="lf-log" style="position:absolute;left:1100px;top:502px;width:724px;height:236px;background:{CARD};border:2px solid {LINE};border-radius:22px;padding:18px 24px;display:flex;flex-direction:column;gap:6px">'
+         + p(f"font-size:25px;color:{GRAY}", "찾는 길이 여기에 한 줄씩 나와요.") + '</div>')
+o.append(f'<div style="position:absolute;left:1100px;top:758px;width:724px;height:150px;background:{CARD};border:2px solid {LINE};border-left:10px solid {JP};border-radius:22px;padding:16px 24px;display:flex;flex-direction:column;gap:8px">'
+         + p(f"font-size:24px;font-weight:700;color:{JP}", "출력") + p(f"font-family:{MONO};font-size:22px;font-weight:700;line-height:1.4;color:{INK};white-space:pre-wrap;overflow-wrap:break-word", "", ' id="lf-out"') + '</div>')
+o.append(f'<div style="position:absolute;left:96px;top:930px;width:1728px;height:106px;background:{CARD};border:2px solid {LINE};border-left:10px solid {CR};border-radius:18px;padding:0 30px;display:flex;align-items:center">'
+         + p(f"font-size:30px;font-weight:500;line-height:1.4;color:{INK}", "누구에게 무엇을 물을지 고르고 찾아보기를 눌러요. 브라우저로 슬라이드를 열면 눌러져요.", ' id="lf-msg"') + '</div>')
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "lab_find.js")) as f:
+    o.append('<script type="text/slide-js">\n' + f.read() + '</script>')
+W("in-lab", o, "메서드와 값을 어디서 찾는지 직접 눌러 보는 장이에요. 브라우저로 슬라이드를 열면 버튼이 눌러져요. 붕어빵과 물을 것을 고르고 찾아보기를 누르면 파이썬이 찾는 순서대로 불이 들어와요. 먼저 붕어빵 자신, 다음은 그 붕어빵을 찍은 틀, 그다음은 부모 틀이에요. c.intro()는 자식 틀에서 찾고, 안에서 super().intro()로 부모 것도 불러요. c.shop은 부모 틀까지 올라가서 찾아요. a.keep()은 부모 틀 Bread에서 끝나서 AttributeError가 나요. 자식 틀은 보지 않기 때문이에요. 누르기 전에 어디서 찾을지 수강생에게 먼저 물어보세요. 출력은 tools/demo.sh로 실제로 실행한 결과예요.")
 
 # ---------- part 4 ----------
 o = [sec("cmp-copy")] + head(EB4, "복사해서 만든 틀 vs 물려받은 틀", K4)

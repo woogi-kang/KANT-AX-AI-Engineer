@@ -1,5 +1,10 @@
 // Builds one self-contained HTML file that plays the deck in a browser with its animations
 // (build-ins and magic-move/fade transitions). Usage: node tools/build_player.js slides git-basics-slides.html
+// Extras a slide can use, both ignored by check.js and export.js so the PDF shows the slide's plain layout:
+// - data-build-in="fly order N" data-from="someId": the element flies in from where #someId is drawn.
+// - <script type="text/slide-js"> inside a section: run once as function(sec, api) when the player loads.
+//   It may return {enter(), leave(), step(n, animate)}; enter runs when the slide is shown, leave when another
+//   slide is shown, step after each build. Use it for buttons students press on the slide.
 const fs = require('fs');
 const { renderDeck } = require('./deckrender');
 const [dir, out] = process.argv.slice(2);
@@ -44,7 +49,7 @@ const steps=slides.map(s=>{
     const m=spec.match(/order\\s+(\\d+)/)||spec.match(/\\s(\\d+)$/);
     const k=m?+m[1]:++auto;
     (groups[k]=groups[k]||[]).push(el);
-    el.dataset.fx=/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':'fade';
+    el.dataset.fx=/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':/fly/.test(spec)?'fly':'fade';
   }
   return groups.filter(Boolean);
 });
@@ -55,16 +60,29 @@ function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage._s=s;sta
 addEventListener('resize',fit);fit();
 function setBuild(i,n,animate){
   steps[i].forEach((g,gi)=>g.forEach(el=>{
-    if(!animate)el.style.transition='none';
+    const was=el.classList.contains('pending');
+    const fly=animate&&was&&gi<n&&el.dataset.fx==='fly'&&el.dataset.from&&slides[i].querySelector('#'+el.dataset.from);
+    if(!animate||fly)el.style.transition='none';
     el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
-    if(!animate){void el.offsetWidth;el.style.transition='';}
+    if(fly)flyIn(el,slides[i].querySelector('#'+el.dataset.from));
+    if(!animate||fly){void el.offsetWidth;el.style.transition='';}
   }));
+  const fx=slides[i]._fx;if(fx&&fx.step)try{fx.step(n,animate);}catch(e){console.error(e);}
+}
+// moves el from the centre of src to its own place, so a value looks like it travels there
+function flyIn(el,src){
+  const a=rectIn(src),b=rectIn(el);
+  const dx=a.x+a.w/2-(b.x+b.w/2),dy=a.y+a.h/2-(b.y+b.h/2);
+  const z=el.style.zIndex;el.style.zIndex=50;
+  const k=Math.max(.12,Math.min(1,Math.max(a.w/b.w,a.h/b.h))),m=(1+k)/2;
+  el.animate([{transformOrigin:'50% 50%',transform:'translate('+dx+'px,'+dy+'px) scale('+k+')',opacity:.3},{transformOrigin:'50% 50%',transform:'translate('+dx*.45+'px,'+(dy*.45-50)+'px) scale('+m+')',opacity:1,offset:.5},{transformOrigin:'50% 50%',transform:'none',opacity:1}],{duration:900,easing:'cubic-bezier(.4,0,.2,1)'}).onfinish=()=>{el.style.zIndex=z;};
 }
 function rectIn(el){const r=el.getBoundingClientRect(),S=stage.getBoundingClientRect(),k=stage._s;return{x:(r.left-S.left)/k,y:(r.top-S.top)/k,w:r.width/k,h:r.height/k};}
 function topIds(sec){return [...sec.querySelectorAll('[id]')].filter(el=>!el.parentElement.closest('section [id]'));}
 function show(n,dir){
   if(n<0||n>=slides.length)return;
   const a=slides[cur],b=slides[n];
+  if(a._fx&&a._fx.leave&&n!==cur)try{a._fx.leave();}catch(e){console.error(e);}
   const target=(!animOn||dir<0)?steps[n].length:seen[n];
   setBuild(n,target,false);
   const magic=b.getAttribute('data-transition')==='magic'&&Math.abs(n-cur)===1&&n!==cur;
@@ -86,6 +104,7 @@ function show(n,dir){
     if(n!==cur)b.animate([{opacity:0},{opacity:1}],{duration:400,easing:'ease'});
   }
   cur=n;step=target;seen[n]=Math.max(seen[n],step);
+  if(b._fx&&b._fx.enter)try{b._fx.enter();}catch(e){console.error(e);}
   hideCopy();update();
 }
 function next(){if(animOn&&step<steps[cur].length){step++;seen[cur]=Math.max(seen[cur],step);setBuild(cur,step,true);update();}else show(cur+1,1);}
@@ -195,11 +214,18 @@ $('pl-go').addEventListener('keydown',e=>{
   else if(e.key==='Escape'){e.target.value='';e.target.blur();}
 });
 let tx=null;addEventListener('touchstart',e=>tx=e.touches[0].clientX);addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>40)(d<0?next:prev)();tx=null;});
+// slide scripts: see the note at the top of build_player.js
+slides.forEach(s=>{
+  const js=s.querySelector('script[type="text/slide-js"]');
+  if(!js)return;
+  try{s._fx=new Function('sec','api',js.textContent)(s,{animOn:()=>animOn,rectIn})||{};}catch(e){console.error(e);}
+});
 const start=Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1))||1)-1));
 slides.forEach((s,i)=>setBuild(i,0,false));
 cur=start;step=animOn?0:steps[cur].length;seen[cur]=step;setBuild(cur,step,false);
 $('pl-anim').textContent=animOn?'애니메이션 끄기':'애니메이션 켜기';$('pl-anim').classList.toggle('off',!animOn);
 slides[cur].classList.add('on');update();
+if(slides[cur]._fx&&slides[cur]._fx.enter)try{slides[cur]._fx.enter();}catch(e){console.error(e);}
 `;
 
 (async () => {

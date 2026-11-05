@@ -741,6 +741,72 @@ for i, r in enumerate([['Bread("팥", 1000)', "__init__", "찍기", "재료 없�
 o.append(caption("print는 손님 글씨(__str__), 그 밖에 개발자가 볼 때는 주문표 글씨(__repr__)예요.", 800))
 W("r-who", o, "세 메서드가 언제 불리는지 표로 모았어요. 찍을 때는 __init__, print와 str과 f-string은 __str__, 셀 마지막 줄과 리스트 안의 값은 __repr__이에요. 오른쪽 두 칸은 메서드가 있을 때와 없을 때 무엇이 보이는지예요. intro처럼 우리가 이름을 지은 메서드는 우리가 부를 때만 실행돼요. 손님에게 보여 줄 땐 __str__, 개발하면서 무엇이 들었는지 확인할 땐 __repr__이라고 기억하면 돼요.")
 
+# ---------- 누가 불릴까: a slide students press in the browser (tools/lab_who.js) ----------
+LW_CSS = ("<style>"
+          "#r-lab button{font-family:" + SANS.replace("'", '"') + ";font-size:26px;font-weight:700;border-radius:14px;padding:10px 20px;cursor:pointer;border:3px solid #C9CED8;background:#FFFFFF;color:#1D2330}"
+          "#r-lab button:disabled{opacity:.5;cursor:default}"
+          "#r-lab #lw-asks button{font-family:" + MONO.replace("'", '"') + ";font-size:25px}"
+          "#r-lab #lw-asks button.lw-on{border-color:#0F7C86;background:#E2F2F3}"
+          "#r-lab .lw-tg{background:#1F8A4C;border-color:#1F8A4C;color:#FFFFFF}"
+          "#r-lab .lw-tg.lw-off{background:#FFFFFF;border-color:#C9CED8;color:#6A7180}"
+          "#r-lab [data-st]{transition:all .3s}"
+          "#r-lab [data-st=look]{border-color:#B26A00!important;background:#FFF4E0!important;transform:scale(1.06)}"
+          "#r-lab [data-st=yes]{border-color:#1F8A4C!important;background:#E3F3E8!important}"
+          "#r-lab [data-st=no]{border-color:#A33131!important;background:#F8E6E6!important;opacity:.8}"
+          "#r-lab [data-st=skip]{opacity:.35;border-style:dashed!important}"
+          "</style>")
+
+
+def cl(txt, sid=None, fs=23):
+    idp = f' id="{sid}"' if sid else ""
+    return p(f"height:46px;font-family:{MONO};font-size:{fs}px;font-weight:700;line-height:46px;color:{W_};white-space:pre", txt, idp)
+
+
+def sp(t, c):
+    return f'<span style="color:{c}">{e(t)}</span>'
+
+
+o = [sec("r-lab"), LW_CSS] + head(EB3, "눌러 보기: 지금 누가 불릴까요", K3)
+o.append('<div style="position:absolute;left:96px;top:196px;width:820px;height:470px;background:#252B36;border-radius:22px;padding:24px 24px">'
+         + cl(sp("class", CK) + " Bread:")
+         + cl("    " + sp("def", CK) + " " + sp("__init__", CM) + "(" + sp("self", CS) + ", flavor, price): ...")
+         + '<div id="lw-str" style="border-radius:10px;transition:all .3s">'
+         + cl("    " + sp("def", CK) + " " + sp("__str__", CM) + "(" + sp("self", CS) + "):")
+         + cl("        " + sp("return", CK) + " " + sp('f"{self.flavor} 붕어빵 {self.price:,}원"', CA)) + '</div>'
+         + '<div id="lw-repr" style="border-radius:10px;transition:all .3s">'
+         + cl("    " + sp("def", CK) + " " + sp("__repr__", CM) + "(" + sp("self", CS) + "):")
+         + cl("        " + sp("return", CK) + " " + sp("f\"Bread('{self.flavor}', {self.price})\"", CA)) + '</div>'
+         + cl("&#160;") + cl(sp("a", CS) + ' = Bread("팥", 1000)') + cl(sp("b", CS) + ' = Bread("슈크림", 1200)') + '</div>')
+o.append('<div style="position:absolute;left:96px;top:690px;width:800px;display:flex;flex-direction:row;gap:16px;align-items:center">'
+         + p(f"font-size:24px;font-weight:700;color:{SUB}", "틀에")
+         + '<button class="lw-tg">__str__ <span id="lw-t-str">있음</span></button><button class="lw-tg">__repr__ <span id="lw-t-repr">있음</span></button></div>')
+o.append(p(f"position:absolute;left:96px;top:780px;width:800px;font-size:24px;line-height:1.5;color:{SUB}", "버튼으로 메서드를 빼거나 다시 넣어요.<br>뺀 메서드는 위 코드에 줄이 그어져요."))
+o.append(f'<div style="position:absolute;left:940px;top:196px;width:884px;height:212px;background:{CARD};border:2px solid {LINE};border-radius:22px;padding:18px 26px;display:flex;flex-direction:column;gap:14px">'
+         + p(f"font-size:24px;font-weight:700;color:{K3}", "이렇게 보여 달라고 하면")
+         + '<div id="lw-asks" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'
+         + '<button data-k="print">print(a)</button><button data-k="fstr">f"주문: {a}"</button>'
+         + '<button data-k="cell">셀 마지막 줄 a</button><button data-k="list">print([a, b])</button></div></div>')
+lane_ = ""
+for i, (k, t) in enumerate([("str", "__str__"), ("repr", "__repr__"), ("base", "기본 모양")]):
+    if i:
+        lane_ += f'<x-shape kind="arrow-right" style="width:44px;height:26px;background:#C9CED8"></x-shape>'
+    lane_ += (f'<div id="lw-l-{k}" data-st="idle" style="width:228px;height:108px;flex:none;background:{CARD};border:3px solid {LINE};border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">'
+              + p(f"font-family:{MONO if k != 'base' else SANS};font-size:28px;font-weight:700;color:{INK}", e(t))
+              + p(f"height:30px;font-size:22px;font-weight:700;color:{SUB}", "", f' id="lw-s-{k}"') + '</div>')
+o.append(f'<div style="position:absolute;left:940px;top:428px;width:884px;height:196px;background:{CARD};border:2px solid {LINE};border-radius:22px;padding:18px 26px;display:flex;flex-direction:column;gap:14px">'
+         + p(f"font-size:24px;font-weight:700;color:{K3}", "파이썬이 틀에서 찾는 순서")
+         + f'<div style="display:flex;flex-direction:row;align-items:center;gap:12px">{lane_}</div></div>')
+o.append(f'<div style="position:absolute;left:940px;top:644px;width:884px;height:160px;background:{CARD};border:2px solid {LINE};border-left:10px solid {JP};border-radius:22px;padding:18px 26px;display:flex;flex-direction:column;gap:12px">'
+         + p(f"font-size:24px;font-weight:700;color:{JP}", "출력")
+         + '<div style="display:flex;flex-direction:row;gap:16px;align-items:baseline">'
+         + p(f"font-family:{MONO};font-size:24px;font-weight:700;color:{JP}", "", ' id="lw-n"')
+         + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{INK};white-space:pre", "", ' id="lw-out"') + '</div></div>')
+o.append(f'<div style="position:absolute;left:96px;top:930px;width:1728px;height:106px;background:{CARD};border:2px solid {LINE};border-left:10px solid {TEAL};border-radius:18px;padding:0 30px;display:flex;align-items:center">'
+         + p(f"font-size:30px;font-weight:500;line-height:1.4;color:{INK}", "오른쪽 위 버튼을 눌러 보세요. 브라우저로 슬라이드를 열면 눌러져요.", ' id="lw-msg"') + '</div>')
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "lab_who.js")) as f:
+    o.append('<script type="text/slide-js">\n' + f.read() + '</script>')
+W("r-lab", o, "앞 장의 표를 직접 눌러 보는 장이에요. 브라우저로 슬라이드를 열면 버튼이 눌러져요. 오른쪽 위에서 보여 주는 방법을 하나 고르면, 파이썬이 틀에서 어떤 메서드를 어떤 순서로 찾는지 상자에 불이 들어오고 출력이 나와요. print와 f-string은 __str__부터 찾고, 없으면 __repr__, 그것도 없으면 기본 모양을 써요. 셀 마지막 줄과 리스트 안은 __str__을 보지 않고 __repr__부터 찾아요. 왼쪽 아래 버튼으로 __str__이나 __repr__을 빼고 다시 눌러 보세요. 누르기 전에 무엇이 나올지 수강생에게 먼저 물어보면 좋아요. 출력은 데모에서 실제로 나온 글자예요. 주소는 실행할 때마다 달라요.")
+
 o = [sec("r-only")] + head(EB3, "하나만 만든다면 __repr__이에요", K3)
 o += cell({"id": "c-r7", "lines": B_INIT + [""] + B_REPR + [""] + AB + ["print(a)", "print([a, b])"], "n": 7, "out": ["Bread('팥', 1000)", "[Bread('팥', 1000), Bread('슈크림', 1200)]"]}, 96, 196, 1100, sel="c-r7")
 o.append(hl(96, 196, 1100, 5, 2, "run", 1, "__repr__만"))
