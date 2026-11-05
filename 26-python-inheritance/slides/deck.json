@@ -1,0 +1,81 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-05T06:00:00Z"
+  },
+  "lists": "css",
+  "title": "클래스 3 (상속과 클래스 변수)",
+  "order": [
+    "cover",
+    "toc",
+    "ready",
+    "w-why",
+    "w-big",
+    "cv-basic",
+    "cv-change",
+    "cv-count",
+    "cv-table",
+    "in-pass",
+    "in-add",
+    "in-super",
+    "in-super2",
+    "in-over",
+    "in-super3",
+    "in-list",
+    "cmp-copy",
+    "cmp-when",
+    "t-nosuper",
+    "t-superself",
+    "t-cream",
+    "t-shop",
+    "t-count",
+    "x-card",
+    "x-card2",
+    "x-mini",
+    "x-mini2",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "w-why"
+    },
+    "p2": {
+      "description": "클래스 변수",
+      "start": "cv-basic"
+    },
+    "p3": {
+      "description": "상속",
+      "start": "in-pass"
+    },
+    "p5": {
+      "description": "오류와 함정",
+      "start": "t-nosuper"
+    },
+    "p6": {
+      "description": "실습",
+      "start": "x-card"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
