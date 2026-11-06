@@ -21,7 +21,9 @@ function loadIcons() {
   const icons = {};
   for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.svg'))) {
     icons[f.replace('.svg', '')] = fs.readFileSync(path.join(dir, f), 'utf8')
-      .replace(/<!--.*?-->/s, '').replace(/\s(width|height|class)="[^"]*"/g, '').trim();
+      .replace(/<!--.*?-->/s, '')
+      // Only the root <svg> loses its size and class; inner shapes like <rect width="18"> keep theirs.
+      .replace(/<svg\b[^>]*>/, tag => tag.replace(/\s(width|height|class)="[^"]*"/g, '')).trim();
   }
   return icons;
 }
