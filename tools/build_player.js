@@ -2,6 +2,11 @@
 // (build-ins and magic-move/fade transitions). Usage: node tools/build_player.js slides git-basics-slides.html
 // Extras a slide can use, both ignored by check.js and export.js so the PDF shows the slide's plain layout:
 // - data-build-in="fly order N" data-from="someId": the element flies in from where #someId is drawn.
+// - highlights (see tools/HIGHLIGHT.md): data-build-in="draw order N" on an SVG draws its strokes like a pen;
+//   "type order N" types the text in; "spot order N" on an empty box dims the slide except that box, and the
+//   hole slides to the next "spot" box ("spot-off" clears it); "cursor order N" / "click order N" on an empty box
+//   moves a mouse pointer there (click adds a ripple), "cursor-off" hides it. spot, cursor and click may name
+//   data-target="someId" to use that element's box instead of their own.
 // - <script type="text/slide-js"> inside a section: run once as function(sec, api) when the player loads.
 //   It may return {enter(), leave(), step(n, animate)}; enter runs when the slide is shown, leave when another
 //   slide is shown, step after each build. Use it for buttons students press on the slide.
@@ -34,13 +39,24 @@ body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
 #pl-bar input{width:72px;background:#252B36;color:#E6E9EF;border:1px solid #3A4250;border-radius:6px;padding:5px 8px;font:inherit}
 #pl-bar .grow{flex:1}
 #pl-notes{position:fixed;left:16px;right:16px;bottom:52px;max-height:30vh;overflow:auto;padding:16px 20px;border-radius:10px;background:rgba(255,255,255,.96);color:#1D2330;font-size:18px;line-height:1.6;display:none}
-#pl-notes.show{display:block}`;
+#pl-notes.show{display:block}
+[data-build-in^="spot"],[data-build-in^="cursor"],[data-build-in^="click"]{visibility:hidden}
+[data-build-in^="draw"]{stroke-dasharray:1;transition:opacity .45s ease,stroke-dashoffset .7s cubic-bezier(.6,0,.3,1)}
+.pending.draw{opacity:1!important;stroke-dashoffset:1}
+.pl-spot{position:absolute;z-index:40;pointer-events:none;border-radius:18px;opacity:0;box-shadow:0 0 0 4px rgba(255,255,255,.92),0 0 0 4000px rgba(10,12,18,.62);transition:left .6s cubic-bezier(.65,0,.35,1),top .6s cubic-bezier(.65,0,.35,1),width .6s cubic-bezier(.65,0,.35,1),height .6s cubic-bezier(.65,0,.35,1),opacity .4s ease}
+.pl-spot.on{opacity:1}
+.pl-cur{position:absolute;z-index:45;width:40px;height:56px;margin:-4px 0 0 -6px;pointer-events:none;opacity:0;transition:left .8s cubic-bezier(.65,0,.35,1),top .8s cubic-bezier(.65,0,.35,1),opacity .3s ease}
+.pl-cur.on{opacity:1}
+.pl-rip{position:absolute;z-index:44;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:5px solid #2459C9;opacity:0;pointer-events:none}
+.pl-rip.go{animation:pl-rip .6s ease-out}
+@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}`;
 
 const PLAYER_JS = `
 const stage=document.getElementById('pl-stage');
 const slides=[...stage.children];
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
+const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off'];
 const steps=slides.map(s=>{
   const els=[...s.querySelectorAll('[data-build-in]')];
   const groups=[];let auto=0;
@@ -49,7 +65,9 @@ const steps=slides.map(s=>{
     const m=spec.match(/order\\s+(\\d+)/)||spec.match(/\\s(\\d+)$/);
     const k=m?+m[1]:++auto;
     (groups[k]=groups[k]||[]).push(el);
-    el.dataset.fx=/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':/fly/.test(spec)?'fly':'fade';
+    const kind=spec.trim().split(/\\s+/)[0];
+    el.dataset.fx=HL_KINDS.includes(kind)?kind:/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':/fly/.test(spec)?'fly':'fade';
+    if(kind==='draw')[el,...el.querySelectorAll('path,rect,circle,ellipse,line,polyline,polygon')].forEach(x=>x.setAttribute('pathLength','1'));
   }
   return groups.filter(Boolean);
 });
@@ -66,7 +84,9 @@ function setBuild(i,n,animate){
     el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
     if(fly)flyIn(el,slides[i].querySelector('#'+el.dataset.from));
     if(!animate||fly){void el.offsetWidth;el.style.transition='';}
+    if(el.dataset.fx==='type'){if(animate&&was&&gi<n)typeIn(el);else typeDone(el);}
   }));
+  hlState(i,n,animate);
   const fx=slides[i]._fx;if(fx&&fx.step)try{fx.step(n,animate);}catch(e){console.error(e);}
 }
 // moves el from the centre of src to its own place, so a value looks like it travels there
@@ -76,6 +96,54 @@ function flyIn(el,src){
   const z=el.style.zIndex;el.style.zIndex=50;
   const k=Math.max(.12,Math.min(1,Math.max(a.w/b.w,a.h/b.h))),m=(1+k)/2;
   el.animate([{transformOrigin:'50% 50%',transform:'translate('+dx+'px,'+dy+'px) scale('+k+')',opacity:.3},{transformOrigin:'50% 50%',transform:'translate('+dx*.45+'px,'+(dy*.45-50)+'px) scale('+m+')',opacity:1,offset:.5},{transformOrigin:'50% 50%',transform:'none',opacity:1}],{duration:900,easing:'cubic-bezier(.4,0,.2,1)'}).onfinish=()=>{el.style.zIndex=z;};
+}
+// ---- highlights: typing, spotlight hole, mouse pointer (tools/HIGHLIGHT.md) ----
+function textNodes(el){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);return a;}
+function typeDone(el){if(el._tt){clearInterval(el._tt);el._tt=null;}if(el._orig)textNodes(el).forEach((t,k)=>t.nodeValue=el._orig[k]);}
+function typeIn(el){
+  typeDone(el);const ns=textNodes(el);el._orig=ns.map(t=>t.nodeValue);
+  const total=el._orig.join('').length,ms=Math.max(12,Math.min(45,1100/Math.max(1,total)));
+  ns.forEach(t=>t.nodeValue='');let k=0,j=0;
+  el._tt=setInterval(()=>{while(k<ns.length&&j>=el._orig[k].length){k++;j=0;}if(k>=ns.length){typeDone(el);return;}j++;ns[k].nodeValue=el._orig[k].slice(0,j);},ms);
+}
+const CUR_SVG='<svg viewBox="0 0 22 30" width="40" height="56"><path d="M2,2 L2,24 L8,18 L12,28 L16,26 L12,16 L20,16 Z" fill="#1D2330" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
+function hlParts(s){
+  if(!s._spot){
+    s._spot=document.createElement('div');s._spot.className='pl-spot';
+    s._cur=document.createElement('div');s._cur.className='pl-cur';s._cur.innerHTML=CUR_SVG;
+    s._rip=document.createElement('div');s._rip.className='pl-rip';
+    s.append(s._spot,s._rip,s._cur);
+  }
+  return s;
+}
+function hlState(i,n,animate){
+  const s=slides[i];let spot=null,cur=null,curNew=false;
+  steps[i].forEach((g,gi)=>{if(gi>=n)return;g.forEach(el=>{const f=el.dataset.fx;
+    if(f==='spot')spot=el;else if(f==='spot-off')spot=null;
+    else if(f==='cursor'||f==='click'){cur=el;curNew=gi===n-1;}else if(f==='cursor-off')cur=null;});});
+  if(!spot&&!cur&&!s._spot)return;
+  hlParts(s);
+  const sp=s._spot,cu=s._cur;
+  const box=el=>(el.dataset.target&&s.querySelector('#'+el.dataset.target))||el;
+  const still=x=>{x.style.transition='none';};
+  const free=x=>{void x.offsetWidth;x.style.transition='';};
+  if(spot){
+    const r=rectIn(box(spot)),pad=+(spot.dataset.pad||12),rad=spot.dataset.r||'18px';
+    sp.style.boxShadow='0 0 0 4px rgba(255,255,255,.92),0 0 0 4000px rgba(10,12,18,'+(spot.dataset.dim||.62)+')';
+    const wasOn=sp.classList.contains('on');
+    if(!animate||!wasOn)still(sp);
+    Object.assign(sp.style,{left:(r.x-pad)+'px',top:(r.y-pad)+'px',width:(r.w+2*pad)+'px',height:(r.h+2*pad)+'px',borderRadius:rad});
+    if(!animate||!wasOn)free(sp);
+    if(!animate)still(sp);sp.classList.add('on');if(!animate)free(sp);
+  }else{if(!animate)still(sp);sp.classList.remove('on');if(!animate)free(sp);}
+  if(cur){
+    const r=rectIn(box(cur)),x=r.x+r.w/2,y=r.y+r.h/2,wasOn=cu.classList.contains('on');
+    if(animate&&!wasOn){still(cu);cu.style.left=(x+220)+'px';cu.style.top=(y+160)+'px';free(cu);}
+    if(!animate)still(cu);
+    cu.style.left=x+'px';cu.style.top=y+'px';cu.classList.add('on');
+    if(!animate)free(cu);
+    if(animate&&curNew&&cur.dataset.fx==='click'){clearTimeout(s._ripT);s._ripT=setTimeout(()=>{const rp=s._rip;rp.style.left=x+'px';rp.style.top=y+'px';rp.classList.remove('go');void rp.offsetWidth;rp.classList.add('go');},820);}
+  }else{if(!animate)still(cu);cu.classList.remove('on');if(!animate)free(cu);}
 }
 function rectIn(el){const r=el.getBoundingClientRect(),S=stage.getBoundingClientRect(),k=stage._s;return{x:(r.left-S.left)/k,y:(r.top-S.top)/k,w:r.width/k,h:r.height/k};}
 function topIds(sec){return [...sec.querySelectorAll('[id]')].filter(el=>!el.parentElement.closest('section [id]'));}
