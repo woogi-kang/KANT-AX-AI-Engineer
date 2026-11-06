@@ -1,6 +1,9 @@
 """Generates the terminal + folder-tree slides for the Linux terminal deck."""
 import html, os, sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
+from highlight import spot, spot_off, underline, TYPE  # noqa: E402
+
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
 MONO = "'JetBrains Mono', 'Noto Sans KR', monospace"
@@ -58,9 +61,20 @@ def node_left(depth):
     return NX0 + depth * INDENT
 
 
-def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치"):
-    """nodes: list of (id, name, kind, depth) in display order."""
+def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치", hot=None):
+    """nodes: list of (id, name, kind, depth) in display order.
+    hot: rows to light up after the terminal finishes. None = the rows with badges, "cwd" = the current row,
+    False = none. The badges pop in with the spotlight; the explain card comes on the next click."""
     badges = badges or {}
+    rows_i = {n[0]: i for i, n in enumerate(nodes)}
+    if hot is None:
+        hot = [k for k, v in badges.items() if v and all(len(b) == 2 for b in v)]
+    elif hot == "cwd":
+        hot = [cwd]
+    hot = hot or []
+    t0 = STATE["n"] + 1
+    fresh = {k for k in hot if any(b[1] == "new" for b in badges.get(k, []))}
+    pop = lambda k: f' data-build-in="pop order {t0}"' if k in fresh else ""
     o = [f'<div id="tree" style="position:absolute;left:{TX}px;top:{TY}px;width:{TW}px;height:{TH}px;background:#FDFCF9;border:2px solid #D9D5CB;border-radius:20px"></div>']
     o.append(p(f"position:absolute;left:{TX+32}px;top:{TY+18}px;width:400px;font-size:24px;font-weight:700;color:#6A7180", "폴더 지도", ' id="tree-title"'))
     rows = {n[0]: i for i, n in enumerate(nodes)}
@@ -76,8 +90,8 @@ def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치"):
         x = node_left(d - 1) + 26
         y0 = ROW0 + j * PITCH + NODE_H
         y1 = ROW0 + i * PITCH + NODE_H // 2
-        o.append(f'<div id="lv-{nid}" style="position:absolute;left:{x}px;top:{y0}px;width:3px;height:{y1-y0+2}px;background:#CFCABF"></div>')
-        o.append(f'<div id="lh-{nid}" style="position:absolute;left:{x}px;top:{y1-1}px;width:{node_left(d)-x}px;height:3px;background:#CFCABF"></div>')
+        o.append(f'<div id="lv-{nid}"{pop(nid)} style="position:absolute;left:{x}px;top:{y0}px;width:3px;height:{y1-y0+2}px;background:#CFCABF"></div>')
+        o.append(f'<div id="lh-{nid}"{pop(nid)} style="position:absolute;left:{x}px;top:{y1-1}px;width:{node_left(d)-x}px;height:3px;background:#CFCABF"></div>')
     for i, n in enumerate(nodes):
         nid, name, kind, d = n
         bg, bd, col, gl = NODE_STYLE[kind]
@@ -85,14 +99,14 @@ def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치"):
         left, w = node_left(d), node_w(n)
         glyph = (f'<div style="width:26px;height:20px;background:{gl};border-radius:4px"></div>' if kind != "file" and not (kind == "ghost" and "." in name)
                  else f'<div style="width:20px;height:24px;background:{gl};border-radius:3px"></div>')
-        o.append(f'<div id="n-{nid}" style="position:absolute;left:{left}px;top:{top}px;width:{w}px;height:{NODE_H}px;background:{bg};border:{bd};border-radius:12px;padding:0 16px;display:flex;flex-direction:row;gap:14px;align-items:center">'
+        o.append(f'<div id="n-{nid}"{pop(nid)} style="position:absolute;left:{left}px;top:{top}px;width:{w}px;height:{NODE_H}px;background:{bg};border:{bd};border-radius:12px;padding:0 16px;display:flex;flex-direction:row;gap:14px;align-items:center">'
                  + glyph + p(f"font-family:{MONO};font-size:26px;font-weight:700;white-space:nowrap;color:{col}", e(label(n))) + '</div>')
         x = left + w + 16
         if notes and nid in NOTE:
             o.append(p(f"position:absolute;left:{x}px;top:{top+9}px;width:240px;font-size:24px;font-weight:700;color:#6A7180", e(NOTE[nid]), f' id="note-{nid}"'))
             x += 240
         for text, kind_b, *rest in badges.get(nid, []):
-            order = f" order {rest[0]}" if rest else ""
+            order = f" order {rest[0]}" if rest else (f" order {t0}" if hot else "")
             mono = f"font-family:{MONO};" if kind_b in ("text", "sym") else ""
             fs = 30 if kind_b == "sym" else 24
             bw = (72 if kind_b == "sym" else 32) + round(len(text) * (CH if kind_b == "text" else 24))
@@ -101,10 +115,16 @@ def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치"):
     if cwd is not None:
         top = ROW0 + rows[cwd] * PITCH
         o.append(p(f"position:absolute;left:{TX+TW-196}px;top:{top+5}px;width:164px;font-size:24px;font-weight:700;line-height:1.4;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:10px;padding:4px 0", e(pin_label), ' id="pin-tag"'))
+    if hot:
+        ii = sorted(rows_i[h] for h in hot)
+        y0, y1 = ROW0 + ii[0] * PITCH - 10, ROW0 + ii[-1] * PITCH + NODE_H + 10
+        o.append(spot(t0, TX + 14, y0, TW - 28, y1 - y0, pad=0, r=14, dim=0.55))
+        o.append(spot_off(t0 + 1))
     return o
 
 
 def head(sec_id, part, eyebrow, title, mono=True, transition="magic"):
+    STATE["n"] = 0
     o = [f'<section id="{sec_id}" data-transition="{transition}" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:96px;display:flex;flex-direction:column">']
     o.append(p(f"position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:{PART[part]}", e(eyebrow), ' id="eyebrow"'))
     fam = f"font-family:{MONO};" if mono else ""
@@ -112,31 +132,49 @@ def head(sec_id, part, eyebrow, title, mono=True, transition="magic"):
     return o
 
 
-def terminal(lines, size=28, height=500):
-    """lines: (kind, text). kind: $ prompt line 'path|command', o output, r error, # comment."""
+STATE = {"n": 0}
+
+
+def terminal(lines, size=28, height=500, err=None):
+    """lines: (kind, text). kind: $ prompt line 'path|command', o output, r error, # comment.
+    Each command is typed on its own click and its output lines come in together on the next click.
+    err: index of a line to underline in red as it appears. STATE["n"] keeps the last click used."""
     lh = 1.45
+    cur, prev, marks = 0, None, []
     o = [f'<div id="term" style="position:absolute;left:96px;top:196px;width:880px;height:{height}px;background:#1B2029;border-radius:20px;padding:22px 28px;display:flex;flex-direction:column;gap:4px;font-family:{MONO}">']
     o.append('<div style="display:flex;flex-direction:row;gap:10px;padding:0 0 14px 0">'
              + "".join(f'<div style="width:16px;height:16px;border-radius:8px;background:{c}"></div>' for c in ("#F28B82", "#F2C46D", "#7FD18B"))
              + '</div>')
     col = {"o": "#D8DEE9", "r": "#F28B82", "#": "#9AA3B5"}
-    for kind, text in lines:
+    for k, (kind, text) in enumerate(lines):
+        if kind == "$":
+            cur += 1
+            at = f' data-build-in="fade order {cur}"'
+        else:
+            if prev == "$":
+                cur += 1
+            at = f' data-build-in="fade order {cur}"' if cur else ""
+        prev = kind
         if kind == "$":
             where, cmd = text.split("|", 1)
-            t = f'<span style="color:#8FB3FF">{e(where)} $</span> {e(cmd)}'
-            o.append(p(f"font-size:{size}px;line-height:{lh};white-space:nowrap;color:#F2C46D", t))
+            t = f'<span style="color:#8FB3FF">{e(where)} $</span> <span{TYPE(cur)}>{e(cmd)}</span>'
+            o.append(p(f"font-size:{size}px;line-height:{lh};white-space:nowrap;color:#F2C46D", t, at))
         elif kind == "l":
             t = f'<span style="color:#7FD18B">{e(text[0])}</span>' + e(text[1:]).replace("  ", "&#160;&#160;")
-            o.append(p(f"font-size:{size}px;line-height:{lh};white-space:nowrap;color:#D8DEE9", t))
+            o.append(p(f"font-size:{size}px;line-height:{lh};white-space:nowrap;color:#D8DEE9", t, at))
         else:
             t = e(text).replace("  ", "&#160;&#160;") if text else "&#160;"
-            o.append(p(f"font-size:{size}px;line-height:{lh};white-space:nowrap;color:{col[kind]}", t))
+            o.append(p(f"font-size:{size}px;line-height:{lh};white-space:nowrap;color:{col[kind]}", t, at))
+        if k == err:
+            y = 252 + k * (size * lh + 4) + size * lh - 2
+            marks.append(underline(cur, 120, round(128 + len(text) * size * 0.6), round(y), color="#E5534B"))
     o.append('</div>')
-    return o
+    STATE["n"] = cur
+    return o + marks
 
 
 def explain(icon, title, sub=None, icolor="#2459C9", top=728, height=296):
-    o = [f'<div id="explain" data-build-in="rise" style="position:absolute;left:96px;top:{top}px;width:880px;height:{height}px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px 36px;display:flex;flex-direction:row;gap:28px;align-items:center">']
+    o = [f'<div id="explain" data-build-in="rise order {STATE["n"] + 2}" style="position:absolute;left:96px;top:{top}px;width:880px;height:{height}px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px 36px;display:flex;flex-direction:row;gap:28px;align-items:center">']
     o.append(f'<x-icon name="{icon}" style="width:64px;height:64px;color:{icolor}"></x-icon>')
     o.append('<div style="flex:1;display:flex;flex-direction:column;gap:14px">')
     o.append(p("font-size:36px;font-weight:700;line-height:1.35;color:#1D2330", title))
@@ -194,7 +232,7 @@ write("tree-map", o, "폴더는 나무를 거꾸로 세운 모양이에요. 맨 
 o = head("s1-pwd", "look", "실습 1 · 둘러보기", "pwd")
 o += terminal([("$", "~|pwd"), ("o", "/home/kim")])
 o += explain("Search", "지금 있는 폴더의 주소를 알려 줘요", "pwd는 print working directory의 줄임말이에요.")
-o += tree(BASE, cwd="kim", badges={"kim": []})
+o += tree(BASE, cwd="kim", hot="cwd")
 write("s1-pwd", o, "터미널을 처음 열면 홈 폴더에서 시작해요. 프롬프트의 ~ 와 pwd가 알려 준 /home/kim은 같은 곳이에요. 길을 잃은 것 같으면 언제든 pwd부터 쳐요.")
 
 o = head("s2-ls", "look", "실습 2 · 둘러보기", "ls")
@@ -212,7 +250,7 @@ write("s3-mkdir", o, "mkdir은 make directory의 줄임말이에요. 디렉터�
 o = head("s4-cd", "look", "실습 4 · 둘러보기", "cd kant")
 o += terminal([("$", "~|cd kant"), ("$", "~/kant|pwd"), ("o", "/home/kim/kant")])
 o += explain("Play", "폴더 안으로 들어가요", "프롬프트의 위치도 ~ 에서 ~/kant로 바뀌어요.")
-o += tree(KANT, cwd="kant")
+o += tree(KANT, cwd="kant", hot="cwd")
 write("s4-cd", o, "cd는 change directory예요. 파란 현재 위치 표시가 kant로 내려가는 걸 보여 주세요. 프롬프트 앞부분이 바뀐 것도 함께 짚어요. 명령을 치기 전에 프롬프트로 지금 위치를 확인하는 습관을 들이면 실수가 줄어요.")
 
 # ---------- 만들기 ----------
@@ -263,25 +301,25 @@ write("special", o, "현재 위치가 notes일 때 기준이에요. . 은 지금
 o = head("s8-cd-rel", "path", "실습 8 · 경로", "cd notes")
 o += terminal([("$", "~/kant|cd notes"), ("$", "~/kant/notes|pwd"), ("o", "/home/kim/kant/notes")])
 o += explain("Play", "지금 위치에서 notes로 들어가요", "kant 안에 notes가 있어서 이름만 적어도 돼요. 이게 상대 경로예요.", icolor="#1A7340")
-o += tree(NOTES, cwd="notes")
+o += tree(NOTES, cwd="notes", hot="cwd")
 write("s8-cd-rel", o, "notes만 적어도 되는 건 지금 kant 안에 있어서예요. 홈 폴더에서 cd notes를 치면 에러가 나요. 그 경우는 뒤의 막힐 때 파트에서 다시 봐요.")
 
 o = head("s9-cd-up", "path", "실습 9 · 경로", "cd ..")
 o += terminal([("$", "~/kant/notes|cd .."), ("$", "~/kant|pwd"), ("o", "/home/kim/kant")])
 o += explain("Play", "한 칸 위 폴더로 올라가요", f"{code('..')} 은 바로 위 폴더예요. {code('cd ../..')} 처럼 두 칸도 한 번에 가요.")
-o += tree(NOTES, cwd="kant")
+o += tree(NOTES, cwd="kant", hot="cwd")
 write("s9-cd-up", o, "cd와 .. 사이에 띄어쓰기를 꼭 넣어요. cd.. 로 붙여 치면 에러가 나는 터미널이 있어요. 두 칸 위로 가려면 ../.. 처럼 / 로 이어요.")
 
 o = head("s10-cd-abs", "path", "실습 10 · 경로", "cd /home/kim/kant/notes")
 o += terminal([("$", "~/kant|cd /home/kim/kant/notes"), ("$", "~/kant/notes|pwd"), ("o", "/home/kim/kant/notes")])
 o += explain("Globe", "맨 위부터 적은 주소로 바로 가요", "절대 경로는 지금 어디에 있든 같은 곳으로 가요.", icolor="#5A3BB8")
-o += tree(NOTES, cwd="notes")
+o += tree(NOTES, cwd="notes", hot="cwd")
 write("s10-cd-abs", o, "/ 로 시작하면 절대 경로예요. 지금 위치와 상관없이 늘 같은 곳으로 가요. 경로가 길어서 직접 치기보다는 Tab 자동 완성을 같이 써요.")
 
 o = head("s11-cd-home", "path", "실습 11 · 경로", "cd ~")
 o += terminal([("$", "~/kant/notes|cd ~"), ("$", "~|pwd"), ("o", "/home/kim")])
 o += explain("Home", "어디서든 홈 폴더로 돌아가요", "길을 잃으면 cd ~ 하고 다시 시작해요.")
-o += tree(NOTES, cwd="kim")
+o += tree(NOTES, cwd="kim", hot="cwd")
 write("s11-cd-home", o, "cd 뒤에 아무것도 적지 않아도 홈 폴더로 가요. 두 방법 모두 결과가 같아요. 다음 장면은 cd kant로 다시 들어간 뒤 이어져요.")
 
 # ---------- 옮기고 지우기 ----------
@@ -315,7 +353,7 @@ write("s15-rm", o, "rm은 remove예요. 지웠다고 아무 말도 하지 않아
 GH_NOTES = KANT + [("notes", "notes", "ghost", 4), ("memo", "memo.md", "ghost", 5)]
 o = head("s16-rm-r", "move", "실습 16 · 옮기고 지우기", "rm -r notes")
 o += terminal([("$", "~/kant|rm notes"), ("r", "rm: cannot remove 'notes': Is a directory"),
-               ("$", "~/kant|rm -r notes"), ("$", "~/kant|ls"), ("#", "# 아무것도 없어요")])
+               ("$", "~/kant|rm -r notes"), ("$", "~/kant|ls"), ("#", "# 아무것도 없어요")], err=1)
 o += explain("Warning", "폴더는 rm -r로 지워요", "안에 든 파일까지 한꺼번에 사라져요.", icolor="#A33131")
 o += tree(GH_NOTES, cwd="kant", badges={"notes": [("사라짐", "del")], "memo": [("같이 사라짐", "del")]})
 write("s16-rm-r", o, "폴더에 rm만 치면 Is a directory 에러로 막아 줘요. -r은 recursive, 안쪽까지 전부라는 뜻이에요. rm -rf는 다음 장에서 봐요.")
@@ -325,7 +363,7 @@ o = head("s16b-rm-rf", "move", "실습 16-2 · 옮기고 지우기", "rm -rf old
 o += terminal([("$", "~/kant|mkdir old"), ("$", "~/kant|touch old/a.md old/b.md"), ("$", "~/kant|ls old"), ("o", "a.md  b.md"),
                ("$", "~/kant|rm -rf old"), ("$", "~/kant|ls"), ("#", "# 아무것도 없어요"),
                ("$", "~/kant|rm -r old"), ("r", "rm: cannot remove 'old': No such file or directory"),
-               ("$", "~/kant|rm -rf old"), ("#", "# 없어도 아무 말 없어요")], size=24)
+               ("$", "~/kant|rm -rf old"), ("#", "# 없어도 아무 말 없어요")], size=24, err=8)
 o += explain("Warning", "묻지도 알리지도 않고 지워요", f"{code('-r')}은 폴더 안까지 전부, {code('-f')}는 force, 강제로예요. 경고와 에러를 모두 건너뛰어요.", icolor="#A33131")
 o += tree(GH_OLD, cwd="kant", badges={"old": [("사라짐", "del")], "a": [("같이 사라짐", "del")], "b": [("같이 사라짐", "del")]})
 write("s16b-rm-rf", o, "rm -rf는 -r과 -f를 합친 거예요. -f가 붙으면 없는 파일을 지워도 에러가 나지 않고, 지우기 어려운 파일도 묻지 않고 지워요. 그래서 실수해도 아무 신호가 없어요. 개발하다 보면 node_modules 같은 큰 폴더를 지울 때 자주 써요. 쓰기 전에 pwd와 ls로 위치와 이름을 꼭 확인해요.")
@@ -349,13 +387,13 @@ write("s18-ls-al", o, "ls -al은 ls -a -l을 합친 거예요. 순서를 바꿔 
 
 # ---------- 막힐 때 ----------
 o = head("err-cd", "help", "막힐 때 1", "No such file or directory")
-o += terminal([("$", "~/kant|cd notse"), ("r", "bash: cd: notse: No such file or directory"), ("$", "~/kant|ls"), ("o", "notes  todo.md")])
+o += terminal([("$", "~/kant|cd notse"), ("r", "bash: cd: notse: No such file or directory"), ("$", "~/kant|ls"), ("o", "notes  todo.md")], err=1)
 o += explain("Warning", "그 이름이 지금 위치에 없어요", "오타인지, 다른 폴더에 있는지 ls로 확인해요.", icolor="#A33131")
 o += tree(RENAMED, cwd="kant", badges={"notes": [("진짜 이름", "info")]})
 write("err-cd", o, "가장 많이 보는 에러예요. 원인은 둘 중 하나예요. 이름 오타이거나, 지금 위치가 생각과 달라요. pwd와 ls로 위치와 이름을 확인하고, 이름은 Tab으로 자동 완성해요.")
 
 o = head("err-cmd", "help", "막힐 때 2", "command not found")
-o += terminal([("$", "~/kant|sl"), ("r", "bash: sl: command not found"), ("$", "~/kant|ls"), ("o", "notes  todo.md")])
+o += terminal([("$", "~/kant|sl"), ("r", "bash: sl: command not found"), ("$", "~/kant|ls"), ("o", "notes  todo.md")], err=1)
 o += explain("Warning", "명령 이름이 틀렸어요", "ls를 sl로 치는 오타가 흔해요. 설치하지 않은 프로그램을 불러도 같은 메시지가 나와요.", icolor="#A33131")
 o += tree(RENAMED, cwd="kant")
 write("err-cmd", o, "명령 이름 자체를 못 찾았다는 뜻이에요. 철자를 먼저 확인해요. 철자가 맞는데도 나오면 그 프로그램이 설치되지 않은 거예요. 예를 들어 Python을 설치하기 전에 python3을 치면 이 메시지가 나와요.")
