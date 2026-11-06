@@ -1,37 +1,21 @@
-<section id="reset-vs-revert" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
-<div style="display:flex;flex-direction:column;gap:12px">
-<p style="font-size:26px;font-weight:700;color:#A33131">되돌리기 · 정리</p>
-<h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">reset은 지우고, revert는 덧붙여요</h2>
-</div>
-<div style="display:flex;flex-direction:row;gap:40px;flex:1">
-<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FDFCF9;border:2px solid #5B8DEF;border-radius:20px;padding:36px">
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#1E3F8F">reset</p>
-<div style="display:flex;flex-direction:row;gap:12px;align-items:center">
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#FFFFFF;background:#2459C9;padding:8px 18px;border-radius:24px">A</p>
-<p style="font-size:26px;color:#9AA0AB">—</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#FFFFFF;background:#2459C9;padding:8px 18px;border-radius:24px">B</p>
-<p style="font-size:26px;color:#9AA0AB">—</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#C9CED8;background:#F6F5F1;border:3px dashed #C9CED8;padding:6px 16px;border-radius:24px">X</p>
-</div>
-<p style="font-size:26px;line-height:1.45;color:#4A5262">main을 B로 되감아요<br>X는 기록에서 빠짐</p>
-<div style="flex:1"></div>
-<p style="font-size:28px;font-weight:700;color:#1E3F8F;background:#DCE7FB;padding:16px 24px;border-radius:14px">push 전, 나만 가진 커밋</p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FDFCF9;border:2px solid #9A7BF0;border-radius:20px;padding:36px">
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#5A3BB8">revert</p>
-<div style="display:flex;flex-direction:row;gap:12px;align-items:center">
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#FFFFFF;background:#2459C9;padding:8px 18px;border-radius:24px">A</p>
-<p style="font-size:26px;color:#9AA0AB">—</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#FFFFFF;background:#2459C9;padding:8px 18px;border-radius:24px">B</p>
-<p style="font-size:26px;color:#9AA0AB">—</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#FFFFFF;background:#2459C9;padding:8px 18px;border-radius:24px">X</p>
-<p style="font-size:26px;color:#9AA0AB">—</p>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#FFFFFF;background:#1F8A4C;padding:8px 18px;border-radius:24px">X 반대</p>
-</div>
-<p style="font-size:26px;line-height:1.45;color:#4A5262">X를 지우지 않고<br>반대로 고친 커밋을 추가</p>
-<div style="flex:1"></div>
-<p style="font-size:28px;font-weight:700;color:#5A3BB8;background:#E7DEFC;padding:16px 24px;border-radius:14px">push 후, 팀과 공유된 커밋</p>
-</div>
-</div>
+<section id="reset-vs-revert" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:28px;font-weight:700;color:#A33131">되돌리기 · 정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:58px;font-weight:700;line-height:1.2;color:#1D2330">reset은 지우고, revert는 덧붙여요</h2>
+<div style="position:absolute;left:96px;top:236px;width:840px;height:700px;background:#FDFCF9;border:2px solid #5B8DEF;border-radius:22px;padding:44px 48px;display:flex;flex-direction:column"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:44px;font-weight:700;color:#2459C9;font-variant-ligatures:none">reset</p><div style="height:300px"></div><p style="font-size:34px;font-weight:700;line-height:1.5;color:#1D2330">main을 B로 되감아요</p><p style="font-size:32px;line-height:1.5;color:#4A5262">X는 기록에서 빠져요</p><div style="flex:1"></div><p style="font-size:30px;font-weight:700;color:#2459C9;background:#DCE7FB;padding:18px 24px;border-radius:14px">push 전, 나만 가진 커밋</p></div>
+<p style="position:absolute;left:144px;top:400px;width:76px;height:76px;line-height:76px;text-align:center;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;border-radius:50%;background:#2459C9;color:#FFFFFF">A</p>
+<div style="position:absolute;left:228px;top:436px;width:36px;height:5px;background:#B9BDC6"></div>
+<p style="position:absolute;left:272px;top:400px;width:76px;height:76px;line-height:76px;text-align:center;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;border-radius:50%;background:#2459C9;color:#FFFFFF">B</p>
+<div style="position:absolute;left:356px;top:436px;width:36px;height:5px;background:#B9BDC6"></div>
+<p style="position:absolute;left:400px;top:400px;width:76px;height:76px;line-height:68px;text-align:center;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;border-radius:50%;background:#FFFFFF;border:4px dashed #B9BDC6;color:#B9BDC6">X</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#FFFFFF;background:#2459C9;padding:6px 18px;border-radius:12px;white-space:nowrap;position:absolute;left:265px;top:500px">main</p>
+<div data-build-in="rise order 1" style="position:absolute;left:984px;top:236px;width:840px;height:700px;background:#FDFCF9;border:2px solid #9A7BF0;border-radius:22px;padding:44px 48px;display:flex;flex-direction:column"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:44px;font-weight:700;color:#5A3BB8;font-variant-ligatures:none">revert</p><div style="height:300px"></div><p style="font-size:34px;font-weight:700;line-height:1.5;color:#1D2330">X를 지우지 않아요</p><p style="font-size:32px;line-height:1.5;color:#4A5262">반대로 고친 커밋을 더해요</p><div style="flex:1"></div><p style="font-size:30px;font-weight:700;color:#5A3BB8;background:#ECE5FC;padding:18px 24px;border-radius:14px">push 후, 팀과 공유된 커밋</p></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1032px;top:400px;width:76px;height:76px;line-height:76px;text-align:center;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;border-radius:50%;background:#2459C9;color:#FFFFFF">A</p>
+<div style="position:absolute;left:1116px;top:436px;width:36px;height:5px;background:#B9BDC6"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1160px;top:400px;width:76px;height:76px;line-height:76px;text-align:center;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;border-radius:50%;background:#2459C9;color:#FFFFFF">B</p>
+<div style="position:absolute;left:1244px;top:436px;width:36px;height:5px;background:#B9BDC6"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1288px;top:400px;width:76px;height:76px;line-height:76px;text-align:center;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;border-radius:50%;background:#2459C9;color:#FFFFFF">X</p>
+<div style="position:absolute;left:1372px;top:436px;width:36px;height:5px;background:#B9BDC6"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1416px;top:400px;width:150px;height:76px;line-height:76px;text-align:center;font-size:30px;font-weight:700;color:#FFFFFF;background:#1F8A4C;border-radius:38px">X 반대</p>
+<p data-build-in="fade order 1" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#FFFFFF;background:#2459C9;padding:6px 18px;border-radius:12px;white-space:nowrap;position:absolute;left:1446px;top:500px">main</p>
 <aside>이미 push한 커밋을 reset으로 지우면 팀원의 기록과 어긋나서 push가 거절되고, 억지로 밀어 넣으면(--force) 팀원 작업이 날아갈 수 있어요. 그래서 공유된 커밋은 revert로 되돌려요.</aside>
 </section>

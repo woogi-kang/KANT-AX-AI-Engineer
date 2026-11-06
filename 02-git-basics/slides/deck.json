@@ -49,6 +49,7 @@
     "err-remote",
     "err-upstream",
     "err-rejected",
+    "err-rejected-fix",
     "cheatsheet"
   ],
   "sections": {

@@ -1,28 +1,17 @@
-<section id="lifecycle" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column">
-<h2 style="position:absolute;left:128px;top:112px;width:1664px;font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">파일 하나의 한살이</h2>
-<div style="position:absolute;left:128px;top:300px;width:440px;height:150px;background:#FBE4E2;border:2px solid #E07A7A;border-radius:20px;padding:28px;display:flex;flex-direction:column;justify-content:center;gap:4px">
-<p style="font-size:36px;font-weight:700;color:#A33131">Untracked</p>
-<p style="font-size:26px;color:#7A3B3B">새 파일</p>
-</div>
-<div style="position:absolute;left:740px;top:300px;width:440px;height:150px;background:#DDF2E5;border:2px solid #4DB57A;border-radius:20px;padding:28px;display:flex;flex-direction:column;justify-content:center;gap:4px">
-<p style="font-size:36px;font-weight:700;color:#1A7340">Staged</p>
-<p style="font-size:26px;color:#2D5E40">대기실</p>
-</div>
-<div style="position:absolute;left:1352px;top:300px;width:440px;height:150px;background:#EEEFF2;border:2px solid #B4B9C3;border-radius:20px;padding:28px;display:flex;flex-direction:column;justify-content:center;gap:4px">
-<p style="font-size:36px;font-weight:700;color:#3A4150">Committed</p>
-<p style="font-size:26px;color:#4A5262">커밋과 같음</p>
-</div>
-<div style="position:absolute;left:1352px;top:680px;width:440px;height:150px;background:#FBE4E2;border:2px solid #E07A7A;border-radius:20px;padding:28px;display:flex;flex-direction:column;justify-content:center;gap:4px">
-<p style="font-size:36px;font-weight:700;color:#A33131">Modified</p>
-<p style="font-size:26px;color:#7A3B3B">고쳤음</p>
-</div>
-<x-connector x1="568" y1="375" x2="740" y2="375" head="end" style="color:#1F8A4C;border-width:4px"></x-connector>
-<p data-build-in="fade order 1" style="position:absolute;left:568px;top:318px;width:172px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;text-align:center;color:#1A7340">add</p>
-<x-connector x1="1180" y1="375" x2="1352" y2="375" head="end" style="color:#2459C9;border-width:4px"></x-connector>
-<p data-build-in="fade order 2" style="position:absolute;left:1180px;top:318px;width:172px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;text-align:center;color:#1E3F8F">commit</p>
-<x-connector x1="1572" y1="450" x2="1572" y2="680" head="end" style="color:#A33131;border-width:4px"></x-connector>
-<p data-build-in="fade order 3" style="position:absolute;left:1596px;top:546px;width:196px;font-size:26px;font-weight:700;color:#A33131">파일 수정</p>
-<x-connector x1="1352" y1="755" x2="960" y2="450" route="hv" head="end" style="color:#1F8A4C;border-width:4px;border-style:dashed"></x-connector>
-<p data-build-in="fade order 4" style="position:absolute;left:996px;top:690px;width:320px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1A7340">add (다시)</p>
+<section id="lifecycle" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
+<h2 id="title" style="position:absolute;left:96px;top:72px;width:1728px;font-size:58px;font-weight:700;line-height:1.2;color:#1D2330">파일 하나의 한살이</h2>
+<div id="lc-u" style="position:absolute;left:96px;top:260px;width:440px;height:200px;background:#FBE4E2;border:3px solid #E07A7A;border-radius:22px;padding:28px 36px;display:flex;flex-direction:column;justify-content:center;gap:10px"><p style="font-size:46px;font-weight:700;color:#A33131">Untracked</p><p style="font-size:30px;color:#4A5262">새 파일</p></div>
+<div id="lc-s" data-build-in="rise order 1" style="position:absolute;left:740px;top:260px;width:440px;height:200px;background:#DDF2E5;border:3px solid #4DB57A;border-radius:22px;padding:28px 36px;display:flex;flex-direction:column;justify-content:center;gap:10px"><p style="font-size:46px;font-weight:700;color:#1F8A4C">Staged</p><p style="font-size:30px;color:#4A5262">대기실에 올라감</p></div>
+<div id="lc-c" data-build-in="rise order 2" style="position:absolute;left:1384px;top:260px;width:440px;height:200px;background:#EEEFF2;border:3px solid #B4B9C3;border-radius:22px;padding:28px 36px;display:flex;flex-direction:column;justify-content:center;gap:10px"><p style="font-size:46px;font-weight:700;color:#3A4150">Committed</p><p style="font-size:30px;color:#4A5262">마지막 커밋과 같음</p></div>
+<div id="lc-m" data-build-in="rise order 3" style="position:absolute;left:1384px;top:740px;width:440px;height:200px;background:#FBE4E2;border:3px solid #E07A7A;border-radius:22px;padding:28px 36px;display:flex;flex-direction:column;justify-content:center;gap:10px"><p style="font-size:46px;font-weight:700;color:#A33131">Modified</p><p style="font-size:30px;color:#4A5262">커밋한 뒤 고침</p></div>
+<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#1F8A4C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M552,360 L724,360"/><path d="M705,371 L724,360 L705,349"/></g></svg>
+<p data-build-in="fade order 1" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1F8A4C;font-variant-ligatures:none;position:absolute;left:548px;top:296px;width:180px;text-align:center">add</p>
+<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#2459C9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M1196,360 L1368,360"/><path d="M1349,371 L1368,360 L1349,349"/></g></svg>
+<p data-build-in="fade order 2" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#2459C9;font-variant-ligatures:none;position:absolute;left:1192px;top:296px;width:180px;text-align:center">commit</p>
+<svg data-build-in="draw order 3" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M1604,476 L1604,724"/><path d="M1593,705 L1604,724 L1615,705"/></g></svg>
+<p data-build-in="fade order 3" style="position:absolute;left:1630px;top:580px;width:200px;font-size:30px;font-weight:700;color:#A33131">파일 수정</p>
+<svg data-build-in="fade order 4" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#1F8A4C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M1368,820 L1000,476" stroke-dasharray="16 12"/><path d="M1021,481 L1000,476 L1007,497"/></g></svg>
+<p data-build-in="fade order 4" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1F8A4C;font-variant-ligatures:none;position:absolute;left:900px;top:660px;width:260px;text-align:center">add (다시)</p>
+<p data-build-in="fade order 4" style="position:absolute;left:96px;top:760px;width:700px;font-size:34px;line-height:1.5;color:#4A5262">고치고, add, commit.<br>파일은 이 고리를 계속 돌아요.</p>
 <aside>새 파일은 Untracked로 시작해요. add 하면 Staged, commit 하면 Committed. 책에 따라 Committed를 Unmodified라고 부르기도 하지만, git status에는 어느 단어도 나오지 않고 working tree clean으로만 보여요. 그 뒤로 파일을 고치면 Modified가 되고 다시 add, commit을 반복해요. 이 고리가 Git 작업의 기본 리듬이에요.</aside>
 </section>

@@ -29,8 +29,8 @@
 | 3. GitHub과 연결 | 19–23 | 빈 저장소 만들기, `remote add`, `push` |
 | 4. 함께 작업하기 | 24–28 | `clone` `fetch` `pull` |
 | 5. 되돌리기 | 29–35 | `reset` `reflog` `revert` |
-| 6. 문제 해결 | 36–42 | `git status` 읽기, 자주 나는 에러 |
-| 요약 | 43 | 한 장 요약 |
+| 6. 문제 해결 | 36–43 | `git status` 읽기, 자주 나는 에러, push 거절 뒤 pull 설정 |
+| 요약 | 44 | 한 장 요약 |
 
 ## 핵심 개념
 
@@ -158,12 +158,13 @@ push 했는지부터 확인해요.
 
 | 메시지 | 원인과 해결 |
 | --- | --- |
-| `index.lock': File exists` | 다른 git 작업이 끝났는지 확인한 뒤 `.git/index.lock` 파일 하나만 지우고 다시 실행 |
+| `index.lock': File exists` | 다른 git 작업이 끝났는지 확인한 뒤 `rm .git/index.lock`으로 그 파일 하나만 지우고 다시 실행 (Windows Git Bash도 같아요) |
 | `nothing added to commit` | 대기실이 비어 있어요. `git add` 먼저 |
 | `remote origin already exists` | 이미 등록돼 있어요. `git remote -v`로 확인하고 바꿀 땐 `git remote set-url origin 새주소` |
 | `'origin' does not appear to be a git repository` | 아직 등록하지 않았어요. `git remote add origin 주소` |
 | `has no upstream branch` | `git push`만 쳤어요. `git push origin main`처럼 끝까지 적어요 |
 | `! [rejected] ... (fetch first)` | GitHub에 내가 모르는 커밋이 있어요. `git pull origin main` 뒤에 다시 push. `--force`는 쓰지 않아요 |
+| `fatal: Need to specify how to reconcile divergent branches.` | pull 설정이 없어요. `git config --global pull.rebase false`를 한 번 치고 `git pull origin main`을 다시 쳐요. vim이 열리면 `:wq`, Enter |
 
 ## 강사용
 
@@ -175,17 +176,17 @@ slides/
   deck.json        슬라이드 순서와 파트 구분
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen_scenes.py    네 칸 실습 장면(s1~s18) 생성
+  gen.py           모든 장 생성 (네 칸 실습 장면, 강조 포함)
 git-basics-slides.html  배포용 HTML
 git-basics-slides.pdf   강사용 PDF
 ```
 
-실습 장면은 `slides/s*.html`을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
+`slides/*.html`은 직접 고치지 말고 `tools/gen.py`를 고친 뒤 다시 만들어요. 강조 기법은 맨 위 [tools/HIGHLIGHT.md](../tools/HIGHLIGHT.md)에서 골라요.
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 ```bash
-python3 tools/gen_scenes.py slides
+python3 tools/gen.py slides
 node ../tools/check.js slides shots                          # 전체 검사 (Playwright 필요)
 node ../tools/check.js slides shots reflog                   # 특정 장만
 node ../tools/build_player.js slides git-basics-slides.html
