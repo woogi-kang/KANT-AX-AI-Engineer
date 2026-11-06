@@ -122,9 +122,10 @@ main에 올리기 전에 매번 아래를 확인해요.
 4. 챕터 README(구성의 쪽 번호, 명령어 요약, 실습, 문제 해결), `curriculum.json`(한 줄 목표, 핵심 명령), 맨 위 README(과정 규칙)를 슬라이드에 맞춰 고쳐요. 그다음 `python3 tools/build_readme.py`로 표를 다시 만들어요.
 5. README의 실습 명령을 순서대로 쳤을 때 실제로 동작하는지 확인해요.
 6. HTML과 PDF를 다시 만들어요.
-7. 장마다 강조 기법을 상황에 맞게 골랐는지 `tools/HIGHLIGHT.md` 표로 봐요.
-8. `tools/DESIGN.md`의 디자인 규칙과 여백·정렬 검수를 따라요. 모든 장을 원본 크기로 한 장씩, 처음 화면과 끝 화면을 다 봐요.
-9. 아래 한국어 글쓰기 지침에 더해 `tools/DESIGN.md`의 AI 티 나는 말 목록으로 한 번 더 훑어요.
+7. 새 덱을 만들거나 덱 디자인을 고칠 때는 `tools/DESIGN.md` 맨 위 "작업 순서" 다섯 단계를 차례대로 따라요.
+8. 디자인은 DESIGN.md 요약만 보지 않고 Stageshow 스킬 원문(github.com/benjitaylor/skills)을 읽고 다시 짜요. 장마다 적용한 원칙을 PR에 적어요.
+9. 강조는 `tools/HIGHLIGHT.md`에서 고르고, 박스와 여백 검수, AI 티 나는 말 걷어 내기는 DESIGN.md 목록대로 해요. 모든 장을 원본 크기로 처음 화면과 끝 화면까지 봐요.
+10. 전후 비교 미리보기를 강사가 확인한 뒤 main에 올려요.
 
 ## 한국어 글쓰기 지침 (korean-humanizer)
 
