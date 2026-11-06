@@ -8,12 +8,15 @@ Usage: python3 tools/gen_branch.py slides
 """
 import html, os, sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, TYPE  # noqa: E402
+
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
 MONO = "'JetBrains Mono', 'Noto Sans KR', monospace"
 
-PANEL = dict(left=96, top=436, w=1728, h=428)
-LANE = {"up": 570, "main": 704}           # node centre y
+PANEL = dict(left=96, top=432, w=1728, h=512)
+LANE = {"up": 590, "main": 730}           # node centre y
 X0, STEP = 300, 200                       # node centre x of the first visible column
 R = 26                                    # node radius
 
@@ -48,25 +51,69 @@ def tag_w(text):
     return round(len(text) * 15.5 + 32)
 
 
-def scene(sec_id, eyebrow, title, term=None, caption="", transition="magic", eyebrow_color="#2459C9"):
-    """term: list of (kind, text); kind "$" is a command, others are output colours."""
+TERM_TOP, TERM_PAD, TERM_GAP = 196, 22, 4
+CMD_SIZE, OUT_SIZE = 32, 26
+
+
+def text_w(t, size):
+    """Rough ink width of a terminal line: Latin letters are 0.6 em in JetBrains Mono, Hangul about 1 em."""
+    return sum(size if ord(ch) > 0x2E80 else size * 0.6 for ch in t)
+
+
+def scene(sec_id, eyebrow, title, term=None, caption="", transition="magic", eyebrow_color="#2459C9", hot=None, err=None, static=False, start=0):
+    """term: list of (kind, text); kind "$" is a command, others are output colours.
+    Clicks: each command is typed in, its output comes in on the next click, then the spot lights up
+    what changed (hot: an element id or an (x, y, w, h) box), then the caption.
+    err: index of a terminal line to circle in red instead of a spot. static: show the terminal at once."""
     o = [f'<section id="{sec_id}" data-transition="{transition}" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:96px;display:flex;flex-direction:column">']
     o.append(p(f"position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:{eyebrow_color}", e(eyebrow), ' id="eyebrow"'))
     o.append(f'<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">{title}</h2>')
+    n, prev = start, None
+    hot = HOT.get(sec_id) if hot is None else hot
+    err = ERR.get(sec_id) if err is None else err
+    scene.lines = []
     if term:
-        o.append(f'<div id="term" style="position:absolute;left:96px;top:196px;width:1728px;background:#1B2029;border-radius:20px;padding:22px 32px;display:flex;flex-direction:column;gap:4px;font-family:{MONO}">')
+        o.append(f'<div id="term" style="position:absolute;left:96px;top:{TERM_TOP}px;width:1728px;background:#1B2029;border-radius:20px;padding:{TERM_PAD}px 32px;display:flex;flex-direction:column;gap:{TERM_GAP}px;font-family:{MONO}">')
+        y = TERM_TOP + TERM_PAD
         for kind, text in term:
             t = e(text).replace("\t", "&#160;" * 4)
             lead = len(t) - len(t.lstrip(" "))
             t = "&#160;" * lead + t.lstrip(" ")
+            size = CMD_SIZE if kind == "$" else OUT_SIZE
+            at = ""
+            if not static:
+                if kind == "$":
+                    n += 1
+                    at = TYPE(n)
+                else:
+                    if prev == "$" or n == 0:
+                        n += 1
+                    at = f' data-build-in="fade order {n}"'
+            prev = kind
+            raw = ("$ " if kind == "$" else "") + text.replace("\t", "    ")
+            scene.lines.append((128, y, text_w(raw, size), size * 1.35))
+            y += size * 1.35 + TERM_GAP
             if kind == "$":
-                o.append(p(f"font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:{TERM_COLORS['$']}", "$ " + t))
+                o.append(p(f"font-size:{size}px;font-weight:700;line-height:1.35;white-space:nowrap;color:{TERM_COLORS['$']}", "$ " + t, at))
             else:
-                o.append(p(f"font-size:26px;line-height:1.35;white-space:nowrap;color:{TERM_COLORS[kind]}", t))
+                o.append(p(f"font-size:{size}px;line-height:1.35;white-space:nowrap;color:{TERM_COLORS[kind]}", t, at))
         o.append('</div>')
     o.append(f'<div id="panel" style="position:absolute;left:{PANEL["left"]}px;top:{PANEL["top"]}px;width:{PANEL["w"]}px;height:{PANEL["h"]}px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>')
+    if err is not None:
+        n += 1
+        x, y, w, h = scene.lines[err]
+        o.append(box(n, round(x - 10), round(y - 2), round(w + 20), round(h + 4), "#A33131"))
+    scene.pending = None
+    if hot is not None:
+        n += 1
+        if isinstance(hot, str) and hot.startswith("n-"):
+            scene.pending = (n, hot[2:])         # graph() adds the spot around the dot and its hash
+        else:
+            o.append(spot(n, *hot, pad=14) if isinstance(hot, tuple) else spot(n, target=hot, pad=14))
+        o.append(spot_off(n + 1))
     if caption:
-        o.append(p("position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330", caption, ' id="caption" data-build-in="rise"'))
+        o.append(p(f"position:absolute;left:96px;top:972px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330", caption, f' id="caption" data-build-in="rise order {n + 1}"'))
+    scene.last = n
     return o
 
 
@@ -101,6 +148,8 @@ def graph(nodes, edges, tags, head=None, off=0, ghost_edges=()):
         label = "?" if kind == "ghost" else h
         hc = "#6A7180" if kind in ("ghost", "far", "gone") else "#1D2330"
         o.append(p(f"position:absolute;left:{x - 70}px;top:{y + R + 2}px;width:140px;font-family:{MONO};font-size:24px;font-weight:700;text-align:center;color:{hc}", e(label), f' id="h-{h}"'))
+        if getattr(scene, "pending", None) and scene.pending[1] == h:
+            o.append(spot(scene.pending[0], x - 66, y - R - 8, 132, 2 * R + 46, pad=6, r=16))
     stack = {}
     for name, h, kind, *pos in tags:
         col, lane, _, _ = nodes[h]
@@ -119,7 +168,7 @@ def graph(nodes, edges, tags, head=None, off=0, ghost_edges=()):
     return o
 
 
-def card(title, lines, top=470):
+def card(title, lines, top=466):
     """A small file card at the right of the graph panel. lines: [(text, colour_key)]  g = changed line."""
     c = {"o": "#1D2330", "g": "#1A7340", "b": "#1E3F8F", "x": "#9AA0AB"}
     bg = {"g": "#DDF2E5", "b": "#DCE7FB"}
@@ -142,12 +191,12 @@ def zones(where=None, text=""):
     """Three zones at the right of the graph panel. where: 0 repo, 1 staging, 2 working dir, None = the change is gone."""
     o = []
     for i, (name, bg, bd, fg) in enumerate(ZONES):
-        top = 456 + i * 132
-        o.append(f'<div id="z{i}" style="position:absolute;left:1330px;top:{top}px;width:474px;height:118px;background:{bg};border:2px solid {bd};border-radius:16px"></div>')
-        o.append(p(f"position:absolute;left:1352px;top:{top + 10}px;width:430px;font-size:22px;font-weight:700;color:{fg}", e(name), f' id="zl{i}"'))
+        top = 452 + i * 164
+        o.append(f'<div id="z{i}" style="position:absolute;left:1330px;top:{top}px;width:474px;height:148px;background:{bg};border:2px solid {bd};border-radius:16px"></div>')
+        o.append(p(f"position:absolute;left:1352px;top:{top + 12}px;width:430px;font-size:24px;font-weight:700;color:{fg}", e(name), f' id="zl{i}"'))
     if where is not None:
-        top = 456 + where * 132 + 50
-        o.append(p(f"position:absolute;left:1352px;top:{top}px;width:430px;font-family:{MONO};font-size:24px;font-weight:700;line-height:1.6;padding:0 12px;border-radius:8px;{CHIP[where]}", e(text), ' id="z-chip"'))
+        top = 452 + where * 164 + 62
+        o.append(p(f"position:absolute;left:1352px;top:{top}px;width:430px;font-family:{MONO};font-size:26px;font-weight:700;line-height:1.7;padding:0 14px;border-radius:8px;{CHIP[where]}", e(text), ' id="z-chip"'))
     return o
 
 
@@ -155,6 +204,19 @@ def write(sec_id, parts, notes):
     with open(os.path.join(OUT, f"{sec_id}.html"), "w") as f:
         f.write("\n".join(parts) + f"\n<aside>{e(notes)}</aside>\n</section>\n")
 
+
+# What the spot lights up after the command (ids from graph(), zones(), card()). Boxes are (x, y, w, h).
+_D, _E, _F, _G, _M, _X, _RZ, _P = "eb05b65", "4e60a09", "29bd96c", "f0e6c3e", "486cb9c", "42209fe", "a4c0a4f", "4776218"
+ZONES_BOX = (1330, 452, 474, 476)
+HOT = {"g1-dots": (250, 690, 500, 110), "g2-main": "t-main", "g3-head": "t-head", "b1-list": "t-head", "b2-create": "t-feature-login",
+       "b3-move": "t-head", "b4-commit": "n-" + _D, "b5-commit2": "n-" + _E, "b6-back": "t-head", "b7-ff": "t-main",
+       "b8-delete": (850, 690, 300, 110), "d1-create": "t-docs-login-guide", "d2-commit": "n-" + _F, "d3-back": "t-head",
+       "d4-main": "n-" + _G, "d5-merge": "n-" + _M, "r1-oops": "n-" + _X, "r2-soft": "z-chip", "r3-mixed": "z-chip", "r4-hard": ZONES_BOX,
+       "u1-oops": "z-chip", "u2-soft": "z-chip", "u3-mixed": "z-chip", "u4-hard": ZONES_BOX, "u5-again": "n-" + _M, "d6-delete": "n-" + _F,
+       "c1-korean": "card", "c2-main": "card", "c4-resolve": "n-" + _RZ, "p0-branch": "n-" + _P, "p1-push": "t-origin-feature-login-button",
+       "p2-merged": "n-0e04baf", "p3-fetch": "t-origin-main", "p3-log": "t-origin-main", "p3-pull": "t-main",
+       "p4-delete": "t-origin-feature-login-button", "p5-next": "t-feature-login-error"}
+ERR = {"c3-conflict": 1}
 
 # ---------- the story (hashes from a real run, see README) ----------
 A, B, C, D, E_, F, G, M = "9e6cce4", "5ec913c", "d6b044a", "eb05b65", "4e60a09", "29bd96c", "f0e6c3e", "486cb9c"
@@ -166,17 +228,26 @@ base_e = [(A, B), (B, C)]
 
 # ---------- 1. 그래프 읽기 ----------
 EB1 = "브랜치란? · 그래프 읽기"
-o = scene("g1-dots", EB1, "점 하나가 커밋 하나예요", [("$", "git log --oneline"), ("o", f"{C} (HEAD -> main, origin/main) docs: README 추가"),
-          ("o", f"{B} feat: 인사말 추가"), ("o", f"{A} feat: 인사 파일 추가")],
+LOG1 = [("$", "git log --oneline"), ("o", f"{C} (HEAD -> main, origin/main) docs: README 추가"),
+          ("o", f"{B} feat: 인사말 추가"), ("o", f"{A} feat: 인사 파일 추가")]
+o = scene("g1-dots", EB1, "점 하나가 커밋 하나예요", LOG1,
           "왼쪽이 먼저 한 커밋, 오른쪽이 최근 커밋이에요.")
 o += graph(base, base_e, [])
 write("g1-dots", o, "02에서 만든 hello-git 저장소를 이어서 써요. git log는 최근 커밋이 위에 나오고, 그래프는 오래된 커밋이 왼쪽이에요. 점 아래 글자는 커밋 해시 앞 7자리예요. 괄호 안 origin/main은 GitHub에 올라간 위치예요. GitHub 파트에서 다시 봐요.")
 
-o = scene("g2-main", EB1, "main은 마지막 커밋에 붙은 이름표예요", None, "새 커밋을 하면 이름표가 새 커밋으로 옮겨 가요.")
+def log_mark(a, b):
+    """Pen underline under characters a..b of the first log line, so the word lines up with the graph."""
+    x, y, _, h = scene.lines[1]
+    return underline(1, round(x + a * OUT_SIZE * 0.6), round(x + b * OUT_SIZE * 0.6), round(y + h), "#B26A00")
+
+
+o = scene("g2-main", EB1, "main은 마지막 커밋에 붙은 이름표예요", LOG1, "새 커밋을 하면 이름표가 새 커밋으로 옮겨 가요.", static=True, start=1)
+o.append(log_mark(17, 21))
 o += graph(base, base_e, [("main", C, "main")])
 write("g2-main", o, "브랜치는 커밋을 담는 상자가 아니라 커밋 하나를 가리키는 이름표예요. 그래서 브랜치를 만들어도 무겁지 않아요. git log 출력의 (HEAD -> main)에서 main이 이 이름표예요.")
 
-o = scene("g3-head", EB1, "HEAD는 지금 내가 있는 곳이에요", None, "커밋하면 HEAD가 붙은 이름표가 앞으로 가요.")
+o = scene("g3-head", EB1, "HEAD는 지금 내가 있는 곳이에요", LOG1, "커밋하면 HEAD가 붙은 이름표가 앞으로 가요.", static=True, start=1)
+o.append(log_mark(9, 13))
 o += graph(base, base_e, [("main", C, "main")], head="main")
 write("g3-head", o, "HEAD는 지금 내가 서 있는 브랜치를 가리켜요. git log의 HEAD -> main은 지금 main에 있다는 뜻이에요. 이 덱의 모든 장면은 이름표와 HEAD가 어디로 가는지만 보면 돼요.")
 
@@ -391,7 +462,13 @@ write("p1-push", o, f"보라색 origin/ 이름표는 GitHub에 있는 브랜치 
 n18 = dict(n17); n18[Q] = (10, "main", "main", "far")
 e18 = e17 + [(RZ, Q), (P, Q)]
 o = scene("p2-merged", EB6, "GitHub에서 Merge하면 GitHub에만 커밋이 생겨요", None,
-          "점선 커밋은 아직 GitHub에만 있어요. 내 컴퓨터는 몰라요.", eyebrow_color=PUR)
+          "점선 커밋은 아직 GitHub에만 있어요. 내 컴퓨터는 몰라요.", eyebrow_color=PUR, start=1)
+o.append(f'<div id="gh" style="position:absolute;left:96px;top:196px;width:1728px;height:200px;background:#FFFFFF;border:2px solid #D0D7DE;border-radius:20px;padding:28px 40px;display:flex;flex-direction:row;align-items:center;gap:40px">'
+         f'<div style="flex:1;display:flex;flex-direction:column;gap:16px">' + p("font-size:36px;font-weight:700;color:#1D2330", 'feat: 로그인 버튼 추가 <span style="color:#6A7180">#1</span>')
+         + f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center">' + p(f"font-family:{MONO};font-size:26px;color:#1D2330;background:#DCE7FB;padding:2px 12px;border-radius:8px", "main")
+         + p("font-size:28px;color:#6A7180", "←") + p(f"font-family:{MONO};font-size:26px;color:#1D2330;background:#FBEBD3;padding:2px 12px;border-radius:8px", e(FE)) + '</div></div>'
+         + p("font-size:30px;font-weight:700;color:#FFFFFF;background:#1F8A4C;padding:16px 32px;border-radius:12px", "Merge pull request", ' id="gh-merge"') + '</div>')
+o += [cursor(1, target="gh-merge"), cursor_off(2)]
 o += graph(n18, e18, [("main", RZ, "main"), ("origin/main", RZ, "origin"), (FE, P, "orange"), ("origin/feature/login-button", P, "origin")], head=FE, off=5)
 write("p2-merged", o, f"Merge pull request를 누르면 GitHub 안에서 merge 커밋({Q})이 생겨요. 메시지는 Merge pull request #1 from kim/{FE}예요. 내 컴퓨터로 가져오려면 pull해야 해요.")
 

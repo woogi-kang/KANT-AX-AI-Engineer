@@ -1,6 +1,8 @@
 # Generates the hand-drawn pages of the branch deck (cover, toc, concept, PR, error pages).
 # Usage: python3 tools/gen_pages.py slides
 import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, TYPE  # noqa: E402
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
 MONO = "'JetBrains Mono', 'Noto Sans KR', monospace"
@@ -69,8 +71,9 @@ W("toc", "\n".join(t))
 
 # ---------- why ----------
 w = [sec("why"), head("브랜치란?", "왜 브랜치를 쓸까요?")]
-w.append('<div style="position:absolute;left:96px;top:260px;width:840px;height:560px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:24px"></div>')
-w.append('<div style="position:absolute;left:984px;top:260px;width:840px;height:560px;background:#FFFFFF;border:2px solid #9ED3B4;border-radius:24px"></div>')
+w.append('<div id="why-a" style="position:absolute;left:96px;top:250px;width:840px;height:620px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:24px"></div>')
+w.append('<div id="why-b" style="position:absolute;left:984px;top:250px;width:840px;height:620px;background:#FFFFFF;border:2px solid #9ED3B4;border-radius:24px"></div>')
+w += [spot(1, target="why-a", pad=6, r=26), spot(2, target="why-b", pad=6, r=26), spot_off(3)]
 w.append(f'<div style="position:absolute;left:136px;top:296px;width:760px;display:flex;flex-direction:row;gap:14px;align-items:center"><x-icon name="Warning" style="width:44px;height:44px;color:#A33131"></x-icon><h3 style="font-size:34px;font-weight:700;color:#A33131">모두 main에 바로 커밋</h3></div>')
 w.append(f'<div style="position:absolute;left:1024px;top:296px;width:760px;display:flex;flex-direction:row;gap:14px;align-items:center"><x-icon name="CheckCircle" style="width:44px;height:44px;color:#1A7340"></x-icon><h3 style="font-size:34px;font-weight:700;color:#1A7340">각자 브랜치에서 작업</h3></div>')
 cols = [BL, GR, OR, GR, BL, OR, GR]
@@ -79,9 +82,9 @@ w.append(hline(176, 856, y, "#D5D9E0"))
 for i, c in enumerate(cols):
     w.append(node(176 + i * 113, y, c, 22))
 w.append(pill(856, y + 40, "main", "main"))
-w.append('<div style="position:absolute;left:136px;top:700px;width:760px;display:flex;flex-direction:column;gap:12px">'
-         '<p style="font-size:28px;line-height:1.4;color:#1D2330">반쯤 만든 기능이 main에 섞여요</p>'
-         '<p style="font-size:28px;line-height:1.4;color:#1D2330">누구 작업이 문제인지 찾기 어려워요</p></div>')
+w.append('<div style="position:absolute;left:136px;top:720px;width:760px;display:flex;flex-direction:column;gap:14px">'
+         '<p style="font-size:32px;line-height:1.4;color:#1D2330">반쯤 만든 기능이 main에 섞여요</p>'
+         '<p style="font-size:32px;line-height:1.4;color:#1D2330">누구 작업이 문제인지 찾기 어려워요</p></div>')
 ym, yg, yo = 600, 450, 450
 w += [hline(1064, 1744, ym, BLL), conn(1150, ym, 1250, yg, GRL), hline(1250, 1370, yg, GRL), conn(1370, yg, 1470, ym, GRL),
       conn(1470, ym, 1570, yo, ORL), hline(1570, 1640, yo, ORL), conn(1640, yo, 1744, ym, ORL)]
@@ -92,10 +95,10 @@ for x in (1250, 1370):
 for x in (1570, 1640):
     w.append(node(x, yo, OR, 22))
 w += [pill(1310, yg - 66, "feature/login", "green"), pill(1605, yo - 66, "fix/typo", "orange"), pill(1744, ym + 40, "main", "main")]
-w.append('<div style="position:absolute;left:1024px;top:700px;width:760px;display:flex;flex-direction:column;gap:12px">'
-         '<p style="font-size:28px;line-height:1.4;color:#1D2330">다 만든 다음에 main으로 합쳐요</p>'
-         '<p style="font-size:28px;line-height:1.4;color:#1D2330">main은 늘 잘 돌아가는 상태로 남아요</p></div>')
-w.append('<p style="position:absolute;left:96px;top:868px;width:1728px;font-size:28px;font-weight:700;color:#1D2330">브랜치 = 본 줄기(main)는 그대로 두고, 옆으로 갈래를 내서 작업하는 방법</p>')
+w.append('<div style="position:absolute;left:1024px;top:720px;width:760px;display:flex;flex-direction:column;gap:14px">'
+         '<p style="font-size:32px;line-height:1.4;color:#1D2330">다 만든 다음에 main으로 합쳐요</p>'
+         '<p style="font-size:32px;line-height:1.4;color:#1D2330">main은 늘 잘 돌아가는 상태로 남아요</p></div>')
+w.append('<p data-build-in="rise order 3" style="position:absolute;left:96px;top:916px;width:1728px;font-size:34px;font-weight:700;color:#1D2330">브랜치는 본 줄기(main)를 그대로 두고 옆으로 갈래를 내서 작업하는 방법이에요.</p>')
 w.append('<aside>왼쪽은 세 사람이 main 하나에 번갈아 커밋한 모습이에요. 색이 섞여 있죠. 오른쪽은 각자 갈래(브랜치)에서 작업하고 끝나면 합친 모습이에요. 흰 점은 두 줄기를 합친 커밋이에요. 혼자 일할 때도 실험은 브랜치에서 하면 main을 망가뜨릴 걱정이 없어요.</aside></section>')
 W("why", "\n".join(w))
 
@@ -109,28 +112,30 @@ n.append(f'<div style="position:absolute;left:96px;top:250px;width:1728px;height
 types = [("feature/", "새 기능", "feature/login-button", "#1A7340"), ("fix/", "버그 수정", "fix/login-error", "#A33131"),
          ("docs/", "문서", "docs/login-guide", "#1E3F8F"), ("refactor/", "구조 개선", "refactor/user-api", "#8A5200"),
          ("chore/", "설정, 패키지", "chore/eslint-setup", "#4A5262")]
-n.append('<div style="position:absolute;left:96px;top:440px;width:1728px;display:flex;flex-direction:row;gap:16px">')
-for a, b, c, col in types:
-    n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:22px 20px">'
-             f'<p style="font-family:{MONO};font-size:34px;font-weight:700;color:{col}">{a}</p>'
-             f'<p style="font-size:26px;font-weight:700;color:#1D2330">{b}</p>'
-             f'<p style="font-family:{MONO};font-size:24px;color:#4A5262">{c}</p></div>')
+n.append('<div style="position:absolute;left:96px;top:450px;width:1728px;height:400px;display:flex;flex-direction:row;gap:16px">')
+for k, (a, b, c, col) in enumerate(types):
+    n.append(f'<div{" id=\"nm-feature\"" if k == 0 else ""} style="flex:1;display:flex;flex-direction:column;gap:18px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:36px 22px">'
+             f'<p style="font-family:{MONO};font-size:40px;font-weight:700;color:{col}">{a}</p>'
+             f'<p style="font-size:32px;font-weight:700;color:#1D2330">{b}</p><div style="flex:1"></div>'
+             f'<p style="font-family:{MONO};font-size:24px;line-height:1.4;color:#4A5262">{c.replace("/", "/<br>")}</p></div>')
 n.append('</div>')
-n.append('<p style="position:absolute;left:96px;top:760px;width:1728px;font-size:34px;font-weight:700;color:#1D2330">새 기능은 feature/예요. 커밋 메시지 타입 feat:와 헷갈리지 않게 봐요.</p>')
+n.append(spot(1, target="nm-feature", pad=8, r=22))
+n.append(spot_off(2))
+n.append('<p data-build-in="rise order 2" style="position:absolute;left:96px;top:916px;width:1728px;font-size:34px;font-weight:700;color:#1D2330">새 기능은 feature/예요. 커밋 메시지 타입 feat:와 헷갈리지 않게 봐요.</p>')
 n.append('<aside>브랜치 이름 앞부분만 봐도 무슨 작업인지 알 수 있어요. 새 기능 브랜치는 feature/로 시작하고, 그 브랜치에서 하는 커밋 메시지는 feat:로 써요. fix, docs, refactor, chore는 커밋 메시지와 같은 말이에요. 팀에 정해진 규칙이 있으면 그걸 따라요.</aside></section>')
 W("naming", "\n".join(n))
 n = [sec("naming-ok"), head("합치기 · 브랜치 이름", "이렇게 짓고, 이건 피해요")]
-n.append('<div style="position:absolute;left:96px;top:300px;width:1728px;display:flex;flex-direction:row;gap:24px">')
-n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:18px;padding:40px 44px">'
-         f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><x-icon name="CheckCircle" style="width:36px;height:36px;color:#1A7340"></x-icon><p style="font-size:28px;font-weight:700;color:#1A7340">이렇게</p></div>'
-         f'<p style="font-family:{MONO};font-size:34px;line-height:1.6;color:#1D2330">feature/login-button</p>'
-         f'<p style="font-family:{MONO};font-size:34px;line-height:1.6;color:#1D2330">fix/12-login-error <span style="color:#6A7180">(이슈 12번)</span></p></div>')
-n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FBE4E2;border:2px solid #E07A7A;border-radius:18px;padding:40px 44px">'
-         f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><x-icon name="Warning" style="width:36px;height:36px;color:#A33131"></x-icon><p style="font-size:28px;font-weight:700;color:#A33131">이건 피해요</p></div>'
-         f'<p style="font-family:{MONO};font-size:34px;line-height:1.6;color:#1D2330">login, 내작업, final2 <span style="color:#6A7180">(무슨 일인지 모름)</span></p>'
-         f'<p style="font-family:{MONO};font-size:34px;line-height:1.6;color:#1D2330">Feature/Login Button <span style="color:#6A7180">(대문자, 띄어쓰기)</span></p></div>')
+n.append('<div style="position:absolute;left:96px;top:250px;width:1728px;height:620px;display:flex;flex-direction:row;gap:24px">')
+n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:18px;padding:48px 44px">'
+         f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><x-icon name="CheckCircle" style="width:44px;height:44px;color:#1A7340"></x-icon><p style="font-size:34px;font-weight:700;color:#1A7340">이렇게</p></div>'
+         f'<p style="font-family:{MONO};font-size:40px;line-height:1.5;color:#1D2330">feature/login-button</p>'
+         f'<p style="font-family:{MONO};font-size:40px;line-height:1.5;color:#1D2330">fix/12-login-error<br><span style="font-family:{SANS};font-size:30px;color:#6A7180">이슈 12번</span></p></div>')
+n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FBE4E2;border:2px solid #E07A7A;border-radius:18px;padding:48px 44px">'
+         f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><x-icon name="Warning" style="width:44px;height:44px;color:#A33131"></x-icon><p style="font-size:34px;font-weight:700;color:#A33131">이건 피해요</p></div>'
+         f'<p style="font-family:{MONO};font-size:40px;line-height:1.5;color:#1D2330">login, 내작업, final2<br><span style="font-family:{SANS};font-size:30px;color:#6A7180">무슨 일인지 모름</span></p>'
+         f'<p style="font-family:{MONO};font-size:40px;line-height:1.5;color:#1D2330">Feature/Login Button<br><span style="font-family:{SANS};font-size:30px;color:#6A7180">대문자, 띄어쓰기</span></p></div>')
 n.append('</div>')
-n.append('<p style="position:absolute;left:96px;top:760px;width:1728px;font-size:34px;font-weight:700;color:#1D2330">소문자와 하이픈(-)만 쓰고, 무슨 일인지 이름에 적어요.</p>')
+n.append('<p style="position:absolute;left:96px;top:916px;width:1728px;font-size:34px;font-weight:700;color:#1D2330">소문자와 하이픈(-)만 쓰고, 무슨 일인지 이름에 적어요.</p>')
 n.append('<aside>띄어쓰기는 명령어에서 이름이 끊기니 하이픈(-)으로 이어요. 대문자는 운영체제에 따라 헷갈릴 수 있어 소문자로 통일해요. 이슈 번호를 쓰는 팀이면 fix/12-login-error처럼 앞에 붙여요. 팀에 정해진 규칙이 있으면 그걸 따라요.</aside></section>')
 W("naming-ok", "\n".join(n))
 
@@ -213,17 +218,17 @@ W("pr-flow", "\n".join(f))
 # ---------- pr-github ----------
 g = [sec("pr-github"), head("GitHub에서 함께", "Pull Request 화면에서 할 일", "#6B47D6")]
 g.append('<div style="position:absolute;left:96px;top:260px;width:1100px;height:660px;background:#FFFFFF;border:2px solid #D0D7DE;border-radius:20px"></div>')
-g.append(f'<p style="position:absolute;left:136px;top:296px;width:1020px;font-size:36px;font-weight:700;color:#1D2330">feat: 로그인 버튼 추가 <span style="color:#6A7180">#1</span></p>')
-g.append(f'<div style="position:absolute;left:136px;top:366px;width:1020px;display:flex;flex-direction:row;gap:12px;align-items:center">'
+g.append(f'<p id="pr-title" style="position:absolute;left:136px;top:296px;width:1020px;font-size:36px;font-weight:700;color:#1D2330">feat: 로그인 버튼 추가 <span style="color:#6A7180">#1</span></p>')
+g.append(f'<div id="pr-base" style="position:absolute;left:136px;top:366px;width:1020px;display:flex;flex-direction:row;gap:12px;align-items:center">'
          f'<p style="font-size:24px;font-weight:700;color:#FFFFFF;background:#1F8A4C;padding:4px 16px;border-radius:20px">Open</p>'
          f'<p style="font-family:{MONO};font-size:24px;color:#1D2330;background:#DCE7FB;padding:4px 12px;border-radius:8px">main</p>'
          f'<p style="font-size:26px;color:#6A7180">←</p>'
          f'<p style="font-family:{MONO};font-size:24px;color:#1D2330;background:#FBEBD3;padding:4px 12px;border-radius:8px">feature/login-button</p></div>')
-g.append('<div style="position:absolute;left:136px;top:440px;width:1020px;height:150px;background:#F6F8FA;border:2px solid #D0D7DE;border-radius:12px;padding:20px 24px;display:flex;flex-direction:column;gap:8px">'
+g.append('<div id="pr-desc" style="position:absolute;left:136px;top:440px;width:1020px;height:150px;background:#F6F8FA;border:2px solid #D0D7DE;border-radius:12px;padding:20px 24px;display:flex;flex-direction:column;gap:8px">'
          '<p style="font-size:24px;font-weight:700;color:#1D2330">설명</p><p style="font-size:24px;color:#4A5262">login.md에 로그인 버튼 줄을 넣었어요.</p></div>')
-g.append(f'<div style="position:absolute;left:136px;top:614px;width:1020px;height:120px;background:#F6F8FA;border:2px solid #D0D7DE;border-radius:12px;padding:20px 24px;display:flex;flex-direction:column;gap:8px">'
+g.append(f'<div id="pr-files" style="position:absolute;left:136px;top:614px;width:1020px;height:120px;background:#F6F8FA;border:2px solid #D0D7DE;border-radius:12px;padding:20px 24px;display:flex;flex-direction:column;gap:8px">'
          f'<p style="font-size:24px;font-weight:700;color:#1D2330">Files changed</p><p style="font-family:{MONO};font-size:24px;color:#1A7340">+ 로그인 버튼</p></div>')
-g.append('<div style="position:absolute;left:136px;top:762px;width:1020px;display:flex;flex-direction:row;gap:16px;align-items:center">'
+g.append('<div id="pr-btns" style="position:absolute;left:136px;top:762px;width:1020px;display:flex;flex-direction:row;gap:16px;align-items:center">'
          '<p style="font-size:26px;font-weight:700;color:#FFFFFF;background:#1F8A4C;padding:12px 24px;border-radius:10px">Merge pull request</p>'
          '<p style="font-size:26px;font-weight:700;color:#1D2330;background:#F6F8FA;border:2px solid #D0D7DE;padding:10px 22px;border-radius:10px">Delete branch</p></div>')
 anns = [(296, "제목: 커밋 메시지처럼 타입: 요약"), (366, "어디로 ← 무엇을 합치는지"), (440, "무엇을 왜 바꿨는지"), (614, "바뀐 줄 확인, 댓글로 리뷰"), (762, "합치고 나면 GitHub 브랜치 삭제")]
@@ -231,6 +236,7 @@ for i, (y, txt) in enumerate(anns):
     g.append(f'<div data-build-in="fade order {i+1}" style="position:absolute;left:1236px;top:{y}px;width:588px;display:flex;flex-direction:row;gap:14px;align-items:center">'
              f'<p style="width:44px;height:44px;flex:none;font-size:26px;font-weight:900;line-height:44px;text-align:center;color:#FFFFFF;background:#6B47D6;border-radius:22px">{i+1}</p>'
              f'<p style="font-size:26px;font-weight:700;color:#1D2330">{txt}</p></div>')
+g += [spot(k + 1, target=t, pad=10, r=12, dim=0.5) for k, t in enumerate(["pr-title", "pr-base", "pr-desc", "pr-files", "pr-btns"])] + [spot_off(6)]
 g.append('<aside>push 하면 GitHub 저장소 화면 위쪽에 Compare &amp; pull request 버튼이 떠요. 누르면 이 화면이 나와요. 화면 모양은 GitHub 업데이트에 따라 조금 다를 수 있어요. Merge pull request를 누르면 GitHub 안에서 merge 커밋이 생기고, 내 컴퓨터에는 다음 장처럼 pull로 받아요.</aside></section>')
 W("pr-github", "\n".join(g))
 
@@ -260,17 +266,24 @@ s.append('<aside>GitHub Flow는 main 하나와 짧게 쓰고 지우는 작업 �
 W("strategy", "\n".join(s))
 
 # ---------- errors ----------
+# (x, y, w, h) of each error block for the pen box, measured in the built HTML. Change the error text, measure again.
+ERR_BOX = {("err-name", 0): (154, 363, 764, 165), ("err-name", 1): (1002, 363, 764, 165),
+           ("err-dirty", 0): (154, 363, 1612, 214), ("err-unmerged", 0): (154, 363, 1612, 174)}
+
+
 def errpage(i, eyebrow, title, panels, aside):
     o = [f'<section id="{i}" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:{SANS};padding:112px 128px;display:flex;flex-direction:column;gap:40px">',
          f'<div style="display:flex;flex-direction:column;gap:12px"><p style="font-size:26px;font-weight:700;color:#A33131">{eyebrow}</p>'
          f'<h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">{title}</h2></div>',
          '<div style="display:flex;flex-direction:row;gap:32px;flex:1">']
-    for ic, h, err, why, fixes in panels:
+    for k, (ic, h, err, why, fixes) in enumerate(panels):
         o.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FDFCF9;border-radius:20px;padding:32px">'
-                 f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="{ic}" style="width:48px;height:48px;color:#A33131"></x-icon><h3 style="font-size:30px;font-weight:700;color:#1D2330">{h}</h3></div>'
-                 f'<p style="font-family:{MONO};font-size:24px;line-height:1.4;color:#F28B82;background:#1B2029;padding:16px 20px;border-radius:12px">{err}</p>'
-                 f'<p style="font-size:26px;line-height:1.45;color:#4A5262">{why}</p><div style="flex:1"></div>'
-                 + "".join(code(x) for x in fixes) + '</div>')
+                 f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="{ic}" style="width:48px;height:48px;color:#A33131"></x-icon><h3 style="font-size:34px;font-weight:700;color:#1D2330">{h}</h3></div>'
+                 f'<p id="{i}-e{k}" style="font-family:{MONO};font-size:{26 if len(panels) > 1 else 28}px;line-height:1.45;color:#F28B82;background:#1B2029;padding:20px 24px;border-radius:12px">{err}</p>'
+                 f'<p style="font-size:30px;line-height:1.45;color:#4A5262">{why}</p><div style="flex:1"></div>'
+                 f'<div data-build-in="rise order {len(panels) + 1}" style="display:flex;flex-direction:column;gap:12px">' + "".join(code(x, size=28) for x in fixes) + '</div></div>')
+        if (i, k) in ERR_BOX:
+            o.append(box(k + 1, *ERR_BOX[(i, k)], "#A33131"))
     o += ['</div>', f'<aside>{aside}</aside>', '</section>']
     W(i, "\n".join(o))
 
@@ -348,12 +361,14 @@ TERM_ST = {"$": "#F2C46D", "o": "#D8DEE9", "r": "#F28B82", "g": "#7FD18B", "h": 
 MARK_ST = {"m": "#F28B82", "b": "#8FB3FF", "g": "#7FD18B", "o": "#D8DEE9"}
 
 
-def filecard(L, top, w, h, branch, kind, fname, lines, attrs=""):
-    o = [f'<div{attrs} style="position:absolute;left:{L}px;top:{top}px;width:{w}px;height:{h}px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:28px 36px;display:flex;flex-direction:column;gap:12px">']
+def filecard(L, top, w, h, branch, kind, fname, lines, attrs="", big=False):
+    """big: 44px lines with 18px gaps and 40px top padding, for a card that fills most of the slide."""
+    fs, gap, pad = (44, 18, 40) if big else (34, 12, 28)
+    o = [f'<div{attrs} style="position:absolute;left:{L}px;top:{top}px;width:{w}px;height:{h}px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:{pad}px 36px;display:flex;flex-direction:column;gap:{gap}px">']
     o.append(f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center">{pill_inline(branch, kind)}'
              f'<p style="font-size:26px;font-weight:700;color:#4A5262">{fname}</p></div>')
     for text, k in lines:
-        o.append(f'<p style="font-family:{MONO};font-size:34px;line-height:1.4;padding:0 10px;border-radius:6px;{LINE_ST[k]}">{text}</p>')
+        o.append(f'<p style="font-family:{MONO};font-size:{fs}px;line-height:1.4;padding:0 10px;border-radius:6px;{LINE_ST[k]}">{text}</p>')
     o.append('</div>')
     return "".join(o)
 
@@ -364,14 +379,44 @@ def pill_inline(text, kind):
     return f'<p style="font-family:{MONO};font-size:26px;font-weight:700;line-height:1.5;padding:0 14px;border-radius:8px;{st}">{text}</p>'
 
 
-def term(L, top, w, lines, attrs="", size=28):
+def tw(t, size):
+    """Rough ink width of a monospace line: Latin 0.6 em, Hangul about 1 em."""
+    t = t.replace("&lt;", "<").replace("&gt;", ">").replace("&#160;", " ").replace("&quot;", '"')
+    return sum(size if ord(ch) > 0x2E80 else size * 0.6 for ch in t)
+
+
+def term(L, top, w, lines, attrs="", size=28, build=None):
+    """build: first click order. Each command is typed on its own click and the output after it comes in on
+    the next click. term.last is the last order used, term.boxes[i] the (x, y, w, h) of line i for box()."""
     o = [f'<div{attrs} style="position:absolute;left:{L}px;top:{top}px;width:{w}px;background:#1B2029;border-radius:20px;padding:24px 32px;display:flex;flex-direction:column;gap:6px;font-family:{MONO}">']
+    cur, prev, y = (build or 1) - 1, None, top + 24
+    term.boxes = []
     for k, text in lines:
         t = ("$ " + text) if k == "$" else text
         wgt = "700" if k == "$" else "400"
-        o.append(f'<p style="font-size:{size}px;font-weight:{wgt};line-height:1.35;white-space:nowrap;color:{TERM_ST[k]}">{t}</p>')
+        at = ""
+        if build is not None and k == "$":
+            cur += 1
+            at = TYPE(cur)
+        elif build is not None and k != "h":
+            if prev == "$" or cur < build:
+                cur += 1
+            at = f' data-build-in="fade order {cur}"'
+        elif build is not None:
+            at = f' data-build-in="fade order {max(cur, build)}"'
+        prev = k
+        term.boxes.append((L + 32, y, tw(t, size), size * 1.35))
+        y += size * 1.35 + 6
+        o.append(f'<p{at} style="font-size:{size}px;font-weight:{wgt};line-height:1.35;white-space:nowrap;color:{TERM_ST[k]}">{t}</p>')
     o.append('</div>')
+    term.last = cur
     return "".join(o)
+
+
+def errbox(order, i):
+    """Red pen box around terminal line i of the last term()."""
+    x, y, w, h = term.boxes[i]
+    return box(order, round(x - 10), round(y - 2), round(w + 20), round(h + 4), RED)
 
 
 def markers(L, top, w, h, fname, lines, size=34):
@@ -387,26 +432,30 @@ def arrow(L, top):
     return f'<x-shape kind="arrow-right" style="position:absolute;left:{L}px;top:{top}px;width:72px;height:64px;background:#C3C8D2"></x-shape>'
 
 
-def takeaway(text, top=900, color="#1D2330"):
-    return f'<p data-build-in="rise" style="position:absolute;left:96px;top:{top}px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{color}">{text}</p>'
+def takeaway(text, top=900, color="#1D2330", order=None):
+    o = f" order {order}" if order else ""
+    return f'<p data-build-in="rise{o}" style="position:absolute;left:96px;top:{top}px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{color}">{text}</p>'
 
 
 def page(i, eyebrow, title, body, aside, color=RED, bg="#F6F5F1"):
     W(i, "\n".join([sec(i, bg), head(eyebrow, title, color)] + body + [f'<aside>{aside}</aside></section>']))
 
 
-def scen(i, eyebrow, title, left, right, lines, take, aside):
-    body = [filecard(96, 250, 840, 320, *left), filecard(984, 250, 840, 320, *right),
-            term(96, 610, 1728, lines, ' data-build-in="fade"'), takeaway(take)]
+def scen(i, eyebrow, title, left, right, lines, take, aside, err=1):
+    """Two file cards, then the merge is typed in, the error line gets a red box, then the takeaway."""
+    t = term(96, 610, 1728, lines, build=1)
+    n = term.last + 1
+    body = [filecard(96, 250, 840, 320, *left), filecard(984, 250, 840, 320, *right), t, errbox(n, err), takeaway(take, order=n + 1)]
     page(i, eyebrow, title, body, aside)
 
 
 # ---------- folder-switch ----------
-fs = [filecard(96, 260, 780, 420, "feature/login", "green", "작업 폴더", [("hello.md", "o"), ("README.md", "o"), ("login.md", "g")]),
-      arrow(924, 440),
-      filecard(1044, 260, 780, 420, "main", "main", "작업 폴더", [("hello.md", "o"), ("README.md", "o"), ("login.md", "x")], ' data-build-in="fade"'),
-      '<p style="position:absolute;left:890px;top:520px;width:140px;font-family:' + MONO + ';font-size:24px;font-weight:700;text-align:center;color:#6A7180">checkout<br>main</p>',
-      takeaway("login.md는 사라진 게 아니에요. feature/login으로 가면 다시 보여요.", 760)]
+fs = [filecard(96, 250, 780, 600, "feature/login", "green", "작업 폴더", [("hello.md", "o"), ("README.md", "o"), ("login.md", "g")], big=True),
+      arrow(924, 500),
+      filecard(1044, 250, 780, 600, "main", "main", "작업 폴더", [("hello.md", "o"), ("README.md", "o"), ("login.md", "x")], ' data-build-in="fade order 1"', big=True),
+      '<p style="position:absolute;left:890px;top:580px;width:140px;font-family:' + MONO + ';font-size:24px;font-weight:700;text-align:center;color:#6A7180">checkout<br>main</p>',
+      ring(2, 1090, 250 + 40 + 44 + 18 + 2 * 78, 230, 62, OR),
+      takeaway("login.md는 사라진 게 아니에요. feature/login으로 가면 다시 보여요.", 916, order=3)]
 page("folder-switch", "만들고 옮기기", "브랜치를 옮기면 폴더 파일도 바뀌어요", fs,
      "checkout은 HEAD를 옮기면서 작업 폴더 파일도 그 브랜치의 마지막 커밋 모습으로 바꿔요. main에서 ls를 쳐 보면 README.md와 hello.md만 보여요. login.md가 안 보여 당황하는 학생이 많아요. 커밋하지 않은 변경이 있으면 checkout이 막힐 수 있어요(막힐 때 파트).",
      color="#2459C9")
@@ -432,22 +481,22 @@ cases = [("CheckCircle", "#1A7340", "#F1FAF4", "#4DB57A", "다른 파일을 고�
          ("CheckCircle", "#1A7340", "#F1FAF4", "#4DB57A", "같은 파일, 멀리 떨어진 줄", "알아서 합쳐요"),
          ("Warning", RED, "#FBE4E2", "#E07A7A", "같은 줄, 바로 옆 줄", "충돌: 사람이 골라요"),
          ("Warning", RED, "#FBE4E2", "#E07A7A", "한쪽은 지우고, 한쪽은 고침", "충돌: 사람이 골라요")]
-cw = ['<div style="position:absolute;left:96px;top:260px;width:1728px;display:grid;grid-template-columns:1fr 1fr;gap:24px">']
+cw = ['<div style="position:absolute;left:96px;top:250px;width:1728px;height:620px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:24px">']
 for k, (ic, col, bg, bd, h, r) in enumerate(cases):
-    cw.append(f'<div data-build-in="rise order {k+1}" style="display:flex;flex-direction:row;gap:24px;align-items:center;background:{bg};border:2px solid {bd};border-radius:22px;padding:36px 40px">'
-              f'<x-icon name="{ic}" style="width:56px;height:56px;color:{col}"></x-icon>'
-              f'<div style="display:flex;flex-direction:column;gap:8px"><p style="font-size:34px;font-weight:700;color:#1D2330">{h}</p>'
-              f'<p style="font-size:28px;font-weight:700;color:{col}">{r}</p></div></div>')
+    cw.append(f'<div data-build-in="rise order {k+1}" style="display:flex;flex-direction:row;gap:24px;align-items:center;background:{bg};border:2px solid {bd};border-radius:22px;padding:40px 48px">'
+              f'<x-icon name="{ic}" style="width:72px;height:72px;color:{col}"></x-icon>'
+              f'<div style="display:flex;flex-direction:column;gap:14px"><p style="font-size:40px;font-weight:700;color:#1D2330">{h}</p>'
+              f'<p style="font-size:32px;font-weight:700;color:{col}">{r}</p></div></div>')
 cw.append('</div>')
-cw.append(takeaway("충돌은 Git이 고를 수 없는 곳만 사람에게 물어보는 거예요.", 760))
+cw.append(takeaway("충돌은 Git이 고를 수 없는 곳만 사람에게 물어보는 거예요.", 916, order=5))
 page("conflict-when", "충돌 풀기", "충돌은 언제 나요?", cw,
      "양쪽 브랜치가 같은 곳을 다르게 고쳤을 때만 충돌이 나요. 다른 파일이나 멀리 떨어진 줄은 Git이 알아서 합쳐요. 바로 옆 줄도 한 덩어리로 봐서 충돌이 나요(시나리오 2). 충돌은 고장이 아니에요.")
 
 # ---------- abort ----------
-ab = [term(96, 260, 1728, [("$", "git merge feature/login-email"), ("r", "CONFLICT (content): Merge conflict in login.md"),
+ab = [term(96, 250, 1728, [("$", "git merge feature/login-email"), ("r", "CONFLICT (content): Merge conflict in login.md"),
                            ("o", "Automatic merge failed; fix conflicts and then commit the result."),
-                           ("$", "git merge --abort"), ("$", "git status"), ("o", "On branch main"), ("g", "nothing to commit, working tree clean")]),
-      takeaway("merge --abort는 합치기 전 모습으로 돌려놔요. 천천히 다시 해도 돼요.", 760)]
+                           ("$", "git merge --abort"), ("$", "git status"), ("o", "On branch main"), ("g", "nothing to commit, working tree clean")], size=34, build=1)]
+ab += [errbox(term.last + 1, 6).replace(RED, GR), takeaway("merge --abort는 합치기 전 모습으로 돌려놔요. 천천히 다시 해도 돼요.", 916, order=term.last + 2)]
 page("abort", "충돌 풀기", "헷갈리면 merge 전으로 돌아가요", ab,
      "충돌을 풀다 꼬였거나 지금 풀 시간이 없으면 git merge --abort를 쳐요. 출력은 없고, git status가 깨끗해져요. pull 하다 난 충돌도 똑같이 git merge --abort로 돌아가요. 이 화면은 시나리오 2의 충돌이에요. 출력 중 Auto-merging 줄은 뺐어요.")
 
@@ -464,8 +513,8 @@ page("rs-adjacent", EBS + " 2 · 바로 옆 줄", "둘 다 남기면 돼요", [
                                                     ("이메일", "g"), ("비밀번호", "g"), ("&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login-email", "m")], size=32),
     arrow(920, 440),
     filecard(1016, 250, 808, 440, "main", "main", "고친 login.md", [("이메일", "g"), ("비밀번호 (8자 이상)", "b")], ' data-build-in="fade order 1"'),
-    term(96, 714, 1728, [("$", "git add login.md"), ("$", 'git commit -m "fix: 로그인 입력 충돌 해결"'), ("o", "[main a7c76b5] fix: 로그인 입력 충돌 해결")], ' data-build-in="fade order 2"'),
-    takeaway("양쪽에서 바뀐 줄을 하나씩 가져와 합치고, 표시 세 줄은 지워요.", 920)],
+    term(96, 714, 1728, [("$", "git add login.md"), ("$", 'git commit -m "fix: 로그인 입력 충돌 해결"'), ("o", "[main a7c76b5] fix: 로그인 입력 충돌 해결")], build=2),
+    takeaway("양쪽에서 바뀐 줄을 하나씩 가져와 합치고, 표시 세 줄은 지워요.", 920, order=5)],
     "위 덩어리는 main의 두 줄, 아래 덩어리는 feature/login-email의 두 줄이에요. 둘 다 살리려면 바뀐 줄만 골라 이메일, 비밀번호 (8자 이상)으로 만들어요. 고친 뒤 add, commit은 시나리오 1과 같아요.")
 
 # ---------- 시나리오 3: 지움 vs 고침 ----------
@@ -484,9 +533,10 @@ choice = lambda L, ic, col, bg, bd, h, cmd, out, k: (
 page("rs-delete", EBS + " 3 · 지움 vs 고침", "지울지 남길지 골라요", [
     term(96, 250, 1728, [("$", "git status"), ("o", "Unmerged paths:"), ("h", '  (use "git add/rm &lt;file&gt;..." as appropriate to mark resolution)'),
                          ("r", "&#160;&#160;&#160;&#160;deleted by them: old-login.md")]),
-    choice(96, "Warning", RED, "#FBE4E2", "#E07A7A", "지우기로 하면", "git rm old-login.md", 'git commit -m "..."', 1),
-    choice(984, "CheckCircle", "#1A7340", "#F1FAF4", "#4DB57A", "남기기로 하면", "git add old-login.md", 'git commit -m "..."', 2),
-    takeaway("deleted by them은 합치려는 브랜치(them)가 지웠다는 뜻이에요.", 880)],
+    underline(1, 128 + round(4 * 16.8), 128 + round(19 * 16.8), round(term.boxes[3][1] + term.boxes[3][3] + 2), OR),
+    choice(96, "Warning", RED, "#FBE4E2", "#E07A7A", "지우기로 하면", "git rm old-login.md", 'git commit -m "..."', 2),
+    choice(984, "CheckCircle", "#1A7340", "#F1FAF4", "#4DB57A", "남기기로 하면", "git add old-login.md", 'git commit -m "..."', 3),
+    takeaway("deleted by them은 합치려는 브랜치(them)가 지웠다는 뜻이에요.", 880, order=4)],
     "git status 앞뒤 안내 줄은 뺐어요. 이번 실습에서는 git rm old-login.md로 지우기를 골랐고 출력은 rm 'old-login.md'였어요. 이어서 git commit -m \"chore: 옛 로그인 화면 삭제 반영\"을 하면 [main 7e68b90] chore: 옛 로그인 화면 삭제 반영이 나와요. 내가 지운 쪽이면 deleted by us로 보여요.")
 
 # ---------- 시나리오 4: 같은 이름 새 파일 ----------
@@ -501,8 +551,8 @@ page("rs-addadd", EBS + " 4 · 같은 이름 새 파일", "목록이면 둘 다 
                                                     ("&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/signup", "m")]),
     arrow(920, 390),
     filecard(1016, 250, 808, 340, "main", "main", "고친 signup.md", [("- 이메일", "g"), ("- 전화번호", "b")], ' data-build-in="fade order 1"'),
-    term(96, 640, 1728, [("$", "git add signup.md"), ("$", 'git commit -m "fix: 회원가입 항목 합치기"'), ("o", "[main 23d0c5f] fix: 회원가입 항목 합치기")], ' data-build-in="fade order 2"'),
-    takeaway("푸는 방법은 시나리오 1과 같아요. 고르고, 표시 지우고, add, commit.", 880)],
+    term(96, 640, 1728, [("$", "git add signup.md"), ("$", 'git commit -m "fix: 회원가입 항목 합치기"'), ("o", "[main 23d0c5f] fix: 회원가입 항목 합치기")], build=2),
+    takeaway("푸는 방법은 시나리오 1과 같아요. 고르고, 표시 지우고, add, commit.", 880, order=5)],
     "회원가입 항목처럼 둘 다 필요한 내용이면 두 줄을 모두 남겨요. 한쪽만 맞는 내용이면 그쪽만 남겨요.")
 
 # ---------- 시나리오 5: pull 할 때 ----------
@@ -513,49 +563,53 @@ scen("sc-pull", EBP, "팀원이 먼저 같은 줄을 push했어요",
      [("$", "git push origin main"), ("r", " ! [rejected]        main -&gt; main (fetch first)"),
       ("$", "git pull origin main"), ("r", "fatal: Need to specify how to reconcile divergent branches.")],
      "갈라진 상태에서 pull하면 어떻게 합칠지 정해 달라며 멈춰요.",
-     "push가 거절돼서 pull했더니 fatal로 멈췄어요. 내 main과 GitHub main에 서로 모르는 커밋이 하나씩 있어서예요. 출력 중 error, hint 줄과 From 줄은 뺐어요. git 2.27부터 이렇게 물어봐요.")
+     "push가 거절돼서 pull했더니 fatal로 멈췄어요. 내 main과 GitHub main에 서로 모르는 커밋이 하나씩 있어서예요. 출력 중 error, hint 줄과 From 줄은 뺐어요. git 2.27부터 이렇게 물어봐요.", err=3)
 page("pull-config", EBP, "처음 한 번만 설정해요", [
-    f'<div style="position:absolute;left:96px;top:260px;width:1728px;height:150px;background:#1D2330;border-radius:24px;display:flex;flex-direction:row;align-items:center;padding:0 48px">'
+    f'<div style="position:absolute;left:96px;top:250px;width:1728px;height:180px;background:#1D2330;border-radius:24px;display:flex;flex-direction:row;align-items:center;padding:0 48px">'
     f'<p style="font-family:{MONO};font-size:48px;font-weight:700;color:#F2C46D">git config --global pull.rebase false</p></div>',
-    '<div style="position:absolute;left:96px;top:460px;width:1728px;display:flex;flex-direction:row;gap:24px;align-items:center">'
-    + "".join(f'<div data-build-in="rise order {k+1}" style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:32px 36px">'
-              f'<p style="font-family:{MONO};font-size:36px;font-weight:700;color:{c}">{a}</p><p style="font-size:28px;color:#4A5262">{b}</p></div>'
+    '<div style="position:absolute;left:96px;top:480px;width:1728px;height:380px;display:flex;flex-direction:row;gap:24px;align-items:stretch">'
+    + "".join(f'<div data-build-in="rise order {k+1}" style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:48px 40px;justify-content:center">'
+              f'<p style="font-family:{MONO};font-size:48px;font-weight:700;color:{c}">{a}</p><p style="font-size:32px;color:#4A5262">{b}</p></div>'
               for k, (a, b, c) in enumerate([("git pull", "pull은 두 단계예요", "#1D2330"), ("= fetch", "GitHub 커밋을 받아 오고", "#6B47D6"),
                                               ("+ merge", "내 main과 합쳐요", "#2459C9")]))
     + '</div>',
-    takeaway("pull.rebase false는 pull할 때 merge로 합치라는 뜻이에요. 설정한 뒤 다시 pull해요.", 760)],
+    underline(4, 144 + round(20 * 28.8), 144 + round(37 * 28.8), 380, OR),
+    takeaway("pull.rebase false는 pull할 때 merge로 합치라는 뜻이에요. 설정한 뒤 다시 pull해요.", 916, order=4)],
     "출력은 없어요. --global이라 내 컴퓨터의 모든 저장소에 한 번에 적용돼요. rebase는 08에서 다른 합치는 방법과 비교해 봐요. 02의 처음 설정(user.name, user.email)과 같이 해 두면 좋아요.")
 page("rs-pull", EBP, "다시 pull하면 익숙한 충돌이에요", [
     term(96, 250, 1060, [("$", "git pull origin main"), ("r", "CONFLICT (content): Merge conflict in login.md")], size=26),
     markers(96, 400, 1060, 320, "login.md (충돌 표시)", [("&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD", "m"), ("# 로그인하기", "b"), ("=======", "m"), ("# Login", "g"),
                                                     ("&gt;&gt;&gt;&gt;&gt;&gt;&gt; 82b872cd8ac7e79ce6c6eb09ee3531e9108dff77", "m")], size=26),
+    underline(1, 132 + round(8 * 15.6), 132 + round(48 * 15.6), 400 + 28 + 34 + 6 + 4 * 42 + 38, OR),
     term(1196, 250, 628, [("$", "git add login.md"), ("$", "git commit -m"), ("o", '  "fix: 팀원과 로그인 제목 충돌 해결"'), ("$", "git push origin main"),
-                          ("g", "   82b872c..1ebdd15  main -&gt; main")], ' data-build-in="fade"', size=26),
-    takeaway("pull 충돌은 아래쪽 이름이 브랜치 대신 커밋 해시예요. 푸는 법은 같아요.", 780)],
+                          ("g", "   82b872c..1ebdd15  main -&gt; main")], size=26, build=2),
+    takeaway("pull 충돌은 아래쪽 이름이 브랜치 대신 커밋 해시예요. 푸는 법은 같아요.", 780, order=6)],
     "GitHub에서 받아 온 커밋은 브랜치 이름이 없어서 &gt;&gt;&gt;&gt;&gt;&gt;&gt; 뒤에 해시가 나와요. 위쪽 HEAD가 내 것, 아래쪽이 팀원 것이에요. 고치고 add, commit 한 다음 push하면 이번엔 올라가요. pull, commit, push 출력 일부는 뺐어요.")
 
 # ---------- 시나리오 6: PR 충돌 ----------
 EBR = EBS + " 6 · Pull Request"
-pr = ['<div style="position:absolute;left:96px;top:250px;width:1728px;height:520px;background:#FFFFFF;border:2px solid #D0D7DE;border-radius:20px"></div>',
+pr = ['<div style="position:absolute;left:96px;top:250px;width:1728px;height:600px;background:#FFFFFF;border:2px solid #D0D7DE;border-radius:20px"></div>',
       f'<p style="position:absolute;left:144px;top:290px;width:1600px;font-size:38px;font-weight:700;color:#1D2330">feat: 로그인 제목 바꾸기 <span style="color:#6A7180">#2</span></p>',
       f'<div style="position:absolute;left:144px;top:364px;width:1600px;display:flex;flex-direction:row;gap:12px;align-items:center">'
       f'<p style="font-size:26px;font-weight:700;color:#FFFFFF;background:#1F8A4C;padding:4px 16px;border-radius:20px">Open</p>'
       f'<p style="font-family:{MONO};font-size:26px;color:#1D2330;background:#DCE7FB;padding:4px 12px;border-radius:8px">main</p>'
       f'<p style="font-size:28px;color:#6A7180">←</p>'
       f'<p style="font-family:{MONO};font-size:26px;color:#1D2330;background:#DDF2E5;padding:4px 12px;border-radius:8px">feature/login-title</p></div>',
-      f'<div data-build-in="fade" style="position:absolute;left:144px;top:450px;width:1632px;height:260px;background:#FFF8F0;border:2px solid #E4C08A;border-radius:14px;padding:32px 36px;display:flex;flex-direction:column;gap:20px">'
+      f'<div data-build-in="fade order 1" style="position:absolute;left:144px;top:450px;width:1632px;height:340px;background:#FFF8F0;border:2px solid #E4C08A;border-radius:14px;padding:32px 36px;display:flex;flex-direction:column;justify-content:center;gap:28px">'
       f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="Warning" style="width:44px;height:44px;color:#B26A00"></x-icon>'
       f'<p style="font-size:34px;font-weight:700;color:#1D2330">This branch has conflicts that must be resolved</p></div>'
       f'<p style="font-family:{MONO};font-size:28px;color:#4A5262">Conflicting files: login.md</p>'
       f'<p style="font-size:28px;font-weight:700;color:#9AA0AB;background:#F0F1F3;border-radius:10px;padding:10px 24px;width:330px">Merge pull request</p></div>',
-      takeaway("내가 PR을 올린 사이 main이 같은 줄을 바꿨어요. Merge 버튼이 막혀요.", 820)]
+      underline(2, 252, 1044, 576, RED),
+      takeaway("내가 PR을 올린 사이 main이 같은 줄을 바꿨어요. Merge 버튼이 막혀요.", 916, order=3)]
 page("sc-pr", EBR, "PR 화면에 충돌이 떠요", pr,
      "feature/login-title을 push하고 PR을 만들었는데, 그 사이 팀원이 main의 같은 줄을 # 로그인 페이지로 바꿔 합쳤어요. GitHub 화면 문구와 모양은 업데이트에 따라 조금 다를 수 있어요. GitHub에서 Resolve conflicts 버튼으로 웹에서 풀 수도 있지만, 수업에서는 내 컴퓨터에서 푸는 법을 써요.")
 page("rs-pr", EBR, "내 브랜치에서 main을 받아 풀고, 다시 push", [
     term(96, 250, 1728, [("$", "git checkout feature/login-title"), ("$", "git pull origin main"), ("r", "CONFLICT (content): Merge conflict in login.md"),
                          ("h", "# login.md 충돌 표시 지우고 저장"), ("$", "git add login.md"), ("$", 'git commit -m "fix: main과 로그인 제목 충돌 해결"'),
-                         ("$", "git push origin feature/login-title"), ("g", "   c7149cd..8feb440  feature/login-title -&gt; feature/login-title")]),
-    takeaway("push하면 PR 화면이 다시 Merge 할 수 있는 상태로 바뀌어요.", 820)],
+                         ("$", "git push origin feature/login-title"), ("g", "   c7149cd..8feb440  feature/login-title -&gt; feature/login-title")], size=32, build=1),
+    errbox(3, 2),
+    takeaway("push하면 PR 화면이 다시 Merge 할 수 있는 상태로 바뀌어요.", 916, order=term.last + 1)],
     "main을 내 브랜치로 먼저 가져와서 충돌을 풀어요. 그래서 checkout feature/login-title 다음에 pull origin main이에요. 받는 쪽이 feature/login-title이라는 점이 merge와 같아요. checkout, pull, commit 출력 일부는 뺐어요.")
 
 # ---------- conflict-sum ----------
