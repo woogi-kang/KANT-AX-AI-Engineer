@@ -11,7 +11,7 @@ Usage: python3 tools/gen_branch.py slides
 import html, os, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, TYPE  # noqa: E402
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -63,11 +63,11 @@ def text_w(t, size):
     return sum(size if ord(ch) > 0x2E80 else size * 0.6 for ch in t)
 
 
-def scene(sec_id, eyebrow, title, term=None, caption="", transition="magic", eyebrow_color="#2459C9", hot=None, err=None, static=False, start=0):
+def scene(sec_id, eyebrow, title, term=None, caption="", transition="magic", eyebrow_color="#2459C9", hot=None, err=None, static=True, start=0):
     """term: list of (kind, text); kind "$" is a command, others are output colours.
-    Clicks: each command is typed in, its output comes in on the next click, then the spot lights up
-    what changed (hot: an element id or an (x, y, w, h) box), then the caption.
-    err: index of a terminal line to circle in red instead of a spot. static: show the terminal at once."""
+    The terminal is on screen from the start (no typing: fewer clicks). One click draws the label for what
+    changed, together with the red box when err (index of a terminal line) is set.
+    static=False brings commands in one by one, kept for a scene that needs it."""
     o = [f'<section id="{sec_id}" data-transition="{transition}" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:96px;display:flex;flex-direction:column">']
     o.append(p(f"position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:{eyebrow_color}", e(eyebrow), ' id="eyebrow"'))
     o.append(f'<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">{title}</h2>')
@@ -87,7 +87,7 @@ def scene(sec_id, eyebrow, title, term=None, caption="", transition="magic", eye
             if not static:
                 if kind == "$":
                     n += 1
-                    at = TYPE(n)
+                    at = f' data-build-in="fade order {n}"'
                 else:
                     if prev == "$" or n == 0:
                         n += 1
@@ -105,7 +105,7 @@ def scene(sec_id, eyebrow, title, term=None, caption="", transition="magic", eye
         n += 1
         x, y, w, h = scene.lines[err]
         o.append(box(n, round(x - 10), round(y - 2), round(w + 20), round(h + 4), "#A33131"))
-    scene.next = n + 1
+    scene.next = n if err is not None else n + 1   # the red box and the label come in on the same click
     ANCH.clear()
     scene.last = n
     return o

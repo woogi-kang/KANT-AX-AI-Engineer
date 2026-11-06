@@ -2,7 +2,7 @@
 # Usage: python3 tools/gen_pages.py slides
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, TYPE  # noqa: E402
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
 MONO = "'JetBrains Mono', 'Noto Sans KR', monospace"
@@ -204,8 +204,8 @@ steps = [("Link", "git checkout<br>-b feature/<br>login-button", "브랜치 만�
 f.append('<div style="position:absolute;left:126px;top:425px;width:1668px;height:6px;background:#C9C5BA;border-radius:3px"></div>')
 for i, (ic, cmd, lab, col, bg, bd) in enumerate(steps):
     L = 96 + i * 292
-    f.append(f'<p data-build-in="rise order {i+1}" style="position:absolute;left:{L}px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:{col};border-radius:30px">{i+1}</p>')
-    f.append(f'<div data-build-in="rise order {i+1}" style="position:absolute;left:{L}px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px">'
+    f.append(f'<p data-build-in="rise order {(1, 1, 1, 2, 2, 3)[i]}" style="position:absolute;left:{L}px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:{col};border-radius:30px">{i+1}</p>')
+    f.append(f'<div data-build-in="rise order {(1, 1, 1, 2, 2, 3)[i]}" style="position:absolute;left:{L}px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px">'
              f'<p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">{lab}</p>'
              f'<p style="font-family:{MONO};font-size:24px;line-height:1.45;font-weight:700;color:{col}">{cmd}</p></div>')
 for L, w_, col, name in ((96, 844, "#5B8DEF", "내 컴퓨터"), (972, 552, "#9A7BF0", "GitHub 웹사이트"), (1556, 268, "#5B8DEF", "내 컴퓨터")):
@@ -256,7 +256,7 @@ rules = [("main은 늘 동작하는 상태.<br>직접 커밋하지 않아요", "
          ("작게 자주 Pull Request", "Chat"), ("merge 뒤 브랜치는 지워요", "CheckCircle")]
 s.append(f'<div style="position:absolute;left:96px;top:640px;width:1728px;display:flex;flex-direction:row;gap:48px;border-top:2px solid {HAIR};padding-top:32px">')
 for i, (txt, ic) in enumerate(rules):
-    s.append(f'<div data-build-in="rise order {i+1}" style="flex:1;display:flex;flex-direction:row;gap:16px">'
+    s.append(f'<div style="flex:1;display:flex;flex-direction:row;gap:16px">'
              f'<p style="font-size:30px;font-weight:900;line-height:1.4;color:#5A3BB8">{i+1}</p>'
              f'<p style="font-size:30px;font-weight:700;line-height:1.4;color:#1D2330">{txt}</p></div>')
 s.append('</div>')
@@ -385,8 +385,8 @@ def tw(t, size):
 
 
 def term(L, top, w, lines, attrs="", size=28, build=None):
-    """build: first click order. Each command is typed on its own click and the output after it comes in on
-    the next click. term.last is the last order used, term.boxes[i] the (x, y, w, h) of line i for box()."""
+    """build: click order the whole terminal comes in on (1 = on screen from the start). No typing, so a slide
+    takes as few clicks as possible. term.last is the last order used, term.boxes[i] the (x, y, w, h) of line i for box()."""
     o = [f'<div{attrs} style="position:absolute;left:{L}px;top:{top}px;width:{w}px;background:#1B2029;border-radius:20px;padding:24px 32px;display:flex;flex-direction:column;gap:6px;font-family:{MONO}">']
     cur, prev, y = (build or 1) - 1, None, top + 24
     term.boxes = []
@@ -394,15 +394,9 @@ def term(L, top, w, lines, attrs="", size=28, build=None):
         t = ("$ " + text) if k == "$" else text
         wgt = "700" if k == "$" else "400"
         at = ""
-        if build is not None and k == "$":
-            cur += 1
-            at = TYPE(cur)
-        elif build is not None and k != "h":
-            if prev == "$" or cur < build:
-                cur += 1
-            at = f' data-build-in="fade order {cur}"'
-        elif build is not None:
-            at = f' data-build-in="fade order {max(cur, build)}"'
+        if build is not None and build > 1:     # comes in after what is above it, all lines on one click
+            cur = build
+            at = f' data-build-in="fade order {build}"'
         prev = k
         term.boxes.append((L + 32, y, tw(t, size), size * 1.35))
         y += size * 1.35 + 6
@@ -483,13 +477,13 @@ cases = [("CheckCircle", "#1A7340", "#F1FAF4", "#4DB57A", "다른 파일을 고�
 cw = [vrule(959, 280, 560)]
 for g, (ic, col, head_) in enumerate([("CheckCircle", "#1A7340", "Git이 알아서 합쳐요"), ("Warning", RED, "충돌: 사람이 골라요")]):
     L = 96 + g * 912
-    cw.append(f'<div data-build-in="rise order {2*g+1}" style="position:absolute;left:{L}px;top:290px;width:816px;display:flex;flex-direction:row;gap:18px;align-items:center">'
+    cw.append(f'<div data-build-in="rise order {g+1}" style="position:absolute;left:{L}px;top:290px;width:816px;display:flex;flex-direction:row;gap:18px;align-items:center">'
               f'<x-icon name="{ic}" style="width:56px;height:56px;color:{col}"></x-icon><p style="font-size:40px;font-weight:700;color:{col}">{head_}</p></div>')
     for j in range(2):
         k = 2 * g + j
-        cw.append(f'<p data-build-in="rise order {k+1}" style="position:absolute;left:{L}px;top:{430 + j*180}px;width:816px;font-size:44px;font-weight:700;line-height:1.3;color:#1D2330;'
+        cw.append(f'<p data-build-in="rise order {g+1}" style="position:absolute;left:{L}px;top:{430 + j*180}px;width:816px;font-size:44px;font-weight:700;line-height:1.3;color:#1D2330;'
                   f'border-top:2px solid {HAIR};padding-top:40px">{cases[k][4]}</p>')
-cw.append(takeaway("충돌은 Git이 고를 수 없는 곳만 사람에게 물어보는 거예요.", 916, order=5))
+cw.append(takeaway("충돌은 Git이 고를 수 없는 곳만 사람에게 물어보는 거예요.", 916, order=3))
 page("conflict-when", "충돌 풀기", "충돌은 언제 나요?", cw,
      "양쪽 브랜치가 같은 곳을 다르게 고쳤을 때만 충돌이 나요. 다른 파일이나 멀리 떨어진 줄은 Git이 알아서 합쳐요. 바로 옆 줄도 한 덩어리로 봐서 충돌이 나요(시나리오 2). 충돌은 고장이 아니에요.")
 
@@ -515,7 +509,7 @@ page("rs-adjacent", EBS + " 2 · 바로 옆 줄", "둘 다 남기면 돼요", [
     arrow(920, 440),
     filecard(1016, 250, 808, 440, "main", "main", "고친 login.md", [("이메일", "g"), ("비밀번호 (8자 이상)", "b")], ' data-build-in="fade order 1"'),
     term(96, 714, 1728, [("$", "git add login.md"), ("$", 'git commit -m "fix: 로그인 입력 충돌 해결"'), ("o", "[main a7c76b5] fix: 로그인 입력 충돌 해결")], build=2),
-    takeaway("양쪽에서 바뀐 줄을 하나씩 가져와 합치고, 표시 세 줄은 지워요.", 920, order=5)],
+    takeaway("양쪽에서 바뀐 줄을 하나씩 가져와 합치고, 표시 세 줄은 지워요.", 920, order=3)],
     "위 덩어리는 main의 두 줄, 아래 덩어리는 feature/login-email의 두 줄이에요. 둘 다 살리려면 바뀐 줄만 골라 이메일, 비밀번호 (8자 이상)으로 만들어요. 고친 뒤 add, commit은 시나리오 1과 같아요.")
 
 # ---------- 시나리오 3: 지움 vs 고침 ----------
@@ -553,7 +547,7 @@ page("rs-addadd", EBS + " 4 · 같은 이름 새 파일", "목록이면 둘 다 
     arrow(920, 390),
     filecard(1016, 250, 808, 340, "main", "main", "고친 signup.md", [("- 이메일", "g"), ("- 전화번호", "b")], ' data-build-in="fade order 1"'),
     term(96, 640, 1728, [("$", "git add signup.md"), ("$", 'git commit -m "fix: 회원가입 항목 합치기"'), ("o", "[main 23d0c5f] fix: 회원가입 항목 합치기")], build=2),
-    takeaway("푸는 방법은 시나리오 1과 같아요. 고르고, 표시 지우고, add, commit.", 880, order=5)],
+    takeaway("푸는 방법은 시나리오 1과 같아요. 고르고, 표시 지우고, add, commit.", 880, order=3)],
     "회원가입 항목처럼 둘 다 필요한 내용이면 두 줄을 모두 남겨요. 한쪽만 맞는 내용이면 그쪽만 남겨요.")
 
 # ---------- 시나리오 5: pull 할 때 ----------
@@ -584,7 +578,7 @@ page("rs-pull", EBP, "다시 pull하면 익숙한 충돌이에요", [
     underline(1, 132 + round(8 * 15.6), 132 + round(48 * 15.6), 400 + 28 + 34 + 6 + 4 * 42 + 38, OR),
     term(1196, 250, 628, [("$", "git add login.md"), ("$", "git commit -m"), ("o", '  "fix: 팀원과 로그인 제목 충돌 해결"'), ("$", "git push origin main"),
                           ("g", "   82b872c..1ebdd15  main -&gt; main")], size=26, build=2),
-    takeaway("pull 충돌은 아래쪽 이름이 브랜치 대신 커밋 해시예요. 푸는 법은 같아요.", 780, order=6)],
+    takeaway("pull 충돌은 아래쪽 이름이 브랜치 대신 커밋 해시예요. 푸는 법은 같아요.", 780, order=3)],
     "GitHub에서 받아 온 커밋은 브랜치 이름이 없어서 &gt;&gt;&gt;&gt;&gt;&gt;&gt; 뒤에 해시가 나와요. 위쪽 HEAD가 내 것, 아래쪽이 팀원 것이에요. 고치고 add, commit 한 다음 push하면 이번엔 올라가요. pull, commit, push 출력 일부는 뺐어요.")
 
 # ---------- 시나리오 6: PR 충돌 ----------
@@ -609,8 +603,8 @@ page("rs-pr", EBR, "내 브랜치에서 main을 받아 풀고, 다시 push", [
     term(96, 250, 1728, [("$", "git checkout feature/login-title"), ("$", "git pull origin main"), ("r", "CONFLICT (content): Merge conflict in login.md"),
                          ("h", "# login.md 충돌 표시 지우고 저장"), ("$", "git add login.md"), ("$", 'git commit -m "fix: main과 로그인 제목 충돌 해결"'),
                          ("$", "git push origin feature/login-title"), ("g", "   c7149cd..8feb440  feature/login-title -&gt; feature/login-title")], size=32, build=1),
-    errbox(3, 2),
-    takeaway("push하면 PR 화면이 다시 Merge 할 수 있는 상태로 바뀌어요.", 916, order=term.last + 1)],
+    errbox(1, 2),
+    takeaway("push하면 PR 화면이 다시 Merge 할 수 있는 상태로 바뀌어요.", 916, order=2)],
     "main을 내 브랜치로 먼저 가져와서 충돌을 풀어요. 그래서 checkout feature/login-title 다음에 pull origin main이에요. 받는 쪽이 feature/login-title이라는 점이 merge와 같아요. checkout, pull, commit 출력 일부는 뺐어요.")
 
 # ---------- conflict-sum ----------
@@ -623,7 +617,7 @@ cs = [f'<div style="position:absolute;left:96px;top:250px;width:1728px;display:f
       '<div style="display:flex;flex-direction:row;gap:24px;padding:0 8px 14px 8px;border-bottom:2px solid #9AA0AB">'
       + "".join(f'<p style="{w_}font-size:24px;font-weight:700;color:#6A7180">{t}</p>' for w_, t in (("width:720px;flex:none;", "메시지"), ("width:280px;flex:none;", "상황"), ("", "푸는 법"))) + '</div>']
 for k, (msg, sit, fix) in enumerate(rows):
-    cs.append(f'<div data-build-in="fade order {k+1}" style="display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {HAIR};padding:26px 8px">'
+    cs.append(f'<div style="display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {HAIR};padding:26px 8px">'
               f'<p style="width:720px;flex:none;font-family:{MONO};font-size:26px;font-weight:700;color:{RED}">{msg}</p>'
               f'<p style="width:280px;flex:none;font-size:28px;font-weight:700;color:#1D2330">{sit}</p>'
               f'<p style="font-size:28px;color:#4A5262">{fix}</p></div>')
@@ -690,7 +684,7 @@ uw = [("충돌이 나서 merge가 멈췄어요", "git merge --abort", "합치기
       ("push까지 했어요", "git revert 커밋", "merge 커밋이면 팀에 먼저 알려요", RED)]
 wb = [f'<div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column;border-top:2px solid {HAIR}">']
 for k, (sit, cmd, tip, col) in enumerate(uw):
-    wb.append(f'<div data-build-in="rise order {k+1}" style="display:flex;flex-direction:row;gap:32px;align-items:center;border-bottom:2px solid {HAIR};padding:22px 8px">'
+    wb.append(f'<div style="display:flex;flex-direction:row;gap:32px;align-items:center;border-bottom:2px solid {HAIR};padding:22px 8px">'
               f'<p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">{sit}</p>'
               f'<div style="display:flex;flex-direction:column;gap:8px"><p style="font-family:{MONO};font-size:32px;font-weight:700;color:{col}">{cmd}</p>'
               f'<p style="font-size:26px;color:#4A5262">{tip}</p></div></div>')
