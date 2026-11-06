@@ -166,7 +166,7 @@ def tsteps(lines):
     return cur
 
 
-def terminal(lines, left=96, top=None, w=1728, h=None, size=None, lh=1.4, build=1, tid="term"):
+def terminal(lines, left=96, top=None, w=1728, h=None, size=None, lh=1.4, build=None, tid="term"):
     top = top or ZTOP + CUR["zh"] + 32
     h = h or 1024 - top
     size = size or min(33, int((h - 52) / (len(lines) * lh)))
@@ -203,7 +203,7 @@ def write(sec_id, parts, notes, hot=None, lines=None):
     light off so the whole picture reads as one."""
     body = "\n".join(parts)
     if lines is not None:
-        n = tsteps(lines)
+        n = 0  # the terminal is shown whole from the start; no typing
         body = re.sub(r'data-build-in="(pop|fade)"', lambda m: f'data-build-in="{m.group(1)} order {n + 1}"', body)
         extra = []
         if hot:
@@ -371,7 +371,7 @@ write("s12-push2", o, f"두 번째 push부터는 바뀐 커밋만 보내요. {H2
 o = frame("s13-clone", "실습 13 · 팀원 컴퓨터에서", "팀원이 저장소를 통째로 받아요", local_label="팀원 컴퓨터", transition="fade", zh=360)
 o += commits("rm", [(H3, False), (H2, False), (H1, False)], "rc")
 o.append(tag("rt-main", "rm", 0, 0, "main", "rmain"))
-N13 = 7  # tsteps of the terminal below
+N13 = 0  # the terminal has no click steps
 o.append(arrow("lr-rm", "left", top=ROW0 + 5, color="#6B47D6", order=N13 + 1))
 o.append(f'<div data-build-in="left order {N13 + 1}" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none">')
 o += commits("lr", [(H3, False), (H2, False), (H1, False)], "cl")
@@ -383,7 +383,6 @@ o.append(pop("lr", below(3), "origin 등록도 저절로 돼요", color="#4A2FA8
 o += terminal(T := [("$", "cd ~/projects"), ("$", "git clone https://github.com/kim/hello-git.git"),
                ("o", "Cloning into 'hello-git'..."), ("o", "Receiving objects: 100% (9/9), done."),
                ("$", "cd hello-git"), ("#", "# 새로 생긴 폴더로 꼭 들어가기"), ("$", "ls"), ("o", "hello.md")])
-assert tsteps(T) == N13
 write("s13-clone", o, "팀원이 이 저장소에 합류하는 장면이에요. clone은 폴더 만들기, git init, remote add origin, 커밋 받기를 한 번에 해요. clone한 폴더에서 init이나 remote add를 다시 하지 않아요. 팀원은 이어서 README.md를 만들고 add, commit, push 해요(docs: README 추가).", hot=None, lines=T)
 
 o = frame("s14-fetch", "실습 14 · 다시 내 컴퓨터 (팀원이 README를 push했어요)", "GitHub 소식을 받아만 와요", transition="magic", zh=360)
@@ -732,7 +731,7 @@ cf = [sec("s0-config")] + head("실습 0 · 컴퓨터마다 처음 한 번만", 
 CFL = [("$", 'git config --global user.name "홍길동"'), ("$", 'git config --global user.email "gildong@example.com"'),
        ("$", "git config --global init.defaultBranch main"), ("o", ""), ("$", "git config --global --list"),
        ("o", "user.name=홍길동"), ("o", "user.email=gildong@example.com"), ("o", "init.defaultbranch=main")]
-cf += term(CFL, 96, 236, 1728, 660, size=32, lh=70, build=1, pad=(40, 44))
+cf += term(CFL, 96, 236, 1728, 660, size=32, lh=70, build=None, pad=(40, 44))
 for i, lbl in enumerate(["커밋마다 붙는 작성자 이름", "GitHub 가입 메일과 같게", "기본 브랜치 이름을 main으로"]):
     y = 236 + 40 + i * 70 + 4
     cf.append(p(f"position:absolute;left:1236px;top:{y + 6}px;width:560px;height:50px;line-height:50px;font-size:28px;font-weight:700;color:#C9D1DE", "← " + lbl, bi("fade", i + 1)))
@@ -891,16 +890,16 @@ for i, h in enumerate(["b81d4e2", "e73617d", "3f9a2c1", "a7c21f4"]):
 rf.append(p(f"position:absolute;left:{LX + 280}px;top:{RY0 + 6}px;width:240px;font-size:26px;color:{SUB}", "log엔 안 보여요", ' id="rf-hidden"'))
 rf.append(chip("main", 28, "#FFFFFF", BL, extra=f";position:absolute;left:{LX + 260}px;top:{RY0 + RP + 4}px", ).replace("<p", '<p id="rf-main0"', 1))
 # order 3: the commit comes back and main moves up
-rf.append(f'<div{bi("fade", 3)} style="position:absolute;left:{LX + 20}px;top:{RY0 - 14}px;width:520px;height:80px;background:#FFFFFF;border:3px solid {GR};border-radius:16px;display:flex;flex-direction:row;gap:20px;align-items:center;padding:0 16px">'
+rf.append(f'<div{bi("fade", 2)} style="position:absolute;left:{LX + 20}px;top:{RY0 - 14}px;width:520px;height:80px;background:#FFFFFF;border:3px solid {GR};border-radius:16px;display:flex;flex-direction:row;gap:20px;align-items:center;padding:0 16px">'
           f'<x-shape kind="ellipse" style="width:34px;height:34px;background:{BL}"></x-shape>' + mono("b81d4e2", 32, "#1E3F8F") + chip("main", 28, "#FFFFFF", BL) + p(f"font-size:26px;font-weight:700;color:{GR}", "다시 찾음") + '</div>')
-rf.append(f'<div{bi("fade", 3)} style="position:absolute;left:{LX + 250}px;top:{RY0 + RP - 4}px;width:120px;height:60px;background:#E8F0FD"></div>')
+rf.append(f'<div{bi("fade", 2)} style="position:absolute;left:{LX + 250}px;top:{RY0 + RP - 4}px;width:120px;height:60px;background:#E8F0FD"></div>')
 RL = [("$", "git reflog"), ("o", "e73617d HEAD@{0}: reset: moving to HEAD~1"), ("o", "b81d4e2 HEAD@{1}: commit: feat: 실수한 커밋"),
       ("o", "e73617d HEAD@{2}: pull origin main: Fast-forward"), ("o", "3f9a2c1 HEAD@{3}: commit: feat: 끝인사 추가")]
-rf += term(RL, 696, LY, 1128, 340, size=27, lh=50, build=1, pad=(32, 36))
-rf.append(box(2, 696 + 36 - 8, LY + 32 + 2 * 50 + 2, 17 * 16.2 + 16, 46, OR, width=4))
+rf += term(RL, 696, LY, 1128, 340, size=27, lh=50, build=None, pad=(32, 36))
+rf.append(box(1, 696 + 36 - 8, LY + 32 + 2 * 50 + 2, 17 * 16.2 + 16, 46, OR, width=4))
 RL2 = [("$", "git reset --hard b81d4e2"), ("o", "HEAD is now at b81d4e2 feat: 실수한 커밋")]
-rf += term(RL2, 696, LY + 376, 1128, 168, size=27, lh=50, build=3, pad=(32, 36))
-rf.append(p(f"position:absolute;left:696px;top:{LY + 580}px;width:1128px;font-size:30px;line-height:1.5;color:{SUB}", "HEAD가 움직인 기록이 최신순으로 남아요.<br>reflog는 내 컴퓨터에만 있고 GitHub에는 없어요.", bi("fade", 4)))
+rf += [f'<div{bi("fade", 2)}>'] + term(RL2, 696, LY + 376, 1128, 168, size=27, lh=50, build=None, pad=(32, 36)) + ["</div>"]
+rf.append(p(f"position:absolute;left:696px;top:{LY + 580}px;width:1128px;font-size:30px;line-height:1.5;color:{SUB}", "HEAD가 움직인 기록이 최신순으로 남아요.<br>reflog는 내 컴퓨터에만 있고 GitHub에는 없어요.", bi("fade", 3)))
 W("reflog", rf, "앞 장의 reset HEAD~1로 b81d4e2가 log에서 사라졌어요. 그래도 커밋은 바로 지워지지 않고 .git 안에 남아 있어요. reflog는 HEAD가 지나간 자리를 최신순으로 보여 주는 기록이라, reset 직전 커밋(HEAD@{1})의 해시를 찾을 수 있어요. 그 해시로 reset --hard 하면 main이 다시 그 커밋을 가리켜요. --hard는 작업 폴더의 고친 내용을 지우니, 실행 전에 git status로 남은 변경이 없는지 확인하세요. reflog 기록은 기본 90일 정도 지나면 정리돼요. clone 받은 팀원 컴퓨터에는 내 reflog가 없어요.")
 
 # ---------- 35. reset-vs-revert ----------
@@ -1072,9 +1071,9 @@ EXL = [("$", "git pull origin main"), ("o", "From https://github.com/kim/hello-g
        ("$", "git config --global pull.rebase false"),
        ("$", "git pull origin main"), ("o", "Merge made by the 'ort' strategy."), ("o", " README.md | 1 +"),
        ("$", "git push origin main"), ("o", "   dac2ff4..71f86b2  main -> main")]
-ex += term(EXL, 96, 220, 1728, 744, size=26, lh=60, build=1, pad=(36, 40))
-ex.append(box(2, 96 + 40 - 10, 220 + 36 + 4 * 60 + 6, round(len(EXL[4][1]) * 15.6 + 20), 48, RED, width=4))
-for ln, txt, order in [(5, "처음 한 번만 쳐요 (03에서 다시 봐요)", 3), (7, "vim이 열리면 :wq 치고 Enter", 5)]:
+ex += term(EXL, 96, 220, 1728, 744, size=26, lh=60, build=None, pad=(36, 40))
+ex.append(box(1, 96 + 40 - 10, 220 + 36 + 4 * 60 + 6, round(len(EXL[4][1]) * 15.6 + 20), 48, RED, width=4))
+for ln, txt, order in [(5, "처음 한 번만 쳐요 (03에서 다시 봐요)", 2), (7, "vim이 열리면 :wq 치고 Enter", 3)]:
     y = 220 + 36 + ln * 60
     ex.append(p(f"position:absolute;left:1236px;top:{y + 5}px;width:560px;height:50px;line-height:50px;font-size:27px;font-weight:700;color:#C9D1DE", "← " + txt, bi("fade", order)))
 W("err-rejected-fix", ex, "pull.rebase 설정이 없으면 내 main과 GitHub main이 갈라졌을 때 Git이 어떻게 합칠지 물으면서 fatal로 멈춰요. 멈춘 pull은 커밋도 파일도 바꾸지 않아요. hint 첫 줄에 나온 pull.rebase false가 우리가 고르는 merge예요. --global을 붙여 한 번 설정하고 같은 pull을 다시 치면 두 커밋이 합쳐진 merge 커밋이 생겨요. 이때 커밋 메시지를 적는 vim이 열리면 그대로 :wq, Enter로 닫아요. 합친 뒤에는 push가 돼요. merge 커밋 모양은 03에서 자세히 봐요. hint 줄은 앞부분만 옮겼고, 해시는 사람마다 달라요.")
