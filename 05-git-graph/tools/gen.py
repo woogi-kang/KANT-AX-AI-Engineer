@@ -8,6 +8,9 @@ Usage: python3 tools/gen.py slides
 """
 import html, os, sys
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
+from highlight import spot, spot_off, cursor, cursor_off, ring, underline, TYPE  # noqa: E402
+
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
 MONO = "'JetBrains Mono', 'Noto Sans KR', monospace"
@@ -44,20 +47,33 @@ def head(eyebrow, title, color=BL):
 TC = {"$": "#F2C46D", "o": "#D8DEE9", "#": "#8C95A6", "g": "#7FD18B", "r": "#F28B82"}
 
 
-def terminal(lines, left=96, top=656, w=1150, h=368, size=24, lh=1.3, tid="term"):
+def terminal(lines, left=96, top=656, w=1150, h=368, size=24, lh=1.3, tid="term", build=None):
+    """build: first click order. Each command line is typed on its own click, and the output lines after it
+    come in together on the next click. terminal.last holds the last order used."""
+    cur, prev = (build or 1) - 1, None
     o = [f'<div id="{tid}" style="position:absolute;left:{left}px;top:{top}px;width:{w}px;height:{h}px;background:#1B2029;border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;font-family:{MONO};font-variant-ligatures:none">']
     for kind, text in lines:
         t = e(text).replace("\t", "        ")
         if kind == "$":
             t = "$ " + t
         bold = "font-weight:700;" if kind == "$" else ""
-        o.append(p(f"font-size:{size}px;line-height:{lh};white-space:pre;{bold}color:{TC[kind]}", t if t else " "))
+        at = ""
+        if build is not None and kind == "$":
+            cur += 1
+            at = TYPE(cur)
+        elif build is not None and kind != "#":
+            if prev == "$":
+                cur += 1
+            at = f' data-build-in="fade order {cur}"'
+        prev = kind
+        o.append(p(f"font-size:{size}px;line-height:{lh};white-space:pre;{bold}color:{TC[kind]}", t if t else " ", at))
     o.append('</div>')
+    terminal.last = cur
     return o
 
 
-def callout(icon, title, sub=None, icolor=BL, top=656, h=368):
-    o = [f'<div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:{top}px;width:546px;height:{h}px;background:#FFFFFF;border:2px solid {LINE};border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">']
+def callout(icon, title, sub=None, icolor=BL, top=656, h=368, order=1):
+    o = [f'<div id="explain" data-build-in="rise order {order}" style="position:absolute;left:1278px;top:{top}px;width:546px;height:{h}px;background:#FFFFFF;border:2px solid {LINE};border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">']
     o.append(f'<x-icon name="{icon}" style="width:56px;height:56px;color:{icolor}"></x-icon>')
     o.append(p(f"font-size:34px;font-weight:700;line-height:1.35;color:{INK}", title))
     if sub:
@@ -256,12 +272,17 @@ def frame(sid, eyebrow, cmd, transition="magic", cmd_size=50, color=BL):
             f'<h2 id="cmd" style="position:absolute;left:96px;top:84px;width:1728px;font-family:{MONO};font-size:{cmd_size}px;font-weight:700;line-height:1.15;color:{INK}">{cmd}</h2>']
 
 
-def scene(sid, eyebrow, cmd, state, term, call, notes, transition="magic", cmd_size=50):
+def scene(sid, eyebrow, cmd, state, term, call, notes, transition="magic", cmd_size=50, hot=(0, 0)):
+    """Clicks: type each command, show its output, light up the rows that changed (hot), then the callout."""
     o = frame(sid, eyebrow, cmd, transition, cmd_size)
-    g, _ = gg(ST[state])
+    g, ys = gg(ST[state])
     o += g
-    o += terminal(term)
-    o += callout(*call)
+    o += terminal(term, build=1)
+    n = terminal.last
+    y0, y1 = ys[hot[0]] - 24, ys[hot[1]] + 24
+    o.append(spot(n + 1, 100, y0, 1720, y1 - y0, pad=4, r=10))
+    o.append(spot_off(n + 2))
+    o += callout(*call, order=n + 2)
     W(sid, o, notes)
 
 
@@ -297,8 +318,9 @@ w = [sec("why")] + head("Git Graph란?", "git log --oneline을 그림으로 보�
 LOG = [("$", "git log --oneline"), ("o", f"{h7('M')} (HEAD -> main, origin/main) Merge branch 'feature/login'"), ("o", f"{h7('D')} docs: README에 실행 방법 추가"),
        ("o", f"{h7('C')} (feature/login) feat: 비밀번호 찾기 추가"), ("o", f"{h7('L')} docs: README 추가"), ("o", f"{h7('B')} feat: 로그인 버튼 추가"), ("o", f"{h7('A')} feat: 로그인 화면 추가")]
 w += terminal(LOG, left=96, top=232, w=1728, h=272, size=23, lh=1.3)
-g, _ = gg(ST["sc10"], T=540, tab=False, ctl=False, hdr=True, pre="w-")
+g, ys_w = gg(ST["sc10"], T=540, tab=False, ctl=False, hdr=True, pre="w-")
 w += [x.replace(' style=', ' data-build-in="rise order 1" style=', 1) for x in g]
+w.append(ring(2, 112, ys_w[0] - 6, 96, ys_w[3] - ys_w[0] + 12, OR))
 w.append(p(f"position:absolute;left:96px;top:968px;width:1728px;font-size:30px;font-weight:700;color:{INK}", "같은 기록이에요. 갈라진 길과 합쳐진 곳이 선으로 보여요.", ' data-build-in="fade order 2"'))
 W("why", w, "위는 터미널에서 친 git log --oneline, 아래는 같은 저장소를 Git Graph로 연 화면이에요. 커밋 순서와 메시지가 같아요. 터미널에서는 feature/login에서 갈라졌다가 merge로 합쳐진 모양이 안 보이지만, Git Graph에서는 분홍 선으로 바로 보여요. Git Graph는 기록을 보여 주기만 해요. 저장소를 바꾸지 않아요.")
 
@@ -309,7 +331,7 @@ def vscode_shell(L, T, Wd, Hd, active="ext", panel_title="EXTENSIONS", status=Fa
     for n in ["files", "search", "scm", "run", "ext"]:
         col = "#FFFFFF" if n == active else "#858585"
         bar = f'border-left:4px solid {VS["blue"]};' if n == active else 'border-left:4px solid transparent;'
-        o[-1] += f'<div style="width:76px;height:44px;display:flex;align-items:center;justify-content:center;{bar}">{act_icon(n, col)}</div>'
+        o[-1] += f'<div id="{pre}act-{n}" style="width:76px;height:44px;display:flex;align-items:center;justify-content:center;{bar}">{act_icon(n, col)}</div>'
     o[-1] += '</div>'
     return o
 
@@ -349,7 +371,7 @@ ins += vscode_shell(VL, VT, VW, VH, active="ext")
 PX = VL + 80
 ins.append(f'<div style="position:absolute;left:{PX}px;top:{VT+2}px;width:{VW-82}px;height:{VH-4}px;background:{VS["bar"]};padding:24px 28px;display:flex;flex-direction:column;gap:20px">'
            + p(f"font-size:22px;font-weight:700;color:{VS['txt']};letter-spacing:1px", "EXTENSIONS: MARKETPLACE")
-           + f'<div style="height:52px;background:{VS["input"]};border:2px solid {VS["blue"]};border-radius:6px;padding:0 16px;display:flex;align-items:center">' + p(f"font-size:26px;color:#FFFFFF", "git graph") + '</div>'
+           + f'<div id="ins-search" style="height:52px;background:{VS["input"]};border:2px solid {VS["blue"]};border-radius:6px;padding:0 16px;display:flex;align-items:center">' + p(f"font-size:26px;color:#FFFFFF", "git graph") + '</div>'
            + f'<div style="background:#04395E;border-radius:6px;padding:20px 20px;display:flex;flex-direction:row;gap:20px">'
            + f'<div style="width:96px;height:96px;flex:none;background:#2B2B2B;border-radius:8px;display:flex;align-items:center;justify-content:center">{graph_icon(64)}</div>'
            + '<div style="flex:1;display:flex;flex-direction:column;gap:6px">'
@@ -357,7 +379,7 @@ ins.append(f'<div style="position:absolute;left:{PX}px;top:{VT+2}px;width:{VW-82
            + p(f"font-size:22px;line-height:1.4;color:{VS['txt']}", "View a Git Graph of your repository, and perform Git actions from the graph.")
            + '<div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;margin-top:6px">'
            + p(f"font-size:22px;font-weight:700;color:{VS['txt']}", "mhutchie")
-           + p(f"font-size:22px;color:#FFFFFF;background:{VS['blue']};padding:2px 18px;border-radius:4px", "Install") + '</div></div></div>'
+           + p(f"font-size:22px;color:#FFFFFF;background:{VS['blue']};padding:2px 18px;border-radius:4px", "Install", ' id="ins-install"') + '</div></div></div>'
            + f'<div style="background:{VS["bar"]};border-radius:6px;padding:16px 20px;display:flex;flex-direction:row;gap:20px;opacity:0.5">'
            + '<div style="width:96px;height:72px;flex:none;background:#2B2B2B;border-radius:8px"></div>'
            + '<div style="flex:1;display:flex;flex-direction:column;gap:6px">' + p(f"font-size:24px;font-weight:700;color:{VS['txt']}", "이름이 비슷한 다른 확장") + p(f"font-size:22px;color:{VS['dim']}", "만든 사람이 다르면 설치하지 않아요") + '</div></div>'
@@ -365,6 +387,9 @@ ins.append(f'<div style="position:absolute;left:{PX}px;top:{VT+2}px;width:{VW-82
 ins.append(marker(1, VL + 12, VT + 4 * 74 + 18, 2))
 ins.append(marker(2, PX + VW - 82 - 70, VT + 66, 3))
 ins.append(marker(3, PX + VW - 82 - 70, VT + 250, 4))
+for k, tg in enumerate(["act-ext", "ins-search", "ins-install"]):
+    ins += [spot(k + 2, target=tg, pad=10, r=10, dim=0.5), cursor(k + 2, target=tg)]
+ins += [spot_off(5), cursor_off(5)]
 ins.append(steps_card(1176, 236, 648, 740, [("왼쪽 막대의 확장 아이콘을 눌러요", "Windows Ctrl+Shift+X<br>Mac Cmd+Shift+X"),
                                             ("검색창에 git graph를 쳐요", None),
                                             ("만든 사람이 mhutchie인지 보고 Install을 눌러요", "설치는 한 번만 하면 돼요")],
@@ -378,20 +403,23 @@ op += vscode_shell(VL, VT, VW, VH, active="scm", status=True)
 PX = VL + 80
 op.append(f'<div style="position:absolute;left:{PX}px;top:{VT+2}px;width:420px;height:{VH-44}px;background:{VS["bar"]};padding:24px 24px;display:flex;flex-direction:column;gap:18px">'
           + '<div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between">' + p(f"font-size:21px;font-weight:700;color:{VS['txt']};letter-spacing:1px", "SOURCE CONTROL")
-          + f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center;border:2px solid {OR};border-radius:6px;padding:4px 6px">{graph_icon(30)}</div></div>'
+          + f'<div id="op-scm" style="display:flex;flex-direction:row;gap:12px;align-items:center;border:2px solid {OR};border-radius:6px;padding:4px 6px">{graph_icon(30)}</div></div>'
           + f'<div style="height:48px;background:{VS["input"]};border:1px solid {VS["bd"]};border-radius:4px;padding:0 14px;display:flex;align-items:center">' + p(f"font-size:21px;color:{VS['dim']}", "Message") + '</div>'
           + p(f"font-size:22px;color:{VS['txt']}", "Changes") + '</div>')
 op.append(f'<div style="position:absolute;left:{PX+420}px;top:{VT+2}px;width:{VW-82-420}px;height:{VH-44}px;padding:28px 32px;display:flex;flex-direction:column;gap:16px">'
           + f'<div style="background:{VS["bar"]};border:1px solid {VS["bd"]};border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;gap:10px">'
-          + p(f"font-size:22px;color:#FFFFFF;background:{VS['input']};border:2px solid {VS['blue']};border-radius:4px;padding:4px 10px", "&gt; git graph")
+          + p(f"font-size:22px;color:#FFFFFF;background:{VS['input']};border:2px solid {VS['blue']};border-radius:4px;padding:4px 10px", "&gt; git graph", ' id="op-pal"')
           + p(f"font-size:21px;color:#FFFFFF;background:#04395E;padding:4px 10px;border-radius:4px", "Git Graph: View Git Graph (git log)") + '</div>'
           + p(f"font-size:22px;line-height:1.5;color:{VS['dim']}", "명령 팔레트<br>Windows Ctrl+Shift+P<br>Mac Cmd+Shift+P") + '</div>')
 op.append(f'<div style="position:absolute;left:{VL+2}px;top:{VT+VH-42}px;width:{VW-4}px;height:40px;background:{VS["bar"]};border-top:1px solid {VS["bd"]};border-radius:0 0 14px 14px;padding:0 20px;display:flex;flex-direction:row;gap:28px;align-items:center">'
           + f'<div style="display:flex;flex-direction:row;gap:8px;align-items:center">{branch_svg(VS["txt"], 22)}' + p(f"font-size:21px;color:{VS['txt']}", "main") + '</div>' + p(f"font-size:21px;color:{VS['txt']}", "⊗ 0  ⚠ 0")
-          + p(f"font-size:21px;color:{VS['txt']};border:2px solid {OR};border-radius:4px;padding:0 8px;line-height:30px", "Git Graph") + '</div>')
+          + p(f"font-size:21px;color:{VS['txt']};border:2px solid {OR};border-radius:4px;padding:0 8px;line-height:30px", "Git Graph", ' id="op-sb"') + '</div>')
 op.append(marker(1, VL + 300, VT + VH - 100, 2))
 op.append(marker(2, PX + 420 - 50, VT + 70, 3))
 op.append(marker(3, PX + VW - 82 - 70, VT + 10, 4))
+for k, tg in enumerate(["op-sb", "op-scm", "op-pal"]):
+    op += [spot(k + 2, target=tg, pad=10, r=10, dim=0.5), cursor(k + 2, target=tg, click=k < 2)]
+op += [spot_off(5), cursor_off(5)]
 op.append(steps_card(1176, 236, 648, 740, [("아래 상태 표시줄의 Git Graph", "가장 쉬워요"),
                                            ("소스 제어 탭 위의 그래프 아이콘", "왼쪽 막대의 갈래 모양 아이콘"),
                                            ("명령 팔레트에서 git graph", "View Git Graph (git log)를 골라요")],
@@ -407,6 +435,9 @@ MK = [(1, 104, MY, "그래프", "점과 선"), (2, 300, MY, "설명", "이름표
       (3, 1290, MY, "날짜", ""), (4, 1540, MY, "작성자", ""), (5, 1660, MY, "커밋 번호", "")]
 for n, x, y, _, _ in MK:
     ov.append(marker(n, x, y, n, BL))
+for n, (x0, x1) in enumerate([(116, 226), (226, 1284), (1284, 1544), (1544, 1654), (1654, 1804)], 1):
+    ov.append(spot(n, x0, 342, x1 - x0, 380, pad=4, r=10, dim=0.55))
+ov.append(spot_off(6))
 ov.append(f'<div data-build-in="rise order 6" style="position:absolute;left:96px;top:780px;width:1728px;display:flex;flex-direction:row;gap:20px">')
 for n, _, _, t1, t2 in MK:
     ov.append(f'<div style="flex:1;display:flex;flex-direction:row;gap:14px;align-items:center;background:#FFFFFF;border:2px solid {LINE};border-radius:16px;padding:20px 22px">'
@@ -509,7 +540,7 @@ scene("sc7", "실습 7 · 브랜치에서 커밋하면", 'git commit -m "feat: �
 scene("sc8", "실습 8 · main으로 돌아가 커밋하면", 'git checkout main → git commit', "sc8",
       [("$", "git checkout main"), ("o", "Switched to branch 'main'"), ("$", 'echo "실행 방법은 준비 중이에요" >> README.md'), ("$", "git add README.md"), ("$", 'git commit -m "docs: README에 실행 방법 추가"'), ("o", f"[main {h7('D')}] docs: README에 실행 방법 추가")],
       ("Activity", "길이 둘로<br>갈라졌어요", "분홍 선이 feature/login", OR),
-      "main으로 돌아와 README.md를 고쳐 커밋했어요. 이제 두 브랜치가 b9f30e50에서 서로 다른 커밋을 가졌어요. Git Graph는 feature/login 쪽을 오른쪽 분홍 선으로 따로 그려요. 03에서 그린 갈라진 길 그림과 같아요. 굵은 글씨와 빈 점이 다시 main으로 왔어요.")
+      "main으로 돌아와 README.md를 고쳐 커밋했어요. 이제 두 브랜치가 b9f30e50에서 서로 다른 커밋을 가졌어요. Git Graph는 feature/login 쪽을 오른쪽 분홍 선으로 따로 그려요. 03에서 그린 갈라진 길 그림과 같아요. 굵은 글씨와 빈 점이 다시 main으로 왔어요.", hot=(0, 1))
 scene("sc9", "실습 9 · merge하면", "git merge feature/login", "sc9",
       [("$", "git merge feature/login"), ("#", "# vim이 열리면 Esc, :wq, Enter"), ("o", "Merge made by the 'ort' strategy."), ("o", " login.md | 1 +"), ("o", " 1 file changed, 1 insertion(+)")],
       ("Link", "두 선이<br>merge 커밋에서 만나요", "점 하나에 선 두 개", BL),
@@ -525,15 +556,17 @@ EXP = 236
 g, ys = gg(ST["sc10"], T=200, tab=False, ctl=False, hdr=True, expand="C", expand_h=EXP, sel="C", pre="")
 dl += g
 cy = ys[2] + 24
-dl.append(f'<div data-build-in="rise order 1" style="position:absolute;left:226px;top:{cy+4}px;width:1590px;height:{EXP-12}px;background:#252526;border:1px solid {VS["bd"]};border-radius:8px;display:flex;flex-direction:row">'
+dl.append(cursor(1, 700, ys[2]))
+dl.append(f'<div data-build-in="rise order 2" style="position:absolute;left:226px;top:{cy+4}px;width:1590px;height:{EXP-12}px;background:#252526;border:1px solid {VS["bd"]};border-radius:8px;display:flex;flex-direction:row">'
           + f'<div style="flex:1;padding:18px 24px;display:flex;flex-direction:column;gap:2px;border-right:1px solid {VS["bd"]}">'
           + "".join(p(f"font-size:20px;line-height:1.45;color:{VS['txt']};white-space:nowrap", f"<b>{k_}</b> {e(v_)}") for k_, v_ in [("Commit:", C["C"][0]), ("Parents:", C["L"][0]), ("Author:", "kim <kim@example.com>"), ("Committer:", "kim <kim@example.com>"), ("Date:", "Thu Oct 29 2026 10:04:00 GMT+0900")])
           + p(f"font-size:20px;line-height:1.6;color:{VS['txt']};margin-top:8px", "feat: 비밀번호 찾기 추가") + '</div>'
           + '<div style="width:420px;flex:none;padding:18px 24px;display:flex;flex-direction:column;gap:10px">'
           + p(f"font-size:22px;color:{VS['txt']}", "📁 hello-git".replace("📁 ", ""))
-          + f'<div style="display:flex;flex-direction:row;gap:10px;align-items:center;border:2px solid {OR};border-radius:6px;padding:4px 10px">'
+          + f'<div id="dl-file" style="display:flex;flex-direction:row;gap:10px;align-items:center;border:2px solid {OR};border-radius:6px;padding:4px 10px">'
           + p(f"font-size:22px;color:#E2C08D", "login.md") + p(f"font-size:22px;color:{VS['txt']}", '(<span style="color:#7FD18B">+1</span>|<span style="color:#F28B82">-0</span>)') + '</div></div></div>')
-dl.append(f'<div data-build-in="rise order 2" style="position:absolute;left:96px;top:{200 + 44 + 6*48 + EXP + 14 + 26}px;width:1728px;display:flex;flex-direction:row;gap:28px;align-items:center;background:#FFFFFF;border:2px solid {LINE};border-radius:20px;padding:26px 36px">'
+dl.append(cursor(3, target="dl-file"))
+dl.append(f'<div data-build-in="rise order 3" style="position:absolute;left:96px;top:{200 + 44 + 6*48 + EXP + 14 + 26}px;width:1728px;display:flex;flex-direction:row;gap:28px;align-items:center;background:#FFFFFF;border:2px solid {LINE};border-radius:20px;padding:26px 36px">'
           f'<x-icon name="Search" style="width:52px;height:52px;color:{GR}"></x-icon>'
           + '<div style="display:flex;flex-direction:column;gap:8px">' + p(f"font-size:30px;font-weight:700;color:{INK}", "파일 이름을 누르면 04에서 본 diff 화면이 열려요")
           + p(f"font-size:24px;color:{SUB}", "터미널의 git show와 같은 내용이에요. 다시 누르면 닫혀요.") + '</div></div>')
@@ -544,9 +577,11 @@ ru = [sec("rule")] + head("쓸 때 주의", "명령은 터미널에서, 확인�
 g, ys = gg(ST["sc10"], L=96, T=236, W=1000, s=1.0, tab=False, ctl=False, hdr=False, full=False, nrows=6, pre="ru-", pad_top=10, sel="C")
 ru += g
 MENU = ["Add Tag...", "Create Branch...", "Checkout...", "Cherry Pick...", "Revert...", "Drop...", "Merge into current branch...", "Rebase current branch on this Commit...", "Reset current branch to this Commit...", "Copy Commit Hash to Clipboard"]
-ru.append(f'<div style="position:absolute;left:560px;top:{ys[2]+16}px;width:500px;background:#252526;border:1px solid #454545;border-radius:8px;padding:8px 0;display:flex;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,.35)">'
+ru.append(cursor(1, 520, ys[2]))
+ru.append(f'<div data-build-in="pop order 2" style="position:absolute;left:560px;top:{ys[2]+16}px;width:500px;background:#252526;border:1px solid #454545;border-radius:8px;padding:8px 0;display:flex;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,.35)">'
           + "".join(p(f"font-size:20px;line-height:36px;padding:0 20px;color:{VS['txt']}", e(m)) for m in MENU) + '</div>')
-ru.append(f'<div data-build-in="rise order 1" style="position:absolute;left:1136px;top:236px;width:688px;height:720px;background:#FFFFFF;border:2px solid {LINE};border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:22px">'
+ru.append(ring(3, 576, ys[2] + 16 + 8 + 6 * 36, 400, 3 * 36, RED))
+ru.append(f'<div data-build-in="rise order 3" style="position:absolute;left:1136px;top:236px;width:688px;height:720px;background:#FFFFFF;border:2px solid {LINE};border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:22px">'
           + f'<x-icon name="Warning" style="width:52px;height:52px;color:{OR}"></x-icon>'
           + p(f"font-size:32px;font-weight:700;line-height:1.4;color:{INK}", "오른쪽 클릭 메뉴로 checkout, merge, reset도 할 수 있어요")
           + p(f"font-size:26px;line-height:1.5;color:{SUB}", "수업에서는 메뉴를 쓰지 않아요. 무엇을 쳤는지 터미널에 남아야 오류가 났을 때 읽고 고칠 수 있어요.")

@@ -55,6 +55,8 @@ aside{display:none}
       // 2. fixed-height boxes whose content overflows
       for (const d of sec.querySelectorAll('div')) {
         if (d.closest('[style*="opacity:0"]')) continue;
+        // empty spotlight and pointer boxes (tools/highlight.py) are never painted
+        if (/^(spot|cursor|click)/.test(d.getAttribute('data-build-in') || '')) continue;
         if (d.scrollHeight > d.clientHeight + 2 && d.style.height) out.push(`box-overflow ${name(d).slice(0, 40)} by ${d.scrollHeight - d.clientHeight}`);
         const r = d.getBoundingClientRect();
         if (r.right > S.right - 40 || r.bottom > S.bottom - 40 || r.left < S.left + 40 || r.top < S.top + 30) out.push(`edge ${name(d).slice(0, 30)} ${Math.round(r.left)},${Math.round(r.top)},${Math.round(r.right)},${Math.round(r.bottom)}`);
