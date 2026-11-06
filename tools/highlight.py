@@ -2,7 +2,7 @@
 
 Import from a chapter's gen.py:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "tools"))
-    from highlight import spot, spot_off, cursor, cursor_off, ring, underline, TYPE
+    from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, TYPE
 
 The player (tools/build_player.js) runs them. export.js and check.js ignore them, so the PDF shows the
 slide's plain layout: spot and cursor boxes are empty, drawn lines are fully drawn, typed text is whole.
@@ -61,3 +61,8 @@ def underline(order, x1, x2, y, color=OR, width=5):
     n = max(2, round((x2 - x1) / 60))
     pts = " ".join(f"{x1 + (x2 - x1) * k / n:.0f},{y + (3 if k % 2 else -2)}" for k in range(1, n + 1))
     return _svg(order, f'<path d="M{x1},{y} L{pts}"/>', color, width)
+
+
+def box(order, x, y, w, h, color=RED, width=5, r=8):
+    """A pen-drawn rounded box. Use it instead of ring() around rows packed close together, like menu items."""
+    return _svg(order, f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{r}"/>', color, width)

@@ -122,6 +122,9 @@ main에 올리기 전에 매번 아래를 확인해요.
 4. 챕터 README(구성의 쪽 번호, 명령어 요약, 실습, 문제 해결), `curriculum.json`(한 줄 목표, 핵심 명령), 맨 위 README(과정 규칙)를 슬라이드에 맞춰 고쳐요. 그다음 `python3 tools/build_readme.py`로 표를 다시 만들어요.
 5. README의 실습 명령을 순서대로 쳤을 때 실제로 동작하는지 확인해요.
 6. HTML과 PDF를 다시 만들어요.
+7. 장마다 강조 기법을 상황에 맞게 골랐는지 `tools/HIGHLIGHT.md` 표로 봐요.
+8. `tools/DESIGN.md`의 디자인 규칙과 여백·정렬 검수를 따라요. 모든 장을 원본 크기로 한 장씩, 처음 화면과 끝 화면을 다 봐요.
+9. 아래 한국어 글쓰기 지침에 더해 `tools/DESIGN.md`의 AI 티 나는 말 목록으로 한 번 더 훑어요.
 
 ## 한국어 글쓰기 지침 (korean-humanizer)
 

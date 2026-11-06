@@ -9,7 +9,7 @@
 | 화면 캡처에서 누를 곳, 표의 한 줄이나 한 칸 | 구멍 스포트라이트 | `spot(순서, x, y, w, h)` 또는 `spot(순서, target="id")`, 끝에 `spot_off(순서)` |
 | 무엇을 어떤 순서로 누르는지 | 커서와 클릭 물결 | `cursor(순서, target="id")`, 끝에 `cursor_off(순서)` |
 | 터미널 명령 | 타자 치기 | 명령 줄에 `TYPE(순서)` 속성. 05의 `terminal(..., build=1)`이 명령마다 붙여요 |
-| 오류 메시지, 꼭 볼 한 단어 | 펜으로 동그라미, 밑줄 | `ring(순서, x, y, w, h, 색)`, `underline(순서, x1, x2, y, 색)` |
+| 오류 메시지, 꼭 볼 한 단어 | 펜으로 동그라미, 밑줄 | `ring(순서, x, y, w, h, 색)`, `underline(순서, x1, x2, y, 색)`. 메뉴 항목처럼 줄이 붙어 있으면 `box()` |
 | 코드 한 줄 | 줄 칠하기 | 챕터 `gen.py`의 `hl()` (지금 방식) |
 | 값이 다른 곳으로 옮겨 감 | 날아오기 | `data-build-in="fly order N" data-from="id"` |
 
@@ -17,7 +17,7 @@
 
 ```python
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, underline, TYPE
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, TYPE
 ```
 
 순서는 다른 `data-build-in`과 같은 번호를 써요. 같은 번호끼리는 한 번에 나와요. 예시는 05 챕터 `tools/gen.py`의 `scene()`, 설치 장, 화면 읽기 장이에요.

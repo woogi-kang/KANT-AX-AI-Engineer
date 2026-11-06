@@ -9,7 +9,7 @@ Usage: python3 tools/gen.py slides
 import html, os, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, underline, TYPE  # noqa: E402
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, TYPE  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -580,7 +580,7 @@ MENU = ["Add Tag...", "Create Branch...", "Checkout...", "Cherry Pick...", "Reve
 ru.append(cursor(1, 520, ys[2]))
 ru.append(f'<div data-build-in="pop order 2" style="position:absolute;left:560px;top:{ys[2]+16}px;width:500px;background:#252526;border:1px solid #454545;border-radius:8px;padding:8px 0;display:flex;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,.35)">'
           + "".join(p(f"font-size:20px;line-height:36px;padding:0 20px;color:{VS['txt']}", e(m)) for m in MENU) + '</div>')
-ru.append(ring(3, 576, ys[2] + 16 + 8 + 6 * 36, 400, 3 * 36, RED))
+ru.append(box(3, 566, ys[2] + 16 + 8 + 6 * 36 - 1, 480, 3 * 36 + 2, RED))
 ru.append(f'<div data-build-in="rise order 3" style="position:absolute;left:1136px;top:236px;width:688px;height:720px;background:#FFFFFF;border:2px solid {LINE};border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:22px">'
           + f'<x-icon name="Warning" style="width:52px;height:52px;color:{OR}"></x-icon>'
           + p(f"font-size:32px;font-weight:700;line-height:1.4;color:{INK}", "오른쪽 클릭 메뉴로 checkout, merge, reset도 할 수 있어요")
