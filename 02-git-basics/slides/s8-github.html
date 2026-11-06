@@ -1,35 +1,23 @@
-<section id="s8-github" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:48px">
-<div style="display:flex;flex-direction:column;gap:12px">
-<p style="font-size:26px;font-weight:700;color:#2459C9">실습 8 · GitHub과 연결하기</p>
-<h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">GitHub에 빈 저장소 만들기</h2>
-</div>
-<div style="display:flex;flex-direction:row;gap:20px;align-items:stretch">
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px 28px">
-<x-icon name="Globe" style="width:56px;height:56px;color:#5A3BB8"></x-icon>
-<p style="font-size:48px;font-weight:900;line-height:1.15;color:#5A3BB8">1</p>
-<p style="font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">github.com<br>→ New</p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px 28px">
-<x-icon name="Settings" style="width:56px;height:56px;color:#5A3BB8"></x-icon>
-<p style="font-size:48px;font-weight:900;line-height:1.15;color:#5A3BB8">2</p>
-<p style="font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">이름<br><span style="color:#5A3BB8">hello-git</span></p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:20px;padding:32px 28px">
-<x-icon name="Warning" style="width:56px;height:56px;color:#A33131"></x-icon>
-<p style="font-size:48px;font-weight:900;line-height:1.15;color:#A33131">3</p>
-<p style="font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">README 체크<br><span style="color:#A33131">해제</span></p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px 28px">
-<x-icon name="Link" style="width:56px;height:56px;color:#5A3BB8"></x-icon>
-<p style="font-size:48px;font-weight:900;line-height:1.15;color:#5A3BB8">4</p>
-<p style="font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">Create<br>→ 주소 복사</p>
-</div>
-</div>
-<div style="display:flex;flex-direction:row;gap:24px;align-items:center;background:#1B2029;border-radius:20px;padding:28px 36px">
-<x-icon name="Link" style="width:40px;height:40px;color:#C9B6FF"></x-icon>
-<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#F2C46D">https://github.com/kim/hello-git.git</p>
-<div style="flex:1"></div>
-<p style="font-size:24px;color:#9AA3B5">다음 장에서 씀</p>
-</div>
-<aside>README를 체크하면 GitHub에 커밋이 하나 생겨서, 내 컴퓨터의 커밋과 서로 모르는 기록이 돼요. 그러면 첫 push가 거절돼요. 처음엔 빈 저장소로 만드는 게 편해요. 주소는 HTTPS 탭의 주소를 복사해요.</aside>
+<section id="s8-github" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
+<p id="eyebrow" style="position:absolute;left:96px;top:56px;width:1728px;font-size:28px;font-weight:700;color:#2459C9">실습 8 · GitHub과 연결하기</p>
+<h2 id="title" style="position:absolute;left:96px;top:100px;width:1728px;font-size:58px;font-weight:700;line-height:1.2;color:#1D2330">GitHub에 빈 저장소를 만들어요</h2>
+<div style="position:absolute;left:96px;top:228px;width:1728px;height:740px;background:#FFFFFF;border:2px solid #D0D7DE;border-radius:18px;overflow:hidden"><div style="height:56px;background:#F6F8FA;border-bottom:2px solid #D0D7DE;display:flex;align-items:center;gap:12px;padding:0 24px"><x-shape kind="ellipse" style="width:16px;height:16px;background:#E5534B"></x-shape><x-shape kind="ellipse" style="width:16px;height:16px;background:#E3B341"></x-shape><x-shape kind="ellipse" style="width:16px;height:16px;background:#57AB5A"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;color:#57606A;margin-left:24px">github.com/new</p></div></div>
+<p style="position:absolute;left:160px;top:320px;width:900px;font-size:40px;font-weight:700;color:#1F2328">Create a new repository</p>
+<p style="position:absolute;left:160px;top:404px;width:900px;font-size:26px;font-weight:700;color:#1F2328">Repository name *</p>
+<div style="position:absolute;left:160px;top:450px;width:260px;height:64px;border:2px solid #D0D7DE;border-radius:10px;background:#F6F8FA;padding:0 18px;display:flex;align-items:center"><p style="font-size:28px;color:#1F2328">kim</p></div>
+<p style="position:absolute;left:436px;top:456px;width:30px;font-size:34px;color:#57606A">/</p>
+<div id="gh-name" style="position:absolute;left:472px;top:450px;width:460px;height:64px;border:2px solid #0969DA;border-radius:10px;padding:0 18px;display:flex;align-items:center"><p style="font-size:30px;font-weight:700;color:#1F2328">hello-git</p></div>
+<div style="position:absolute;left:160px;top:588px;width:820px;display:flex;flex-direction:row;gap:18px;align-items:center"><x-shape kind="ellipse" style="width:28px;height:28px;background:#FFFFFF;border:8px solid #0969DA"></x-shape><p style="font-size:28px;color:#1F2328">Public</p></div>
+<div id="gh-readme" style="position:absolute;left:160px;top:698px;width:520px;height:60px;display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:30px;height:30px;border:3px solid #57606A;border-radius:6px;background:#FFFFFF"></div><p style="font-size:28px;color:#1F2328">Add a README file</p></div>
+<p id="gh-create" style="position:absolute;left:160px;top:828px;width:330px;height:68px;line-height:68px;text-align:center;font-size:28px;font-weight:700;color:#FFFFFF;background:#1F883D;border-radius:10px">Create repository</p>
+<p data-build-in="fade order 1" style="position:absolute;left:960px;top:464px;width:420px;font-size:28px;font-weight:700;color:#B26A00">① 이름은 hello-git</p>
+<p data-build-in="fade order 2" style="position:absolute;left:490px;top:710px;width:420px;font-size:28px;font-weight:700;color:#B26A00">② README는 체크하지 않아요</p>
+<p data-build-in="fade order 3" style="position:absolute;left:530px;top:842px;width:420px;font-size:28px;font-weight:700;color:#B26A00">③ 만들기</p>
+<div data-build-in="rise order 4" style="position:absolute;left:1176px;top:588px;width:600px;height:308px;background:#DDF4FF;border:2px solid #54AEFF;border-radius:14px;padding:28px 30px;display:flex;flex-direction:column;gap:18px"><p style="font-size:28px;font-weight:700;color:#1F2328">Quick setup</p><div style="display:flex;flex-direction:row;gap:10px"><p style="font-size:24px;font-weight:700;color:#FFFFFF;background:#0969DA;padding:4px 16px;border-radius:8px">HTTPS</p><p style="font-size:24px;color:#57606A;padding:4px 16px">SSH</p></div><div style="display:flex;flex-direction:row;align-items:center;gap:14px;background:#FFFFFF;border:2px solid #D0D7DE;border-radius:10px;padding:12px 16px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;color:#1F2328;white-space:nowrap">https://github.com/kim/hello-git.git</p><div id="gh-copy"><x-icon name="Archive" style="width:28px;height:28px;color:#57606A"></x-icon></div></div><p style="font-size:26px;font-weight:700;color:#B26A00">④ 주소를 복사해 다음 장에서 써요</p></div>
+<div data-build-in="click order 1" data-target="gh-name" style="position:absolute;left:-1px;top:-1px;width:2px;height:2px"></div>
+<div data-build-in="cursor order 2" data-target="gh-readme" style="position:absolute;left:-1px;top:-1px;width:2px;height:2px"></div>
+<div data-build-in="click order 3" data-target="gh-create" style="position:absolute;left:-1px;top:-1px;width:2px;height:2px"></div>
+<div data-build-in="click order 4" data-target="gh-copy" style="position:absolute;left:-1px;top:-1px;width:2px;height:2px"></div>
+<div data-build-in="cursor-off order 5" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<aside>github.com에 로그인하고 오른쪽 위 + 버튼에서 New repository를 눌러요. 이름만 hello-git으로 적고 README는 체크하지 않아요. README를 체크하면 GitHub에 커밋이 하나 생겨서, 내 컴퓨터의 커밋과 서로 모르는 기록이 돼요. 그러면 첫 push가 거절돼요(42쪽). GitHub 화면이 바뀌어 README가 토글로 보이면 꺼진(Off) 채로 둬요. 만든 뒤 나오는 Quick setup에서 HTTPS 주소를 복사해요. 화면은 간단히 다시 그린 모습이라 실제와 조금 달라요.</aside>
 </section>

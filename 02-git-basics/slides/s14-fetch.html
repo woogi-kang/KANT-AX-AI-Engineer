@@ -1,4 +1,4 @@
-<section id="s14-fetch" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
+<section id="s14-fetch" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
 <div id="bracket" style="position:absolute;left:80px;top:184px;width:1280px;height:472px;border:2px dashed #B9BDC6;border-radius:28px"></div>
 <p id="eyebrow" style="position:absolute;left:96px;top:40px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">실습 14 · 다시 내 컴퓨터 (팀원이 README를 push함)</p>
 <h2 id="cmd" style="position:absolute;left:96px;top:90px;width:1728px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:52px;font-weight:700;line-height:1.15;color:#1D2330">git fetch origin</h2>
@@ -50,21 +50,23 @@
 <p id="lt-origin" style="position:absolute;left:1150px;top:352px;width:166px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/main</p>
 <p id="lt-main" style="position:absolute;left:1078px;top:408px;width:64px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
 <p id="rt-main" style="position:absolute;left:1558px;top:352px;width:64px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#6B47D6;color:#FFFFFF">main</p>
-<x-shape kind="arrow-left" data-build-in="fade" style="position:absolute;left:1348px;top:420px;width:40px;height:28px;background:#6B47D6"></x-shape>
-<div id="term" style="position:absolute;left:96px;top:676px;width:1150px;height:348px;background:#1B2029;border-radius:20px;padding:20px 24px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git fetch origin</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">From https://github.com/kim/hello-git</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">&#160;&#160;&#160;3f9a2c1..e73617d  main       -&gt; origin/main</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#F2C46D">$ git log --oneline origin/main</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">e73617d (origin/main) docs: README 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">3f9a2c1 (HEAD -&gt; main) feat: 끝인사 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">a7c21f4 feat: 인사말 추가</p>
-<p style="font-size:24px;line-height:1.3;white-space:nowrap;color:#D8DEE9">538dd06 feat: 인사 파일 추가</p>
+<x-shape kind="arrow-left" data-build-in="fade order 5" style="position:absolute;left:1348px;top:420px;width:40px;height:28px;background:#6B47D6"></x-shape>
+<div id="term" style="position:absolute;left:96px;top:676px;width:1150px;height:348px;background:#1B2029;border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p data-build-in="type order 1" style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git fetch origin</p>
+<p data-build-in="fade order 2" style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">From https://github.com/kim/hello-git</p>
+<p data-build-in="fade order 2" style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">&#160;&#160;&#160;3f9a2c1..e73617d  main       -&gt; origin/main</p>
+<p data-build-in="type order 3" style="font-size:24px;line-height:1.3;white-space:pre;font-weight:700;color:#F2C46D">$ git log --oneline origin/main</p>
+<p data-build-in="fade order 4" style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">e73617d (origin/main) docs: README 추가</p>
+<p data-build-in="fade order 4" style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">3f9a2c1 (HEAD -&gt; main) feat: 끝인사 추가</p>
+<p data-build-in="fade order 4" style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">a7c21f4 feat: 인사말 추가</p>
+<p data-build-in="fade order 4" style="font-size:24px;line-height:1.3;white-space:pre;color:#D8DEE9">538dd06 feat: 인사 파일 추가</p>
 </div>
-<div id="explain" data-build-in="rise" style="position:absolute;left:1278px;top:676px;width:546px;height:348px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+<div id="explain" data-build-in="rise order 6" style="position:absolute;left:1278px;top:676px;width:546px;height:348px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
 <x-icon name="Search" style="width:56px;height:56px;color:#6B47D6"></x-icon>
 <p style="font-size:34px;font-weight:700;line-height:1.35;color:#1D2330">받아만 왔어요</p>
 <p style="font-size:26px;line-height:1.45;color:#4A5262">origin/main만 이동<br>작업 폴더는 그대로</p>
 </div>
+<div data-build-in="spot order 5" data-pad="10" data-r="26px" style="position:absolute;left:912px;top:236px;width:912px;height:404px"></div>
+<div data-build-in="spot-off order 6" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>fetch는 GitHub의 새 소식을 받아 origin/main 이름표만 옮겨요. 내 main보다 앞선 커밋은 git log --oneline origin/main으로 봐요. 그냥 git log --oneline에는 내 main까지만 나와요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.</aside>
 </section>
