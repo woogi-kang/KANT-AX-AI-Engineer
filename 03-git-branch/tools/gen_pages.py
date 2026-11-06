@@ -28,6 +28,9 @@ def pill(x, y, text, kind="main", attrs=""):
 def code(text, bg="#EEEFF2", color="#1D2330", size=24):
     return f'<p style="font-family:{MONO};font-size:{size}px;font-weight:700;color:{color};background:{bg};padding:10px 16px;border-radius:10px">{text}</p>'
 BL, BLL, GR, GRL, OR, ORL = "#2459C9", "#9DB8F2", "#1F8A4C", "#9ED3B4", "#B26A00", "#E4C08A"
+HAIR = "#D9D6CD"   # 2px hairline that separates groups instead of a bordered card (Stageshow: compose, don't box)
+def vrule(x, top, h, attrs=""):
+    return f'<div{attrs} style="position:absolute;left:{x}px;top:{top}px;width:2px;height:{h}px;background:{HAIR}"></div>'
 
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:{SANS};padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
@@ -57,22 +60,21 @@ parts = [("Lightbulb", "#3A4150", "브랜치란?", "점, 이름표, HEAD", "3–
          ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "69–71쪽")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      '<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>',
-     '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;flex:1">']
+     '<div style="display:grid;grid-template-columns:repeat(3,1fr);column-gap:64px;flex:1">']
 for i, (ic, c, h, sub, pg) in enumerate(parts, 1):
-    t.append(f'<div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid {c};border-radius:20px;padding:24px 28px">'
-             f'<div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:52px;font-weight:900;line-height:1.1;color:{c}">{i}</p>'
-             f'<x-icon name="{ic}" style="width:40px;height:40px;color:{c}"></x-icon></div>'
-             f'<h3 style="font-size:32px;font-weight:700;color:#1D2330">{h}</h3>'
-             f'<p style="font-size:26px;line-height:1.4;color:#4A5262">{sub}</p><div style="flex:1"></div>'
-             f'<p style="font-size:24px;color:#6A7180">{pg}</p></div>')
+    t.append(f'<div style="display:flex;flex-direction:row;gap:28px;align-items:flex-start;border-top:2px solid {HAIR};padding:28px 0 0 0">'
+             f'<p style="width:56px;flex:none;font-size:56px;font-weight:900;line-height:1.2;margin-top:-8px;color:{c}">{i}</p>'
+             f'<div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#1D2330">{h}</h3>'
+             f'<p style="font-size:26px;line-height:1.4;color:#4A5262">{sub}</p><p style="font-size:24px;color:#9AA0AB">{pg}</p></div></div>')
 t += ['</div>', '<p style="font-size:26px;color:#4A5262">마지막 72쪽은 한 장 요약이에요.</p>',
       '<aside>02와 같은 hello-git 저장소로 이어서 실습해요. 2~6부는 커밋 그래프 하나가 계속 자라는 이야기예요. 7부는 충돌이 나는 다른 상황을 따로 모았어요.</aside>', '</section>']
 W("toc", "\n".join(t))
 
 # ---------- why ----------
 w = [sec("why"), head("브랜치란?", "왜 브랜치를 쓸까요?")]
-w.append('<div id="why-a" style="position:absolute;left:96px;top:250px;width:840px;height:620px;background:#FFFFFF;border:2px solid #E07A7A;border-radius:24px"></div>')
-w.append('<div id="why-b" style="position:absolute;left:984px;top:250px;width:840px;height:620px;background:#FFFFFF;border:2px solid #9ED3B4;border-radius:24px"></div>')
+w.append('<div id="why-a" style="position:absolute;left:96px;top:250px;width:840px;height:620px;border-radius:24px"></div>')
+w.append('<div id="why-b" style="position:absolute;left:984px;top:250px;width:840px;height:620px;border-radius:24px"></div>')
+w.append(vrule(959, 280, 560))
 w += [spot(1, target="why-a", pad=6, r=26), spot(2, target="why-b", pad=6, r=26), spot_off(3)]
 w.append(f'<div style="position:absolute;left:136px;top:296px;width:760px;display:flex;flex-direction:row;gap:14px;align-items:center"><x-icon name="Warning" style="width:44px;height:44px;color:#A33131"></x-icon><h3 style="font-size:34px;font-weight:700;color:#A33131">모두 main에 바로 커밋</h3></div>')
 w.append(f'<div style="position:absolute;left:1024px;top:296px;width:760px;display:flex;flex-direction:row;gap:14px;align-items:center"><x-icon name="CheckCircle" style="width:44px;height:44px;color:#1A7340"></x-icon><h3 style="font-size:34px;font-weight:700;color:#1A7340">각자 브랜치에서 작업</h3></div>')
@@ -112,12 +114,12 @@ n.append(f'<div style="position:absolute;left:96px;top:250px;width:1728px;height
 types = [("feature/", "새 기능", "feature/login-button", "#1A7340"), ("fix/", "버그 수정", "fix/login-error", "#A33131"),
          ("docs/", "문서", "docs/login-guide", "#1E3F8F"), ("refactor/", "구조 개선", "refactor/user-api", "#8A5200"),
          ("chore/", "설정, 패키지", "chore/eslint-setup", "#4A5262")]
-n.append('<div style="position:absolute;left:96px;top:450px;width:1728px;height:400px;display:flex;flex-direction:row;gap:16px">')
+n.append('<div style="position:absolute;left:96px;top:440px;width:1728px;display:flex;flex-direction:column">')
 for k, (a, b, c, col) in enumerate(types):
-    n.append(f'<div{" id=\"nm-feature\"" if k == 0 else ""} style="flex:1;display:flex;flex-direction:column;gap:18px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:36px 22px">'
-             f'<p style="font-family:{MONO};font-size:40px;font-weight:700;color:{col}">{a}</p>'
-             f'<p style="font-size:32px;font-weight:700;color:#1D2330">{b}</p><div style="flex:1"></div>'
-             f'<p style="font-family:{MONO};font-size:24px;line-height:1.4;color:#4A5262">{c.replace("/", "/<br>")}</p></div>')
+    n.append(f'<div{" id=\"nm-feature\"" if k == 0 else ""} style="display:flex;flex-direction:row;align-items:center;height:84px;padding:0 24px;border-bottom:2px solid {HAIR}">'
+             f'<p style="width:360px;flex:none;font-family:{MONO};font-size:40px;font-weight:700;color:{col}">{a}</p>'
+             f'<p style="width:420px;flex:none;font-size:34px;font-weight:700;color:#1D2330">{b}</p>'
+             f'<p style="font-family:{MONO};font-size:30px;color:#4A5262">{c}</p></div>')
 n.append('</div>')
 n.append(spot(1, target="nm-feature", pad=8, r=22))
 n.append(spot_off(2))
@@ -126,14 +128,15 @@ n.append('<aside>브랜치 이름 앞부분만 봐도 무슨 작업인지 알 �
 W("naming", "\n".join(n))
 n = [sec("naming-ok"), head("합치기 · 브랜치 이름", "이렇게 짓고, 이건 피해요")]
 n.append('<div style="position:absolute;left:96px;top:250px;width:1728px;height:620px;display:flex;flex-direction:row;gap:24px">')
-n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#F1FAF4;border:2px solid #4DB57A;border-radius:18px;padding:48px 44px">'
+n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:28px;padding:40px 44px 40px 0">'
          f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><x-icon name="CheckCircle" style="width:44px;height:44px;color:#1A7340"></x-icon><p style="font-size:34px;font-weight:700;color:#1A7340">이렇게</p></div>'
          f'<p style="font-family:{MONO};font-size:40px;line-height:1.5;color:#1D2330">feature/login-button</p>'
          f'<p style="font-family:{MONO};font-size:40px;line-height:1.5;color:#1D2330">fix/12-login-error<br><span style="font-family:{SANS};font-size:30px;color:#6A7180">이슈 12번</span></p></div>')
-n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FBE4E2;border:2px solid #E07A7A;border-radius:18px;padding:48px 44px">'
+n.append(vrule(863, 30, 560))
+n.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:28px;padding:40px 0 40px 44px">'
          f'<div style="display:flex;flex-direction:row;gap:12px;align-items:center"><x-icon name="Warning" style="width:44px;height:44px;color:#A33131"></x-icon><p style="font-size:34px;font-weight:700;color:#A33131">이건 피해요</p></div>'
-         f'<p style="font-family:{MONO};font-size:40px;line-height:1.5;color:#1D2330">login, 내작업, final2<br><span style="font-family:{SANS};font-size:30px;color:#6A7180">무슨 일인지 모름</span></p>'
-         f'<p style="font-family:{MONO};font-size:40px;line-height:1.5;color:#1D2330">Feature/Login Button<br><span style="font-family:{SANS};font-size:30px;color:#6A7180">대문자, 띄어쓰기</span></p></div>')
+         f'<p style="font-family:{MONO};font-size:40px;line-height:1.5;color:#A33131;text-decoration:line-through">login, 내작업, final2</p><p style="font-family:{SANS};font-size:30px;line-height:1.2;color:#6A7180;margin-top:-20px">무슨 일인지 모름</p>'
+         f'<p style="font-family:{MONO};font-size:40px;line-height:1.5;color:#A33131;text-decoration:line-through">Feature/Login Button</p><p style="font-family:{SANS};font-size:30px;line-height:1.2;color:#6A7180;margin-top:-20px">대문자, 띄어쓰기</p></div>')
 n.append('</div>')
 n.append('<p style="position:absolute;left:96px;top:916px;width:1728px;font-size:34px;font-weight:700;color:#1D2330">소문자와 하이픈(-)만 쓰고, 무슨 일인지 이름에 적어요.</p>')
 n.append('<aside>띄어쓰기는 명령어에서 이름이 끊기니 하이픈(-)으로 이어요. 대문자는 운영체제에 따라 헷갈릴 수 있어 소문자로 통일해요. 이슈 번호를 쓰는 팀이면 fix/12-login-error처럼 앞에 붙여요. 팀에 정해진 규칙이 있으면 그걸 따라요.</aside></section>')
@@ -143,9 +146,9 @@ W("naming-ok", "\n".join(n))
 m = [sec("merge-kinds", "#ECEAE3"), head("개념 정리", "merge는 두 가지 모습으로 끝나요")]
 for i, (title, sub, col) in enumerate([("Fast-forward", "main에 새 커밋이 없을 때<br>이름표만 앞으로 당겨요", BL), ("merge 커밋", "양쪽에 새 커밋이 있을 때<br>둘을 잇는 커밋을 새로 만들어요", OR)]):
     L = 96 + i * 888
-    m.append(f'<div style="position:absolute;left:{L}px;top:260px;width:840px;height:600px;background:#FDFCF9;border-radius:24px"></div>')
     m.append(f'<h3 style="position:absolute;left:{L+40}px;top:296px;width:760px;font-size:36px;font-weight:700;color:{col}">{title}</h3>')
     m.append(f'<p style="position:absolute;left:{L+40}px;top:720px;width:760px;font-size:28px;line-height:1.45;color:#1D2330">{sub}</p>')
+m.append(vrule(959, 280, 560))
 # FF
 ym, yu = 560, 430
 m += [hline(176, 400, ym, BLL), conn(400, ym, 520, yu, GRL), hline(520, 660, yu, GRL)]
@@ -180,7 +183,7 @@ for k, (a, b, col, txt) in enumerate(notes):
     y1, y2 = 350 + a*64, 350 + b*64 + 50
     c.append(f'<div data-build-in="fade order {k+1}" style="position:absolute;left:880px;top:{y1}px;width:10px;height:{y2-y1}px;background:{col};border-radius:5px"></div>')
     c.append(f'<p data-build-in="fade order {k+1}" style="position:absolute;left:912px;top:{(y1+y2)//2 - 20}px;width:420px;font-size:28px;font-weight:700;color:{col}">{txt}</p>')
-c.append(f'<div data-build-in="rise order 3" style="position:absolute;left:1360px;top:260px;width:464px;height:600px;background:#FFFFFF;border-radius:24px;padding:36px;display:flex;flex-direction:column;gap:22px">'
+c.append(f'<div data-build-in="rise order 3" style="position:absolute;left:1360px;top:260px;width:464px;height:600px;border-left:2px solid #C9C5BA;padding:8px 0 8px 40px;display:flex;flex-direction:column;gap:22px">'
          f'<h3 style="font-size:32px;font-weight:700;color:#1D2330">푸는 순서</h3>'
          f'<p style="font-size:26px;line-height:1.4;color:#1D2330"><span style="color:#A33131">1</span> 남길 내용으로 고치기<br><span style="color:#6A7180">둘 다 남겨도 돼요</span></p>'
          f'<p style="font-size:26px;line-height:1.4;color:#1D2330"><span style="color:#A33131">2</span> 표시 세 줄 지우고 저장</p>'
@@ -198,20 +201,17 @@ steps = [("Link", "git checkout<br>-b feature/<br>login-button", "브랜치 만�
          ("Chat", "Pull Request", "합쳐 달라고 요청", "#5A3BB8", "#F6F2FE", "#9A7BF0"),
          ("Users", "리뷰 → Merge", "확인하고 합치기", "#5A3BB8", "#F6F2FE", "#9A7BF0"),
          ("Home", "git checkout main<br>git fetch origin<br>git pull origin main", "내 main 맞추기", "#2459C9", "#F0F5FE", "#5B8DEF")]
+f.append('<div style="position:absolute;left:126px;top:425px;width:1668px;height:6px;background:#C9C5BA;border-radius:3px"></div>')
 for i, (ic, cmd, lab, col, bg, bd) in enumerate(steps):
     L = 96 + i * 292
-    f.append(f'<div data-build-in="rise order {i+1}" style="position:absolute;left:{L}px;top:330px;width:260px;height:460px;background:{bg};border:2px solid {bd};border-radius:22px;padding:28px 22px;display:flex;flex-direction:column;gap:16px">'
-             f'<p style="font-size:44px;font-weight:900;line-height:1.15;color:{col}">{i+1}</p>'
-             f'<x-icon name="{ic}" style="width:52px;height:52px;color:{col}"></x-icon>'
-             f'<p style="font-size:28px;font-weight:700;color:#1D2330">{lab}</p>'
-             f'<p style="font-family:{MONO};font-size:24px;line-height:1.4;font-weight:700;color:{col}">{cmd}</p></div>')
-f.append('<div style="position:absolute;left:96px;top:270px;width:844px;height:6px;background:#5B8DEF;border-radius:3px"></div>')
-f.append('<p style="position:absolute;left:96px;top:226px;width:500px;font-size:24px;font-weight:700;color:#1E3F8F">내 컴퓨터</p>')
-f.append('<div style="position:absolute;left:972px;top:270px;width:552px;height:6px;background:#9A7BF0;border-radius:3px"></div>')
-f.append('<p style="position:absolute;left:972px;top:226px;width:500px;font-size:24px;font-weight:700;color:#5A3BB8">GitHub 웹사이트</p>')
-f.append('<div style="position:absolute;left:1556px;top:270px;width:268px;height:6px;background:#5B8DEF;border-radius:3px"></div>')
-f.append('<p style="position:absolute;left:1556px;top:226px;width:268px;font-size:24px;font-weight:700;color:#1E3F8F">내 컴퓨터</p>')
-f.append('<p style="position:absolute;left:96px;top:850px;width:1728px;font-size:30px;font-weight:700;color:#1D2330">main에는 직접 push하지 않아요. 6번을 마치면 다음 브랜치는 1번부터 다시 시작해요.</p>')
+    f.append(f'<p data-build-in="rise order {i+1}" style="position:absolute;left:{L}px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:{col};border-radius:30px">{i+1}</p>')
+    f.append(f'<div data-build-in="rise order {i+1}" style="position:absolute;left:{L}px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px">'
+             f'<p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">{lab}</p>'
+             f'<p style="font-family:{MONO};font-size:24px;line-height:1.45;font-weight:700;color:{col}">{cmd}</p></div>')
+for L, w_, col, name in ((96, 844, "#5B8DEF", "내 컴퓨터"), (972, 552, "#9A7BF0", "GitHub 웹사이트"), (1556, 268, "#5B8DEF", "내 컴퓨터")):
+    f.append(f'<div style="position:absolute;left:{L}px;top:316px;width:{w_}px;height:4px;background:{col};border-radius:2px"></div>')
+    f.append(f'<p style="position:absolute;left:{L}px;top:264px;width:{w_}px;font-size:28px;font-weight:700;color:{"#5A3BB8" if "GitHub" in name else "#1E3F8F"}">{name}</p>')
+f.append('<p style="position:absolute;left:96px;top:900px;width:1728px;font-size:32px;font-weight:700;color:#1D2330">main에는 직접 push하지 않아요. 6번을 마치면 다음 브랜치는 1번부터 다시 시작해요.</p>')
 f.append('<aside>Pull Request(PR)는 "내 브랜치를 main에 합쳐 주세요"라는 요청서예요. 팀원이 바뀐 코드를 보고 의견을 남긴 뒤 합쳐요. 혼자 하는 프로젝트에서도 PR로 합치면 무엇을 언제 바꿨는지 기록이 깔끔하게 남아요.</aside></section>')
 W("pr-flow", "\n".join(f))
 
@@ -242,8 +242,7 @@ W("pr-github", "\n".join(g))
 
 # ---------- strategy ----------
 s = [sec("strategy"), head("GitHub에서 함께 · 브랜치 전략", "우리는 GitHub Flow로 일해요", "#6B47D6")]
-s.append('<div style="position:absolute;left:96px;top:260px;width:1728px;height:300px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>')
-ym, yu = 470, 340
+ym, yu = 500, 370
 s.append(hline(160, 1760, ym, BLL))
 br = [(300, 560, "feature/login", "green", GR, GRL), (720, 980, "fix/12-login-error", "orange", OR, ORL), (1140, 1440, "docs/login-guide", "green", GR, GRL)]
 for k, (a, b, name, kind, col, light) in enumerate(br):
@@ -255,13 +254,13 @@ for x in (160, 300, 720, 1140, 1760):
 s.append(pill(1760, ym + 36, "main", "main"))
 rules = [("main은 늘 동작하는 상태.<br>직접 커밋하지 않아요", "Lock"), ("일 하나 = 브랜치 하나.<br>이름은 타입/하는 일", "Link"),
          ("작게 자주 Pull Request", "Chat"), ("merge 뒤 브랜치는 지워요", "CheckCircle")]
-s.append('<div style="position:absolute;left:96px;top:600px;width:1728px;display:flex;flex-direction:row;gap:20px">')
+s.append(f'<div style="position:absolute;left:96px;top:640px;width:1728px;display:flex;flex-direction:row;gap:48px;border-top:2px solid {HAIR};padding-top:32px">')
 for i, (txt, ic) in enumerate(rules):
-    s.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:24px">'
-             f'<x-icon name="{ic}" style="width:44px;height:44px;color:#5A3BB8"></x-icon>'
-             f'<p style="font-size:26px;font-weight:700;line-height:1.4;color:#1D2330">{txt}</p></div>')
+    s.append(f'<div data-build-in="rise order {i+1}" style="flex:1;display:flex;flex-direction:row;gap:16px">'
+             f'<p style="font-size:30px;font-weight:900;line-height:1.4;color:#5A3BB8">{i+1}</p>'
+             f'<p style="font-size:30px;font-weight:700;line-height:1.4;color:#1D2330">{txt}</p></div>')
 s.append('</div>')
-s.append('<p style="position:absolute;left:96px;top:880px;width:1728px;font-size:24px;color:#4A5262">Git Flow(develop, release 브랜치를 따로 두는 방식)는 배포 일정이 복잡한 회사에서 써요. 처음엔 GitHub Flow면 충분해요.</p>')
+s.append('<p style="position:absolute;left:96px;top:916px;width:1728px;font-size:26px;color:#4A5262">Git Flow(develop, release 브랜치를 따로 두는 방식)는 배포 일정이 복잡한 회사에서 써요. 처음엔 GitHub Flow면 충분해요.</p>')
 s.append('<aside>GitHub Flow는 main 하나와 짧게 쓰고 지우는 작업 브랜치로만 일하는 방식이에요. 갈래가 길어질수록 main과 멀어져 충돌이 커지니, 하루 이틀 안에 합칠 수 있는 크기로 나눠요. GitHub 저장소 설정에서 main 브랜치 보호(Branch protection)를 켜면 main에 직접 push를 막고 PR로만 합치게 할 수 있어요.</aside></section>')
 W("strategy", "\n".join(s))
 
@@ -277,11 +276,11 @@ def errpage(i, eyebrow, title, panels, aside):
          f'<h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">{title}</h2></div>',
          '<div style="display:flex;flex-direction:row;gap:32px;flex:1">']
     for k, (ic, h, err, why, fixes) in enumerate(panels):
-        o.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:20px;background:#FDFCF9;border-radius:20px;padding:32px">'
+        o.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:20px;padding:32px">'
                  f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="{ic}" style="width:48px;height:48px;color:#A33131"></x-icon><h3 style="font-size:34px;font-weight:700;color:#1D2330">{h}</h3></div>'
                  f'<p id="{i}-e{k}" style="font-family:{MONO};font-size:{26 if len(panels) > 1 else 28}px;line-height:1.45;color:#F28B82;background:#1B2029;padding:20px 24px;border-radius:12px">{err}</p>'
-                 f'<p style="font-size:30px;line-height:1.45;color:#4A5262">{why}</p><div style="flex:1"></div>'
-                 f'<div data-build-in="rise order {len(panels) + 1}" style="display:flex;flex-direction:column;gap:12px">' + "".join(code(x, size=28) for x in fixes) + '</div></div>')
+                 f'<p style="font-size:30px;line-height:1.45;color:#4A5262">{why}</p>'
+                 f'<div data-build-in="rise order {len(panels) + 1}" style="display:flex;flex-direction:column;gap:12px;margin-top:28px;border-top:2px solid #C9C5BA;padding-top:32px">' + "".join(code(x, size=28) for x in fixes) + '</div></div>')
         if (i, k) in ERR_BOX:
             o.append(box(k + 1, *ERR_BOX[(i, k)], "#A33131"))
     o += ['</div>', f'<aside>{aside}</aside>', '</section>']
@@ -309,18 +308,18 @@ cards = [("브랜치", "#1A7340", "#FFFFFF", "#1D2330", "git branch<br>git branc
          ("합치기", "#2459C9", "#FFFFFF", "#1D2330", "git checkout main<br>git merge 이름<br><br>push 전에 취소<br>git reset --hard HEAD~1"),
          ("충돌", "#A33131", "#FFFFFF", "#1D2330", "파일에서 고르기<br>표시 세 줄 지우기<br>git add 파일<br>git commit -m &quot;...&quot;<br>막히면 git merge --abort"),
          ("GitHub과 함께", "#F6F5F1", "#1D2330", "#F2C46D", "git push origin 이름<br>→ Pull Request<br>→ Merge<br>git checkout main<br>git fetch origin<br>git pull origin main")]
-for h, hc, bg, tc, body in cards:
-    bd = "" if bg == "#1D2330" else "border:2px solid #E1DED6;"
-    ch.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:{bg};{bd}border-radius:20px;padding:32px 28px">'
-              f'<h3 style="font-size:32px;font-weight:700;color:{hc}">{h}</h3>'
-              f'<p style="font-family:{MONO};font-size:24px;line-height:1.7;color:{tc}">{body}</p></div>')
+for k, (h, hc, bg, tc, body) in enumerate(cards):
+    hc, tc = ("#5A3BB8", "#1D2330") if bg == "#1D2330" else (hc, tc)
+    bd = "" if k == 0 else f"border-left:2px solid {HAIR};"
+    ch.append(f'<div style="flex:1;display:flex;flex-direction:column;gap:16px;{bd}padding:8px 28px">'
+              f'<h3 style="font-size:36px;font-weight:700;color:{hc}">{h}</h3>'
+              f'<p style="font-family:{MONO};font-size:24px;line-height:1.8;color:{tc}">{body}</p></div>')
 ch += ['</div>', f'<p style="font-size:28px;font-weight:700;color:#1D2330">브랜치 이름: <span style="color:#1A7340">feature/login-button</span> · main에는 직접 커밋하지 않기</p>',
        '<aside>수업 끝에 이 장을 띄워 두고, 칠판에 그래프를 그리며 명령마다 이름표와 HEAD가 어디로 가는지 학생이 직접 말해 보게 하세요.</aside>', '</section>']
 W("cheatsheet", "\n".join(ch))
 
 # ---------- merge-how ----------
 h = [sec("merge-how"), head("합치기", "merge는 받는 쪽에서 해요")]
-h.append('<div style="position:absolute;left:96px;top:240px;width:1728px;height:400px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>')
 ym, yu = 500, 360
 h += [hline(240, 600, ym, BLL), conn(600, ym, 760, yu, GRL), hline(760, 940, yu, GRL)]
 for x, hs in ((240, "9e6cce4"), (420, "5ec913c"), (600, "d6b044a")):
@@ -342,9 +341,9 @@ for i, (t, k, a, b) in enumerate(leg):
              f'<p style="font-size:26px;color:#4A5262">{b}</p></div>')
 h.append('<div style="position:absolute;left:1100px;top:290px;width:4px;height:300px;background:#E1DED6"></div>')
 steps = [("1", "받을 브랜치로 이동", "git checkout main", BL), ("2", "가져올 브랜치 이름을 적어요", "git merge feature/login", GR)]
-h.append('<div style="position:absolute;left:96px;top:680px;width:1728px;display:flex;flex-direction:row;gap:24px">')
+h.append(f'<div style="position:absolute;left:96px;top:690px;width:1728px;display:flex;flex-direction:row;gap:24px;border-top:2px solid {HAIR};padding-top:36px">')
 for n_, t, cmd, col in steps:
-    h.append(f'<div data-build-in="rise order {n_}" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:28px 32px">'
+    h.append(f'<div data-build-in="rise order {n_}" style="flex:1;display:flex;flex-direction:row;gap:24px;align-items:center">'
              f'<p style="width:64px;height:64px;flex:none;font-size:34px;font-weight:900;line-height:64px;text-align:center;color:#FFFFFF;background:{col};border-radius:32px">{n_}</p>'
              f'<div style="display:flex;flex-direction:column;gap:12px"><p style="font-size:28px;font-weight:700;color:#1D2330">{t}</p>'
              f'<p style="font-family:{MONO};font-size:30px;font-weight:700;color:#1D2330">{cmd}</p></div></div>')
@@ -465,9 +464,9 @@ sw = ['<div style="position:absolute;left:96px;top:250px;width:1728px;display:gr
 for t, fg, bg in [("git checkout", "#1D2330", "#E1DED6"), ("git switch", "#FFFFFF", "#2459C9")]:
     sw.append(f'<p style="font-family:{MONO};font-size:30px;font-weight:700;text-align:center;color:{fg};background:{bg};padding:16px;border-radius:14px">{t}</p>')
 for k, (what, a, b) in enumerate([("브랜치로 옮겨 가기", "git checkout 이름", "git switch 이름"), ("만들고 바로 옮겨 가기", "git checkout -b 이름", "git switch -c 이름")]):
-    sw.append(f'<p data-build-in="fade order {k+1}" style="font-size:30px;font-weight:700;color:#1D2330;padding:24px 8px">{what}</p>')
+    sw.append(f'<p data-build-in="fade order {k+1}" style="font-size:30px;font-weight:700;color:#1D2330;border-bottom:2px solid {HAIR};padding:22px 8px">{what}</p>')
     for c in (a, b):
-        sw.append(f'<p data-build-in="fade order {k+1}" style="font-family:{MONO};font-size:30px;font-weight:700;text-align:center;color:#1D2330;background:#FFFFFF;border:2px solid #E1DED6;padding:22px 16px;border-radius:14px">{c}</p>')
+        sw.append(f'<p data-build-in="fade order {k+1}" style="font-family:{MONO};font-size:30px;font-weight:700;text-align:center;color:#1D2330;border-bottom:2px solid {HAIR};padding:22px 16px">{c}</p>')
 sw.append('</div>')
 sw.append(term(96, 560, 1728, [("$", "git switch feature/login"), ("o", "Switched to branch 'feature/login'"),
                               ("$", "git switch -c feature/login-button"), ("o", "Switched to a new branch 'feature/login-button'")], ' data-build-in="fade order 3"'))
@@ -481,13 +480,15 @@ cases = [("CheckCircle", "#1A7340", "#F1FAF4", "#4DB57A", "다른 파일을 고�
          ("CheckCircle", "#1A7340", "#F1FAF4", "#4DB57A", "같은 파일, 멀리 떨어진 줄", "알아서 합쳐요"),
          ("Warning", RED, "#FBE4E2", "#E07A7A", "같은 줄, 바로 옆 줄", "충돌: 사람이 골라요"),
          ("Warning", RED, "#FBE4E2", "#E07A7A", "한쪽은 지우고, 한쪽은 고침", "충돌: 사람이 골라요")]
-cw = ['<div style="position:absolute;left:96px;top:250px;width:1728px;height:620px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:24px">']
-for k, (ic, col, bg, bd, h, r) in enumerate(cases):
-    cw.append(f'<div data-build-in="rise order {k+1}" style="display:flex;flex-direction:row;gap:24px;align-items:center;background:{bg};border:2px solid {bd};border-radius:22px;padding:40px 48px">'
-              f'<x-icon name="{ic}" style="width:72px;height:72px;color:{col}"></x-icon>'
-              f'<div style="display:flex;flex-direction:column;gap:14px"><p style="font-size:40px;font-weight:700;color:#1D2330">{h}</p>'
-              f'<p style="font-size:32px;font-weight:700;color:{col}">{r}</p></div></div>')
-cw.append('</div>')
+cw = [vrule(959, 280, 560)]
+for g, (ic, col, head_) in enumerate([("CheckCircle", "#1A7340", "Git이 알아서 합쳐요"), ("Warning", RED, "충돌: 사람이 골라요")]):
+    L = 96 + g * 912
+    cw.append(f'<div data-build-in="rise order {2*g+1}" style="position:absolute;left:{L}px;top:290px;width:816px;display:flex;flex-direction:row;gap:18px;align-items:center">'
+              f'<x-icon name="{ic}" style="width:56px;height:56px;color:{col}"></x-icon><p style="font-size:40px;font-weight:700;color:{col}">{head_}</p></div>')
+    for j in range(2):
+        k = 2 * g + j
+        cw.append(f'<p data-build-in="rise order {k+1}" style="position:absolute;left:{L}px;top:{430 + j*180}px;width:816px;font-size:44px;font-weight:700;line-height:1.3;color:#1D2330;'
+                  f'border-top:2px solid {HAIR};padding-top:40px">{cases[k][4]}</p>')
 cw.append(takeaway("충돌은 Git이 고를 수 없는 곳만 사람에게 물어보는 거예요.", 916, order=5))
 page("conflict-when", "충돌 풀기", "충돌은 언제 나요?", cw,
      "양쪽 브랜치가 같은 곳을 다르게 고쳤을 때만 충돌이 나요. 다른 파일이나 멀리 떨어진 줄은 Git이 알아서 합쳐요. 바로 옆 줄도 한 덩어리로 봐서 충돌이 나요(시나리오 2). 충돌은 고장이 아니에요.")
@@ -526,7 +527,7 @@ scen("sc-delete", EBS + " 3 · 지움 vs 고침", "한쪽은 파일을 지우고
      "파일 안에 충돌 표시가 없어요. 지울지 남길지만 정하면 돼요.",
      "main은 old-login.md에 아이디 한 줄을 더했고, chore/remove-old-login은 old-login.md를 지웠어요(git rm). CONFLICT 줄 끝의 Version HEAD of old-login.md left in tree.는 화면 폭 때문에 뺐어요. main 쪽 old-login.md가 폴더에 남아 있다는 뜻이에요.")
 choice = lambda L, ic, col, bg, bd, h, cmd, out, k: (
-    f'<div data-build-in="rise order {k}" style="position:absolute;left:{L}px;top:520px;width:840px;height:300px;background:{bg};border:2px solid {bd};border-radius:22px;padding:32px 40px;display:flex;flex-direction:column;gap:16px">'
+    f'<div data-build-in="rise order {k}" style="position:absolute;left:{L}px;top:520px;width:840px;height:300px;border-top:4px solid {bd};padding:32px 0;display:flex;flex-direction:column;gap:16px">'
     f'<div style="display:flex;flex-direction:row;gap:16px;align-items:center"><x-icon name="{ic}" style="width:44px;height:44px;color:{col}"></x-icon><p style="font-size:34px;font-weight:700;color:{col}">{h}</p></div>'
     f'<p style="font-family:{MONO};font-size:32px;font-weight:700;color:#1D2330">{cmd}</p>'
     f'<p style="font-family:{MONO};font-size:32px;font-weight:700;color:#1D2330">{out}</p></div>')
@@ -567,9 +568,9 @@ scen("sc-pull", EBP, "팀원이 먼저 같은 줄을 push했어요",
 page("pull-config", EBP, "처음 한 번만 설정해요", [
     f'<div style="position:absolute;left:96px;top:250px;width:1728px;height:180px;background:#1D2330;border-radius:24px;display:flex;flex-direction:row;align-items:center;padding:0 48px">'
     f'<p style="font-family:{MONO};font-size:48px;font-weight:700;color:#F2C46D">git config --global pull.rebase false</p></div>',
-    '<div style="position:absolute;left:96px;top:480px;width:1728px;height:380px;display:flex;flex-direction:row;gap:24px;align-items:stretch">'
-    + "".join(f'<div data-build-in="rise order {k+1}" style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:48px 40px;justify-content:center">'
-              f'<p style="font-family:{MONO};font-size:48px;font-weight:700;color:{c}">{a}</p><p style="font-size:32px;color:#4A5262">{b}</p></div>'
+    '<div style="position:absolute;left:96px;top:520px;width:1728px;height:300px;display:flex;flex-direction:row;gap:24px;align-items:center">'
+    + "".join(f'<div data-build-in="rise order {k+1}" style="flex:1;display:flex;flex-direction:column;gap:16px;padding:0 0 0 {0 if k == 0 else 40}px;justify-content:center">'
+              f'<p style="font-family:{MONO};font-size:64px;font-weight:700;color:{c}">{a}</p><p style="font-size:32px;color:#4A5262">{b}</p></div>'
               for k, (a, b, c) in enumerate([("git pull", "pull은 두 단계예요", "#1D2330"), ("= fetch", "GitHub 커밋을 받아 오고", "#6B47D6"),
                                               ("+ merge", "내 main과 합쳐요", "#2459C9")]))
     + '</div>',
@@ -618,9 +619,11 @@ rows = [("CONFLICT (content)", "같은 줄, 옆 줄", "고르고, 표시 지우�
         ("CONFLICT (add/add)", "같은 이름 새 파일", "고르고, 표시 지우고, add, commit"),
         ("fatal: Need to specify how to reconcile ...", "갈라진 채 pull", "git config --global pull.rebase false"),
         ("This branch has conflicts ...", "PR 충돌", "내 브랜치에서 pull origin main, 풀고 push")]
-cs = ['<div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column;gap:14px">']
+cs = [f'<div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column">',
+      '<div style="display:flex;flex-direction:row;gap:24px;padding:0 8px 14px 8px;border-bottom:2px solid #9AA0AB">'
+      + "".join(f'<p style="{w_}font-size:24px;font-weight:700;color:#6A7180">{t}</p>' for w_, t in (("width:720px;flex:none;", "메시지"), ("width:280px;flex:none;", "상황"), ("", "푸는 법"))) + '</div>']
 for k, (msg, sit, fix) in enumerate(rows):
-    cs.append(f'<div data-build-in="fade order {k+1}" style="display:flex;flex-direction:row;gap:24px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:22px 32px">'
+    cs.append(f'<div data-build-in="fade order {k+1}" style="display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {HAIR};padding:26px 8px">'
               f'<p style="width:720px;flex:none;font-family:{MONO};font-size:26px;font-weight:700;color:{RED}">{msg}</p>'
               f'<p style="width:280px;flex:none;font-size:28px;font-weight:700;color:#1D2330">{sit}</p>'
               f'<p style="font-size:28px;color:#4A5262">{fix}</p></div>')
@@ -634,10 +637,10 @@ UC = "#8A5200"
 rz = []
 for i, (title, sub) in enumerate([("케이스 1 · 일반 커밋", "실수한 커밋 하나를 빼요"), ("케이스 2 · merge 커밋", "합친 것을 없던 일로 해요")]):
     L = 96 + i * 888
-    rz.append(f'<div data-build-in="fade order {i+1}" style="position:absolute;left:{L}px;top:250px;width:840px;height:470px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:24px"></div>')
     rz.append(f'<p data-build-in="fade order {i+1}" style="position:absolute;left:{L+40}px;top:280px;width:760px;font-size:34px;font-weight:700;color:{UC}">{title}</p>')
     rz.append(f'<p data-build-in="fade order {i+1}" style="position:absolute;left:{L+40}px;top:336px;width:760px;font-size:28px;color:#4A5262">{sub}</p>')
 ym, yu, o0 = 560, 450, 96
+rz.append(vrule(959, 270, 430))
 rz += [hline(o0 + 100, o0 + 560, ym, BLL)]
 for x in (100, 300, 500):
     rz.append(node(o0 + x, ym, BL, 22))
@@ -685,9 +688,9 @@ uw = [("충돌이 나서 merge가 멈췄어요", "git merge --abort", "합치기
       ("커밋했는데 아직 push 전이에요", "git reset HEAD~1", "고친 내용은 작업 폴더에 남아요", "#1A7340"),
       ("merge를 끝냈고, 아직 push 전이에요", "git reset --hard HEAD~1", "git status가 깨끗한지 먼저 봐요", UC),
       ("push까지 했어요", "git revert 커밋", "merge 커밋이면 팀에 먼저 알려요", RED)]
-wb = ['<div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column;gap:16px">']
+wb = [f'<div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column;border-top:2px solid {HAIR}">']
 for k, (sit, cmd, tip, col) in enumerate(uw):
-    wb.append(f'<div data-build-in="rise order {k+1}" style="display:flex;flex-direction:row;gap:32px;align-items:center;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid {col};border-radius:20px;padding:22px 40px">'
+    wb.append(f'<div data-build-in="rise order {k+1}" style="display:flex;flex-direction:row;gap:32px;align-items:center;border-bottom:2px solid {HAIR};padding:22px 8px">'
               f'<p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">{sit}</p>'
               f'<div style="display:flex;flex-direction:column;gap:8px"><p style="font-family:{MONO};font-size:32px;font-weight:700;color:{col}">{cmd}</p>'
               f'<p style="font-size:26px;color:#4A5262">{tip}</p></div></div>')

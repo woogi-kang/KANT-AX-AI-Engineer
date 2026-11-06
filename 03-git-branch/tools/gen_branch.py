@@ -1,8 +1,10 @@
 """Generates the commit-graph scenes for the Git branch deck.
 
-One idea per scene: a sentence title, the command in a terminal strip, a large commit graph
-(nodes, edges, branch name tags, HEAD) and one caption. Elements keep the same id across
-scenes so the magic transition animates only what the command changed.
+One idea per scene: a sentence title, the command in a terminal that is only as wide as its lines,
+and the commit graph as the hero (nodes, edges, branch name tags, HEAD) drawn large on the slide
+itself, with no panel behind it. What changed gets one short label with a leader line (NOTE table),
+in place of a caption under the picture. Elements keep the same id across scenes so the magic
+transition animates only what the command changed. Design rules: tools/DESIGN.md (Stageshow).
 Terminal output was captured from git 2.43 (see README).
 Usage: python3 tools/gen_branch.py slides
 """
@@ -15,10 +17,11 @@ OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
 MONO = "'JetBrains Mono', 'Noto Sans KR', monospace"
 
-PANEL = dict(left=96, top=432, w=1728, h=512)
-LANE = {"up": 590, "main": 730}           # node centre y
-X0, STEP = 300, 200                       # node centre x of the first visible column
-R = 26                                    # node radius
+LANE = {"up": 640, "main": 820}           # node centre y
+X0, STEP = 240, 226                       # node centre x of the first visible column
+R = 36                                    # node radius
+TAG_FS, TAG_H, TAG_GAP = 30, 44, 10       # branch name tags: font size, height, gap between stacked tags
+ANCH = {}                                 # element boxes (x, y, w, h) of the scene being drawn, for NOTE
 
 COL = {  # branch colours: (node/tag fill, light edge)
     "main": ("#2459C9", "#9DB8F2"),
@@ -48,11 +51,11 @@ def cx(col, off):
 
 
 def tag_w(text):
-    return round(len(text) * 15.5 + 32)
+    return round(len(text) * TAG_FS * 0.6 + 36)
 
 
 TERM_TOP, TERM_PAD, TERM_GAP = 196, 22, 4
-CMD_SIZE, OUT_SIZE = 32, 26
+CMD_SIZE, OUT_SIZE = 30, 24
 
 
 def text_w(t, size):
@@ -69,11 +72,11 @@ def scene(sec_id, eyebrow, title, term=None, caption="", transition="magic", eye
     o.append(p(f"position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:{eyebrow_color}", e(eyebrow), ' id="eyebrow"'))
     o.append(f'<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">{title}</h2>')
     n, prev = start, None
-    hot = HOT.get(sec_id) if hot is None else hot
     err = ERR.get(sec_id) if err is None else err
     scene.lines = []
     if term:
-        o.append(f'<div id="term" style="position:absolute;left:96px;top:{TERM_TOP}px;width:1728px;background:#1B2029;border-radius:20px;padding:{TERM_PAD}px 32px;display:flex;flex-direction:column;gap:{TERM_GAP}px;font-family:{MONO}">')
+        tw_ = max(text_w(("$ " if k == "$" else "") + t.replace("\t", "    "), CMD_SIZE if k == "$" else OUT_SIZE) for k, t in term)
+        o.append(f'<div id="term" style="position:absolute;left:96px;top:{TERM_TOP}px;width:{min(1728, max(640, round(tw_ + 96)))}px;background:#1B2029;border-radius:20px;padding:{TERM_PAD}px 32px;display:flex;flex-direction:column;gap:{TERM_GAP}px;font-family:{MONO}">')
         y = TERM_TOP + TERM_PAD
         for kind, text in term:
             t = e(text).replace("\t", "&#160;" * 4)
@@ -98,21 +101,12 @@ def scene(sec_id, eyebrow, title, term=None, caption="", transition="magic", eye
             else:
                 o.append(p(f"font-size:{size}px;line-height:1.35;white-space:nowrap;color:{TERM_COLORS[kind]}", t, at))
         o.append('</div>')
-    o.append(f'<div id="panel" style="position:absolute;left:{PANEL["left"]}px;top:{PANEL["top"]}px;width:{PANEL["w"]}px;height:{PANEL["h"]}px;background:#FDFCF9;border:2px solid #E1DED6;border-radius:24px"></div>')
     if err is not None:
         n += 1
         x, y, w, h = scene.lines[err]
         o.append(box(n, round(x - 10), round(y - 2), round(w + 20), round(h + 4), "#A33131"))
-    scene.pending = None
-    if hot is not None:
-        n += 1
-        if isinstance(hot, str) and hot.startswith("n-"):
-            scene.pending = (n, hot[2:])         # graph() adds the spot around the dot and its hash
-        else:
-            o.append(spot(n, *hot, pad=14) if isinstance(hot, tuple) else spot(n, target=hot, pad=14))
-        o.append(spot_off(n + 1))
-    if caption:
-        o.append(p(f"position:absolute;left:96px;top:972px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330", caption, f' id="caption" data-build-in="rise order {n + 1}"'))
+    scene.next = n + 1
+    ANCH.clear()
     scene.last = n
     return o
 
@@ -120,11 +114,15 @@ def scene(sec_id, eyebrow, title, term=None, caption="", transition="magic", eye
 def graph(nodes, edges, tags, head=None, off=0, ghost_edges=()):
     """nodes: {hash: (col, lane, colour, kind)}  kind: n | merge | ghost (not made yet) | far (only on GitHub)
     edges: [(from_hash, to_hash)]   tags: [(name, hash, kind)] stacked in list order per node
-    head: name of the tag HEAD points at"""
+    head: name of the tag HEAD points at
+    With no commit on the upper row the graph sits in the middle of the free space; when a branch gets
+    its own commit the main row moves down to make room (the magic transition carries it)."""
     o = []
+    two = any(v[1] == "up" for v in nodes.values())
+    LANE.update({"up": 600, "main": 780} if two else {"up": 520, "main": 680})
     if off:
         y = LANE["main"]
-        o.append(f'<div id="e-past" style="position:absolute;left:{PANEL["left"] + 32}px;top:{y - 3}px;width:{X0 - R - PANEL["left"] - 40}px;height:6px;border-top:6px dotted #C3C8D2"></div>')
+        o.append(f'<div id="e-past" style="position:absolute;left:112px;top:{y - 3}px;width:{X0 - R - 128}px;height:6px;border-top:6px dotted #C3C8D2"></div>')
     for a, b in edges:
         ca, la, colour_a, _ = nodes[a]
         cb, lb, colour_b, kb = nodes[b]
@@ -147,9 +145,8 @@ def graph(nodes, edges, tags, head=None, off=0, ghost_edges=()):
         o.append(f'<div id="n-{h}" style="position:absolute;left:{x - R}px;top:{y - R}px;width:{2 * R}px;height:{2 * R}px;border-radius:50%;{st}"></div>')
         label = "?" if kind == "ghost" else h
         hc = "#6A7180" if kind in ("ghost", "far", "gone") else "#1D2330"
-        o.append(p(f"position:absolute;left:{x - 70}px;top:{y + R + 2}px;width:140px;font-family:{MONO};font-size:24px;font-weight:700;text-align:center;color:{hc}", e(label), f' id="h-{h}"'))
-        if getattr(scene, "pending", None) and scene.pending[1] == h:
-            o.append(spot(scene.pending[0], x - 66, y - R - 8, 132, 2 * R + 46, pad=6, r=16))
+        o.append(p(f"position:absolute;left:{x - 80}px;top:{y + R + 4}px;width:160px;font-family:{MONO};font-size:28px;font-weight:700;line-height:1.2;text-align:center;color:{hc}", e(label), f' id="h-{h}"'))
+        ANCH["n:" + h] = (x - R, y - R, 2 * R, 2 * R)
     stack = {}
     for name, h, kind, *pos in tags:
         col, lane, _, _ = nodes[h]
@@ -160,30 +157,35 @@ def graph(nodes, edges, tags, head=None, off=0, ghost_edges=()):
             stack[h] = i + 1
         x = cx(col, off) + dx
         w = tag_w(name)
-        top = (LANE[lane] + R + 38 + i * 46) if lane == "main" else (LANE[lane] - R - 56 - i * 46)
+        top = (LANE[lane] + R + 48 + i * (TAG_H + TAG_GAP)) if lane == "main" else (LANE[lane] - R - 16 - TAG_H - i * (TAG_H + TAG_GAP))
         tid = "t-" + name.replace("/", "-")
-        o.append(p(f"position:absolute;left:{x - w // 2}px;top:{top}px;width:{w}px;font-family:{MONO};font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;{TAG_KIND[kind]}", e(name), f' id="{tid}"'))
+        o.append(p(f"position:absolute;left:{x - w // 2}px;top:{top}px;width:{w}px;height:{TAG_H}px;font-family:{MONO};font-size:{TAG_FS}px;font-weight:700;line-height:{TAG_H}px;text-align:center;border-radius:8px;{TAG_KIND[kind]}", e(name), f' id="{tid}"'))
+        ANCH["t:" + name] = (x - w // 2, top, w, TAG_H)
         if name == head:
-            o.append(p(f"position:absolute;left:{x - w // 2 + w + 10}px;top:{top}px;width:112px;font-family:{MONO};font-size:26px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1", "◀ HEAD", ' id="t-head"'))
+            hw = tag_w("◀ HEAD")
+            o.append(p(f"position:absolute;left:{x - w // 2 + w + 10}px;top:{top}px;width:{hw}px;height:{TAG_H}px;font-family:{MONO};font-size:{TAG_FS}px;font-weight:700;line-height:{TAG_H}px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1", "◀ HEAD", ' id="t-head"'))
+            ANCH["t:HEAD"] = (x - w // 2 + w + 10, top, hw, TAG_H)
     return o
 
 
-def card(title, lines, top=466):
-    """A small file card at the right of the graph panel. lines: [(text, colour_key)]  g = changed line."""
+def card(title, lines, top=TERM_TOP):
+    """The file as it is now, in the right column beside the terminal. lines: [(text, colour_key)]  g = changed line."""
     c = {"o": "#1D2330", "g": "#1A7340", "b": "#1E3F8F", "x": "#9AA0AB"}
     bg = {"g": "#DDF2E5", "b": "#DCE7FB"}
-    o = [f'<div id="card" style="position:absolute;left:1430px;top:{top}px;width:370px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:20px 24px;display:flex;flex-direction:column;gap:8px">']
-    o.append(p("font-size:24px;font-weight:700;color:#4A5262", e(title)))
+    o = [f'<div id="card" style="position:absolute;left:1364px;top:{top}px;width:460px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:24px 28px;display:flex;flex-direction:column;gap:10px">']
+    o.append(p("font-size:26px;font-weight:700;color:#4A5262", e(title)))
     for text, k in lines:
-        extra = f";background:{bg[k]};border-radius:4px;padding:0 6px" if k in bg else ""
+        extra = f";background:{bg[k]};border-radius:6px;padding:0 10px;margin:0 -10px" if k in bg else ""
         deco = ";text-decoration:line-through" if k == "x" else ""
-        o.append(p(f"font-family:{MONO};font-size:26px;line-height:1.4;white-space:nowrap;color:{c[k]}{extra}{deco}", e(text)))
+        o.append(p(f"font-family:{MONO};font-size:30px;line-height:1.4;white-space:nowrap;color:{c[k]}{extra}{deco}", e(text)))
+    ANCH["card"] = (1364, top, 460, 24 * 2 + 36 + len(lines) * 52)
     o.append('</div>')
     return o
 
 
 ZONES = [("③ 내 저장소", "#F0F5FE", "#9DB8F2", "#1E3F8F"), ("② 대기실", "#F1FAF4", "#9ED3B4", "#1A7340"),
          ("① 작업 폴더", "#FFFFFF", "#D5D9E0", "#3A4150")]
+ZT, ZH = TERM_TOP, 136                    # zones column: top, height of one zone
 CHIP = {0: "background:#DCE7FB;color:#1E3F8F", 1: "background:#DDF2E5;color:#1A7340", 2: "background:#FBE4E2;color:#A33131"}
 
 
@@ -191,31 +193,113 @@ def zones(where=None, text=""):
     """Three zones at the right of the graph panel. where: 0 repo, 1 staging, 2 working dir, None = the change is gone."""
     o = []
     for i, (name, bg, bd, fg) in enumerate(ZONES):
-        top = 452 + i * 164
-        o.append(f'<div id="z{i}" style="position:absolute;left:1330px;top:{top}px;width:474px;height:148px;background:{bg};border:2px solid {bd};border-radius:16px"></div>')
-        o.append(p(f"position:absolute;left:1352px;top:{top + 12}px;width:430px;font-size:24px;font-weight:700;color:{fg}", e(name), f' id="zl{i}"'))
+        top = ZT + i * (ZH + 14)
+        o.append(f'<div id="z{i}" style="position:absolute;left:1364px;top:{top}px;width:460px;height:{ZH}px;background:{bg};border:2px solid {bd};border-radius:16px"></div>')
+        o.append(p(f"position:absolute;left:1388px;top:{top + 14}px;width:412px;font-size:26px;font-weight:700;line-height:1.3;color:{fg}", e(name), f' id="zl{i}"'))
+    ANCH["zones"] = (1364, ZT, 460, 3 * ZH + 28)
     if where is not None:
-        top = 452 + where * 164 + 62
-        o.append(p(f"position:absolute;left:1352px;top:{top}px;width:430px;font-family:{MONO};font-size:26px;font-weight:700;line-height:1.7;padding:0 14px;border-radius:8px;{CHIP[where]}", e(text), ' id="z-chip"'))
+        top = ZT + where * (ZH + 14) + 62
+        o.append(p(f"position:absolute;left:1388px;top:{top}px;width:412px;font-family:{MONO};font-size:28px;font-weight:700;line-height:1.6;padding:0 14px;border-radius:8px;{CHIP[where]}", e(text), ' id="z-chip"'))
     return o
 
 
+NOTE_FS = 32
+
+
+def note(sec_id):
+    """One short label beside what changed, tied to it by a leader line that is drawn on like a pen,
+    after the command. NOTE[sec_id] = (text, anchor key in ANCH, side r/l/u/d)."""
+    if sec_id not in NOTE:
+        return []
+    text, key, side = NOTE[sec_id][:3]
+    k = scene.next
+    ax, ay, aw, ah = ANCH[key]
+    lines = text.count("<br>") + 1
+    nh = round(NOTE_FS * 1.35 * lines)
+    nw = round(max(text_w(t, NOTE_FS) for t in text.split("<br>"))) + 8
+    gap, run = 10, 56
+    if side == "r" and ax + aw + gap + run + 14 + nw > 1824:
+        side = "ur"                           # no room on the right: above, reading rightwards from the leader
+    if side == "r":
+        x1, y1 = ax + aw + gap, ay + ah / 2
+        x2, y2 = x1 + run, y1
+        nx, ny = x2 + 14, y1 - nh / 2
+    elif side == "l":
+        x1, y1 = ax - gap, ay + ah / 2
+        x2, y2 = x1 - run, y1
+        nx, ny = x2 - 14 - nw, y1 - nh / 2
+    elif side == "ur":                        # left edge just left of the leader, so it clears the column to the left
+        x1, y1 = ax + aw / 2, ay - gap
+        x2, y2 = x1, y1 - run
+        nx, ny = x1 - 30, y2 - 10 - nh
+    elif side == "u":
+        x1, y1 = ax + aw / 2, ay - gap
+        x2, y2 = x1, y1 - run
+        nx, ny = x1 - nw / 2, y2 - 10 - nh
+    else:
+        x1, y1 = ax + aw / 2, ay + ah + gap
+        x2, y2 = x1, y1 + run
+        nx, ny = x1 - nw / 2, y2 + 10
+    if len(NOTE[sec_id]) > 3:                 # optional nudge of the label (dx, dy) to clear a neighbour
+        nx, ny = nx + NOTE[sec_id][3][0], ny + NOTE[sec_id][3][1]
+    nx = max(96, min(1824 - nw, nx))
+    ink = "#4A5262"
+    return [f'<svg data-build-in="draw order {k}" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible">'
+            f'<g fill="none" stroke="{ink}" stroke-width="3" stroke-linecap="round"><path d="M{x1:.0f},{y1:.0f} L{x2:.0f},{y2:.0f}"/></g>'
+            f'</svg>',
+            f'<svg data-build-in="fade order {k}" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible">'
+            f'<circle cx="{x1:.0f}" cy="{y1:.0f}" r="6" fill="{ink}"/></svg>',
+            p(f"position:absolute;left:{nx:.0f}px;top:{ny:.0f}px;width:{nw}px;font-size:{NOTE_FS}px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330",
+              text, f' id="note" data-build-in="fade order {k}"')]
+
+
 def write(sec_id, parts, notes):
+    parts = parts + note(sec_id)
     with open(os.path.join(OUT, f"{sec_id}.html"), "w") as f:
         f.write("\n".join(parts) + f"\n<aside>{e(notes)}</aside>\n</section>\n")
 
 
-# What the spot lights up after the command (ids from graph(), zones(), card()). Boxes are (x, y, w, h).
-_D, _E, _F, _G, _M, _X, _RZ, _P = "eb05b65", "4e60a09", "29bd96c", "f0e6c3e", "486cb9c", "42209fe", "a4c0a4f", "4776218"
-ZONES_BOX = (1330, 452, 474, 476)
-HOT = {"g1-dots": (250, 690, 500, 110), "g2-main": "t-main", "g3-head": "t-head", "b1-list": "t-head", "b2-create": "t-feature-login",
-       "b3-move": "t-head", "b4-commit": "n-" + _D, "b5-commit2": "n-" + _E, "b6-back": "t-head", "b7-ff": "t-main",
-       "b8-delete": (850, 690, 300, 110), "d1-create": "t-docs-login-guide", "d2-commit": "n-" + _F, "d3-back": "t-head",
-       "d4-main": "n-" + _G, "d5-merge": "n-" + _M, "r1-oops": "n-" + _X, "r2-soft": "z-chip", "r3-mixed": "z-chip", "r4-hard": ZONES_BOX,
-       "u1-oops": "z-chip", "u2-soft": "z-chip", "u3-mixed": "z-chip", "u4-hard": ZONES_BOX, "u5-again": "n-" + _M, "d6-delete": "n-" + _F,
-       "c1-korean": "card", "c2-main": "card", "c4-resolve": "n-" + _RZ, "p0-branch": "n-" + _P, "p1-push": "t-origin-feature-login-button",
-       "p2-merged": "n-0e04baf", "p3-fetch": "t-origin-main", "p3-log": "t-origin-main", "p3-pull": "t-main",
-       "p4-delete": "t-origin-feature-login-button", "p5-next": "t-feature-login-error"}
+# The label for what changed: (text, anchor, side[, (dx, dy)]). Anchors: n:<hash>, t:<branch name>, t:HEAD, card, zones.
+_A, _C, _D, _E, _F, _G, _M, _X = "9e6cce4", "d6b044a", "eb05b65", "4e60a09", "29bd96c", "f0e6c3e", "486cb9c", "42209fe"
+_RZ, _P, _Q = "a4c0a4f", "4776218", "0e04baf"
+NOTE = {"g1-dots": ("오른쪽 점이 가장 최근 커밋", "n:" + _C, "r"),
+        "g2-main": ("main 이름표는 마지막 커밋에 붙어요", "t:main", "r"),
+        "g3-head": ("HEAD가 붙은 이름표가 지금 브랜치", "t:HEAD", "r"),
+        "b1-list": ("그래프에선 HEAD가 붙은 이름표", "t:HEAD", "r"),
+        "b2-create": ("커밋은 그대로, 이름표만 하나 더", "t:feature/login", "r"),
+        "b3-move": ("HEAD만 옆 이름표로 왔어요", "t:HEAD", "r"),
+        "b4-commit": ("main은 제자리", "t:main", "r"),
+        "b5-commit2": ("브랜치에서 여러 번 커밋해도 돼요", "n:" + _E, "r"),
+        "b6-back": ("HEAD만 main으로 돌아왔어요", "t:HEAD", "r"),
+        "b7-ff": ("main 이름표가 당겨졌어요", "t:HEAD", "r"),
+        "b8-delete": ("이름표만 떼요. 커밋은 그대로", "n:" + _E, "r"),
+        "d1-create": ("만들고 바로 옮겨 왔어요", "t:HEAD", "d"),
+        "d2-commit": ("docs/login-guide만 한 칸 앞으로", "t:docs/login-guide", "u"),
+        "d3-back": ("이번엔 main에서도 커밋해요", "t:main", "l"),
+        "d4-main": ("양쪽에 커밋이 하나씩", "n:" + _G, "r"),
+        "d5-merge": ("부모가 둘인 merge 커밋", "n:" + _M, "ur"),
+        "r1-oops": ("이 커밋을 없던 일로 해 볼게요", "n:" + _X, "u", (-60, -24)),
+        "r2-soft": ("oops 줄은 대기실에 남아요", "zones", "d"),
+        "r3-mixed": ("oops 줄은 작업 폴더에 남아요", "zones", "d"),
+        "r4-hard": ("oops 줄이 어디에도 없어요", "zones", "d"),
+        "u1-oops": ("merge로 들어온 줄은 내 저장소에", "zones", "d"),
+        "u2-soft": ("합쳐 온 변경이 대기실에 남아요", "zones", "d"),
+        "u3-mixed": ("합쳐 온 변경이 작업 폴더에 남아요", "zones", "d"),
+        "u4-hard": ("세 칸 모두 merge 전 모습", "zones", "d"),
+        "u5-again": ("브랜치가 있어서 다시 합쳤어요", "n:" + _M, "ur"),
+        "d6-delete": ("커밋은 main 기록 안에 남아요", "n:" + _F, "r"),
+        "c1-korean": ("첫 줄을 # 로그인하기로", "card", "d"),
+        "c2-main": ("같은 줄을 # 로그인 페이지로", "card", "d"),
+        "c3-conflict": ("Git이 고르지 못하고 멈췄어요", "n:" + _RZ, "ur"),
+        "c4-resolve": ("두 길을 잇는 merge 커밋", "n:" + _RZ, "ur"),
+        "p0-branch": ("아직 내 컴퓨터에만 있어요", "n:" + _P, "r"),
+        "p1-push": ("GitHub에도 생긴 브랜치", "t:origin/feature/login-button", "r"),
+        "p2-merged": ("아직 GitHub에만 있는 커밋", "n:" + _Q, "ur"),
+        "p3-fetch": ("origin/main만 앞으로", "n:" + _Q, "ur"),
+        "p3-log": ("main보다 앞서 있으면 pull할 차례", "n:" + _Q, "ur"),
+        "p3-pull": ("main이 origin/main과 같은 곳에", "n:" + _Q, "ur"),
+        "p4-delete": ("내 컴퓨터의 이름표만 지웠어요", "n:" + _P, "r"),
+        "p5-next": ("최신 main에서 새로 따요", "t:HEAD", "r")}
 ERR = {"c3-conflict": 1}
 
 # ---------- the story (hashes from a real run, see README) ----------
@@ -253,7 +337,7 @@ write("g3-head", o, "HEAD는 지금 내가 서 있는 브랜치를 가리켜요.
 
 # ---------- 2. 만들고 옮기기 ----------
 EB2 = "만들고 옮기기"
-o = scene("b1-list", EB2, "브랜치 목록 보기", [("$", "git branch"), ("g", "* main")], "* 표시가 지금 있는 브랜치예요. 그래프의 HEAD와 같은 뜻이에요.")
+o = scene("b1-list", EB2, "* 표시가 지금 있는 브랜치예요", [("$", "git branch"), ("g", "* main")], "* 표시가 지금 있는 브랜치예요. 그래프의 HEAD와 같은 뜻이에요.")
 o += graph(base, base_e, [("main", C, "main")], head="main")
 write("b1-list", o, "git branch는 목록만 보여 줘요. 아직 main 하나뿐이에요.")
 
@@ -280,7 +364,7 @@ o = scene("b5-commit2", EB2, "한 번 더 커밋하면 한 칸 더", [("$", "git
 o += graph(n5, e5, [("main", C, "main"), (FB, E_, "green")], head=FB)
 write("b5-commit2", o, "login.md에 비밀번호 줄을 더하고 커밋했어요. main은 계속 처음 모습이라 언제든 돌아갈 수 있어요.")
 
-o = scene("b6-back", EB2, "main으로 돌아가기", [("$", "git checkout main"), ("o", "Switched to branch 'main'")], "HEAD만 main으로 돌아왔어요.")
+o = scene("b6-back", EB2, "main으로 돌아와도 feature/login 커밋은 남아요", [("$", "git checkout main"), ("o", "Switched to branch 'main'")], "HEAD만 main으로 돌아왔어요.")
 o += graph(n5, e5, [("main", C, "main"), (FB, E_, "green")], head="main")
 write("b6-back", o, "HEAD가 main으로 옮겨 갔어요. 다음 장에서 작업 폴더 파일도 같이 바뀌는 걸 봐요.")
 
@@ -293,7 +377,7 @@ write("b7-ff", o, "main이 갈라진 뒤 main에는 커밋이 없었어요. 그�
 
 n8 = dict(base); n8[D] = (3, "main", "main", "n"); n8[E_] = (4, "main", "main", "n")
 e8 = base_e + [(C, D), (D, E_)]
-o = scene("b8-delete", EB3, "다 쓴 브랜치 지우기", [("$", f"git branch -d {FB}"), ("o", f"Deleted branch {FB} (was {E_}).")],
+o = scene("b8-delete", EB3, "합친 브랜치는 -d로 지워요", [("$", f"git branch -d {FB}"), ("o", f"Deleted branch {FB} (was {E_}).")],
           "이름표만 떼요. 커밋은 main에 한 줄로 남아요.")
 o += graph(n8, e8, [("main", E_, "main")], head="main")
 write("b8-delete", o, "-d는 이미 합친 브랜치만 지워요. 합치지 않은 브랜치는 경고를 내고 멈춰요(막힐 때 파트). 위로 그렸던 커밋은 이제 main의 한 줄이에요.")
@@ -307,12 +391,12 @@ o = scene("d1-create", EB4, f"새 브랜치 {DU} 만들고 옮겨 가기", [("$"
 o += graph(n8, e8, [("main", E_, "main"), (DU, E_, "orange")], head=DU)
 write("d1-create", o, "git checkout -b docs/login-guide는 git branch docs/login-guide와 git checkout docs/login-guide를 한 번에 친 것과 같아요. 문서 작업이라 이름을 docs/로 시작했어요.")
 
-o = scene("d2-commit", EB4, f"{DU}에서 커밋", [("$", "git add README.md"), ("$", 'git commit -m "docs: README에 로그인 안내 추가"'),
+o = scene("d2-commit", EB4, f"{DU}에서 커밋해요", [("$", "git add README.md"), ("$", 'git commit -m "docs: README에 로그인 안내 추가"'),
           ("o", f"[{DU} {F}] docs: README에 로그인 안내 추가")], f"{DU}만 한 칸 앞으로 가요.")
 o += graph(n9, e9, [("main", E_, "main"), (DU, F, "orange")], head=DU)
 write("d2-commit", o, "README.md에 로그인 방법은 login.md를 봐요라는 안내를 넣고 커밋했어요.")
 
-o = scene("d3-back", EB4, "다시 main으로", [("$", "git checkout main"), ("o", "Switched to branch 'main'")], "이번엔 main에서도 커밋해 볼게요.")
+o = scene("d3-back", EB4, "다시 main으로 돌아와요", [("$", "git checkout main"), ("o", "Switched to branch 'main'")], "이번엔 main에서도 커밋해 볼게요.")
 o += graph(n9, e9, [("main", E_, "main"), (DU, F, "orange")], head="main")
 write("d3-back", o, "팀에서는 내가 브랜치에서 일하는 동안 다른 사람 작업이 main에 들어오는 일이 흔해요. 그 상황을 혼자 만들어 봐요.")
 
