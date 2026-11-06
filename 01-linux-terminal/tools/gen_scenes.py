@@ -3,12 +3,12 @@
 Layout (2026-11-06, after the Stageshow skill): the folder map is the hero and sits on the page without a
 panel. What changed is named by a short label beside its node, not by a badge box. The terminal is only as
 tall as its lines, and the one-sentence takeaway sits under it as plain text, not in a card.
-Clicks on every scene: each command is typed, its output comes in, the changed rows light up with their
-labels, and last the takeaway comes in."""
+Clicks on every scene (two only, so flipping stays quick): the terminal is whole from the start; click 1 lights
+up the changed rows with their labels (and underlines an error), click 2 brings in the takeaway."""
 import html, math, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, underline, TYPE  # noqa: E402
+from highlight import spot, spot_off, underline  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -182,8 +182,8 @@ PT, PB, DOTS = 24, 30, 34      # terminal padding top/bottom, dot row + its gap
 
 def terminal(lines, size=None):
     """lines: (kind, text). kind: $ prompt line 'path|command', o output, r error, l ls -l line, # comment.
-    The window is as tall as its lines. Each command is typed on its own click and its output lines come in
-    together on the next click. An error line gets a red pen underline as it appears."""
+    The window is as tall as its lines and shows all of them from the start (no typing).
+    An error line gets a red pen underline on click 1."""
     if size is None:
         longest = max(len(t.replace("|", " $ ")) for _, t in lines)
         size = next(z for z in (34, 30, 28, 26, 24) if longest * z * 0.6 <= TWD - 56)
@@ -196,16 +196,12 @@ def terminal(lines, size=None):
              + '</div>')
     col = {"o": "#D8DEE9", "r": "#F28B82", "#": "#9AA3B5"}
     for k, (kind, text) in enumerate(lines):
-        if kind == "$":
-            cur += 1
-        elif prev == "$":
-            cur += 1
-        at = f' data-build-in="fade order {cur}"' if cur else ""
+        at = ""
         prev = kind
         st = f"font-size:{size}px;line-height:{lh}px;height:{lh}px;white-space:nowrap;"
         if kind == "$":
             where, cmd = text.split("|", 1)
-            t = f'<span style="color:#8FB3FF">{e(where)} $</span> <span{TYPE(cur)}>{e(cmd)}</span>'
+            t = f'<span style="color:#8FB3FF">{e(where)} $</span> <span>{e(cmd)}</span>'
             o.append(p(st + "color:#F2C46D", t, at))
         elif kind == "l":
             t = f'<span style="color:#7FD18B">{e(text[0])}</span>' + e(text[1:]).replace("  ", "&#160;&#160;")
@@ -215,7 +211,7 @@ def terminal(lines, size=None):
             o.append(p(st + f"color:{col[kind]}", t, at))
         if kind == "r":
             y = TT + PT + DOTS + k * (lh + 4) + lh - 2
-            u = underline(cur, TL + 28, round(TL + 28 + len(text) * size * 0.6), y, color="#E5534B")
+            u = underline(1, TL + 28, round(TL + 28 + len(text) * size * 0.6), y, color="#E5534B")
             marks.append(u.replace("position:absolute;left:0;top:0;", "position:absolute;left:0;top:__Y0__px;", 1))
     o.append('</div>')
     STATE["n"] = cur

@@ -7,7 +7,7 @@ the object they name on a thin stem."""
 import html, os, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import underline, TYPE  # noqa: E402
+from highlight import underline  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -74,12 +74,12 @@ TX = 1792 - W
 o.append(p(f"position:absolute;left:{TX}px;top:{TOP-52}px;width:{W}px;font-size:28px;font-weight:700;color:{GRAY}", "글자로 보기"))
 o.append(f'<div data-build-in="rise order 1" style="position:absolute;left:{TX}px;top:{TOP}px;width:{W}px;height:{H}px;background:#1B2029;border-radius:20px;padding:26px 32px;display:flex;flex-direction:column;gap:6px;font-family:{MONO}">'
          f'<div style="padding:0 0 22px 0">{dots()}</div>'
-         + p("font-size:48px;line-height:1.45;white-space:nowrap;color:#F2C46D", f'<span style="color:#8FB3FF">~ $</span> <span{TYPE(2)}>ls</span>')
-         + p("font-size:48px;line-height:1.45;white-space:nowrap;color:#D8DEE9", "Desktop&#160;&#160;Documents", ' data-build-in="fade order 3"')
-         + p("font-size:48px;line-height:1.45;white-space:nowrap;color:#8FB3FF", '~ $ <span style="display:inline-block;width:26px;height:52px;vertical-align:-8px;background:#D8DEE9"></span>', ' data-build-in="fade order 3"')
+         + p("font-size:48px;line-height:1.45;white-space:nowrap;color:#F2C46D", f'<span style="color:#8FB3FF">~ $</span> ls')
+         + p("font-size:48px;line-height:1.45;white-space:nowrap;color:#D8DEE9", "Desktop&#160;&#160;Documents")
+         + p("font-size:48px;line-height:1.45;white-space:nowrap;color:#8FB3FF", '~ $ <span style="display:inline-block;width:26px;height:52px;vertical-align:-8px;background:#D8DEE9"></span>')
          + '</div>')
 o.append(p(f"position:absolute;left:128px;top:{TOP+H+56}px;width:1664px;font-size:32px;line-height:1.5;color:{SUB}",
-           "개발 도구는 대부분 터미널에서 실행해요. 그래서 폴더를 글자로 다루는 법부터 익혀요.", ' data-build-in="fade order 4"'))
+           "개발 도구는 대부분 터미널에서 실행해요. 그래서 폴더를 글자로 다루는 법부터 익혀요.", ' data-build-in="fade order 2"'))
 write("why", o, "Finder나 파일 탐색기에서 보던 폴더를 글자로 보는 창이 터미널이에요. Mac은 터미널 앱, Windows는 Git을 설치할 때 같이 깔린 Git Bash를 열어요. 둘 다 오늘 배우는 명령이 똑같이 동작해요.")
 
 # ---------- prompt: one prompt line, labels on stems, three real prompts compared ----------
@@ -93,17 +93,17 @@ STEMS = [(0, 3, "사용자 이름", "#1A7340", 1), (4, 10, "컴퓨터 이름", "
 for a, b, t, c, k in STEMS:
     cx = round(X0 + (a + b) / 2 * CW)
     big = t == "현재 위치"
-    at = f' data-build-in="fade order {k}"'
+    at = f' data-build-in="fade order 1"'
     o.append(f'<div{at} style="position:absolute;left:{cx-5}px;top:452px;width:10px;height:10px;border-radius:5px;background:{c}"></div>')
     o.append(f'<div{at} style="position:absolute;left:{cx-1}px;top:458px;width:2px;height:40px;background:{c}"></div>')
     o.append(p(f"position:absolute;left:{cx-150}px;top:506px;width:300px;font-size:{34 if big else 28}px;font-weight:700;line-height:1.3;text-align:center;color:{c}", e(t), at))
-o.append(underline(5, round(X0 + 11 * CW), round(X0 + 16.6 * CW), 394, color="#5B8DEF", width=7))
+o.append(underline(2, round(X0 + 11 * CW), round(X0 + 16.6 * CW), 394, color="#5B8DEF", width=7))
 COLS = [("Mac 터미널 앱", f'kim@MacBook <span style="color:{BLUE}">kant</span> %', GRAY),
         ("Windows Git Bash", f'kim@DESKTOP MINGW64 <span style="color:{BLUE}">~/kant</span><br>$', GRAY),
         ("이 자료에서는", f'<span style="color:{BLUE}">~/kant</span> $', BLUE)]
-o.append(f'<div data-build-in="rise order 6" style="position:absolute;left:128px;top:668px;width:1664px;height:2px;background:{RULE}"></div>')
+o.append(f'<div data-build-in="rise order 3" style="position:absolute;left:128px;top:668px;width:1664px;height:2px;background:{RULE}"></div>')
 for (lab, pr, c), x, w in zip(COLS, (128, 640, 1312), (480, 640, 480)):
-    o.append(f'<div data-build-in="rise order 6" style="position:absolute;left:{x}px;top:716px;width:{w}px;display:flex;flex-direction:column;gap:20px">'
+    o.append(f'<div data-build-in="rise order 3" style="position:absolute;left:{x}px;top:716px;width:{w}px;display:flex;flex-direction:column;gap:20px">'
              + p(f"font-size:30px;font-weight:700;color:{c}", e(lab))
              + p(f"font-family:{MONO};font-size:40px;font-weight:700;line-height:1.5;color:{INK}", pr) + '</div>')
 write("prompt", o, "프롬프트는 명령을 기다리는 줄이에요. 컴퓨터마다 모양은 달라도 현재 위치가 꼭 들어 있어요. $ 뒤에 명령을 쳐요. 이 자료에서는 화면을 아끼려고 현재 위치와 $ 만 남긴 짧은 모양으로 보여 줘요. Mac은 맨 끝이 $ 대신 % 예요. 자료의 명령을 따라 칠 때 $ 는 치지 않아요.")
