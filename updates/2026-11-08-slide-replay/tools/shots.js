@@ -1,5 +1,6 @@
 // 릴리스 노트에 넣을 스크린샷을 실제 덱(13)으로 찍어요.
 // 사용법 (레포 맨 위에서): node updates/2026-11-08-slide-replay/tools/shots.js
+// 전후 막대 비교를 넣으려면 BEFORE_HTML=예전 플레이어로 만든 13 덱 HTML 경로를 같이 줘요.
 const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
@@ -126,23 +127,49 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
     [again, '→ 를 누르면', '하나씩 다시 나와요', '#1F8A4C'],
   ]);
 
-  // 2. 아래 막대의 "다시 보기" 버튼
+  // 2. 간단해진 아래 막대: 전과 후를 위아래로 붙여요 (전 화면은 main에 있던 플레이어로 찍어요)
   await open(page, PY, 22); await buildAll(page);
-  await page.mouse.move(W / 2, H - 20); await page.waitForTimeout(400);
-  const btn = await rect(page, '#pl-replay');
-  await annotate(page, [
-    { box: pad(btn, 6) },
-    { label: '마우스로는 아래 막대의 "다시 보기"를 눌러요', at: { right: W - (btn.x + btn.w), bottom: H - btn.y + 24 }, nowrap: true, width: 900 },
-  ]);
-  await shot(page, '02-bar-button.png');
+  await page.addStyleTag({ content: '#pl-stage>section{opacity:0!important}' }); // 막대만 보이게 슬라이드 글자를 숨겨요
+  await page.mouse.move(W / 2, H / 2); await page.waitForTimeout(400);
+  const barAfter = await page.screenshot({ clip: { x: W / 2 - 320, y: H - 90, width: 640, height: 90 } });
+  await page.hover('#pl-replay'); await page.waitForTimeout(400);
+  const tip = await page.screenshot({ clip: { x: W / 2 - 320, y: H - 130, width: 640, height: 130 } });
+  const BEFORE = process.env.BEFORE_HTML;
+  const panels = [];
+  if (BEFORE) {
+    await open(page, 'file://' + BEFORE, 22);
+    await page.addStyleTag({ content: '#pl-stage>section{opacity:0!important}' }); // 막대만 보이게 슬라이드 글자를 숨겨요
+    await page.mouse.move(W / 2, H / 2); await page.waitForTimeout(400);
+    panels.push(['<b style="color:#6A7180">전</b> · 버튼과 키 설명이 한 줄에 다 있었어요', await page.screenshot({ clip: { x: 0, y: H - 60, width: W, height: 60 } })]);
+  }
+  panels.push(['<b style="color:#E5484D">후</b> · 아이콘만 남긴 작은 막대예요', barAfter]);
+  panels.push(['<b style="color:#1F8A4C">아이콘에 마우스를 올리면</b> · 이름과 단축키가 보여요', tip]);
+  const cmp = await ctx.newPage();
+  await cmp.setViewportSize({ width: W, height: 100 });
+  await cmp.setContent(`<html><head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap"></head>
+  <body style="margin:0;background:#F6F5F1;font-family:'Noto Sans KR';color:#1D2330;padding:28px 40px">
+  ${panels.map(([t, b]) => `<div style="font-size:26px;font-weight:500;margin:18px 0 10px">${t}</div><img src="data:image/png;base64,${b.toString('base64')}" style="display:block;max-width:100%;border-radius:10px;border:2px solid #E1DED6;box-sizing:border-box">`).join('')}
+  </body></html>`);
+  await cmp.evaluate(() => document.fonts.ready); await cmp.waitForTimeout(400);
+  await cmp.screenshot({ path: path.join(OUT, '02-bar.png'), fullPage: true });
+  await cmp.close();
 
-  // 3. 애니메이션이 꺼져 있을 때
+  // 3. ? 버튼을 누르면 단축키 안내
+  await page.goto('about:blank');
+  await open(page, PY, 22); await buildAll(page);
+  await page.click('#pl-help-btn'); await page.mouse.move(W / 2, H / 2); await page.waitForTimeout(400);
+  const hb = await rect(page, '#pl-help-btn');
+  await annotate(page, [{ box: pad(hb, 4) }]);
+  await shot(page, '03-help.png');
+  await page.keyboard.press('Escape');
+
+  // 4. 애니메이션이 꺼져 있을 때
   await page.evaluate(() => document.querySelectorAll('.anno').forEach(e => e.remove()));
   await page.keyboard.press('a'); await page.waitForTimeout(2200);
   await page.keyboard.press('r'); await page.waitForTimeout(500);
   const toastOff = await rect(page, '#pl-toast');
   await annotate(page, [{ box: pad(toastOff, 8) }]);
-  await shot(page, '03-animation-off.png');
+  await shot(page, '04-animation-off.png');
   await page.keyboard.press('a');
   await browser.close();
   console.log('shots ->', OUT);

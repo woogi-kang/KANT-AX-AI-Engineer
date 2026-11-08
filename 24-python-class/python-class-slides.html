@@ -30,13 +30,28 @@ body:hover .hint:hover{opacity:1;background:rgba(14,17,23,.85)}
 #pl-copy.done{background:#1F8A4C;border-color:#1F8A4C;color:#FFFFFF}
 #pl-toast{position:fixed;left:50%;top:24px;transform:translateX(-50%);padding:10px 20px;border-radius:10px;background:rgba(14,17,23,.9);color:#FFFFFF;font-size:18px;opacity:0;transition:opacity .2s;pointer-events:none}
 #pl-toast.show{opacity:1}
-#pl-bar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12px;padding:8px 16px;color:#C9CED8;font-size:14px;background:rgba(14,17,23,.85);opacity:0;transition:opacity .2s}
-body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
-#pl-bar button{background:#252B36;color:#E6E9EF;border:0;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
-#pl-bar button.off{background:#5A3BB8}
-#pl-bar input{width:72px;background:#252B36;color:#E6E9EF;border:1px solid #3A4250;border-radius:6px;padding:5px 8px;font:inherit}
-#pl-bar .grow{flex:1}
-#pl-notes{position:fixed;left:16px;right:16px;bottom:52px;max-height:30vh;overflow:auto;padding:16px 20px;border-radius:10px;background:rgba(255,255,255,.96);color:#1D2330;font-size:18px;line-height:1.6;display:none}
+#pl-bar{position:fixed;z-index:100;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px;border-radius:14px;color:#E6E9EF;font-size:15px;background:rgba(14,17,23,.88);box-shadow:0 4px 18px rgba(0,0,0,.25);opacity:0;transition:opacity .2s}
+body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
+#pl-bar button{position:relative;height:40px;min-width:40px;display:flex;align-items:center;justify-content:center;background:transparent;color:#E6E9EF;border:0;border-radius:10px;padding:0 8px;font:inherit;cursor:pointer}
+#pl-bar button:hover{background:#2C3340}
+#pl-bar button.on{background:#5A3BB8}
+#pl-bar svg{display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#pl-bar .sep{width:1px;height:24px;margin:0 6px;background:#3A4250}
+#pl-count{font-variant-numeric:tabular-nums;padding:0 10px!important}
+#pl-go{display:none;width:64px;height:32px;margin:0 4px;background:#252B36;color:#E6E9EF;border:1px solid #5A6475;border-radius:8px;padding:0 8px;font:inherit;text-align:center}
+#pl-bar.jump #pl-go{display:block}
+#pl-bar.jump #pl-count{display:none}
+#pl-anim .slash{display:none}
+#pl-anim.on .slash{display:inline}
+#pl-bar button[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);white-space:nowrap;padding:6px 10px;border-radius:8px;background:#FFFFFF;color:#1D2330;font-size:14px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none}
+#pl-help{position:fixed;z-index:100;left:50%;bottom:76px;transform:translateX(-50%);display:none;padding:16px 20px;border-radius:12px;background:#FFFFFF;color:#1D2330;font-size:16px;line-height:1.5;box-shadow:0 6px 24px rgba(0,0,0,.3)}
+#pl-help.show{display:block}
+#pl-help table{border-collapse:collapse}
+#pl-help td{padding:4px 10px;border:0}
+#pl-help td:first-child{text-align:right;white-space:nowrap}
+#pl-help kbd{display:inline-block;min-width:26px;padding:1px 7px;border:1px solid #C9CED8;border-bottom-width:2px;border-radius:6px;background:#F6F5F1;font:500 14px 'JetBrains Mono',monospace;text-align:center}
+#pl-help p{margin:10px 0 0;font-size:14px;color:#6A7180}
+#pl-notes{position:fixed;z-index:100;left:16px;right:16px;bottom:76px;max-height:30vh;overflow:auto;padding:16px 20px;border-radius:10px;background:rgba(255,255,255,.96);color:#1D2330;font-size:18px;line-height:1.6;display:none}
 #pl-notes.show{display:block}
 [data-build-in^="spot"],[data-build-in^="cursor"],[data-build-in^="click"]{visibility:hidden}
 [data-build-in^="draw"]{stroke-dasharray:1;transition:opacity .45s ease,stroke-dashoffset .7s cubic-bezier(.6,0,.3,1)}
@@ -660,7 +675,8 @@ return { leave: stop };
 <button id="pl-copy"></button>
 <div id="pl-toast"></div>
 <div id="pl-notes"></div>
-<div id="pl-bar"><button id="pl-prev">이전</button><button id="pl-next">다음</button><span id="pl-count"></span><input id="pl-go" inputmode="numeric" placeholder="쪽 번호" aria-label="쪽 번호로 가기"><span class="grow"></span><span>→ 다음 · ← 이전 · 숫자+Enter 쪽 이동 · R 다시 보기 · A 애니메이션 · N 노트 · F 전체 화면</span><button id="pl-replay">다시 보기</button><button id="pl-anim">애니메이션 끄기</button><button id="pl-nb">노트</button><button id="pl-fs">전체 화면</button></div>
+<div id="pl-bar"><button id="pl-prev" data-tip="이전 (←)" aria-label="이전"><svg viewBox="0 0 24 24"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-count" data-tip="눌러서 쪽 번호로 가기" aria-label="쪽 번호로 가기"></button><input id="pl-go" inputmode="numeric" placeholder="쪽" aria-label="쪽 번호"><button id="pl-next" data-tip="다음 (→)" aria-label="다음"><svg viewBox="0 0 24 24"><polyline points="9,5 16,12 9,19"/></svg></button><span class="sep"></span><button id="pl-replay" data-tip="다시 보기 (R)" aria-label="다시 보기"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><polyline points="3.5,3.5 3.5,8.5 8.5,8.5"/></svg></button><button id="pl-anim" data-tip="애니메이션 끄기 (A)" aria-label="애니메이션 끄기"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1-5.1-1.9 5.1-1.9z"/><path d="M18.5 16v4M16.5 18h4"/><line class="slash" x1="4" y1="4" x2="20" y2="20"/></svg></button><button id="pl-nb" data-tip="발표자 노트 (N)" aria-label="발표자 노트"><svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M9 8.5h6M9 12h6M9 15.5h4"/></svg></button><button id="pl-fs" data-tip="전체 화면 (F)" aria-label="전체 화면"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="pl-help-btn" data-tip="단축키 (?)" aria-label="단축키"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4"/><line x1="12" y1="17" x2="12" y2="17.1"/></svg></button></div>
+<div id="pl-help"><table><tr><td><kbd>→</kbd> <kbd>Space</kbd></td><td>다음 (애니메이션을 하나씩)</td></tr><tr><td><kbd>←</kbd></td><td>이전</td></tr><tr><td>숫자 뒤 <kbd>Enter</kbd></td><td>그 장으로 가기</td></tr><tr><td><kbd>R</kbd></td><td>지금 장 애니메이션 다시 보기</td></tr><tr><td><kbd>A</kbd></td><td>애니메이션 끄고 켜기</td></tr><tr><td><kbd>N</kbd></td><td>발표자 노트</td></tr><tr><td><kbd>F</kbd></td><td>전체 화면</td></tr><tr><td><kbd>?</kbd></td><td>이 안내 열고 닫기</td></tr></table><p>화면 양옆 화살표 버튼은 남은 애니메이션을 건너뛰고 바로 넘겨요.</p></div>
 <script>
 const stage=document.getElementById('pl-stage');
 const slides=[...stage.children];
@@ -808,10 +824,12 @@ let toastT;
 function toast(msg,ms){const t=$('pl-toast');clearTimeout(toastT);if(!msg){t.classList.remove('show');return;}t.textContent=msg;t.classList.add('show');toastT=setTimeout(()=>t.classList.remove('show'),ms||1800);}
 function setAnim(on){
   animOn=on;try{localStorage.setItem('slides-anim',on?'on':'off');}catch(e){}
-  $('pl-anim').textContent=on?'애니메이션 끄기':'애니메이션 켜기';$('pl-anim').classList.toggle('off',!on);
+  animBtn();
   if(!on){step=steps[cur].length;seen[cur]=step;setBuild(cur,step,true);}
   toast(on?'애니메이션을 켰어요':'애니메이션을 껐어요. 모든 장을 다 펼쳐서 보여 줘요');update();
 }
+function animBtn(){const b=$('pl-anim');b.classList.toggle('on',!animOn);b.dataset.tip=animOn?'애니메이션 끄기 (A)':'애니메이션 켜기 (A)';b.setAttribute('aria-label',b.dataset.tip);}
+function help(show){const h=$('pl-help');h.classList.toggle('show',show===undefined?!h.classList.contains('show'):show);$('pl-bar').classList.toggle('keep',h.classList.contains('show'));}
 function fullscreen(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
 // Page jump: type the page number, then Enter
 let jump='',jumpT;
@@ -822,7 +840,8 @@ addEventListener('keydown',e=>{
   if(/^[0-9]$/.test(e.key)){setJump((jump+e.key).slice(0,3));return;}
   if(jump&&e.key==='Enter'){e.preventDefault();const n=+jump;setJump('');if(n>0)go(n-1);return;}
   if(jump&&e.key==='Backspace'){e.preventDefault();setJump(jump.slice(0,-1));return;}
-  if(e.key==='Escape'){setJump('');return;}
+  if(e.key==='Escape'){setJump('');help(false);return;}
+  if(e.key==='?'){help();return;}
   if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next();}
   else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}
   else if(e.key==='Home')go(0);
@@ -866,7 +885,7 @@ function showCopy(el){
 }
 addEventListener('mousemove',e=>{
   const t=e.target;
-  const onUi=t.closest&&t.closest('#pl-bar,#pl-notes,#pl-copy,.hint');
+  const onUi=t.closest&&t.closest('#pl-bar,#pl-notes,#pl-help,#pl-copy,.hint');
   if(t===copyBtn)return;
   // find the box by position, because drawings placed over a box can be the event target
   let c=null,area=Infinity;
@@ -897,9 +916,13 @@ $('pl-nb').onclick=()=>$('pl-notes').classList.toggle('show');
 $('pl-fs').onclick=fullscreen;
 $('pl-anim').onclick=()=>setAnim(!animOn);
 $('pl-replay').onclick=replay;
+$('pl-help-btn').onclick=()=>help();
+// the page counter turns into a page-number box when clicked
+$('pl-count').onclick=()=>{$('pl-bar').classList.add('jump');$('pl-go').focus();};
+$('pl-go').addEventListener('blur',()=>{$('pl-go').value='';$('pl-bar').classList.remove('jump');});
 $('pl-go').addEventListener('keydown',e=>{
-  if(e.key==='Enter'){const n=parseInt(e.target.value);e.target.value='';e.target.blur();if(n>0)go(n-1);}
-  else if(e.key==='Escape'){e.target.value='';e.target.blur();}
+  if(e.key==='Enter'){const n=parseInt(e.target.value);e.target.blur();if(n>0)go(n-1);}
+  else if(e.key==='Escape'){e.target.blur();}
 });
 let tx=null;addEventListener('touchstart',e=>tx=e.touches[0].clientX);addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>40)(d<0?next:prev)();tx=null;});
 // slide scripts: see the note at the top of build_player.js
@@ -911,7 +934,7 @@ slides.forEach(s=>{
 const start=Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1))||1)-1));
 slides.forEach((s,i)=>setBuild(i,0,false));
 cur=start;step=animOn?0:steps[cur].length;seen[cur]=step;setBuild(cur,step,false);
-$('pl-anim').textContent=animOn?'애니메이션 끄기':'애니메이션 켜기';$('pl-anim').classList.toggle('off',!animOn);
+animBtn();
 slides[cur].classList.add('on');update();
 if(slides[cur]._fx&&slides[cur]._fx.enter)try{slides[cur]._fx.enter();}catch(e){console.error(e);}
 </script>
