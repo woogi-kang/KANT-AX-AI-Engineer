@@ -30,14 +30,59 @@ body:hover .hint:hover{opacity:1;background:rgba(14,17,23,.85)}
 #pl-copy.done{background:#1F8A4C;border-color:#1F8A4C;color:#FFFFFF}
 #pl-toast{position:fixed;left:50%;top:24px;transform:translateX(-50%);padding:10px 20px;border-radius:10px;background:rgba(14,17,23,.9);color:#FFFFFF;font-size:18px;opacity:0;transition:opacity .2s;pointer-events:none}
 #pl-toast.show{opacity:1}
-#pl-bar{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;gap:12px;padding:8px 16px;color:#C9CED8;font-size:14px;background:rgba(14,17,23,.85);opacity:0;transition:opacity .2s}
-body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
-#pl-bar button{background:#252B36;color:#E6E9EF;border:0;border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
-#pl-bar button.off{background:#5A3BB8}
-#pl-bar input{width:72px;background:#252B36;color:#E6E9EF;border:1px solid #3A4250;border-radius:6px;padding:5px 8px;font:inherit}
-#pl-bar .grow{flex:1}
-#pl-notes{position:fixed;left:16px;right:16px;bottom:52px;max-height:30vh;overflow:auto;padding:16px 20px;border-radius:10px;background:rgba(255,255,255,.96);color:#1D2330;font-size:18px;line-height:1.6;display:none}
-#pl-notes.show{display:block}</style></head>
+#pl-bar{position:fixed;z-index:100;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px;border-radius:14px;color:#E6E9EF;font-size:15px;background:rgba(14,17,23,.88);box-shadow:0 4px 18px rgba(0,0,0,.25);opacity:0;transition:opacity .2s}
+body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
+#pl-bar button{position:relative;height:40px;min-width:40px;display:flex;align-items:center;justify-content:center;background:transparent;color:#E6E9EF;border:0;border-radius:10px;padding:0 8px;font:inherit;cursor:pointer}
+#pl-bar button:hover{background:#2C3340}
+#pl-bar button.on{background:#5A3BB8}
+#pl-bar svg{display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#pl-bar .sep{width:1px;height:24px;margin:0 6px;background:#3A4250}
+#pl-count{font-variant-numeric:tabular-nums;white-space:nowrap;padding:0 10px!important}
+#pl-go{display:none;width:64px;height:32px;margin:0 4px;background:#252B36;color:#E6E9EF;border:1px solid #5A6475;border-radius:8px;padding:0 8px;font:inherit;text-align:center}
+#pl-bar.jump #pl-go{display:block}
+#pl-bar.jump #pl-count{display:none}
+#pl-anim .slash{display:none}
+#pl-anim.on .slash{display:inline}
+#pl-bar button[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);white-space:nowrap;padding:6px 10px;border-radius:8px;background:#FFFFFF;color:#1D2330;font-size:14px;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none}
+#pl-help{position:fixed;z-index:100;left:50%;bottom:76px;transform:translateX(-50%);display:none;padding:16px 20px;border-radius:12px;background:#FFFFFF;color:#1D2330;font-size:16px;line-height:1.5;box-shadow:0 6px 24px rgba(0,0,0,.3)}
+#pl-help.show{display:block}
+#pl-help table{border-collapse:collapse}
+#pl-help td{padding:4px 10px;border:0}
+#pl-help td:first-child{text-align:right;white-space:nowrap}
+#pl-help kbd{display:inline-block;min-width:26px;padding:1px 7px;border:1px solid #C9CED8;border-bottom-width:2px;border-radius:6px;background:#F6F5F1;font:500 14px 'JetBrains Mono',monospace;text-align:center}
+#pl-help p{margin:10px 0 0;font-size:14px;color:#6A7180}
+#pl-notes{position:fixed;z-index:100;right:92px;bottom:80px;max-height:calc(100vh - 96px);width:min(460px,calc(100vw - 184px));display:none;flex-direction:column;border-radius:14px;background:#FFFFFF;color:#1D2330;box-shadow:0 8px 30px rgba(0,0,0,.3);overflow:hidden}
+#pl-notes.show{display:flex}
+#pl-notes .nh{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 14px;border-bottom:1px solid #ECEAE4}
+#pl-notes .nh-t{flex:1;min-width:0}
+#pl-notes .nh-k{font-size:13px;font-weight:500;color:#6A7180;letter-spacing:.02em}
+#pl-notes .nh-h{margin-top:2px;font-size:19px;font-weight:700;line-height:1.35}
+#pl-notes .nx{flex:none;width:32px;height:32px;border:0;border-radius:8px;background:transparent;color:#6A7180;font-size:22px;line-height:1;cursor:pointer}
+#pl-notes .nx:hover{background:#F0EEE8;color:#1D2330}
+#pl-notes .nb{flex:1;overflow:auto;padding:16px 18px 18px}
+#pl-notes .lead{margin:0 0 14px;padding-left:12px;border-left:4px solid #5A3BB8;font-size:19px;font-weight:700;line-height:1.55;text-wrap:pretty}
+#pl-notes ul{margin:0;padding:0;list-style:none}
+#pl-notes li{position:relative;margin:0 0 10px;padding-left:18px;font-size:17px;line-height:1.65;text-wrap:pretty}
+#pl-notes li::before{content:'';position:absolute;left:3px;top:.72em;width:6px;height:6px;border-radius:50%;background:#B8BDC7}
+#pl-notes code{padding:1px 6px;border-radius:5px;background:#F1EEF9;color:#3F2A8C;font:500 .9em 'JetBrains Mono',monospace;white-space:nowrap}
+#pl-notes .ch{padding:0 6px;border-radius:999px;background:#E8EEFB;color:#2459C9;font-weight:700}
+#pl-notes .meta{margin-top:14px;padding-top:12px;border-top:1px dashed #E1DED6;font-size:14px;line-height:1.6;color:#6A7180}
+#pl-notes .none{font-size:16px;color:#6A7180}
+#pl-notes .nf{display:flex;gap:12px;justify-content:space-between;padding:10px 18px;border-top:1px solid #ECEAE4;background:#FAF9F6;font-size:13px;color:#6A7180}
+#pl-notes .nf b{font-weight:500;color:#1D2330}
+#pl-notes .nf span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#pl-notes .nf span:first-child{flex:none;white-space:nowrap}
+@media (max-width:640px){#pl-notes{left:12px;right:12px;width:auto}#pl-bar button{min-width:34px;padding:0 5px}#pl-bar .sep{margin:0 2px}}
+[data-build-in^="spot"],[data-build-in^="cursor"],[data-build-in^="click"]{visibility:hidden}
+[data-build-in^="draw"]{stroke-dasharray:1;transition:opacity .45s ease,stroke-dashoffset .7s cubic-bezier(.6,0,.3,1)}
+.pending.draw{opacity:1!important;stroke-dashoffset:1}
+.pl-spot{position:absolute;z-index:40;pointer-events:none;border-radius:18px;opacity:0;box-shadow:0 0 0 4px rgba(255,255,255,.92),0 0 0 4000px rgba(10,12,18,.62);transition:left .6s cubic-bezier(.65,0,.35,1),top .6s cubic-bezier(.65,0,.35,1),width .6s cubic-bezier(.65,0,.35,1),height .6s cubic-bezier(.65,0,.35,1),opacity .4s ease}
+.pl-spot.on{opacity:1}
+.pl-cur{position:absolute;z-index:45;width:40px;height:56px;margin:-4px 0 0 -6px;pointer-events:none;opacity:0;transition:left .8s cubic-bezier(.65,0,.35,1),top .8s cubic-bezier(.65,0,.35,1),opacity .3s ease}
+.pl-cur.on{opacity:1}
+.pl-rip{position:absolute;z-index:44;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:5px solid #2459C9;opacity:0;pointer-events:none}
+.pl-rip.go{animation:pl-rip .6s ease-out}
+@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}</style></head>
 <body>
 <div id="pl-stage">
 <section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
@@ -68,7 +113,7 @@ body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
   <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path>
 </svg></x-icon></div><h3 style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:32px;font-weight:700;color:#1D2330">reset과 무엇이 달라요</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">파일과 이름표</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">12쪽</p></div>
 <div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:24px 28px"><div style="display:flex;flex-direction:row;gap:14px;align-items:center"><p style="font-size:48px;font-weight:900;line-height:1.25;color:#B26A00">4</p><x-icon name="Archive" style="width:40px;height:40px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="2" y="3" rx="1"></rect>
+  <rect width="20" height="5" x="2" y="3" rx="1"></rect>
   <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
   <path d="M10 12h4"></path>
 </svg></x-icon></div><h3 style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1D2330">git stash</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">고치던 걸 서랍에 잠깐</p><div style="flex:1"></div><p style="font-size:24px;color:#6A7180">13–18쪽</p></div>
@@ -100,7 +145,7 @@ body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
   <path d="m9 12 2 2 4-4"></path>
 </svg></x-icon><p style="font-size:38px;font-weight:700;line-height:1.3;color:#1D2330">엉뚱한 파일까지 올렸어요</p><p style="font-size:28px;line-height:1.5;color:#4A5262">git add . 로<br>개인 메모까지 올렸어요</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1A7340;background:#F6F5F1;padding:14px 18px;border-radius:12px">git restore --staged</p></div>
 <div data-build-in="rise order 3" style="position:absolute;left:1280px;top:270px;width:544px;height:560px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:20px"><x-icon name="Archive" style="width:64px;height:64px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="2" y="3" rx="1"></rect>
+  <rect width="20" height="5" x="2" y="3" rx="1"></rect>
   <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
   <path d="M10 12h4"></path>
 </svg></x-icon><p style="font-size:38px;font-weight:700;line-height:1.3;color:#1D2330">pull이 막혀요</p><p style="font-size:28px;line-height:1.5;color:#4A5262">고치던 게 있는데<br>팀원이 push했대요</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#B26A00;background:#F6F5F1;padding:14px 18px;border-radius:12px">git stash</p></div>
@@ -133,7 +178,7 @@ body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
 <svg data-build-in="fade order 2" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="246" y1="354" x2="246" y2="358.8" stroke="rgb(163, 49, 49)" stroke-width="6"></line><polygon points="246,378 235.56082718133047,356.38926954353576 256.43917281866953,356.38926954353576" fill="rgb(163, 49, 49)"></polygon></svg>
 <p data-build-in="fade order 2" style="position:absolute;left:583px;top:232px;width:208px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.6;text-align:center;border-radius:10px;background:#A33131;color:#FFFFFF">git restore</p>
 <div data-build-in="fade order 3" style="position:absolute;left:96px;top:700px;width:768px;height:200px;background:#FFF7EA;border:3px solid #E3A64A;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:12px"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Archive" style="width:36px;height:36px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="2" y="3" rx="1"></rect>
+  <rect width="20" height="5" x="2" y="3" rx="1"></rect>
   <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
   <path d="M10 12h4"></path>
 </svg></x-icon><p style="font-size:34px;font-weight:700;color:#B26A00">서랍 (stash)</p></div><p style="font-size:24px;line-height:1.4;color:#8A5A12">고치던 걸 잠깐 넣어 두는 곳</p></div>
@@ -598,7 +643,7 @@ body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
   <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
 </svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
 <div id="drawer" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFF7EA;border:3px solid #E3A64A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Archive" style="width:32px;height:32px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="2" y="3" rx="1"></rect>
+  <rect width="20" height="5" x="2" y="3" rx="1"></rect>
   <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
   <path d="M10 12h4"></path>
 </svg></x-icon><p style="font-size:30px;font-weight:700;color:#B26A00">서랍 (stash)</p></div></div>
@@ -673,7 +718,7 @@ body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
   <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
 </svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
 <div id="drawer" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFF7EA;border:3px solid #E3A64A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Archive" style="width:32px;height:32px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="2" y="3" rx="1"></rect>
+  <rect width="20" height="5" x="2" y="3" rx="1"></rect>
   <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
   <path d="M10 12h4"></path>
 </svg></x-icon><p style="font-size:30px;font-weight:700;color:#B26A00">서랍 (stash)</p></div></div>
@@ -728,7 +773,7 @@ body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
   <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
 </svg></x-icon><p style="font-size:30px;font-weight:700;color:#5A3BB8">④ 원격 저장소</p></div></div>
 <div id="drawer" style="position:absolute;left:1278px;top:650px;width:546px;height:374px;background:#FFF7EA;border:3px solid #E3A64A;border-radius:20px;padding:16px 20px;display:flex;flex-direction:column"><div style="display:flex;flex-direction:row;gap:10px;align-items:center"><x-icon name="Archive" style="width:32px;height:32px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="2" y="3" rx="1"></rect>
+  <rect width="20" height="5" x="2" y="3" rx="1"></rect>
   <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
   <path d="M10 12h4"></path>
 </svg></x-icon><p style="font-size:30px;font-weight:700;color:#B26A00">서랍 (stash)</p></div></div>
@@ -853,7 +898,7 @@ body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
   <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
 </svg></x-icon><p style="font-size:44px;font-weight:900;color:#A33131">버리기</p><p style="font-size:28px;line-height:1.45;color:#1D2330">필요 없는 변경</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;color:#1D2330;background:#F6F5F1;padding:16px 20px;border-radius:12px">git restore 파일</p><p style="font-size:24px;color:#4A5262">되찾을 수 없어요</p></div>
 <div data-build-in="rise order 2" style="position:absolute;left:688px;top:240px;width:544px;height:700px;background:#FFFFFF;border:2px solid #E1DED6;border-top:10px solid #B26A00;border-radius:20px;padding:40px 36px;display:flex;flex-direction:column;gap:20px"><x-icon name="Archive" style="width:64px;height:64px;color:#B26A00"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="2" y="3" rx="1"></rect>
+  <rect width="20" height="5" x="2" y="3" rx="1"></rect>
   <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
   <path d="M10 12h4"></path>
 </svg></x-icon><p style="font-size:44px;font-weight:900;color:#B26A00">잠깐 치우기</p><p style="font-size:28px;line-height:1.45;color:#1D2330">덜 끝났는데 pull, checkout 해야 할 때</p><div style="flex:1"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;color:#1D2330;background:#F6F5F1;padding:16px 20px;border-radius:12px">git stash<br>git stash pop</p><p style="font-size:24px;color:#4A5262">내 컴퓨터에만 있어요</p></div>
@@ -891,12 +936,14 @@ body:hover #pl-bar,#pl-bar:focus-within{opacity:1}
 <button id="pl-copy"></button>
 <div id="pl-toast"></div>
 <div id="pl-notes"></div>
-<div id="pl-bar"><button id="pl-prev">이전</button><button id="pl-next">다음</button><span id="pl-count"></span><input id="pl-go" inputmode="numeric" placeholder="쪽 번호" aria-label="쪽 번호로 가기"><span class="grow"></span><span>→ 다음 · ← 이전 · 숫자+Enter 쪽 이동 · A 애니메이션 · N 노트 · F 전체 화면</span><button id="pl-anim">애니메이션 끄기</button><button id="pl-nb">노트</button><button id="pl-fs">전체 화면</button></div>
+<div id="pl-bar"><button id="pl-prev" data-tip="이전 (←)" aria-label="이전"><svg viewBox="0 0 24 24"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-count" data-tip="눌러서 쪽 번호로 가기" aria-label="쪽 번호로 가기"></button><input id="pl-go" inputmode="numeric" placeholder="쪽" aria-label="쪽 번호"><button id="pl-next" data-tip="다음 (→)" aria-label="다음"><svg viewBox="0 0 24 24"><polyline points="9,5 16,12 9,19"/></svg></button><span class="sep"></span><button id="pl-replay" data-tip="다시 보기 (R)" aria-label="다시 보기"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><polyline points="3.5,3.5 3.5,8.5 8.5,8.5"/></svg></button><button id="pl-anim" data-tip="애니메이션 끄기 (A)" aria-label="애니메이션 끄기"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1-5.1-1.9 5.1-1.9z"/><path d="M18.5 16v4M16.5 18h4"/><line class="slash" x1="4" y1="4" x2="20" y2="20"/></svg></button><button id="pl-nb" data-tip="발표자 노트 (N)" aria-label="발표자 노트"><svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M9 8.5h6M9 12h6M9 15.5h4"/></svg></button><button id="pl-fs" data-tip="전체 화면 (F)" aria-label="전체 화면"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="pl-help-btn" data-tip="단축키 (?)" aria-label="단축키"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4"/><line x1="12" y1="17" x2="12" y2="17.1"/></svg></button></div>
+<div id="pl-help"><table><tr><td><kbd>→</kbd> <kbd>Space</kbd></td><td>다음 (애니메이션을 하나씩)</td></tr><tr><td><kbd>←</kbd></td><td>이전</td></tr><tr><td>숫자 뒤 <kbd>Enter</kbd></td><td>그 장으로 가기</td></tr><tr><td><kbd>R</kbd></td><td>지금 장 애니메이션 다시 보기</td></tr><tr><td><kbd>A</kbd></td><td>애니메이션 끄고 켜기</td></tr><tr><td><kbd>N</kbd></td><td>발표자 노트</td></tr><tr><td><kbd>F</kbd></td><td>전체 화면</td></tr><tr><td><kbd>?</kbd></td><td>이 안내 열고 닫기</td></tr></table><p>화면 양옆 화살표 버튼은 남은 애니메이션을 건너뛰고 바로 넘겨요.</p></div>
 <script>
 const stage=document.getElementById('pl-stage');
 const slides=[...stage.children];
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
+const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off'];
 const steps=slides.map(s=>{
   const els=[...s.querySelectorAll('[data-build-in]')];
   const groups=[];let auto=0;
@@ -905,7 +952,9 @@ const steps=slides.map(s=>{
     const m=spec.match(/order\s+(\d+)/)||spec.match(/\s(\d+)$/);
     const k=m?+m[1]:++auto;
     (groups[k]=groups[k]||[]).push(el);
-    el.dataset.fx=/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':'fade';
+    const kind=spec.trim().split(/\s+/)[0];
+    el.dataset.fx=HL_KINDS.includes(kind)?kind:/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':/fly/.test(spec)?'fly':'fade';
+    if(kind==='draw')[el,...el.querySelectorAll('path,rect,circle,ellipse,line,polyline,polygon')].forEach(x=>x.setAttribute('pathLength','1'));
   }
   return groups.filter(Boolean);
 });
@@ -916,16 +965,79 @@ function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage._s=s;sta
 addEventListener('resize',fit);fit();
 function setBuild(i,n,animate){
   steps[i].forEach((g,gi)=>g.forEach(el=>{
-    if(!animate)el.style.transition='none';
+    const was=el.classList.contains('pending');
+    const fly=animate&&was&&gi<n&&el.dataset.fx==='fly'&&el.dataset.from&&slides[i].querySelector('#'+el.dataset.from);
+    if(!animate||fly)el.style.transition='none';
     el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
-    if(!animate){void el.offsetWidth;el.style.transition='';}
+    if(fly)flyIn(el,slides[i].querySelector('#'+el.dataset.from));
+    if(!animate||fly){void el.offsetWidth;el.style.transition='';}
+    if(el.dataset.fx==='type'){if(animate&&was&&gi<n)typeIn(el);else typeDone(el);}
   }));
+  hlState(i,n,animate);
+  const fx=slides[i]._fx;if(fx&&fx.step)try{fx.step(n,animate);}catch(e){console.error(e);}
+}
+// moves el from the centre of src to its own place, so a value looks like it travels there
+function flyIn(el,src){
+  const a=rectIn(src),b=rectIn(el);
+  const dx=a.x+a.w/2-(b.x+b.w/2),dy=a.y+a.h/2-(b.y+b.h/2);
+  const z=el.style.zIndex;el.style.zIndex=50;
+  const k=Math.max(.12,Math.min(1,Math.max(a.w/b.w,a.h/b.h))),m=(1+k)/2;
+  el.animate([{transformOrigin:'50% 50%',transform:'translate('+dx+'px,'+dy+'px) scale('+k+')',opacity:.3},{transformOrigin:'50% 50%',transform:'translate('+dx*.45+'px,'+(dy*.45-50)+'px) scale('+m+')',opacity:1,offset:.5},{transformOrigin:'50% 50%',transform:'none',opacity:1}],{duration:900,easing:'cubic-bezier(.4,0,.2,1)'}).onfinish=()=>{el.style.zIndex=z;};
+}
+// ---- highlights: typing, spotlight hole, mouse pointer (tools/HIGHLIGHT.md) ----
+function textNodes(el){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);return a;}
+function typeDone(el){if(el._tt){clearInterval(el._tt);el._tt=null;}if(el._orig)textNodes(el).forEach((t,k)=>t.nodeValue=el._orig[k]);}
+function typeIn(el){
+  typeDone(el);const ns=textNodes(el);el._orig=ns.map(t=>t.nodeValue);
+  const total=el._orig.join('').length,ms=Math.max(12,Math.min(45,1100/Math.max(1,total)));
+  ns.forEach(t=>t.nodeValue='');let k=0,j=0;
+  el._tt=setInterval(()=>{while(k<ns.length&&j>=el._orig[k].length){k++;j=0;}if(k>=ns.length){typeDone(el);return;}j++;ns[k].nodeValue=el._orig[k].slice(0,j);},ms);
+}
+const CUR_SVG='<svg viewBox="0 0 22 30" width="40" height="56"><path d="M2,2 L2,24 L8,18 L12,28 L16,26 L12,16 L20,16 Z" fill="#1D2330" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
+function hlParts(s){
+  if(!s._spot){
+    s._spot=document.createElement('div');s._spot.className='pl-spot';
+    s._cur=document.createElement('div');s._cur.className='pl-cur';s._cur.innerHTML=CUR_SVG;
+    s._rip=document.createElement('div');s._rip.className='pl-rip';
+    s.append(s._spot,s._rip,s._cur);
+  }
+  return s;
+}
+function hlState(i,n,animate){
+  const s=slides[i];let spot=null,cur=null,curNew=false;
+  steps[i].forEach((g,gi)=>{if(gi>=n)return;g.forEach(el=>{const f=el.dataset.fx;
+    if(f==='spot')spot=el;else if(f==='spot-off')spot=null;
+    else if(f==='cursor'||f==='click'){cur=el;curNew=gi===n-1;}else if(f==='cursor-off')cur=null;});});
+  if(!spot&&!cur&&!s._spot)return;
+  hlParts(s);
+  const sp=s._spot,cu=s._cur;
+  const box=el=>(el.dataset.target&&s.querySelector('#'+el.dataset.target))||el;
+  const still=x=>{x.style.transition='none';};
+  const free=x=>{void x.offsetWidth;x.style.transition='';};
+  if(spot){
+    const r=rectIn(box(spot)),pad=+(spot.dataset.pad||12),rad=spot.dataset.r||'18px';
+    sp.style.boxShadow='0 0 0 4px rgba(255,255,255,.92),0 0 0 4000px rgba(10,12,18,'+(spot.dataset.dim||.62)+')';
+    const wasOn=sp.classList.contains('on');
+    if(!animate||!wasOn)still(sp);
+    Object.assign(sp.style,{left:(r.x-pad)+'px',top:(r.y-pad)+'px',width:(r.w+2*pad)+'px',height:(r.h+2*pad)+'px',borderRadius:rad});
+    if(!animate||!wasOn)free(sp);
+    if(!animate)still(sp);sp.classList.add('on');if(!animate)free(sp);
+  }else{if(!animate)still(sp);sp.classList.remove('on');if(!animate)free(sp);}
+  if(cur){
+    const r=rectIn(box(cur)),x=r.x+r.w/2,y=r.y+r.h/2,wasOn=cu.classList.contains('on');
+    if(animate&&!wasOn){still(cu);cu.style.left=(x+220)+'px';cu.style.top=(y+160)+'px';free(cu);}
+    if(!animate)still(cu);
+    cu.style.left=x+'px';cu.style.top=y+'px';cu.classList.add('on');
+    if(!animate)free(cu);
+    if(animate&&curNew&&cur.dataset.fx==='click'){clearTimeout(s._ripT);s._ripT=setTimeout(()=>{const rp=s._rip;rp.style.left=x+'px';rp.style.top=y+'px';rp.classList.remove('go');void rp.offsetWidth;rp.classList.add('go');},820);}
+  }else{if(!animate)still(cu);cu.classList.remove('on');if(!animate)free(cu);}
 }
 function rectIn(el){const r=el.getBoundingClientRect(),S=stage.getBoundingClientRect(),k=stage._s;return{x:(r.left-S.left)/k,y:(r.top-S.top)/k,w:r.width/k,h:r.height/k};}
 function topIds(sec){return [...sec.querySelectorAll('[id]')].filter(el=>!el.parentElement.closest('section [id]'));}
 function show(n,dir){
   if(n<0||n>=slides.length)return;
   const a=slides[cur],b=slides[n];
+  if(a._fx&&a._fx.leave&&n!==cur)try{a._fx.leave();}catch(e){console.error(e);}
   const target=(!animOn||dir<0)?steps[n].length:seen[n];
   setBuild(n,target,false);
   const magic=b.getAttribute('data-transition')==='magic'&&Math.abs(n-cur)===1&&n!==cur;
@@ -947,27 +1059,66 @@ function show(n,dir){
     if(n!==cur)b.animate([{opacity:0},{opacity:1}],{duration:400,easing:'ease'});
   }
   cur=n;step=target;seen[n]=Math.max(seen[n],step);
+  if(b._fx&&b._fx.enter)try{b._fx.enter();}catch(e){console.error(e);}
   hideCopy();update();
 }
 function next(){if(animOn&&step<steps[cur].length){step++;seen[cur]=Math.max(seen[cur],step);setBuild(cur,step,true);update();}else show(cur+1,1);}
 function prev(){show(cur-1,-1);}
 // the on-screen arrows turn the page at once, without stepping through the builds left on this slide
 function nextPage(){show(cur+1,1);}
+// R or the bar button: put this slide back to its first screen, so its builds can be watched again with → or Space
+function replay(){
+  if(!steps[cur].length){toast('이 장은 애니메이션이 없어요');return;}
+  if(!animOn){toast('애니메이션이 꺼져 있어요. A로 켜면 다시 볼 수 있어요',2600);return;}
+  step=0;seen[cur]=0;setBuild(cur,0,false);
+  slides[cur].animate([{opacity:.4},{opacity:1}],{duration:300,easing:'ease'});
+  hideCopy();toast('처음 화면으로 돌렸어요. → 키를 누르면 다시 나와요',2400);update();
+}
 function go(n){n=Math.max(0,Math.min(slides.length-1,n));if(n!==cur)show(n,n<cur?-1:1);}
+// ---- presenter notes: the aside's plain text laid out as a card ----
+// first sentence = the point of the slide, the rest one sentence per line, notes about how outputs were made go to the bottom
+const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const META=/실제로 실행한 결과|셀 번호가|그 부분은 빼고 옮겼어요/;
+function slideTitle(s){const h=s.querySelector('h1,h2,h3');return h?h.textContent.trim():'';}
+function markNote(t){
+  // code-like words (names with _ . ( ) =, ...Error, a lowercase word standing alone, not inside an English phrase such as New repository) become code chips, chapter numbers before 에서/의 become pills
+  let out='',last=0;
+  t.replace(/[A-Za-z_]\w*(?:\.\w+)*(?:\([^()\s]*\))?|\[[^\]\s]*\]/g,(w,i)=>{
+    const alone=!/[A-Za-z]\s*$/.test(t.slice(0,i))&&!/^\s*[A-Za-z]/.test(t.slice(i+w.length));
+    const code=/[_().=\[\]]/.test(w)||/Error$/.test(w)||(alone&&/^[a-z][a-z0-9]+$/.test(w));
+    out+=esc(t.slice(last,i))+(code?'<code>'+esc(w)+'</code>':esc(w));last=i+w.length;return w;});
+  out+=esc(t.slice(last));
+  return out.replace(/(^|[^\w>])(0[1-9]|[12][0-9])(?=(에서|의|챕터)[\s,.])/g,'$1<span class="ch">$2</span>');
+}
+function renderNotes(text){
+  const t=text.replace(/\s+/g,' ').trim();
+  const ss=t?t.split(/(?<=[.?!])\s+(?=\S)/):[];
+  const main=ss.filter(x=>!META.test(x)),meta=ss.filter(x=>META.test(x));
+  const n=steps[cur].length,title=slideTitle(slides[cur]),nt=cur+1<slides.length?slideTitle(slides[cur+1]):'';
+  const body=main.length?'<p class="lead">'+markNote(main[0])+'</p><ul>'+main.slice(1).map(x=>'<li>'+markNote(x)+'</li>').join('')+'</ul>'+(meta.length?'<div class="meta">'+meta.map(markNote).join(' ')+'</div>':'')
+    :'<p class="none">이 장은 노트가 없어요.</p>';
+  $('pl-notes').innerHTML='<div class="nh"><div class="nh-t"><div class="nh-k">발표자 노트 · '+(cur+1)+' / '+slides.length+'</div><div class="nh-h">'+esc(title)+'</div></div><button class="nx" aria-label="노트 닫기">×</button></div>'
+    +'<div class="nb">'+body+'</div>'
+    +'<div class="nf"><span>'+(n?'애니메이션 <b>'+step+' / '+n+'</b>':'애니메이션 없음')+'</span><span>'+(nt?'다음 장 <b>'+esc(nt)+'</b>':'마지막 장')+'</span></div>';
+  $('pl-notes').querySelector('.nx').onclick=()=>notes(false);
+}
+function notes(show){const el=$('pl-notes');el.classList.toggle('show',show===undefined?!el.classList.contains('show'):show);$('pl-nb').classList.toggle('on',el.classList.contains('show'));}
 function update(){
   $('pl-count').textContent=(cur+1)+' / '+slides.length;
   const aside=slides[cur].querySelector('aside');
-  $('pl-notes').textContent=aside?aside.textContent:'';
+  renderNotes(aside?aside.textContent:'');
   history.replaceState(null,'','#'+(cur+1));
 }
 let toastT;
 function toast(msg,ms){const t=$('pl-toast');clearTimeout(toastT);if(!msg){t.classList.remove('show');return;}t.textContent=msg;t.classList.add('show');toastT=setTimeout(()=>t.classList.remove('show'),ms||1800);}
 function setAnim(on){
   animOn=on;try{localStorage.setItem('slides-anim',on?'on':'off');}catch(e){}
-  $('pl-anim').textContent=on?'애니메이션 끄기':'애니메이션 켜기';$('pl-anim').classList.toggle('off',!on);
+  animBtn();
   if(!on){step=steps[cur].length;seen[cur]=step;setBuild(cur,step,true);}
   toast(on?'애니메이션을 켰어요':'애니메이션을 껐어요. 모든 장을 다 펼쳐서 보여 줘요');update();
 }
+function animBtn(){const b=$('pl-anim');b.classList.toggle('on',!animOn);b.dataset.tip=animOn?'애니메이션 끄기 (A)':'애니메이션 켜기 (A)';b.setAttribute('aria-label',b.dataset.tip);}
+function help(show){const h=$('pl-help');h.classList.toggle('show',show===undefined?!h.classList.contains('show'):show);$('pl-bar').classList.toggle('keep',h.classList.contains('show'));}
 function fullscreen(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
 // Page jump: type the page number, then Enter
 let jump='',jumpT;
@@ -978,13 +1129,15 @@ addEventListener('keydown',e=>{
   if(/^[0-9]$/.test(e.key)){setJump((jump+e.key).slice(0,3));return;}
   if(jump&&e.key==='Enter'){e.preventDefault();const n=+jump;setJump('');if(n>0)go(n-1);return;}
   if(jump&&e.key==='Backspace'){e.preventDefault();setJump(jump.slice(0,-1));return;}
-  if(e.key==='Escape'){setJump('');return;}
+  if(e.key==='Escape'){setJump('');help(false);return;}
+  if(e.key==='?'){help();return;}
   if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next();}
   else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}
   else if(e.key==='Home')go(0);
   else if(e.key==='End')go(slides.length-1);
-  else if(e.key==='n'||e.key==='N')$('pl-notes').classList.toggle('show');
+  else if(e.key==='n'||e.key==='N')notes();
   else if(e.key==='a'||e.key==='A')setAnim(!animOn);
+  else if(e.key==='r'||e.key==='R')replay();
   else if(e.key==='f'||e.key==='F')fullscreen();
 });
 // Mouse: only the left and right arrow buttons turn the page. Clicks on the slide itself do nothing,
@@ -1021,7 +1174,7 @@ function showCopy(el){
 }
 addEventListener('mousemove',e=>{
   const t=e.target;
-  const onUi=t.closest&&t.closest('#pl-bar,#pl-notes,#pl-copy,.hint');
+  const onUi=t.closest&&t.closest('#pl-bar,#pl-notes,#pl-help,#pl-copy,.hint');
   if(t===copyBtn)return;
   // find the box by position, because drawings placed over a box can be the event target
   let c=null,area=Infinity;
@@ -1048,18 +1201,30 @@ $('pl-prev').onclick=prev;$('pl-next').onclick=next;
 for(const btn of document.querySelectorAll('button'))btn.addEventListener('click',()=>btn.blur());
 addEventListener('hashchange',()=>{const n=parseInt(location.hash.slice(1));if(n>0)go(n-1);});
 addEventListener('resize',hideCopy);
-$('pl-nb').onclick=()=>$('pl-notes').classList.toggle('show');
+$('pl-nb').onclick=()=>notes();
 $('pl-fs').onclick=fullscreen;
 $('pl-anim').onclick=()=>setAnim(!animOn);
+$('pl-replay').onclick=replay;
+$('pl-help-btn').onclick=()=>help();
+// the page counter turns into a page-number box when clicked
+$('pl-count').onclick=()=>{$('pl-bar').classList.add('jump');$('pl-go').focus();};
+$('pl-go').addEventListener('blur',()=>{$('pl-go').value='';$('pl-bar').classList.remove('jump');});
 $('pl-go').addEventListener('keydown',e=>{
-  if(e.key==='Enter'){const n=parseInt(e.target.value);e.target.value='';e.target.blur();if(n>0)go(n-1);}
-  else if(e.key==='Escape'){e.target.value='';e.target.blur();}
+  if(e.key==='Enter'){const n=parseInt(e.target.value);e.target.blur();if(n>0)go(n-1);}
+  else if(e.key==='Escape'){e.target.blur();}
 });
 let tx=null;addEventListener('touchstart',e=>tx=e.touches[0].clientX);addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>40)(d<0?next:prev)();tx=null;});
+// slide scripts: see the note at the top of build_player.js
+slides.forEach(s=>{
+  const js=s.querySelector('script[type="text/slide-js"]');
+  if(!js)return;
+  try{s._fx=new Function('sec','api',js.textContent)(s,{animOn:()=>animOn,rectIn})||{};}catch(e){console.error(e);}
+});
 const start=Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1))||1)-1));
 slides.forEach((s,i)=>setBuild(i,0,false));
 cur=start;step=animOn?0:steps[cur].length;seen[cur]=step;setBuild(cur,step,false);
-$('pl-anim').textContent=animOn?'애니메이션 끄기':'애니메이션 켜기';$('pl-anim').classList.toggle('off',!animOn);
+animBtn();
 slides[cur].classList.add('on');update();
+if(slides[cur]._fx&&slides[cur]._fx.enter)try{slides[cur]._fx.enter();}catch(e){console.error(e);}
 </script>
 </body></html>

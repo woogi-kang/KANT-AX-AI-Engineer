@@ -2,10 +2,10 @@
 
 Import from a chapter's gen.py:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "tools"))
-    from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, TYPE
+    from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline
 
 The player (tools/build_player.js) runs them. export.js and check.js ignore them, so the PDF shows the
-slide's plain layout: spot and cursor boxes are empty, drawn lines are fully drawn, typed text is whole.
+slide's plain layout: spot and cursor boxes are empty, drawn lines are fully drawn.
 """
 
 # Same meaning as the code-line tints: green run, gray skip, red error, blue mark, orange note.
@@ -13,7 +13,8 @@ GR, GRAY, RED, BL, OR = "#1F8A4C", "#6A7180", "#A33131", "#2459C9", "#B26A00"
 
 
 def TYPE(order):
-    """Attribute for a text element (a terminal command line) that is typed in letter by letter."""
+    """Old: letter-by-letter typing. Not in the guidelines any more (too many clicks per slide). Kept only because
+    01-03 still call it; delete it and the player's 'type' kind once those decks drop it."""
     return f' data-build-in="type order {order}"'
 
 
