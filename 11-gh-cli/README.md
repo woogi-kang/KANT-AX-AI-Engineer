@@ -36,13 +36,13 @@
 
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
-| 들어가기 | 1–4 | 표지, 오늘의 순서, git·GitHub·gh 구분, 웹 버튼과 gh 명령 짝 |
-| 1. 설치하고 로그인하기 | 5–14 | 설치, `gh auth status`, `gh auth login` 질문 네 개, 브라우저 코드, 토큰과 권한 목록, git도 gh로 로그인 |
-| 2. 이미 있는 레포 연결하기 | 15–18 | `gh repo clone`, origin 확인, `gh repo view`, `gh browse`, `gh repo list` |
-| 3. 새 레포 만들기 | 19–23 | 웹과 비교, 먼저 커밋 만들기, `gh repo create`, `git push origin main`, 질문으로 만들기 |
-| 4. 레포 지우기와 권한 추가 | 24–29 | 사라지는 것, 첫 `gh repo delete`의 403, delete_repo 권한, `gh auth refresh`, 다시 지우기 |
-| 5. 자주 쓰는 gh 명령 | 30–34 | `gh issue create`·`list`, `gh pr create`·`list`·`view`·`merge`, `gh --help` |
-| 정리 | 35–36 | 막힐 때, 한 장 요약 |
+| 들어가기 | 1–5 | 표지, 오늘의 순서, push 뒤 브라우저로 가던 장면, git과 gh가 맡는 일 그림, 웹 버튼과 gh 명령 짝 |
+| 1. 설치하고 로그인하기 | 6–15 | 설치, `gh auth status`, `gh auth login` 질문 네 개, 브라우저 코드, 토큰과 권한 목록, git도 gh로 로그인 |
+| 2. 이미 있는 레포 연결하기 | 16–19 | `gh repo clone`, origin 확인, `gh repo view`, `gh browse`, `gh repo list` |
+| 3. 새 레포 만들기 | 20–24 | 웹과 비교, 먼저 커밋 만들기, `gh repo create`, `git push origin main`, 질문으로 만들기 |
+| 4. 레포 지우기와 권한 추가 | 25–30 | 사라지는 것, 첫 `gh repo delete`의 403, delete_repo 권한, `gh auth refresh`, 다시 지우기 |
+| 5. 자주 쓰는 gh 명령 | 31–35 | `gh issue create`·`list`, `gh pr create`·`list`·`view`·`merge`, `gh --help` |
+| 정리 | 36–37 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -196,7 +196,7 @@ gh repo list
 | --- | --- |
 | `gh: command not found` | 설치 직후 터미널이 gh를 몰라요. 터미널을 닫고 다시 열어요 |
 | `You are not logged into any GitHub hosts` | 로그인 전이에요. `gh auth login` |
-| `HTTP 403: Must have admin rights to Repository.` 와 `needs the "delete_repo" scope` | 지우기 권한이 없어요. `gh auth refresh -h github.com -s delete_repo` 뒤 다시 지워요 (슬라이드 25–27쪽) |
+| `HTTP 403: Must have admin rights to Repository.` 와 `needs the "delete_repo" scope` | 지우기 권한이 없어요. `gh auth refresh -h github.com -s delete_repo` 뒤 다시 지워요 (슬라이드 26–28쪽) |
 | `failed to run git: fatal: not a git repository` | 레포 폴더 밖에서 `gh repo view`, `gh pr list`를 쳤어요. `pwd`로 보고 레포 폴더로 `cd` |
 | `? Where should we push the 'feature/…' branch?` | 브랜치를 push하기 전에 `gh pr create`를 쳤어요. Cancel을 고르고 `git push origin 브랜치` 뒤 다시 해요 |
 | 브라우저가 저절로 안 열려요 | 터미널의 코드를 보고 `github.com/login/device`를 직접 열어요 |
