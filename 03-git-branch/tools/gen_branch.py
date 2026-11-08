@@ -253,7 +253,13 @@ def note(sec_id):
               text, f' id="note" data-build-in="fade order {k}"')]
 
 
+# The player shows the first sentence of a note in bold, so each note starts with the slide's point.
+LEAD = {'g1-dots': '그래프의 점 하나가 커밋 하나예요.', 'b4-commit': '브랜치에서 커밋하면 그 브랜치 이름표만 앞으로 가요.', 'd2-commit': 'docs/login-guide 이름표만 새 커밋으로 가고 main은 그대로예요.', 'd3-back': 'main으로 돌아와서 main에도 커밋을 하나 만들어요.', 'd4-main': '이제 두 브랜치가 서로 다른 커밋을 하나씩 가져서 길이 갈라졌어요.', 'r1-oops': 'push 전에 실수한 커밋은 git reset으로 기록에서 뺄 수 있어요.', 'r2-soft': '--soft는 커밋만 취소하고 변경은 대기실에 남겨요.', 'r3-mixed': '--mixed는 커밋과 add를 취소하고 변경은 작업 폴더에 남겨요.', 'u1-oops': 'merge 커밋도 커밋 하나라서 같은 reset으로 한 칸 되돌려요.', 'u2-soft': 'merge 커밋을 --soft로 되돌리면 합쳐 온 변경이 대기실에 남아요.', 'u3-mixed': '--mixed로 되돌리면 합쳐 온 변경이 작업 폴더에 남아요.', 'u5-again': '브랜치를 지우지 않았으면 언제든 다시 merge할 수 있어요.', 'c1-korean': '충돌을 보려고 feature/login-title에서 login.md 첫 줄을 바꿔요.', 'c4-resolve': '남길 내용으로 고치고 add, commit하면 충돌이 풀려요.', 'p0-branch': '팀에서는 새 작업마다 브랜치를 만들고 GitHub에 올려 PR로 합쳐요.', 'p1-push': 'git push origin 브랜치이름으로 브랜치째 GitHub에 올려요.', 'p2-merged': 'GitHub에서 합친 merge 커밋은 아직 GitHub에만 있어요.'}
+
+
 def write(sec_id, parts, notes):
+    if sec_id in LEAD:
+        notes = LEAD[sec_id] + " " + notes
     parts = parts + note(sec_id)
     with open(os.path.join(OUT, f"{sec_id}.html"), "w") as f:
         f.write("\n".join(parts) + f"\n<aside>{e(notes)}</aside>\n</section>\n")
@@ -510,7 +516,7 @@ o = scene("c2-main", EB5, "main에서는 같은 줄을 다르게", [("$", "git c
           ("o", f"[main {L}] feat: 로그인 제목 다듬기")], "같은 줄을 양쪽에서 다르게 고쳤어요.", eyebrow_color=RED)
 o += graph(n14, e14, [("main", L, "main"), (FK, K, "green")], head="main", off=4)
 o += card("main의 login.md", [("# 로그인 페이지", "b"), ("아이디", "o"), ("비밀번호", "o")])
-write("c2-main", o, "main에서는 첫 줄을 # 로그인 페이지로 바꿨어요. 두 사람이 같은 파일의 같은 줄을 고친 상황이에요.")
+write("c2-main", o, "두 브랜치가 같은 파일의 같은 줄을 서로 다르게 고쳤어요. main에서는 첫 줄을 # 로그인 페이지로 바꿨어요.")
 
 n15 = dict(n14); n15[RZ] = (8, "main", "main", "ghost")
 e15 = e14 + [(L, RZ), (K, RZ)]

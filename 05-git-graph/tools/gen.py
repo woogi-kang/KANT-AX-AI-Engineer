@@ -9,7 +9,7 @@ Usage: python3 tools/gen.py slides
 import html, os, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, TYPE  # noqa: E402
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -47,28 +47,15 @@ def head(eyebrow, title, color=BL):
 TC = {"$": "#F2C46D", "o": "#D8DEE9", "#": "#8C95A6", "g": "#7FD18B", "r": "#F28B82"}
 
 
-def terminal(lines, left=96, top=656, w=1150, h=368, size=24, lh=1.3, tid="term", build=None):
-    """build: first click order. Each command line is typed on its own click, and the output lines after it
-    come in together on the next click. terminal.last holds the last order used."""
-    cur, prev = (build or 1) - 1, None
+def terminal(lines, left=96, top=656, w=1150, h=368, size=24, lh=1.3, tid="term"):
     o = [f'<div id="{tid}" style="position:absolute;left:{left}px;top:{top}px;width:{w}px;height:{h}px;background:#1B2029;border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;font-family:{MONO};font-variant-ligatures:none">']
     for kind, text in lines:
         t = e(text).replace("\t", "        ")
         if kind == "$":
             t = "$ " + t
         bold = "font-weight:700;" if kind == "$" else ""
-        at = ""
-        if build is not None and kind == "$":
-            cur += 1
-            at = TYPE(cur)
-        elif build is not None and kind != "#":
-            if prev == "$":
-                cur += 1
-            at = f' data-build-in="fade order {cur}"'
-        prev = kind
-        o.append(p(f"font-size:{size}px;line-height:{lh};white-space:pre;{bold}color:{TC[kind]}", t if t else " ", at))
+        o.append(p(f"font-size:{size}px;line-height:{lh};white-space:pre;{bold}color:{TC[kind]}", t if t else " "))
     o.append('</div>')
-    terminal.last = cur
     return o
 
 
@@ -273,16 +260,15 @@ def frame(sid, eyebrow, cmd, transition="magic", cmd_size=50, color=BL):
 
 
 def scene(sid, eyebrow, cmd, state, term, call, notes, transition="magic", cmd_size=50, hot=(0, 0)):
-    """Clicks: type each command, show its output, light up the rows that changed (hot), then the callout."""
+    """Command and output show at once. Clicks: light up the rows that changed (hot), then the callout."""
     o = frame(sid, eyebrow, cmd, transition, cmd_size)
     g, ys = gg(ST[state])
     o += g
-    o += terminal(term, build=1)
-    n = terminal.last
+    o += terminal(term)
     y0, y1 = ys[hot[0]] - 24, ys[hot[1]] + 24
-    o.append(spot(n + 1, 100, y0, 1720, y1 - y0, pad=4, r=10))
-    o.append(spot_off(n + 2))
-    o += callout(*call, order=n + 2)
+    o.append(spot(1, 100, y0, 1720, y1 - y0, pad=4, r=10))
+    o.append(spot_off(2))
+    o += callout(*call, order=2)
     W(sid, o, notes)
 
 

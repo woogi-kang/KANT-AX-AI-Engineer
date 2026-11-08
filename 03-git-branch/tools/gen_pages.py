@@ -6,7 +6,11 @@ from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
 MONO = "'JetBrains Mono', 'Noto Sans KR', monospace"
+# The player shows the first sentence of a note in bold, so each note starts with the slide's point.
+LEAD = {'toc': '오늘은 브랜치를 만들고, 합치고, 되돌리고, 충돌을 푸는 순서로 가요.', 'pr-github': 'Pull Request 화면에서는 제목, 합칠 방향, 설명, 바뀐 줄을 차례로 확인하고 합쳐요.', 'sc-adjacent': '바로 붙은 두 줄을 각자 고치면 다른 줄이어도 충돌이 나요.', 'sc-delete': '한쪽이 지운 파일을 다른 쪽이 고치면 modify/delete 충돌이 나요.', 'rs-delete': 'deleted by them이면 git rm으로 지우거나 git add로 남긴 뒤 커밋해요.', 'sc-addadd': '두 브랜치가 같은 이름의 새 파일을 따로 만들면 add/add 충돌이 나요.', 'sc-pull': 'pull 설정이 없으면 갈라진 상태에서 pull이 fatal로 멈춰요.', 'pull-config': 'git config --global pull.rebase false를 한 번 쳐 두면 pull이 merge로 합쳐요.', 'rs-pull': '설정한 뒤 다시 pull하면 시나리오 1과 같은 충돌 표시가 나와요.', 'sc-pr': 'PR을 올린 사이 main이 같은 줄을 바꾸면 PR 화면에 충돌이 떠요.', 'cheatsheet': '오늘 배운 명령을 브랜치, 합치기, 충돌, GitHub 네 묶음으로 모았어요.'}
 def W(name, s):
+    if name in LEAD:
+        s = s.replace("<aside>", "<aside>" + LEAD[name] + " ", 1)
     open(os.path.join(OUT, name + ".html"), "w").write(s.strip() + "\n")
 def sec(i, bg="#F6F5F1", extra=""):
     return f'<section id="{i}" data-transition="fade" style="background:{bg};color:#1D2330;font-family:{SANS};padding:96px;display:flex;flex-direction:column{extra}">'
@@ -45,7 +49,7 @@ for x in (1100, 1260, 1660, 1760):
 for x in (1380, 1540):
     cov.append(node(x, y1, "#7FD18B", 24))
 cov += [pill(1540, y1 - 72, "feature/login", "green"), pill(1760, y0 + 44, "main", "main")]
-cov += ['<aside>02 Git 기본 흐름에서 쓰던 hello-git 저장소로 이어서 실습해요. 이번엔 커밋을 점(노드)으로, 브랜치를 그 점에 붙은 이름표로 그려서 명령마다 무엇이 움직이는지 봐요.</aside>', '</section>']
+cov += ['<aside>브랜치를 점(커밋)과 이름표(브랜치) 그림으로 배워요. 02 Git 기본 흐름에서 쓰던 hello-git 저장소로 이어서 실습해요. 명령마다 이름표와 HEAD가 어디로 움직이는지 봐요.</aside>', '</section>']
 W("cover", "\n".join(cov))
 
 # ---------- toc ----------
@@ -299,7 +303,7 @@ errpage("err-dirty", "에러 2 · 커밋 안 한 변경", "브랜치를 옮기�
 errpage("err-unmerged", "에러 3 · 브랜치 지우기", "브랜치가 안 지워져요",
         [("Lock", "아직 합치지 않은 커밋이 있음", "$ git branch -d feature/login<br>error: the branch 'feature/login' is not fully merged.<br>If you are sure you want to delete it, run 'git branch -D feature/login'",
           "지우면 그 커밋을 잃을 수 있어서 Git이 멈췄어요", ["git checkout main", "git merge feature/login", "git branch -d feature/login"])],
-        "합치고 지우는 게 기본이에요. 정말 버릴 작업일 때만 대문자 -D로 강제로 지워요. GitHub에서 PR을 merge했는데도 이 에러가 나면, 먼저 git checkout main 후 git pull origin main으로 내 main을 최신으로 맞추고 다시 지워 봐요.")
+        "-d는 합치지 않은 커밋이 있으면 지우지 않고 멈춰요. 먼저 main에 합친 뒤 지워요. 합치지 않고 버리는 방법은 08에서 다뤄요. GitHub에서 PR을 merge했는데도 이 에러가 나면, 먼저 git checkout main 후 git pull origin main으로 내 main을 최신으로 맞추고 다시 지워 봐요.")
 
 # ---------- cheatsheet ----------
 ch = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:112px 128px;display:flex;flex-direction:column;gap:40px">',
@@ -315,7 +319,7 @@ for k, (h, hc, bg, tc, body) in enumerate(cards):
               f'<h3 style="font-size:36px;font-weight:700;color:{hc}">{h}</h3>'
               f'<p style="font-family:{MONO};font-size:24px;line-height:1.8;color:{tc}">{body}</p></div>')
 ch += ['</div>', f'<p style="font-size:28px;font-weight:700;color:#1D2330">브랜치 이름: <span style="color:#1A7340">feature/login-button</span> · main에는 직접 커밋하지 않기</p>',
-       '<aside>수업 끝에 이 장을 띄워 두고, 칠판에 그래프를 그리며 명령마다 이름표와 HEAD가 어디로 가는지 학생이 직접 말해 보게 하세요.</aside>', '</section>']
+       '<aside>수업 끝에 이 장을 띄워 두고, 칠판에 그래프를 그리며 명령마다 이름표와 HEAD가 어디로 가는지 학생이 직접 말해 보게 해요.</aside>', '</section>']
 W("cheatsheet", "\n".join(ch))
 
 # ---------- merge-how ----------
@@ -387,6 +391,8 @@ def tw(t, size):
 def term(L, top, w, lines, attrs="", size=28, build=None):
     """build: click order the whole terminal comes in on (1 = on screen from the start). No typing, so a slide
     takes as few clicks as possible. term.last is the last order used, term.boxes[i] the (x, y, w, h) of line i for box()."""
+    if build is not None and build > 1:
+        attrs += f' data-build-in="fade order {build}"'
     o = [f'<div{attrs} style="position:absolute;left:{L}px;top:{top}px;width:{w}px;background:#1B2029;border-radius:20px;padding:24px 32px;display:flex;flex-direction:column;gap:6px;font-family:{MONO}">']
     cur, prev, y = (build or 1) - 1, None, top + 24
     term.boxes = []
@@ -394,9 +400,8 @@ def term(L, top, w, lines, attrs="", size=28, build=None):
         t = ("$ " + text) if k == "$" else text
         wgt = "700" if k == "$" else "400"
         at = ""
-        if build is not None and build > 1:     # comes in after what is above it, all lines on one click
+        if build is not None and build > 1:     # comes in after what is above it: the whole box on one click
             cur = build
-            at = f' data-build-in="fade order {build}"'
         prev = k
         term.boxes.append((L + 32, y, tw(t, size), size * 1.35))
         y += size * 1.35 + 6
@@ -656,7 +661,7 @@ rz.append(f'<div style="position:absolute;left:96px;top:760px;width:1728px;backg
           f'<p style="font-family:{MONO};font-size:34px;font-weight:700;color:#F2C46D">git reset 옵션 HEAD~1</p>'
           f'<p style="font-size:28px;color:#D8DEE9">지금 브랜치 이름표를 한 칸 아래 커밋으로 옮겨요</p></div>')
 page("r0-what", "되돌리기", "reset은 이름표를 뒤로 옮겨요", rz,
-     "reset은 merge와 상관없이 쓰는 명령이에요. 지금 있는 브랜치의 이름표를 예전 커밋으로 옮겨서, 그 위 커밋을 기록에서 빼요. HEAD~1은 지금보다 한 칸 아래 커밋이에요. merge 커밋도 커밋 하나라서 똑같이 한 칸 뒤로 가요. 두 경우 모두 push 전에만 써요. 옵션 --soft, --mixed, --hard는 빠진 커밋의 변경을 어느 칸에 남길지 정해요.",
+     "reset은 지금 브랜치 이름표를 예전 커밋으로 옮겨서 그 위 커밋을 기록에서 빼요. merge와 상관없이 쓰는 명령이에요. HEAD~1은 지금보다 한 칸 아래 커밋이에요. merge 커밋도 커밋 하나라서 똑같이 한 칸 뒤로 가요. 두 경우 모두 push 전에만 써요. 옵션 --soft, --mixed, --hard는 빠진 커밋의 변경을 어느 칸에 남길지 정해요.",
      color=UC)
 cell = "font-size:26px;text-align:center;padding:24px 16px;border-radius:14px"
 gone, keep, empty, same = ("color:#A33131;font-weight:700;background:#FBE4E2", "color:#1A7340;font-weight:700;background:#DDF2E5",
