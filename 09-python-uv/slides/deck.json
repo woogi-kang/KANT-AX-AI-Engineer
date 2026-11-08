@@ -9,11 +9,11 @@
   "order": [
     "cover",
     "toc",
+    "why",
     "run",
     "pkg",
-    "old-venv",
-    "vs",
-    "why",
+    "venv",
+    "map",
     "install",
     "init",
     "init-files",
@@ -35,23 +35,26 @@
     "jup-kernel",
     "jup-pick",
     "jup-run",
-    "jup-trouble",
-    "map",
+    "compare",
     "trouble",
+    "trouble2",
+    "real-tutorial",
+    "real-notebook",
+    "real-team",
     "cheatsheet"
   ],
   "sections": {
     "intro": {
-      "description": "파이썬 실행",
+      "description": "들어가기",
       "start": "cover"
     },
-    "run": {
-      "description": "파이썬은 어떻게 실행되나",
-      "start": "run"
+    "why": {
+      "description": "왜 필요할까",
+      "start": "why"
     },
-    "old": {
-      "description": "예전 방식과 비교",
-      "start": "old-venv"
+    "big": {
+      "description": "큰 그림",
+      "start": "run"
     },
     "uv": {
       "description": "uv 설치하기",
@@ -73,9 +76,21 @@
       "description": "VS Code에서 Jupyter 쓰기",
       "start": "jup-what"
     },
+    "compare": {
+      "description": "예전 방식과 비교",
+      "start": "compare"
+    },
     "trouble": {
+      "description": "막힐 때",
+      "start": "trouble"
+    },
+    "real": {
+      "description": "실제 상황 예제",
+      "start": "real-tutorial"
+    },
+    "summary": {
       "description": "정리",
-      "start": "map"
+      "start": "cheatsheet"
     }
   },
   "faces": {
