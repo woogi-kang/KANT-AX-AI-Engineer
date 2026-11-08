@@ -1,0 +1,149 @@
+// 릴리스 노트에 넣을 스크린샷을 실제 덱(13)으로 찍어요.
+// 사용법 (레포 맨 위에서): node updates/2026-11-08-slide-replay/tools/shots.js
+const { chromium } = require('playwright');
+const path = require('path');
+const fs = require('fs');
+
+const ROOT = path.resolve(__dirname, '../../..');
+const OUT = path.resolve(__dirname, '../img');
+const PY = 'file://' + path.join(ROOT, '13-python-strings-lists/python-strings-lists-slides.html');
+const W = 1600, H = 900;
+const RED = '#E5484D';
+
+// 화면 위에 강조 상자와 설명 말풍선을 덧그려요. 좌표는 화면(px) 기준이에요.
+async function annotate(page, marks) {
+  await page.evaluate(({ marks, RED }) => {
+    document.querySelectorAll('.anno').forEach(e => e.remove());
+    for (const m of marks) {
+      if (m.box) {
+        const d = document.createElement('div');
+        d.className = 'anno';
+        Object.assign(d.style, {
+          position: 'fixed', left: m.box.x + 'px', top: m.box.y + 'px', width: m.box.w + 'px', height: m.box.h + 'px',
+          border: `4px ${m.dashed ? 'dashed' : 'solid'} ${m.color || RED}`, borderRadius: '12px', zIndex: 9998,
+          pointerEvents: 'none', boxSizing: 'border-box', background: m.fill || 'transparent',
+        });
+        document.body.appendChild(d);
+      }
+      if (m.label) {
+        const t = document.createElement('div');
+        t.className = 'anno';
+        t.innerHTML = m.label;
+        Object.assign(t.style, {
+          position: 'fixed', maxWidth: (m.width || 420) + 'px',
+          padding: '12px 18px', borderRadius: '12px', background: m.color || RED, color: '#fff',
+          font: "700 22px/1.4 'Noto Sans KR', Arial, sans-serif", zIndex: 9999, pointerEvents: 'none',
+          boxShadow: '0 4px 14px rgba(0,0,0,.25)', whiteSpace: m.nowrap ? 'nowrap' : 'normal',
+          transform: m.anchor || 'none',
+        });
+        for (const k of ['left', 'top', 'right', 'bottom']) {
+          const v = m.at[k] ?? m.at[{ left: 'x', top: 'y' }[k]];
+          if (v !== undefined) t.style[k] = v + 'px';
+        }
+        document.body.appendChild(t);
+      }
+    }
+  }, { marks, RED });
+}
+const rect = (page, sel) => page.evaluate(s => {
+  const el = typeof s === 'string' ? document.querySelector(s) : null;
+  const r = el.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height };
+}, sel);
+const pad = (r, p) => ({ x: r.x - p, y: r.y - p, w: r.w + 2 * p, h: r.h + 2 * p });
+async function open(page, url, n) {
+  await page.goto('about:blank');
+  await page.goto(url + '#' + n);
+  await page.evaluate(() => document.fonts.ready);
+  await page.waitForTimeout(600);
+}
+async function buildAll(page) {
+  // 지금 장의 애니메이션을 끝까지 펼쳐요 (Space를 누르다 장이 바뀌기 직전에 멈춰요)
+  const start = await page.evaluate(() => location.hash);
+  for (let i = 0; i < 20; i++) {
+    const left = await page.evaluate(() => document.querySelectorAll('#pl-stage>section.on .pending').length);
+    if (!left) break;
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(150);
+  }
+  if (await page.evaluate(() => location.hash) !== start) throw new Error('slide moved');
+  await page.waitForTimeout(600);
+}
+async function codeBox(page) {
+  return page.evaluate(() => {
+    const r = document.querySelector('#pl-stage>section.on [data-code]').getBoundingClientRect();
+    return { x: r.left, y: r.top, w: r.width, h: r.height };
+  });
+}
+const shot = (page, name) => page.screenshot({ path: path.join(OUT, name) });
+// 스크린샷 두 장을 제목과 함께 나란히 붙여요
+let ctxRef;
+async function sideBySide(name, panels) {
+  const cmp = await ctxRef.newPage();
+  await cmp.setViewportSize({ width: 1600, height: 100 });
+  const img = b => 'data:image/png;base64,' + b.toString('base64');
+  await cmp.setContent(`<html><head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap"></head>
+  <body style="margin:0;background:#F6F5F1;font-family:'Noto Sans KR'">
+  <div style="display:flex;gap:56px;padding:36px 40px;align-items:flex-start;position:relative">
+  ${panels.map(([b, t, sub, c], i) => `
+  <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:28px;font-weight:700;color:${c}">${t} <span style="font-weight:500;color:#1D2330">· ${sub}</span></div>
+    <img src="${img(b)}" style="width:100%;border-radius:12px;border:4px solid ${c};box-sizing:border-box">
+  </div>${i < panels.length - 1 ? '<div style="align-self:center;font-size:44px;color:#1D2330;margin:40px -40px 0">&#8594;</div>' : ''}`).join('')}
+  </div></body></html>`);
+  await cmp.evaluate(() => document.fonts.ready); await cmp.waitForTimeout(400);
+  await cmp.screenshot({ path: path.join(OUT, name), fullPage: true });
+  await cmp.close();
+}
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+(async () => {
+  fs.mkdirSync(OUT, { recursive: true });
+  const browser = await chromium.launch();
+  const ctx = await browser.newContext({ viewport: { width: W, height: H } });
+  ctxRef = ctx;
+  const page = await ctx.newPage();
+  const pending = () => page.evaluate(() => document.querySelectorAll('#pl-stage>section.on .pending').length);
+
+  // 1. 다 본 장에서 R을 누르면 처음 화면으로 돌아가고, → 로 하나씩 다시 나와요
+  await open(page, PY, 20); await buildAll(page);
+  await page.keyboard.press('ArrowRight'); await page.waitForTimeout(500);
+  await page.keyboard.press('ArrowLeft'); await page.waitForTimeout(900);
+  if (await pending()) throw new Error('not finished on return');
+  const top = { clip: { x: 0, y: 0, width: W, height: 620 } }; // 위쪽만 잘라서 크게 보여 줘요
+  const done = await page.screenshot(top);
+  await page.keyboard.press('r'); await page.waitForTimeout(600);
+  if (!(await pending())) throw new Error('R did not reset');
+  const toastR = await rect(page, '#pl-toast');
+  await annotate(page, [{ box: pad(toastR, 8) }]);
+  const reset = await page.screenshot(top);
+  await annotate(page, []);
+  await page.keyboard.press('ArrowRight'); await page.waitForTimeout(400);
+  await page.keyboard.press('ArrowRight'); await page.waitForTimeout(900);
+  const again = await page.screenshot(top);
+  await sideBySide('01-replay.png', [
+    [done, '다 본 장', '완성된 화면이에요', '#6A7180'],
+    [reset, 'R을 누르면', '처음 화면으로 돌아가요', RED],
+    [again, '→ 를 누르면', '하나씩 다시 나와요', '#1F8A4C'],
+  ]);
+
+  // 2. 아래 막대의 "다시 보기" 버튼
+  await open(page, PY, 22); await buildAll(page);
+  await page.mouse.move(W / 2, H - 20); await page.waitForTimeout(400);
+  const btn = await rect(page, '#pl-replay');
+  await annotate(page, [
+    { box: pad(btn, 6) },
+    { label: '마우스로는 아래 막대의 "다시 보기"를 눌러요', at: { right: W - (btn.x + btn.w), bottom: H - btn.y + 24 }, nowrap: true, width: 900 },
+  ]);
+  await shot(page, '02-bar-button.png');
+
+  // 3. 애니메이션이 꺼져 있을 때
+  await page.evaluate(() => document.querySelectorAll('.anno').forEach(e => e.remove()));
+  await page.keyboard.press('a'); await page.waitForTimeout(2200);
+  await page.keyboard.press('r'); await page.waitForTimeout(500);
+  const toastOff = await rect(page, '#pl-toast');
+  await annotate(page, [{ box: pad(toastOff, 8) }]);
+  await shot(page, '03-animation-off.png');
+  await page.keyboard.press('a');
+  await browser.close();
+  console.log('shots ->', OUT);
+})();

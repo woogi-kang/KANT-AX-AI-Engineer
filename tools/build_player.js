@@ -179,6 +179,14 @@ function next(){if(animOn&&step<steps[cur].length){step++;seen[cur]=Math.max(see
 function prev(){show(cur-1,-1);}
 // the on-screen arrows turn the page at once, without stepping through the builds left on this slide
 function nextPage(){show(cur+1,1);}
+// R or the bar button: put this slide back to its first screen, so its builds can be watched again with → or Space
+function replay(){
+  if(!steps[cur].length){toast('이 장은 애니메이션이 없어요');return;}
+  if(!animOn){toast('애니메이션이 꺼져 있어요. A로 켜면 다시 볼 수 있어요',2600);return;}
+  step=0;seen[cur]=0;setBuild(cur,0,false);
+  slides[cur].animate([{opacity:.4},{opacity:1}],{duration:300,easing:'ease'});
+  hideCopy();toast('처음 화면으로 돌렸어요. → 키를 누르면 다시 나와요',2400);update();
+}
 function go(n){n=Math.max(0,Math.min(slides.length-1,n));if(n!==cur)show(n,n<cur?-1:1);}
 function update(){
   $('pl-count').textContent=(cur+1)+' / '+slides.length;
@@ -211,6 +219,7 @@ addEventListener('keydown',e=>{
   else if(e.key==='End')go(slides.length-1);
   else if(e.key==='n'||e.key==='N')$('pl-notes').classList.toggle('show');
   else if(e.key==='a'||e.key==='A')setAnim(!animOn);
+  else if(e.key==='r'||e.key==='R')replay();
   else if(e.key==='f'||e.key==='F')fullscreen();
 });
 // Mouse: only the left and right arrow buttons turn the page. Clicks on the slide itself do nothing,
@@ -277,6 +286,7 @@ addEventListener('resize',hideCopy);
 $('pl-nb').onclick=()=>$('pl-notes').classList.toggle('show');
 $('pl-fs').onclick=fullscreen;
 $('pl-anim').onclick=()=>setAnim(!animOn);
+$('pl-replay').onclick=replay;
 $('pl-go').addEventListener('keydown',e=>{
   if(e.key==='Enter'){const n=parseInt(e.target.value);e.target.value='';e.target.blur();if(n>0)go(n-1);}
   else if(e.key==='Escape'){e.target.value='';e.target.blur();}
@@ -315,7 +325,7 @@ ${sections}
 <button id="pl-copy"></button>
 <div id="pl-toast"></div>
 <div id="pl-notes"></div>
-<div id="pl-bar"><button id="pl-prev">이전</button><button id="pl-next">다음</button><span id="pl-count"></span><input id="pl-go" inputmode="numeric" placeholder="쪽 번호" aria-label="쪽 번호로 가기"><span class="grow"></span><span>→ 다음 · ← 이전 · 숫자+Enter 쪽 이동 · A 애니메이션 · N 노트 · F 전체 화면</span><button id="pl-anim">애니메이션 끄기</button><button id="pl-nb">노트</button><button id="pl-fs">전체 화면</button></div>
+<div id="pl-bar"><button id="pl-prev">이전</button><button id="pl-next">다음</button><span id="pl-count"></span><input id="pl-go" inputmode="numeric" placeholder="쪽 번호" aria-label="쪽 번호로 가기"><span class="grow"></span><span>→ 다음 · ← 이전 · 숫자+Enter 쪽 이동 · R 다시 보기 · A 애니메이션 · N 노트 · F 전체 화면</span><button id="pl-replay">다시 보기</button><button id="pl-anim">애니메이션 끄기</button><button id="pl-nb">노트</button><button id="pl-fs">전체 화면</button></div>
 <script>${PLAYER_JS}</script>
 </body></html>`;
   fs.writeFileSync(out, html);
