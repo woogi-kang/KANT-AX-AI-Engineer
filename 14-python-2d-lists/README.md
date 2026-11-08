@@ -1,6 +1,6 @@
 # 14 · 파이썬 기초 3 (in, 2차원 리스트)
 
-> 13에서 리스트와 튜플에 값을 담고 `for`로 하나씩 꺼냈어요. 이번에는 `in`과 `not in`으로 값이 들어 있는지 True, False로 물어요. 그다음 리스트 안에 리스트를 넣은 2차원 리스트로 성적표와 좌석표 같은 표 모양 데이터를 다뤄요. 모든 예제는 12, 13에서 쓰던 노트북에 이어서 적고 실행해요.
+> 13에서 리스트와 튜플에 값을 담고 `for`로 하나씩 꺼냈어요. 이번에는 `in`과 `not in`으로 값이 들어 있는지 True, False로 물어요. 그다음 리스트 안에 리스트를 넣은 2차원 리스트로 성적표와 좌석표 같은 표 모양 데이터를 다뤄요. 마지막 파트에서 둘을 섞어 성적표, 좌석표, 카페 판매표를 만들어요. 모든 예제는 12, 13에서 쓰던 노트북에 이어서 적고 실행해요.
 
 <!-- curriculum:top -->
 
@@ -14,6 +14,7 @@
 
 이 챕터를 마치면 다음을 할 수 있어요.
 
+- `count`, `index` 대신 `in`으로 묻는 이유를 알아요.
 - 리스트, 튜플, 문자열에서 `in`과 `not in`으로 값이 들어 있는지 True, False로 물어요.
 - `in`의 결과를 `and`, `or`와 섞어 쓰고, 변수에 담아 둬요.
 - `in`은 바깥 한 겹만 본다는 걸 알고, 안쪽은 `orders[2]`처럼 꺼낸 뒤 물어요.
@@ -21,7 +22,7 @@
 - `len(scores)`로 행 수, `len(scores[0])`로 열 수를 세요.
 - `for row in scores:`로 행마다 `sum`, `max`를 구하고, `append`로 열 하나를 모아요.
 - 행을 더하고(`scores.append([...])`) 열을 더해요(`for` 안에서 `row.append(0)`).
-- `for name, kor, eng, math in students:`로 성적표를 찍어요.
+- `for name, kor, eng, math in students:`로 성적표를 찍고, `menu.index("latte")`로 찾은 번호로 판매표의 열 합계를 구해요.
 - `[[0] * 3] * 3` 함정을 알고, `IndexError`, `ValueError`의 마지막 줄을 읽고 고쳐요.
 
 ## 시작하기 전에
@@ -40,9 +41,10 @@
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
 | 들어가기 | 1–3 | 표지, 오늘의 순서, `basics.ipynb` 다시 열기 |
-| 1. in과 not in | 4–7 | 리스트에서 `in`과 `not in`, 튜플과 문자열의 `in`(숫자와 글자, 붙어 있는 글자 조각, 대소문자), `and` `or`와 섞기, 한 겹만 보는 `in` |
-| 2. 2차원 리스트 | 8–20 | 리스트 안의 리스트와 `len`, `[행][열]`로 꺼내기, 칸과 행 바꾸기, `for`로 행마다 `sum` `max`, 열 하나 모으기, 전체 합계와 평균, 이름이 들어간 성적표, 2차원 리스트의 `in`, 행과 칸 자르기, 행과 열 더하기, 좌석표, `[[0] * 3] * 3` 함정, 자주 나는 오류 |
-| 정리 | 21–22 | 막힐 때, 한 장 요약 |
+| 1. in과 not in | 4–8 | `count`, `index`로 물을 때의 불편, 리스트에서 `in`과 `not in`, 튜플과 문자열의 `in`(숫자와 글자, 붙어 있는 글자 조각, 대소문자), `and` `or` `not`과 섞기, 한 겹만 보는 `in` |
+| 2. 2차원 리스트 | 9–21 | 왜 필요한가, 리스트 안의 리스트와 `len`, `[행][열]`로 꺼내기, 칸과 행 바꾸기, `for`로 행마다 `sum` `max`, 열 하나 모으기, 전체 합계와 평균, 행과 칸 자르기, 2차원 리스트의 `in`, 행과 열 더하기, 13의 리스트와 비교, `[[0] * 3] * 3` 함정, 자주 나는 오류 |
+| 3. 실제로 써 보기 | 22–24 | 이름이 들어간 성적표, 좌석표, 카페 판매표 |
+| 정리 | 25–26 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -117,6 +119,11 @@ print("cake" in orders)              # False
 print("cake" in orders[2])           # True
 ```
 
+```python
+print(menu.count("juice"))   # 0
+menu.index("juice")          # ValueError: 'juice' is not in list
+```
+
 ### 2. 2차원 리스트
 
 ```python
@@ -154,6 +161,8 @@ print("전체 합계:", total)          # 전체 합계: 755
 print(f"평균: {total / count:.1f}")  # 평균: 83.9
 ```
 
+### 3. 실제로 써 보기
+
 ```python
 students = [["kim", 90, 85, 77],
             ["lee", 70, 95, 88],
@@ -181,6 +190,23 @@ for row in seats:
 # O X X O
 print(seats[2].count("X"))          # 2
 print(len(seats) * len(seats[0]))   # 12
+```
+
+```python
+menu = ["coffee", "latte", "cake"]
+sales = [[12, 8, 5],
+         [10, 9, 7],
+         [15, 11, 4]]
+for row in sales:
+    print(row, "하루 합계:", sum(row))
+# [12, 8, 5] 하루 합계: 25
+# [10, 9, 7] 하루 합계: 26
+# [15, 11, 4] 하루 합계: 30
+col = menu.index("latte")
+latte = []
+for row in sales:
+    latte.append(row[col])
+print("latte:", latte, "합계:", sum(latte))   # latte: [8, 9, 11] 합계: 28
 ```
 
 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
