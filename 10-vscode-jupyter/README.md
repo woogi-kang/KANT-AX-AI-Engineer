@@ -36,13 +36,14 @@
 
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
-| 들어가기 | 1–3 | 표지, 오늘의 순서, 09에서 한 준비와 새 노트북 만들기 |
-| 1. 노트북 화면 읽기 | 4–5 | 화면의 다섯 곳, 코드 셀과 마크다운 셀 |
-| 2. 셀 실행하기 | 6–12 | `Ctrl+Enter`, `Shift+Enter`, `Alt+Enter`, 실행 번호와 커널이 기억하는 값, 같은 셀 다시 실행, Restart와 Run All, 위쪽 버튼 |
-| 3. 명령 모드와 편집 모드 | 13–18 | 두 모드와 `Esc`·`Enter`, 키로만 셀 만들기(네 장), 명령 모드 글자 키 |
-| 4. 노트북에 수업 내용 정리하기 | 19–23 | 마크다운 셀에 변수 이름 규칙 적기, 규칙을 어긴 이름의 SyntaxError, 컨벤션(스네이크, 파스칼, 카멜 표기법), 자료형 다섯 가지, `type()`으로 확인 |
-| 5. 단축키 모음 | 24–25 | 실행하고 셀 다루는 키, 글 고치는 키와 파일 키 (Windows, Mac 나란히) |
-| 정리 | 26–27 | 막힐 때, 한 장 요약 |
+| 들어가기 | 1–6 | 표지, 오늘의 순서, 파일 실행과 노트북의 차이, 셀과 커널 큰 그림, 09에서 한 준비와 새 노트북 만들기, 첫 실행(`Shift+Enter`) |
+| 1. 노트북 화면 읽기 | 7–8 | 화면의 다섯 곳, 코드 셀과 마크다운 셀 |
+| 2. 셀 실행하기 | 9–14 | `Ctrl+Enter`, `Alt+Enter`, 실행 번호와 커널이 기억하는 값, 같은 셀 다시 실행, Restart와 Run All, 위쪽 버튼 |
+| 3. 명령 모드와 편집 모드 | 15–20 | 두 모드와 `Esc`·`Enter`, 키로만 셀 만들기(네 장), 명령 모드 글자 키 |
+| 4. 파일 실행과 비교하고 막힐 때 보기 | 21–23 | `uv run main.py`와 노트북 비교, 설명 글을 코드 셀에 적었을 때의 SyntaxError, 막힐 때 표 |
+| 5. 노트북에 수업 내용 정리하기 | 24–28 | 마크다운 셀에 변수 이름 규칙 적기, 규칙을 어긴 이름의 SyntaxError, 컨벤션(스네이크, 파스칼, 카멜 표기법), 자료형 다섯 가지, `type()`으로 확인 |
+| 6. 단축키 모음 | 29–30 | 실행하고 셀 다루는 키, 글 고치는 키와 파일 키 (Windows, Mac 나란히) |
+| 정리 | 31 | 한 장 요약 |
 
 ## 핵심 개념
 
@@ -99,7 +100,7 @@ Mac의 실행 키는 Cmd가 아니라 control이에요. VS Code 기본 설정이
 | 하이픈(-) 불가 | `my-name` | `SyntaxError: cannot assign to expression here.` | `my_name` |
 | 예약어 사용 불가 | `class` | `SyntaxError: invalid syntax` | `class_name` |
 
-예약어는 `if`, `for`, `class`, `True`, `None`처럼 파이썬이 이미 쓰는 단어예요. 셀에서 `import keyword` 뒤 `keyword.kwlist`를 실행하면 전체 목록이 나와요.
+예약어는 `class`, `True`, `None`처럼 파이썬이 이미 쓰는 단어예요. 셀에서 `import keyword` 뒤 `keyword.kwlist`를 실행하면 전체 목록이 나와요.
 
 | 컨벤션 | 예 | 파이썬에서 |
 | --- | --- | --- |
@@ -259,7 +260,9 @@ slides/
   deck.json        슬라이드 순서와 파트 구분 (gen.py가 만들어요)
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장과 deck.json 생성 (노트북 화면, 키 캡, 단축키 표)
+  gen.py           모든 장과 deck.json 생성 (노트북 화면, 키 캡, 단축키 표). 한 번 그린 뒤 measure.js로 잰 자리에 설명선을 다시 그려요
+  measure.js       장마다 요소 자리를 재서 rects.json에 적어요 (gen.py가 불러요)
+  states.js        한 요소가 단계마다 글자나 모양을 바꾸는 장의 slide-js (gen.py가 장 안에 넣어요)
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
 vscode-jupyter-slides.html  배포용 HTML
@@ -273,12 +276,11 @@ vscode-jupyter-slides.pdf   강사용 PDF
 ```bash
 bash tools/demo.sh /tmp/nb-demo > /tmp/nb-demo.log 2>&1
 python3 tools/gen.py slides
-node ../tools/check.js slides shots
 node ../tools/build_player.js slides vscode-jupyter-slides.html
 node ../tools/export.js slides vscode-jupyter-slides.pdf
 ```
 
-셀 출력(20, `'kim'`, 11, 12, NameError, 이름 규칙 SyntaxError 네 가지, `type()` 다섯 줄)은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. Restart는 새 커널을 띄워 재현했어요. 오류는 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요. SyntaxError 괄호 안의 임시 파일 이름과 줄 번호, 하이픈 오류 뒤의 `Maybe you meant '==' instead of '='?`도 뺐어요. demo.sh 환경의 커널은 Python 3.13이었고, 메시지는 3.14와 같아요. VS Code 화면은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. 단축키는 VS Code 기본 설정 기준이에요. Mac 셀 실행이 `control+Enter`인 것은 VS Code 저장소 이슈 #221892, #213675에서 확인했어요.
+셀 출력(20, `'kim'`, 11, 12, 파일 실행 비교의 20과 11, NameError, 이름 규칙 SyntaxError 네 가지, `type()` 다섯 줄)은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. Restart는 새 커널을 띄워 재현했어요. 오류는 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요. SyntaxError 괄호 안의 임시 파일 이름과 줄 번호, 하이픈 오류 뒤의 `Maybe you meant '==' instead of '='?`도 뺐어요. demo.sh 환경의 커널은 Python 3.13이었고, 메시지는 3.14와 같아요. VS Code 화면은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. 단축키는 VS Code 기본 설정 기준이에요. Mac 셀 실행이 `control+Enter`인 것은 VS Code 저장소 이슈 #221892, #213675에서 확인했어요.
 
 </details>
 
