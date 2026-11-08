@@ -28,10 +28,10 @@
 | 들어가기 | 1–4 | 이럴 때 쓰는 명령, 네 칸 그림과 서랍 |
 | 1. git restore | 5–8 | status 안내 읽기, 버리기 전 `git diff`, 되찾을 수 없다는 주의 |
 | 2. git restore --staged | 9–11 | `git add .`로 올린 메모 내리기, `--staged`가 있고 없고의 차이 |
-| 3. reset과 무엇이 달라요 | 12 | restore는 파일, reset은 이름표 |
-| 4. git stash | 13–18 | pull이 막힐 때, stash, stash list 읽기, pull, pop, checkout이 막힐 때 |
-| 5. 팀에서 쓰기 | 19–22 | stash, pull, pop 순서, pop 충돌과 `git stash drop`, 버릴까 치울까 남길까 |
-| 6. 막힐 때 | 23 | 자주 나오는 메시지 네 가지 |
+| 3. git stash | 12–16 | pull이 막힐 때, stash, stash list 읽기, pull, pop |
+| 4. 비교하기 | 17–18 | restore는 파일, reset은 이름표. 버릴까 치울까 남길까 |
+| 5. 막힐 때 | 19–21 | pop 충돌과 `git stash drop`, 자주 나오는 메시지 다섯 가지 |
+| 6. 팀에서 쓰기 | 22–23 | stash, pull, pop 순서, checkout이 막힐 때 |
 | 요약 | 24 | 한 장 요약 |
 
 ## 핵심 개념
@@ -154,6 +154,7 @@ git push origin main
 | `stash list`에 여러 줄이 있어요 | pop을 잊고 또 stash 했어요. 맨 위 `stash@{0}`부터 하나씩 `git stash pop` |
 | `CONFLICT ... The stash entry is kept in case you need it again.` | 같은 줄을 둘 다 고쳤어요. 실습 4처럼 풀고 `git stash drop` |
 | `error: pathspec '...' did not match any file(s) known to git` | 파일 이름이 틀렸어요. `git status`로 이름을 확인하고 Tab으로 자동 완성해요 |
+| `fatal: Need to specify how to reconcile divergent branches.` | pull 설정이 없는 컴퓨터에서 내 main과 GitHub main이 갈라졌어요. 06에서 친 `git config --global pull.rebase false`를 한 번 치고 다시 pull 해요 |
 | restore로 버린 걸 되찾고 싶어요 | 되찾을 수 없어요. 다음엔 `git diff`로 먼저 보고, 남길 게 있으면 커밋부터 해요 |
 
 ## 강사용
@@ -166,7 +167,7 @@ slides/
   deck.json        슬라이드 순서와 파트 구분
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장 생성 (네 칸 장면과 서랍, 비교표, 팀 순서)
+  gen.py           모든 장 생성 (네 칸 장면과 서랍, 비교표, 팀 순서, 강조)
   demo.sh          실습을 새 저장소에서 다시 실행해 실제 출력 확인 (팀원 lee 포함)
 git-restore-stash-slides.html  배포용 HTML
 git-restore-stash-slides.pdf   강사용 PDF

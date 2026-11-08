@@ -5,7 +5,7 @@
     "at": "2026-10-29T00:30:00Z"
   },
   "lists": "css",
-  "title": "restore와 stash, 눈으로 보기",
+  "title": "커밋 전 변경 버리고, 잠깐 치우기",
   "order": [
     "cover",
     "toc",
@@ -18,18 +18,18 @@
     "s1",
     "s2",
     "s3",
-    "reset-vs",
     "st0",
     "st1",
     "st-read",
     "st2",
     "st3",
-    "st-co",
-    "team-flow",
+    "reset-vs",
+    "choose",
     "pop-c",
     "pop-r",
-    "choose",
     "t-1",
+    "team-flow",
+    "st-co",
     "cheatsheet"
   ],
   "sections": {
@@ -45,21 +45,25 @@
       "description": "git restore --staged",
       "start": "s1"
     },
-    "reset": {
-      "description": "reset과 무엇이 달라요",
-      "start": "reset-vs"
-    },
     "stash": {
       "description": "git stash",
       "start": "st0"
+    },
+    "compare": {
+      "description": "비교하기",
+      "start": "reset-vs"
+    },
+    "errors": {
+      "description": "막힐 때",
+      "start": "pop-c"
     },
     "team": {
       "description": "팀에서 쓰기",
       "start": "team-flow"
     },
-    "errors": {
-      "description": "막힐 때와 요약",
-      "start": "t-1"
+    "summary": {
+      "description": "한 장 요약",
+      "start": "cheatsheet"
     }
   },
   "faces": {
