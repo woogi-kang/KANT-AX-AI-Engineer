@@ -41,11 +41,11 @@ function glow(k) {
   for (const x of ['str', 'repr']) $('lw-' + x).style.background = x === k ? 'rgba(242,196,141,.22)' : 'transparent';
 }
 function out(text, cell) {
+  // the whole line at once, faded in (no letter-by-letter typing)
   $('lw-n').textContent = cell ? 'Out' : '';
-  const el = $('lw-out'); el.textContent = '';
-  let i = 0;
-  const tick = () => { el.textContent = text.slice(0, ++i); if (i < text.length) later(18, tick); };
-  tick();
+  const el = $('lw-out');
+  el.style.opacity = 0; el.textContent = text;
+  later(20, () => { el.style.opacity = 1; });
 }
 function run(kind) {
   if (busy) return;
