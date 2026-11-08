@@ -51,8 +51,26 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 #pl-help td:first-child{text-align:right;white-space:nowrap}
 #pl-help kbd{display:inline-block;min-width:26px;padding:1px 7px;border:1px solid #C9CED8;border-bottom-width:2px;border-radius:6px;background:#F6F5F1;font:500 14px 'JetBrains Mono',monospace;text-align:center}
 #pl-help p{margin:10px 0 0;font-size:14px;color:#6A7180}
-#pl-notes{position:fixed;z-index:100;left:16px;right:16px;bottom:76px;max-height:30vh;overflow:auto;padding:16px 20px;border-radius:10px;background:rgba(255,255,255,.96);color:#1D2330;font-size:18px;line-height:1.6;display:none}
-#pl-notes.show{display:block}
+#pl-notes{position:fixed;z-index:100;right:16px;bottom:80px;max-height:calc(100vh - 96px);width:min(460px,calc(100vw - 32px));display:none;flex-direction:column;border-radius:14px;background:#FFFFFF;color:#1D2330;box-shadow:0 8px 30px rgba(0,0,0,.3);overflow:hidden}
+#pl-notes.show{display:flex}
+#pl-notes .nh{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 14px;border-bottom:1px solid #ECEAE4}
+#pl-notes .nh-t{flex:1;min-width:0}
+#pl-notes .nh-k{font-size:13px;font-weight:500;color:#6A7180;letter-spacing:.02em}
+#pl-notes .nh-h{margin-top:2px;font-size:19px;font-weight:700;line-height:1.35}
+#pl-notes .nx{flex:none;width:32px;height:32px;border:0;border-radius:8px;background:transparent;color:#6A7180;font-size:22px;line-height:1;cursor:pointer}
+#pl-notes .nx:hover{background:#F0EEE8;color:#1D2330}
+#pl-notes .nb{flex:1;overflow:auto;padding:16px 18px 18px}
+#pl-notes .lead{margin:0 0 14px;padding-left:12px;border-left:4px solid #5A3BB8;font-size:19px;font-weight:700;line-height:1.55;text-wrap:pretty}
+#pl-notes ul{margin:0;padding:0;list-style:none}
+#pl-notes li{position:relative;margin:0 0 10px;padding-left:18px;font-size:17px;line-height:1.65;text-wrap:pretty}
+#pl-notes li::before{content:'';position:absolute;left:3px;top:.72em;width:6px;height:6px;border-radius:50%;background:#B8BDC7}
+#pl-notes code{padding:1px 6px;border-radius:5px;background:#F1EEF9;color:#3F2A8C;font:500 .9em 'JetBrains Mono',monospace;white-space:nowrap}
+#pl-notes .ch{padding:0 6px;border-radius:999px;background:#E8EEFB;color:#2459C9;font-weight:700}
+#pl-notes .meta{margin-top:14px;padding-top:12px;border-top:1px dashed #E1DED6;font-size:14px;line-height:1.6;color:#6A7180}
+#pl-notes .none{font-size:16px;color:#6A7180}
+#pl-notes .nf{display:flex;gap:12px;justify-content:space-between;padding:10px 18px;border-top:1px solid #ECEAE4;background:#FAF9F6;font-size:13px;color:#6A7180}
+#pl-notes .nf b{font-weight:500;color:#1D2330}
+#pl-notes .nf span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 [data-build-in^="spot"],[data-build-in^="cursor"],[data-build-in^="click"]{visibility:hidden}
 [data-build-in^="draw"]{stroke-dasharray:1;transition:opacity .45s ease,stroke-dashoffset .7s cubic-bezier(.6,0,.3,1)}
 .pending.draw{opacity:1!important;stroke-dashoffset:1}
@@ -724,10 +742,38 @@ function replay(){
   hideCopy();toast('처음 화면으로 돌렸어요. → 키를 누르면 다시 나와요',2400);update();
 }
 function go(n){n=Math.max(0,Math.min(slides.length-1,n));if(n!==cur)show(n,n<cur?-1:1);}
+// ---- presenter notes: the aside's plain text laid out as a card ----
+// first sentence = the point of the slide, the rest one sentence per line, notes about how outputs were made go to the bottom
+const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const META=/실제로 실행한 결과|셀 번호가|그 부분은 빼고 옮겼어요/;
+function slideTitle(s){const h=s.querySelector('h1,h2,h3');return h?h.textContent.trim():'';}
+function markNote(t){
+  // code-like words (names with _ . ( ) =, ...Error, a lowercase word standing alone, not inside an English phrase such as New repository) become code chips, chapter numbers before 에서/의 become pills
+  let out='',last=0;
+  t.replace(/[A-Za-z_]\w*(?:\.\w+)*(?:\([^()\s]*\))?|\[[^\]\s]*\]/g,(w,i)=>{
+    const alone=!/[A-Za-z]\s*$/.test(t.slice(0,i))&&!/^\s*[A-Za-z]/.test(t.slice(i+w.length));
+    const code=/[_().=\[\]]/.test(w)||/Error$/.test(w)||(alone&&/^[a-z][a-z0-9]+$/.test(w));
+    out+=esc(t.slice(last,i))+(code?'<code>'+esc(w)+'</code>':esc(w));last=i+w.length;return w;});
+  out+=esc(t.slice(last));
+  return out.replace(/(^|[^\w>])(0[1-9]|[12][0-9])(?=(에서|의|챕터)[\s,.])/g,'$1<span class="ch">$2</span>');
+}
+function renderNotes(text){
+  const t=text.replace(/\s+/g,' ').trim();
+  const ss=t?t.split(/(?<=[.?!])\s+(?=\S)/):[];
+  const main=ss.filter(x=>!META.test(x)),meta=ss.filter(x=>META.test(x));
+  const n=steps[cur].length,title=slideTitle(slides[cur]),nt=cur+1<slides.length?slideTitle(slides[cur+1]):'';
+  const body=main.length?'<p class="lead">'+markNote(main[0])+'</p><ul>'+main.slice(1).map(x=>'<li>'+markNote(x)+'</li>').join('')+'</ul>'+(meta.length?'<div class="meta">'+meta.map(markNote).join(' ')+'</div>':'')
+    :'<p class="none">이 장은 노트가 없어요.</p>';
+  $('pl-notes').innerHTML='<div class="nh"><div class="nh-t"><div class="nh-k">발표자 노트 · '+(cur+1)+' / '+slides.length+'</div><div class="nh-h">'+esc(title)+'</div></div><button class="nx" aria-label="노트 닫기">×</button></div>'
+    +'<div class="nb">'+body+'</div>'
+    +'<div class="nf"><span>'+(n?'애니메이션 <b>'+step+' / '+n+'</b>':'애니메이션 없음')+'</span><span>'+(nt?'다음 장 <b>'+esc(nt)+'</b>':'마지막 장')+'</span></div>';
+  $('pl-notes').querySelector('.nx').onclick=()=>notes(false);
+}
+function notes(show){const el=$('pl-notes');el.classList.toggle('show',show===undefined?!el.classList.contains('show'):show);$('pl-nb').classList.toggle('on',el.classList.contains('show'));}
 function update(){
   $('pl-count').textContent=(cur+1)+' / '+slides.length;
   const aside=slides[cur].querySelector('aside');
-  $('pl-notes').textContent=aside?aside.textContent:'';
+  renderNotes(aside?aside.textContent:'');
   history.replaceState(null,'','#'+(cur+1));
 }
 let toastT;
@@ -756,7 +802,7 @@ addEventListener('keydown',e=>{
   else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}
   else if(e.key==='Home')go(0);
   else if(e.key==='End')go(slides.length-1);
-  else if(e.key==='n'||e.key==='N')$('pl-notes').classList.toggle('show');
+  else if(e.key==='n'||e.key==='N')notes();
   else if(e.key==='a'||e.key==='A')setAnim(!animOn);
   else if(e.key==='r'||e.key==='R')replay();
   else if(e.key==='f'||e.key==='F')fullscreen();
@@ -822,7 +868,7 @@ $('pl-prev').onclick=prev;$('pl-next').onclick=next;
 for(const btn of document.querySelectorAll('button'))btn.addEventListener('click',()=>btn.blur());
 addEventListener('hashchange',()=>{const n=parseInt(location.hash.slice(1));if(n>0)go(n-1);});
 addEventListener('resize',hideCopy);
-$('pl-nb').onclick=()=>$('pl-notes').classList.toggle('show');
+$('pl-nb').onclick=()=>notes();
 $('pl-fs').onclick=fullscreen;
 $('pl-anim').onclick=()=>setAnim(!animOn);
 $('pl-replay').onclick=replay;

@@ -1,6 +1,6 @@
 // 릴리스 노트에 넣을 스크린샷을 실제 덱(13)으로 찍어요.
 // 사용법 (레포 맨 위에서): node updates/2026-11-08-slide-replay/tools/shots.js
-// 전후 막대 비교를 넣으려면 BEFORE_HTML=예전 플레이어로 만든 13 덱 HTML 경로를 같이 줘요.
+// 전후 비교를 넣으려면 BEFORE_HTML(13 덱), BEFORE_NOTES_HTML(24 덱)에 예전 플레이어로 만든 HTML 경로를 같이 줘요.
 const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
@@ -8,6 +8,7 @@ const fs = require('fs');
 const ROOT = path.resolve(__dirname, '../../..');
 const OUT = path.resolve(__dirname, '../img');
 const PY = 'file://' + path.join(ROOT, '13-python-strings-lists/python-strings-lists-slides.html');
+const CLS = 'file://' + path.join(ROOT, '24-python-class/python-class-slides.html');
 const W = 1600, H = 900;
 const RED = '#E5484D';
 
@@ -171,6 +172,22 @@ const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   await annotate(page, [{ box: pad(toastOff, 8) }]);
   await shot(page, '04-animation-off.png');
   await page.keyboard.press('a');
+
+  // 5. 발표자 노트: 전과 후를 나란히 (전 화면은 BEFORE_NOTES_HTML, 예전 플레이어로 만든 24 덱)
+  const noteShot = async (url) => {
+    await page.goto('about:blank');
+    await open(page, url, 12); await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('n'); await page.mouse.move(W * 0.4, H / 2); await page.waitForTimeout(500);
+    return page.screenshot();
+  };
+  const afterNote = await noteShot(CLS);
+  if (process.env.BEFORE_NOTES_HTML) {
+    const beforeNote = await noteShot('file://' + process.env.BEFORE_NOTES_HTML);
+    await sideBySide('05-notes.png', [
+      [beforeNote, '전', '긴 글이 한 덩어리로 나왔어요', '#6A7180'],
+      [afterNote, '후', '요점, 한 줄씩, 코드 이름이 구분돼요', RED],
+    ]);
+  } else await shot(page, '05-notes.png');
   await browser.close();
   console.log('shots ->', OUT);
 })();
