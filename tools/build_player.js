@@ -39,7 +39,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 #pl-bar button.on{background:#5A3BB8}
 #pl-bar svg{display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #pl-bar .sep{width:1px;height:24px;margin:0 6px;background:#3A4250}
-#pl-count{font-variant-numeric:tabular-nums;padding:0 10px!important}
+#pl-count{font-variant-numeric:tabular-nums;white-space:nowrap;padding:0 10px!important}
 #pl-go{display:none;width:64px;height:32px;margin:0 4px;background:#252B36;color:#E6E9EF;border:1px solid #5A6475;border-radius:8px;padding:0 8px;font:inherit;text-align:center}
 #pl-bar.jump #pl-go{display:block}
 #pl-bar.jump #pl-count{display:none}
@@ -53,7 +53,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 #pl-help td:first-child{text-align:right;white-space:nowrap}
 #pl-help kbd{display:inline-block;min-width:26px;padding:1px 7px;border:1px solid #C9CED8;border-bottom-width:2px;border-radius:6px;background:#F6F5F1;font:500 14px 'JetBrains Mono',monospace;text-align:center}
 #pl-help p{margin:10px 0 0;font-size:14px;color:#6A7180}
-#pl-notes{position:fixed;z-index:100;right:16px;bottom:80px;max-height:calc(100vh - 96px);width:min(460px,calc(100vw - 32px));display:none;flex-direction:column;border-radius:14px;background:#FFFFFF;color:#1D2330;box-shadow:0 8px 30px rgba(0,0,0,.3);overflow:hidden}
+#pl-notes{position:fixed;z-index:100;right:92px;bottom:80px;max-height:calc(100vh - 96px);width:min(460px,calc(100vw - 184px));display:none;flex-direction:column;border-radius:14px;background:#FFFFFF;color:#1D2330;box-shadow:0 8px 30px rgba(0,0,0,.3);overflow:hidden}
 #pl-notes.show{display:flex}
 #pl-notes .nh{display:flex;align-items:flex-start;gap:10px;padding:16px 18px 14px;border-bottom:1px solid #ECEAE4}
 #pl-notes .nh-t{flex:1;min-width:0}
@@ -73,6 +73,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 #pl-notes .nf{display:flex;gap:12px;justify-content:space-between;padding:10px 18px;border-top:1px solid #ECEAE4;background:#FAF9F6;font-size:13px;color:#6A7180}
 #pl-notes .nf b{font-weight:500;color:#1D2330}
 #pl-notes .nf span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#pl-notes .nf span:first-child{flex:none;white-space:nowrap}
+@media (max-width:640px){#pl-notes{left:12px;right:12px;width:auto}#pl-bar button{min-width:34px;padding:0 5px}#pl-bar .sep{margin:0 2px}}
 [data-build-in^="spot"],[data-build-in^="cursor"],[data-build-in^="click"]{visibility:hidden}
 [data-build-in^="draw"]{stroke-dasharray:1;transition:opacity .45s ease,stroke-dashoffset .7s cubic-bezier(.6,0,.3,1)}
 .pending.draw{opacity:1!important;stroke-dashoffset:1}
