@@ -28,9 +28,9 @@
 | 1. 팀 레포 준비 | 4–8 | 역할 나누기, 레포 만들기, Collaborator 초대와 수락, clone, pull 설정 |
 | 2. 다른 파일은 저절로 | 9–17 | push 거절, pull로 merge 커밋, vim 닫기, 설정이 없을 때, fast-forward, fetch로 먼저 보기 |
 | 3. 같은 줄은 충돌 | 18–23 | 같은 줄 고치고 push 거절, `CONFLICT`, 충돌 표시 읽기, 고쳐서 push, 팀원이 pull |
-| 4. 팀 규칙 | 24–26 | 팀 규칙 다섯 가지, 작업 순서, 브랜치와 Pull Request로 넘어가기 |
-| 5. 팀 작업 케이스 | 27–40 | 케이스 목록, 막혔을 때 찾기, 케이스 8가지 |
-| 요약 | 41 | 한 장 요약 |
+| 4. 팀 규칙 | 24–25 | 팀 규칙 다섯 가지, 작업 순서 |
+| 5. 브랜치로 일할 때 | 26–39 | 브랜치와 Pull Request로 넘어가기, 케이스 목록, 막혔을 때 찾기, 케이스 8가지 |
+| 요약 | 40 | 한 장 요약 |
 
 슬라이드 위쪽 네 칸은 GitHub(보라), kim(파랑), lee(초록), park(주황)의 저장소예요. 점 색은 그 커밋을 만든 사람이고, 흰 점은 merge 커밋이에요.
 
@@ -161,18 +161,18 @@ cat README.md                    # # 깃벗 팀
 
 ## 팀 작업 케이스 (5부)
 
-브랜치와 Pull Request로 일할 때 자주 만나는 경우예요. 막히면 슬라이드 28쪽의 찾기 표에서 메시지로 쪽수를 찾아요.
+브랜치와 Pull Request로 일할 때 자주 만나는 경우예요. 막히면 슬라이드 27쪽의 찾기 표에서 메시지로 쪽수를 찾아요.
 
 | # | 쪽 | 상황 | 이렇게 해요 |
 | :---: | :---: | --- | --- |
-| 1 | 29 | 작업 시작 | `git checkout main`, `git pull origin main`, `git checkout -b feature/이름` |
-| 2 | 30–31 | 브랜치 push, PR 만들기 | `git push origin feature/이름`, GitHub에서 Compare & pull request |
-| 3 | 32 | PR이 합쳐진 뒤 | `git checkout main`, `git pull origin main`, `git branch -d feature/이름`, 다음 브랜치 |
-| 4 | 33 | 다른 파일을 고친 PR 두 개 | 둘 다 바로 Merge, 각자 main에서 pull |
-| 5 | 34–36 | 같은 줄을 고친 PR (`This branch has conflicts`) | 내 브랜치에서 `git pull origin main`, 충돌 풀고 add, commit, `git push origin feature/이름` |
-| 6 | 37–38 | 고친 파일이 있는데 pull (`would be overwritten by merge`) | 브랜치를 만들어 커밋한 뒤 다시 pull |
-| 7 | 39 | 고친 파일이 있는데 checkout (`would be overwritten by checkout`) | 지금 브랜치에서 커밋한 뒤 옮기기 |
-| 8 | 40 | main에 커밋해 버림 (push 전) | `git branch feature/이름`, `git reset --hard HEAD~1`, `git checkout feature/이름` |
+| 1 | 28 | 작업 시작 | `git checkout main`, `git pull origin main`, `git checkout -b feature/이름` |
+| 2 | 29–30 | 브랜치 push, PR 만들기 | `git push origin feature/이름`, GitHub에서 Compare & pull request |
+| 3 | 31 | PR이 합쳐진 뒤 | `git checkout main`, `git pull origin main`, `git branch -d feature/이름`, 다음 브랜치 |
+| 4 | 32 | 다른 파일을 고친 PR 두 개 | 둘 다 바로 Merge, 각자 main에서 pull |
+| 5 | 33–35 | 같은 줄을 고친 PR (`This branch has conflicts`) | 내 브랜치에서 `git pull origin main`, 충돌 풀고 add, commit, `git push origin feature/이름` |
+| 6 | 36–37 | 고친 파일이 있는데 pull (`would be overwritten by merge`) | 브랜치를 만들어 커밋한 뒤 다시 pull |
+| 7 | 38 | 고친 파일이 있는데 checkout (`would be overwritten by checkout`) | 지금 브랜치에서 커밋한 뒤 옮기기 |
+| 8 | 39 | main에 커밋해 버림 (push 전) | `git branch feature/이름`, `git reset --hard HEAD~1`, `git checkout feature/이름` |
 
 케이스 6, 7에서 커밋하지 않고 잠깐 치워 두는 stash는 [07](../07-git-restore-stash)에서 배워요. 케이스 8의 `--hard`는 커밋 안 한 변경을 지우니 `git status`가 깨끗한지 먼저 봐요. 이미 push했다면 되돌리지 말고 팀에 알려요.
 
@@ -213,7 +213,7 @@ slides/
   deck.json        슬라이드 순서와 파트 구분
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장 생성 (네 칸 저장소 그림, 터미널, GitHub 화면)
+  gen.py           모든 장 생성 (네 칸 팀 그림, 터미널, GitHub 화면)
   demo.sh          kim, lee, park 실습(1~3부)을 새 저장소에서 다시 실행해 실제 출력 확인
   cases.sh         5부 팀 작업 케이스를 kim, lee로 다시 실행 (PR Merge 버튼은 세 번째 clone이 대신)
 team-repo-slides.html  배포용 HTML
@@ -233,7 +233,7 @@ node ../tools/build_player.js slides team-repo-slides.html
 node ../tools/export.js slides team-repo-slides.pdf
 ```
 
-터미널 출력과 해시는 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 사람마다 HOME을 따로 둬서 설정이 섞이지 않아요. 날짜를 고정해서 해시가 매번 같아요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/team-intro.git`으로 보이게 했어요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요. 403 메시지는 GitHub이 보내는 것이라 로컬에서 재현하지 못했어요.
+터미널 출력과 해시는 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 사람마다 HOME을 따로 둬서 설정이 섞이지 않아요. 날짜를 고정해서 해시가 매번 같아요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/team-intro.git`으로 보이게 했어요. 뺀 줄은 발표자 노트에 적어 두었어요. 강조(커밋 날아오기, 펜 상자, 밑줄, 스포트라이트, 커서)는 맨 위 `tools/highlight.py`와 [HIGHLIGHT.md](../tools/HIGHLIGHT.md)를 따라요. 403 메시지는 GitHub이 보내는 것이라 로컬에서 재현하지 못했어요.
 
 </details>
 

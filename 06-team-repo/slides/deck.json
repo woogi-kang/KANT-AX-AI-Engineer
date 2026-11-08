@@ -32,7 +32,6 @@
     "b6",
     "rules",
     "cycle",
-    "next",
     "cases",
     "finder",
     "c1",
@@ -67,11 +66,11 @@
       "start": "b1"
     },
     "rules": {
-      "description": "팀 규칙, 다음 단계",
+      "description": "팀 규칙",
       "start": "rules"
     },
     "cases": {
-      "description": "팀 작업 케이스, 막혔을 때 찾기, 요약",
+      "description": "브랜치로 일할 때, 막혔을 때 찾기, 요약",
       "start": "cases"
     }
   },
