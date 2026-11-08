@@ -7,7 +7,7 @@ Usage (in 02-git-basics): python3 tools/gen.py slides
 import html, math, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, TYPE  # noqa: E402
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -185,7 +185,7 @@ def terminal(lines, left=96, top=None, w=1728, h=None, size=None, lh=1.4, build=
         if build is not None:
             if kind == "$":
                 cur += 1
-                at = TYPE(cur)
+                at = f' data-build-in="fade order {cur}"'
             else:
                 if prev == "$":
                     cur += 1
@@ -540,7 +540,7 @@ def term(lines, x, y, w, h, size=28, lh=None, build=None, pad=(28, 36), tid=None
         if build is not None:
             if kind == "$":
                 cur += 1
-                at = TYPE(cur)
+                at = f' data-build-in="fade order {cur}"'
             else:
                 if prev == "$":
                     cur += 1
@@ -811,7 +811,7 @@ gh.append(f'<div{bi("rise", 4)} style="position:absolute;left:{QX}px;top:{GY + 3
           + f'<div style="display:flex;flex-direction:row;align-items:center;gap:14px;background:#FFFFFF;border:2px solid #D0D7DE;border-radius:10px;padding:12px 16px">'
           + p(f"font-family:{MONO};font-size:22px;color:#1F2328;white-space:nowrap", "https://github.com/kim/hello-git.git") + '<div id="gh-copy">' + icon("Archive", 28, "#57606A") + '</div></div>'
           + p(f"font-size:26px;font-weight:700;color:{OR}", "④ 주소를 복사해 다음 장에서 써요") + '</div>')
-gh += [cursor(1, target="gh-name"), cursor(2, target="gh-readme", click=False), cursor(3, target="gh-create"), cursor(4, target="gh-copy"), cursor_off(5)]
+gh += [cursor(1, 880, 482), cursor(2, 178, 728, click=False), cursor(3, 462, 850), cursor(4, target="gh-copy"), cursor_off(5)]
 W("s8-github", gh, "github.com에 로그인하고 오른쪽 위 + 버튼에서 New repository를 눌러요. 이름만 hello-git으로 적고 README는 체크하지 않아요. README를 체크하면 GitHub에 커밋이 하나 생겨서, 내 컴퓨터의 커밋과 서로 모르는 기록이 돼요. 그러면 첫 push가 거절돼요(42쪽). GitHub 화면이 바뀌어 README가 토글로 보이면 꺼진(Off) 채로 둬요. 만든 뒤 나오는 Quick setup에서 HTTPS 주소를 복사해요. 화면은 간단히 다시 그린 모습이라 실제와 조금 달라요.")
 
 # ---------- 27. pull-concept ----------
