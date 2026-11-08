@@ -740,7 +740,7 @@ for i, (cid, lines, n_, out, why, fx) in enumerate(errs):
     o.append(p(f"position:absolute;left:1540px;top:{y + 4}px;width:284px;font-size:26px;font-weight:700;line-height:1.35;color:{RED}", e(why), at(i + 1)))
     o.append(p(f"position:absolute;left:1540px;top:{y + 84}px;font-size:24px;font-weight:700;color:{INK};background:{GRBG};border:3px solid {GR};border-radius:12px;padding:4px 14px;white-space:nowrap", e(fx), at(i + 1)))
     y += hh + 34
-o.append(ring(4, 96 + 105 + tw('if order == "coffee"') + 6, 206 + 10 + 4, 22, LH() - 8, RED))
+o.append(ring(4, 96 + 105 + tw('if order == "coffee"') + 26, 206 + 10 + 4, 22, LH() - 8, RED))
 CFS[0] = 30
 o.append(caption("IndentationError는 들여쓰기 오류예요. 칸 수를 4칸에 맞춰요.", 960, 5))
 W("e-colon", o, "콜론을 빠뜨리면 SyntaxError, 들여쓰기가 틀리면 IndentationError가 나고 둘 다 실행 전에 멈춰요. 1번은 if 줄 끝의 콜론이 없어서 expected 콜론이라고 정확히 알려 줘요. 2번은 if 다음 줄을 들여쓰지 않았어요. if 안에 들여쓴 줄이 하나는 있어야 해요. 3번은 같은 if 안에서 칸 수가 4칸, 6칸으로 달라요. unexpected indent는 생각지 못한 들여쓰기라는 뜻이에요. 오류 위쪽의 Cell In 줄은 빼고 마지막 줄만 옮겼어요." + REAL)
