@@ -47,6 +47,7 @@ run(['def price_of(qty):\n    return 4500 * qty\n\nx = price_of(2)\nprint(x)\npr
      'def show(qty):\n    print(4500 * qty)\n\na = show(2)\nprint("a:", a)',
      'def calc(qty):\n    return 4500 * qty\n\nb = calc(2)\nprint("b:", b)\nprint(b + 1000)',
      'result = print("안녕")\nprint(result)\nprint(type(result))',
+     'def hi():\n    print("안녕")\nprint(hi())',
      'def check(stock):\n    if stock == 0:\n        return "품절"\n    return "주문 가능"\n\nprint(check(0))\nprint(check(3))',
      'def summary(prices):\n    return sum(prices), len(prices)\n\nprint(summary([4500, 5000, 6500]))\ntotal, n = summary([4500, 5000, 6500])\nprint(total, n)'])
 
