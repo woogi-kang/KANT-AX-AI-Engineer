@@ -7,8 +7,9 @@ function (setup(bread, ...) moved into the class, bread renamed to self), follow
 reads self.flavor = flavor side by side. Part 4 adds methods and shows a.intro() is Bread.intro(a). Part 5 collects the
 usual errors, and part 6 is a 붕어빵 order, a cafe drink label and a stamp card.
 Every cell and output comes from tools/demo.sh (tools/run_nb.py runs the cells with the project kernel).
-Highlights (tools/HIGHLIGHT.md): code-line tints, fly (values and objects travel), magic move of self between
-s-self1 and s-self2, spotlight on table rows, a cursor on the lab button, pen underlines, rings and boxes on errors.
+Highlights (tools/HIGHLIGHT.md): line spotlight, run band, text() value changes, DELAY on labels, fly,
+magic move of self between s-self1 and s-self2, DIM on the steps, spotlight on table rows, a cursor on the lab button,
+pen underlines and boxes, MARK on fixed letters, shake on a failure, COUNT on the total, SLAM and shine on the cover.
 Usage: python3 tools/gen.py slides
 """
 
@@ -463,12 +464,13 @@ def finish(parts, toc_note, title):
 def cover(lines, h1, sub, note, accent="#F2B27A", h1size=92):
     cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
            f'<p style="font-size:28px;font-weight:700;color:{accent};letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-           f'<h1 style="font-size:{h1size}px;font-weight:900;line-height:1.1;color:#F6F5F1">{h1}</h1>',
+           f'<h1{SLAM(1)} style="font-size:{h1size}px;font-weight:900;line-height:1.1;color:#F6F5F1">{h1}</h1>',
            f'<p style="font-size:40px;line-height:1.4;color:#BFC6D4">{sub}</p>']
-    cov.append(f'<div style="position:absolute;left:900px;top:300px;width:900px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">')
+    cov.append(f'<div id="cov-code" style="position:absolute;left:900px;top:300px;width:900px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">')
     for line, c in lines:
         cov.append(p(f"font-family:{MONO};font-size:30px;font-weight:700;line-height:1.45;color:{c};white-space:pre", e(line)))
     cov.append('</div>')
+    cov.append(shine(2, "cov-code"))
     W("cover", cov, note, ("intro", "들어가기"))
     ORDER.append("toc")
 
@@ -560,7 +562,7 @@ BR, BRBG = "#9A5B13", "#FBF0E0"      # 붕어빵 (an object)
 MD, MDBG = "#5B4636", "#EFE8DF"      # 틀 (the class)
 
 
-def obj(name, rows, left, top, w=440, color=BR, bg=BRBG, cls="Bread", attrs="", sid=None, rh=60, empty=None, fs=28):
+def obj(name, rows, left, top, w=440, color=BR, bg=BRBG, cls="Bread", attrs="", sid=None, rh=60, empty=None, fs=28, vids=None):
     """A 붕어빵 (object) drawn as a card: its name on a band, then one line per attribute.
     rows: [(attribute, value)]; value None draws an empty dashed slot. empty: text shown when there are no rows."""
     idp = f' id="{sid}"' if sid else ""
@@ -575,7 +577,7 @@ def obj(name, rows, left, top, w=440, color=BR, bg=BRBG, cls="Bread", attrs="", 
         miss = v is None
         o.append(f'<div style="height:{rh}px;display:flex;flex-direction:row;align-items:center;gap:14px;border-radius:12px;background:{"#FFFFFF" if miss else bg};border:2px {"dashed" if miss else "solid"} {RED if miss else LINE};padding:0 16px">'
                  + p(f"width:42%;flex:none;font-family:{MONO};font-size:{fs - 4}px;font-weight:700;color:{RED if miss else SUB};white-space:nowrap", e(k))
-                 + p(f"flex:1;font-family:{MONO};font-size:{fs}px;font-weight:700;color:{RED if miss else INK};white-space:nowrap", e("없음" if miss else v)) + '</div>')
+                 + p(f"flex:1;font-family:{MONO};font-size:{fs}px;font-weight:700;color:{RED if miss else INK};white-space:nowrap", e("없음" if miss else v), (f' id="{vids[k][0]}" data-start="{vids[k][1]}"' if vids and k in vids else "")) + '</div>')
     o.append('</div></div>')
     return "".join(o)
 
@@ -634,7 +636,7 @@ B_INTRO = ["    def intro(self):", '        print(self.flavor, "붕어빵", self
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
+from highlight import *  # noqa: E402,F401,F403
 
 
 # ---------- new helpers ----------
@@ -701,14 +703,25 @@ def mk(left, top, w, i, n=1, kind="mark", order=1):
     return hl(left, top, w, i, n, kind, order)
 
 
-def fix(left, top, bad, good, order, size=30, w=1728):
+def lsp(order, left, top, w, nl, i, n=1, bar=BL):
+    """Line spotlight on lines i..i+n-1 of a cell with nl code lines."""
+    return lspot(order, left + 87, top, w - 87, round(18 + nl * LHf()), top + 10 + i * LHf(), n * LHf(), bar=bar)
+
+
+def rb(order, left, top, w, i, n=1):
+    """Green run band on lines i..i+n-1 of a cell."""
+    return run(order, left + 89, round(top + 10 + i * LHf()), w - 93, round(n * LHf()))
+
+
+
+def fix(left, top, bad, good, order, size=30, w=1728, good_html=None):
     """The wrong line struck through, an arrow, the right line."""
     return (f'<div data-build-in="rise order {order}" style="position:absolute;left:{left}px;top:{top}px;width:{w}px;display:flex;flex-direction:row;align-items:center;gap:22px">'
             + p(f"font-size:{size}px;font-weight:900;color:{RED}", "✕")
             + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{RED};text-decoration:line-through;text-decoration-thickness:3px;white-space:pre", e(bad))
             + arrow(70, "#C9CED8")
             + p(f"font-size:{size}px;font-weight:900;color:{GR}", "✓")
-            + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{INK};background:#E6F4EC;border:3px solid {GR};border-radius:14px;padding:6px 20px;white-space:pre", e(good)) + '</div>')
+            + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{INK};background:#E6F4EC;border:3px solid {GR};border-radius:14px;padding:6px 20px;white-space:pre", good_html or e(good)) + '</div>')
 
 
 def plain_rows(left, top, w, rows, widths, order0=1, rh=78, head_=None, fs=28, rid=None, same=False):
@@ -786,17 +799,17 @@ cover([("class Bread:", "#C7B8F2"), ("    def __init__(self, flavor, price):", W
 # ---------- ready: plain checklist, one panel ----------
 o = [sec("ready")] + head("들어가기", "23에서 이어서 해요", JP)
 for i, (a_, b_) in enumerate([("변수, 타입, 함수 type()", "12"), ("리스트, f-string, for", "13"), ("딕셔너리", "15"), ("def, 매개변수, return", "19"), ("기본값, 지역 변수", "20")]):
-    o.append(f'<div data-build-in="rise order {min(i + 1, 4)}" style="position:absolute;left:96px;top:{230 + i * 120}px;width:760px;height:104px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div data-build-in="rise order 1"{DELAY(i * 90)} style="position:absolute;left:96px;top:{230 + i * 120}px;width:760px;height:104px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
              + f'<x-icon name="CheckCircle" style="width:48px;height:48px;color:{GR}"></x-icon>'
              + p(f"flex:1;font-size:34px;font-weight:700;color:{INK}", e(a_))
              + p(f"font-size:30px;font-weight:700;color:{GRAY}", e(b_)) + '</div>')
-o.append(p(f"position:absolute;left:1000px;top:256px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", ' data-build-in="rise order 5"'))
+o.append(p(f"position:absolute;left:1000px;top:256px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", ' data-build-in="rise order 2"'))
 steps_ = [p(f"font-size:32px;color:{INK}", "VS Code로 hello-uv 폴더 열기"),
           p(f"font-size:32px;color:{INK}", "탐색기에서") + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{JP}", NB) + p(f"font-size:32px;color:{INK}", "열기"),
           p(f"font-size:32px;color:{INK}", "오른쪽 위 커널이 .venv인지 보기"),
           p(f"font-size:32px;color:{INK}", "셀에 적고") + kbd("Shift+Enter", 26) + p(f"font-size:32px;color:{INK}", "로 실행")]
 for i, inner in enumerate(steps_):
-    o.append(row(1000, 352 + i * 120, 824, 104, num(i + 1, JP, 40) + inner, 5))
+    o.append(row(1000, 352 + i * 120, 824, 104, num(i + 1, JP, 40) + inner, 2).replace('data-build-in="rise order 2"', 'data-build-in="rise order 2"' + DELAY(90 + i * 90), 1))
 o.append(caption2("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 봐요.", 900))
 W("ready", o, "12부터 쓰던 basics.ipynb에 이어서 적어요. 09에서 만든 hello-uv 폴더를 VS Code로 열고, 12부터 쓰던 basics.ipynb를 다시 열어요. 이번 챕터는 19, 20의 함수를 많이 써요. 매개변수가 순서대로 들어간다는 것, 함수 안에서 만든 변수는 끝나면 사라진다는 것이 기억나지 않으면 19, 20을 먼저 봐요. 슬라이드의 출력은 tools/demo.sh가 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요. 셀 번호는 파트마다 [1]부터 다시 셌어요.")
 
@@ -806,9 +819,10 @@ WHY = ['b1 = {"flavor": "팥", "price": 1000}', 'b2 = {"flavor": "슈크림", "p
 T1, T2 = 210, 710
 o += cell({"id": "c-why1", "lines": WHY, "n": 1, "out": ["팥 붕어빵 1000 원", "슈크림 붕어빵 1200 원"]}, 96, T1, FW, sel="c-why1")
 o += cell({"id": "c-why2", "lines": ['b3 = {"flavr": "피자", "price": 1500}', "intro(b3)"], "n": 2, "out": ["KeyError: 'flavor'"], "err": True, "attrs": ' data-build-in="rise order 3"'}, 96, T2, FW, sel="c-why2")
-o.append(mk(96, T1, FW, 0, 2, "mark", 1))
+o.append(lsp(1, 96, T1, FW, len(WHY), 0, 2, K1))
 o.append(tag(TX, ly(T1, 0.5), "값은 딕셔너리에", K1, 1))
-o.append(mk(96, T1, FW, 3, 2, "mark", 2))
+o.append(lsp(2, 96, T1, FW, len(WHY), 3, 2, K1))
+o.append(lspot_off(3))
 o.append(tag(TX, ly(T1, 3.5), "할 일은 밖의 함수에", K1, 2))
 o.append(code_ul(4, 96, T2, 0, 'b3 = {', '"flavr"', RED))
 o.append(tag(TX, ly(T2, 0), "키를 틀려도 조용해요", RED, 4))
@@ -850,9 +864,9 @@ TC = tx(96, ['print("Pat".lower())'])
 o.append(tag(TC, oy(T1, 3, 0), "int 틀로 찍은 객체", K1, 1))
 o.append(tag(TC, oy(T1, 3, 1), "str 틀로 찍은 객체", K1, 2))
 o.append(tag(TC, oy(T1, 3, 2), "list 틀로 찍은 객체", K1, 2))
-o.append(mk(96, T2, 900, 1, 1, "mark", 4))
+o.append(code_ul(4, 96, T2, 1, "xs.", "append", K4))
 o.append(tag(TC, ly(T2, 1), "list 틀의 메서드 (13)", K4, 4))
-o.append(mk(96, T2, 900, 3, 1, "mark", 5))
+o.append(code_ul(5, 96, T2, 3, 'print("Pat".', "lower", K4))
 o.append(tag(TC, ly(T2, 3), "str 틀의 메서드 (22)", K4, 5))
 o.append(caption2("이미 써 온 틀처럼, 붕어빵 틀을 직접 만들어 봐요.", 960, 6))
 W("c-type", o, "int, str, list도 파이썬이 미리 만들어 둔 틀이에요. 클래스는 처음 보는 게 아니에요. 12에서 type()을 쳤을 때 class int, class str이라고 나왔어요. 숫자 3은 int라는 틀로, 글자 팥은 str이라는 틀로, 리스트는 list 틀로 찍은 객체예요. 13에서 쓴 append, 22에서 쓴 lower처럼 점 뒤에 붙여 쓰던 함수가 메서드예요. 파이썬이 미리 만들어 둔 틀 안의 할 일이에요. 오늘은 이런 틀을 Bread라는 이름으로 직접 만들어요." + REAL)
@@ -861,9 +875,9 @@ W("c-type", o, "int, str, list도 파이썬이 미리 만들어 둔 틀이에요
 o = [sec("m-empty")] + head(EB2, "빈 틀을 만들고 붕어빵 두 개를 찍어요", K2)
 T1 = 300
 o += cell({"id": "c-m1", "lines": ["class Bread:", "    pass", "", "a = Bread()", "b = Bread()", "print(type(a))"], "n": 1, "out": ["<class '__main__.Bread'>"]}, 96, T1, 1000, sel="c-m1")
-o.append(mk(96, T1, 1000, 0, 1, "mark", 1)); o.append(tag(tx(96, ["print(type(a))"]), ly(T1, 0), "틀 이름, 첫 글자는 대문자", MD, 1))
-o.append(mk(96, T1, 1000, 1, 1, "skip", 2)); o.append(tag(tx(96, ["print(type(a))"]), ly(T1, 1), "아직 빈 틀", GRAY, 2))
-o.append(mk(96, T1, 1000, 3, 2, "run", 3)); o.append(tag(tx(96, ["print(type(a))"]), ly(T1, 3.5), "괄호를 붙이면 한 개 찍혀요", BR, 3))
+o.append(lsp(1, 96, T1, 1000, 6, 0, 1, MD)); o.append(tag(tx(96, ["print(type(a))"]), ly(T1, 0), "틀 이름, 첫 글자는 대문자", MD, 1))
+o.append(lsp(2, 96, T1, 1000, 6, 1, 1, GRAY)); o.append(tag(tx(96, ["print(type(a))"]), ly(T1, 1), "아직 빈 틀", GRAY, 2))
+o.append(lsp(3, 96, T1, 1000, 6, 3, 2, BR)); o.append(lspot_off(4)); o.append(tag(tx(96, ["print(type(a))"]), ly(T1, 3.5), "괄호를 붙이면 한 개 찍혀요", BR, 3))
 o.append(tag(tx(96, ["<class '__main__.Bread'>"], out=True), oy(T1, 6, 0), "이 노트북(__main__)의 Bread", K2, 4))
 o.append(obj("a", [], 1180, 300, 300, cls="", empty="빈 붕어빵", rh=300, attrs=' data-build-in="rise order 3"'))
 o.append(obj("b", [], 1524, 300, 300, cls="", empty="빈 붕어빵", rh=300, attrs=' data-build-in="rise order 3"'))
@@ -892,7 +906,7 @@ o.append(obj("c", [("flavor", '"피자"'), ("price", None)], 1300, 230, 524, cls
 o.append(p(f"position:absolute;left:96px;top:560px;font-size:32px;font-weight:700;color:{K2}", "붕어빵이 10개라면 30줄을 손으로 적어요", ' data-build-in="fade order 3"'))
 for i in range(10):
     miss = i in (3, 7)
-    o.append(mini(96 + i * 174, 630, [True, not miss], 3))
+    o.append(mini(96 + i * 174, 630, [True, not miss], 3).replace('"rise order 3"', '"rise order 3"' + DELAY(120 + i * 60), 1))
 o.append(p(f"position:absolute;left:96px;top:800px;font-size:28px;font-weight:700;color:{RED}", "한 줄만 빠져도 그 붕어빵은 칸이 비어요", ' data-build-in="fade order 4"'))
 o.append(caption2("찍는 순간 재료를 한 번에 넣게 하면 빠뜨릴 일이 없어요.", 960, 5))
 W("m-tedious", o, "손으로 붙이면 붕어빵마다 줄이 늘고, 한 줄만 빠져도 칸이 비어요. c를 찍고 맛만 붙였더니, 가격을 꺼낼 때 AttributeError가 났어요. Bread 객체에 price라는 속성이 없다는 뜻이에요. 붕어빵이 열 개라면 찍는 줄, 맛 붙이는 줄, 가격 붙이는 줄을 열 번씩 적어야 해요. 한 줄만 빠져도 그 붕어빵은 칸이 비어요. 찍는 순간 재료를 한 번에 넣게 만드는 방법이 다음 파트의 __init__이에요." + REAL)
@@ -921,9 +935,10 @@ o += cell({"id": "mv1", "lines": L1, "out": ["팥 1000"]}, 96, T1, 840)
 o += cell({"id": "mv2", "lines": L2, "out": ["팥 1000"], "attrs": ' data-build-in="rise order 1"'}, 984, T1, 840)
 o.append(p(f"position:absolute;left:183px;top:186px;font-size:26px;font-weight:700;color:{GRAY}", "밖에 둔 함수"))
 o.append(p(f"position:absolute;left:1071px;top:186px;font-size:26px;font-weight:700;color:{K3}", "틀 안의 __init__", ' data-build-in="fade order 1"'))
-o.append(mk(984, T1, 840, 0, 1, "mark", 2))
-o.append(mk(984, T1, 840, 1, 1, "run", 3))
-o.append(mk(984, T1, 840, 6, 1, "mark", 4))
+o.append(lsp(2, 984, T1, 840, 7, 0, 1, MD))
+o.append(lsp(3, 984, T1, 840, 7, 1, 1, K3))
+o.append(lsp(4, 984, T1, 840, 7, 6, 1, BR))
+o.append(lspot_off(5))
 for i, (k, d, c, o_) in enumerate([("① 들여쓰기", "class 아래로 넣어요", MD, 2), ("② setup → __init__", "찍을 때 저절로 불리는 약속된 이름", K3, 3), ("③ bread → self", "이름만 바뀌고 하는 일은 같아요", BR, 3), ('④ Bread("팥", 1000)', "a를 넘기지 않아요. 파이썬이 넣어 줘요", TEAL, 4)]):
     y = 690 + i * 70
     o.append(row(96, y, 1728, 64, p(f"width:520px;flex:none;font-family:{MONO};font-size:30px;font-weight:700;color:{c};white-space:pre", e(k)) + p(f"font-size:30px;color:{INK}", e(d)), o_))
@@ -951,7 +966,7 @@ o += cell({"id": "c-s3", "lines": SP, "n": 3, "out": ["반죽 붓는 중: 팥", 
 o.append(mk(96, T1, FW, 2, 1, "mark", 1)); o.append(tag(TX, ly(T1, 2), "확인용 print", BL, 1))
 o.append(mk(96, T1, FW, 6, 2, "run", 2)); o.append(tag(TX, ly(T1, 6.5), "__init__을 직접 부르지 않았어요", GR, 2))
 o.append(tag(tx(96, ["반죽 붓는 중: 슈크림"], out=True), oy(T1, 9, 0), "a를 찍을 때 한 번", GR, 3))
-o.append(tag(tx(96, ["반죽 붓는 중: 슈크림"], out=True), oy(T1, 9, 1), "b를 찍을 때 한 번", GR, 3))
+o.append(tag(tx(96, ["반죽 붓는 중: 슈크림"], out=True), oy(T1, 9, 1), "b를 찍을 때 한 번", GR, 3).replace('order 3"', 'order 3"' + DELAY(250), 1))
 o.append(caption2("붕어빵마다 꼭 있어야 하는 값을 찍는 순간 넣어 둘 때 써요.", 880, 4))
 W("s-print", o, "__init__은 붕어빵을 찍을 때마다 한 번씩 저절로 불려요. __init__이 정말 저절로 불리는지 print를 넣어 확인해 봐요. __init__ 첫 줄에 반죽 붓는 중이라는 출력을 넣었어요. 우리는 __init__을 부르는 줄을 한 번도 적지 않았어요. 그런데 Bread를 찍는 두 줄마다 한 번씩 출력이 나왔어요. 파이썬이 찍을 때마다 __init__을 찾아서 불러 준 거예요. 붕어빵마다 꼭 있어야 하는 값을 찍는 순간 넣어 두고 싶을 때 __init__을 써요. 확인이 끝나면 print 줄은 지워도 돼요." + REAL)
 
@@ -966,6 +981,8 @@ for k, (sid, cur_line) in enumerate([("s-self1", 0), ("s-self2", 1)]):
     if k:
         o.append(obj("b", [("flavor", '"슈크림"'), ("price", "1200")], 1100, 560, 480, cls="", rh=68, fs=32, sid="obj-b", attrs=' data-build-in="rise order 1"'))
     o.append(pill("← self", 1610, 300 + k * 320, BR, "#FFE7C2", ' id="self-pill"', 36))
+    if not k:
+        o.append(pulse(1, "self-pill"))
     o.append(p(f"position:absolute;left:96px;top:880px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{INK}",
                ("첫째 줄에서 self는 a, 둘째 줄에서 self는 b예요. 코드 한 벌로 붕어빵마다 다른 값을 붙여요." if k else "a를 찍는 동안 self.flavor = flavor는 a.flavor = \"팥\"과 같아요."), ' id="selfnote"'))
     W(sid, o, ("a를 찍는 동안 self는 a예요. a를 찍는 순간을 멈춰서 봐요. 파이썬이 빈 붕어빵을 하나 만들고, 그 붕어빵을 self 칸에 넣어 __init__을 불러요. 그래서 지금 self는 a를 가리켜요. self.flavor = flavor는 지금은 a.flavor = 팥과 같은 일을 해요. 다음 장으로 넘기면 b를 찍을 때를 봐요."
@@ -979,7 +996,7 @@ ST5 = [("①", 'Bread("팥", 1000)', "빈 붕어빵이 하나 생겨요"),
        ("⑤", "a = 다 된 붕어빵", "끝나면 a에 담아요")]
 o.append(f'<div style="position:absolute;left:122px;top:250px;width:4px;height:600px;background:{K3BG}"></div>')
 for i, (n_, code, what) in enumerate(ST5):
-    o.append(f'<div id="stp-{i + 1}" data-build-in="rise order {i + 1}" style="position:absolute;left:96px;top:{220 + i * 146}px;width:1100px;height:130px;display:flex;flex-direction:row;align-items:center;gap:26px">'
+    o.append(f'<div id="stp-{i + 1}" data-build-in="rise order {i + 1}"{DIM("st")} style="position:absolute;left:96px;top:{220 + i * 146}px;width:1100px;height:130px;display:flex;flex-direction:row;align-items:center;gap:26px">'
              + p(f"width:56px;height:56px;flex:none;border-radius:50%;background:{K3};color:#FFFFFF;font-size:30px;font-weight:900;line-height:56px;text-align:center", str(i + 1))
              + '<div style="display:flex;flex-direction:column;gap:4px">' + p(f"font-family:{MONO};font-size:36px;font-weight:700;color:{INK};white-space:pre", e(code))
              + p(f"font-size:28px;color:{SUB}", e(what)) + '</div></div>')
@@ -1064,7 +1081,7 @@ o += cell({"id": "c-s4", "lines": NS, "n": 4, "out": ["AttributeError: 'Bread' o
 o.append(mk(96, T1, 1100, 2, 2, "err", 1)); o.append(tag(tx(96, ["        flavor = flavor"]), ly(T1, 2.5), "자기 자신에 다시 넣었을 뿐", RED, 1))
 o.append(obj("a", [], 1300, 220, 524, cls="", empty="붙은 칸이 없어요", rh=90, attrs=' data-build-in="rise order 2"'))
 o.append(out_ul(2, 96, T1, 7, 0, "AttributeError: 'Bread' object ", "has no attribute 'flavor'"))
-o.append(fix(96, 680, "flavor = flavor", "self.flavor = flavor", 3, 34))
+o.append(fix(96, 680, "flavor = flavor", "self.flavor = flavor", 3, 34, good_html=f'<span{MARK(4)} style="background:#FFE58A;border-radius:6px">self.</span>flavor = flavor'))
 o.append(caption2("붕어빵에 남길 값은 꼭 self.이름 = 값으로 적어요.", 820, 4))
 W("s-noself", o, "self.를 빼면 값이 붕어빵에 붙지 않아서 AttributeError가 나요. flavor = flavor는 들어온 재료를 자기 자신에게 다시 넣었을 뿐이에요. 붕어빵에는 아무 칸도 붙지 않았어요. 그래서 a.flavor를 꺼내면 그런 속성이 없다는 AttributeError가 나요. 20에서 함수 안에서 만든 변수는 함수가 끝나면 사라진다고 배웠어요. __init__도 함수라서 똑같아요. 붕어빵에 남기려면 꼭 self.이름 = 값으로 적어요." + REAL)
 
@@ -1072,7 +1089,7 @@ o = [sec("s-start")] + head(EB3, "재료로 받지 않는 칸도 만들 수 있�
 SS = B_INIT + ["        self.baked = False", "", 'a = Bread("팥", 1000)', "print(a.flavor, a.price, a.baked)"]
 T1 = 250
 o += cell({"id": "c-s5", "lines": SS, "n": 5, "out": ["팥 1000 False"]}, 96, T1, 1100, sel="c-s5")
-o.append(mk(96, T1, 1100, 4, 1, "run", 1)); o.append(tag(tx(96, ["        self.baked = False"]), ly(T1, 4), "괄호로 받지 않고 처음부터 False", GR, 1))
+o.append(code_ul(1, 96, T1, 4, "        ", "self.baked = False", GR)); o.append(tag(tx(96, ["        self.baked = False"]), ly(T1, 4), "괄호로 받지 않고 처음부터 False", GR, 1))
 o.append(obj("a", [("flavor", '"팥"'), ("price", "1000"), ("baked", "False")], 1300, 250, 524, cls="", rh=68, fs=32, attrs=' data-build-in="rise order 2"'))
 o.append(caption2("도장 0개, 판매 0개처럼 모두 같은 값으로 시작하는 칸에 써요.", 800, 3))
 W("s-start", o, "재료로 받지 않고 처음 값을 정해 둔 칸도 만들 수 있어요. baked 칸은 괄호로 받지 않고 처음부터 False로 정했어요. 찍은 붕어빵은 모두 아직 안 구운 상태로 시작해요. 도장 카드의 도장 개수, 가게의 판매 개수처럼 처음엔 모두 같은 값으로 시작하는 칸에 써요. 6파트의 도장 카드 실습에서 이 모양을 다시 써요." + REAL)
@@ -1084,7 +1101,8 @@ T1 = 210
 o += cell({"id": "c-f1", "lines": FM, "n": 1, "out": ["팥 붕어빵 1000 원", "슈크림 붕어빵 1200 원"]}, 96, T1, FW, sel="c-f1")
 o.append(mk(96, T1, FW, 5, 2, "mark", 1)); o.append(tag(TX, ly(T1, 5), "메서드. 첫 칸은 self", K4, 1))
 o.append(tag(TX, ly(T1, 6), "그 붕어빵의 맛과 가격", BR, 2))
-o.append(mk(96, T1, FW, 10, 2, "run", 3)); o.append(tag(TX, ly(T1, 10.5), "붕어빵에게 시켜요", GR, 3))
+o.append(rb(3, 96, T1, FW, 10, 2)); o.append(tag(TX, ly(T1, 10.5), "붕어빵에게 시켜요", GR, 3))
+o.append(run_off(4))
 o.append(caption2("intro(b1)처럼 넘기지 않고 a.intro()로 시켜요.", 960, 4))
 W("f-method", o, "틀 안의 함수가 메서드이고, a.intro()처럼 붕어빵에게 시켜요. __init__ 아래에 def intro를 같은 깊이로 들여 썼어요. 틀 안에 있는 함수를 메서드라고 불러요. 메서드의 첫 칸도 self예요. 그래서 안에서 self.flavor, self.price로 그 붕어빵의 값을 꺼낼 수 있어요. 부를 때는 a.intro()처럼 붕어빵 이름 뒤에 점을 찍어요. 1파트에서는 intro(b1)처럼 딕셔너리를 함수에 넘겼는데, 이제는 붕어빵에게 직접 시켜요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p4", "메서드"))
 
@@ -1102,12 +1120,13 @@ o = [sec("f-change")] + head(EB4, "메서드로 값을 바꾸고, return으로 �
 FC = B_INIT + ["", "    def discount(self, won):", "        self.price = self.price - won", "", "    def total(self, qty):", "        return self.price * qty", "", 'a = Bread("팥", 1000)', 'b = Bread("슈크림", 1200)', "a.discount(200)", "print(a.price, b.price)", "print(a.total(3))"]
 T1 = 200
 o += cell({"id": "c-f3", "lines": FC, "n": 3, "out": ["800 1200", "2400"]}, 96, T1, 1100, sel="c-f3")
-o.append(mk(96, T1, 1100, 5, 2, "mark", 1)); o.append(tag(tx(96, ["        self.price = self.price - won"]), ly(T1, 5.5), "값 바꾸기", BL, 1))
-o.append(mk(96, T1, 1100, 8, 2, "run", 2)); o.append(tag(tx(96, ["        self.price = self.price - won"]), ly(T1, 8.5), "돌려주기", GR, 2))
-o.append(obj("a", [("flavor", '"팥"'), ("price", "1000")], 1300, 200, 524, cls="", rh=68, fs=32, attrs=' data-build-in="rise order 3"'))
+o.append(lsp(1, 96, T1, 1100, len(FC), 5, 2, BL)); o.append(tag(tx(96, ["        self.price = self.price - won"]), ly(T1, 5.5), "값 바꾸기", BL, 1))
+o.append(lsp(2, 96, T1, 1100, len(FC), 8, 2, GR)); o.append(tag(tx(96, ["        self.price = self.price - won"]), ly(T1, 8.5), "돌려주기", GR, 2))
+o.append(lspot_off(3))
+o.append(obj("a", [("flavor", '"팥"'), ("price", "800")], 1300, 200, 524, cls="", rh=68, fs=32, attrs=' data-build-in="rise order 3"', vids={"price": ("fc-ap", "1000")}))
 o.append(obj("b", [("flavor", '"슈크림"'), ("price", "1200")], 1300, 480, 524, cls="", rh=68, fs=32, attrs=' data-build-in="rise order 3"'))
-o.append(mk(96, T1, 1100, 13, 1, "mark", 4).replace("<div", '<div id="fc-call"', 1))
-o.append(obj("a", [("flavor", '"팥"'), ("price", "800")], 1300, 200, 524, cls="", rh=68, fs=32, attrs=' data-build-in="fly order 4" data-from="fc-call"'))
+o.append(mk(96, T1, 1100, 13, 1, "mark", 4))
+o.append(text(4, "fc-ap", "800"))
 o.append(tag(1300, 770, "a.discount(200)의 self는 a. b는 그대로예요", K4, 5, 28, False))
 W("f-change", o, "메서드는 self.price처럼 자기 칸을 바꿀 수도 있고, return으로 값을 돌려줄 수도 있어요. 메서드에도 self 뒤에 매개변수를 더 둘 수 있어요. discount는 깎을 금액을 받아서 자기 가격에서 빼요. a.discount(200)을 부르면 self는 a라서 a의 가격만 800원이 되고 b는 1200원 그대로예요. 붕어빵마다 칸이 따로 있다는 게 이거예요. total은 개수를 받아 가격을 곱한 값을 return해요. 19에서 배운 대로 return한 값은 print로 찍거나 변수에 담아 써요." + REAL)
 
@@ -1129,7 +1148,7 @@ o = [sec("t-missing")] + head(EB5, "재료 수가 모자라면 missing argument"
 TM = B_INIT + ["", "    def intro():", '        print("붕어빵")', "", 'a = Bread("팥")']
 T1 = 210
 o += cell({"id": "c-t1", "lines": TM, "n": 1, "out": ["TypeError: Bread.__init__() missing 1 required positional argument: 'price'"], "err": True}, 96, T1, 1728, sel="c-t1")
-o.append(mk(96, T1, 1728, 8, 1, "err", 1)); o.append(tag(tx(96, ['a = Bread("팥")']), ly(T1, 8), "재료가 하나뿐", RED, 1))
+o.append(mk(96, T1, 1728, 8, 1, "err", 1)); o.append(shake(1, "c-t1")); o.append(tag(tx(96, ['a = Bread("팥")']), ly(T1, 8), "재료가 하나뿐", RED, 1))
 o.append(out_ul(2, 96, T1, 9, 0, "TypeError: Bread.__init__() ", "missing 1 required positional argument: 'price'"))
 o.append(tag(96, 740, "읽는 법: __init__에 꼭 필요한 칸 price가 1개 모자라요", RED, 2, 32, False))
 o.append(fix(96, 820, 'a = Bread("팥")', 'a = Bread("팥", 1000)', 3, 34))
@@ -1143,7 +1162,7 @@ o += cell({"id": "c-t2", "lines": ['a = Bread("팥", 1000)', "a.intro()"], "n": 
 o.append(out_ul(1, 96, T1, 2, 0, "TypeError: Bread.intro() ", "takes 0 positional arguments but 1 was given"))
 o.append(tag(96, 650, "읽는 법: 받을 칸은 0개인데 점 앞의 a가 1개 들어왔어요", RED, 1, 32, False))
 o.append(underline(2, 196, 398, 325, RED))
-o.append(fix(96, 740, "def intro():", "def intro(self):", 3, 34))
+o.append(fix(96, 740, "def intro():", "def intro(self):", 3, 34, good_html=f'def intro(<span{MARK(4)} style="background:#FFE58A;border-radius:6px">self</span>):'))
 o.append(caption2("a.intro()는 Bread.intro(a)라서 a가 하나 들어가요.", 960, 4))
 W("t-noself", o, "메서드의 첫 칸 self를 빼면 a.intro()를 부를 때 TypeError가 나요. intro를 만들 때 self를 빼먹었어요. a.intro()를 부르면 받을 칸이 0개인데 1개가 들어왔다는 TypeError가 나요. 괄호를 비웠는데 왜 1개일까요? 4파트에서 본 것처럼 a.intro()는 Bread.intro(a)로 바뀌어서 a가 하나 들어가요. 메서드를 만들 때는 쓰지 않더라도 첫 칸에 self를 꼭 적어요." + REAL)
 
@@ -1153,7 +1172,7 @@ T1 = 210
 o += cell({"id": "c-t4", "lines": TI, "n": 3, "out": ["TypeError: Bread() takes no arguments"], "err": True}, 96, T1, 1728, sel="c-t4")
 o.append(code_box_mark(1, 96, T1, 1, "    def ", "_init_")); o.append(tag(tx(96, ["    def _init_(self, flavor, price):"]), ly(T1, 1), "밑줄이 하나씩", RED, 1))
 o.append(tag(96, 630, "읽는 법: 약속된 이름 __init__을 못 찾아서, 재료를 받지 않는 틀이 됐어요", RED, 2, 32, False))
-o.append(fix(96, 710, "def _init_(self, ...)", "def __init__(self, ...)", 3, 34))
+o.append(fix(96, 710, "def _init_(self, ...)", "def __init__(self, ...)", 3, 34, good_html=f'def _<span{MARK(4)} style="background:#FFE58A;border-radius:4px">_</span>init_<span{MARK(4)} style="background:#FFE58A;border-radius:4px">_</span>(self, ...)'))
 o.append(caption2("__int__처럼 글자가 빠져도 같은 오류가 나요.", 880, 4))
 W("t-init", o, "takes no arguments가 나면 __init__ 이름부터 봐요. __init__의 밑줄을 하나씩만 적었어요. 파이썬은 앞뒤 밑줄 두 개짜리 __init__이라는 이름만 찾아요. 이름이 다르면 그냥 평범한 메서드라서 찍을 때 불리지 않아요. 그래서 Bread 틀은 재료를 받지 않는다는 TypeError가 나요. 밑줄이 두 개인지, init 글자가 맞는지 확인해요. VS Code에서는 밑줄 두 개가 붙어 보여서 놓치기 쉬워요." + REAL)
 
@@ -1175,10 +1194,10 @@ o = [sec("x-order")] + head(EB6, "붕어빵 가게: 주문 받은 붕어빵을 �
 XO = B_INIT + [""] + B_INTRO + ["", 'order = [Bread("팥", 1000), Bread("슈크림", 1200), Bread("팥", 1000)]', "for b in order:", "    b.intro()", "total = sum([b.price for b in order])", 'print("합계", total, "원")']
 T1 = 200
 CFS[0] = 28
-o += cell({"id": "c-x1", "lines": XO, "n": 1, "out": ["팥 붕어빵 1000 원", "슈크림 붕어빵 1200 원", "팥 붕어빵 1000 원", "합계 3200 원"]}, 96, T1, 1340, sel="c-x1")
-o.append(mk(96, T1, 1340, 8, 1, "mark", 1)); o.append(tag(1460, ly(T1, 8), "객체도 리스트에", BL, 1))
-o.append(mk(96, T1, 1340, 9, 2, "run", 2)); o.append(tag(1460, ly(T1, 9.5), "하나씩 소개", GR, 2))
-o.append(mk(96, T1, 1340, 11, 1, "mark", 3)); o.append(tag(1460, ly(T1, 11), "23의 컴프리헨션", BL, 3))
+o += [re.sub(r'<p( style="[^"]*">합계 3200 원</p>)', lambda m: "<p" + COUNT(4) + m.group(1), x) for x in cell({"id": "c-x1", "lines": XO, "n": 1, "out": ["팥 붕어빵 1000 원", "슈크림 붕어빵 1200 원", "팥 붕어빵 1000 원", "합계 3200 원"]}, 96, T1, 1340, sel="c-x1")]
+o.append(rb(1, 96, T1, 1340, 8)); o.append(tag(1460, ly(T1, 8), "객체도 리스트에", BL, 1))
+o.append(rb(2, 96, T1, 1340, 9, 2)); o.append(tag(1460, ly(T1, 9.5), "하나씩 소개", GR, 2))
+o.append(rb(3, 96, T1, 1340, 11)); o.append(run_off(4)); o.append(tag(1460, ly(T1, 11), "23의 컴프리헨션", BL, 3))
 o.append(tag(tx(96, ["슈크림 붕어빵 1200 원"], out=True), oy(T1, 13, 3), "b.price만 모아 더했어요", K6, 4))
 CFS[0] = 30
 W("x-order", o, "객체도 리스트에 담고 for로 하나씩 꺼내 쓸 수 있어요. 배운 것을 섞어 붕어빵 가게 주문을 처리해요. 손님이 주문한 붕어빵 세 개를 찍어서 바로 리스트에 담았어요. 객체도 숫자나 글자처럼 값이라 리스트에 담을 수 있어요. for로 하나씩 꺼내 b.intro()를 부르면 붕어빵마다 자기 맛과 가격으로 소개해요. 합계는 23의 컴프리헨션으로 b.price만 모아 sum에 넘겼어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p6", "실습"))
@@ -1187,8 +1206,8 @@ o = [sec("x-drink")] + head(EB6, "카페 음료: 기본값 사이즈와 메뉴 �
 XD = ["class Drink:", '    def __init__(self, name, price, size="M"):', "        self.name = name", "        self.price = price", "        self.size = size", "", "    def label(self):", '        return f"{self.name}({self.size}) {self.price:,}원"', "", 'd1 = Drink("latte", 5000)', 'd2 = Drink("tea", 4000, "L")', "print(d1.label())", "print(d2.label())"]
 T1 = 200
 o += cell({"id": "c-x2", "lines": XD, "n": 2, "out": ["latte(M) 5,000원", "tea(L) 4,000원"]}, 96, T1, 1300, sel="c-x2")
-o.append(mk(96, T1, 1300, 1, 1, "mark", 1)); o.append(tag(tx(96, ['    def __init__(self, name, price, size="M"):']), ly(T1, 1), "20의 기본값", BL, 1))
-o.append(mk(96, T1, 1300, 6, 2, "run", 2)); o.append(tag(tx(96, ["    def label(self):"]), ly(T1, 6), "글자를 돌려줘요", GR, 2))
+o.append(lsp(1, 96, T1, 1300, len(XD), 1, 1, BL)); o.append(tag(tx(96, ['    def __init__(self, name, price, size="M"):']), ly(T1, 1), "20의 기본값", BL, 1))
+o.append(lsp(2, 96, T1, 1300, len(XD), 6, 2, GR)); o.append(lspot_off(3)); o.append(tag(tx(96, ["    def label(self):"]), ly(T1, 6), "글자를 돌려줘요", GR, 2))
 o.append(obj("d1", [("name", '"latte"'), ("price", "5000"), ("size", '"M"')], 1440, 200, 384, cls="", fs=26, rh=54, attrs=' data-build-in="rise order 3"'))
 o.append(obj("d2", [("name", '"tea"'), ("price", "4000"), ("size", '"L"')], 1440, 500, 384, cls="", fs=26, rh=54, attrs=' data-build-in="rise order 4"'))
 o.append(tag(1440, 820, "size를 안 넣으면 \"M\"", BL, 4, 26, False))
@@ -1201,8 +1220,11 @@ CFS[0] = 28
 o += cell({"id": "c-x3", "lines": XC, "n": 3, "out": ["kim 3", "lee 1"]}, 96, T1, 1100, sel="c-x3")
 o.append(mk(96, T1, 1100, 3, 1, "mark", 1)); o.append(tag(tx(96, ["        self.stamps = self.stamps + 1"]), ly(T1, 3), "처음 값 0", BL, 1))
 o.append(mk(96, T1, 1100, 6, 1, "run", 2)); o.append(tag(tx(96, ["        self.stamps = self.stamps + 1"]), ly(T1, 6), "자기 도장 +1", GR, 2))
-o.append(obj("kim", [("name", '"kim"'), ("stamps", "0 → 3")], 1300, 200, 524, cls="", color=BL, bg=K1BG, rh=68, fs=32, attrs=' data-build-in="rise order 3"'))
-o.append(obj("lee", [("name", '"lee"'), ("stamps", "0 → 1")], 1300, 480, 524, cls="", color=GR, bg="#E6F4EC", rh=68, fs=32, attrs=' data-build-in="rise order 4"'))
+o.append(obj("kim", [("name", '"kim"'), ("stamps", "3")], 1300, 200, 524, cls="", color=BL, bg=K1BG, rh=68, fs=32, attrs=' data-build-in="rise order 2"' + DELAY(150), vids={"stamps": ("xc-k", "0")}))
+o.append(obj("lee", [("name", '"lee"'), ("stamps", "1")], 1300, 480, 524, cls="", color=GR, bg="#E6F4EC", rh=68, fs=32, attrs=' data-build-in="rise order 2"' + DELAY(300), vids={"stamps": ("xc-l", "0")}))
+o.append(rb(3, 96, T1, 1100, 10, 3)); o.append(text(3, "xc-k", "3"))
+o.append(rb(4, 96, T1, 1100, 13)); o.append(text(4, "xc-l", "1"))
+o.append(run_off(5))
 o.append(tag(1300, 770, "같은 틀, 카드마다 칸이 따로", K6, 5, 28, False))
 CFS[0] = 30
 W("x-card", o, "같은 틀로 찍어도 카드마다 칸이 따로라서 도장이 섞이지 않아요. 카페 도장 카드를 만들어요. 3파트에서 본 것처럼 stamps 칸은 재료로 받지 않고 0에서 시작해요. add 메서드는 자기 도장을 하나 늘려요. kim.add()를 세 번 부르면 self는 매번 kim이라서 kim의 도장만 3개가 돼요. lee는 따로 1개예요. 같은 틀로 찍었지만 카드마다 칸이 따로 있어서 서로 섞이지 않아요. 26에서 이 카드에 가게 이름처럼 모두가 같이 쓰는 값을 더해요." + REAL)
