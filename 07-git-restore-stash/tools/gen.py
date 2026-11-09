@@ -315,7 +315,7 @@ def num(i, color, size=56):
 # ======================================================================
 cov = [f'<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:{SANS};padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#8FB3FF">KANT AX/AI 엔지니어 트랙 · 07</p>',
-       '<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">커밋 전 변경<br>버리고, 잠깐 치우기</h1>',
+       '<h1 style="font-size:96px;font-weight:900;line-height:1.1;color:#F6F5F1">커밋 전 변경<br>취소하기와<br>잠깐 보관하기</h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">git restore와 git stash</p>']
 cov.append(f'<div style="position:absolute;left:1120px;top:330px;width:672px;height:420px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:10px;font-family:{MONO}">')
 for k, l in [("$", "$ git restore login.md"), ("#", "  고친 걸 버려요"), ("$", "$ git stash"), ("#", "  서랍에 넣어요"), ("$", "$ git stash pop"), ("#", "  서랍에서 꺼내요")]:
