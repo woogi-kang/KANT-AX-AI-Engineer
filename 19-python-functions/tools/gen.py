@@ -9,7 +9,10 @@ Layout rules (2026-11-08 remake, from the Stageshow skill): one focal object per
 diagram, drawn large), terms written as leader tags beside the line they explain instead of cards, each thing said
 once (explanations live in the speaker notes), no empty bands, and values that move between places fly there
 (an argument into its parameter box, a returned value back to where the function was called).
-Highlights come from tools/HIGHLIGHT.md: line tints, fly, moving spotlight, cursor click, pen ring, underline, box.
+Highlights come from tools/HIGHLIGHT.md (2026-11-09 player), spread over the deck: slam and shine on the cover, delayed rows,
+line spotlight, wipe, code-to-output links, keycaps, run bar, paired colors (mark), fly, value change (text), blur,
+code morph, pen ring/underline/box, shake on a failure, count-up, zoom, row spotlight, cursor click, stagger, dim earlier rows.
+No typing effect anywhere, and five clicks at most on a slide.
 
 Every cell and output comes from tools/demo.sh (tools/run_nb.py runs the cells with the project kernel).
 Usage: python3 tools/gen.py slides
@@ -18,7 +21,9 @@ Usage: python3 tools/gen.py slides
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline
+from highlight import (spot, spot_off, cursor, cursor_off, ring, box, underline, lspot, lspot_off, run, run_off, zoom, zoom_off,
+                       blur, blur_off, text, shine, shake, link, keys, SLAM, STAGGER, COUNT, MARK, DELAY, DIM, MORPH, MORPH_FROM, WIPE)
+from highlight import tok as mtok
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -177,17 +182,17 @@ def tag(x, y, text, color, order=None, size=30, lead=True, anim="fade", w=None, 
     return p(f"position:absolute;left:{x}px;top:{y - size * 0.725:.0f}px;{ws}font-size:{size}px;font-weight:700;line-height:1.45;color:{color};white-space:nowrap", t, bi(anim, order))
 
 
-def leader(pts, color, order=None, width=3):
+def leader(pts, color, order=None, width=3, anim="fade"):
     """A fine line from a label to what it explains, ending in a dot on the object's side."""
     d = " ".join(f"{x:.0f},{y:.0f}" for x, y in pts)
     x, y = pts[-1]
-    return (f'<svg{bi("fade", order)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none">'
+    return (f'<svg{bi(anim, order)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none">'
             f'<polyline points="{d}" fill="none" stroke="{color}" stroke-width="{width}" stroke-linejoin="round"/><circle cx="{x:.0f}" cy="{y:.0f}" r="7" fill="{color}"/></svg>')
 
 
-def harrow(x, y, w, color="#B4B9C3", order=None, h=28):
+def harrow(x, y, w, color="#B4B9C3", order=None, h=28, anim="fade"):
     """A right arrow drawn in SVG, centred on y."""
-    return (f'<svg{bi("fade", order)} viewBox="0 0 {w} {h}" style="position:absolute;left:{x}px;top:{y - h / 2:.0f}px;width:{w}px;height:{h}px">'
+    return (f'<svg{bi(anim, order)} viewBox="0 0 {w} {h}" style="position:absolute;left:{x}px;top:{y - h / 2:.0f}px;width:{w}px;height:{h}px">'
             f'<path d="M0,{h / 2 - 4} L{w - 22},{h / 2 - 4} L{w - 22},0 L{w},{h / 2} L{w - 22},{h} L{w - 22},{h / 2 + 4} L0,{h / 2 + 4} Z" fill="{color}"/></svg>')
 
 
@@ -254,12 +259,13 @@ MENU = 'menu = {"coffee": 4500, "latte": 5000, "cake": 6500}'
 # ---------- cover: the code panel runs off the right edge ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column">',
        p("position:absolute;left:128px;top:300px;width:760px;font-size:28px;font-weight:700;color:#F2B27A", "KANT AX/AI 엔지니어 트랙 · 보충 학습 자료"),
-       '<h1 style="position:absolute;left:128px;top:360px;width:800px;font-size:96px;font-weight:900;line-height:1.12;color:#F6F5F1">함수 1<br>정의와 return</h1>',
+       f'<h1{SLAM(1)} style="position:absolute;left:128px;top:360px;width:800px;font-size:96px;font-weight:900;line-height:1.12;color:#F6F5F1">함수 1<br>정의와 return</h1>',
        p("position:absolute;left:128px;top:610px;width:760px;font-size:40px;line-height:1.45;color:#BFC6D4", "자주 쓰는 계산에 이름을 붙이고<br>값을 넣어 결과를 돌려받아요")]
-cov.append(f'<div style="position:absolute;left:1000px;top:250px;width:1100px;height:580px;background:#252B36;border-radius:28px;padding:64px 64px;display:flex;flex-direction:column;justify-content:center">')
+cov.append(f'<div id="cov-code" style="position:absolute;left:1000px;top:250px;width:1100px;height:580px;background:#252B36;border-radius:28px;padding:64px 64px;display:flex;flex-direction:column;justify-content:center">')
 for line, c in [("def calc_total(cart, menu):", "#9DBDEB"), ("    total = 0", "#E6E9EF"), ("    for m in cart:", "#E3B877"), ("        total += menu[m]", "#E6E9EF"), ("    return total", "#F2A0A0"), ("", "#E6E9EF"), ("calc_total(cart, menu)", "#8FD8DE")]:
     cov.append(p(f"font-family:{MONO};font-size:38px;font-weight:700;line-height:1.5;color:{c};white-space:pre", e(line) if line else "&#160;"))
 cov.append('</div>')
+cov.append(shine(2, "cov-code"))
 W("cover", cov, "이번 챕터부터 함수를 배워요. 자주 쓰는 코드 묶음에 이름을 붙여 두고, 필요할 때 이름으로 불러 써요. 값을 넣고 결과를 돌려받는 데까지가 이번 챕터예요. 기본값, 지역 변수와 전역 변수는 20에서 이어서 배워요. 17, 18과 같은 카페 예제를 써요.", ("intro", "들어가기"))
 
 ORDER.append("toc")
@@ -268,18 +274,18 @@ ORDER.append("toc")
 o = [sec("ready")] + head("들어가기", "18에서 이어서 해요", JP)
 done = [("hello-uv 노트북, 커널 .venv", "09"), ("변수 이름 규칙, Restart", "10"), ("f-string, 리스트, for, 튜플 꺼내 담기", "13"), ("딕셔너리 menu[\"latte\"], None", "15"), ("if, elif, else", "17"), ("range, while, break", "18")]
 for i, (a_, b_) in enumerate(done):
-    o.append(f'<div{bi("rise", min(i + 1, 3))} style="position:absolute;left:96px;top:{220 + i * 112}px;width:800px;height:100px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{bi("rise", 1)}{DELAY(i * 90)} style="position:absolute;left:96px;top:{220 + i * 112}px;width:800px;height:100px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
              + f'<x-icon name="CheckCircle" style="width:44px;height:44px;color:{GR}"></x-icon>'
              + p(f"flex:1;font-size:32px;font-weight:700;color:{INK}", e(a_))
              + p(f"font-size:30px;font-weight:700;color:{GRAY}", e(b_)) + '</div>')
-o.append(p(f"position:absolute;left:1000px;top:236px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", bi("rise", 4)))
+o.append(p(f"position:absolute;left:1000px;top:236px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", bi("rise", 2)))
 steps_ = [p(f"font-size:32px;color:{INK}", "VS Code로 hello-uv 폴더 열기"),
           p(f"font-size:32px;color:{INK}", "탐색기에서") + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{JP}", NB) + p(f"font-size:32px;color:{INK}", "열기"),
           p(f"font-size:32px;color:{INK}", "오른쪽 위 커널이 .venv인지 보기"),
           p(f"font-size:32px;color:{INK}", "셀에 적고") + kbd("Shift+Enter", 26) + p(f"font-size:32px;color:{INK}", "로 실행")]
 for i, inner in enumerate(steps_):
-    o.append(f'<div{bi("rise", 4)} style="position:absolute;left:1000px;top:{320 + i * 112}px;width:824px;height:100px;display:flex;flex-direction:row;gap:20px;align-items:center;border-bottom:2px solid {LINE}">' + num(i + 1, JP, 36) + inner + '</div>')
-o.append(caption("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 봐요.", 920, 5))
+    o.append(f'<div{bi("rise", 2)}{DELAY(90 + i * 90)} style="position:absolute;left:1000px;top:{320 + i * 112}px;width:824px;height:100px;display:flex;flex-direction:row;gap:20px;align-items:center;border-bottom:2px solid {LINE}">' + num(i + 1, JP, 36) + inner + '</div>')
+o.append(caption("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 봐요.", 920, 3))
 W("ready", o, "09에서 만든 hello-uv 폴더를 VS Code로 열고, 12부터 쓰던 basics.ipynb를 다시 열어요. 10의 변수 이름 규칙은 함수 이름에도 그대로 써요. 13의 f-string과 for, 튜플 꺼내 담기, 15의 딕셔너리와 None, 17의 if, 18의 반복을 함수 안에서 그대로 써요. 슬라이드의 출력은 tools/demo.sh가 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요. 셀 번호는 파트마다 [1]부터 다시 셌어요.")
 
 # ---------- part 1 ----------
@@ -288,9 +294,11 @@ WHY = [MENU, 'cart = ["coffee", "cake"]', "total = 0", "for m in cart:", "    to
 T, FS, CW = 200, 32, 1160
 TX = 96 + CW + 40
 o += cell({"id": "c-why", "lines": WHY, "n": 1, "out": ["합계 11,000원", "합계 16,500원"]}, 96, T, CW, FS, sel="c-why")
-o.append(hl(96, T, CW, 2, 4, "mark", 1, FS))
+CB = (96 + 87, T, CW - 87, 20 + len(WHY) * LH(FS))
+o.append(lspot(1, *CB, T + 10 + 2 * LH(FS), 4 * LH(FS), bar=K1))
 o.append(tag(TX, (ly(T, 2, FS) + ly(T, 5, FS)) / 2, "첫 손님 합계 4줄", K1, 1))
-o.append(hl(96, T, CW, 7, 4, "mark", 2, FS))
+o.append(lspot(2, *CB, T + 10 + 7 * LH(FS), 4 * LH(FS), bar=K1))
+o.append(lspot_off(3))
 o.append(tag(TX, (ly(T, 7, FS) + ly(T, 10, FS)) / 2, "둘째 손님, 글자까지 같은 4줄", K1, 2))
 o.append(tag(TX, oy(T, 11, 0, FS), "셋째 손님이 오면 또 붙여 넣어요", RED, 3, lead=False))
 o.append(tag(TX, oy(T, 11, 1, FS), "할인이 생기면 전부 찾아 고쳐요", RED, 3, lead=False))
@@ -312,7 +320,7 @@ for i, (inp, name, res, c, bg) in enumerate(MACH):
     o.append(f'<div style="position:absolute;left:{FX}px;top:{y}px;width:{IW}px;height:100px;display:flex;align-items:center;justify-content:flex-end">' + mono(inp, 30, INK, "#ECEAE3") + '</div>')
     o.append(harrow(FX + IW + 20, cy, AW))
     o.append(p(f"position:absolute;left:{BX}px;top:{y}px;width:{BW}px;height:100px;border-radius:20px;background:{c};color:#FFFFFF;font-family:{MONO};font-size:40px;font-weight:700;line-height:100px;text-align:center", e(name), f' id="m-{name}"'))
-    o.append(harrow(BX + BW + 20, cy, AW, c, i + 1))
+    o.append(harrow(BX + BW + 20, cy, AW, c, i + 1, anim="wipe"))
     o.append(f'<div data-build-in="fly order {i + 1}" data-from="m-{name}" style="position:absolute;left:{OX}px;top:{y + 18}px;height:64px;display:flex;align-items:center">' + mono(res, 30, INK, bg, f"border:3px solid {c}") + '</div>')
 T2, FS2 = 660, 28
 o += cell({"id": "c-big", "lines": ['cart = ["coffee", "cake"]', "print(len(cart))", "print(sorted([6500, 4500, 5000]))", "print(sum([4500, 6500]))"], "n": 2, "out": ["2", "[4500, 5000, 6500]", "11000"]}, 96, T2, 1000, FS2, attrs=bi("rise", 4))
@@ -328,8 +336,9 @@ o.append(hl(96, T, CW, 0, 2, "mark", 1, FS))
 o.append(tag(TX, ly(T, 0.5, FS), "정의: 만들어 두기", K1, 1, 36))
 o.append(hl(96, T, CW, 3, 2, "run", 2, FS))
 o.append(tag(TX, ly(T, 3.5, FS), "호출: 실행하기", GR, 2, 36))
-o.append(f'<div{bi("fade", 3)} style="position:absolute;left:{TX - 28}px;top:{oy(T, 5, 0, FS) - 26:.0f}px;width:16px;height:{oy(T, 5, 1, FS) - oy(T, 5, 0, FS) + 52:.0f}px;border:4px solid {OR};border-left:none;border-radius:0 10px 10px 0"></div>')
-o.append(tag(TX + 8, (oy(T, 5, 0, FS) + oy(T, 5, 1, FS)) / 2, "두 번 불러서 두 번 찍혀요", OR, 3, 36, lead=False))
+for j in range(2):
+    o.append(link(3, lx(96, "hello()", FS) + 24, ly(T, 3 + j, FS), lx(96, "어서 오세요", FS) + 24, oy(T, 5, j, FS), OR, 4))
+o.append(tag(TX, (oy(T, 5, 0, FS) + oy(T, 5, 1, FS)) / 2, "두 번 불러서 두 번 찍혀요", OR, 3, 36, lead=False))
 o.append(caption("몸통은 한 번만 적고, 부른 만큼 실행돼요.", 900, 4))
 W("f-min", o, "def로 함수를 만들고, 이름 뒤에 괄호를 붙여 불러요. def 다음에 함수 이름 hello와 빈 괄호, 콜론을 적어요. 다음 줄은 4칸 들여써서 함수가 할 일을 적어요. 여기까지가 함수를 만드는 정의예요. 아래 hello()는 만든 함수를 실행하는 호출이에요. 두 번 불러서 어서 오세요가 두 번 찍혔어요." + REAL)
 
@@ -341,7 +350,7 @@ X0 = PX + 72                         # text left inside the panel
 L1Y = PT + 44 + LH(FSP) / 2          # centre of line 1
 L2Y = L1Y + LH(FSP)
 o.append(f'<div style="position:absolute;left:{PX}px;top:{PT}px;width:1728px;height:{88 + 2 * LH(FSP):.0f}px;background:#252B36;border-radius:26px"></div>')
-o.append(f'<div{bi("fade", 5)} style="position:absolute;left:{X0}px;top:{L2Y - LH(FSP) / 2 + 10:.0f}px;width:{4 * CH:.0f}px;height:{LH(FSP) - 20:.0f}px;background:rgba(122,214,140,0.28);border-radius:10px"></div>')
+o.append(f'<div{bi("fade", 2)} style="position:absolute;left:{X0}px;top:{L2Y - LH(FSP) / 2 + 10:.0f}px;width:{4 * CH:.0f}px;height:{LH(FSP) - 20:.0f}px;background:rgba(122,214,140,0.28);border-radius:10px"></div>')
 o.append(p(f"position:absolute;left:{X0}px;top:{PT + 44}px;font-family:{MONO};font-size:{FSP}px;font-weight:700;line-height:1.45;color:#E6E9EF;white-space:pre",
            '<span style="color:#9DBDEB">def</span> <span style="color:#E3B877">hello</span><span style="color:#8FD8DE">()</span><span style="color:#F2A0A0">:</span><br>    print("어서 오세요")'))
 PIECES = [("def", 0, 3, "만든다는 표시", BL, 0), ("hello", 4, 5, "함수 이름", OR, 0), ("()", 9, 2, "재료 칸", TEAL, 1), (":", 11, 1, "콜론 (if, for와 같아요)", RED, 2)]
@@ -350,13 +359,13 @@ lab_x = [X0 - 10, X0 + 4 * CH + 60, X0 + 9 * CH + 120, X0 + 12 * CH + 240]
 for k, (t_, c0, n_, lab, col, _) in enumerate(PIECES):
     tx_ = X0 + (c0 + n_ / 2) * CH
     lx_ = lab_x[k]
-    o.append(p(f"position:absolute;left:{lx_:.0f}px;top:{LBL_Y[k] - 22}px;font-size:30px;font-weight:700;color:{col};white-space:nowrap", e(lab), bi("fade", k + 1)))
-    o.append(leader([(lx_ + 30, LBL_Y[k] + 28), (lx_ + 30, LBL_Y[k] + 50), (tx_, PT + 30), (tx_, PT + 44 + 12)], col, k + 1))
+    o.append(p(f"position:absolute;left:{lx_:.0f}px;top:{LBL_Y[k] - 22}px;font-size:30px;font-weight:700;color:{col};white-space:nowrap", e(lab), bi("fade", 1) + DELAY(k * 260 + 150)))
+    o.append(leader([(lx_ + 30, LBL_Y[k] + 28), (lx_ + 30, LBL_Y[k] + 50), (tx_, PT + 30), (tx_, PT + 44 + 12)], col, 1, anim="fade").replace('data-build-in="fade order 1"', f'data-build-in="fade order 1"{DELAY(k * 260)}'))
 IND_X = X0 + 2 * CH
-o.append(leader([(IND_X, 780), (IND_X, L2Y + LH(FSP) / 2 - 6)], GR, 5))
-o.append(p(f"position:absolute;left:{IND_X - 30:.0f}px;top:790px;font-size:30px;font-weight:700;color:{GR};white-space:nowrap", "4칸 들여쓴 줄이 함수 몸통이에요", bi("fade", 5)))
-o.append(tag(1080, 811, "이름은 하는 일로: calc_total, print_menu", GRAY, 6, 30, lead=False))
-o.append(caption("모양은 if, for와 같아요. 콜론 뒤 4칸 들여쓴 줄이 한 덩어리예요.", 930, 7))
+o.append(leader([(IND_X, 780), (IND_X, L2Y + LH(FSP) / 2 - 6)], GR, 2))
+o.append(p(f"position:absolute;left:{IND_X - 30:.0f}px;top:790px;font-size:30px;font-weight:700;color:{GR};white-space:nowrap", "4칸 들여쓴 줄이 함수 몸통이에요", bi("fade", 2) + DELAY(150)))
+o.append(tag(1080, 811, "이름은 하는 일로: calc_total, print_menu", GRAY, 3, 30, lead=False))
+o.append(caption("모양은 if, for와 같아요. 콜론 뒤 4칸 들여쓴 줄이 한 덩어리예요.", 930, 4))
 W("d-shape", o, "def 줄은 def, 이름, 괄호, 콜론, 들여쓴 몸통의 다섯 조각으로 읽어요. def는 함수를 만든다는 표시예요. hello는 함수 이름이고 10에서 배운 변수 이름 규칙을 그대로 따라요. 괄호는 재료를 받는 칸인데 지금은 비어 있어요. 3파트에서 채워요. 줄 끝 콜론과 다음 줄 4칸 들여쓰기는 17의 if, 13의 for와 같아요. 함수 이름은 calc_total처럼 하는 일이 보이게 지으면 나중에 읽기 쉬워요.", ("p2", "정의와 호출"))
 
 o = [sec("d-def")] + head(EB2, "정의만 하면 아무것도 찍히지 않아요", K2)
@@ -367,10 +376,9 @@ o.append(tag(201, box_bottom(T, 3, FS) + 46, "출력 없음", GRAY, 1, 32, lead=
 o.append(tag(TX, ly(T, 1, FS), "hello라는 이름에", K2, 1, 32))
 o.append(tag(TX + 44, ly(T, 2, FS), "몸통을 기억만 해요", K2, 1, 32, lead=False))
 T2 = 560
-o += cell({"id": "c-call", "lines": ["hello()"], "n": None}, 96, T2, CW, FS, sel="c-call", attrs=bi("rise", 2), run=True)
-o.append(cursor(2, target="c-call-run"))
+o += cell({"id": "c-call", "lines": ["hello()"], "n": None}, 96, T2, CW, FS, sel="c-call", attrs=bi("rise", 2))
+o.append(keys(2, TX, T2 - 4, "Shift+Enter", 32))
 o.append(outlines(96, box_bottom(T2, 1, FS), ["어서 오세요", "주문하시겠어요?"], FS, 3))
-o.append(cursor_off(3))
 o.append(tag(TX, oy(T2, 1, 0.5, FS), "부르면 그제야 실행돼요", GR, 3, 32))
 o.append(caption("def는 기억해 두기만 하고, 실행은 이름()을 부를 때 해요.", 930, 4))
 W("d-def", o, "def 셀은 실행해도 아무것도 찍히지 않고, 이름()을 불러야 몸통이 실행돼요. def 셀을 실행하면 파이썬은 hello라는 이름에 몸통 두 줄을 기억해 두기만 해요. 레시피 카드에 만드는 법을 적어 둔 것과 같아요. 다음 셀에서 hello()를 실행하면 그제야 기억한 몸통을 실행해서 두 줄이 찍혀요. 노트북에서는 def 셀을 한 번 실행해 두면 아래 셀 어디서든 부를 수 있어요." + NEWK + REAL)
@@ -389,13 +397,15 @@ o += cell({"id": "c-flow", "lines": FLOW, "n": 3}, LB, TB, WB, FS, sel="c-flow")
 o.append(p(f"position:absolute;left:{OX2}px;top:200px;font-size:26px;font-weight:700;color:{GRAY}", "출력"))
 OUTS = ["가게 문 열어요", "어서 오세요", "주문하시겠어요?", "다음 손님", "어서 오세요", "주문하시겠어요?"]
 # step: (cell, line, which output appears)
-SEQ = [("B", 0, [0]), ("B", 1, []), ("A", 1, [1]), ("A", 2, [2]), ("B", 2, [3]), ("B", 3, []), ("A", 1, [4]), ("A", 2, [5])]
+# step: (cell, first line, line count, outputs, badge lines)
+SEQ = [("B", 0, 1, [0], [("B", 0)]), ("A", 1, 2, [1, 2], [("B", 1), ("A", 1), ("A", 2)]), ("B", 2, 1, [3], [("B", 2)]), ("A", 1, 2, [4, 5], [("B", 3), ("A", 1), ("A", 2)])]
 badges = {}
-for k, (cl, ln, outs) in enumerate(SEQ, 1):
+for k, (cl, ln, nl, outs, bl) in enumerate(SEQ, 1):
     left, top, w = (LA, TA, WA) if cl == "A" else (LB, TB, WB)
     y = top + 10 + ln * LH(FS)
-    o.append(spot(k, left + 87, y, w - 89, LH(FS), pad=6, r="10", dim=0.4))
-    badges.setdefault((cl, ln), []).append(k)
+    o.append(run(k, left + 87, y, w - 89, nl * LH(FS)))
+    for b_ in bl:
+        badges.setdefault(b_, []).append(k)
     for j in outs:
         o.append(f'<div{bi("fade", k)} style="position:absolute;left:{OX2}px;top:{250 + j * 76}px;height:64px;display:flex;flex-direction:row;align-items:center;gap:22px">'
                  + p(f"width:40px;height:40px;flex:none;border-radius:50%;background:{K2};color:#FFFFFF;font-size:22px;font-weight:900;line-height:40px;text-align:center", str(k))
@@ -406,10 +416,10 @@ for (cl, ln), ks in badges.items():
     for m, k in enumerate(ks):
         x = left + w - 200 + m * 50
         o.append(p(f"position:absolute;left:{x}px;top:{cy - 20:.0f}px;width:40px;height:40px;border-radius:50%;background:{K2};color:#FFFFFF;font-size:22px;font-weight:900;line-height:40px;text-align:center", str(k), bi("fade", k)))
-o.append(spot_off(9))
-o.append(tag(LB + 105, 790, "몸통이 끝나면 부른 줄의 다음 줄로 돌아와요", K2, 9, 32, lead=False))
-o.append(caption("부를 때마다 몸통을 처음부터 끝까지 실행하고 돌아와요.", 930, 9))
-W("d-flow", o, "함수를 부르면 몸통으로 가서 끝까지 실행한 뒤, 부른 자리 다음 줄로 돌아와요. 앞 셀에서 hello를 정의해 뒀어요. 오른쪽 셀은 위에서 아래로 실행돼요. 첫 줄을 찍고, hello()를 만나면 왼쪽 몸통으로 가서 두 줄을 실행해요. 몸통이 끝나면 돌아와 다음 손님을 찍어요. 다시 hello()를 만나서 몸통을 한 번 더 실행해요. 동그라미 숫자가 실행 순서이고, 출력 여섯 줄이 그 순서 그대로예요." + REAL)
+o.append(run_off(5))
+o.append(tag(LB + 105, 790, "몸통이 끝나면 부른 줄의 다음 줄로 돌아와요", K2, 5, 32, lead=False))
+o.append(caption("부를 때마다 몸통을 처음부터 끝까지 실행하고 돌아와요.", 930, 5))
+W("d-flow", o, "함수를 부르면 몸통으로 가서 끝까지 실행한 뒤, 부른 자리 다음 줄로 돌아와요. 앞 셀에서 hello를 정의해 뒀어요. 오른쪽 셀은 위에서 아래로 실행돼요. 첫 줄을 찍고, hello()를 만나면 왼쪽 몸통으로 가서 두 줄을 실행해요. 몸통이 끝나면 돌아와 다음 손님을 찍어요. 다시 hello()를 만나서 몸통을 한 번 더 실행해요. 초록 막대가 지금 실행하는 줄이고, 동그라미 숫자가 실행 순서예요. 출력 여섯 줄이 그 순서 그대로 나와요." + REAL)
 
 # ---------- part 3 ----------
 o = [sec("a-one")] + head(EB3, "괄호 안에 재료 칸을 만들어요", K3)
@@ -428,14 +438,17 @@ o.append(p(f"position:absolute;left:96px;top:880px;font-size:34px;font-weight:70
 W("a-one", o, "부를 때 넣은 값이 괄호 안의 칸에 담겨서 몸통에서 쓰여요. 괄호 안에 name을 적으면 재료를 받는 칸이 생겨요. 이 칸을 매개변수라고 해요. greet(\"kim\")처럼 부를 때 넣는 값은 인자라고 해요. 부르면 \"kim\"이 name 칸에 담기고, 몸통의 f-string이 name 자리에 kim을 넣어 찍어요. greet(\"lee\")로 부르면 name에 lee가 담겨요. 함수는 하나인데 넣는 값에 따라 결과가 달라져요." + NEWK + REAL, ("p3", "매개변수와 인자"))
 
 o = [sec("a-two")] + head(EB3, "재료 칸은 쉼표로 여러 개 만들어요", K3)
-A2 = [f'def order({tok("menu_name", None, OR)}, {tok("qty", None, BL)}):', e('    print(f"{menu_name} {qty}잔 주문 받았어요")'), "", f'order({tok(chr(34) + "latte" + chr(34), "t-latte", OR)}, {tok("2", "t-2", BL)})', e('order("coffee", 1)')]
+def mk(text, tid, color, bg, order):
+    i_ = f' id="{tid}"' if tid else ""
+    return f'<span{i_}{MARK(order)} style="color:{color};background:{bg};border-radius:6px">{e(text)}</span>'
+A2 = [f'def order({mk("menu_name", None, OR, ORBG, 1)}, {mk("qty", None, BL, K1BG, 1)}):', e('    print(f"{menu_name} {qty}잔 주문 받았어요")'), "", f'order({mk(chr(34) + "latte" + chr(34), "t-latte", OR, ORBG, 1)}, {mk("2", "t-2", BL, K1BG, 1)})', e('order("coffee", 1)')]
 o += cell({"id": "c-a2", "raw": True, "lines": A2, "n": 2, "out": [e("latte 2잔 주문 받았어요"), e("coffee 1잔 주문 받았어요")]}, 96, T, CW, FS, sel="c-a2")
 o.append(var_box("v-mn", "menu_name", VX, 230, OR, VW, VH, bi("rise", 1)))
-o.append(val(VX, 230, VW, VH, '"latte"', INK, 1, "t-latte"))
+o.append(val(VX, 230, VW, VH, '"latte"', INK, 2, "t-latte"))
 o.append(var_box("v-qty", "qty", VX, 470, BL, VW, VH, bi("rise", 1)))
-o.append(val(VX, 470, VW, VH, "2", INK, 1, "t-2"))
-o.append(tag(VX, 720, "첫째 값은 첫째 칸에", INK, 2, 32, lead=False))
-o.append(tag(VX, 770, "둘째 값은 둘째 칸에", INK, 2, 32, lead=False))
+o.append(val(VX, 470, VW, VH, "2", INK, 2, "t-2"))
+o.append(tag(VX, 720, "첫째 값은 첫째 칸에", INK, 2, 32, lead=False).replace("order 2", "order 2\" data-delay=\"300"))
+o.append(tag(VX, 770, "둘째 값은 둘째 칸에", INK, 2, 32, lead=False).replace("order 2", "order 2\" data-delay=\"300"))
 o.append(caption("칸이 여러 개면 쉼표로 나눠 적고, 부를 때도 쉼표로 나눠 넣어요.", 930, 3))
 W("a-two", o, "재료가 두 개 필요하면 괄호 안에 쉼표로 칸을 두 개 만들어요. order는 메뉴 이름과 잔 수를 받아요. order(\"latte\", 2)로 부르면 첫째 인자 \"latte\"가 첫째 칸 menu_name에, 둘째 인자 2가 둘째 칸 qty에 담겨요. 매개변수 이름을 menu가 아니라 menu_name으로 지은 건 15의 menu 딕셔너리와 헷갈리지 않게 하려는 거예요." + REAL)
 
@@ -452,8 +465,11 @@ o.append(underline(2, 96 + 105, int(96 + 105 + tw("2 latte잔", FS)), int(OY + 3
 o.append(tag(int(96 + 105 + tw("2 latte잔 주문 받았어요", FS) + 36), OY, "오류 없이 이상하게 찍혀요", RED, 2, 30))
 o.append(mono("def order(menu_name, qty):", 32, GRAY, None, "position:absolute;left:96px;top:600px", bi("fade", 3)))
 o.append(tag(96 + 26 * 19.2 + 40, 622, "def 줄의 칸 순서를 보고 넣어요", GRAY, 3, 30))
-o.append(fix(96, 720, 'order(2, "latte")', 'order("latte", 2)', 3))
-o.append(caption("칸 순서를 바꿔 넣으면 값도 바뀌어 들어가요.", 930, 4))
+MS = f"position:absolute;left:96px;top:730px;font-family:{MONO};font-size:40px;font-weight:700;line-height:1.4;white-space:pre;padding:6px 22px;border-radius:14px"
+o.append(p(MS + f";color:{RED};background:{K5BG}", "order(" + mtok("a", "2") + ", " + mtok("b", '"latte"') + ")", ' id="ao-a"' + bi("fade", 3) + MORPH_FROM()))
+o.append(p(MS + f";color:{INK};background:{GRBG}", "order(" + mtok("b", '"latte"') + ", " + mtok("a", "2") + ")", MORPH(4, "ao-a")))
+o.append(tag(96 + 44 + tw('order("latte", 2)', 40) + 40, 758, "값을 칸 순서대로 바꿔 넣어요", GR, 4, 30))
+o.append(caption("칸 순서를 바꿔 넣으면 값도 바뀌어 들어가요.", 930, 5))
 W("a-order", o, "인자는 뜻이 아니라 적은 순서대로 칸에 들어가요. 같은 order에 순서를 바꿔 2, \"latte\"로 넣었어요. 파이썬은 첫째 값을 첫째 칸에 넣어서 menu_name이 2, qty가 latte가 되어 2 latte잔이라고 찍혀요. 오류가 나지 않아서 더 알아채기 어려워요. 부를 때는 def 줄을 보고 칸 순서대로 넣어요. 칸 이름을 직접 적어서 순서를 신경 쓰지 않는 방법은 20에서 배워요." + REAL)
 
 # ---------- part 4 ----------
@@ -463,32 +479,35 @@ R1 = [e("def price_of(qty):"), f'    return {tok("4500 * qty", "t-ret", K4)}', "
 o += cell({"id": "c-r1", "raw": True, "lines": R1, "n": 1, "out": ["9000", "14500"]}, 96, T, CW, FS, sel="c-r1")
 o.append(hl(96, T, CW, 1, 1, "mark", 1, FS, "돌려줄 값"))
 CX = 1160
-o.append(p(f"position:absolute;left:{CX}px;top:220px;font-size:26px;font-weight:700;color:{GRAY}", "부른 자리가 값으로 바뀌어요", bi("fade", 2)))
-o.append(mono("x = price_of(2)", 34, INK, None, f"position:absolute;left:{CX}px;top:280px", bi("rise", 2)))
-o.append(p(f"position:absolute;left:{CX}px;top:356px;font-family:{MONO};font-size:34px;font-weight:700;line-height:1.4;color:{INK};white-space:pre", "x = ", bi("rise", 2)))
-o.append(f'<div data-build-in="fly order 2" data-from="t-ret" style="position:absolute;left:{CX + 4 * 20.4:.0f}px;top:350px">' + mono("9000", 34, K4, K4BG) + '</div>')
-o.append(mono("price_of(3) + 1000", 34, INK, None, f"position:absolute;left:{CX}px;top:540px", bi("rise", 3)))
-o.append(f'<div data-build-in="fly order 3" data-from="t-ret" style="position:absolute;left:{CX}px;top:610px">' + mono("13500", 34, K4, K4BG) + '</div>')
-o.append(p(f"position:absolute;left:{CX + 5 * 20.4 + 56:.0f}px;top:616px;font-family:{MONO};font-size:34px;font-weight:700;line-height:1.4;color:{INK};white-space:pre", "+ 1000", bi("rise", 3)))
-o.append(harrow(CX, 760, 70, "#B4B9C3", 4))
-o.append(at(CX + 96, 732, mono("14500", 34, INK, "#ECEAE3"), bi("rise", 4)))
+o.append(p(f"position:absolute;left:{CX}px;top:230px;font-size:28px;font-weight:700;color:{GRAY}", "부른 자리가 값으로 바뀌어요", bi("fade", 2)))
+VS = f"position:absolute;left:{CX}px;font-family:{MONO};font-size:44px;font-weight:700;line-height:1.4;color:{INK};white-space:pre;padding:4px 16px;border-radius:10px"
+o.append(p(VS + ";top:300px", "x = 9000", ' id="rv-a" data-start="x = price_of(2)"' + bi("rise", 2)))
+o.append(text(3, "rv-a", "x = 9000"))
+o.append(p(VS + ";top:520px", "13500 + 1000 = 14500", ' id="rv-b" data-start="price_of(3) + 1000"' + bi("rise", 2)))
+o.append(text(4, "rv-b", "13500 + 1000"))
+o.append(text(5, "rv-b", "13500 + 1000 = 14500"))
 o.append(caption("return 뒤의 값이 함수를 부른 자리에 들어가요.", 930, 5))
 W("r-ret", o, "return은 계산한 값을 들고 함수를 나가서, 함수를 부른 자리에 그 값을 놓아요. 지금까지 만든 함수는 print로 찍기만 했어요. price_of는 잔 수를 받아 4500을 곱한 값을 돌려줘요. x = price_of(2)는 부른 자리가 9000으로 바뀌어서 x = 9000이 돼요. price_of(3) + 1000도 13500 + 1000으로 바뀐 뒤 14500이 돼요. 13의 len과 sum이 값을 돌려준 것과 같은 방식이에요." + NEWK + REAL, ("p4", "return"))
 
 o = [sec("r-vs")] + head(EB4, "print는 화면에 찍기만, return은 값을 돌려줘요", K4)
 T, FS, CW = 270, 32, 840
+o.append('<div id="vs-l" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none">')
 o.append(p(f"position:absolute;left:96px;top:205px;font-size:30px;font-weight:700;color:{OR}", "print로 찍는 함수"))
 o += cell({"id": "c-r2", "lines": ["def show(qty):", "    print(4500 * qty)", "", "a = show(2)", 'print("a:", a)'], "n": 2, "out": ["9000", "a: None"]}, 96, T, CW, FS)
 o.append(hl(96, T, CW, 1, 1, "skip", None, FS))
+o.append(box(1, 96 + 105 - 14, int(oy(T, 5, 1, FS) - 28), int(tw("a: None", FS)) + 28, 56, OR))
+o.append(tag(96 + 105, 750, "9000은 찍혔을 뿐, a에는 None", OR, 1, 32, lead=False))
+o.append('</div>')
+o.append('<div id="vs-r" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none">')
 o.append(p(f"position:absolute;left:984px;top:205px;font-size:30px;font-weight:700;color:{K4}", "return으로 돌려주는 함수"))
 o += cell({"id": "c-r3", "lines": ["def calc(qty):", "    return 4500 * qty", "", "b = calc(2)", 'print("b:", b)', "print(b + 1000)"], "n": 3, "out": ["b: 9000", "10000"]}, 984, T, CW, FS)
 o.append(hl(984, T, CW, 1, 1, "mark", None, FS))
-ya = oy(T, 5, 1, FS)
-o.append(box(1, 96 + 105 - 14, int(ya - 28), int(tw("a: None", FS)) + 28, 56, OR))
-o.append(tag(96 + 105, 750, "9000은 찍혔을 뿐, a에는 None", OR, 1, 32, lead=False))
-yb = oy(T, 6, 0, FS)
-o.append(box(2, 984 + 105 - 14, int(yb - 28), int(tw("b: 9000", FS)) + 28, 56, GR))
+o.append(box(2, 984 + 105 - 14, int(oy(T, 6, 0, FS) - 28), int(tw("b: 9000", FS)) + 28, 56, GR))
 o.append(tag(984 + 105, 750, "b에 9000이 담겨서 더할 수 있어요", GR, 2, 32, lead=False))
+o.append('</div>')
+o.append(blur(1, "vs-l"))
+o.append(blur(2, "vs-r"))
+o.append(blur_off(3))
 o.append(caption("사람이 볼 값은 print, 다음 계산에 쓸 값은 return이에요.", 930, 3))
 W("r-vs", o, "print는 화면에 찍기만 하고, return은 값을 돌려줘서 변수에 담을 수 있어요. 가장 많이 헷갈리는 부분이라 두 함수를 한 줄만 다르게 나란히 놓았어요. 왼쪽 show는 9000을 찍지만 돌려준 값이 없어서 a에는 None이 담겨요. 오른쪽 calc는 화면에 찍지 않지만 b에 9000이 담겨서 1000을 더할 수 있어요. 화면에 보이는 것과 변수에 담기는 것은 달라요." + REAL)
 
@@ -547,7 +566,10 @@ T2 = 560
 s1 = "<function hello at 0x7efc68143530>"
 o += cell({"id": "c-t2", "lines": ["print(hello)"], "n": 2, "out": [s1]}, 96, T2, CW, FS, attrs=bi("rise", 2))
 o.append(tag(int(96 + 105 + tw(s1, FS) + 36), oy(T2, 1, 0, FS), "0x 뒤 숫자는 실행마다 달라요", GRAY, 2, 30))
-o.append(fix(96, 790, "hello", "hello()", 3, 36))
+MS = f"position:absolute;left:96px;top:790px;font-family:{MONO};font-size:44px;font-weight:700;line-height:1.4;white-space:pre;padding:6px 24px;border-radius:14px"
+o.append(p(MS + f";color:{RED};background:{K5BG}", mtok("h", "hello"), ' id="tp-a"' + bi("fade", 2) + MORPH_FROM()))
+o.append(p(MS + f";color:{INK};background:{GRBG}", mtok("h", "hello") + mtok("p", "()", f"color:{GR}"), MORPH(3, "tp-a")))
+o.append(tag(96 + 48 + tw("hello()", 44) + 40, 821, "괄호를 붙여야 실행돼요", GR, 3, 30))
 o.append(caption("부를 때는 재료가 없어도 괄호 ()를 꼭 붙여요.", 930, 4))
 W("t-paren", o, "괄호를 빼고 이름만 적으면 함수를 실행하지 않고 함수 자체를 보여 줘요. 셀 마지막 줄에 hello만 적으면 노트북이 함수 자체를 보여 주고, print(hello)로 찍으면 function hello at 뒤에 숫자가 나와요. 그 숫자는 함수가 저장된 메모리 위치라서 실행할 때마다 달라져요. 수강생 화면과 슬라이드 숫자가 달라도 괜찮아요. 함수를 실행하려면 재료가 없어도 괄호를 붙여요." + NEWK + REAL, ("p5", "오류와 함정"))
 
@@ -558,6 +580,7 @@ E2 = "TypeError: order() takes 2 positional arguments but 3 were given"
 o += cell({"id": "c-t3", "lines": ["def order(menu_name, qty):", '    print(f"{menu_name} {qty}잔 주문 받았어요")', "", 'order("latte")'], "n": 3, "out": [E1], "err": True}, 96, T, CW, FS, sel="c-t3")
 y1 = oy(T, 4, 0, FS)
 x1 = lx(96, "TypeError: order() missing 1 required positional argument: ", FS)
+o.append(shake(1, "c-t3"))
 o.append(ring(1, int(x1) + 16, int(y1 - 18), int(tw("'qty'", FS)) - 16, 36, RED))
 o.append(tag(int(lx(96, E1, FS) + 60), y1, "qty 칸이 비었어요", RED, 1, 30))
 T2 = 560
@@ -593,12 +616,14 @@ E3 = "TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'"
 o += cell({"id": "c-t6", "lines": ["def show(qty):", "    print(4500 * qty)", "", "show(2) + 1000"], "n": 6, "out": ["9000", "", E3], "err": True}, 96, T, CW, FS, sel="c-t6")
 ye = oy(T, 4, 2, FS)
 o.append(box(1, int(lx(96, "TypeError: unsupported operand type(s) for +: ", FS)) - 8, int(ye - 27), int(tw("'NoneType'", FS)) + 16, 54, RED))
-o.append(mono("show(2) + 1000", 34, INK, "#ECEAE3", "position:absolute;left:96px;top:660px", bi("rise", 2)))
-o.append(harrow(96 + int(14 * 20.4) + 70, 690, 70, RED, 2))
-o.append(mono("None + 1000", 34, RED, K5BG, f"position:absolute;left:{96 + int(14 * 20.4) + 170}px;top:660px", bi("rise", 2)))
-o.append(tag(96 + int(14 * 20.4) + 170 + int(11 * 20.4) + 80, 690, "None에는 더할 수 없어요", RED, 2, 30, lead=False))
-o.append(fix(96, 790, "print(4500 * qty)", "return 4500 * qty", 3, 32))
-o.append(caption("NoneType이 보이면 return이 빠진 함수를 찾아요.", 930, 4))
+o.append(p(f"position:absolute;left:96px;top:660px;font-family:{MONO};font-size:38px;font-weight:700;line-height:1.4;color:{RED};white-space:pre;padding:4px 18px;border-radius:10px;background:{K5BG}", "None + 1000", ' id="tn-v" data-start="show(2) + 1000"' + bi("rise", 2)))
+o.append(text(3, "tn-v", "None + 1000"))
+o.append(tag(96 + 36 + int(tw("show(2) + 1000", 38)) + 50, 687, "show(2)가 돌려준 None으로 바뀌어요", RED, 3, 30))
+MS = f"position:absolute;left:96px;top:800px;font-family:{MONO};font-size:38px;font-weight:700;line-height:1.4;white-space:pre;padding:6px 22px;border-radius:14px"
+o.append(p(MS + f";color:{RED};background:{K5BG}", mtok("k", "print") + mtok("o", "(") + mtok("v", "4500 * qty") + mtok("c", ")"), ' id="tn-a"' + bi("fade", 3) + MORPH_FROM()))
+o.append(p(MS + f";color:{INK};background:{GRBG}", mtok("r", "return ", f"color:{GR}") + mtok("v", "4500 * qty"), MORPH(4, "tn-a")))
+o.append(tag(96 + 44 + int(tw("return 4500 * qty", 38)) + 40, 827, "계산에 쓸 값은 return으로", GR, 4, 30))
+o.append(caption("NoneType이 보이면 return이 빠진 함수를 찾아요.", 930, 5))
 W("t-none", o, "찍기만 하는 함수는 None을 돌려줘서, 그 값으로 계산하면 TypeError가 나요. show(2)는 9000을 찍지만 돌려주는 값은 None이에요. 그래서 show(2) + 1000은 None + 1000이 되고, None과 정수는 더할 수 없다는 오류가 나요. print와 return을 비교한 장의 a와 같아요. 오류 메시지에 NoneType이 보이면 return이 빠진 함수가 있는지 찾아요. 계산에 쓸 값은 print 대신 return으로 돌려줘요." + REAL)
 
 o = [sec("t-name")] + head(EB5, "정의보다 먼저 부르면 NameError가 나요", K5)
@@ -607,6 +632,7 @@ TX = 96 + CW + 44
 E4 = "NameError: name 'welcome' is not defined"
 o += cell({"id": "c-t7", "lines": ["welcome()", "", "def welcome():", '    print("어서 오세요")'], "n": 1, "out": [E4], "err": True}, 96, T, CW, FS, sel="c-t7")
 o.append(hl(96, T, CW, 0, 1, "err", 1, FS))
+o.append(shake(1, "c-t7"))
 o.append(tag(TX, ly(T, 0, FS), "아직 def를 만나기 전이에요", RED, 1, 30))
 o.append(tag(TX, ly(T, 2.5, FS), "오류에서 멈춰서 여기까지 못 와요", GRAY, 1, 30))
 T2 = 530
@@ -633,6 +659,7 @@ o += cell({"id": "c-x1", "lines": TOT, "n": 1, "out": ["합계 11,000원", "합�
 o.append(hl(96, T, CW, 3, 3, "mark", 1, FS))
 o.append(tag(TX, ly(T, 4, FS), "1파트에서 복사하던 4줄", K1, 1))
 o.append(hl(96, T, CW, 10, 2, "run", 2, FS))
+o = [re.sub(r'<p( style="[^"]*">합계 (11,000|16,500)원</p>)', lambda m: "<p" + COUNT(2) + m.group(1), x) for x in o]
 o.append(tag(TX, ly(T, 10.5, FS), "손님마다 한 줄", GR, 2))
 o.append(tag(TX, ly(T, 2, FS), "할인이 생기면 여기만 고쳐요", K6, 3))
 o.append(caption("반복해서 쓰는 계산은 함수로 묶고, return으로 결과를 돌려받아요.", 944, 4))
@@ -644,10 +671,16 @@ CAN = ["def can_order(stock, name):", "    if stock[name] > 0:", "        return
 o += cell({"id": "c-x2", "lines": CAN, "n": 2, "out": ["coffee 주문 받았어요", "latte 품절이에요", "cake 주문 받았어요"]}, 96, T, CW, FS, sel="c-x2")
 o.append(hl(96, T, CW, 7, 1, "mark", 1, FS, "주문할 수 있나요?"))
 TBX = 1220
-o += rows_table(TBX, 206, [150, 160, 234], ["o", "stock[o]", "돌려준 값"], [("coffee", "3", "True"), ("latte", "0", "False"), ("cake", "2", "True")], 2, 80, 28, ids=["sr0", "sr1", "sr2"], mono_cols=(0, 1))
-o.append(box(5, TBX - 12, 206 + 56 + 80 - 4, 604, 88, RED))
-o.append(tag(TBX, 560, "False라서 else로 가요", RED, 5, 30, lead=False))
-o.append(caption("True, False를 돌려주는 함수는 if 뒤에 바로 써요.", 944, 6))
+rt = rows_table(TBX, 206, [150, 160, 234], ["o", "stock[o]", "돌려준 값"], [("coffee", "3", "True"), ("latte", "0", "False"), ("cake", "2", "True")], 2, 80, 28, ids=["sr0", "sr1", "sr2"], mono_cols=(0, 1))
+rt = [x.replace("order 3", "order 2").replace("order 4", "order 2") for x in rt]
+rt[2] = rt[2].replace('data-build-in="rise order 2"', 'data-build-in="rise order 2" data-delay="120"')
+rt[3] = rt[3].replace('data-build-in="rise order 2"', 'data-build-in="rise order 2" data-delay="240"')
+o += rt
+o.append(f'<div{bi("fade", 3)} style="position:absolute;left:{TBX - 12}px;top:262px;width:604px;height:80px;background:rgba(246,245,241,0.72)"></div>')
+o.append(f'<div{bi("fade", 3)} style="position:absolute;left:{TBX - 12}px;top:422px;width:604px;height:80px;background:rgba(246,245,241,0.72)"></div>')
+o.append(box(3, TBX - 12, 206 + 56 + 80 - 4, 604, 88, RED))
+o.append(tag(TBX, 560, "False라서 else로 가요", RED, 3, 30, lead=False))
+o.append(caption("True, False를 돌려주는 함수는 if 뒤에 바로 써요.", 944, 4))
 W("x-soldout", o, "True나 False를 돌려주는 함수는 if 뒤에 바로 써서 질문처럼 읽혀요. 15의 재고 딕셔너리로 주문할 수 있는지 묻는 함수를 만들었어요. 재고가 0보다 크면 True를 돌려주고 끝내요. 아니면 아래 return False까지 가요. 반복에서는 if can_order(stock, o):처럼 if 뒤에 함수를 바로 써요. 돌려준 True나 False가 if 조건이 돼요. latte는 재고가 0이라 False가 돌아와서 else로 가요." + REAL)
 
 o = [sec("x-grade")] + head(EB6, "17의 등급 계산을 함수로 바꿔요", K6)
@@ -663,6 +696,8 @@ o.append(f'<div{bi("rise", 2)} style="position:absolute;left:{SX}px;top:590px;wi
          + "".join(p(f"font-family:{MONO};font-size:22px;line-height:1.45;white-space:pre;color:{SUB}", e(l)) for l in OLD) + '</div>')
 o.append(hl(96, T, CW, 11, 1, "run", 3, FS))
 o.append(tag(520, oy(T, 12, 1.5, FS), "for 안에는 찍는 줄 하나만 남았어요", GR, 3, 30))
+o.append(zoom(3, 96, int(ly(T, 9.5, FS)), 1240, int(oy(T, 12, 3, FS) - ly(T, 9.5, FS) + 30), 30, 1.6))
+o.append(zoom_off(4))
 W("x-grade", o, "17의 성적표에서 등급을 정하는 부분만 grade 함수로 뺐어요. 17에서는 for 안에 if, elif를 길게 적고 grade 변수에 등급을 담았어요. 이번에는 조건마다 바로 return해서 grade 변수가 필요 없어요. for 안에는 찍는 줄 하나만 남아서 무엇을 하는지 한눈에 보여요. 점수 기준이 바뀌면 grade 함수만 고쳐요." + REAL)
 
 o = [sec("x-pay")] + head(EB6, "함수 안에서 다른 함수를 불러요", K6)
@@ -690,12 +725,14 @@ tr = [("<function hello at 0x...>", "괄호를 빼서 실행하지 않았어요"
       ("return 아래 print가 안 찍혀요", "return에서 함수가 끝났어요", "return 위로 옮기기")]
 o.append(f'<div style="position:absolute;left:96px;top:196px;width:1728px;height:50px;display:flex;flex-direction:row;gap:30px;border-bottom:3px solid {INK}">'
          + p(f"width:900px;font-size:24px;font-weight:700;color:{GRAY}", "보이는 것") + p(f"width:460px;font-size:24px;font-weight:700;color:{GRAY}", "까닭") + p(f"font-size:24px;font-weight:700;color:{GRAY}", "고치기") + '</div>')
+o.append(f'<div{STAGGER(1, 90)} style="position:absolute;left:0;top:0;width:1920px;height:1px">')
 for i, (q, a_, cmd) in enumerate(tr):
-    o.append(f'<div{bi("rise", min(i + 1, 6))} style="position:absolute;left:96px;top:{252 + i * 94}px;width:1728px;height:94px;display:flex;flex-direction:row;gap:30px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div style="position:absolute;left:96px;top:{252 + i * 94}px;width:1728px;height:94px;display:flex;flex-direction:row;gap:30px;align-items:center;border-bottom:2px solid {LINE}">'
              + p(f"width:900px;flex:none;{'font-family:' + MONO + ';font-size:28px;' if q.isascii() else 'font-size:30px;'}font-weight:700;color:{INK};white-space:nowrap", e(q))
              + p(f"width:460px;flex:none;font-size:28px;color:{SUB}", e(a_))
              + p(f"{'font-family:' + MONO + ';font-size:28px;' if cmd.isascii() else 'font-size:28px;'}font-weight:700;color:{GR};white-space:nowrap", e(cmd)) + '</div>')
-o.append(caption("결과가 이상하면 함수 안에 print를 넣어 받은 값을 찍어 봐요.", 944, 6))
+o.append('</div>')
+o.append(caption("결과가 이상하면 함수 안에 print를 넣어 받은 값을 찍어 봐요.", 944, 2))
 W("trouble", o, "함수에서 자주 만나는 일곱 가지와 고치는 법이에요. 첫째 줄은 괄호를 빼서 함수를 실행하지 않은 경우예요. 둘째와 셋째 줄은 칸 수와 인자 수가 맞지 않아요. def 줄을 보고 칸을 세어 봐요. 넷째 줄은 노트북에서 셀 순서가 꼬였을 때 자주 나요. 다섯째와 여섯째 줄은 return이 빠진 함수예요. 마지막 줄은 오류 없이 줄이 빠지는 경우예요. 결과가 이상하면 함수 안에 print를 넣어 매개변수에 무엇이 들어왔는지 찍어 보면 원인이 보여요.", ("trouble", "정리"))
 
 # cheatsheet: one annotated function instead of eight cards
@@ -706,11 +743,13 @@ CHL = [("def calc(price, qty):", "#9DBDEB"), ("    return price * qty", "#F2A0A0
 o.append(f'<div style="position:absolute;left:96px;top:{PT}px;width:900px;height:{80 + len(CHL) * LH(FSC):.0f}px;background:#252B36;border-radius:24px;padding:40px 48px;display:flex;flex-direction:column">'
          + "".join(p(f"font-family:{MONO};font-size:{FSC}px;font-weight:700;line-height:1.45;color:{c};white-space:pre", e(l) if l else "&#160;") for l, c in CHL) + '</div>')
 LBLS = [(0, "정의", "def 이름(매개변수):, 콜론 뒤 4칸 몸통", K2), (1, "return", "값을 돌려주고 바로 끝내요. 없으면 None", K4), (3, "호출", "이름(인자), 인자는 적은 순서대로 칸에", K3), (4, "값 두 개", "return a, b는 튜플, 받을 땐 꺼내 담기", K4)]
-for ln, t_, d_, c in LBLS:
+for k, (ln, t_, d_, c) in enumerate(LBLS):
     cy = PT + 40 + ln * LH(FSC) + LH(FSC) / 2
-    o.append(f'<div style="position:absolute;left:1040px;top:{cy - 24:.0f}px;display:flex;flex-direction:row;align-items:baseline;gap:20px;white-space:nowrap">'
+    o.append(f'<div{bi("rise", k + 1)}{DIM("cs")} style="position:absolute;left:1040px;top:{cy - 24:.0f}px;display:flex;flex-direction:row;align-items:baseline;gap:20px;white-space:nowrap">'
              + p(f"width:150px;flex:none;font-size:32px;font-weight:700;color:{c}", "← " + e(t_)) + p(f"font-size:28px;color:{INK}", e(d_)) + '</div>')
+o.append(f'<div{bi("rise", 5)} style="position:absolute;left:0;top:0;width:1920px;height:1px">')
 o += rows_table(96, 620, [220, 1000], ["", "언제 쓰나요"], [("print", "사람이 화면에서 볼 값을 찍을 때"), ("return", "결과를 변수에 담거나 다음 계산에 쓸 때")], None, 80, 30, mono_cols=(0,))
+o.append('</div>')
 o.append(p(f"position:absolute;left:96px;top:880px;width:1728px;font-size:32px;font-weight:700;color:{INK}", "다음 챕터 20: 기본값, 키워드 인자, 지역 변수와 전역 변수"))
 W("cheatsheet", o, "이번 챕터에서 쓴 모양을 함수 하나에 모았어요. def로 만들고 이름과 괄호로 불러요. 괄호 안의 칸이 매개변수, 부를 때 넣는 값이 인자이고 순서대로 짝을 지어요. return은 값을 돌려주면서 함수를 끝내고, return이 없으면 None이 돌아와요. 20에서는 인자를 안 넣어도 되는 기본값, 칸 이름으로 넣는 키워드 인자, 함수 안과 밖의 변수가 어떻게 다른지 배워요.")
 
