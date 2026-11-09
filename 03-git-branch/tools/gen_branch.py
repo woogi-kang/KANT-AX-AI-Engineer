@@ -11,7 +11,7 @@ Usage: python3 tools/gen_branch.py slides
 import html, os, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, pulse, DELAY  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -250,7 +250,12 @@ def note(sec_id):
             f'<svg data-build-in="fade order {k}" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible">'
             f'<circle cx="{x1:.0f}" cy="{y1:.0f}" r="6" fill="{ink}"/></svg>',
             p(f"position:absolute;left:{nx:.0f}px;top:{ny:.0f}px;width:{nw}px;font-size:{NOTE_FS}px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330",
-              text, f' id="note" data-build-in="fade order {k}"')]
+              text, f' id="note" data-build-in="fade order {k}"{DELAY(150)}')] + \
+        ([pulse(k, "n-" + key[2:])] if sec_id in PULSE else [])
+
+
+# The new merge commits get a tap with their label (pulse: at most 4 a deck).
+PULSE = {"d5-merge", "u5-again", "c4-resolve", "p2-merged"}
 
 
 # The player shows the first sentence of a note in bold, so each note starts with the slide's point.
