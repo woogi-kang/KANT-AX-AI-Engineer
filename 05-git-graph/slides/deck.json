@@ -5,11 +5,12 @@
     "at": "2026-10-29T01:00:00Z"
   },
   "lists": "css",
-  "title": "Git Graph, 눈으로 보기",
+  "title": "Git Graph로 기록 보기",
   "order": [
     "cover",
     "toc",
     "why",
+    "bigpic",
     "install",
     "open",
     "overview",
@@ -29,11 +30,13 @@
     "detail",
     "rule",
     "trouble",
-    "cheatsheet"
+    "case1",
+    "case2",
+    "summary"
   ],
   "sections": {
     "intro": {
-      "description": "Git Graph가 무엇인지",
+      "description": "왜 필요한가, 큰 그림",
       "start": "cover"
     },
     "install": {
@@ -41,7 +44,7 @@
       "start": "install"
     },
     "read": {
-      "description": "화면 읽기: 점, 이름표, HEAD, origin/main",
+      "description": "화면 읽기: 칸, 점, 이름표, origin/main",
       "start": "overview"
     },
     "scenes": {
@@ -49,7 +52,7 @@
       "start": "sc1"
     },
     "care": {
-      "description": "쓸 때 주의, 막힐 때, 요약",
+      "description": "쓸 때 주의, 막힐 때, 실제 상황, 정리",
       "start": "rule"
     }
   },
