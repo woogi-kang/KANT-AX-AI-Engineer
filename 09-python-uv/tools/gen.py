@@ -14,7 +14,8 @@ Usage (in 09-python-uv): python3 tools/gen.py slides
 import html, json, os, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
+from highlight import (spot, spot_off, cursor, cursor_off, ring, box, underline, lspot, lspot_off, run as runbar, run_off,  # noqa: E402
+                       pulse, shine, shake, keys, SLAM, DELAY, DIM, PATH, WIPE)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -283,14 +284,15 @@ C1, C2, C3, C4, C5, C6, C7, C8, C9, C10 = RED, BL, TEAL, BL, NAVY, PUR, JP, OR, 
 # =====================================================================================
 o = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center">',
      p("position:absolute;left:128px;top:300px;width:820px;font-size:28px;font-weight:700;color:#7FD6DC", "KANT AX/AI 엔지니어 트랙 · 보충 학습 자료"),
-     '<h1 style="position:absolute;left:128px;top:356px;width:820px;font-size:104px;font-weight:900;line-height:1.12;color:#F6F5F1">uv로<br>파이썬 시작하기</h1>',
+     f'<h1{SLAM(1)} style="position:absolute;left:128px;top:356px;width:820px;font-size:104px;font-weight:900;line-height:1.12;color:#F6F5F1">uv로<br>파이썬 시작하기</h1>',
      p("position:absolute;left:128px;top:620px;width:820px;font-size:38px;line-height:1.45;color:#BFC6D4", "프로젝트를 만들고, 패키지를 넣고,<br>다른 컴퓨터에서 그대로 받기")]
-o.append(f'<div style="position:absolute;left:1010px;top:240px;width:1000px;height:900px;background:#11151C;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;font-family:{MONO}">')
+o.append(f'<div id="cov-code" style="position:absolute;left:1010px;top:240px;width:1000px;height:900px;background:#11151C;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;font-family:{MONO}">')
 for k, l in [("$", "$ uv init hello-uv"), ("o", "Initialized project `hello-uv`"), ("$", "$ cd hello-uv"), ("$", "$ uv add fastapi"), ("o", "Installed 11 packages in 5ms"),
              ("$", "$ uv run main.py"), ("H", "fastapi 버전: 0.162.2"), ("$", "$ uv sync"), ("o", "Resolved 12 packages in 1ms")]:
     col = {"$": "#F2C46D", "o": "#9AA3B2", "H": "#FFE7A8"}[k]
     o.append(p(f"font-size:32px;line-height:64px;height:64px;white-space:pre;font-weight:{700 if k != 'o' else 400};color:{col}", e(l)))
 o.append('</div>')
+o.append(shine(2, "cov-code"))
 W("cover", o, "오늘부터 파이썬 프로젝트는 uv 하나로 만들고 실행해요. 먼저 받은 프로젝트가 왜 남의 컴퓨터에서 안 돌아가는지 봐요. 그다음 uv init, uv run, uv add, uv remove, uv sync를 순서대로 쳐 봐요. VS Code에서 Jupyter 노트북을 여는 준비까지 마쳐요. 마지막에 실제로 자주 만나는 상황 세 가지를 풀어요.",
   ("intro", "들어가기"))
 ORDER.append("toc")      # written last, when page numbers are known
@@ -306,6 +308,7 @@ t = Term([("$", "git clone https://github.com/kim/hello-uv.git"), ("o", "Cloning
 o += t.parts
 ex = t.tx(47) + 8
 o.append(box(1, t.tx(0) - 12, t.lt(10) + 2, ex - t.tx(0) + 16, t.lh - 4, RED))
+o.append(shake(1, "term"))
 o += lead(2, 1160, t.ly(10), ex + 34, t.ly(10), "fastapi는 kim 컴퓨터에만 있어요", RED, w=620)
 o.append(caption("코드와 목록 파일은 받았는데, 코드가 쓰는 패키지는 따라오지 않았어요.", 870, attrs=bi("fade", 3)))
 W("why", o, "kim이 만든 프로젝트를 lee가 GitHub에서 받아 바로 실행했더니 ModuleNotFoundError가 났어요. main.py 첫 줄이 fastapi라는 패키지를 불러오는데, lee 컴퓨터에는 fastapi가 없어요. 패키지는 kim 컴퓨터의 가상환경 안에만 설치돼 있고 GitHub에는 올라가지 않아요. 예전에는 lee가 가상환경을 만들고 패키지를 하나씩 설치해야 했어요. 오늘 배우는 uv로는 uv sync 한 번이면 끝나요. 22쪽에서 같은 장면을 uv로 다시 봐요. 출력은 tools/demo.sh로 실제로 실행한 결과이고, ls -a는 터미널 창에서 보이는 대로 한 줄로 적었어요.",
@@ -365,13 +368,13 @@ o.append(f'<div style="position:absolute;left:96px;top:226px;width:1728px;height
          + p(f"font-size:26px;color:{GRAY}", "여기에 바로 넣으면 모든 프로젝트가 한 벌을 같이 써요") + '</div>')
 for i, (name, ver, c) in enumerate([("project-a", "fastapi 0.162.2", BL), ("project-b", "fastapi 0.110.0", GR)]):
     x = 96 + i * 888
-    o.append(f'<div{bi("rise", i + 1)} style="position:absolute;left:{x}px;top:380px;width:840px;height:380px;background:{CARD};border:2px solid {LINE};border-radius:22px;padding:30px 36px;display:flex;flex-direction:column;gap:22px">'
+    o.append(f'<div{bi("rise", 1)}{DELAY(i * 220)} style="position:absolute;left:{x}px;top:380px;width:840px;height:380px;background:{CARD};border:2px solid {LINE};border-radius:22px;padding:30px 36px;display:flex;flex-direction:column;gap:22px">'
              + mono(e(name + "/"), 30, GRAY)
              + '<div style="display:flex;flex-direction:row;gap:18px;align-items:center">' + glyph("main.py") + mono("main.py", 28) + '</div>'
              + f'<div style="flex:1;background:#E4F3EA;border-radius:16px;padding:22px 28px;display:flex;flex-direction:column;gap:14px">'
              + '<div style="display:flex;flex-direction:row;gap:18px;align-items:center">' + glyph(".venv") + mono(".venv/", 28, GR) + '</div>'
              + chip(ver, c, 30, "#FFFFFF", extra="align-self:flex-start") + '</div></div>')
-o.append(caption("프로젝트끼리 패키지 버전이 달라도 부딪히지 않아요. uv도 이 .venv를 그대로 써요.", 820, attrs=bi("fade", 3)))
+o.append(caption("프로젝트끼리 패키지 버전이 달라도 부딪히지 않아요. uv도 이 .venv를 그대로 써요.", 820, attrs=bi("fade", 2)))
 W("venv", o, "가상환경은 프로젝트 폴더마다 따로 두는 패키지 상자예요. 상자 없이 컴퓨터 파이썬에 바로 넣으면 모든 프로젝트가 패키지 한 벌을 같이 써요. 그러면 A는 fastapi 0.162, B는 0.110이 필요할 때 둘 중 하나가 깨져요. 그래서 폴더마다 .venv라는 상자를 두고 그 안에 패키지를 넣어요. .venv는 점으로 시작해서 ls -a로만 보여요(01). uv도 이 .venv를 그대로 써요. 다른 건 누가 상자를 만들고 켜느냐예요.")
 
 # map: where uv sits
@@ -429,6 +432,9 @@ xr = 96 + 1100
 o += lead(1, xr + 90, ys[1], 96 + 30 + 17 * 32 * CW + 18, ys[1], "프로젝트 이름", F_PY, w=520)
 o += lead(2, xr + 90, ys[5], 96 + 30 + 26 * 32 * CW + 18, ys[5], "쓸 수 있는 파이썬 버전", F_PY, w=520)
 o += lead(3, xr + 90, ys[6], 96 + 30 + 17 * 32 * CW + 18, ys[6], "쓰는 패키지, 아직 없어요", F_PY, w=520)
+for k, ln in enumerate((1, 5, 6)):
+    o.append(lspot(k + 1, 96, 220, 1100, chh, ys[ln] - 27, 54, bg=CARD, bar=F_PY))
+o.append(lspot_off(4))
 cc2, ys2, ch2 = code_card("c-ver", ".python-version", ["3.14"], 96, 220 + chh + 36, 400, BL, 32, lh=50, attrs=bi("rise", 4))
 o += cc2
 o.append(note("이 폴더에서 쓸 파이썬 버전이에요. uv가 이 버전을 받아서 써요.", 540, 220 + chh + 36 + 40, 1100, SUB, 28, attrs=bi("fade", 4)))
@@ -450,7 +456,7 @@ o += t.parts
 steps_ = [("켜요", ".venv 안의 파이썬을 골라요", GR), ("실행해요", "main.py를 읽고 실행해요", BL), ("꺼요", "끝나면 원래대로 돌아와요", GRAY)]
 for i, (h_, s_, c) in enumerate(steps_):
     x = 96 + i * 600
-    o.append(f'<div{bi("fade", i + 1)} style="position:absolute;left:{x}px;top:540px;width:520px;display:flex;flex-direction:column;gap:14px">'
+    o.append(f'<div{bi("fade", i + 1)}{DIM("r2")} style="position:absolute;left:{x}px;top:540px;width:520px;display:flex;flex-direction:column;gap:14px">'
              + '<div style="display:flex;flex-direction:row;gap:18px;align-items:center">'
              + p(f"width:60px;height:60px;flex:none;border-radius:50%;background:{c};color:#FFFFFF;font-size:30px;font-weight:900;line-height:60px;text-align:center", str(i + 1))
              + p(f"font-size:40px;font-weight:700;color:{c}", h_) + '</div>' + p(f"font-size:30px;line-height:1.45;color:{SUB};padding-left:78px", s_) + '</div>')
@@ -497,7 +503,7 @@ o += t.parts
 o.append(f'<p id="tok-fast" style="position:absolute;left:{t.tx(9):.0f}px;top:{t.lt(0):.0f}px;font-family:{MONO};font-size:24px;line-height:44px;color:transparent">fastapi</p>')
 o += three({"py": ('"fastapi>=0.162.2",', "dependencies 칸에 적혀요", INK), "lock": ("고른 1개 + 따라온 10개", "pydantic 2.14.3, starlette 1.10.0 …", INK),
             "venv": ("패키지 11개 설치", "uv run으로 실행하면 바로 써요", INK)}, 1020, 210, 804,
-           attrs_by={"py": ' data-build-in="fly order 1" data-from="tok-fast"', "lock": bi("rise", 2), "venv": bi("rise", 3)})
+           attrs_by={"py": ' data-build-in="fly order 1" data-from="tok-fast"' + DIM("add3"), "lock": bi("rise", 2) + DIM("add3"), "venv": bi("rise", 3) + DIM("add3")})
 W("add", o, "uv add는 명령 하나로 세 곳을 함께 바꿔요. pyproject.toml의 dependencies 칸에 fastapi를 적고, uv.lock에 정확한 버전을 적고, .venv에 설치해요. 예전의 pip install과 목록 적기를 합친 일이에요. >=0.162.2는 0.162.2 이상이면 된다는 뜻이고, 실제로 쓸 버전은 uv.lock이 정해요. Downloading pydantic-core 줄은 크기가 큰 패키지를 받을 때만 보여요. hello-uv 폴더에서 쳐요. 출력은 tools/demo.sh로 실제로 실행한 결과예요.",
   ("add", "패키지 넣고 빼기"))
 
@@ -508,7 +514,7 @@ t = Term([("$", "uv tree --depth 2"), ("o", "Resolved 12 packages in 1ms"), ("o"
 o += t.parts
 o += lead(1, 1060, t.ly(3), t.x + t.w + 16, t.ly(3), "내가 고른 패키지", C5, w=700)
 bx_ = t.tx(33) + 44
-o.append(f'<svg{bi("fade", 2)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible">'
+o.append(f'<svg{WIPE(2)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible">'
          f'<path d="M{bx_:.0f},{t.lt(4) + 10:.0f} q14,0 14,14 L{bx_ + 14:.0f},{t.lt(10) - 24:.0f} q0,14 -14,14" fill="none" stroke="{C5}" stroke-width="3"/></svg>')
 o += lead(2, 1060, (t.lt(4) + t.lt(10)) / 2, bx_ + 22, (t.lt(4) + t.lt(10)) / 2, "fastapi가 쓰는 패키지 6개", C5, w=700, dot=False)
 o.append(note("그 아래 단계에서 4개가 더 들어와서 모두 11개예요.", 1060, (t.lt(4) + t.lt(10)) / 2 + 40, 764, SUB, 28, attrs=bi("fade", 2)))
@@ -533,6 +539,7 @@ o += t.parts
 o += three({"py": ("dependencies = []", "fastapi 줄이 지워져요", RED), "lock": ("프로젝트만 남아요", "따라왔던 10개도 지워요", RED),
             "venv": ("패키지 11개 삭제", "딸린 패키지까지 같이 빠져요", RED)}, 1020, 210, 804,
            attrs_by={"py": bi("fade", 1), "lock": bi("fade", 2), "venv": bi("fade", 3)})
+o.append(shake(4, "term"))
 o.append(box(4, t.tx(0) - 10, t.lt(12) + 2, 46 * 24 * CW + 20, t.lh - 4, RED))
 W("remove", o, "uv remove는 uv add를 거꾸로 해서 세 곳에서 함께 빼요. pyproject.toml에서 지우고, uv.lock과 .venv에서도 빼요. 함께 들어왔던 10개도 다른 패키지가 쓰지 않으면 같이 빠져요. main.py는 아직 fastapi를 불러오고 있어서 실행하면 ModuleNotFoundError가 나요. 다음 장에서 다시 넣어요. 출력은 tools/demo.sh로 실제로 실행한 결과이고, 지운 목록 가운데 6줄과 Traceback 가운데 두 줄은 뺐어요.")
 
@@ -714,7 +721,10 @@ for k, (n, code, out) in enumerate(cells_):
     cp, hh, cch = cell(n, code, out, 96, yy, 1200, attrs=bi("rise", k + 1), size=27, oid=f"jo{n}")
     o += cp
     geo[n] = (yy, hh, cch)
+    o.append(runbar(k + 1, 96 + 104, yy, 1096, cch))
     yy += hh + 24
+o.append(run_off(5))
+o.append(keys(1, 1420, 300, "Shift+Enter"))
 y2, h2, c2 = geo[2]
 o.append(underline(5, 96 + 112 + 15 * 27 * CW, 96 + 112 + 30 * 27 * CW, y2 + c2 + 14 + 40, GR))
 o += lead(5, 1420, y2 + c2 + 14 + 20, 96 + 112 + 36 * 27 * CW + 14, y2 + c2 + 14 + 20, ".venv면 잘 고른 거예요", GR, w=404, size=28)
@@ -820,7 +830,8 @@ o.append(tag("hello-uv 터미널", INK, 1020, 214, attrs=bi("fade", 2)))
 cp, hh2, cch2 = cell(2, ["import requests", 'print("requests 버전:", requests.__version__)'], "requests 버전: 2.34.2", 96, 266 + hh + 150, 880, size=24, attrs=bi("rise", 3), oid="nb-ok")
 o += cp
 o.append(note("같은 셀을 다시 실행해요", 182, 266 + hh + 88, 700, GR, 26, attrs=bi("fade", 3), weight=700))
-o.append(caption("셀은 노트북에서, 패키지는 터미널에서 넣어요. VS Code 알림의 Install 버튼은 누르지 않아요.", 870, attrs=bi("fade", 4)))
+o.append(pulse(4, "nb-ok"))
+o.append(caption("셀은 노트북에서, 패키지는 터미널에서 넣어요. VS Code 알림의 Install 버튼은 누르지 않아요.", 870, attrs=bi("fade", 5)))
 W("real-notebook", o, "노트북 셀에서 ModuleNotFoundError가 나면 VS Code 터미널에서 uv add로 패키지를 넣고 같은 셀을 다시 실행해요. 커널은 hello-uv의 .venv라서, uv add로 .venv에 넣으면 노트북에서도 바로 불러와요. idna는 fastapi와 함께 이미 들어와 있어서 이번엔 4개만 설치됐어요. 알림의 Install이나 pip install은 목록 파일에 적히지 않아서 쓰지 않아요. 노트북 출력은 tools/demo.sh가 커널 하나에서 셀, uv add, 같은 셀 순서로 실제로 실행한 결과예요.")
 
 # R3: kim pushes the new package, lee pulls and syncs
@@ -835,6 +846,10 @@ tl = Term([("$", "git pull origin main"), ("o", "Fast-forward"), ("o", " pyproje
            ("g", " + requests==2.34.2  …"), ("$", "uv tree --depth 1"), ("o", "hello-uv v0.1.0"), ("o", "├── fastapi v0.162.2"), ("H", "├── requests v2.34.2"),
            ("o", "└── ipykernel v7.4.0 (group: dev)")], 984, 248, 840, size=25, lh=44, tid="tlee", attrs=bi("rise", 1), builds={4: 2, 5: 2, 6: 2, 7: 3, 8: 3, 9: 3, 10: 3, 11: 3})
 o += tl.parts
+px1, py1, px2, py2 = tk.x + tk.w + 6, tk.ly(6), tl.x - 18, tl.ly(0)
+o.append(f'<svg{bi("fade", 1)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible">'
+         f'<path id="rt-path" d="M{px1:.0f},{py1:.0f} C{px1 + 30:.0f},{py1:.0f} {px2 - 30:.0f},{py2:.0f} {px2:.0f},{py2:.0f}" fill="none" stroke="{HUB}" stroke-width="3" stroke-dasharray="8 10" opacity=".6"/></svg>')
+o.append(f'<div{PATH(1, "rt-path")} style="position:absolute;left:{px2 - 13:.0f}px;top:{py2 - 13:.0f}px;width:26px;height:26px;border-radius:50%;background:{HUB}"></div>')
 o.append(caption("pull은 목록 파일만 바꿔요. 내 .venv에 실제로 설치하는 건 uv sync예요.", 870, attrs=bi("fade", 4)))
 W("real-team", o, "팀원이 패키지를 넣고 push했으면 git pull origin main 뒤에 uv sync를 쳐요. kim은 앞 장에서 넣은 requests를 커밋해서 올렸어요. git add는 바뀐 두 파일 pyproject.toml과 uv.lock을 적어요. lee는 pull로 두 파일을 받고, uv sync로 requests와 따라온 패키지를 .venv에 설치했어요. uv tree --depth 1로 보면 lee의 프로젝트에도 requests가 들어 있어요. pull에서 fatal: Need to specify how to reconcile divergent branches.가 나오면 31쪽처럼 pull.rebase false를 설정해요. 출력은 tools/demo.sh로 실제로 실행한 결과이고, pull 출력 앞부분과 설치 목록 3줄, uv tree의 Resolved 줄은 뺐어요.")
 
@@ -845,7 +860,7 @@ o = [sec("cheatsheet")] + head("정리", "언제 무엇을 치나", INK)
 cs = [("새 프로젝트를 만들 때", "uv init 이름"), ("코드를 실행할 때", "uv run main.py"), ("패키지를 넣을 때 (pip install 대신)", "uv add 패키지"),
       ("패키지를 뺄 때", "uv remove 패키지"), ("받은 프로젝트를 맞출 때 (clone, pull 뒤)", "uv sync"), ("노트북 커널을 넣을 때", "uv add --dev ipykernel")]
 rws = [[(e(a_), "font-size:30px"), (e(b_), f"font-family:{MONO};font-weight:700;font-size:32px;color:{TEAL}")] for a_, b_ in cs]
-tb, top = hrows(96, 210, [900, 828], rws, 92, header=["이럴 때", "이렇게"])
+tb, top = hrows(96, 210, [900, 828], rws, 92, header=["이럴 때", "이렇게"], attrs_by_row={i: bi("rise", 1) + DELAY(i * 80) for i in range(len(rws))})
 o += tb
 o.append(f'<div style="position:absolute;left:96px;top:{top + 6 * 92 + 40}px;width:1728px;display:flex;flex-direction:row;gap:60px;align-items:center">'
          + p(f"font-size:28px;font-weight:700;color:{INK}", f'GitHub에 올려요 <span style="font-family:{MONO};color:{GR}">pyproject.toml  uv.lock  .python-version</span>')
@@ -868,7 +883,7 @@ t = [f'<section id="toc" data-transition="fade" style="background:{BG};color:{IN
 for i, (c, h_, s_, a, b) in enumerate(parts):
     yy = 176 + i * 78
     pg = f"{page[a]}–{page[b]}쪽" if a != b else f"{page[a]}쪽"
-    t.append(f'<div style="position:absolute;left:96px;top:{yy}px;width:1728px;height:78px;border-bottom:2px solid {LINE};display:flex;flex-direction:row;align-items:center">'
+    t.append(f'<div data-build-in="rise order 1"{DELAY(i * 70)} style="position:absolute;left:96px;top:{yy}px;width:1728px;height:78px;border-bottom:2px solid {LINE};display:flex;flex-direction:row;align-items:center">'
              + p(f"width:90px;flex:none;font-size:36px;font-weight:900;color:{c}", str(i + 1))
              + p(f"width:620px;flex:none;font-size:32px;font-weight:700;color:{INK}", h_)
              + p(f"flex:1;font-size:27px;color:{SUB}", e(s_))
