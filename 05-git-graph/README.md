@@ -23,12 +23,11 @@
 
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
-| 들어가기 | 1–3 | `git log --oneline`과 같은 기록을 그림으로 보기 |
-| 1. 설치하고 열기 | 4–5 | 확장 탭에서 설치, 여는 법 세 가지 |
-| 2. 화면 읽기 | 6–9 | 표의 다섯 칸, 위가 최신, 굵은 이름표와 빈 점, origin/main |
-| 3. 명령 치고 확인하기 | 10–20 | 고치기, commit, push, fetch, pull, checkout -b, 브랜치 커밋, 갈라지기, merge, 커밋 상세 |
-| 4. 쓸 때 주의, 막힐 때 | 21–22 | 메뉴 대신 터미널, 안 열리거나 안 바뀔 때 |
-| 요약 | 23 | 한 장 요약 |
+| 들어가기 | 1–4 | `git log --oneline`으로는 안 보이는 갈래, Git Graph가 어디서 기록을 읽는지 |
+| 1. 설치하고 열기 | 5–6 | 확장 탭에서 설치, 여는 법 세 가지 |
+| 2. 화면 읽기 | 7–10 | 표의 칸, 위가 최신, 굵은 이름표와 빈 점, origin/main |
+| 3. 명령 치고 확인하기 | 11–21 | 고치기, commit, push, fetch, pull, checkout -b, 브랜치 커밋, 갈라지기, merge, 커밋 상세 |
+| 4. 막힐 때와 실제 상황 | 22–26 | 메뉴 대신 터미널, 안 열리거나 안 바뀔 때, 그림 보고 push와 pull 고르기, 다 쓴 브랜치 지우기, 정리 |
 
 ## 설치하고 열기
 
@@ -49,6 +48,14 @@
 | `origin/main` 이름표가 따로 있음 | GitHub과 차이가 있어요. 위에 있는 쪽이 앞서요 |
 | 맨 위 회색 빈 점 `Uncommitted Changes (1)` | 아직 커밋하지 않은 파일 1개 |
 | 오른쪽 커밋 번호 | 8자리. 터미널의 7자리와 앞부분이 같아요 |
+
+Git Graph는 내 컴퓨터에 있는 기록만 읽어서 그려요. 팀원이 GitHub에 올린 커밋은 `git fetch origin`을 쳐야 나타나요.
+
+| 그림 | 칠 명령 |
+| --- | --- |
+| `main`이 `origin/main`보다 위 | `git push origin main` |
+| `origin/main`이 `main`보다 위 | `git pull origin main` |
+| `main \| origin`으로 붙어 있음 | 할 일 없음 |
 
 03 슬라이드는 시간이 왼쪽에서 오른쪽으로 흘러요. Git Graph는 아래에서 위로 쌓여요.
 
@@ -74,6 +81,7 @@ git add README.md
 git commit -m "docs: README에 실행 방법 추가"  # 길이 둘로 갈라져요
 git merge feature/login         # 두 선이 merge 커밋에서 만나요
 git push origin main
+git branch -d feature/login     # 이름표만 사라지고 점과 선은 남아요
 ```
 
 `git merge`에서 vim이 열리면 Esc를 누른 뒤 `:wq`와 Enter를 쳐요. 팀원이 없으면 `git fetch origin`과 `git pull origin main`은 새로 받을 게 없어서 그림이 그대로예요.
@@ -104,6 +112,8 @@ slides/
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
   gen.py           모든 장 생성 (VS Code와 Git Graph 화면을 HTML과 SVG로 그림)
+  measure.js       장을 그려 보고 id가 있는 요소의 위치를 rects.json에 저장 (동그라미, 연결선 자리)
+  rects.json       measure.js가 만든 위치 (gen.py가 읽어요)
   demo.sh          실습을 새 저장소에서 다시 실행해 실제 출력 확인
 git-graph-slides.html  배포용 HTML
 git-graph-slides.pdf   강사용 PDF
@@ -116,12 +126,16 @@ git-graph-slides.pdf   강사용 PDF
 ```bash
 bash tools/demo.sh /tmp/graph-demo
 python3 tools/gen.py slides
+node tools/measure.js slides
+python3 tools/gen.py slides
 node ../tools/check.js slides shots
 node ../tools/build_player.js slides git-graph-slides.html
 node ../tools/export.js slides git-graph-slides.pdf
 ```
 
 터미널 출력과 해시는 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 날짜를 고정해서 해시가 매번 같게 나와요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/hello-git.git`으로 보이게 했어요. Git Graph 화면은 확장 소스(mhutchie/vscode-git-graph)의 기본 설정을 따라 그렸어요. 이름표 모양, 선 색(#0085D9, #D9008F), HEAD 빈 점, 8자리 커밋 번호가 그 예예요. status의 안내 문구처럼 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요.
+
+장 배치는 Stageshow 스킬(github.com/benjitaylor/skills)의 원칙을 따랐어요. 장마다 Git Graph 창 하나를 주인공으로 크게 두고 아래로 잘리게 했어요. 터미널은 창 오른쪽 가장자리에 걸친 작은 창으로 두고, 설명은 카드 대신 제목 한 줄과 그림 위 연결선으로 붙였어요.
 
 </details>
 

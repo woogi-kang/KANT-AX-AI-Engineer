@@ -11,6 +11,7 @@
     "toc",
     "ready",
     "d-why",
+    "d-big",
     "d-make",
     "d-key",
     "d-get",
@@ -28,9 +29,11 @@
     "x-listval",
     "x-dictlist",
     "x-for",
+    "x-compare",
+    "x-err",
     "x-receipt",
     "x-cart",
-    "x-err",
+    "x-sold",
     "trouble",
     "cheatsheet"
   ],
@@ -54,6 +57,10 @@
     "mix": {
       "description": "리스트와 섞기",
       "start": "x-listval"
+    },
+    "use": {
+      "description": "실제로 써 보기",
+      "start": "x-compare"
     },
     "trouble": {
       "description": "정리",

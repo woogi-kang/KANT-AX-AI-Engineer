@@ -131,3 +131,54 @@ run uv add fastapi
 echo; echo '$ uv --version'; echo 'uv --version' | env PATH=/usr/bin:/bin bash -i 2>&1 | grep 'not found'
 cd "$ROOT/hello-uv"
 run uv init
+
+echo "===== 왜 필요한가: lee가 받은 프로젝트를 python3로 바로 실행"
+mkdir -p "$ROOT/lee0" && cd "$ROOT/lee0"
+run git clone -q https://github.com/kim/hello-uv.git
+run cd hello-uv
+run ls -a
+run python3 main.py
+
+echo "===== 실제 예제 1: 튜토리얼의 pip install requests를 uv로"
+cd "$ROOT"
+run uv init cafe-order
+run cd cafe-order
+run uv add requests
+cat > main.py <<'PY'
+import requests
+
+print("requests 버전:", requests.__version__)
+PY
+run cat main.py
+run uv run main.py
+run cat pyproject.toml
+
+echo "===== 실제 예제 2: 노트북에서 없는 패키지 불러오기"
+cd "$ROOT/hello-uv"
+# 앞에서 넣은 ipykernel은 미리 올리고 lee도 받아 둬요 (화면에는 안 나와요)
+git add pyproject.toml uv.lock && git commit -q -m "feat: 노트북 커널 넣기" && git push -q origin main
+(cd "$ROOT/lee/hello-uv" && export UV_CACHE_DIR="$ROOT/lee/.uv-cache" UV_PYTHON_INSTALL_DIR="$ROOT/lee/.uv-python" && git pull -q origin main && uv sync -q)
+uv pip install -q jupyter_client >/dev/null 2>&1
+echo; echo "# 노트북 셀 실행 (requests 넣기 전후, 커널 하나)"
+.venv/bin/python "$TOOLS/run_nb2.py" "uv add requests" 2>&1
+uv pip uninstall -q jupyter_client >/dev/null 2>&1
+uv sync -q
+run git status --short
+
+echo "===== 실제 예제 3: kim이 올리고 lee가 받기"
+run git add pyproject.toml uv.lock
+run 'git commit -m "feat: requests 패키지 넣기" | head -1'
+run git push origin main
+cd "$ROOT/lee/hello-uv"
+export UV_CACHE_DIR="$ROOT/lee/.uv-cache" UV_PYTHON_INSTALL_DIR="$ROOT/lee/.uv-python"
+run git pull origin main
+run uv sync
+run uv tree --depth 1
+echo "===== pull 설정이 없을 때 (갈라진 기록)"
+git config --global --unset pull.rebase 2>/dev/null
+echo "# lee 메모" >> README.md && git add README.md && git commit -q -m "docs: lee 메모"
+(cd "$ROOT/hello-uv" && echo "# kim 메모" >> main.py && git add main.py && git commit -q -m "docs: kim 메모" && git push -q origin main)
+run git pull origin main
+run git config --global pull.rebase false
+run git pull origin main --no-edit
+export UV_CACHE_DIR="$ROOT/.uv-cache" UV_PYTHON_INSTALL_DIR="$ROOT/.uv-python"

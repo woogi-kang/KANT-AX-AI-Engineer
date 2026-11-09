@@ -226,7 +226,7 @@ node ../tools/build_player.js slides git-branch-slides.html
 node ../tools/export.js slides git-branch-slides.pdf
 ```
 
-강조는 [tools/HIGHLIGHT.md](../tools/HIGHLIGHT.md)의 기법을 써요. 그래프 장면은 명령을 타자 치듯 보여 준 뒤, 바뀐 이름표나 커밋에 스포트라이트를 비춰요. 바꿀 대상은 `gen_branch.py`의 `HOT` 표에서 정해요. 충돌과 에러 메시지에는 빨간 펜 상자를 그려요. 에러 장의 상자 위치(`gen_pages.py`의 `ERR_BOX`)는 만든 HTML에서 잰 값이라, 에러 문구를 고치면 다시 재요.
+강조는 [tools/HIGHLIGHT.md](../tools/HIGHLIGHT.md)의 기법을 써요. 그래프 장면은 그래프 하나만 크게 두고, 터미널은 처음부터 보이고, 한 번 누르면 바뀐 이름표나 커밋 옆에 지시선과 짧은 라벨이 그려져요. 타자 애니메이션은 넘기는 횟수가 늘어서 쓰지 않아요. 라벨 글과 위치는 `gen_branch.py`의 `NOTE` 표에서 정해요. 설명 카드를 나란히 늘어놓지 않고 표, 타임라인, 구분선으로 묶어요. 충돌과 에러 메시지에는 빨간 펜 상자를 그려요. 에러 장의 상자 위치(`gen_pages.py`의 `ERR_BOX`)는 만든 HTML에서 잰 값이라, 에러 문구를 고치면 다시 재요.
 
 터미널 출력은 git 2.43에서 실제로 실행해 확인했어요. 해시는 날짜를 고정해서 만든 값이라 내 화면과 달라요. 충돌 시나리오 2~6은 시나리오마다 저장소를 따로 만들어 실행했어요. 화면 폭 때문에 줄인 출력은 발표자 노트에 적어 두었어요.
 

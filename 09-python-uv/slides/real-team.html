@@ -1,0 +1,33 @@
+<section id="real-team" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1F8A4C">10. 실제 상황 예제</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">팀원이 넣은 패키지는 pull 뒤 uv sync로 받아요</h2>
+<div style="position:absolute;left:96px;top:196px;display:flex;flex-direction:row;gap:12px;align-items:center"><div style="width:14px;height:14px;border-radius:50%;background:#2459C9"></div><p style="font-size:26px;font-weight:700;color:#2459C9;white-space:nowrap">kim 컴퓨터</p></div>
+<div id="tkim" style="position:absolute;left:96px;top:248px;width:840px;height:404px;background:#1B2029;border-radius:20px;padding:26px 36px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#F2C46D">$ git status --short</p>
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">&#160;M pyproject.toml</p>
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">&#160;M uv.lock</p>
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#F2C46D">$ git add pyproject.toml uv.lock</p>
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#F2C46D">$ git commit -m "feat: requests 패키지 넣기"</p>
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">[main faabfb6] feat: requests 패키지 넣기</p>
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#F2C46D">$ git push origin main</p>
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">&#160;&#160;&#160;0a438ca..faabfb6  main -&gt; main</p>
+</div>
+<p style="position:absolute;left:96px;top:680px;width:840px;font-size:26px;font-weight:400;line-height:1.45;text-align:left;color:#4A5262">올리는 건 목록 파일 두 개예요. .venv는 올라가지 않아요.</p>
+<div data-build-in="fade order 1" style="position:absolute;left:984px;top:196px;display:flex;flex-direction:row;gap:12px;align-items:center"><div style="width:14px;height:14px;border-radius:50%;background:#1F8A4C"></div><p style="font-size:26px;font-weight:700;color:#1F8A4C;white-space:nowrap">lee 컴퓨터</p></div>
+<div id="tlee" data-build-in="rise order 1" style="position:absolute;left:984px;top:248px;width:840px;height:580px;background:#1B2029;border-radius:20px;padding:26px 36px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#F2C46D">$ git pull origin main</p>
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">Fast-forward</p>
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">&#160;pyproject.toml |   1 +</p>
+<p style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">&#160;uv.lock        | 133 +++++++++…</p>
+<p data-build-in="fade order 2" style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#F2C46D">$ uv sync</p>
+<p data-build-in="fade order 2" style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#FFE7A8;background:rgba(242,196,109,.2);border-radius:6px;margin:0 -10px;padding:0 10px">Installed 4 packages in 3ms</p>
+<p data-build-in="fade order 2" style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#7FD18B">&#160;+ requests==2.34.2  …</p>
+<p data-build-in="fade order 3" style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#F2C46D">$ uv tree --depth 1</p>
+<p data-build-in="fade order 3" style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">hello-uv v0.1.0</p>
+<p data-build-in="fade order 3" style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">├── fastapi v0.162.2</p>
+<p data-build-in="fade order 3" style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#FFE7A8;background:rgba(242,196,109,.2);border-radius:6px;margin:0 -10px;padding:0 10px">├── requests v2.34.2</p>
+<p data-build-in="fade order 3" style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">└── ipykernel v7.4.0 (group: dev)</p>
+</div>
+<p data-build-in="fade order 4" style="position:absolute;left:96px;top:870px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">pull은 목록 파일만 바꿔요. 내 .venv에 실제로 설치하는 건 uv sync예요.</p>
+<aside>팀원이 패키지를 넣고 push했으면 git pull origin main 뒤에 uv sync를 쳐요. kim은 앞 장에서 넣은 requests를 커밋해서 올렸어요. git add는 바뀐 두 파일 pyproject.toml과 uv.lock을 적어요. lee는 pull로 두 파일을 받고, uv sync로 requests와 따라온 패키지를 .venv에 설치했어요. uv tree --depth 1로 보면 lee의 프로젝트에도 requests가 들어 있어요. pull에서 fatal: Need to specify how to reconcile divergent branches.가 나오면 31쪽처럼 pull.rebase false를 설정해요. 출력은 tools/demo.sh로 실제로 실행한 결과이고, pull 출력 앞부분과 설치 목록 3줄, uv tree의 Resolved 줄은 뺐어요.</aside>
+</section>
