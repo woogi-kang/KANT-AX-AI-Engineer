@@ -1,24 +1,24 @@
-// 메서드 찾기 (26): pick a 붕어빵 and what to ask it for, then watch Python look in the 붕어빵, its 틀 and the
-// parent 틀, in that order. Runs inside the slide player as function(sec, api).
+// 메서드 찾기 (26): pick an object (a = Animal, d = Dog) and what to ask it for, then watch Python look in the
+// object, its class and the parent class, in that order. Runs inside the slide player as function(sec, api).
 // The outputs are the ones the real kernel printed in tools/demo.sh (the last run in tools/run_nb.py).
 const $ = id => sec.querySelector('#' + id);
-const OBJS = { a: { cls: 'Bread', attrs: ['flavor', 'price'] }, c: { cls: 'CreamBread', attrs: ['flavor', 'price', 'cream'] } };
-const CLS = { CreamBread: { parent: 'Bread', attrs: ['__init__', 'intro', 'keep'] }, Bread: { parent: null, attrs: ['shop', '__init__', 'intro'] } };
-const METHOD = { intro: true, keep: true };
-const JOSA = { intro: '가', keep: '이', shop: '이', cream: '이', flavor: '가' };   // 인트로가, 킵이, 숍이, 크림이, 플레이버가
+const OBJS = { a: { cls: 'Animal', attrs: ['name'] }, d: { cls: 'Dog', attrs: ['name', 'breed'] } };
+const CLS = { Dog: { parent: 'Animal', attrs: ['__init__', 'speak', 'fetch'] }, Animal: { parent: null, attrs: ['__init__', 'eat', 'speak'] } };
+const METHOD = { speak: true, eat: true, fetch: true };
+const JOSA = { speak: '가', eat: '이', fetch: '가', breed: '가', name: '이' };   // 스피크가, 잇이, 페치가, 브리드가, 네임이
 const OUT = {
-  'a.intro': '팥 붕어빵 1000 원', 'c.intro': '슈크림 붕어빵 1200 원\n  크림: 많이',
-  'a.keep': "AttributeError: 'Bread' object has no attribute 'keep'", 'c.keep': '슈크림 붕어빵은 차갑게 보관해요',
-  'a.shop': '붕어빵 1호점', 'c.shop': '붕어빵 1호점',
-  'a.cream': "AttributeError: 'Bread' object has no attribute 'cream'", 'c.cream': '많이',
-  'a.flavor': '팥', 'c.flavor': '슈크림',
+  'a.speak': '하마가 소리를 내요', 'd.speak': '초코가 멍멍 짖어요',
+  'a.eat': '하마가 밥을 먹어요', 'd.eat': '초코가 밥을 먹어요',
+  'a.fetch': "AttributeError: 'Animal' object has no attribute 'fetch'", 'd.fetch': '초코가 공을 물어 와요',
+  'a.breed': "AttributeError: 'Animal' object has no attribute 'breed'", 'd.breed': '푸들',
+  'a.name': '하마', 'd.name': '초코',
 };
-let who = 'c', what = 'intro', timers = [], busy = false;
+let who = 'd', what = 'eat', timers = [], busy = false;
 const later = (ms, fn) => timers.push(setTimeout(fn, ms));
 const code = () => METHOD[what] ? `${who}.${what}()` : `print(${who}.${what})`;
 
 function clear() {
-  for (const el of sec.querySelectorAll('.lf-look,.lf-yes,.lf-no,.lf-super')) el.classList.remove('lf-look', 'lf-yes', 'lf-no', 'lf-super');
+  for (const el of sec.querySelectorAll('.lf-look,.lf-yes,.lf-no')) el.classList.remove('lf-look', 'lf-yes', 'lf-no');
   $('lf-log').innerHTML = ''; $('lf-out').textContent = ''; $('lf-out').style.color = '#1D2330';
 }
 function pick() {
@@ -36,8 +36,8 @@ function run() {
   if (busy) return;
   clear(); lock(true);
   const o = OBJS[who];
-  const places = [{ el: 'lf-o-' + who, name: `${who} 붕어빵`, has: o.attrs, row: k => `lf-o-${who}-${k}` }];
-  for (let c = o.cls; c; c = CLS[c].parent) places.push({ el: 'lf-m-' + c, name: `${c} 틀`, has: CLS[c].attrs, row: k => `lf-m-${c}-${k}` });
+  const places = [{ el: 'lf-o-' + who, name: `${who} 객체`, has: o.attrs, row: k => `lf-o-${who}-${k}` }];
+  for (let c = o.cls; c; c = CLS[c].parent) places.push({ el: 'lf-m-' + c, name: `${c} 클래스`, has: CLS[c].attrs, row: k => `lf-m-${c}-${k}` });
   let t = 250, n = 0, found = null;
   for (const pl of places) {
     const hit = pl.has.includes(what), i = n++;
@@ -52,19 +52,15 @@ function run() {
     t += 500;
     if (hit) { found = pl; break; }
   }
-  if (found && who === 'c' && what === 'intro') {
-    later(t, () => { $('lf-m-Bread-intro').classList.add('lf-super'); log(n, '자식의 intro 안에서 <code>super().intro()</code>로 부모 Bread의 intro도 불러요.'); });
-    t += 900;
-  }
   later(t, () => {
     const out = OUT[who + '.' + what];
     $('lf-out').textContent = out;
     if (!found) $('lf-out').style.color = '#A33131';
     $('lf-msg').innerHTML = !found
-      ? `Bread 틀까지 찾아도 없어서 AttributeError가 나요. ${who === 'a' ? 'a는 Bread로 찍어서 자식 틀 CreamBread는 보지 않아요.' : ''}`
-      : found.el.startsWith('lf-o-') ? '붕어빵에 붙은 칸이라 붕어빵에서 바로 찾았어요.'
-      : found.name === `${OBJS[who].cls} 틀` ? '붕어빵에는 없어서, 그 붕어빵을 찍은 틀에서 찾았어요.'
-      : '자기 틀에도 없어서 부모 틀까지 올라가 찾았어요. 물려받은 거예요.';
+      ? `Animal 클래스까지 찾아도 없어서 AttributeError가 나요. ${who === 'a' ? 'a는 Animal로 만들어서 자식 클래스 Dog는 보지 않아요.' : ''}`
+      : found.el.startsWith('lf-o-') ? '객체에 붙은 칸이라 객체에서 바로 찾았어요.'
+      : found.name === `${OBJS[who].cls} 클래스` ? (who === 'd' && what === 'speak' ? 'Dog에서 찾아서 Animal까지 가지 않아요. 덮어쓴 speak예요.' : '객체에는 없어서, 그 객체를 만든 클래스에서 찾았어요.')
+      : '자기 클래스에도 없어서 부모 클래스까지 올라가 찾았어요. 물려받은 거예요.';
     lock(false);
   });
 }
