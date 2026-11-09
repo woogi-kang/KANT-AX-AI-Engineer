@@ -1117,7 +1117,8 @@ function update(){
   $('pl-count').textContent=(cur+1)+' / '+slides.length;
   const aside=slides[cur].querySelector('aside');
   renderNotes(aside?aside.textContent:'');
-  history.replaceState(null,'','#'+(cur+1));
+  // A sandboxed preview (about:srcdoc) blocks replaceState; the page number just stays out of the address there.
+  try{history.replaceState(null,'','#'+(cur+1));}catch(e){}
 }
 let toastT;
 function toast(msg,ms){const t=$('pl-toast');clearTimeout(toastT);if(!msg){t.classList.remove('show');return;}t.textContent=msg;t.classList.add('show');toastT=setTimeout(()=>t.classList.remove('show'),ms||1800);}
