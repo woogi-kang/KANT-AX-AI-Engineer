@@ -8,7 +8,10 @@ Layout rules taken from the Stageshow skill (github.com/benjitaylor/skills, refe
 annotations.md, motion.md): one focal object per slide (the notebook cell or one diagram), terms labelled on
 the code line with leader tags instead of cards, light tables with hairlines instead of bordered boxes,
 values that change move or are covered in place, a wrong line is struck through beside the right one.
-Highlights come from tools/HIGHLIGHT.md (line tints, spotlight, pen ring and underline, fly, cursor).
+Highlights come from tools/HIGHLIGHT.md, spread over the deck: slam and shine on the cover, staggered rows with delay,
+wiped arrows, cursor and keycaps, line tints and line spotlight, value swaps in place (text), spotlight, zoom, pulse,
+dimmed past steps, code morph, count-up with marked letters, one shake on a failure, pen ring/underline/box, fly.
+No slide needs more than five clicks.
 
 Every cell and output comes from tools/demo.sh (tools/run_nb.py runs the cells with the project kernel).
 Usage: python3 tools/gen.py slides
@@ -17,7 +20,8 @@ Usage: python3 tools/gen.py slides
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, underline, box
+from highlight import (spot, spot_off, cursor, cursor_off, ring, underline, box, lspot, lspot_off, zoom, zoom_off, text,
+                       pulse, shine, shake, keys, SLAM, WIPE, COUNT, MARK, DIM, DELAY, MORPH, MORPH_FROM, tok)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -178,7 +182,7 @@ def box_value(sid, value, left, top, w, h, attrs="", vsize=72, color=INK, struck
             + p(f"font-family:{MONO};font-size:{vsize}px;font-weight:700;color:{color};{deco}", e(value)) + '</div>')
 
 
-def rows(left, top, w, data, widths, order0=1, rh=88, header=None, fs=30, kinds=None, step=1, rid=None, anim="rise"):
+def rows(left, top, w, data, widths, order0=1, rh=88, header=None, fs=30, kinds=None, step=1, rid=None, anim="rise", delay=0):
     """A light table: gray header over a dark rule, rows split by hairlines, no boxes.
     data cells are HTML. kinds: per column 'code' or 'text'. step=0 shows all rows at once (order0)."""
     o, y = [], top
@@ -190,7 +194,8 @@ def rows(left, top, w, data, widths, order0=1, rh=88, header=None, fs=30, kinds=
         cells_ = "".join(f'<div style="width:{cw}px;flex:none;display:flex;flex-direction:row;align-items:center;gap:12px;font-size:{fs}px;line-height:1.35">{c}</div>' for c, cw in zip(r, widths))
         order = (order0 + i * step) if order0 else None
         ida = f' id="{rid}{i}"' if rid else ""
-        o.append(f'<div{ida}{bi(anim, order)} style="position:absolute;left:{left}px;top:{y + i * rh}px;width:{w}px;height:{rh}px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">{cells_}</div>')
+        dl = DELAY(i * delay) if delay and order else ""
+        o.append(f'<div{ida}{bi(anim, order)}{dl} style="position:absolute;left:{left}px;top:{y + i * rh}px;width:{w}px;height:{rh}px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">{cells_}</div>')
     return o
 
 
@@ -213,12 +218,13 @@ def fix(left, top, bad, good, order, size=34, after=""):
             + after + '</div>')
 
 
-def chain(rs, left, top, start=1, gap=96, size=38, color=TEAL, note_w=None):
+def chain(rs, left, top, start=1, gap=96, size=38, color=TEAL, note_w=None, step=1, delay=0, dim=None):
     """Evaluation steps, one per click: (expression html, note). The last row is the answer."""
     o = []
     for i, (ex, note) in enumerate(rs):
         last = i == len(rs) - 1
-        o.append(f'<div{bi("rise", start + i)} style="position:absolute;left:{left}px;top:{top + i * gap}px;display:flex;flex-direction:row;align-items:center;gap:26px">'
+        ex_ = (DELAY(i * delay) if delay else "") + (DIM(dim) if dim else "")
+        o.append(f'<div{bi("rise", start + i * step)}{ex_} style="position:absolute;left:{left}px;top:{top + i * gap}px;display:flex;flex-direction:row;align-items:center;gap:26px">'
                  + mono(ex, size, color if last else INK, TINT[color] if last else "#ECEAE3", raw=True)
                  + (p(f"font-size:26px;font-weight:700;color:{SUB};white-space:nowrap", e(note)) if note else "") + '</div>')
     return o
@@ -229,14 +235,15 @@ NB = "basics.ipynb"
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       '<h1 style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초 1<br>변수, 타입, 연산</h1>',
+       f'<h1{SLAM(1)} style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초 1<br>변수, 타입, 연산</h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">값에 이름을 붙이고,<br>계산하고, 비교하기</p>']
-cov.append('<div style="position:absolute;left:1080px;top:300px;width:720px;height:480px;background:#252B36;border-radius:24px;padding:44px 52px;display:flex;flex-direction:column;justify-content:center;gap:34px">')
+cov.append('<div id="cov-code" style="position:absolute;left:1080px;top:300px;width:720px;height:480px;background:#252B36;border-radius:24px;padding:44px 52px;display:flex;flex-direction:column;justify-content:center;gap:34px">')
 for code_, out_, c in [('price = 4500', '', '#8FB4FF'), ('type(price)', 'int', '#9FB8E8'), ('price * 2', '9000', '#7FD3DA'), ('price * 2 >= 10000', 'False', '#C4B1FF')]:
     cov.append('<div style="display:flex;flex-direction:row;align-items:center;gap:28px">'
                + p(f"width:420px;flex:none;font-family:{MONO};font-size:36px;font-weight:700;color:{c};white-space:pre", e(code_))
                + (arrow(46, "#5A6172") + p(f"font-family:{MONO};font-size:36px;font-weight:700;color:#E6E9EF", e(out_)) if out_ else "") + '</div>')
 cov.append('</div>')
+cov.append(shine(2, "cov-code"))
 W("cover", cov, "이번 챕터는 파이썬 코드를 직접 적어요. 값에 이름을 붙이는 변수, 값의 종류인 타입, 숫자를 계산하는 사칙연산, True와 False로 답하는 비교와 논리연산을 봐요. 마지막에는 카페 주문 계산을 이 네 가지로 풀어요. 문자열과 리스트는 다음 13 챕터에서 이어서 봐요. 모든 예제는 노트북 셀에 적고 실행해요.", ("intro", "들어가기"))
 
 ORDER.append("toc")   # written last, after page numbers are known
@@ -264,9 +271,9 @@ for i, (c, n_, name, code_) in enumerate(COLS):
     x = X0 + i * (CW + GAP)
     o.append(f'<div{bi("rise", i + 1)} style="position:absolute;left:{x}px;top:236px;width:{CW}px;display:flex;flex-direction:row;align-items:center;gap:16px">'
              + num(n_, c, 36) + p(f"font-size:36px;font-weight:700;color:{c}", name) + '</div>')
-    o.append(p(f"position:absolute;left:{x}px;top:690px;width:{CW + 40}px;font-family:{MONO};font-size:24px;font-weight:700;color:{SUB};white-space:pre", e(code_), bi("fade", i + 1)))
+    o.append(p(f"position:absolute;left:{x}px;top:690px;width:{CW + 40}px;font-family:{MONO};font-size:24px;font-weight:700;color:{SUB};white-space:pre", e(code_), bi("fade", i + 1) + DELAY(250)))
     if i:
-        o.append(f'<div{bi("fade", i + 1)} style="position:absolute;left:{x - GAP + 14}px;top:470px">{arrow(52)}</div>')
+        o.append(f'<div{WIPE(i + 1)} style="position:absolute;left:{x - GAP + 14}px;top:470px">{arrow(52)}</div>')
 o.append(var_box("bg-am", "americano", "4500", X0, 340, BL, CW, 300, bi("rise", 1), 76))
 # types: three values and their type names, stacked
 x = X0 + CW + GAP
@@ -296,6 +303,7 @@ for i, (s_, _) in enumerate(steps_):
 o.append(cursor(2, target="nb-file"))
 o.append(cursor(3, target="nb-kernel"))
 o.append(cursor(4, x=400, y=355))
+o.append(keys(4, 760, 770, "Shift+Enter", 26))
 o.append(cursor_off(5))
 o.append(p(f"position:absolute;left:1200px;top:462px;font-size:28px;font-weight:700;color:{GRAY}", "기억이 안 나면", bi("fade", 5)))
 for i, (a_, b_) in enumerate([("커널 .venv 고르기", "09 · 25–27쪽"), ("변수 이름 규칙", "10 · 24–26쪽"), ("자료형과 type()", "10 · 27–28쪽")]):
@@ -352,8 +360,8 @@ o += cell({"id": "c-age2", "lines": ["age = 26", "age"], "n": 4, "out": ["26"]},
 o.append(hl(96, T, 860, 0, 1, "mark", 1))
 o.append(tag(tx(96, ["age = 26"]), ly(T, 0), "같은 이름에 새 값", BL, 1))
 BX, BY, BW, BH = 1260, 260, 520, 340
-o.append(var_box("box-age", "age", "25", BX, BY, BL, BW, BH, vsize=110, vid="v25"))
-o.append(box_value("v26", "26", BX, BY, BW, BH, bi("pop", 1), 110))
+o.append(var_box("box-age", "age", "26", BX, BY, BL, BW, BH, vsize=110, vid="v25").replace('id="v25"', 'id="v25" data-start="25"'))
+o.append(text(1, "v25", "26"))
 o.append(p(f"position:absolute;left:{BX}px;top:{BY + BH + 50}px;width:{BW}px;text-align:center;font-size:30px;font-weight:700;color:{GRAY}", "예전 값", bi("fade", 1)))
 o.append(p(f"position:absolute;left:{BX}px;top:{BY + BH + 96}px;width:{BW}px;text-align:center;font-family:{MONO};font-size:72px;font-weight:700;color:{GRAY};text-decoration:line-through;text-decoration-thickness:5px", "25", ' id="old25" data-build-in="fly order 1" data-from="v25"'))
 o += rows(96, 620, 860, [[code("[1]", GRAY, 24), code("age = 25", GRAY, 34, ) , txt("처음 넣은 값", GRAY, 26)], [code("[4]", BL, 24), code("age = 26", INK, 34), txt("지금 남은 값", BL, 26, 700)]], [60, 300, 400], 1, 96, ["셀", "넣은 순서", ""])
@@ -364,8 +372,8 @@ o = [sec("update")] + head(EB1, "age = age + 1은 오른쪽부터 계산해요",
 T = 228
 o += cell({"id": "c-age3", "lines": ["age = age + 1", "age"], "n": 5, "out": ["27"]}, 96, T, 860, sel="c-age3")
 BX, BY, BW, BH = 1300, 228, 460, 280
-o.append(var_box("box-age", "age", "26", BX, BY, BL, BW, BH, vsize=96))
-o.append(box_value("v27", "27", BX, BY, BW, BH, bi("pop", 3), 96))
+o.append(var_box("box-age", "age", "27", BX, BY, BL, BW, BH, vsize=96, vid="v27").replace('id="v27"', 'id="v27" data-start="26"'))
+o.append(text(3, "v27", "27"))
 UY, US = 600, 104
 U = "age = age + 1"
 ux = lambda k: 96 + k * US * 0.6
@@ -416,8 +424,9 @@ LT = ["age = 25", "height = 172.5", 'user_name = "kim"', "is_member = False", "p
 TYPES4 = [("int", "정수 · 소수점 없는 숫자", BL), ("float", "실수 · 소수점 있는 숫자", NAVY), ("str", "문자열 · 따옴표로 감싼 글자", GR), ("bool", "불리언 · True 또는 False", PUR)]
 o += cell({"id": "c-ty", "lines": LT, "n": 1, "out": [f"<class '{t[0]}'>" for t in TYPES4]}, 96, T, 1100, sel="c-ty")
 for i, (t, d, c) in enumerate(TYPES4):
-    o.append(hl(96, T, 1100, i, 1, "mark", i + 1))
+    o.append(lspot(i + 1, 96 + 85, T, 1100 - 85, 20 + LH * len(LT), T + 10 + i * LH, LH, bar=c))
     o.append(tag(tx(96, LT), ly(T, i), d, c, i + 1))
+o.append(lspot_off(5))
 o.append(caption("타입은 값의 종류예요. 10에서 본 자료형과 같은 말이에요.", 5))
 W("types", o, "변수에 넣는 값에는 종류가 있고, 이 종류를 타입이라고 불러요. 10의 27, 28쪽에서는 자료형이라는 말로 다섯 가지를 type()으로 확인했어요. 이번 챕터에서 계산과 비교에 쓰는 네 가지를 다시 봐요. 정수 int, 실수 float, 문자열 str, 불리언 bool이에요. 리스트는 13에서 따로 배워요. 이 파트도 새 커널이라서 셀 번호가 [1]부터 시작해요. 출력은 hello-uv 커널에서 실제로 실행한 결과예요.", ("types", "변수 타입"))
 
@@ -428,8 +437,8 @@ o += cell({"id": "c-tf", "lines": LF, "n": 2, "out": ["<class 'int'>", "<class '
 o.append(hl(96, T, 860, 0, 2, "mark", 1))
 o.append(hl(96, T, 860, 2, 2, "note", 2))
 BX, BY, BW, BH = 1200, 300, 520, 320
-o.append(var_box("box-x", "x", "10", BX, BY, TT, BW, BH, vsize=96))
-o.append(box_value("v-ten", '"ten"', BX, BY, BW, BH, bi("pop", 2), 96))
+o.append(var_box("box-x", "x", '"ten"', BX, BY, TT, BW, BH, vsize=96, vid="v-x").replace('id="v-x"', 'id="v-x" data-start="10"'))
+o.append(text(2, "v-x", "&quot;ten&quot;"))
 o.append(p(f"position:absolute;left:{BX}px;top:{BY + BH + 30}px;width:{BW}px;height:70px;background:{BG};text-align:center;font-family:{MONO};font-size:44px;font-weight:700;color:{BL}", "int", bi("fade", 1)))
 o.append(p(f"position:absolute;left:{BX}px;top:{BY + BH + 30}px;width:{BW}px;height:70px;background:{BG};text-align:center;font-family:{MONO};font-size:44px;font-weight:700;color:{GR}", "str", bi("fade", 2)))
 o.append(caption("이름 x는 그대로예요. 넣은 값이 바뀌니 타입도 바뀌었어요.", 3))
@@ -482,11 +491,13 @@ o = [sec("ops4")] + head(EB2, "더하기, 빼기, 곱하기, 나누기", T2C)
 T = 240
 L4 = ["print(7 + 3)", "print(7 - 3)", "print(7 * 3)", "print(7 / 3)", "print(6 / 2)"]
 o += cell({"id": "c-ops", "lines": L4, "n": 1, "out": ["10", "4", "21", "2.3333333333333335", "3.0"]}, 96, T, 720, sel="c-ops")
-o.append(tag(tx(96, ["2.3333333333333335"], 24), oy(T, 5, 3), "끝자리가 조금 어긋나요", OR, 5, 26))
-o.append(tag(tx(96, ["2.3333333333333335"], 24), oy(T, 5, 4), "나눠떨어져도 .0", NAVY, 6, 26))
+o.append(tag(tx(96, ["2.3333333333333335"], 24), oy(T, 5, 3), "끝자리가 조금 어긋나요", OR, 2, 26))
+o.append(zoom(2, 181, oy(T, 5, 3) - 40, 900, 80, 30, 2.4))
+o.append(zoom_off(3))
+o.append(tag(tx(96, ["2.3333333333333335"], 24), oy(T, 5, 4), "나눠떨어져도 .0", NAVY, 3, 26))
 ops = [("+", "더하기", "", "7 + 3", "10"), ("-", "빼기", "", "7 - 3", "4"), ("*", "곱하기", "", "7 * 3", "21"), ("/", "나누기", "결과는 늘 실수", "7 / 3", "2.333…")]
 o += rows(900, 250, 924, [[code(s, T2C, 64), txt(n_, INK, 32, 700) + (txt(" " + nt, GRAY, 24) if nt else ""), code(ex, INK, 32), code(r, T2C, 34)] for s, n_, nt, ex, r in ops],
-          [90, 340, 180, 170], 1, 140, ["기호", "뜻", "예", "결과"])
+          [90, 340, 180, 170], 1, 140, ["기호", "뜻", "예", "결과"], step=0, delay=120)
 W("ops4", o, "사칙연산 기호예요. 더하기와 빼기는 수학과 같아요. 키보드에 ×와 ÷가 없어서 곱하기는 별표 *, 나누기는 빗금 / 를 써요. 셀 하나에 print 네 줄을 적어서 네 결과를 한 번에 봤어요. 7 나누기 3은 끝이 2.3333333333333335로 나와요. 컴퓨터가 소수를 저장하는 방식 때문에 마지막 자리가 조금 어긋나요. 지금은 2.333...으로 읽으면 돼요. 나누기 / 의 결과는 나눠떨어져도 항상 실수(float)라서 6 / 2는 3.0이에요. 값은 3과 같지만 타입이 2파트에서 본 float예요. 소수점 없는 몫만 필요하면 다음 장의 // 를 써요. 기호 양옆에 한 칸씩 띄워 적으면 읽기 쉬워요.", ("calc", "사칙연산"))
 
 o = [sec("ops3")] + head(EB2, "몫 //, 나머지 %, 거듭제곱 **", T2C)
@@ -504,16 +515,16 @@ T = 240
 o += cell({"id": "c-ops3", "lines": ["print(7 // 3)", "print(7 % 3)", "print(2 ** 3)"], "n": 2, "out": ["2", "1", "8"]}, 1180, T, 644, sel="c-ops3", attrs=bi("rise", 4))
 o += rows(96, 580, 1728, [[code(s, c, 56), txt(n_, INK, 34, 700), code(ex, INK, 32), txt(d, SUB, 28)] for s, n_, ex, d, c in
                           [("//", "몫", "7 // 3  →  2", "나누고 소수점 아래는 버려요", T2C), ("%", "나머지", "7 % 3  →  1", "나누고 남은 수. 퍼센트가 아니에요", OR), ("**", "거듭제곱", "2 ** 3  →  8", "2 × 2 × 2", PUR)]],
-          [120, 220, 420, 800], 5, 110)
+          [120, 220, 420, 800], 5, 110, step=0, delay=120)
 W("ops3", o, "사칙연산 말고 자주 쓰는 연산 세 가지예요. 사탕 7개를 3개씩 묶으면 두 묶음이 되고 하나가 남아요. 묶음 수 2가 몫이고, 남은 1개가 나머지예요. // 는 빗금 두 개로 몫만 구해요. 소수점 아래를 버리니까 결과가 정수예요. % 는 나머지예요. 퍼센트 기호지만 파이썬에서는 나머지를 구해요. 짝수인지 볼 때 숫자 % 2가 0인지 확인하는 식으로 많이 써요. ** 는 별표 두 개로 거듭제곱이에요. 2 ** 3은 2를 세 번 곱한 8이에요.")
 
 o = [sec("order")] + head(EB2, "곱하기를 더하기보다 먼저 계산해요", T2C)
 for k, (code_, rs, cid, n_, out_, x) in enumerate([("2 + 3 * 4", [("2 + " + hs("3 * 4", T2C), "곱하기 먼저"), (hs("2 + 12", T2C), "그다음 더하기"), ("14", "")], "c-o1", 3, "14", 96),
                                                   ("(2 + 3) * 4", [(hs("(2 + 3)", T2C) + " * 4", "괄호 먼저"), (hs("5 * 4", T2C), "그다음 곱하기"), ("20", "")], "c-o2", 4, "20", 984)]):
-    o += cell({"id": cid, "lines": [code_], "n": n_, "out": [out_]}, x, 250, 840, attrs=bi("rise", 4) if k else "")
-    o += chain(rs, x + 20, 470, 1 + k * 4 if k == 0 else 5, 130, 52)
-o.append(caption("더하기를 먼저 하고 싶으면 그 부분을 괄호로 묶어요.", 8))
-W("order", o, "파이썬도 수학처럼 곱하기와 나누기를 더하기와 빼기보다 먼저 계산해요. 2 + 3 * 4는 3 * 4를 먼저 해서 12, 거기에 2를 더해 14예요. 더하기를 먼저 하고 싶으면 괄호로 묶어요. (2 + 3) * 4는 5 * 4라서 20이에요. 결과를 먼저 예상해 보게 한 뒤 클릭해서 한 계단씩 확인해요.")
+    o += cell({"id": cid, "lines": [code_], "n": n_, "out": [out_]}, x, 250, 840, attrs=bi("rise", 2) if k else "")
+    o += chain(rs, x + 20, 470, 1 + k, 130, 52, step=0, delay=450)
+o.append(caption("더하기를 먼저 하고 싶으면 그 부분을 괄호로 묶어요.", 3))
+W("order", o, "파이썬도 수학처럼 곱하기와 나누기를 더하기와 빼기보다 먼저 계산해요. 2 + 3 * 4는 3 * 4를 먼저 해서 12, 거기에 2를 더해 14예요. 더하기를 먼저 하고 싶으면 괄호로 묶어요. (2 + 3) * 4는 5 * 4라서 20이에요. 결과를 먼저 예상해 보게 한 뒤 클릭하면 푸는 계단이 차례로 나와요.")
 
 LEVELS = [("( )", "괄호", "가장 먼저", NAVY), ("**", "거듭제곱", "", PUR), ("*  /  //  %", "곱하기, 나누기, 몫, 나머지", "넷은 같은 순위. 몫과 나머지도 여기예요", T2C), ("+  -", "더하기, 빼기", "가장 나중", OR)]
 o = [sec("order-ladder")] + head(EB2, "계산 순위는 네 계단이에요", T2C)
@@ -523,9 +534,8 @@ for i, (sym, nm, note, c) in enumerate(LEVELS):
              + num(i + 1, c, 44) + p(f"width:300px;flex:none;font-family:{MONO};font-size:46px;font-weight:700;color:{c};white-space:pre", e(sym))
              + '<div style="display:flex;flex-direction:column;gap:4px">' + p(f"font-size:34px;font-weight:700;color:{INK}", nm)
              + (p(f"font-size:26px;color:{SUB}", note) if note else "") + '</div></div>')
-o.append(spot(5, target="lv2", pad=14))
-o.append(spot_off(6))
-o.append(caption("위 계단부터 풀어요. 같은 계단끼리는 왼쪽부터예요.", 6))
+o.append(pulse(5, "lv2"))
+o.append(caption("위 계단부터 풀어요. 같은 계단끼리는 왼쪽부터예요.", 5))
 W("order-ladder", o, "파이썬이 계산하는 순서를 네 계단으로 그렸어요. 1단계 괄호가 가장 먼저예요. 2단계는 거듭제곱 ** 예요. 3단계는 곱하기 *, 나누기 /, 몫 //, 나머지 % 네 가지가 같은 순위예요. 몫과 나머지를 따로 떼어 생각하기 쉬운데 곱하기, 나누기와 한 묶음이에요. 4단계가 더하기와 빼기예요. 같은 단계끼리 만나면 왼쪽부터 차례로 풀어요. 예외가 하나 있는데, 2 ** 3 ** 2처럼 거듭제곱끼리는 오른쪽부터 풀어서 3 ** 2 = 9를 먼저 하고 2 ** 9 = 512가 돼요. 이런 식은 괄호로 묶어 쓰는 게 좋아요. 512는 실제로 실행해 확인한 결과예요.")
 
 o = [sec("order-pow")] + head(EB2, "** 는 곱하기와 몫보다 먼저 계산해요", T2C)
@@ -537,8 +547,8 @@ ex_ = [[(hs("2 ** 3", PUR) + " // 3", "** 먼저"), (hs("8 // 3", T2C), "그다�
 st = 1
 for k, rs in enumerate(ex_):
     x, y = 800 + (k % 2) * 540, 236 + (k // 2) * 340
-    o += chain(rs, x, y, st, 92, 34)
-    st += len(rs)
+    o += chain(rs, x, y, st, 92, 34, step=0, delay=400)
+    st += 1
 o.append(caption("-2 ** 2는 -4예요. 음수를 거듭제곱하려면 (-2)처럼 괄호로 묶어요.", st))
 W("order-pow", o, "거듭제곱은 곱하기와 몫보다 한 단계 위라서 먼저 풀어요. 2 ** 3 // 3은 2 ** 3 = 8을 먼저 하고 8 // 3 = 2예요. 왼쪽부터 3 // 3을 먼저 한다고 생각하면 1이 나와서 틀려요. 2 * 3 ** 2도 3 ** 2 = 9가 먼저라서 18이에요. -2 ** 2는 많이 헷갈려요. 앞의 빼기 기호보다 ** 가 먼저라서 -(2 ** 2) = -4가 돼요. -2를 제곱하고 싶으면 (-2) ** 2처럼 괄호로 묶어서 4를 얻어요. 출력은 같은 셀을 실제로 실행한 결과예요.")
 
@@ -551,22 +561,22 @@ for k, (rs, warn) in enumerate(same):
     y = 226 + k * 240
     for i, (ex, note) in enumerate(rs):
         last = i == len(rs) - 1
-        o.append(f'<div{bi("rise", k * 4 + i + 1)} style="position:absolute;left:{800 + i * 330 - (0 if i < 2 else 0)}px;top:{y}px;display:flex;flex-direction:column;gap:8px">'
+        o.append(f'<div{bi("rise", k + 1)}{DELAY(i * 400)} style="position:absolute;left:{800 + i * 330}px;top:{y}px;display:flex;flex-direction:column;gap:8px">'
                  + mono(ex, 34, T2C if last else INK, TINT[T2C] if last else "#ECEAE3", "align-self:flex-start", raw=True) + (p(f"font-size:22px;font-weight:700;color:{SUB}", e(note)) if note else "") + '</div>')
-    o.append(p(f"position:absolute;left:800px;top:{y + 120}px;font-size:26px;font-weight:700;color:{OR}", "⚠ " + e(warn), bi("pop", k * 4 + 4)))
-o.append(caption("뒤쪽을 먼저 하고 싶으면 그 부분을 괄호로 묶어요.", 13))
+    o.append(p(f"position:absolute;left:800px;top:{y + 120}px;font-size:26px;font-weight:700;color:{OR}", "⚠ " + e(warn), bi("pop", k + 1) + DELAY(1200)))
+o.append(caption("뒤쪽을 먼저 하고 싶으면 그 부분을 괄호로 묶어요.", 4))
 W("order-same", o, "같은 계단에 있는 연산끼리 만나면 왼쪽부터 풀어요. 10 - 4 + 2는 10 - 4 = 6을 먼저 하고 6 + 2 = 8이에요. 뒤의 4 + 2를 먼저 하면 4가 나와서 틀려요. 8 / 2 * 4도 8 / 2 = 4.0을 먼저 하고 4를 곱해 16.0이에요. 나누기가 들어가서 결과가 실수예요. 몫 // 도 곱하기와 같은 계단이라 7 // 2 * 2는 7 // 2 = 3을 먼저 하고 2를 곱해 6이에요. 수학 시간에 8 ÷ 2 × 4를 앞에서부터 계산한 것과 같아요. 출력은 같은 셀을 실제로 실행한 결과예요.")
 
 o = [sec("order-mix")] + head(EB2, "섞여 있으면 한 계단씩 풀어요", T2C)
 o += cell({"id": "c-om", "lines": ["print(10 - 2 * 3 ** 2 // 4)"], "n": 7, "out": ["6"]}, 96, 220, 1000, sel="c-om")
 mix = [("10 - 2 * " + hs("3 ** 2", PUR) + " // 4", "2단계 ** 부터"), ("10 - " + hs("2 * 9", T2C) + " // 4", "3단계, 왼쪽부터"), ("10 - " + hs("18 // 4", T2C), "3단계"),
        (hs("10 - 4", OR), "4단계"), ("6", "")]
-o += chain(mix, 96, 410, 1, 104, 42, OR)
+o += chain(mix, 96, 410, 1, 104, 42, OR, dim="mix")
 o.append(p(f"position:absolute;left:1300px;top:410px;font-size:28px;font-weight:700;color:{GRAY}", "계단 순서"))
 for i, (sym, _, _, c) in enumerate(LEVELS):
     o.append(f'<div style="position:absolute;left:1300px;top:{470 + i * 92}px;width:524px;height:80px;display:flex;flex-direction:row;align-items:center;gap:20px;border-bottom:2px solid {LINE};opacity:{0.45 if i == 0 else 1}">'
              + num(i + 1, c, 28) + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{c};white-space:pre", e(sym)) + (p(f"font-size:24px;color:{GRAY}", "괄호가 없어 건너뛰어요") if i == 0 else "") + '</div>')
-o.append(caption("직접 짤 땐 10 - (2 * 3 ** 2) // 4처럼 괄호로 순서를 보여 줘요.", 6))
+o.append(caption("직접 짤 땐 10 - (2 * 3 ** 2) // 4처럼 괄호로 순서를 보여 줘요.", 5))
 W("order-mix", o, "네 계단이 모두 섞인 식을 한 단계씩 풀어 봐요. 칠해진 부분이 그 계단에서 계산하는 곳이에요. 괄호가 없으니 2단계 거듭제곱부터예요. 3 ** 2 = 9. 다음은 3단계인데, 곱하기와 몫이 같은 순위라서 왼쪽의 2 * 9 = 18을 먼저 하고 18 // 4 = 4를 해요. 마지막 4단계에서 10 - 4 = 6이에요. 이런 식을 직접 쓸 때는 괄호로 묶어서 읽는 사람이 순서를 바로 알게 해요. 괄호를 쳐도 결과는 같은 6이에요. 출력 6은 셀에서 실제로 실행한 결과예요.")
 
 o = [sec("order-paren")] + head(EB2, "괄호 하나로 답이 달라져요", T2C)
@@ -580,11 +590,11 @@ for i, (a, ra, b, rb) in enumerate(pairs):
     y = PY + 50 + i * PR
     o.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:{PR}px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">'
              + p(f"width:500px;flex:none;font-family:{MONO};font-size:32px;font-weight:700;color:{INK};white-space:pre", e(a))
-             + p(f"width:300px;flex:none;font-family:{MONO};font-size:34px;font-weight:700;color:{INK}", e(ra), bi("fade", i + 1))
+             + p(f"width:300px;flex:none;font-family:{MONO};font-size:34px;font-weight:700;color:{INK}", e(ra), bi("fade", 1) + DELAY(i * 110))
              + p(f"width:560px;flex:none;font-family:{MONO};font-size:32px;font-weight:700;color:{T2C};white-space:pre", e(b))
-             + p(f"width:200px;flex:none;font-family:{MONO};font-size:34px;font-weight:700;color:{T2C}", e(rb), bi("fade", i + 1)) + '</div>')
-o.append(caption("%, // 는 곱하기와 같은 순위, ** 는 그보다 먼저예요.", 9, 966))
-W("order-paren", o, "같은 숫자라도 괄호 자리에 따라 결과가 달라져요. 한 줄씩 결과를 먼저 예상해 보게 하고 클릭해서 확인해요. 위 두 줄은 곱하기, 나누기가 더하기, 빼기보다 먼저라는 규칙이에요. 셋째, 넷째 줄은 같은 순위끼리 왼쪽부터 푼다는 규칙이에요. 12 / 3 * 2를 12 / 6으로 읽으면 2.0이 되는데, 파이썬은 왼쪽부터 12 / 3 = 4.0을 먼저 해요. 아래 네 줄은 거듭제곱, 몫, 나머지가 섞인 식이에요. 17 % 5 * 2는 % 와 * 가 같은 순위라서 왼쪽의 17 % 5 = 2를 먼저 하고 2를 곱해 4예요. -3 ** 2는 앞 장의 -2 ** 2처럼 ** 가 먼저라 -9예요. 열여섯 식은 모두 셀에 print()로 적어 실제로 실행한 결과예요.")
+             + p(f"width:200px;flex:none;font-family:{MONO};font-size:34px;font-weight:700;color:{T2C}", e(rb), bi("fade", 2) + DELAY(i * 110)) + '</div>')
+o.append(caption("%, // 는 곱하기와 같은 순위, ** 는 그보다 먼저예요.", 3, 966))
+W("order-paren", o, "같은 숫자라도 괄호 자리에 따라 결과가 달라져요. 왼쪽 식의 결과를 먼저 예상해 보게 하고 클릭해서 확인해요. 한 번 더 누르면 괄호를 친 식의 결과가 나와요. 위 두 줄은 곱하기, 나누기가 더하기, 빼기보다 먼저라는 규칙이에요. 셋째, 넷째 줄은 같은 순위끼리 왼쪽부터 푼다는 규칙이에요. 12 / 3 * 2를 12 / 6으로 읽으면 2.0이 되는데, 파이썬은 왼쪽부터 12 / 3 = 4.0을 먼저 해요. 아래 네 줄은 거듭제곱, 몫, 나머지가 섞인 식이에요. 17 % 5 * 2는 % 와 * 가 같은 순위라서 왼쪽의 17 % 5 = 2를 먼저 하고 2를 곱해 4예요. -3 ** 2는 앞 장의 -2 ** 2처럼 ** 가 먼저라 -9예요. 열여섯 식은 모두 셀에 print()로 적어 실제로 실행한 결과예요.")
 
 o = [sec("order-quiz")] + head(EB2, "직접 풀어 봐요", T2C)
 quiz = [("7 // 2 ** 2", ["2 ** 2 = 4", "7 // 4 = 1"], "1"), ("10 % 3 ** 2", ["3 ** 2 = 9", "10 % 9 = 1"], "1"),
@@ -615,10 +625,13 @@ for i, (v, lbl) in enumerate([("0", "score = 0"), ("10", "score += 10"), ("15", 
     if i:
         o.append(f'<div{bi("fade", i + 1)} style="position:absolute;left:{x - 58}px;top:322px">{arrow(46)}</div>')
 EQY = 640
-o.append(f'<div{bi("rise", 4)} style="position:absolute;left:96px;top:{EQY}px;width:1728px;height:150px;border-top:2px solid {LINE};display:flex;flex-direction:row;align-items:center;gap:34px">'
-         + p(f"font-family:{MONO};font-size:56px;font-weight:700;color:{T2C};white-space:pre", "score += 10")
-         + p(f"font-size:34px;font-weight:700;color:{GRAY}", "＝") + p(f"font-family:{MONO};font-size:56px;font-weight:700;color:{INK};white-space:pre", "score = score + 10") + '</div>')
-o.append(p(f"position:absolute;left:96px;top:{EQY + 170}px;font-size:30px;color:{SUB}", "같은 모양으로 <b style='font-family:JetBrains Mono;color:#1D2330'>-=  *=  /=</b> 도 있어요", bi("fade", 4)))
+o.append(f'<div style="position:absolute;left:96px;top:{EQY}px;width:1728px;height:2px;background:{LINE}"></div>')
+MS = f"position:absolute;left:96px;top:{EQY + 40}px;font-family:{MONO};font-size:64px;font-weight:700;line-height:1.2;white-space:pre;color:{INK}"
+PRE = "white-space:pre"
+o.append(p(MS, tok("s", "score", PRE) + tok("eq", " = ", PRE) + tok("s2", "score", PRE) + tok("p", " +", PRE) + tok("n", " 10", PRE), ' id="pe-long"' + bi("rise", 4) + MORPH_FROM()))
+o.append(p(MS, tok("s", "score", PRE) + tok("p", " +", f"{PRE};color:{T2C}") + tok("eq", "=", f"{PRE};color:{T2C}") + tok("n", " 10", PRE), MORPH(5, "pe-long")))
+o.append(p(f"position:absolute;left:820px;top:{EQY + 62}px;font-size:32px;font-weight:700;color:{T2C}", "← score = score + 10을 줄인 모양", bi("fade", 5)))
+o.append(p(f"position:absolute;left:96px;top:{EQY + 190}px;font-size:30px;color:{SUB}", "같은 모양으로 <b style='font-family:JetBrains Mono;color:#1D2330'>-=  *=  /=</b> 도 있어요", bi("fade", 5)))
 W("plus-eq", o, "+= 는 지금 값에 오른쪽 값을 더해서 같은 이름에 다시 넣어요. 1파트의 age = age + 1을 짧게 적는 방법이에요. score는 0에서 시작해서 10을 더해 10, 5를 더해 15가 돼요. 점수나 합계처럼 값을 쌓아 갈 때 써요. 빼기는 -=, 곱하기는 *=, 나누기는 /= 처럼 기호 뒤에 = 를 붙여요. + 와 = 사이는 띄우지 않고 붙여 적어요.")
 
 o = [sec("str-ops")] + head(EB2, "글자에도 + 와 * 를 써요", T2C)
@@ -678,7 +691,7 @@ def truth(sid, op, rs, title, cap, notes, n_, hi_row, hi_text):
     o += rows(900, 250, 924, [[tf(a, 30), code(op, T3, 34), tf(b, 30), arrow(44), tf(r, 34)] for a, b, r in rs], [170, 110, 170, 60, 200], 1, 128, ["왼쪽", "", "오른쪽", "", "결과"])
     o.append(box(5, 886, 250 + 50 + hi_row * 128 + 10, 952, 108, OR, 5, 16))
     o.append(p(f"position:absolute;left:900px;top:{250 + 50 + 4 * 128 + 50}px;font-size:30px;font-weight:700;color:{OR}", hi_text, bi("fade", 5)))
-    o.append(caption(cap, 6))
+    o.append(caption(cap, 5))
     W(sid, o, notes)
 
 
@@ -704,24 +717,24 @@ o.append(p(f"position:absolute;left:96px;top:200px;width:1728px;font-size:30px;c
 for k, (h, cid, n_, res, rs, x) in enumerate([("130", "c-r1", 8, "True", [("130 >= 120", "True"), ("9 >= 7", "True"), ("True and True", "True")], 96),
                                               ("110", "c-r2", 9, "False", [("110 >= 120", "False"), ("9 >= 7", "True"), ("False and True", "False")], 984)]):
     lines = [f"height = {h}", "age = 9", "height >= 120 and age >= 7"] if k == 0 else [f"height = {h}", "height >= 120 and age >= 7"]
-    o += cell({"id": cid, "lines": lines, "n": n_, "out": [res]}, x, 270, 840, sel=cid if k else None, attrs=bi("rise", 4) if k else "")
+    o += cell({"id": cid, "lines": lines, "n": n_, "out": [res]}, x, 270, 840, sel=cid if k else None, attrs=bi("rise", 2) if k else "")
     for i, (ex, r) in enumerate(rs):
-        o.append(f'<div{bi("rise", 1 + k * 4 + i)} style="position:absolute;left:{x}px;top:{540 + i * 96}px;width:840px;height:84px;display:flex;flex-direction:row;align-items:center;gap:22px;border-bottom:2px solid {LINE}">'
+        o.append(f'<div{bi("rise", 1 + k)}{DELAY(300 + i * 350)} style="position:absolute;left:{x}px;top:{540 + i * 96}px;width:840px;height:84px;display:flex;flex-direction:row;align-items:center;gap:22px;border-bottom:2px solid {LINE}">'
                  + p(f"width:380px;flex:none;font-family:{MONO};font-size:34px;font-weight:700;color:{INK};white-space:pre", e(ex)) + arrow(44) + tf(r, 32) + '</div>')
     ok = res == "True"
-    o.append(p(f"position:absolute;left:{x}px;top:850px;font-size:34px;font-weight:700;color:{GR if ok else RED}", "탈 수 있어요" if ok else "키가 모자라서 못 타요", bi("pop", 4 + k * 4)))
-o.append(underline(7, 984 + 105, 984 + 105 + tw("height >= 120"), ly(270, 1) + 22, RED))
+    o.append(p(f"position:absolute;left:{x}px;top:850px;font-size:34px;font-weight:700;color:{GR if ok else RED}", "탈 수 있어요" if ok else "키가 모자라서 못 타요", bi("pop", 1 + k) + DELAY(1500)))
+o.append(underline(3, 984 + 105, 984 + 105 + tw("height >= 120"), ly(270, 1) + 22, RED))
 W("ride", o, "키가 120cm 이상이고 7살 이상이어야 탈 수 있는 놀이기구예요. 두 조건을 모두 만족해야 하니까 and로 이어요. 왼쪽은 키 130, 나이 9살이라서 비교 두 개가 모두 True, True and True는 True예요. 오른쪽은 키만 110으로 다시 넣었어요. age는 앞 셀의 9가 그대로 남아 있어요. 110 >= 120이 False라서 나이가 맞아도 결과는 False예요. 비교를 먼저 하고 and를 나중에 해서 괄호가 없어도 돼요. 조건을 모두 만족해야 하면 and예요.")
 
 o = [sec("logic-order")] + head(EB3, "계산, 비교, not, and, or 순서로 풀어요", T3)
 o += cell({"id": "c-lo", "lines": ["2 + 3 > 4 and not False"], "n": 10, "out": ["True"]}, 96, 220, 1000, sel="c-lo")
 lo = [(hs("2 + 3", TEAL) + " > 4 and not False", "1 계산"), (hs("5 > 4", PUR) + " and not False", "2 비교"), ("True and " + hs("not False", PUR), "3 not"), (hs("True and True", PUR), "4 and"), ("True", "")]
-o += chain(lo, 96, 410, 1, 104, 40, PUR)
+o += chain(lo, 96, 410, 1, 104, 40, PUR, dim="lo")
 o.append(p(f"position:absolute;left:1300px;top:410px;font-size:28px;font-weight:700;color:{GRAY}", "먼저 하는 순서"))
 for i, (t, d) in enumerate([("+ - * /", "계산"), ("> == !=", "비교"), ("not", "뒤집기"), ("and", "그리고"), ("or", "또는")]):
     o.append(f'<div style="position:absolute;left:1300px;top:{466 + i * 86}px;width:524px;height:76px;display:flex;flex-direction:row;align-items:center;gap:20px;border-bottom:2px solid {LINE}">'
              + num(i + 1, T3, 26) + p(f"width:200px;flex:none;font-family:{MONO};font-size:30px;font-weight:700;color:{T3};white-space:pre", e(t)) + p(f"font-size:26px;color:{SUB}", d) + '</div>')
-o.append(caption("헷갈리면 (age >= 20) and (age < 30)처럼 괄호로 묶어요.", 6))
+o.append(caption("헷갈리면 (age >= 20) and (age < 30)처럼 괄호로 묶어요.", 5))
 W("logic-order", o, "여러 연산이 섞이면 계산, 비교, not, and, or 순서로 풀어요. 계산이 가장 먼저라서 2 + 3이 5가 돼요. 그다음 비교로 5 > 4가 True가 돼요. 그다음 not False가 True가 되고, 마지막에 True and True가 True예요. and와 or가 섞이면 and를 먼저 해요. 순서를 외우지 않아도 괄호로 묶으면 그 안을 먼저 계산해요. 예를 들어 age = 25일 때 age >= 20 and age < 30은 20대인지 묻는 식이고 True가 나와요. 출력은 같은 셀을 실제로 실행한 결과예요.")
 
 # ---------- part 5: cafe examples ----------
@@ -742,6 +755,8 @@ o.append(tag(TXX, oy(T1, 6, 0.5), "앞의 숫자 식과 같은 답", GRAY, 2, 26
 o.append(hl(96, T2, 1100, 0, 1, "note", 4))
 o.append(tag(TXX, ly(T2, 0), "가격이 오르면 이 줄만", OR, 4))
 o.append(tag(TXX, oy(T2, 4, 0.5), "합계와 잔돈이 같이 바뀌어요", OR, 5))
+o = [x.replace('>americano = 4800<', f'>americano = <span{MARK(4)} style="color:{OR};background:{TINT[OR]};border-radius:6px">4800</span><', 1) for x in o]
+o = [x.replace('">합계: 14600</p>', '"' + COUNT(3) + '>합계: 14600</p>', 1) for x in o]
 W("ex-order", o, "처음 장에서 숫자로만 적었던 카페 계산을 변수로 다시 적었어요. 아메리카노와 라떼 가격을 맨 위에서 한 번만 넣고, 합계는 americano * 2 + latte처럼 이름으로 계산해요. 3파트의 계산 순서대로 곱하기를 먼저 해서 9000에 5000을 더해 14000이에요. 잔돈은 낸 돈 paid에서 합계를 빼요. 아메리카노가 4800원으로 오르면 2번 셀처럼 가격 줄만 다시 넣고 합계 식을 다시 실행해요. latte와 paid는 1번 셀에서 넣은 값이 그대로 남아 있어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요. 출력은 hello-uv 커널에서 실제로 실행한 결과예요.", ("cafe", "카페 주문으로 풀어 보기"))
 
 o = [sec("ex-split")] + head(EB5, "글자로 온 수량을 숫자로 바꿔 나눠 내요", CAFE)
@@ -760,6 +775,8 @@ E = "TypeError: unsupported operand type(s) for +: 'int' and 'str'"
 o += cell({"id": "c-ex4", "lines": ['qty = "3"', "print(5000 + qty)"], "n": 4, "out": [E], "err": True}, 96, T2, 1100, attrs=bi("rise", 4))
 o.append(tag(TXX, ly(T2, 1), "int()를 빼면 이렇게 돼요", RED, 4))
 o.append(underline(4, cx(96, E, 0), cx(96, E, 9), oy(T2, 2, 0) + 22, RED))
+o = [x.replace(f'>{e(E)}</p>', f' id="err-ex4">{e(E)}</p>', 1) if e(E) in x else x for x in o]
+o.append(shake(5, "err-ex4"))
 W("ex-split", o, "주문서 파일에서 읽어 온 수량은 숫자처럼 보여도 글자인 경우가 많아요. 그래서 qty에 따옴표로 감싼 \"3\"을 넣었어요. 계산하려면 2파트의 int()로 정수로 바꿔요. 아메리카노 세 잔과 라떼 한 잔이라 4500 * 3 + 5000 = 18500이에요. 세 사람이 나눠 내면 3파트의 몫 // 로 한 사람이 낼 6166원, 나머지 % 로 남는 2원을 구해요. 아래 셀처럼 int() 없이 숫자와 글자를 더하면 TypeError가 나요. 메시지는 + 의 양쪽이 int와 str이라 더할 수 없다는 뜻이에요. 출력은 hello-uv 커널에서 실제로 실행한 결과예요.")
 
 o = [sec("ex-discount")] + head(EB5, "사이즈 업과 할인 조건을 and, or로 적어요", CAFE)
@@ -789,7 +806,7 @@ tr = [("NameError: name 'Age' is not defined", "대문자, 소문자를 다르�
       ("ZeroDivisionError: division by zero", "0으로 나눴어요", "나누는 수 확인"),
       ("비교했는데 값이 바뀌었어요", "= 를 하나만 썼어요", "== 두 개")]
 o += rows(96, 210, 1728, [[f'<div style="display:flex;flex-direction:column;gap:4px">' + (code(q, INK, 24) if "Error" in q else txt(q, INK, 28, 700)) + txt(a_, SUB, 24) + '</div>', code(cmd, INK, 26)] for q, a_, cmd in tr],
-          [1300, 380], 1, 118, ["마지막 줄", "고치기"])
+          [1300, 380], 1, 118, ["마지막 줄", "고치기"], step=0, delay=110)
 W("trouble", o, "오류 메시지는 길어도 맨 아래 한 줄에 원인이 있어요. 1번과 2번은 NameError예요. 이름 철자, 대소문자, True와 False의 첫 글자를 봐요. 3번은 따옴표로 감싼 글자와 숫자를 더했을 때예요. int()로 타입을 맞춰요. 4번은 int()가 숫자로 못 읽는 글자를 받았을 때예요. 5번은 0으로 나눴을 때예요. 6번은 오류 없이 값만 바뀌어서 알아채기 어려워요. 6 / 2가 3.0으로 나오는 건 3파트의 나누기 장을 봐요. 위 메시지는 모두 hello-uv 커널에서 실제로 실행한 결과의 마지막 줄이에요.", ("trouble", "정리"))
 
 o = [f'<section id="cheatsheet" data-transition="fade" style="background:{BG};color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">',
@@ -819,7 +836,7 @@ t = [f'<section id="toc" data-transition="fade" style="background:{BG};color:{IN
      f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>']
 for i, (n_, c, h, s, a, b) in enumerate(parts):
     y = 196 + i * 116
-    t.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:108px;display:flex;flex-direction:row;align-items:center;gap:30px;border-bottom:2px solid {LINE}">'
+    t.append(f'<div{bi("rise", 1)}{DELAY(i * 90)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:108px;display:flex;flex-direction:row;align-items:center;gap:30px;border-bottom:2px solid {LINE}">'
              + p(f"width:60px;flex:none;font-size:52px;font-weight:900;color:{c};text-align:center", n_)
              + p(f"width:480px;flex:none;font-size:34px;font-weight:700;color:{INK}", h)
              + p(f"flex:1;font-size:28px;color:{SUB}", e(s))

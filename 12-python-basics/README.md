@@ -331,7 +331,7 @@ python-basics-slides.pdf   강사용 PDF
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
-슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요. 장 배치는 Stageshow 원칙(장마다 주인공 하나, 카드 대신 코드 줄 옆 라벨, 테두리 없는 표)을, 강조는 `tools/HIGHLIGHT.md`를 따랐어요.
+슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요. 장 배치는 Stageshow 원칙(장마다 주인공 하나, 카드 대신 코드 줄 옆 라벨, 테두리 없는 표)을, 강조는 `tools/HIGHLIGHT.md` 상황별 표에서 장마다 골랐어요(표지 SLAM과 빛 훑기, 줄 스포트라이트, 상자 값 바꾸기, 확대, 펄스, 지난 단계 흐리기, 코드 모핑, 숫자 올라가기, 흔들기 등). 한 장의 클릭은 다섯 번 이하예요.
 
 ```bash
 bash tools/demo.sh /tmp/basics-demo > /tmp/basics-demo.log 2>&1
