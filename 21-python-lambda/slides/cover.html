@@ -1,8 +1,8 @@
 <section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
 <p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>
-<h1 style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">함수 3<br>lambda<br>map, filter</h1>
+<h1 data-build-in="slam order 1" style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">함수 3<br>lambda<br>map, filter</h1>
 <p style="font-size:40px;line-height:1.4;color:#BFC6D4">짧은 함수는 이름 없이 만들고<br>리스트 전체에 한 번에 쓰기</p>
-<div style="position:absolute;left:900px;top:300px;width:900px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+<div id="cov-code" style="position:absolute;left:900px;top:300px;width:900px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.45;color:#E6E9EF;white-space:pre">prices = [4500, 5000, 6500]</p>
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.45;color:#E6E9EF;white-space:pre"></p>
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.45;color:#8FD8DE;white-space:pre">list(map(lambda p: p + 500, prices))</p>
@@ -11,5 +11,6 @@
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.45;color:#E3B877;white-space:pre">list(filter(lambda p: p &gt;= 5000, prices))</p>
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.45;color:#9AA1AE;white-space:pre"># [5000, 6500]</p>
 </div>
+<div data-build-in="shine order 2" data-target="cov-code" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>이번 챕터는 함수를 값처럼 넘겨서 리스트 전체에 한 번에 쓰는 법이에요. 19와 20에서 def로 함수를 만들었어요. 이번에는 함수를 변수에 담고 다른 함수에 넘겨요. 한 줄짜리 함수는 lambda로 이름 없이 만들어요. 값마다 함수를 쓰는 map, 조건에 맞는 값만 남기는 filter를 같이 배워요. 22의 정렬과 23의 리스트 컴프리헨션이 이 챕터를 바탕으로 해요.</aside>
 </section>
