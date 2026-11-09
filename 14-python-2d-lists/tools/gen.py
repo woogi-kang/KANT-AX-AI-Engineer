@@ -7,15 +7,17 @@ Every cell and output comes from tools/demo.sh (tools/run_nb.py runs the cells w
 
 Layout rules (Stageshow skill, tools/DESIGN.md): one focal object per slide, labels sit on the code line or the
 picture (leader tags) instead of cards, say it once, no empty bands, values move instead of swapping.
-Highlights (tools/HIGHLIGHT.md) change from slide to slide: line tints, pen ring and underline, spotlight,
-cursor click, values flying into place. No typing animation.
+Highlights (tools/HIGHLIGHT.md) change from slide to slide: cover slam and shine, staggered rows, line spotlight,
+pen box and underline, shake on a failure, spotlight, values flying or changing in place, run band, count-up,
+paired colors (mark), pulse, code-to-output link, cursor click, zoom. Nothing types in letter by letter.
 Usage: python3 tools/gen.py slides
 """
 
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline
+from highlight import (spot, spot_off, cursor, cursor_off, ring, box, underline, lspot, lspot_off, run, run_off, zoom, zoom_off,
+                       text, pulse, shine, shake, link, SLAM, COUNT, MARK, DELAY, STAGGER, DIM)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -121,6 +123,16 @@ def hl(left, top, w, i, n=1, kind="mark", order=1):
     """Tints code lines i .. i+n-1 of the cell drawn at (left, top)."""
     y = top + 10 + i * LH()
     return f'<div{bi("fade", order)} style="position:absolute;left:{left + 87}px;top:{y:.0f}px;width:{w - 89}px;height:{n * LH():.0f}px;background:{HL[kind]};border-radius:6px"></div>'
+
+
+def CB(left, top, w, n):
+    """The white code box of a cell drawn at (left, top) with n code lines, for lspot and run."""
+    return left + 85, top, w - 85, 20 + n * LH()
+
+
+def LS(order, left, top, w, n, i, k=1, bar=None):
+    """Line spotlight on code lines i .. i+k-1."""
+    return lspot(order, *CB(left, top, w, n), top + 10 + i * LH(), k * LH(), bar=bar or BL)
 
 
 def ly(top, i):
@@ -272,7 +284,7 @@ def slots(items, left, top, w, h, fs, pre, gap=12, color=None, bg=None, attrs=""
     return "".join(o)
 
 
-def rule_rows(left, top, w, rows, widths, order0=1, rh=84, head_=None, fs=28, orders=None, colors=None):
+def rule_rows(left, top, w, rows, widths, order0=1, rh=84, head_=None, fs=28, orders=None, colors=None, delay=0):
     """A light table: header in gray, rows split by thin rules, no boxes. Cells may be (text, 'code'|'sans', color)."""
     o = []
     y = top
@@ -290,7 +302,7 @@ def rule_rows(left, top, w, rows, widths, order0=1, rh=84, head_=None, fs=28, or
             fam = MONO if kind == "code" else SANS
             cs += p(f"width:{cw}px;flex:none;font-family:{fam};font-size:{fs}px;font-weight:700;color:{col};white-space:pre", t)
         od = orders[i] if orders else order0 + i
-        o.append(f'<div{bi("rise", od)} style="position:absolute;left:{left}px;top:{y + i * rh}px;width:{w}px;height:{rh}px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">{cs}</div>')
+        o.append(f'<div{bi("rise", od)}{DELAY(i * delay) if delay and od else ""} style="position:absolute;left:{left}px;top:{y + i * rh}px;width:{w}px;height:{rh}px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">{cs}</div>')
     return o
 
 
@@ -314,10 +326,11 @@ SUBJ = ["kor", "eng", "math"]
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       '<h1 style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초 3<br>in과<br>2차원 리스트</h1>',
+       f'<h1{SLAM(1)} style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초 3<br>in과<br>2차원 리스트</h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">들어 있는지 묻고,<br>표 모양 데이터 다루기</p>']
 g = Grid(SC0, 1150, 250, 180, 124, 54, "cov", color="#8A93A6", lbl=28, dark=True, hi={(1, 2)}, hi_color="#E6A3C8", hi_bg="#4A2D3E")
 cov.append(g.html())
+cov.append(shine(2, "cov-1-2"))
 cov.append(f'<div style="position:absolute;left:{g.x(0):.0f}px;top:{g.bottom + 56:.0f}px;display:flex;flex-direction:row;align-items:center;gap:28px">'
            + p(f"font-family:{MONO};font-size:44px;font-weight:700;color:#E6A3C8;white-space:pre", "scores[1][2]") + arrow(56, "#5A6172", 32)
            + p(f"font-family:{MONO};font-size:44px;font-weight:700;color:#E6E9EF", "88") + '</div>')
@@ -329,19 +342,19 @@ ORDER.append("toc")   # written last, after page numbers are known
 o = [sec("ready")] + head("들어가기", "13에서 이어서 해요", JP)
 done = [("hello-uv 노트북, 커널 .venv", "09"), ("비교와 and, or, not", "12"), ("리스트, 튜플, count, index", "13"), ("for 문, += 로 합계 쌓기", "13"), ("f-string 칸 수 맞추기", "13")]
 for i, (a_, b_) in enumerate(done):
-    o.append(f'<div{bi("rise", min(i + 1, 3))} style="position:absolute;left:96px;top:{236 + i * 120}px;width:760px;height:104px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{bi("rise", 1)}{DELAY(i * 90)} style="position:absolute;left:96px;top:{236 + i * 120}px;width:760px;height:104px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
              + f'<x-icon name="CheckCircle" style="width:48px;height:48px;flex:none;color:{GR}"></x-icon>'
              + p(f"flex:1;font-size:34px;font-weight:700;color:{INK}", e(a_))
              + p(f"font-size:30px;font-weight:700;color:{GRAY}", e(b_)) + '</div>')
-o.append(p(f"position:absolute;left:1000px;top:262px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", bi("rise", 4)))
+o.append(p(f"position:absolute;left:1000px;top:262px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", bi("rise", 2)))
 steps_ = [p(f"font-size:32px;color:{INK}", "VS Code로 hello-uv 폴더 열기"),
           p(f"font-size:32px;color:{INK}", "탐색기에서") + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{JP}", NB) + p(f"font-size:32px;color:{INK}", "열기"),
           p(f"font-size:32px;color:{INK}", "오른쪽 위 커널이 .venv인지 보기"),
           p(f"font-size:32px;color:{INK}", "셀에 적고") + kbd("Shift+Enter", 26) + p(f"font-size:32px;color:{INK}", "로 실행")]
 for i, inner in enumerate(steps_):
-    o.append(f'<div{bi("rise", 4)} style="position:absolute;left:1000px;top:{356 + i * 120}px;width:824px;height:104px;display:flex;flex-direction:row;gap:20px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{bi("rise", 2)}{DELAY(90 + i * 90)} style="position:absolute;left:1000px;top:{356 + i * 120}px;width:824px;height:104px;display:flex;flex-direction:row;gap:20px;align-items:center;border-bottom:2px solid {LINE}">'
              + num(i + 1, JP, 40) + inner + '</div>')
-o.append(caption("기억이 안 나면 줄 끝에 적힌 챕터를 먼저 다시 봐요.", 5, 900))
+o.append(caption("기억이 안 나면 줄 끝에 적힌 챕터를 먼저 다시 봐요.", 3, 900))
 W("ready", o, "09에서 만든 hello-uv 폴더를 열고 12, 13에서 쓰던 basics.ipynb에 이어서 적어요. 12의 비교와 and, or, not, 13의 리스트, 튜플, for, f-string을 그대로 써요. 셀 번호는 파트마다 [1]부터 다시 셌어요. 슬라이드의 출력은 tools/demo.sh가 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요.")
 
 # ---------- part 1: in / not in ----------
@@ -349,9 +362,11 @@ o = [sec("in-why")] + head(EB1, "count나 index로 있는지 물으면 한 번 �
 T, Wd = 240, 1180
 c = {"id": "c-iw", "lines": ['menu = ["coffee", "latte", "cake"]', 'print(menu.count("juice"))', 'menu.index("juice")'], "n": 1, "out": ["0", "ValueError: 'juice' is not in list"]}
 o += cell(c, 96, T, Wd)
-o.append(hl(96, T, Wd, 1, 1, "t1", 1))
+o.append(LS(1, 96, T, Wd, 3, 1, bar=T1))
 o.append(tag(tx(96, ["0"]), oy(T, 3, 0), "0개라서 없다는 뜻이에요", T1, 1))
-o.append(hl(96, T, Wd, 2, 1, "err", 2))
+o.append(LS(2, 96, T, Wd, 3, 2, bar=RED))
+o.append(shake(2, "c-iw-o1"))
+o.append(lspot_off(3))
 EW = tw("ValueError: 'juice' is not in list")
 o.append(box(2, cx(96) - 12, oy(T, 3, 1) - 27, EW + 24, 54))
 o.append(tag(cx(96) + EW + 40, oy(T, 3, 1), "없으면 오류로 멈춰요", RED, 2))
@@ -367,7 +382,9 @@ c = {"id": "c-il", "lines": ['print("latte" in menu)', 'print("juice" in menu)',
 o += cell(c, 96, T, Wd)
 ilt = [("latte가 있어요", GR), ("juice는 없어요", RED), ("없는 게 맞아요", GR), ("있으니까 틀렸어요", RED)]
 for i, (t_, col) in enumerate(ilt):
+    o.append(LS(i + 1, 96, T, Wd, 4, i, bar=T1))
     o.append(tag(tx(96, ["False"]), oy(T, 4, i), t_, col, i + 1))
+o.append(lspot_off(5))
 o.append(p(f"position:absolute;left:1100px;top:250px;font-family:{MONO};font-size:30px;font-weight:700;color:{T1}", "menu"))
 SLX, SLW = 1100, 230
 o.append(slots(["coffee", "latte", "cake"], SLX, 300, SLW, 110, 36, "il-s"))
@@ -408,7 +425,6 @@ T, Wd = 236, 1100
 c = {"id": "c-ig", "lines": ['has_both = "latte" in menu and "cake" in menu', "print(has_both)", 'print("juice" in menu or "tea" in menu)', 'print(not "juice" in menu)'], "n": 5, "out": ["True", "False", "True"]}
 o += cell(c, 96, T, Wd)
 TXo = tx(96, ["False"])
-o.append(hl(96, T, Wd, 0, 2, "t1", 1))
 # evaluation chain: in first, and last
 CY = 740
 o.append(p(f"position:absolute;left:96px;top:{CY - 96}px;font-size:28px;font-weight:700;color:{GRAY}", "has_both 줄은 이렇게 계산돼요", bi("fade", 1)))
@@ -464,9 +480,10 @@ T, Wd = 236, 1000
 c = {"id": "c-mw", "lines": ["kim = [90, 85, 77]", "lee = [70, 95, 88]", "park = [60, 75, 99]", "print(sum(kim) + sum(lee) + sum(park))"], "n": 1, "out": ["739"]}
 o += cell(c, 96, T, Wd)
 TXc = 96 + Wd + 40
-o.append(hl(96, T, Wd, 0, 3, "t6", 1))
+o.append(LS(1, 96, T, Wd, 4, 0, 3, bar=T6))
 o.append(tag(TXc, ly(T, 1), "학생 한 명에 변수 하나", T6, 1))
-o.append(hl(96, T, Wd, 3, 1, "err", 2))
+o.append(LS(2, 96, T, Wd, 4, 3, bar=RED))
+o.append(lspot_off(3))
 o.append(tag(TXc, ly(T, 3), "30명이면 sum을 30번 적어요", RED, 2))
 g = Grid(SC0, 96, 600, 210, 88, 40, "mw", head=False, side=False, lbl=28)
 o.append(p(f"position:absolute;left:96px;top:548px;font-family:{MONO};font-size:30px;font-weight:700;color:{T6}", "scores", bi("fade", 3)))
@@ -484,7 +501,6 @@ c = {"id": "c-mm", "lines": ["scores = [[90, 85, 77],", "          [70, 95, 88],
 o += cell(c, 96, T, Wd)
 g = Grid(SC0, 1070, 240, 200, 112, 48, "mm", cols=SUBJ, lbl=28)
 o.append(g.html())
-o.append(hl(96, T, Wd, 0, 1, "t6", 1))
 x_, y_, w_, h_ = g.row_rect(0)
 o.append(lit(x_ - 8, y_ - 8, w_ + 16, h_ + 16, 1, T6, None, r=16))
 o.append(tag(g.left - 10, g.bottom + 70, "가로 한 줄이 행이에요. 안쪽 리스트 하나가 한 행", T6, 1, lead=False))
@@ -492,9 +508,9 @@ x_, y_, w_, h_ = g.col_rect(1)
 o.append(lit(x_ - 8, y_ - 8, w_ + 16, h_ + 16, 2, BL, None, r=16))
 o.append(tag(g.left - 10, g.bottom + 130, "세로 한 줄이 열이에요. 과목 하나가 한 열", BL, 2, lead=False))
 TXo = tx(96, ["3"])
-o.append(hl(96, T, Wd, 4, 1, "t6", 3))
 o.append(tag(TXo, oy(T, 6, 1), "len(scores): 바깥 리스트에 든 행 수", T6, 3))
-o.append(hl(96, T, Wd, 5, 1, "mark", 4))
+o.append(pulse(3, "c-mm-o1"))
+o.append(pulse(4, "c-mm-o2"))
 o.append(tag(TXo, oy(T, 6, 2), "len(scores[0]): 0행 안의 칸 수가 열 수", BL, 4))
 o.append(caption("대괄호가 닫히기 전에는 줄을 바꿔 적어도 돼요. 그래서 표처럼 적어요.", 5))
 W("m-make", o, "13에서 리스트 안의 리스트를 table[1][2]처럼 번호 두 번으로 꺼냈어요. 이번에는 그 모양을 표로 써요. scores는 학생 세 명의 국어, 영어, 수학 점수예요. 안쪽 리스트 하나가 학생 한 명, 표의 가로 한 줄이에요. 가로 줄을 행, 세로 줄을 열이라고 불러요. len(scores)는 바깥 리스트에 든 개수라서 행 수예요. len(scores[0])은 0행 안에 든 개수라서 열 수예요. 대괄호가 닫히기 전에는 줄을 바꿔도 되니까 표처럼 줄을 맞춰 적으면 읽기 쉬워요." + REAL)
@@ -523,12 +539,16 @@ c = {"id": "c-mc", "lines": ["scores[0][1] = 100", "print(scores[0])", "scores[2
 o += cell(c, 96, T, Wd)
 g = Grid(SC0, 1090, 240, 210, 148, 54, "mc", lbl=30)
 o.append(g.html())
-o.append(hl(96, T, Wd, 0, 1, "t6", 1))
 o.append(tag(tx(96, ["scores[0][1] = 100"]), ly(T, 0), "칸 하나", T6, 1))
-o.append(fly_cell(g, 0, 1, 100, 1, "c-mc-l0"))
-o.append(hl(96, T, Wd, 2, 1, "t6", 2))
+o.append(g.value_cell(0, 1, 100, ' data-start="85"', sid="mc-n-0-1"))
+o.append(text(1, "mc-n-0-1", "100"))
+o.append(lit(*g.rect(0, 1), 1, T6, None, r=12, width=5))
 o.append(tag(tx(96, ["scores[2] = [65, 80, 90]"]), ly(T, 2), "행 하나", T6, 2))
-o.append(g.group([(2, j, v, T6BG, T6) for j, v in enumerate([65, 80, 90])], ' data-build-in="fly order 2" data-from="c-mc-l2"'))
+for j, (v0, v) in enumerate(zip(SC0[2], SC1[2])):
+    o.append(g.value_cell(2, j, v, f' data-start="{v0}"', sid=f"mc-n-2-{j}"))
+    o.append(text(2, f"mc-n-2-{j}", str(v)))
+x_, y_, w_, h_ = g.row_rect(2)
+o.append(lit(x_, y_, w_, h_, 2, T6, None, r=12, width=5))
 o.append(caption("다음 장부터는 이렇게 바뀐 scores를 써요.", 3))
 F[0] = 30
 W("m-change", o, "리스트는 바꿀 수 있어서 2차원 리스트도 칸을 바꿀 수 있어요. 13에서 xs[1] = 값으로 바꾼 것과 같은 모양이에요. 번호 두 개를 쓰면 칸 하나, 번호 하나를 쓰면 행 하나를 통째로 바꿔요. 0행 1열 85가 100으로, 2행 전체가 [65, 80, 90]으로 바뀌었어요. 다음 장부터는 이렇게 바뀐 scores를 계속 써요." + REAL)
@@ -549,6 +569,10 @@ for i in range(3):
     o.append(f'<div id="mf-r{i}" style="position:absolute;left:{g.x(0):.0f}px;top:{y:.0f}px;width:{g.right - g.x(0):.0f}px;height:{g.ch}px"></div>')
     o.append(p(f"position:absolute;left:{g.right + 650:.0f}px;top:{y + 18:.0f}px;font-family:{MONO};font-size:32px;font-weight:700;color:{INK};white-space:pre",
                f"sum {sum(SC1[i])}  max {max(SC1[i])}", bi("fade", i + 1)))
+CBx, CBy, CBw, _ = CB(96, T, Wd, 2)
+for i in range(3):
+    o.append(run(i + 1, CBx, T + 10 + LH(), CBw, LH()))
+o.append(run_off(4))
 o.append(caption("row가 리스트라서 13에서 배운 sum, max를 바로 써요.", 4))
 W("m-for", o, "13에서 for로 리스트 값을 하나씩 꺼냈어요. 2차원 리스트에 for를 쓰면 꺼내는 값 하나가 행 하나예요. 그래서 row에는 [90, 100, 77] 같은 리스트가 통째로 들어가요. row가 리스트니까 13에서 배운 sum, max를 바로 쓸 수 있어요. 학생마다 합계와 최고 점수가 한 줄씩 나와요." + REAL)
 
@@ -558,7 +582,6 @@ c = {"id": "c-mo", "lines": ["eng = []", "for row in scores:", "    eng.append(r
 o += cell(c, 96, T, Wd)
 g = Grid(SC1, 1060, 240, 200, 130, 46, "mo", cols=SUBJ, lbl=28)
 o.append(g.html())
-o.append(hl(96, T, Wd, 1, 2, "t6", 1))
 x_, y_, w_, h_ = g.col_rect(1)
 o.append(lit(x_ - 8, y_ - 8, w_ + 16, h_ + 16, 1, T6, None, r=16))
 EX, EY = 200, 720
@@ -576,18 +599,20 @@ T, Wd = 236, 820
 c = {"id": "c-mt", "lines": ["total = 0", "count = 0", "for row in scores:", "    total += sum(row)", "    count += len(row)", 'print("전체 합계:", total)', 'print("칸 수:", count)', 'print(f"평균: {total / count:.1f}")'], "n": 7,
      "out": ["전체 합계: 755", "칸 수: 9", "평균: 83.9"]}
 o += cell(c, 96, T, Wd)
-o.append(hl(96, T, Wd, 0, 2, "skip", 1))
-o.append(hl(96, T, Wd, 3, 2, "t6", 2))
+CBx, CBy, CBw, _ = CB(96, T, Wd, 8)
+o.append(run(1, CBx, T + 10, CBw, 2 * LH()))
+o.append(run(2, CBx, T + 10 + 3 * LH(), CBw, 2 * LH()))
+o.append(run_off(5))
 widths = [300, 170, 150, 120]
 o += rule_rows(1000, 240, 824, [[("[90, 100, 77]", "code", INK), ("267", "code", INK), ("267", "code", T6), ("3", "code", T6)],
                                [("[70, 95, 88]", "code", INK), ("253", "code", INK), ("520", "code", T6), ("6", "code", T6)],
                                [("[65, 80, 90]", "code", INK), ("235", "code", INK), ("755", "code", T6), ("9", "code", T6)]],
                widths, rh=96, head_=["row", "sum(row)", "total", "count"], fs=30, orders=[2, 3, 4])
 o.append(p(f"position:absolute;left:1000px;top:198px;font-size:24px;font-weight:700;color:{GRAY}", "for가 한 번 돌 때마다", bi("fade", 1)))
-o.append(hl(96, T, Wd, 7, 1, "t6", 5))
 o.append(f'<div{bi("rise", 5)} style="position:absolute;left:1000px;top:690px;width:824px;display:flex;flex-direction:column;gap:14px">'
          + mono("755 / 9 = 83.888...", 40, INK) + p(f"font-size:30px;font-weight:700;color:{T6}", ":.1f 로 소수점 한 자리만 보여 줘요 (13)") + '</div>')
 o.append(caption("total과 count는 for 앞에서 0으로 한 번만 시작해요.", 6))
+o = [re.sub(r'<p( id="c-mt-o0")', lambda m: "<p" + m.group(1) + COUNT(5), x) for x in o]
 W("m-total", o, "13의 for 합계 장처럼 for 앞에서 total을 0으로 시작해요. 이번에는 행마다 sum(row)를 더해서 표 전체의 합계를 쌓아요. count에는 len(row)를 더해서 칸 수를 세요. 세 행을 돌고 나면 total은 755, count는 9예요. 평균은 755 나누기 9라 83.888...인데, 13에서 배운 .1f로 소수점 한 자리만 보여 줘요. total = 0을 for 안에 넣으면 행마다 0으로 돌아가서 합계가 쌓이지 않아요." + REAL)
 
 o = [sec("m-slice")] + head(EB2, "자르기도 앞 번호는 행, 뒤 번호는 열에 써요", T6)
@@ -598,7 +623,7 @@ o.append(p(f"position:absolute;left:1080px;top:{T + 14}px;width:744px;font-size:
 ms = [("scores[:2]", "바깥을 잘라서 행 두 개", [(i, j) for i in range(2) for j in range(3)]), ("scores[1][:2]", "1행을 꺼낸 뒤 칸 두 개", [(1, 0), (1, 1)]), ("scores[0][::-1]", "0행을 거꾸로", [(0, 0), (0, 1), (0, 2)])]
 for k, (code, d, hi) in enumerate(ms):
     x0 = 96 + k * 600
-    o.append(f'<div{bi("rise", k + 1)} style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none">'
+    o.append(f'<div{bi("rise", k + 1)}{DIM("ms")} style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none">'
              + mono(code, 32, T6, f"position:absolute;left:{x0}px;top:586px")
              + p(f"position:absolute;left:{x0}px;top:636px;font-size:26px;font-weight:700;color:{SUB}", d)
              + Grid(SC1, x0, 690, 140, 62, 30, f"ms{k}", head=False, side=False, hi=hi, hi_bg=T6BG).html() + '</div>')
@@ -615,7 +640,8 @@ o.append(box(1, cx(96) - 12, oy(T, 5, 0) - 26, tw("False") + 24, 52))
 o.append(tag(TXo, oy(T, 5, 0), "바깥에는 행 리스트 세 개만 있어요", RED, 1))
 o.append(tag(TXo, oy(T, 5, 1), "1행을 꺼내서 물으면 찾아요", GR, 2))
 o.append(tag(TXo, oy(T, 5, 2), "행을 통째로 적으면 찾아요", GR, 3))
-o.append(hl(96, T, Wd, 3, 2, "t6", 4))
+o.append(LS(4, 96, T, Wd, 5, 3, 2, bar=T6))
+o.append(lspot_off(5))
 o.append(tag(tx(96, ["[90, 100, 77] True"]), oy(T, 5, 3), "for로 행마다 물어요", T6, 4))
 # picture: the outer list holding three rows, same as part 1's orders
 PX, PW = 1280, 544
@@ -636,11 +662,9 @@ o += cell(c, 96, T, Wd)
 SC2 = [r + [0] for r in SC1] + [[80, 70, 60, 0]]
 g = Grid(SC2, 980, 240, 176, 100, 42, "ma", lbl=28)
 o.append(g.html(only_rows={0, 1, 2}, only_cols={0, 1, 2}))
-o.append(hl(96, T, Wd, 0, 1, "t6", 1))
 o.append(p(f"position:absolute;left:{g.left:.0f}px;top:{g.y(3):.0f}px;width:{g.rw - 14:.0f}px;height:{g.ch}px;text-align:right;font-family:{MONO};font-size:28px;font-weight:700;line-height:{g.ch}px;color:{T6}", "3", bi("fade", 1)))
 o.append(g.group([(3, j, SC2[3][j], T6BG, T6) for j in range(3)], bi("pop", 1)))
 o.append(tag(g.left, g.bottom + 64, "새 행은 바깥 리스트에 하나", T6, 1, lead=False))
-o.append(hl(96, T, Wd, 2, 2, "mark", 2))
 o.append(p(f"position:absolute;left:{g.x(3):.0f}px;top:{g.top:.0f}px;width:{g.cw}px;text-align:center;font-family:{MONO};font-size:28px;font-weight:700;color:{T6};line-height:1.25", "3", bi("fade", 2)))
 o.append(g.group([(i, 3, 0, "#E3EBFA", BL) for i in range(4)], bi("pop", 2)))
 o.append(tag(g.left, g.bottom + 120, "새 열은 행 네 개에 하나씩", BL, 2, lead=False))
@@ -652,7 +676,7 @@ o = [sec("m-compare")] + head(EB2, "번호가 하나 늘었을 뿐, 13의 리스
 
 def two(a, b=None):
     s = f'<span style="color:{INK}">{e(a)}</span>'
-    return s + (f'<span style="color:{T6}">{e(b)}</span>' if b else "")
+    return s + (f'<span{MARK(2)} style="color:{T6};background:{T6BG};border-radius:6px">{e(b)}</span>' if b else "")
 
 
 cmp_rows = [["만들기", (two("[90, 85, 77]"), "code"), (two("[[90, 85, 77], ...]"), "code")],
@@ -662,8 +686,8 @@ cmp_rows = [["만들기", (two("[90, 85, 77]"), "code"), (two("[[90, 85, 77], ..
             ["더하기", (two("xs.append(5)"), "code"), (two("scores.append([80, 70, 60])"), "code")],
             ["in", (two("85 in xs"), "code"), (two("85 in scores", "[0]"), "code")],
             ["자르기", (two("xs[:2]"), "code"), (two("scores[:2]  scores[1]", "[:2]"), "code")]]
-o += rule_rows(96, 236, 1728, cmp_rows, [220, 560, 860], rh=88, head_=["", "리스트 (13)", "2차원 리스트 (14)"], fs=30, orders=[1, 1, 2, 2, 3, 3, 3])
-o.append(caption("안쪽까지 가려면 번호를 하나 더 붙여요.", 4))
+o += rule_rows(96, 236, 1728, cmp_rows, [220, 560, 860], rh=88, head_=["", "리스트 (13)", "2차원 리스트 (14)"], fs=30, orders=[1] * 7, delay=80)
+o.append(caption("안쪽까지 가려면 번호를 하나 더 붙여요.", 3))
 W("m-compare", o, "13에서 배운 리스트와 이번 2차원 리스트를 나란히 놓았어요. 만들기, 꺼내기, len, for, append, in, 자르기를 모두 같은 문법으로 써요. 다른 점은 안쪽까지 가려면 번호를 하나 더 붙인다는 것뿐이에요. 색이 다른 부분이 그 번호예요. len(scores)와 for row in scores는 바깥 리스트, 행 단위로 움직인다는 것도 같이 기억해요.")
 
 o = [sec("m-trap")] + head(EB2, "[[0] * 3] * 3은 같은 행 하나를 세 번 담아요", T6)
@@ -712,6 +736,7 @@ for k, (code, err, why, n_, key) in enumerate(errs):
     x1 = cx(96, err[:err.index(key)])
     o.append(underline(k + 1, x1, x1 + tw(key), oy(T, 1, 0) + 22, RED))
     o.append(tag(96 + Wd + 40, oy(T, 1, 0), why, RED, k + 1))
+o.append(shake(1, "c-me0-o0"))
 o.append(f'<div{bi("rise", 4)} style="position:absolute;left:96px;top:{236 + 3 * 200 + 10}px;display:flex;flex-direction:row;align-items:center;gap:28px">'
          + p(f"font-size:32px;font-weight:700;color:{GR}", "확인하기") + mono("len(scores)", 32, INK) + p(f"font-size:30px;color:{SUB}", "행 수 4") + mono("len(scores[0])", 32, INK) + p(f"font-size:30px;color:{SUB}", "열 수 4") + '</div>')
 o.append(caption("두 IndexError는 메시지가 같아요. 앞 번호와 뒤 번호 중 어느 쪽이 넘쳤는지 len으로 봐요.", 5))
@@ -725,13 +750,15 @@ c = {"id": "c-xr", "lines": ['students = [["kim", 90, 85, 77],', '            ["
      "out": ["name    kor  eng math", "---------------------", "kim      90   85   77", "lee      70   95   88", "park     60   75   99"]}
 o += cell(c, 96, T, Wd)
 TXc = 96 + Wd + 40
-o.append(hl(96, T, Wd, 0, 3, "t3", 1))
+o.append(LS(1, 96, T, Wd, 7, 0, 3, bar=T3))
 o.append(tag(TXc, ly(T, 1), "행 맨 앞에 이름을 넣었어요", T3, 1))
-o.append(hl(96, T, Wd, 5, 1, "t3", 2))
+o.append(LS(2, 96, T, Wd, 7, 5, bar=T3))
 o.append(tag(TXc, ly(T, 5), "한 행의 값 네 개를 변수 네 개에", T3, 2))
+o.append(lspot_off(3))
 o.append(underline(3, cx(96, '    print(f"{name:<6}'), cx(96, '    print(f"{name:<6}{kor:>5}'), ly(T, 6) + 22, T3))
 o.append(tag(TXc, ly(T, 6), ":>5 는 오른쪽 맞춤 다섯 칸 (13)", T3, 3))
-o.append(tag(tx(96, ["park     60   75   99"]), oy(T, 7, 3), "학생이 늘어도 for 두 줄은 그대로예요", T3, 4))
+o.append(link(4, cx(96, '    print(f"{name:<6}{kor:>5}{eng:>5}{math:>5}")') + 50, ly(T, 6), cx(96, "park     60   75   99") + 16, oy(T, 7, 4), T3))
+o.append(tag(tx(96, ["park     60   75   99"]) + 40, oy(T, 7, 4), "학생이 늘어도 for 두 줄은 그대로예요", T3, 4, lead=False))
 o.append(caption("for 뒤 변수 개수가 행의 값 개수와 같아야 해요. 다르면 ValueError예요.", 5))
 W("x-report", o, "첫 번째 예제는 성적표예요. 행마다 맨 앞에 이름을 넣었어요. 한 리스트 안에 글자와 숫자를 섞어도 된다는 건 13에서 봤어요. for 뒤에 변수를 네 개 적으면 행 하나의 값 네 개가 차례로 나뉘어 담겨요. 13의 영수증에서 쓴 for menu, price, qty in orders:와 같은 모양이에요. 머리글과 칸 맞추기는 13의 f-string이에요. 영어 머리글이라 한글 폭 문제가 없어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("real", "실제로 써 보기"))
 
@@ -746,7 +773,6 @@ g = Grid(SE0, 1010, 330, 180, 120, 46, "xs", lbl=28, hi=taken, hi_color=RED, hi_
 o.append(p(f"position:absolute;left:{g.x(0):.0f}px;top:250px;width:{g.right - g.x(0):.0f}px;height:48px;background:#E9E7E0;border-radius:10px;font-size:24px;font-weight:700;line-height:48px;text-align:center;color:{SUB}", "앞 (화면)"))
 o.append(g.html())
 x_, y_, w_, h_ = g.rect(0, 1)
-o.append(hl(96, T, Wd, 3, 1, "t3", 1))
 o.append(cursor(1, x_ + w_ * 0.84, y_ + h_ * 0.78))
 o.append(g.value_cell(0, 1, "X", bi("pop", 1), color=INK, bg="#F8E6E6", border=RED))
 o.append(cursor_off(2))
@@ -768,13 +794,15 @@ SA = [[12, 8, 5], [10, 9, 7], [15, 11, 4]]
 g = Grid(SA, 1180, 250, 160, 100, 42, "xc", lbl=26, cols=["coffee", "latte", "cake"], rows_lbl=["월", "화", "수"], color=T3)
 o.append(g.html())
 o.append(p(f"position:absolute;left:{g.right + 30:.0f}px;top:{g.top + 30:.0f}px;font-size:22px;font-weight:700;color:{GRAY}", "합계", bi("fade", 1)))
-o.append(hl(96, T, Wd, 4, 2, "t3", 1))
+o.append(LS(1, 96, T, Wd, 11, 4, 2, bar=T3))
+o.append(LS(2, 96, T, Wd, 11, 6, bar=T3))
+o.append(lspot_off(3))
 for i in range(3):
     o.append(p(f"position:absolute;left:{g.right + 24:.0f}px;top:{g.y(i):.0f}px;height:{g.ch}px;font-family:{MONO};font-size:40px;font-weight:700;line-height:{g.ch}px;color:{T3}", str(sum(SA[i])), bi("fade", 1)))
 o.append(tag(tx(96, ['col = menu.index("latte")']), ly(T, 6), "latte는 1열", T3, 2))
 x_, y_, w_, h_ = g.col_rect(1)
 o.append(lit(x_ - 8, y_ - 8, w_ + 16, h_ + 16, 3, T3, None, r=16))
-o.append(hl(96, T, Wd, 7, 3, "t3", 3))
+o.append(pulse(4, "c-xc-o3"))
 o.append(tag(g.x(0) - 60, g.bottom + 70, "latte 열을 모으면 [8, 9, 11], 합계 28", T3, 3, lead=False))
 F[0] = 30
 W("x-cafe", o, "세 번째 예제는 카페의 사흘 판매표예요. 행은 월, 화, 수요일이고 열은 coffee, latte, cake예요. for로 행마다 sum을 구하면 하루 합계가 나와요. 메뉴 합계는 열 하나를 모으는 일이에요. latte가 몇 번째 열인지는 13에서 배운 index로 menu에서 찾아요. 그 번호로 행마다 칸을 모으면 [8, 9, 11]이고 합계는 28이에요. menu 리스트의 순서와 sales 열의 순서를 맞춰 두면 이렇게 이름으로 열을 찾을 수 있어요." + REAL)
@@ -789,11 +817,11 @@ tr = [("TypeError: 'in <string>' requires string as left operand, not int", "문
       ('"P" in word  →  False', "대문자와 소문자가 달라요", '"p" in word')]
 for i, (q, a_, cmd) in enumerate(tr):
     y = 222 + i * 112
-    o.append(f'<div{bi("rise", min(i + 1, 4))} style="position:absolute;left:96px;top:{y}px;width:1728px;height:104px;display:flex;flex-direction:row;gap:28px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{bi("rise", 1)}{DELAY(i * 90)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:104px;display:flex;flex-direction:row;gap:28px;align-items:center;border-bottom:2px solid {LINE}">'
              + num(i + 1, RED, 34)
              + '<div style="flex:1;display:flex;flex-direction:column;gap:4px">' + p(f"font-family:{MONO};font-size:24px;font-weight:700;color:{INK};white-space:nowrap", e(q)) + p(f"font-size:24px;color:{SUB}", e(a_)) + '</div>'
              + p(f"width:320px;flex:none;{'font-family:' + MONO + ';font-size:26px;' if cmd.isascii() else 'font-size:26px;'}font-weight:700;line-height:1.5;color:{GR};white-space:pre", e(cmd)) + '</div>')
-o.append(caption("오류가 안 나도 결과가 이상하면 몇 겹을 보고 있는지 따져 봐요.", 5))
+o.append(caption("오류가 안 나도 결과가 이상하면 몇 겹을 보고 있는지 따져 봐요.", 2))
 W("trouble", o, "1번은 1파트의 word에 숫자 3을 물었을 때예요. 문자열 안에서는 글자만 찾을 수 있어서 \"3\"처럼 글자로 물어요. 2번과 3번은 2파트 오류 장에서 본 오류예요. 4번부터는 오류는 안 나지만 결과가 틀린 경우예요. 4번은 [[0] * 3] * 3으로 표를 만든 경우, 5번은 바깥 리스트에 안쪽 값을 물은 경우, 6번은 대소문자가 다른 경우예요. 1번 오류는 1파트 커널에서 3 in word를 실제로 실행한 결과예요. 나머지도 모두 hello-uv 커널에서 실제로 실행한 결과예요.", ("trouble", "정리"))
 
 o = [sec("cheatsheet"), f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">한 장 요약</h2>']

@@ -15,14 +15,17 @@ Layout rules (2026-11-08 remake, from the Stageshow skill and tools/DESIGN.md):
 - no empty bands: the focal object grows to fill the slide
 - a fix is drawn as the wrong line struck through and the right line under it (fix())
 - changing values move: fly() from the code line, stacked counters that roll up
-Highlights vary by slide (tools/HIGHLIGHT.md): line tints, leader tags, fly, spot, pen ring and underline, cursor.
+Highlights vary by slide (tools/HIGHLIGHT.md, 2026-11-09 player): line tints, leader tags with DELAY, fly, spot, line spotlight,
+run band with changing values (text), code-output links, color pairs and changed letters (MARK), code morph for fixes,
+STAGGER and DIM for lists, WIPE for arrows, pen box, cursor, pulse, one shake (the AttributeError), SLAM and shine on the cover.
 Usage: python3 tools/gen.py slides
 """
 
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
+from highlight import (spot, spot_off, cursor, cursor_off, ring, box, underline, lspot, lspot_off, run, run_off, text,  # noqa: E402
+                       link, _svg, pulse, shake, shine, SLAM, STAGGER, DIM, DELAY, WIPE, MARK, MORPH, MORPH_FROM, tok)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -114,7 +117,8 @@ def cell(c, left, top, w, attrs="", gut=True):
     o.append(f'<div style="display:flex;flex-direction:row;gap:10px;align-items:stretch">{bar}{gutter}{box_}</div>')
     if c.get("out"):
         col = lambda l: RED if c.get("err") and re.match(r"[A-Za-z]+(Error|Interrupt)", l) else INK
-        o.append(''.join(p(f"margin-left:85px;padding:0 20px;font-family:{MONO};font-size:{fs}px;line-height:1.45;white-space:pre;color:{col(l)}", e(l) if l else "&#160;") for l in c["out"]))
+        oid = lambda j: f' id="{c["oid"]}"' if c.get("oid") and j == 0 else ""
+        o.append(''.join(p(f"margin-left:85px;padding:0 20px;font-family:{MONO};font-size:{fs}px;line-height:1.45;white-space:pre;color:{col(l)}", e(l) if l else "&#160;", oid(j)) for j, l in enumerate(c["out"])))
     o.append('</div>')
     return o
 
@@ -150,10 +154,10 @@ def tx(left, lines, gap=36):
     return int(left + 105 + max(tw(l) for l in lines) + gap)
 
 
-def tag(x, y, text, color, order=None, size=28, lead=True, anim="fade", w=None):
+def tag(x, y, text, color, order=None, size=28, lead=True, anim="fade", w=None, ex=""):
     """A leader label '← text' centred on y. No box."""
     ws = f"width:{w}px;white-space:pre-line;" if w else "white-space:nowrap;"
-    return p(f"position:absolute;left:{x}px;top:{y - size * 0.725:.0f}px;{ws}font-size:{size}px;font-weight:700;line-height:1.45;color:{color}", ("← " if lead else "") + e(text), at(order, anim))
+    return p(f"position:absolute;left:{x}px;top:{y - size * 0.725:.0f}px;{ws}font-size:{size}px;font-weight:700;line-height:1.45;color:{color}", ("← " if lead else "") + e(text), at(order, anim) + ex)
 
 
 def bracket(x, y1, y2, color, order=None):
@@ -175,14 +179,19 @@ def harrow(left, top, w, color="#C9CED8", attrs="", rot=0):
     return f'<x-shape{attrs} kind="arrow-right" style="position:absolute;left:{left}px;top:{top}px;width:{w}px;height:30px;{r}background:{color}"></x-shape>'
 
 
-def fix(left, top, bad, good, order, size=30, w=1728):
-    """The wrong line struck through, an arrow, the right line, on one row."""
+def fix(left, top, bad, good, order, size=30, w=1728, mark=None):
+    """The wrong line struck through, an arrow, the right line, on one row.
+    mark=(start, end, order): those characters of the right line get a tint that fades in (MARK) on that step."""
+    gd = e(good)
+    if mark:
+        a0, a1, mo = mark
+        gd = e(good[:a0]) + f'<span{MARK(mo)} style="background:#FFE08A;border-radius:6px">{e(good[a0:a1])}</span>' + e(good[a1:])
     return (f'<div{at(order)} style="position:absolute;left:{left}px;top:{top}px;width:{w}px;display:flex;flex-direction:row;align-items:center;gap:22px">'
             + p(f"font-size:{size}px;font-weight:900;color:{RED}", "✕")
             + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{RED};text-decoration:line-through;text-decoration-thickness:3px;white-space:pre", e(bad))
             + arrow(70)
             + p(f"font-size:{size}px;font-weight:900;color:{GR}", "✓")
-            + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{INK};background:#E6F4EC;border:3px solid {GR};border-radius:14px;padding:6px 20px;white-space:pre", e(good)) + '</div>')
+            + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{INK};background:#E6F4EC;border:3px solid {GR};border-radius:14px;padding:6px 20px;white-space:pre", gd) + '</div>')
 
 
 def fixv(left, top, w, bad, good, order, size=26, label=None):
@@ -196,10 +205,42 @@ def fixv(left, top, w, bad, good, order, size=26, label=None):
 
 
 # ---------- class pictures (shared look with chapters 24 and 25) ----------
-def obj(name, rows, left, top, w=440, color=BR, bg=BRBG, cls="Bread", attrs="", sid=None, rh=60, empty=None, fs=28):
+def over(left, top, i, pre, txt, color, order, fs=None):
+    """Code text drawn exactly over line i of a cell at (left, top), starting after the characters pre.
+    With MARK the color fades in on its step; before that it reads as the plain line under it."""
+    f = fs or CFS[0]
+    return p(f"position:absolute;left:{left + 105 + tw(pre, f):.1f}px;top:{top + 10 + i * LHf():.1f}px;font-family:{MONO};font-size:{f}px;line-height:1.45;white-space:pre;color:{color}",
+             e(txt), MARK(order))
+
+
+def clink(order, left, top, n, i, j, code, out, X, color=BL):
+    """A pen curve from the end of code line i to the end of output line j of a cell with n code lines.
+    It bows out to x = X, right of every line it passes, so it never crosses text."""
+    x1, y1 = left + 105 + tw(code) + 14, ly(top, i)
+    x2, y2 = left + 105 + tw(out) + 14, oy(top, n, j)
+    return _svg(order, f'<path d="M{x1:.0f},{y1:.0f} C{X:.0f},{y1:.0f} {X:.0f},{y2:.0f} {x2:.0f},{y2:.0f}"/>', color, 4)
+
+
+def mfix(left, top, sid, bad, good, order, size=30, label=None):
+    """A fix drawn as a code morph: the wrong line (pieces from tok()) changes into the right one in place.
+    bad and good are lists of (key or None, text). The PDF shows only the right line."""
+    def body(parts, col):
+        return "".join(tok(k, e(t)) if k else f'<span style="display:inline-block">{e(t)}</span>' for k, t in parts)
+    st = f"position:absolute;left:{left + 60}px;top:{top}px;font-family:{MONO};font-size:{size}px;font-weight:700;line-height:1.5;white-space:pre;padding:6px 20px;border-radius:14px;border:3px solid"
+    o = [p(f"position:absolute;left:{left}px;top:{top + 10}px;font-size:{size}px;font-weight:900;color:{RED}", "✕", at(order - 1, "fade")),
+         p(f"{st} transparent;color:{RED}", body(bad, RED), f' id="{sid}"' + at(order - 1, "fade") + MORPH_FROM()),
+         p(f"position:absolute;left:{left}px;top:{top + 10}px;font-size:{size}px;font-weight:900;color:{GR};background:#F6F5F1", "✓", at(order, "fade")),
+         p(f"{st} {GR};color:{INK};background:#E6F4EC", body(good, INK), MORPH(order, sid))]
+    if label:
+        o.insert(0, p(f"position:absolute;left:{left}px;top:{top - 46}px;font-size:26px;font-weight:700;color:{GR}", e(label), at(order, "fade")))
+    return "".join(o)
+
+
+def obj(name, rows, left, top, w=440, color=BR, bg=BRBG, cls="Bread", attrs="", sid=None, rh=60, empty=None, fs=28, vid=None):
     """A 붕어빵 (object) as a card: its name on a band, one line per attribute.
     rows: (attribute, value) or (attribute, value, row background). value None draws an empty dashed slot."""
     idp = f' id="{sid}"' if sid else ""
+    vid = vid or {}
     o = [f'<div{idp}{attrs} style="position:absolute;left:{left}px;top:{top}px;width:{w}px;background:{CARD};border:3px solid {color};border-radius:26px;display:flex;flex-direction:column;overflow:hidden">'
          + f'<div style="height:66px;flex:none;background:{color};display:flex;flex-direction:row;align-items:center;padding:0 24px;gap:14px">'
          + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:#FFFFFF", e(name))
@@ -213,7 +254,7 @@ def obj(name, rows, left, top, w=440, color=BR, bg=BRBG, cls="Bread", attrs="", 
         miss = v is None
         o.append(f'<div style="height:{rh}px;display:flex;flex-direction:row;align-items:center;gap:14px;border-radius:12px;background:{"#FFFFFF" if miss else rb};border:2px {"dashed" if miss else "solid"} {RED if miss else LINE};padding:0 18px">'
                  + p(f"width:44%;flex:none;font-family:{MONO};font-size:{fs - 4}px;font-weight:700;color:{RED if miss else SUB};white-space:nowrap", e(k))
-                 + p(f"flex:1;font-family:{MONO};font-size:{fs}px;font-weight:700;color:{RED if miss else INK};white-space:nowrap", e("없음" if miss else v)) + '</div>')
+                 + p(f"flex:1;font-family:{MONO};font-size:{fs}px;font-weight:700;color:{RED if miss else INK};white-space:nowrap", e("없음" if miss else v), vid.get(k, "")) + '</div>')
     o.append('</div></div>')
     return "".join(o)
 
@@ -265,6 +306,7 @@ def finish(parts, toc_note, title):
     page = {sid: i + 1 for i, sid in enumerate(ORDER)}
     t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">',
          f'<h2 style="position:absolute;left:96px;top:80px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>']
+    t.append(f'<div{STAGGER(1, 90)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
     for i, (c, h, s, a, b) in enumerate(parts):
         y = 212 + i * 118
         t.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:118px;display:flex;flex-direction:row;align-items:center;gap:36px;border-bottom:2px solid {LINE}">'
@@ -272,6 +314,7 @@ def finish(parts, toc_note, title):
                  + p(f"width:400px;flex:none;font-size:38px;font-weight:700;color:{INK}", e(h))
                  + p(f"flex:1;font-size:28px;color:{SUB}", e(s))
                  + p(f"width:130px;flex:none;text-align:right;font-size:28px;font-weight:700;color:{GRAY}", f"{page[a]}–{page[b]}쪽") + '</div>')
+    t.append('</div>')
     t.append(p(f"position:absolute;left:96px;top:944px;width:1728px;font-size:28px;color:{SUB}", f"{page['ready']}쪽은 노트북 준비, {page['trouble']}–{page['cheatsheet']}쪽은 막힐 때와 한 장 요약이에요."))
     with open(os.path.join(OUT, "toc.html"), "w") as f:
         f.write("\n".join(t) + f"\n<aside>{e(toc_note)}</aside>\n</section>\n")
@@ -288,12 +331,13 @@ def finish(parts, toc_note, title):
 def cover(lines, h1, sub, note, accent="#F2B27A", h1size=92):
     cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
            f'<p style="font-size:28px;font-weight:700;color:{accent};letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-           f'<h1 style="font-size:{h1size}px;font-weight:900;line-height:1.1;color:#F6F5F1">{h1}</h1>',
+           f'<h1{SLAM(1)} style="font-size:{h1size}px;font-weight:900;line-height:1.1;color:#F6F5F1">{h1}</h1>',
            f'<p style="font-size:40px;line-height:1.4;color:#BFC6D4">{sub}</p>']
-    cov.append('<div style="position:absolute;left:880px;top:290px;width:920px;height:500px;background:#252B36;border-radius:24px;padding:44px 52px;display:flex;flex-direction:column;justify-content:center;gap:16px">')
+    cov.append('<div id="cov-code" style="position:absolute;left:880px;top:290px;width:920px;height:500px;background:#252B36;border-radius:24px;padding:44px 52px;display:flex;flex-direction:column;justify-content:center;gap:16px">')
     for line, c in lines:
         cov.append(p(f"font-family:{MONO};font-size:32px;font-weight:700;line-height:1.45;color:{c};white-space:pre", e(line) if line else "&#160;"))
     cov.append('</div>')
+    cov.append(shine(1, "cov-code"))
     W("cover", cov, note, ("intro", "들어가기"))
     ORDER.append("toc")
 
@@ -341,9 +385,10 @@ def mini(left, top, name, order_new=None):
     o = [f'<div style="position:absolute;left:{left}px;top:{top}px;width:150px;background:{CARD};border:3px solid {BR};border-radius:18px;overflow:hidden">'
          + p(f"height:40px;background:{BR};color:#FFFFFF;font-family:{MONO};font-size:24px;font-weight:700;line-height:40px;padding-left:16px", e(name))
          + f'<div style="padding:10px 12px;display:flex;flex-direction:column;gap:8px"><div style="height:20px;border-radius:6px;background:{BRBG}"></div><div style="height:20px;width:70%;border-radius:6px;background:{BRBG}"></div></div></div>']
-    o.append(p(f"position:absolute;left:{left - 20}px;top:{top + 124}px;width:190px;text-align:center;font-size:26px;font-weight:700;color:{GRAY};background:#F6F5F1", "1호점"))
+    o.append(p(f"position:absolute;left:{left - 20}px;top:{top + 124}px;width:190px;text-align:center;font-size:26px;font-weight:700;color:{K2};background:#F6F5F1",
+               "2호점" if order_new else "1호점", f' id="mini-{name}" data-start="1호점"' if order_new else ""))
     if order_new:
-        o.append(p(f"position:absolute;left:{left - 20}px;top:{top + 124}px;width:190px;text-align:center;font-size:26px;font-weight:700;color:{K2};background:#F6F5F1", "2호점", at(order_new, "fade")))
+        o.append(text(order_new, f"mini-{name}", "2호점"))
     return "".join(o)
 
 
@@ -354,19 +399,23 @@ cover([("class Bread:", "#C7B8F2"), ('    shop = "붕어빵 1호점"', "#F2C48D"
 
 # ---------- ready ----------
 o = [sec("ready")] + head("들어가기", "25에서 이어서 해요", JP)
+o.append(f'<div{STAGGER(1)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, (a_, b_) in enumerate([("class, __init__, self", "24"), ("메서드, a.intro()", "24"), ("__str__, __repr__", "25"), ("지역 변수와 전역 변수", "20"), ("for, 컴프리헨션", "13, 23")]):
-    o.append(f'<div{at(min(i + 1, 4))} style="position:absolute;left:96px;top:{230 + i * 120}px;width:760px;height:104px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div style="position:absolute;left:96px;top:{230 + i * 120}px;width:760px;height:104px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
              + f'<x-icon name="CheckCircle" style="width:48px;height:48px;color:{GR}"></x-icon>'
              + p(f"flex:1;font-family:{MONO if a_.isascii() else SANS};font-size:34px;font-weight:700;color:{INK}", e(a_))
              + p(f"font-size:30px;font-weight:700;color:{GRAY};white-space:nowrap", e(b_)) + '</div>')
-o.append(p(f"position:absolute;left:1000px;top:256px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", at(5)))
+o.append('</div>')
+o.append(f'<div{STAGGER(2, 110)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
+o.append(p(f"position:absolute;left:1000px;top:256px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기"))
 steps_ = [p(f"font-size:32px;color:{INK}", "VS Code로 hello-uv 폴더 열기"),
           p(f"font-size:32px;color:{INK}", "탐색기에서") + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{JP}", NB) + p(f"font-size:32px;color:{INK}", "열기"),
           p(f"font-size:32px;color:{INK}", "오른쪽 위 커널이 .venv인지 보기"),
           p(f"font-size:32px;color:{INK}", "셀에 적고") + kbd("Shift+Enter", 26) + p(f"font-size:32px;color:{INK}", "로 실행")]
 for i, inner in enumerate(steps_):
-    o.append(f'<div{at(5)} style="position:absolute;left:1000px;top:{352 + i * 120}px;width:824px;height:104px;display:flex;flex-direction:row;align-items:center;gap:18px">' + num(i + 1, JP, 40) + inner + '</div>')
-o.append(caption("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 봐요.", 900))
+    o.append(f'<div style="position:absolute;left:1000px;top:{352 + i * 120}px;width:824px;height:104px;display:flex;flex-direction:row;align-items:center;gap:18px">' + num(i + 1, JP, 40) + inner + '</div>')
+o.append('</div>')
+o.append(caption("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 봐요.", 900, 3))
 W("ready", o, "09에서 만든 hello-uv 폴더를 VS Code로 열고, basics.ipynb를 다시 열어요. 24의 Bread 틀에서 이어서 해요. self와 __init__이 헷갈리면 24의 3파트를, __str__이 헷갈리면 25를 먼저 봐요. 클래스 변수를 볼 때 20의 전역 변수가 떠오를 거예요. 슬라이드의 출력은 tools/demo.sh가 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요.")
 
 # ---------- part 1 ----------
@@ -379,13 +428,13 @@ ys = lines_y(T, len(W2))
 o.append(hl(96, T, FW, 2, 2, "skip", 1))
 o.append(hl(96, T, FW, 7, 2, "skip", 1))
 o.append(bracket(TX - 12, *ys(2, 2), GRAY, 1))
-o.append(tag(TX + 16, ly(T, 2.5), "Bread에서 그대로 복사", GRAY, 1, lead=False))
+o.append(tag(TX + 16, ly(T, 2.5), "Bread에서 그대로 복사", GRAY, 1, lead=False, ex=DELAY(150)))
 o.append(bracket(TX - 12, *ys(7, 2), GRAY, 1))
-o.append(tag(TX + 16, ly(T, 7.5), "Bread에서 그대로 복사", GRAY, 1, lead=False))
+o.append(tag(TX + 16, ly(T, 7.5), "Bread에서 그대로 복사", GRAY, 1, lead=False, ex=DELAY(150)))
 o.append(hl(96, T, FW, 5, 1, "mark", 2))
-o.append(tag(TX, ly(T, 5), "다른 건 이 한 줄뿐", BL, 2))
+o.append(tag(TX, ly(T, 5), "다른 건 이 한 줄뿐", BL, 2, ex=DELAY(150)))
 o.append(hl(96, T, FW, 4, 1, "err", 3))
-o.append(tag(TX, ly(T, 4), "가게 이름도 붕어빵마다 따로", RED, 3))
+o.append(tag(TX, ly(T, 4), "가게 이름도 붕어빵마다 따로", RED, 3, ex=DELAY(150)))
 o.append(caption("소개 문구를 고치려면 두 틀을 다 고쳐야 해요.", 900, 4))
 W("w-why", o, "24에서 배운 방법만으로 슈크림 붕어빵 틀을 만들면 거의 다 복사예요. 슈크림 붕어빵은 크림 양이라는 칸이 하나 더 있을 뿐이에요. 붕어빵 틀을 통째로 복사하고 cream 한 줄을 더했어요. 실행하면 슈크림 붕어빵이 잘 소개돼요. 문제는 고칠 때예요. 소개 문구를 바꾸려면 두 틀을 다 고쳐야 하고, 하나를 빼먹으면 서로 달라져요. 가게 이름도 붕어빵마다 같은 값을 따로 들고 있어요. 이번 챕터의 두 가지가 이 두 문제를 풀어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p1", "왜 필요한가"))
 
@@ -393,15 +442,15 @@ o = [sec("w-big")] + head(EB1, "틀에 새기는 값, 그리고 틀을 물려받
 M1 = mold_h(3)
 o.append(mold(96, T, 760, "class Bread", ['shop = "붕어빵 1호점"', "__init__(flavor, price)", "intro()"], at(1)))
 o.append(tag(96 + 40 + int(tw('shop = "붕어빵 1호점"')) + 30, T + 6 + 24 + 48 + 10 + 22, "클래스 변수", K2, 3))
-o.append(harrow(880, T + int(M1 / 2) - 15, 100, BR, at(2, "fade")))
+o.append(harrow(880, T + int(M1 / 2) - 15, 100, BR, WIPE(2)))
 o.append(obj("a", [("flavor", '"팥"'), ("price", "1000")], 1004, T, 390, attrs=at(2)))
 o.append(obj("b", [("flavor", '"피자"'), ("price", "1500")], 1434, T, 390, attrs=at(2)))
 Y2 = 640
 M2 = mold_h(2)
-o.append(harrow(476 - 60, int((T + M1 + Y2) / 2) - 15, 120, CR, at(4, "fade"), rot=-90))
-o.append(p(f"position:absolute;left:520px;top:{int((T + M1 + Y2) / 2) - 24}px;font-size:30px;font-weight:700;color:{CR};white-space:nowrap", "물려받기 = 상속", at(4, "fade")))
+o.append(harrow(476 - 60, int((T + M1 + Y2) / 2) - 15, 120, CR, WIPE(4), rot=-90))
+o.append(p(f"position:absolute;left:520px;top:{int((T + M1 + Y2) / 2) - 24}px;font-size:30px;font-weight:700;color:{CR};white-space:nowrap", "물려받기 = 상속", at(4, "fade") + DELAY(250)))
 o.append(mold(96, Y2, 760, "class CreamBread(Bread)", ["cream", "나머지는 물려받아요"], at(4), color=CR, bg=CRBG))
-o.append(harrow(880, Y2 + int(M2 / 2) - 15, 100, CR, at(5, "fade")))
+o.append(harrow(880, Y2 + int(M2 / 2) - 15, 100, CR, WIPE(5)))
 o.append(obj("c", [("flavor", '"슈크림"'), ("price", "1200"), ("cream", '"많이"')], 1004, Y2, 520, cls="CreamBread", color=CR, bg=CRBG, attrs=at(5)))
 o.append(tag(1560, Y2 + 150, "c도 intro와\nshop이 있어요", CR, 6, lead=False, w=264))
 W("w-big", o, "그림으로 먼저 봐요. 붕어빵 틀에 가게 이름을 새겨 두면, 찍은 붕어빵마다 따로 들고 있지 않아도 모두 틀에서 같이 봐요. 이렇게 틀에 둔 값을 클래스 변수라고 불러요. 아래 슈크림 붕어빵 틀은 붕어빵 틀을 물려받았어요. 크림 칸만 더 적고 나머지는 모두 물려받아요. 이렇게 물려받는 걸 상속이라고 해요. 물려받은 틀로 찍은 c도 붕어빵이라서 intro와 가게 이름이 있어요.")
@@ -428,7 +477,7 @@ for cx in (RX + 195, RX + 424 + 195):
 o.append(p(f"position:absolute;left:{RX + 245}px;top:{int((T + MH + OY) / 2) - 20}px;width:330px;text-align:center;font-size:26px;font-weight:700;color:{K2}", "shop은 틀에서 찾아요", at(4, "fade")))
 SY = OY + obj_h(2, 56) + 40
 for i, (n_, t_, r_, ok) in enumerate([("①", "a 안에서 shop 찾기", "없어요", False), ("②", "a를 찍은 틀 Bread에서 찾기", "붕어빵 1호점", True)]):
-    o.append(f'<div{at(5 + i)} style="position:absolute;left:{RX}px;top:{SY + i * 80}px;width:{RW}px;height:80px;display:flex;flex-direction:row;align-items:center;gap:16px;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{at(5 + i)}{DIM("look")} style="position:absolute;left:{RX}px;top:{SY + i * 80}px;width:{RW}px;height:80px;display:flex;flex-direction:row;align-items:center;gap:16px;border-bottom:2px solid {LINE}">'
              + p(f"width:40px;flex:none;font-size:30px;font-weight:900;color:{K2}", n_) + p(f"flex:1;font-size:28px;font-weight:700;color:{INK}", e(t_))
              + p(f"font-size:28px;font-weight:700;color:{GR if ok else RED};white-space:nowrap", ("✓ " if ok else "✕ ") + e(r_)) + '</div>')
 W("cv-basic", o, "class 바로 아래, def 밖에 shop을 적었어요. self.이 없어요. 이렇게 틀에 적은 값을 클래스 변수라고 해요. 붕어빵 a와 b에는 shop 칸이 없지만 a.shop을 꺼내면 붕어빵 1호점이 나와요. 파이썬은 붕어빵에서 먼저 찾고, 없으면 그 붕어빵을 찍은 틀에서 찾아요. 틀 이름으로 Bread.shop이라고 꺼내도 같은 값이에요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p2", "클래스 변수"))
@@ -462,13 +511,15 @@ o.append(tag(tx(96, [CV3[6]], 20), ly(T, 6), "틀에 +1", K2, 1, size=26))
 RX, RW = 1100, 724
 o.append(f'<div style="position:absolute;left:{RX}px;top:{T}px;width:{RW}px;height:250px;background:{CARD};border:3px solid {K2};border-radius:26px;overflow:hidden">'
          + p(f"position:absolute;left:32px;top:22px;font-family:{MONO};font-size:30px;font-weight:700;color:{K2}", "Bread.count")
-         + "".join(p(f"position:absolute;left:0;top:70px;width:{RW - 6}px;height:170px;background:{CARD};text-align:center;font-family:{MONO};font-size:136px;font-weight:700;line-height:170px;color:{INK}", str(k), at(k + 1) if k else "") for k in range(4))
+         + p(f"position:absolute;left:0;top:70px;width:{RW - 6}px;height:170px;text-align:center;font-family:{MONO};font-size:136px;font-weight:700;line-height:170px;color:{INK}", "3", ' id="cnt" data-start="0"')
          + '</div>')
 for k, ln in enumerate([8, 9, 10]):
-    o.append(hl(96, T, CW, ln, 1, "run", k + 2))
+    o.append(run(k + 2, 96 + 87, T + 10 + ln * LHf(), CW - 89, LHf()))
+    o.append(text(k + 2, "cnt", str(k + 1)))
     o.append(f'<div{at(k + 2)} style="position:absolute;left:{RX}px;top:{T + 290 + k * 84}px;width:{RW}px;height:84px;display:flex;flex-direction:row;align-items:center;gap:20px;border-bottom:2px solid {LINE}">'
              + p(f"flex:1;font-family:{MONO};font-size:28px;font-weight:700;color:{INK};white-space:pre", e(CV3[ln]))
              + p(f"font-size:28px;font-weight:700;color:{K2};white-space:nowrap", f"+1 → {k + 1}") + '</div>')
+o.append(run_off(5))
 o.append(caption("가게 이름, 전체 개수처럼 틀 전체에 하나만 있으면 되는 값에 써요.", 900, 5))
 W("cv-count", o, "클래스 변수로 지금까지 찍은 붕어빵 수를 세요. count는 틀에 0으로 시작하고, __init__ 안에서 Bread.count에 1을 더해요. 24에서 본 것처럼 __init__은 찍을 때마다 불리니까, 세 번 찍으면 3이 돼요. 붕어빵 하나하나가 아니라 틀 전체에 하나만 있으면 되는 값에 클래스 변수를 써요. 더할 때도 self.count가 아니라 Bread.count로 적은 걸 보세요. 이유는 5파트에서 봐요." + REAL)
 
@@ -514,6 +565,8 @@ o.append(harrow(RX + RW // 2 - 45, int(T + M1 + 55) - 15, 90, CR, at(2, "fade"),
 o.append(p(f"position:absolute;left:{RX + RW // 2 + 30}px;top:{int(T + M1 + 55) - 20}px;font-size:26px;font-weight:700;color:{CR}", "물려받기", at(2, "fade")))
 o.append(role_mold(RX, YC, RW, "CreamBread(Bread)", ["pass"], "자식", CR, CRBG, at(2)))
 o.append(obj("c", [("flavor", '"슈크림"'), ("price", "1200")], RX, YC + int(mold_h(1, 28, 30)) + 36, RW, cls="CreamBread", color=CR, bg=CRBG, rh=52, fs=26, attrs=at(3)))
+o.append(over(96, T, 8, "class CreamBread(", "Bread", MD, 2))
+o.append(over(96, T, 8, "class ", "CreamBread", CR, 2))
 W("in-pass", o, "상속은 class 이름 뒤 괄호에 물려받을 틀을 적으면 돼요. CreamBread 안에는 pass만 있어서 아무것도 적지 않았어요. 그런데도 슈크림과 1200을 넣어 찍을 수 있고, intro도 불러져요. 부모 틀 Bread의 __init__과 intro를 그대로 물려받았기 때문이에요. 물려주는 틀을 부모 클래스, 물려받는 틀을 자식 클래스라고 불러요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p3", "상속"))
 
 o = [sec("in-add")] + head(EB3, "자식 틀에는 더 할 일을 적어요", K3)
@@ -523,7 +576,10 @@ o += cell({"id": "c-i2", "lines": IA, "n": 2, "out": ["슈크림 붕어빵 1200 
 o.append(hl(96, T, FW, 1, 2, "mark", 1))
 o.append(bracket(96 + FW + 18, *lines_y(T, 8)(1, 2), BL, 1))
 o.append(tag(96 + FW + 46, ly(T, 1.5), "자식 틀에만 있는 메서드", BL, 1, lead=False))
-o.append(tag(tx(96, ["슈크림 붕어빵은 차갑게 보관해요"], 30), oy(T, 8, 0.5), "intro는 부모에게, keep은 자기 틀에서", CR, 2))
+LX = tx(96, ["슈크림 붕어빵은 차갑게 보관해요"], 50)
+o.append(clink(2, 96, T, 8, 6, 0, IA[6], "슈크림 붕어빵 1200 원", LX, CR))
+o.append(clink(2, 96, T, 8, 7, 1, IA[7], "슈크림 붕어빵은 차갑게 보관해요", LX + 30, BL))
+o.append(tag(LX + 60, oy(T, 8, 0.5), "intro는 부모에게, keep은 자기 틀에서", CR, 2, ex=DELAY(400)))
 T2 = int(T + cell_h({"lines": IA, "out": [1, 2]})) + 50
 ERR = "AttributeError: 'Bread' object has no attribute 'keep'"
 o += cell({"id": "c-i3", "lines": ["a.keep()"], "n": 3, "out": [ERR], "err": True, "attrs": at(3)}, 96, T2, FW)
@@ -561,7 +617,7 @@ ST5 = [("①", "CreamBread.__init__", "자식의 __init__이 불려요. self는 
        ("④", "self.cream = cream", "자식으로 돌아와 크림 칸을 붙여요", CR),
        ("⑤", "c = 다 된 붕어빵", "세 칸이 다 붙은 붕어빵이 c에 담겨요", CR)]
 for i, (n_, code, what, col) in enumerate(ST5):
-    o.append(f'<div id="stp-{i + 1}"{at(i + 1)} style="position:absolute;left:96px;top:{T + i * 136}px;width:1080px;height:136px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">'
+    o.append(f'<div id="stp-{i + 1}"{at(i + 1)}{DIM("st")} style="position:absolute;left:96px;top:{T + i * 136}px;width:1080px;height:136px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">'
              + p(f"width:48px;flex:none;font-size:40px;font-weight:900;color:{col}", e(n_))
              + '<div style="display:flex;flex-direction:column;gap:6px">' + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{INK};white-space:pre", e(code))
              + p(f"font-size:28px;color:{SUB}", e(what)) + '</div></div>')
@@ -581,9 +637,11 @@ o += cell({"id": "c-i5", "lines": IO, "n": 5, "out": OUTS}, 96, T, FW)
 o.append(hl(96, T, FW, 5, 2, "run", 1))
 o.append(tag(tx(96, [IO[5]], 30), ly(T, 5), "부모에도 있는 이름으로 다시 적기 = 덮어쓰기", GR, 1))
 OX = tx(96, OUTS, 40)
-o.append(tag(OX, oy(T, 12, 0), "a.intro(): Bread의 intro", MD, 2))
+o.append(clink(2, 96, T, 12, 10, 0, IO[10], OUTS[0], OX - 10, MD))
+o.append(tag(OX + 40, oy(T, 12, 0), "a.intro(): Bread의 intro", MD, 2, ex=DELAY(300)))
 o.append(underline(3, 201, 201 + int(tw(OUTS[1])), int(oy(T, 12, 1) + 24), CR))
-o.append(tag(OX, oy(T, 12, 1), "c.intro(): CreamBread의 intro", CR, 3))
+o.append(clink(3, 96, T, 12, 11, 1, IO[11], OUTS[1], OX + 10, CR))
+o.append(tag(OX + 40, oy(T, 12, 1), "c.intro(): CreamBread의 intro", CR, 3, ex=DELAY(300)))
 o.append(caption("메서드는 자식 틀에서 먼저 찾고, 없으면 부모 틀로 올라가요.", 916, 4))
 W("in-over", o, "부모에게 물려받은 메서드와 같은 이름으로 자식 틀에 다시 적으면, 자식 것이 쓰여요. 이걸 덮어쓰기라고 해요. 슈크림 붕어빵은 크림 양까지 소개하도록 intro를 다시 적었어요. 파이썬은 메서드를 찾을 때 자식 틀부터 보고, 없으면 부모 틀로 올라가요. c는 자식 틀에 intro가 있어서 그걸 쓰고, a는 부모 틀로 찍었으니 원래 intro를 써요." + REAL)
 
@@ -597,8 +655,8 @@ o.append(tag(tx(96, [IS3[7]], 40), ly(T, 6), "부모의 intro를 그대로 불�
 o.append(hl(96, T, FW, 7, 1, "mark", 2))
 o.append(tag(tx(96, [IS3[7]], 40), ly(T, 7), "한 줄만 더해요", BL, 2))
 OX = tx(96, OUTS, 40)
-o.append(tag(OX, oy(T, 11, 0), "부모 intro가 찍은 줄", GR, 3))
-o.append(tag(OX, oy(T, 11, 1), "자식이 더한 줄", BL, 3))
+o.append(tag(OX, oy(T, 11, 0), "부모 intro가 찍은 줄", GR, 3, ex=DELAY(200)))
+o.append(tag(OX, oy(T, 11, 1), "자식이 더한 줄", BL, 3, ex=DELAY(200)))
 RY = int(T + cell_h({"lines": IS3, "out": OUTS})) + 40
 o += rows_list(96, RY, 1728, [["__init__", "super().__init__(flavor, price)", "부모의 __init__ 부르기"], ["intro", "super().intro()", "부모의 intro 부르기"]], [200, 760, 700], order0=4, rh=72, fs=28)
 W("in-super3", o, "앞 장처럼 intro를 통째로 다시 적으면 소개 문구가 두 군데에 생겨요. 부모의 intro를 그대로 부르고 한 줄만 더하고 싶을 땐 super().intro()를 써요. __init__에서 super().__init__을 부른 것과 같은 모양이에요. 이렇게 하면 소개 문구는 부모 틀에만 있어서, 부모를 고치면 자식도 같이 바뀌어요. 1파트에서 본 두 군데 고치기 문제가 풀려요." + REAL)
@@ -707,13 +765,18 @@ o += rows_list(96, 680, 1728, [["부모를 고치면", "두 군데 다 고쳐야
 W("cmp-copy", o, "상속하면 다른 점만 적어서 코드가 짧고, 고칠 곳이 한 군데예요. 1파트의 복사한 틀과 3파트의 물려받은 틀을 나란히 놓았어요. 복사한 틀은 맛과 가격을 붙이는 줄, 소개 문구를 모두 다시 적었어요. 물려받은 틀은 크림과 관련된 줄만 적고 나머지는 부모에게 맡겼어요. 붕어빵 틀의 소개 문구를 바꾸면 물려받은 틀도 같이 바뀌어요.")
 
 o = [sec("cmp-when")] + head(EB4, "\"~는 ~의 한 종류\"일 때 상속해요", K4)
+o.append(f'<div{STAGGER(1, 120)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, (q, ok, a_) in enumerate([("슈크림 붕어빵은 붕어빵의 한 종류예요", True, "CreamBread(Bread)"), ("미니 붕어빵은 붕어빵의 한 종류예요", True, "MiniBread(Bread)"), ("VIP 카드는 도장 카드의 한 종류예요", True, "VipCard(Card)"),
                                  ("붕어빵 노점은 붕어빵의 한 종류가 아니에요", False, "Stall 틀을 따로 (25)"), ("음료는 붕어빵의 한 종류가 아니에요", False, "Drink 틀을 따로")]):
-    o.append(f'<div{at(i + 1)} style="position:absolute;left:96px;top:{T + i * 124}px;width:1728px;height:124px;display:flex;flex-direction:row;align-items:center;gap:32px;border-bottom:2px solid {LINE}">'
+    if i == 3:
+        o.append('</div>')
+        o.append(f'<div{STAGGER(2, 120)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
+    o.append(f'<div style="position:absolute;left:96px;top:{T + i * 124}px;width:1728px;height:124px;display:flex;flex-direction:row;align-items:center;gap:32px;border-bottom:2px solid {LINE}">'
              + p(f"width:110px;flex:none;font-size:34px;font-weight:900;color:{GR if ok else RED}", ("✓ 상속" if ok else "✕ 따로"))
              + p(f"flex:1;font-size:34px;font-weight:700;color:{INK}", e(q))
              + p(f"font-family:{MONO if a_.isascii() else SANS};font-size:30px;font-weight:700;color:{CR if ok else SUB};white-space:nowrap", e(a_)) + '</div>')
-o.append(caption("코드가 비슷해 보여도 한 종류가 아니면 상속하지 않아요.", 880, 6))
+o.append('</div>')
+o.append(caption("코드가 비슷해 보여도 한 종류가 아니면 상속하지 않아요.", 880, 3))
 W("cmp-when", o, "상속은 언제 쓸까요? 자식이 부모의 한 종류일 때예요. 슈크림 붕어빵과 미니 붕어빵은 붕어빵의 한 종류라서 붕어빵 틀을 물려받아요. VIP 카드도 도장 카드의 한 종류예요. 붕어빵 노점은 붕어빵이 아니에요. 노점은 붕어빵을 파는 곳이라서, 25처럼 Stall 틀을 따로 만들면 돼요. 음료도 붕어빵의 한 종류가 아니니 따로 만들어요. 소리 내어 \"~는 ~의 한 종류예요\"가 자연스러운지 읽어 보세요.")
 
 # ---------- part 5 ----------
@@ -721,10 +784,11 @@ o = [sec("t-nosuper")] + head(EB5, "super().__init__을 빼먹으면 부모 칸�
 TN = B + ["", "class CreamBread(Bread):", "    def __init__(self, flavor, price, cream):", "        self.cream = cream", "", 'c = CreamBread("슈크림", 1200, "많이")', "c.intro()"]
 ERR = "AttributeError: 'CreamBread' object has no attribute 'flavor'"
 FW = 1090
-o += cell({"id": "c-t1", "lines": TN, "n": 1, "out": [ERR], "err": True}, 96, T, FW)
+o += cell({"id": "c-t1", "lines": TN, "n": 1, "out": [ERR], "err": True, "oid": "t1-err"}, 96, T, FW)
 o.append(hl(96, T, FW, 9, 2, "err", 1))
 o.append(tag(tx(96, [TN[10]], 30), ly(T, 10), "super().__init__ 줄이 없어요", RED, 1))
 o.append(box(2, 186, int(oy(T, len(TN), 0) - 28), int(tw(ERR)) + 30, 56, RED))
+o.append(shake(2, "t1-err"))
 RX, RW = 1250, 574
 o.append(obj("c", [("cream", '"많이"'), ("flavor", None), ("price", None)], RX, T, RW, cls="CreamBread", color=CR, bg=CRBG, attrs=at(3)))
 o.append(fixv(RX, T + obj_h(3) + 60, RW, None, "super().__init__(flavor, price)", 4, size=24, label="자식 __init__ 첫 줄에 적어요"))
@@ -741,7 +805,7 @@ o.append(underline(2, int(201 + tw(ERR[:k])), int(201 + tw(ERR[:k + 12])), int(o
 SY = int(T + cell_h({"lines": L, "out": [ERR]})) + 70
 o.append(slot_row(96, SY, "Bread.__init__의 칸", [("self", "slot"), ("flavor", "slot"), ("price", "slot")], 3))
 o.append(slot_row(96, SY + 100, "들어온 값 4개", [("self (자동)", "auto"), ("self", "extra"), ("flavor", "value"), ("price", "value")], 3))
-o.append(fix(96, SY + 222, "super().__init__(self, flavor, price)", "super().__init__(flavor, price)", 4))
+o.append(mfix(96, SY + 222, "ss-bad", [("s", "super().__init__("), (None, "self, "), ("a", "flavor, price)")], [("s", "super().__init__("), ("a", "flavor, price)")], 4))
 W("t-superself", o, "super().__init__ 괄호에 self를 같이 적었어요. 부모의 __init__은 self, flavor, price 세 칸인데 네 개가 들어왔다는 TypeError예요. super()로 부를 때도 a.intro()처럼 파이썬이 self를 알아서 넣어 줘요. 그래서 직접 적은 self까지 합쳐 네 개가 됐어요. 아래 그림처럼 한 칸씩 밀려서 price가 들어갈 자리가 없어요. super().__init__(flavor, price)처럼 self 없이 적어요." + REAL)
 
 o = [sec("t-cream")] + head(EB5, "자식 틀은 재료가 하나 더 필요해요", K5)
@@ -755,8 +819,8 @@ o.append(underline(2, int(201 + tw(ERR[:k])), int(201 + tw(ERR[:k + 7])), int(oy
 SY = int(T + cell_h({"lines": L, "out": [ERR]})) + 70
 o.append(slot_row(96, SY, "CreamBread.__init__의 칸", [("self", "slot"), ("flavor", "slot"), ("price", "slot"), ("cream", "slot")], 3, lw=420))
 o.append(slot_row(96, SY + 100, "들어온 값", [("self (자동)", "auto"), ('"슈크림"', "value"), ("1200", "value"), ("없음", "missing")], 3, lw=420))
-o.append(fix(96, SY + 222, 'CreamBread("슈크림", 1200)', 'CreamBread("슈크림", 1200, "많이")', 4))
-o.append(p(f"position:absolute;left:96px;top:{SY + 316}px;font-size:28px;color:{SUB}", '크림을 자주 안 적으면 20에서 배운 기본값으로 cream="보통"을 둘 수도 있어요.', at(4)))
+o.append(fix(96, SY + 222, 'CreamBread("슈크림", 1200)', 'CreamBread("슈크림", 1200, "많이")', 4, mark=(22, 28, 5)))
+o.append(p(f"position:absolute;left:96px;top:{SY + 316}px;font-size:28px;color:{SUB}", '크림을 자주 안 적으면 20에서 배운 기본값으로 cream="보통"을 둘 수도 있어요.', at(5)))
 W("t-cream", o, "부모 틀처럼 맛과 가격만 넣어 찍었더니 cream이 모자라다는 TypeError가 나요. 자식 틀에 __init__을 새로 적었으니 찍을 때 불리는 건 자식의 __init__이에요. 아래 그림처럼 cream 칸이 비어요. 자식 __init__의 칸 수에 맞춰 재료를 넣어요. 크림을 자주 안 적는다면 20에서 배운 기본값으로 cream=\"보통\"을 둘 수도 있어요." + REAL)
 
 o = [sec("t-shop")] + head(EB5, "a.shop = 으로 바꾸면 a에만 새 칸이 생겨요", K5)
@@ -768,8 +832,9 @@ o.append(hl(96, T, FW, 9, 1, "err", 1))
 o.append(tag(tx(96, [TS[9]], 30), ly(T, 9), "붕어빵 이름으로 바꾸기", RED, 1))
 o.append(src("shop-src", 96 + 105, ly(T, 9) - 22, tw(TS[9]), 44))
 RX, RW = 1000, 824
-o.append(mold(RX, T, RW, "class Bread", ['shop = "붕어빵 1호점"']))
+o.append(mold(RX, T, RW, "class Bread", ['shop = "붕어빵 1호점"'], sid="shop-mold"))
 o.append(tag(RX + 40 + int(tw('shop = "붕어빵 1호점"')) + 30, T + 6 + 24 + 48 + 10 + 22, "그대로예요", MD, 3))
+o.append(pulse(3, "shop-mold"))
 OY = int(T + mold_h(1)) + 60
 o.append(obj("a", [("flavor", '"팥"')], RX, OY, 400, rh=56, fs=26))
 o.append(obj("a", [("flavor", '"팥"'), ("shop", '"옆 가게"', K5BG)], RX, OY, 400, rh=56, fs=26, attrs=' data-build-in="fly order 2" data-from="shop-src"'))
@@ -799,12 +864,13 @@ for a0, a1, col, txt in [(0, 10, RED, "왼쪽: 붕어빵에\n새 칸을 붙여�
     o.append(f'<div{at(2, "fade")} style="position:absolute;left:{x0 + 4:.0f}px;top:{T + 66}px;width:{ww - 8:.0f}px;height:14px;border:4px solid {col};border-top:none;border-radius:0 0 8px 8px"></div>')
     o.append(p(f"position:absolute;left:{x0 + 4:.0f}px;top:{T + 92}px;font-size:26px;font-weight:700;line-height:1.4;color:{col};white-space:pre", e(txt), at(2, "fade")))
 MY = T + 210
-o.append(mold(RX, MY, 814, "class Bread", ["count = 0"], at(3), fs=28, tfs=30))
+o.append(mold(RX, MY, 814, "class Bread", ["count = 0"], at(3), fs=28, tfs=30, sid="cnt-mold"))
+o.append(pulse(3, "cnt-mold"))
 o.append(tag(RX + 40 + int(tw("count = 0", 28)) + 30, MY + 6 + 24 + 42 + 10 + 21, "한 번도 안 바뀌어요", MD, 3, size=26))
 OY = int(MY + mold_h(1, 28, 30)) + 30
 o.append(obj("a", [("flavor", '"팥"'), ("count", "1", K5BG)], RX, OY, 395, rh=52, fs=26, attrs=at(3)))
 o.append(obj("b", [("flavor", '"슈크림"'), ("count", "1", K5BG)], RX + 419, OY, 395, rh=52, fs=26, attrs=at(3)))
-o.append(fix(96, 912, "self.count = self.count + 1", "Bread.count = Bread.count + 1", 4, size=28))
+o.append(mfix(96, 906, "cnt-bad", [(None, "self"), ("c1", ".count = "), (None, "self"), ("c2", ".count + 1")], [(None, "Bread"), ("c1", ".count = "), (None, "Bread"), ("c2", ".count + 1")], 4, size=28))
 W("t-count", o, "2파트의 개수 세기를 self.count로 적었어요. 오류는 없는데 Bread.count는 0이고, 붕어빵마다 1이에요. 오른쪽 self.count는 붕어빵에 count 칸이 없으니 틀의 0을 읽어요. 왼쪽 self.count =은 앞 장처럼 붕어빵에 새 칸을 붙여요. 그래서 틀의 값은 한 번도 안 바뀌어요. 20의 전역 변수에서 같은 이름에 넣으면 새 지역 변수가 생기던 것과 비슷해요. 틀의 값을 바꿀 땐 Bread.count처럼 틀 이름으로 적어요." + REAL)
 
 # ---------- part 6 ----------
@@ -821,9 +887,9 @@ XT = 200
 o += cell({"id": "c-x1", "lines": XC, "n": 1}, 96, XT, 1728)
 for k, (i, n, kind, ti, t_, col) in enumerate([(1, 2, "mark", 1, "모든 카드가 같은 값: 클래스 변수", BL), (11, 3, "run", 11, "남은 도장 수까지 글자로 (25)", GR), (15, 3, "err", 15, "도장 카드의 한 종류, add만 두 개씩", RED)]):
     o.append(hl(96, XT, 1728, i, n, kind, k + 1))
-    o.append(spot_block(k + 1, 96, XT, i, n))
+    o.append(lspot(k + 1, 96 + 87, XT, 1728 - 87, cell_h({"lines": XC}), XT + 10 + i * LHf(), n * LHf(), bar=col))
     o.append(tag(tx(96, [XC[ti]], 30), ly(XT, ti), t_, col, k + 1))
-o.append(spot_off(4))
+o.append(lspot_off(4))
 o.append(p(f"position:absolute;left:201px;top:{XT + cell_h({'lines': XC}) + 14:.0f}px;font-size:24px;color:{GRAY}", "출력 없이 틀만 만드는 셀이에요"))
 CFS[0] = 30
 W("x-card", o, "24에서 만든 도장 카드를 이어서 만들어요. 가게 이름과 목표 도장 수는 모든 카드가 같아서 클래스 변수로 틀에 적었어요. __str__은 25에서 배운 대로 남은 도장 수까지 글자로 돌려줘요. VIP 카드는 도장 카드의 한 종류라서 Card를 물려받고, add만 두 개씩 찍도록 덮어썼어요. __init__과 __str__은 그대로 물려받아요. 이 셀은 틀만 만들어서 출력이 없어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요.", ("p6", "실습"))
@@ -832,15 +898,19 @@ o = [sec("x-card2")] + head(EB6, "도장 카드 ②: 같은 add인데 카드마�
 XC2 = ['kim = Card("kim")', 'lee = VipCard("lee")', "kim.add()", "kim.add()", "lee.add()", "lee.add()", "print(kim)", "print(lee)"]
 o += cell({"id": "c-x2", "lines": XC2, "n": 2, "out": ["[KANT 카페] kim: 도장 2개, 8개 남음", "[KANT 카페] lee: 도장 4개, 6개 남음"]}, 96, T, 900)
 RX, RW = 1040, 784
-o.append(obj("kim", [("name", '"kim"'), ("stamps", "2")], RX, T, RW, cls="Card", color=BL, bg=K1BG, attrs=at(1)))
-o.append(obj("lee", [("name", '"lee"'), ("stamps", "4")], RX, T + obj_h(2) + 34, RW, cls="VipCard", color=CR, bg=CRBG, attrs=at(2)))
+o.append(obj("kim", [("name", '"kim"'), ("stamps", "2")], RX, T, RW, cls="Card", color=BL, bg=K1BG, vid={"stamps": ' id="st-kim" data-start="0"'}))
+o.append(obj("lee", [("name", '"lee"'), ("stamps", "4")], RX, T + obj_h(2) + 34, RW, cls="VipCard", color=CR, bg=CRBG, vid={"stamps": ' id="st-lee" data-start="0"'}))
+for k, (ln, who, v) in enumerate([(2, "kim", "1"), (3, "kim", "2"), (4, "lee", "2"), (5, "lee", "4")]):
+    o.append(run(k + 1, 96 + 87, T + 10 + ln * LHf(), 900 - 89, LHf()))
+    o.append(text(k + 1, f"st-{who}", v))
+o.append(run_off(5))
 MYb = int(T + cell_h({"lines": XC2, "out": [1, 2]})) + 70
 for i, (call, meth, plus, col, bg) in enumerate([("kim.add()", "Card.add", "+1씩", BL, K1BG), ("lee.add()", "VipCard.add", "+2씩", CR, CRBG)]):
-    o.append(f'<div{at(i + 1)} style="position:absolute;left:96px;top:{MYb + i * 100}px;width:900px;height:84px;display:flex;flex-direction:row;align-items:center;gap:22px">'
+    o.append(f'<div{at(2 + 2 * i)} style="position:absolute;left:96px;top:{MYb + i * 100}px;width:900px;height:84px;display:flex;flex-direction:row;align-items:center;gap:22px">'
              + f'<div style="width:240px;flex:none;display:flex">' + chip(call, GRAY, "#F1F0EC") + '</div>' + arrow(60)
              + f'<div style="width:300px;flex:none;display:flex">' + chip(meth, col, bg, dashed=True) + '</div>'
              + p(f"font-size:32px;font-weight:900;color:{col}", e(plus)) + '</div>')
-o.append(tag(RX, T + 2 * obj_h(2) + 34 + 70, "print와 가게 이름은 둘 다 Card에서 물려받아요", K6, 3, lead=False, w=RW))
+o.append(tag(RX, T + 2 * obj_h(2) + 34 + 70, "print와 가게 이름은 둘 다 Card에서 물려받아요", K6, 5, lead=False, w=RW))
 W("x-card2", o, "앞 셀의 틀로 일반 카드 kim과 VIP 카드 lee를 만들었어요. 둘 다 add를 두 번 불렀는데 kim은 2개, lee는 4개예요. lee는 VipCard 틀에 덮어쓴 add를 쓰기 때문이에요. print는 두 카드 모두 Card의 __str__을 쓰고, 가게 이름과 목표도 틀에서 같이 봐요. 부르는 쪽은 똑같이 add()라고만 적어도 카드마다 알맞게 동작해요." + REAL)
 
 o = [sec("x-mini")] + head(EB6, "붕어빵 메뉴판 ①: 미니 붕어빵 틀을 물려받기", K6)
@@ -849,10 +919,10 @@ XM = ["class Bread:", "    count = 0", "", "    def __init__(self, flavor, price
 o += cell({"id": "c-x3", "lines": XM, "n": 3}, 96, XT, 1728)
 for k, (i, n, kind, tags_) in enumerate([(6, 1, "mark", [(6, "찍을 때마다 개수 세기", BL)]), (11, 4, "run", [(11, "미니 붕어빵도 붕어빵의 한 종류", GR), (13, "맛과 가격은 부모에게 맡겨요", GR)]), (16, 2, "err", [(16, "묶음 가격이 보이게 덮어쓰기", RED)])]):
     o.append(hl(96, XT, 1728, i, n, kind, k + 1))
-    o.append(spot_block(k + 1, 96, XT, i, n))
+    o.append(lspot(k + 1, 96 + 87, XT, 1728 - 87, cell_h({"lines": XM}), XT + 10 + i * LHf(), n * LHf(), bar=tags_[0][2]))
     for ti, t_, col in tags_:
         o.append(tag(tx(96, [XM[ti]], 30), ly(XT, ti), t_, col, k + 1))
-o.append(spot_off(4))
+o.append(lspot_off(4))
 o.append(p(f"position:absolute;left:201px;top:{XT + cell_h({'lines': XM}) + 14:.0f}px;font-size:24px;color:{GRAY}", "이 셀도 출력이 없어요"))
 CFS[0] = 30
 W("x-mini", o, "미니 붕어빵은 한 개 가격과 묶음 개수가 있어요. 미니 붕어빵도 붕어빵의 한 종류라서 Bread를 물려받았어요. 자식 __init__은 맛과 가격을 super().__init__에 맡기고 개수만 붙여요. 부모 __init__ 안에서 Bread.count가 늘어나니까 미니 붕어빵을 찍어도 개수가 세져요. __str__은 묶음 가격을 보여 주도록 덮어썼어요. 이 셀도 틀만 만들어서 출력이 없어요.")
@@ -868,9 +938,9 @@ y1, y2 = out_span(T, 5, 0, 4)
 o.append(bracket(OX - 4, y1, y2, GR, 1))
 o.append(tag(OX + 26, (y1 + y2) / 2, "붕어빵마다 자기 틀의 __str__ (25)", GR, 1, lead=False))
 o.append(hl(96, T, 1728, 3, 1, "mark", 2))
-o.append(tag(OX, oy(T, 5, 4), "미니도 부모 __init__을 거쳐서 4개", BL, 2))
+o.append(tag(OX, oy(T, 5, 4), "미니도 부모 __init__을 거쳐서 4개", BL, 2, ex=DELAY(300)))
 o.append(hl(96, T, 1728, 4, 1, "err", 3))
-o.append(tag(OX, oy(T, 5, 5), "isinstance와 컴프리헨션(23)으로 미니만", RED, 3))
+o.append(tag(OX, oy(T, 5, 5), "isinstance와 컴프리헨션(23)으로 미니만", RED, 3, ex=DELAY(300)))
 CFS[0] = 30
 o.append(caption("24부터 26까지 배운 클래스를 한 셀에서 다 썼어요.", 880, 4))
 W("x-mini2", o, "보통 붕어빵과 미니 붕어빵을 섞어 메뉴판 리스트에 담았어요. for로 print하면 붕어빵마다 자기 틀의 __str__이 불려서 미니는 묶음 가격이 나와요. 찍은 붕어빵은 미니까지 4개로 세졌어요. 미니도 super().__init__으로 부모의 __init__을 거쳤기 때문이에요. 마지막 줄은 23의 컴프리헨션과 isinstance로 미니 붕어빵의 맛만 골랐어요. 24부터 26까지 배운 클래스를 한 셀에서 다 썼어요." + REAL)
@@ -884,25 +954,29 @@ TR = [("AttributeError: 'CreamBread' object has no attribute 'flavor'", "자식 
       ("한 붕어빵만 값이 달라요", "a.shop = 으로 바꿨어요", "Bread.shop ="),
       ("개수가 0에서 안 늘어요", "self.count로 셌어요", "Bread.count"),
       ("부모 메서드를 고쳤는데 자식은 그대로예요", "자식이 같은 이름으로 덮어썼어요", "super().메서드()")]
+o.append(f'<div{STAGGER(1, 90)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, (q, a_, cmd) in enumerate(TR):
-    o.append(f'<div{at(min(i + 1, 6))} style="position:absolute;left:96px;top:{T + i * 100}px;width:1728px;height:100px;display:flex;flex-direction:row;align-items:center;gap:28px;border-bottom:2px solid {LINE}">'
+    o.append(f'<div style="position:absolute;left:96px;top:{T + i * 100}px;width:1728px;height:100px;display:flex;flex-direction:row;align-items:center;gap:28px;border-bottom:2px solid {LINE}">'
              + p(f"width:40px;flex:none;font-size:30px;font-weight:900;color:{RED}", str(i + 1))
              + '<div style="flex:1;display:flex;flex-direction:column;gap:2px">' + p(f"{'font-family:' + MONO + ';' if q.isascii() else ''}font-size:26px;font-weight:700;color:{INK};white-space:nowrap", e(q)) + p(f"font-size:24px;color:{SUB}", e(a_)) + '</div>'
              + p(f"{'font-family:' + MONO + ';font-size:24px;' if cmd.isascii() else 'font-size:25px;'}font-weight:700;line-height:1.4;color:{INK};background:#E6F4EC;padding:6px 18px;border-radius:12px;white-space:pre", e(cmd)) + '</div>')
-o.append(caption("헷갈리면 \"자식 틀에서 먼저 찾고, 없으면 부모 틀\" 순서로 따라가 봐요.", 940))
+o.append('</div>')
+o.append(caption("헷갈리면 \"자식 틀에서 먼저 찾고, 없으면 부모 틀\" 순서로 따라가 봐요.", 940, 2))
 W("trouble", o, "이번 챕터에서 자주 만나는 일을 모았어요. 1번부터 3번은 자식 __init__과 super에서 생겨요. 4번은 부모 틀 이름을 틀렸거나 부모 틀 셀을 아직 실행하지 않았을 때 나요. 5번과 6번은 오류가 없어서 더 찾기 어려워요. 클래스 변수는 틀 이름으로 바꾼다는 것만 기억하세요. 7번은 자식이 덮어쓴 메서드라서 부모를 고쳐도 안 바뀌는 경우예요. super로 부모 것을 부르면 같이 바뀌어요.", ("trouble", "정리"))
 
 o = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">',
      f'<h2 style="position:absolute;left:96px;top:80px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">한 장 요약</h2>']
 CH = [[('shop = "1호점"', "틀에 새긴 값 (클래스 변수)", K2), ("Bread.shop = ...", "모두 한 번에 바꾸기", K2), ("class A(Bread):", "틀 물려받기", CR), ("super().__init__(...)", "칸을 더할 때 부모에게 맡기기", CR)],
       [("def intro(self):", "같은 이름이면 덮어쓰기", K3), ("super().intro()", "부모 것을 부르고 조금 더", K3), ("isinstance(c, Bread)", "어떤 틀로 찍었나", K4), ("~는 ~의 한 종류", "상속할지 고르는 말", K4)]]
+o.append(f'<div{STAGGER(1, 80)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for col, items in enumerate(CH):
     for i, (k, d, c) in enumerate(items):
         o.append(f'<div style="position:absolute;left:{96 + col * 888}px;top:{212 + i * 128}px;width:840px;height:128px;display:flex;flex-direction:column;justify-content:center;gap:8px;border-bottom:2px solid {LINE}">'
                  + p(f"{'font-family:' + MONO + ';' if k.isascii() else ''}font-size:32px;font-weight:700;color:{c};white-space:pre", e(k))
                  + p(f"font-size:28px;color:{INK}", e(d)) + '</div>')
-o.append(p(f"position:absolute;left:96px;top:780px;width:1728px;font-size:36px;font-weight:700;line-height:1.4;color:{INK}", "붕어빵마다 다르면 self.이름, 모두 같으면 틀에 적어요. 한 종류면 물려받아요."))
-o.append(p(f"position:absolute;left:96px;top:860px;width:1728px;font-size:30px;line-height:1.4;color:{SUB}", "클래스 세 챕터 끝: 붕어빵 틀로 데이터와 할 일을 한 곳에 묶었어요."))
+o.append('</div>')
+o.append(p(f"position:absolute;left:96px;top:780px;width:1728px;font-size:36px;font-weight:700;line-height:1.4;color:{INK}", "붕어빵마다 다르면 self.이름, 모두 같으면 틀에 적어요. 한 종류면 물려받아요.", at(2)))
+o.append(p(f"position:absolute;left:96px;top:860px;width:1728px;font-size:30px;line-height:1.4;color:{SUB}", "클래스 세 챕터 끝: 붕어빵 틀로 데이터와 할 일을 한 곳에 묶었어요.", at(2)))
 W("cheatsheet", o, "이번 챕터의 내용을 한 장에 모았어요. 모두 같은 값은 틀에 적는 클래스 변수로, 바꿀 땐 틀 이름으로 바꿔요. 자식 틀은 괄호에 부모 틀을 적어 물려받고, 칸을 더할 땐 super().__init__으로 부모에게 맡겨요. 같은 이름의 메서드를 다시 적으면 덮어쓰고, 부모 것도 쓰고 싶으면 super()로 불러요. 상속은 자식이 부모의 한 종류일 때만 써요. 24부터 26까지 붕어빵 틀 하나로 클래스의 기본을 모두 봤어요.")
 
 finish([(K1, "왜 필요한가", "복사해서 만든 슈크림 틀, 틀에 새긴 값과 물려받는 틀", "w-why", "w-big"),

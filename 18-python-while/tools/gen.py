@@ -12,13 +12,16 @@ Layout follows the Stageshow rules (github.com/benjitaylor/skills, stageshow/SKI
 - say it once: what the speaker notes already say is not repeated on the slide
 - no empty bands: the cell font grows to fill the slide instead
 - values that change move (fly) or build row by row; one highlight at a time (tools/HIGHLIGHT.md)
+Highlights (2026-11-09 player): slam and shine on the cover, staggered rows, spotlight, run band, line spotlight,
+cursor click, keycaps, pen ring and underline, changed word (MARK), count-up, shake, fly. No typing effect.
 Usage: python3 tools/gen.py slides
 """
 
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline
+from highlight import (spot, spot_off, cursor, cursor_off, ring, box, underline, lspot, lspot_off, run, run_off, zoom, zoom_off,
+                       shine, shake, keys, SLAM, STAGGER, COUNT, MARK, DELAY)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -225,7 +228,7 @@ def tf(v, size=26):
     return p(f"display:inline-block;font-family:{MONO};font-size:{size}px;font-weight:700;color:{c};background:{b};border-radius:10px;padding:2px 14px;white-space:nowrap", v)
 
 
-def trace(left, top, cols, rows, order0=1, rh=72, fs=30, rid=None, each=True):
+def trace(left, top, cols, rows, order0=1, rh=72, fs=30, rid=None, each=True, delay=0):
     """A trace table drawn with hairlines only: gray header, one row per click."""
     w = sum(cw for _, cw in cols) + 24 * (len(cols) - 1)
     o = [f'<div{bi("fade", order0)} style="position:absolute;left:{left}px;top:{top}px;width:{w}px;height:52px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:3px solid {INK}">'
@@ -238,7 +241,7 @@ def trace(left, top, cols, rows, order0=1, rh=72, fs=30, rid=None, each=True):
             else:
                 cs += p(f"width:{cw}px;flex:none;font-family:{MONO if v.isascii() else SANS};font-size:{fs}px;font-weight:700;color:{INK};white-space:nowrap", e(v))
         idd = f' id="{rid}{i}"' if rid else ""
-        o.append(f'<div{idd}{bi("rise", order0 + i) if each else bi("rise", order0)} style="position:absolute;left:{left}px;top:{top + 56 + i * rh}px;width:{w}px;height:{rh}px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">{cs}</div>')
+        o.append(f'<div{idd}{bi("rise", order0 + i) if each else bi("rise", order0) + (DELAY(i * delay) if delay else "")} style="position:absolute;left:{left}px;top:{top + 56 + i * rh}px;width:{w}px;height:{rh}px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">{cs}</div>')
     return o
 
 
@@ -347,13 +350,14 @@ T0 = 220            # top of the focal object under the title
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       '<h1 style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">제어문 2<br>반복 제어</h1>',
+       f'<h1{SLAM(1)} style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">제어문 2<br>반복 제어</h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">조건이 맞는 동안 돌고<br>필요하면 멈추기</p>']
 # corner bleed: the code panel runs off the right and bottom edges
-cov.append('<div style="position:absolute;left:1010px;top:300px;width:1010px;height:900px;background:#252B36;border-radius:28px;padding:64px 64px;display:flex;flex-direction:column">')
+cov.append('<div id="cov-code" style="position:absolute;left:1010px;top:300px;width:1010px;height:900px;background:#252B36;border-radius:28px;padding:64px 64px;display:flex;flex-direction:column">')
 for line, c in [("for i in range(1, 4):", "#9DBDEB"), ("    print(i)", "#E6E9EF"), ("", "#E6E9EF"), ("while stock > 0:", "#E3B877"), ("    stock -= 1", "#E6E9EF"), ("    if stock == 1:", "#8FD8DE"), ("        break", "#F2A0A0")]:
     cov.append(p(f"font-family:{MONO};font-size:40px;font-weight:700;line-height:1.55;color:{c};white-space:pre", e(line) if line else "&#160;"))
 cov.append('</div>')
+cov.append(shine(2, "cov-code"))
 W("cover", cov, "이번 챕터는 반복을 원하는 만큼만 돌리는 법을 배워요. 17에서 if로 조건에 따라 실행할 줄을 골랐어요. 13의 for는 리스트를 처음부터 끝까지 돌았어요. 이번에는 range로 정한 횟수만큼 돌고, while로 조건이 맞는 동안 돌고, break와 continue로 도중에 멈추거나 건너뛰어요. 17과 같은 카페 예제를 이어서 써요.", ("intro", "들어가기"))
 
 ORDER.append("toc")
@@ -362,7 +366,7 @@ ORDER.append("toc")
 o = [sec("ready")] + head("들어가기", "17에서 이어서 해요", JP)
 done = [("hello-uv 노트북, 커널 .venv", "09 · 25–27쪽"), ("+=, -=, //", "12"), ("리스트, for, f-string, end=", "13"), ("2차원 리스트 scores", "14"), ("딕셔너리 items()", "15"), ("if, elif, else, and, or", "17")]
 for i, (a_, b_) in enumerate(done):
-    o.append(f'<div{bi("rise", 1)} style="position:absolute;left:96px;top:{T0 + i * 108}px;width:800px;height:96px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{bi("rise", 1)}{DELAY(i * 90)} style="position:absolute;left:96px;top:{T0 + i * 108}px;width:800px;height:96px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
              + f'<x-icon name="CheckCircle" style="width:44px;height:44px;color:{GR}"></x-icon>'
              + p(f"flex:1;font-size:32px;font-weight:700;color:{INK}", e(a_))
              + p(f"font-size:28px;font-weight:700;color:{GRAY};white-space:nowrap", e(b_)) + '</div>')
@@ -372,7 +376,7 @@ steps_ = [p(f"font-size:32px;color:{INK}", "VS Code로 hello-uv 폴더 열기"),
           p(f"font-size:32px;color:{INK}", "오른쪽 위 커널이 .venv인지 보기"),
           p(f"font-size:32px;color:{INK}", "셀에 적고") + kbd("Shift+Enter", 26) + p(f"font-size:32px;color:{INK}", "로 실행")]
 for i, inner in enumerate(steps_):
-    o.append(f'<div{bi("rise", 2)} style="position:absolute;left:1000px;top:{T0 + 108 + i * 120}px;width:824px;height:104px;display:flex;flex-direction:row;gap:20px;align-items:center">' + num(i + 1, JP, 40) + inner + '</div>')
+    o.append(f'<div{bi("rise", 2)}{DELAY(90 + i * 90)} style="position:absolute;left:1000px;top:{T0 + 108 + i * 120}px;width:824px;height:104px;display:flex;flex-direction:row;gap:20px;align-items:center">' + num(i + 1, JP, 40) + inner + '</div>')
 o.append(caption("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 봐요.", 3, 900))
 W("ready", o, "12부터 쓰던 basics.ipynb를 열고 시작해요. 09에서 만든 hello-uv 폴더를 VS Code로 열어요. 12의 +=와 -=, 13의 for와 f-string, print의 end, 14의 2차원 리스트, 15의 items(), 17의 if를 그대로 써요. 슬라이드의 출력은 tools/demo.sh가 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요. 셀 번호는 파트마다 [1]부터 다시 셌어요.")
 
@@ -397,19 +401,19 @@ o.append(slots(["coffee", "latte", "cake"], 96, T0 + 60, 220, 84, idx=False, att
 o.append(flow(96, T0 + 200, 760, 470,
               [dict(x=120, y=0, w=520, h=100, text="다음 값을 꺼내요", color=BL, mono=False, order=2),
                dict(x=120, y=180, w=520, h=100, text="들여쓴 줄 실행", color=GR, bg=GRBG, mono=False, order=2),
-               dict(x=120, y=360, w=520, h=100, text="값이 없으면 끝", color=GRAY, mono=False, order=3)],
+               dict(x=120, y=360, w=520, h=100, text="값이 없으면 끝", color=GRAY, mono=False, order=2)],
               [dict(pts=[(380, 102), (380, 176)], order=2), dict(pts=[(640, 230), (720, 230), (720, 50), (644, 50)], color=BL, order=2),
-               dict(pts=[(120, 50), (40, 50), (40, 410), (116, 410)], color=GRAY, order=3, dash=True)]))
+               dict(pts=[(120, 50), (40, 50), (40, 410), (116, 410)], color=GRAY, order=2, dash=True)]))
 o.append(f'<div style="position:absolute;left:940px;top:{T0}px;width:2px;height:690px;background:{LINE}"></div>')
-o.append(p(f"position:absolute;left:1020px;top:{T0}px;font-size:30px;font-weight:700;color:{OR}", "while", bi("fade", 4)))
+o.append(p(f"position:absolute;left:1020px;top:{T0}px;font-size:30px;font-weight:700;color:{OR}", "while", bi("fade", 3)))
 o.append(flow(1020, T0 + 60, 804, 630,
-              [dict(id="wb-dia", x=150, y=0, w=500, h=190, kind="diamond", text="money >= 4500", color=OR, bg=ORBG, order=4, fs=30),
-               dict(x=170, y=290, w=460, h=100, text="money -= 4500", color=GR, bg=GRBG, order=5),
-               dict(x=170, y=500, w=460, h=100, text="반복 끝, 다음 줄", color=GRAY, mono=False, order=6)],
-              [dict(pts=[(400, 192), (400, 286)], color=GR, order=5, label="True", lx=420, ly=214),
-               dict(pts=[(630, 340), (760, 340), (760, 95), (654, 95)], color=GR, order=5, label="다시 묻기", lx=640, ly=40),
-               dict(pts=[(150, 95), (50, 95), (50, 550), (166, 550)], color=RED, order=6, label="False", lx=66, ly=300)]))
-o.append(caption("횟수를 알면 for, 조건만 알면 while이에요.", 7))
+              [dict(id="wb-dia", x=150, y=0, w=500, h=190, kind="diamond", text="money >= 4500", color=OR, bg=ORBG, order=3, fs=30),
+               dict(x=170, y=290, w=460, h=100, text="money -= 4500", color=GR, bg=GRBG, order=4),
+               dict(x=170, y=500, w=460, h=100, text="반복 끝, 다음 줄", color=GRAY, mono=False, order=4)],
+              [dict(pts=[(400, 192), (400, 286)], color=GR, order=4, label="True", lx=420, ly=214),
+               dict(pts=[(630, 340), (760, 340), (760, 95), (654, 95)], color=GR, order=4, label="다시 묻기", lx=640, ly=40),
+               dict(pts=[(150, 95), (50, 95), (50, 550), (166, 550)], color=RED, order=4, label="False", lx=66, ly=300)]))
+o.append(caption("횟수를 알면 for, 조건만 알면 while이에요.", 5))
 W("w-big", o, "for는 줄 선 값을 하나씩 꺼내고, while은 조건이 True인 동안 계속 물어요. 왼쪽 for는 리스트처럼 줄 선 값을 하나씩 꺼내서 들여쓴 줄을 실행하고, 값이 떨어지면 끝나요. 몇 번 도는지 처음부터 정해져 있어요. 오른쪽 while은 17의 if처럼 마름모에서 조건을 물어요. True면 들여쓴 줄을 실행하고, 다시 마름모로 돌아가 또 물어요. False가 나오는 순간 반복을 끝내고 다음 줄로 가요. if는 한 번 묻고 지나가지만 while은 False가 될 때까지 계속 물어요.")
 
 FS[0] = 34
@@ -422,10 +426,10 @@ o.append(rtag(96, cw, ly(T0, 2), "조건 뒤에 콜론, if와 같은 모양", BL
 o.append(hl(96, T0, cw, 3, 2, "run", 2))
 o.append(rtag(96, cw, ly(T0, 3.5), "True인 동안 이 두 줄을 반복", GR, 2))
 o += trace(183, 640, [("money", 190), (">= 4500", 200), ("cups", 130), ("", 160)],
-           [("10000", "True", "0", "사요"), ("5500", "True", "1", "사요"), ("1000", "False", "2", "멈춰요")], 3, 68, 32, rid="wm-r")
-o.append(spot(6, target="wm-r2", pad=10, r=12))
-o.append(spot_off(7))
-o.append(caption("while 조건: 은 조건이 True인 동안 들여쓴 줄을 반복해요.", 7))
+           [("10000", "True", "0", "사요"), ("5500", "True", "1", "사요"), ("1000", "False", "2", "멈춰요")], 3, 68, 32, rid="wm-r", each=False, delay=160)
+o.append(spot(4, target="wm-r2", pad=10, r=12))
+o.append(spot_off(5))
+o.append(caption("while 조건: 은 조건이 True인 동안 들여쓴 줄을 반복해요.", 5))
 W("w-min", o, "while 조건: 은 조건이 True인 동안 들여쓴 줄을 반복해요. 앞 장의 질문을 while로 풀었어요. money가 4500 이상인 동안 커피를 사요. 살 때마다 money에서 4500을 빼고 cups에 1을 더해요. 오른쪽 표처럼 10000일 때 True, 5500일 때 True, 1000일 때 False가 나와서 두 잔에서 멈춰요. 모양은 17의 if와 같아요. 조건 뒤에 콜론, 다음 줄은 4칸 들여써요. 다른 점은 들여쓴 줄을 다 실행한 뒤 다시 조건으로 돌아가 묻는다는 거예요. money -= 4500 줄이 돌 때마다 money를 줄여서 언젠가 조건이 False가 돼요." + REAL)
 
 # ---------- part 2 ----------
@@ -439,7 +443,7 @@ o.append(tag(ox, oy(T0, 3, 0), "그냥 찍으면 이렇게만 나와요", GRAY, 
 o.append(tag(ox, oy(T0, 3, 1), "list()로 감싸면 숫자가 보여요", K2, 2))
 o.append(tag(ox, oy(T0, 3, 2), "다섯 개", K2, 2))
 o.append(p(f"position:absolute;left:96px;top:680px;font-family:{MONO};font-size:30px;font-weight:700;color:{K2}", "range(5)", bi("fade", 3)))
-o.append(slots(["0", "1", "2", "3", "4"], 96, 730, 170, 130, idx=False, attrs=bi("rise", 3), fs=56, color=K2, bg=K2BG))
+o.append(slots(["0", "1", "2", "3", "4"], 96, 730, 170, 130, idx=False, attrs=STAGGER(3, 110), fs=56, color=K2, bg=K2BG))
 o.append(p(f"position:absolute;left:996px;top:730px;width:170px;height:130px;border-radius:14px;border:3px dashed {RED};font-family:{MONO};font-size:56px;font-weight:700;line-height:124px;text-align:center;color:{RED}", "5", bi("rise", 4)))
 o.append(tag(1200, 795, "끝 숫자 5는 안 들어가요. 13의 [0:5]와 같아요", RED, 4))
 o.append(caption("range(n)은 0부터 n-1까지, n개예요.", 5))
@@ -452,17 +456,17 @@ cw = cell_w(c["lines"])
 o += cell(c, 96, T0, cw)
 ox = cx(96, 0) + tw("[0, 2, 4, 6, 8]") + 50
 for j, (t_, col) in enumerate([("1부터 6 앞까지", K2), ("0부터 2씩 건너뛰기", K2), ("간격 -1이면 거꾸로, 0 앞까지", K2), ("시작과 끝이 같으면 비어요", GRAY)]):
-    o.append(ohl(96, T0, 4, j, tw("[0, 2, 4, 6, 8]") + 24, "note", j + 1))
-    o.append(tag(ox, oy(T0, 4, j), t_, col, j + 1))
+    o.append(ohl(96, T0, 4, j, tw("[0, 2, 4, 6, 8]") + 24, "note", j // 2 + 1))
+    o.append(tag(ox, oy(T0, 4, j), t_, col, j // 2 + 1))
 # the signature, labelled under each slot, and the end slot underlined
 SIG = 760
-o.append(f'<div{bi("rise", 5)} style="position:absolute;left:96px;top:{SIG}px;display:flex;flex-direction:row;align-items:baseline;font-family:{MONO};font-size:52px;font-weight:700;color:{INK};white-space:pre">'
+o.append(f'<div{bi("rise", 3)} style="position:absolute;left:96px;top:{SIG}px;display:flex;flex-direction:row;align-items:baseline;font-family:{MONO};font-size:52px;font-weight:700;color:{INK};white-space:pre">'
          + 'range(<span style="color:#2459C9">시작</span>, <span style="color:#A33131">끝</span>, <span style="color:#1F8A4C">간격</span>)</div>')
 end_x = 96 + tw("range(시작, ", 52)
-o.append(underline(6, end_x - 4, end_x + tw("끝", 52) + 4, SIG + 86, RED))
-o.append(tag(end_x - 10, SIG + 124, "끝은 늘 빠져요", RED, 6, 26, False))
-o.append(tag(96 + tw("range(시작, 끝, 간격)", 52) + 60, SIG + 38, "13의 자르기 [시작:끝:간격]과 같은 순서", GRAY, 5, 28, False))
-o.append(caption("1부터 5까지는 range(1, 6)이에요.", 7))
+o.append(underline(4, end_x - 4, end_x + tw("끝", 52) + 4, SIG + 86, RED))
+o.append(tag(end_x - 10, SIG + 124, "끝은 늘 빠져요", RED, 4, 26, False))
+o.append(tag(96 + tw("range(시작, 끝, 간격)", 52) + 60, SIG + 38, "13의 자르기 [시작:끝:간격]과 같은 순서", GRAY, 3, 28, False))
+o.append(caption("1부터 5까지는 range(1, 6)이에요.", 5))
 W("r-step", o, "range는 시작, 끝, 간격 순서로 숫자를 받아요. 숫자를 두 개 넣으면 시작과 끝이에요. range(1, 6)은 1부터 6 바로 앞인 5까지예요. 세 개를 넣으면 셋째가 간격이에요. range(0, 10, 2)는 0부터 2씩 건너뛰어 짝수만 나와요. 간격을 -1로 하면 거꾸로 세요. 이때는 시작 5가 끝 0보다 커야 해요. 시작과 끝이 같으면 빈 줄이에요. 13의 자르기 [시작:끝:간격]과 순서도, 끝이 빠지는 규칙도 같아요." + REAL)
 
 FS[0] = 40
@@ -484,7 +488,7 @@ for k in range(3):
 o.append(tag(PX + 230, T0 + 335, "다음 숫자가 들어가요", BL, 2))
 o.append(hl(96, T0, cw, 2, 1, "note", 5))
 o.append(rtag(96, cw, ly(T0, 2), "사람에게 보일 번호는 1부터", OR, 5))
-o.append(caption("\"n번 반복\"은 for i in range(n): 이에요.", 6))
+o.append(caption("\"n번 반복\"은 for i in range(n): 이에요.", 5))
 W("r-for", o, "for 뒤에 리스트 대신 range를 넣으면 정한 횟수만큼 돌아요. range(3)은 0, 1, 2라서 세 번 돌고, i에는 차례로 0, 1, 2가 들어가요. 손님 번호처럼 사람에게 보일 번호는 1부터 세는 게 자연스러워서 range(1, 4)로 1, 2, 3을 만들어요. i는 정해진 이름이 아니에요. 번호라는 뜻의 index 앞 글자를 관례로 많이 쓰고, n이나 k로 적어도 돼요. 1파트의 [1, 2, 3] 리스트도 range(1, 4)로 바꿔 쓸 수 있어요." + REAL)
 
 FS[0] = 30
@@ -498,16 +502,16 @@ o.append(rtag(96, cw, ly(T0, 1), "len(menus)는 3, 그래서 0, 1, 2", BL, 1))
 o.append(hl(96, T0, cw, 2, 1, "run", 2))
 o.append(rtag(96, cw, ly(T0, 2), "i번 칸을 꺼내요 (13)", GR, 2))
 SL = 1180
-o.append(slots(["coffee", "latte", "cake"], SL, 720, 200, 90, attrs=bi("rise", 3), fs=30, ids=["ri-s0", "ri-s1", "ri-s2"]))
-o.append(p(f"position:absolute;left:{SL}px;top:676px;font-family:{MONO};font-size:26px;font-weight:700;color:{GRAY}", "menus", bi("rise", 3)))
+o.append(slots(["coffee", "latte", "cake"], SL, 720, 200, 90, fs=30, ids=["ri-s0", "ri-s1", "ri-s2"]))
+o.append(p(f"position:absolute;left:{SL}px;top:676px;font-family:{MONO};font-size:26px;font-weight:700;color:{GRAY}", "menus"))
 for k in range(3):
-    o.append(spot(3 + k, target=f"ri-s{k}", pad=10, r=16))
-o.append(spot_off(6))
+    o.append(spot(2 + k, target=f"ri-s{k}", pad=10, r=16))
+o.append(spot_off(5))
 T5 = 560
-o += cell(c5, 96, T5, cw, sel=False, attrs=bi("rise", 6))
-o.append(rtag(96, cw, ly(T5, 0), "번호를 직접 세는 방법, 결과가 같아요", GRAY, 6))
-o.append(hl(96, T5, cw, 3, 1, "mark", 6))
-o.append(caption("번호가 필요하면 range(len(리스트))로 돌고 [i]로 꺼내요.", 7))
+o += cell(c5, 96, T5, cw, sel=False, attrs=bi("rise", 5))
+o.append(rtag(96, cw, ly(T5, 0), "번호를 직접 세는 방법, 결과가 같아요", GRAY, 5))
+o.append(hl(96, T5, cw, 3, 1, "mark", 5))
+o.append(caption("번호가 필요하면 range(len(리스트))로 돌고 [i]로 꺼내요.", 5))
 W("r-index", o, "번호가 필요하면 range(len(리스트))로 돌고 [i]로 값을 꺼내요. range(len(menus))는 range(3)이라 0, 1, 2를 돌아요. i가 번호라서 값은 13처럼 menus[i]로 꺼내요. 리스트 길이가 바뀌어도 len이 맞춰 줘요. 아래 셀은 같은 일을 번호를 직접 세며 한 거예요. i를 0으로 두고 한 번 돌 때마다 1을 더해요. 두 방법 다 결과가 같아요. 다음 장에서 이 둘을 한 줄로 줄인 enumerate를 봐요." + REAL)
 
 FS[0] = 30
@@ -540,11 +544,12 @@ c = {"id": "c-w1", "lines": ["count = 1", "while count <= 3:", '    print(f"{cou
 cw = cell_w(c["lines"])
 o += cell(c, 96, T0, cw)
 for k, (i, kind, t_, col) in enumerate([(0, "mark", "① 시작값", K3), (1, "note", "② 묻기", OR), (2, "run", "③ 실행", GR), (3, "mark", "④ 값 바꾸기", BL)]):
-    o.append(hl(96, T0, cw, i, 1, kind, k + 1))
+    o.append(run(k + 1, 96 + 89, T0 + 10 + i * LH(), cw - 93, LH()))
     o.append(tag(96 + cw + 160, ly(T0, i), t_, col, k + 1))
+o.append(run_off(5))
 o.append(jump(96, T0, cw, 3, 1, BL, "", 5, 110))
-o.append(tag(cx(96, 0) + tw("끝, count는 4") + 50, oy(T0, 5, 3), "4 <= 3이 False라서 멈춘 뒤의 값", K3, 6))
-o.append(caption("while에는 시작값, 조건, 값 바꾸기 세 가지가 꼭 있어야 해요.", 7))
+o.append(tag(cx(96, 0) + tw("끝, count는 4") + 50, oy(T0, 5, 3), "4 <= 3이 False라서 멈춘 뒤의 값", K3, 5))
+o.append(caption("while에는 시작값, 조건, 값 바꾸기 세 가지가 꼭 있어야 해요.", 5))
 W("w-shape", o, "while에는 시작값, 조건, 값 바꾸기 세 가지가 꼭 있어야 해요. 먼저 반복 전에 시작값을 정해요. count는 1이에요. 다음으로 조건을 물어요. True면 들여쓴 줄을 실행해요. 마지막 줄에서 count에 1을 더해 값을 바꿔요. 그리고 화살표처럼 다시 조건으로 돌아가 물어요. 4가 되면 4 <= 3이 False라서 반복을 끝내요. 끝난 뒤에도 count는 4로 남아 있어요. 셋 중 하나라도 빠지면 반복이 아예 안 돌거나 끝나지 않아요." + NEWK + REAL, ("p3", "while"))
 
 FS[0] = 28
@@ -554,16 +559,16 @@ c3 = {"id": "c-w3", "lines": ["stock = 0", "while stock > 0:", "    stock -= 1",
 cw = cell_w(c2["lines"])
 o += cell(c2, 96, T0, cw)
 o += trace(1150, T0, [("stock", 130), ("> 0", 150), ("하는 일", 300)],
-           [("3", "True", "1 빼고 찍기"), ("2", "True", "1 빼고 찍기"), ("1", "True", "1 빼고 찍기"), ("0", "False", "반복 끝")], 1, 70, 28, rid="wt-r")
-o.append(spot(5, target="wt-r3", pad=10, r=12))
+           [("3", "True", "1 빼고 찍기"), ("2", "True", "1 빼고 찍기"), ("1", "True", "1 빼고 찍기"), ("0", "False", "반복 끝")], 1, 70, 28, rid="wt-r", each=False, delay=160)
+o.append(spot(2, target="wt-r3", pad=10, r=12))
 T3 = 650
-o += cell(c3, 96, T3, cw, sel=False, attrs=bi("rise", 6))
-o.append(spot_off(6))
-o.append(hl(96, T3, cw, 0, 2, "err", 6))
-o.append(rtag(96, cw, ly(T3, 0.5), "처음부터 0 > 0은 False", RED, 6))
-o.append(hl(96, T3, cw, 2, 2, "skip", 7))
-o.append(rtag(96, cw, ly(T3, 2.5), "한 번도 실행하지 않아요", GRAY, 7))
-o.append(caption("조건은 반복할 때마다 처음에 물어요.", 8, 960))
+o += cell(c3, 96, T3, cw, sel=False, attrs=bi("rise", 3))
+o.append(spot_off(3))
+o.append(hl(96, T3, cw, 0, 2, "err", 3))
+o.append(rtag(96, cw, ly(T3, 0.5), "처음부터 0 > 0은 False", RED, 3))
+o.append(hl(96, T3, cw, 2, 2, "skip", 4))
+o.append(rtag(96, cw, ly(T3, 2.5), "한 번도 실행하지 않아요", GRAY, 4))
+o.append(caption("조건은 반복할 때마다 처음에 물어요.", 5, 960))
 W("w-trace", o, "while은 들여쓴 줄을 실행하기 전에 매번 조건부터 물어요. 재고 3개에서 시작해 주문을 받을 때마다 하나씩 줄여요. 오른쪽 표처럼 3, 2, 1일 때는 조건이 True라서 주문을 받아요. 0이 되면 0 > 0이 False라서 반복을 끝내고 품절이에요를 찍어요. 아래 셀은 재고가 처음부터 0이에요. 조건을 처음 물을 때 이미 False라서 들여쓴 줄은 한 번도 실행하지 않아요." + REAL)
 
 FS[0] = 36
@@ -586,10 +591,10 @@ o.append(cursor_off(4))
 o.append(underline(4, cx(96, 0), cx(96, 18), oy(TC, 3, 5) + LH() / 2 - 2, RED))
 o.append(tag(cx(96, 0) + tw("KeyboardInterrupt:") + 60, oy(TC, 3, 5), "멈췄다는 표시예요", RED, 4))
 o.append(p(f"position:absolute;left:1300px;top:640px;font-size:28px;font-weight:700;color:{GRAY}", "터미널에서 uv run으로 돌렸다면", bi("rise", 5)))
-for k, (lab, keys, col) in enumerate([("Windows", "Ctrl+C", WIN), ("Mac", "control+C", MAC)]):
-    o.append(f'<div{bi("rise", 5)} style="position:absolute;left:1300px;top:{698 + k * 80}px;display:flex;flex-direction:row;align-items:center;gap:20px">'
-             + p(f"width:140px;font-size:26px;font-weight:700;color:{col}", lab) + kbd(keys, 28) + '</div>')
-o.append(caption("while 안에 조건을 바꾸는 줄이 있는지 먼저 봐요.", 6))
+for k, (lab, combo, col) in enumerate([("Windows", "Ctrl+C", WIN), ("Mac", "control+C", MAC)]):
+    o.append(p(f"position:absolute;left:1300px;top:{708 + k * 96}px;width:140px;font-size:26px;font-weight:700;color:{col}", lab, bi("rise", 5)))
+    o.append(keys(5, 1450, 694 + k * 96, combo, 26))
+o.append(caption("while 안에 조건을 바꾸는 줄이 있는지 먼저 봐요.", 5))
 W("w-inf", o, "while 안에서 조건의 값을 바꾸지 않으면 반복이 끝나지 않아요. 앞 장의 while에서 count += 1을 빼먹었어요. count가 계속 1이라 조건이 늘 True예요. 이걸 무한 반복이라고 해요. 노트북에서는 실행 중인 셀 왼쪽 버튼이 네모 정지 버튼으로 바뀌어요. 그 버튼이나 위쪽의 Interrupt를 누르면 멈추고 KeyboardInterrupt가 나와요. 09처럼 터미널에서 uv run으로 실행했다면 Ctrl+C, Mac은 control+C를 눌러요. 출력이 너무 많으면 VS Code가 느려질 수 있으니 바로 멈춰요. 실제로 1초 만에 멈췄는데 1이 17만 줄 넘게 찍혔어요. 슬라이드에는 앞의 네 줄과 마지막 줄만 옮겼어요.")
 
 FS[0] = 34
@@ -636,13 +641,13 @@ o = [sec("b-continue")] + head(EB4, "continue는 이번 차례만 건너뛰고 �
 c = {"id": "c-b2", "lines": CNT, "n": 2, "out": ["coffee 주문 받았어요", "cake 주문 받았어요", "latte 품절, 건너뛰어요", "tea 주문 받았어요", "cake 주문 받았어요", "끝"]}
 cw = cell_w(c["lines"], -60)
 o += cell(c, 96, T0, cw)
-o.append(underline(1, cx(96, 8) - 2, cx(96, 16) + 2, ly(T0, 3) + LH() / 2 - 4, OR))
-o.append(tag(tx(96, ["        continue"]) + 10, ly(T0, 3), "break를 이 한 단어로 바꿨어요", OR, 1))
+o.append(tag(tx(96, ["        continue"]) + 10, ly(T0, 3), "break만 바꿨어요", OR, 1))
 o.append(hl(96, T0, cw, 0, 1, "run", 2))
 o.append(jump(96, T0, cw, 3, 0, OR, "다음 주문", 2, 260))
 o += state_row(1234, T0 + 380, ORDERS, ["받음", "받음", "멈춤", "안 봄", "안 봄"], 3, "break · 셀 [1]", RED)
 o += state_row(1234, T0 + 590, ORDERS, ["받음", "받음", "건너뜀", "받음", "받음"], 4, "continue · 셀 [2]", OR)
 o.append(caption("continue는 \"이번만 넘기기\". 아래 줄을 건너뛰고 다음 차례로 가요.", 5))
+o = [x.replace(">        continue</p>", f'>        <span{MARK(1)} style="color:{OR};background:{ORBG};border-radius:6px">continue</span></p>', 1) if 'id="c-b2"' in x or ">        continue</p>" in x else x for x in o]
 W("b-continue", o, "continue를 만나면 아래 줄을 건너뛰고 다음 차례로 가요. 앞 장과 같은 주문 리스트에서 break만 continue로 바꿨어요. latte에서 품절이라고 찍은 뒤 continue를 만나요. continue는 주황 화살표처럼 for 줄로 돌아가 다음 주문을 꺼내요. 그래서 latte의 주문 받았어요만 빠지고 tea와 cake는 받아요. 오른쪽에 두 결과를 나란히 놓았어요. break는 latte에서 끝나서 셋만 봤고, continue는 다섯을 모두 봤어요. 셀 [2]는 셀 [1]의 orders와 soldout을 그대로 써요." + REAL)
 
 FS[0] = 30
@@ -708,14 +713,14 @@ FS[0] = 34
 o = [sec("a-sum")] + head(EB5, "합계는 0에서 시작해 하나씩 더해요", K5)
 c = {"id": "c-a1", "lines": ["prices = [4500, 5000, 6500, 4500]", "total = 0", "for p in prices:", "    total += p", "print(total)", "print(sum(prices))"], "n": 1, "out": ["20500", "20500"]}
 cw = cell_w(c["lines"])
-o += cell(c, 96, T0, cw)
+o += cell(c, 96, T0, cw, out_attrs={0: COUNT(3)})
 o.append(hl(96, T0, cw, 1, 3, "mark", 1))
 o.append(rtag(96, cw, ly(T0, 2), "원래 방법: 밖에서 0, 안에서 +=", BL, 1))
 o += trace(1060, 545, [("p", 120), ("total += p", 280), ("total", 160)],
-           [("", "", "0"), ("4500", "0 + 4500", "4500"), ("5000", "4500 + 5000", "9500"), ("6500", "9500 + 6500", "16000"), ("4500", "16000 + 4500", "20500")], 2, 62, 30, rid="as-r")
-o.append(hl(96, T0, cw, 5, 1, "run", 7))
-o.append(rtag(96, cw, ly(T0, 5), "13의 sum()은 위 세 줄을 대신해요", GR, 7))
-o.append(caption("쌓을 변수를 반복 밖에서 0으로 두고, 안에서 +=로 더해요.", 8))
+           [("", "", "0"), ("4500", "0 + 4500", "4500"), ("5000", "4500 + 5000", "9500"), ("6500", "9500 + 6500", "16000"), ("4500", "16000 + 4500", "20500")], 2, 62, 30, rid="as-r", each=False, delay=160)
+o.append(hl(96, T0, cw, 5, 1, "run", 4))
+o.append(rtag(96, cw, ly(T0, 5), "13의 sum()은 위 세 줄을 대신해요", GR, 4))
+o.append(caption("쌓을 변수를 반복 밖에서 0으로 두고, 안에서 +=로 더해요.", 5))
 W("a-sum", o, "합계는 반복 밖에서 0으로 두고 안에서 하나씩 더해 쌓아요. 오른쪽 표처럼 0에서 4500, 9500, 16000, 20500으로 늘어요. 13에서 배운 sum(prices)는 이 세 줄을 한 번에 해 주는 함수예요. 결과가 20500으로 같아요. 숫자 리스트의 합계는 sum을 쓰면 돼요. 다음 장부터는 sum처럼 한 줄로 되지 않는 일을 같은 모양으로 풀어요." + NEWK + REAL, ("p5", "쌓기와 겹친 반복"))
 
 FS[0] = 30
@@ -734,7 +739,7 @@ o.append(hl(984, TA, 840, 3, 1, "run", 4))
 o.append(tag(tx(984, ["        big.append(p)"]), ly(TA, 3), "모으기", GR, 4))
 o.append(tag(cx(984, 0) + tw("[5000, 6500]") + 40, oy(TA, 6, 0), "17의 골라 담기", GRAY, 5, 26))
 o.append(tag(cx(984, 0) + 40, oy(TA, 6, 1), "모은 리스트의 len이 개수", GRAY, 5, 26))
-o.append(caption("세기는 n += 1, 모으기는 append예요. 둘 다 if 안에 둬요.", 6))
+o.append(caption("세기는 n += 1, 모으기는 append예요. 둘 다 if 안에 둬요.", 5))
 W("a-count", o, "조건에 맞는 것은 if 안에서 n += 1로 세거나 append로 모아요. 가격이 5000원 이상인 메뉴가 몇 개인지 세요. n을 0으로 두고 조건이 True일 때만 1을 더해요. 5000과 6500, 두 개예요. 아래 줄의 13의 count는 5000과 같은 값 하나만 세서 1이 나와요. count는 5000 이상처럼 범위가 붙은 조건에는 못 써요. 오른쪽은 같은 조건으로 값을 모은 거예요. 17의 골라 담기 모양이에요. 모은 리스트의 len을 보면 개수도 알 수 있어요. 값도 필요하면 모으고, 개수만 필요하면 세요." + REAL)
 
 FS[0] = 34
@@ -752,7 +757,7 @@ o.append(spot(4, target="am-r3", pad=8, r=12))
 o.append(spot_off(5))
 o.append(hl(96, T0, cw, 5, 1, "run", 5))
 o.append(rtag(96, cw, ly(T0, 5), "13의 max()와 min()이 한 줄로", GR, 5))
-o.append(caption("지금까지 가장 큰 값을 big에 두고, 더 큰 값을 만나면 바꿔요.", 6))
+o.append(caption("지금까지 가장 큰 값을 big에 두고, 더 큰 값을 만나면 바꿔요.", 5))
 W("a-max", o, "지금까지 가장 큰 값을 big에 두고, 더 큰 값을 만나면 바꿔요. big에 리스트의 첫 값을 넣고 시작해요. 하나씩 꺼내 big보다 크면 big을 그 값으로 바꿔요. 오른쪽 표처럼 5000, 6500에서 바뀌고, 마지막 4500에서는 그대로예요. 0으로 시작하지 않는 이유는 값이 모두 음수일 때 0이 답으로 나와 버리기 때문이에요. 13의 max와 min은 이 반복을 한 줄로 해 줘요. 결과가 같아요." + REAL)
 
 FS[0] = 32
@@ -765,7 +770,7 @@ o.append(rtag(96, cw, ly(200, 0), "바깥 · dan = 2, 3", BL, 1))
 o.append(hl(96, 200, cw, 1, 2, "run", 2))
 o.append(rtag(96, cw, ly(200, 1.5), "안쪽 · i = 1, 2, 3", GR, 2))
 GX = 1180
-o.append(grid([[f"{d}x{i}" for i in range(1, 4)] for d in range(2, 4)], GX, 520, 170, 90, states={(0, j): "on" for j in range(3)}, attrs=bi("rise", 3), fs=30, color=GR))
+o.append(grid([[f"{d}x{i}" for i in range(1, 4)] for d in range(2, 4)], GX, 520, 170, 90, states={(0, j): "on" for j in range(3)}, attrs=STAGGER(3, 120), fs=30, color=GR))
 o.append(tag(GX, 470, "바깥이 한 번 돌 때 안쪽은 세 번", GR, 3, 28, False))
 o.append(ohl(96, 200, 4, 0, tw("2 x 1 = 2") + 30, "run", 3, 3))
 o.append(hl(96, 200, cw, 3, 1, "note", 4))
@@ -853,6 +858,7 @@ o += cell(c6, 96, T0, cw)
 o.append(underline(1, cx(96, 26) - 2, cx(96, 29) + 2, ly(T0, 1) + LH() / 2 - 4, RED))
 o.append(rtag(96, cw, ly(T0, 1), "0, 1, 2, 3", RED, 1))
 o.append(underline(2, cx(96, 0), cx(96, 10), oy(T0, 3, 3) + LH() / 2 - 2, RED))
+o.append(shake(2, "c-t6"))
 o.append(tag(cx(96, 0) + tw(c6["out"][3]) + 50, oy(T0, 3, 3), "없는 3번 칸", RED, 2))
 SX = 1180
 o.append(slots(["coffee", "latte", "cake"], SX, 380, 140, 80, attrs=bi("rise", 2), fs=24, color=K2, bg=K2BG))
@@ -874,13 +880,13 @@ o.append(hl(96, 196, cw, 4, 1, "mark", 1))
 o.append(rtag(96, cw, ly(196, 4), "손님이 남은 동안", BL, 1))
 o.append(hl(96, 196, cw, 6, 3, "err", 2))
 o.append(rtag(96, cw, ly(196, 7), "재고가 모자라면 멈춤", RED, 2))
-o.append(hl(96, 196, cw, 12, 1, "mark", 3))
-o.append(tag(tx(96, ["    i += 1"]), ly(196, 12), "다음 손님", BL, 3, 26))
+o.append(hl(96, 196, cw, 12, 1, "mark", 1))
+o.append(tag(tx(96, ["    i += 1"]), ly(196, 12), "다음 손님", BL, 1, 26))
 o += trace(1290, 560, [("손님", 90), ("want", 90), ("stock", 110), ("", 110)],
-           [("1번", "2", "5→3", "팔아요"), ("2번", "1", "3→2", "팔아요"), ("3번", "3", "2", "break")], 4, 70, 28, rid="xs-r")
-o.append(spot(7, target="xs-r2", pad=8, r=12))
-o.append(spot_off(8))
-o.append(caption("멈출 조건이 두 개면 하나는 while에, 하나는 if와 break로 적어요.", 8, 970))
+           [("1번", "2", "5→3", "팔아요"), ("2번", "1", "3→2", "팔아요"), ("3번", "3", "2", "break")], 3, 70, 28, rid="xs-r", each=False, delay=160)
+o.append(spot(4, target="xs-r2", pad=8, r=12))
+o.append(spot_off(5))
+o.append(caption("멈출 조건이 두 개면 하나는 while에, 하나는 if와 break로 적어요.", 5, 970))
 W("x-stock", o, "멈출 이유가 두 가지면 하나는 while 조건에, 하나는 if와 break로 적어요. 재고 5잔으로 손님 주문을 차례로 받아요. 손님이 원하는 잔 수는 orders 리스트에 있어요. while은 i가 손님 수보다 작은 동안 돌아요. 원하는 잔 수가 재고보다 많으면 재고가 모자란다고 알리고 break해요. 아니면 재고에서 빼고 판매에 더하고, i를 1 늘려 다음 손님으로 가요. 3번 손님은 3잔을 원하는데 2잔뿐이라 멈춰요. 번호 i는 0부터라 손님에게는 i + 1로 보여 줘요." + REAL)
 
 FS[0] = 28
@@ -904,8 +910,9 @@ c = {"id": "c-x3", "lines": ["for dan in range(2, 10):", '    print(f"{dan}단",
 cw = cell_w(c["lines"])
 o += cell(c, 96, 196, cw)
 for k, (i, kind, t_, col) in enumerate([(1, "mark", 'end=" "로 줄을 안 바꿔요 (13)', BL), (3, "run", ">3은 3칸 오른쪽 맞춤 (13)", GR), (4, "note", "print()는 줄만 바꿔요", OR)]):
-    o.append(hl(96, 196, cw, i, 1, kind, k + 1))
+    o.append(lspot(k + 1, 96 + 85, 196, cw - 85, 20 + 5 * LH(), 196 + 10 + i * LH(), LH(), bar=col))
     o.append(rtag(96, cw, ly(196, i), t_, col, k + 1))
+o.append(lspot_off(4))
 o.append(f'<div id="xg-row" style="position:absolute;left:{96 + 93}px;top:{196 + 20 + 5 * LH() + 10:.0f}px;width:{tw("2단   2  4  6  8 10 12 14 16 18") + 140:.0f}px;height:{LH():.0f}px"></div>')
 o.append(spot(4, target="xg-row", pad=8, r=10))
 o.append(tag(cx(96, 0) + tw("2단   2  4  6  8 10 12 14 16 18") + 180, oy(196, 5, 0), "안쪽 for가 채운 한 줄", GR, 4))
@@ -939,7 +946,7 @@ tr = [("셀이 끝나지 않고 출력이 계속 나와요", "while 조건이 �
 o.append(f'<div{bi("fade", 1)} style="position:absolute;left:96px;top:208px;width:1728px;height:48px;display:flex;flex-direction:row;gap:28px;align-items:center;border-bottom:3px solid {INK}">'
          + p(f"width:640px;padding-left:76px;font-size:24px;font-weight:700;color:{GRAY}", "이럴 때") + p(f"width:600px;font-size:24px;font-weight:700;color:{GRAY}", "까닭") + p(f"flex:1;font-size:24px;font-weight:700;color:{GRAY}", "이렇게") + '</div>')
 for i, (q, a_, cmd) in enumerate(tr):
-    o.append(f'<div{bi("rise", 1 + (0 if i < 2 else 1 if i < 4 else 2))} style="position:absolute;left:96px;top:{262 + i * 96}px;width:1728px;height:96px;display:flex;flex-direction:row;gap:28px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{bi("rise", 1 + (0 if i < 2 else 1 if i < 4 else 2))}{DELAY((i if i < 2 else i - 2 if i < 4 else i - 4) * 90)} style="position:absolute;left:96px;top:{262 + i * 96}px;width:1728px;height:96px;display:flex;flex-direction:row;gap:28px;align-items:center;border-bottom:2px solid {LINE}">'
              + p(f"width:48px;flex:none;font-size:30px;font-weight:900;color:{RED};text-align:center", str(i + 1))
              + p(f"width:564px;flex:none;{'font-family:' + MONO + ';font-size:24px;' if q.isascii() else 'font-size:26px;'}font-weight:700;color:{INK}", e(q))
              + p(f"width:600px;flex:none;font-size:25px;color:{SUB}", e(a_))

@@ -19,12 +19,13 @@
 <div data-build-in="spot order 2" data-pad="10" data-r="18px" data-dim="0.45" style="position:absolute;left:96px;top:455px;width:1728px;height:190px"></div>
 <div id="c-e2" style="position:absolute;left:96px;top:700px;width:1190px;display:flex;flex-direction:column;gap:10px">
 <div style="display:flex;flex-direction:row;gap:10px;align-items:stretch"><div style="width:7px;flex:none;border-radius:4px;background:transparent"></div><p style="width:58px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;color:#6A7180;text-align:right;padding-top:12px">[6]</p><div style="flex:1;position:relative;background:#FFFFFF;border:2px solid #E1DED6;border-radius:10px;padding:8px 18px;display:flex;flex-direction:column"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;line-height:1.45;white-space:pre;color:#1D2330">orders["menu"]</p><p style="position:absolute;right:14px;bottom:6px;font-size:18px;color:#6A7180">Python</p></div></div>
-<p style="margin-left:85px;padding:0 20px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;line-height:1.45;white-space:pre;color:#A33131;align-self:flex-start">TypeError: list indices must be integers or slices, not str</p>
+<p id="e2-o" style="margin-left:85px;padding:0 20px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;line-height:1.45;white-space:pre;color:#A33131;align-self:flex-start">TypeError: list indices must be integers or slices, not str</p>
 </div>
 <p style="position:absolute;left:1340px;top:704px;font-size:28px;font-weight:900;color:#1F8A4C">고치기</p>
 <div style="position:absolute;left:1340px;top:750px;"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre;background:#E6F4EC;border-radius:10px;padding:2px 14px;border:3px solid #1F8A4C;">orders[0]["menu"]</p></div>
 <p style="position:absolute;left:1340px;top:824px;width:484px;font-size:24px;font-weight:700;line-height:1.4;color:#4A5262">orders는 리스트예요. 번호부터 적어요</p>
 <div data-build-in="spot order 3" data-pad="10" data-r="18px" data-dim="0.45" style="position:absolute;left:96px;top:700px;width:1728px;height:190px"></div>
+<div data-build-in="shake order 3" data-target="e2-o" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <div data-build-in="spot-off order 4" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>오류 마지막 줄의 KeyError 뒤에는 찾던 키가 나와요. scores[0]은 리스트처럼 번호로 꺼낸 경우예요. 딕셔너리에는 번호가 없어서 0이라는 키를 찾다가 KeyError가 나요. scores["Lee"]는 대문자 L로 적어서 lee와 다른 키예요. orders["menu"]는 리스트에 키를 넣은 경우예요. orders는 바깥이 리스트라 번호부터 적고, 그다음에 키를 적어요. scores와 orders는 4파트에서 만든 것을 그대로 써서 셀 번호가 이어져요. 출력은 실제로 실행한 결과예요.</aside>
 </section>

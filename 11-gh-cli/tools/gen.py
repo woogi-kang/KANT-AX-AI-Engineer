@@ -14,7 +14,8 @@ Usage (in 11-gh-cli): python3 tools/gen.py slides
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box as pen_box, underline  # noqa: E402
+from highlight import (spot, spot_off, cursor, cursor_off, ring, box as pen_box, underline,  # noqa: E402
+                       SLAM, SLIDE, DIM, DELAY, PATH, pulse, shine, shake, zoom, zoom_off)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -329,11 +330,12 @@ MADE = "출력은 tools/demo.sh로 실제 gh를 실행한 결과예요."
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px">',
        p("position:absolute;left:128px;top:300px;font-size:28px;font-weight:700;color:#F2B27A", "KANT AX/AI 엔지니어 트랙 · 11"),
-       '<h1 style="position:absolute;left:128px;top:360px;font-size:100px;font-weight:900;line-height:1.15;color:#F6F5F1">터미널에서<br>GitHub 다루기</h1>',
+       f'<h1{SLAM(1)} style="position:absolute;left:128px;top:360px;font-size:100px;font-weight:900;line-height:1.15;color:#F6F5F1">터미널에서<br>GitHub 다루기</h1>',
        p("position:absolute;left:128px;top:630px;font-size:40px;line-height:1.4;color:#BFC6D4", "gh로 로그인하고<br>레포 만들고 지우기")]
 t = Term([("$", P_HOME, "gh auth login"), ("g", "✓ Logged in as kim"), ("o", ""), ("$", P_KANT, "gh repo clone kim/team-intro"), ("o", CLONE[0])],
          1060, 330, size=30, w=980, tid="cov-term", bleed=True)
 cov.append(t.html())
+cov.append(shine(2, "cov-term"))
 W("cover", cov, "11 챕터는 GitHub 공식 터미널 도구 gh(GitHub CLI)를 다뤄요. 지금까지 레포 만들기, PR 만들기는 GitHub 웹사이트에서 버튼으로 했어요. 오늘은 같은 일을 터미널에서 해요. 로그인부터 시작해서 레포를 받고, 만들고, 지워요. 지울 때 권한이 모자라서 막히는 장면도 일부러 넣었어요. 마지막에는 이슈와 PR을 다루는 명령을 봐요.", ("intro", "들어가기"))
 
 ORDER.append("toc")   # written last, after page numbers are known
@@ -359,7 +361,7 @@ inner = (f'<div style="width:100%;display:flex;flex-direction:row;gap:34px;align
          + rows + '</div>')
 o.append(browser(96, 460, 1900, 680, "github.com/kim/team-intro", inner, "br-repo", pad="30px 160px 30px 44px", align="stretch").replace("justify-content:center;gap:22px", "justify-content:flex-start;gap:26px"))
 o.append(cursor(1, target="btn-compare"))
-mini = Term([("$", P_TI, "gh pr create")], 1180, 214, size=26, w=644, tid="t-gh", attrs=bi("rise", 2))
+mini = Term([("$", P_TI, "gh pr create")], 1180, 214, size=26, w=644, tid="t-gh", attrs=SLIDE(2, 300, 0))
 o.append(mini.html())
 o.append(caption("오늘은 이 버튼도 터미널에서 눌러요.", 214 + mini.h + 20, 2, left=1180, width=644, size=28, color=OR))
 o.append(cursor_off(2))
@@ -389,6 +391,8 @@ o.append(f'<div style="position:absolute;left:1264px;top:540px;width:520px;heigh
 # arrows
 g1 = arrow_path("M700,436 L1250,436", BL) + head_at(1252, 436, 0, BL) + arrow_path("M1250,470 L700,470", BL, dash="1 12") + head_at(698, 470, 180, BL)
 o.append(svg(g1, 1))
+o.append(svg('<path id="p-push" d="M700,436 L1240,436" fill="none" stroke="none"/><path id="p-gh" d="M700,596 L1240,596" fill="none" stroke="none"/>'))
+o.append(f'<div{PATH(1, "p-push")} style="position:absolute;left:1222px;top:418px;width:36px;height:36px;border-radius:18px;background:{BL};border:4px solid #FFFFFF;box-shadow:0 2px 6px rgba(0,0,0,.18)"></div>')
 o.append(p(f"position:absolute;left:760px;top:380px;width:440px;text-align:center;font-size:26px;font-weight:700;color:{BL}", "push, pull로 커밋 주고받기", bi("fade", 1)))
 # browser path (old way)
 o.append(f'<div style="position:absolute;left:760px;top:800px;width:400px;height:110px;background:#FFFFFF;border:1px solid {LINE};border-radius:16px;display:flex;flex-direction:row;gap:16px;align-items:center;padding:0 28px">'
@@ -398,6 +402,7 @@ o.append(svg(g2, 2))
 o.append(p(f"position:absolute;left:1300px;top:860px;width:520px;font-size:26px;font-weight:700;color:{GRAY}", "지금까지는 마우스로 눌렀어요", bi("fade", 2)))
 g3 = arrow_path("M700,596 L1250,596", OR) + head_at(1252, 596, 0, OR)
 o.append(svg(g3, 3))
+o.append(f'<div{PATH(3, "p-gh")} style="position:absolute;left:1222px;top:578px;width:36px;height:36px;border-radius:18px;background:{OR};border:4px solid #FFFFFF;box-shadow:0 2px 6px rgba(0,0,0,.18)"></div>')
 o.append(p(f"position:absolute;left:760px;top:540px;width:440px;text-align:center;font-size:26px;font-weight:700;color:{OR}", "명령으로 버튼 누르기", bi("fade", 3)))
 o.append(caption("gh가 git을 대신하지 않아요.<br>둘을 같이 써요.", 790, 3, width=600, size=30))
 W("big", o, "오늘 쓰는 도구 셋이 어디에 있는지 그림으로 봐요. 왼쪽 터미널에서 git과 gh를 같이 써요. git은 push와 pull로 커밋 기록을 GitHub과 주고받아요. GitHub의 레포 만들기, PR, 이슈 같은 버튼은 지금까지 브라우저에서 마우스로 눌렀어요. gh는 그 버튼을 터미널 명령으로 눌러요. 그래서 커밋과 push는 계속 git으로 하고, 버튼 일은 gh로 해요. gh가 git을 대신하지 않아요.")
@@ -416,7 +421,7 @@ for i, (web, segs) in enumerate(rows):
     y = 270 + i * 106
     o.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:1px;background:{LINE}"></div>')
     o.append(p(f"position:absolute;left:96px;top:{y + 28}px;width:760px;font-size:32px;font-weight:700;color:{INK}", e(web)))
-    o.append(p(f"position:absolute;left:900px;top:{y + 26}px;font-family:{MONO};font-size:34px;font-weight:700;white-space:pre", " ".join(f'<span style="color:{c}">{e(s)}</span>' for s, c in segs)))
+    o.append(p(f"position:absolute;left:900px;top:{y + 26}px;font-family:{MONO};font-size:34px;font-weight:700;white-space:pre", " ".join(f'<span style="color:{c}">{e(s)}</span>' for s, c in segs), bi("rise", 1) + DELAY(i * 90)))
 o.append(f'<div style="position:absolute;left:96px;top:{270 + 6 * 106}px;width:1728px;height:1px;background:{LINE}"></div>')
 o.append(caption("gh 다음에 대상, 그다음에 할 일을 적어요.", 940, 1, size=30))
 W("map", o, "오늘 쓸 명령을 웹 버튼과 나란히 놓았어요. 왼쪽은 GitHub 웹사이트에서 누르던 버튼, 오른쪽은 같은 일을 하는 gh 명령이에요. 1파트에서 로그인, 2파트에서 clone, 3파트에서 레포 만들기, 4파트에서 지우기, 5파트에서 이슈와 PR을 봐요. gh 명령은 모두 gh 다음에 대상(repo, issue, pr)과 할 일(create, list, delete)을 적는 모양이에요. 파란 글자가 대상, 주황 글자가 할 일이에요.")
@@ -583,10 +588,10 @@ t = Term([("$", P_TI, "gh repo view")] + [("o", l) for l in VIEW], 96, 214, size
 t.band(1, order=1)
 o.append(t.html())
 o += tag(t, 1, "origin을 보고 알아냈어요", GR, 1)
-t2 = Term([("$", P_TI, "gh browse"), ("o", "Opening https://github.com/kim/team-intro"), ("o", "in your browser.")], 1240, 214, size=20, w=584, tid="t-browse", attrs=bi("rise", 2))
+t2 = Term([("$", P_TI, "gh browse"), ("o", "Opening https://github.com/kim/team-intro"), ("o", "in your browser.")], 1240, 214, size=20, w=584, tid="t-browse", attrs=SLIDE(2, 300, 0))
 binner = (p(f"font-size:28px;font-weight:700;color:{INK}", "kim / team-intro") + f'<div style="width:100%;height:1px;background:#E6E2D9"></div>'
           + p(f"font-size:30px;font-weight:700;color:{INK}", "team-intro") + p(f"font-size:24px;color:{SUB}", "우리 팀 소개 페이지예요."))
-o.append(browser(1240, 440, 584, 430, "github.com/kim/team-intro", binner, "br-view", attrs=bi("rise", 2), align="flex-start", pad="30px 40px").replace("justify-content:center;gap:22px", "justify-content:flex-start;gap:18px"))
+o.append(browser(1240, 440, 584, 430, "github.com/kim/team-intro", binner, "br-view", attrs=SLIDE(2, 300, 0), align="flex-start", pad="30px 40px").replace("justify-content:center;gap:22px", "justify-content:flex-start;gap:18px"))
 o.append(t2.html())
 W("view", o, "레포 폴더 안에서 gh repo view를 치면 레포 이름, 설명, README 내용을 터미널에 보여 줘요. 설명을 안 적은 레포라 No description provided가 나와요. gh browse는 같은 레포를 브라우저 새 탭으로 열어요. 웹에서 할 일이 있을 때 주소를 찾지 않아도 돼요. 두 명령 모두 주인/이름을 적지 않았어요. 지금 폴더의 origin을 보고 kim/team-intro라고 알아낸 거예요. gh browse 출력은 화면에 맞추려고 두 줄로 나눴어요. 브라우저 화면은 단순하게 그린 그림이에요.")
 
@@ -606,13 +611,14 @@ web = [("GitHub에서 New 누르기", False), ("이름 적고 Create repository"
 for i, (txt, mono) in enumerate(web):
     y = 270 + i * 112
     o.append(f'<div style="position:absolute;left:96px;top:{y}px;width:760px;height:1px;background:{LINE}"></div>')
-    o.append(p(f"position:absolute;left:96px;top:{y + 26}px;width:56px;height:56px;border-radius:28px;background:{GH};color:#FFFFFF;font-size:28px;font-weight:900;line-height:56px;text-align:center", str(i + 1)))
-    o.append(p(f"position:absolute;left:176px;top:{y + 30}px;font-size:{26 if mono else 30}px;font-weight:700;color:{INK};{'font-family:' + MONO + ';' if mono else ''}", e(txt)))
+    o.append(f'<div{bi("rise", i + 1)}{DIM("web")} style="position:absolute;left:96px;top:{y + 26}px;width:760px;height:60px">'
+             + p(f"position:absolute;left:0;top:0;width:56px;height:56px;border-radius:28px;background:{GH};color:#FFFFFF;font-size:28px;font-weight:900;line-height:56px;text-align:center", str(i + 1))
+             + p(f"position:absolute;left:80px;top:4px;font-size:{26 if mono else 30}px;font-weight:700;color:{INK};white-space:nowrap;{'font-family:' + MONO + ';' if mono else ''}", e(txt)) + '</div>')
 o.append(f'<div style="position:absolute;left:96px;top:{270 + 4 * 112}px;width:760px;height:1px;background:{LINE}"></div>')
-o.append(svg(arrow_path("M880,290 C930,290 930,290 930,370 L930,640 C930,700 930,718 880,718", TEAL, 4) + arrow_path("M930,504 L1000,504", TEAL, 4) + head_at(1002, 504, 0, TEAL, 14), 1))
-t = Term([("$", P_MN, "gh repo create my-notes"), ("o", "    --public --source=. --remote=origin")], 1030, 420, size=28, w=794, attrs=bi("rise", 1))
+o.append(svg(arrow_path("M880,290 C930,290 930,290 930,370 L930,640 C930,700 930,718 880,718", TEAL, 4) + arrow_path("M930,504 L1000,504", TEAL, 4) + head_at(1002, 504, 0, TEAL, 14), 5))
+t = Term([("$", P_MN, "gh repo create my-notes"), ("o", "    --public --source=. --remote=origin")], 1030, 420, size=28, w=794, attrs=bi("rise", 5))
 o.append(t.html())
-o.append(caption("만들고 origin에 연결하는 데까지 gh가 해요.<br>push는 지금처럼 git으로 해요.", 760, 2, left=1030, width=794, size=28))
+o.append(caption("만들고 origin에 연결하는 데까지 gh가 해요.<br>push는 지금처럼 git으로 해요.", 760, 5, left=1030, width=794, size=28))
 W("create-why", o, "02에서 레포를 GitHub에 올릴 때 네 단계를 거쳤어요. 웹에서 New를 누르고, 이름을 적고 Create repository를 누르고, 주소를 복사해서 git remote add origin으로 연결했어요. gh repo create는 이 네 단계를 한 줄로 해요. 다만 push는 하지 않아요. push는 지금까지처럼 git push origin main으로 직접 쳐요. 오른쪽 명령은 화면에 맞추려고 두 줄로 나눠 적었어요. 실제로는 한 줄로 쳐요.", ("create", "새 레포 만들기"))
 
 o = frame("create-prep", EB3, "먼저 내 컴퓨터에 저장소와 커밋 하나를 만들어요", TEAL)
@@ -680,13 +686,14 @@ o.append(caption("연습용으로 만든 my-notes만 지워요. team-intro처럼
 W("del-warn", o, "지우는 명령을 치기 전에 무엇이 사라지는지 먼저 봐요. GitHub에 있는 레포, 그 안의 이슈와 PR, 다른 사람이 누른 스타까지 모두 사라져요. 내 컴퓨터의 my-notes 폴더는 남아요. GitHub에는 휴지통이 없어서 지운 레포를 다시 꺼낼 수 없어요. 그래서 오늘은 방금 만든 연습용 my-notes만 지워요. 팀 레포는 절대 지우지 않아요.", ("delete", "레포 지우기"))
 
 o = frame("del-try", EB4, "처음 gh repo delete는 권한이 없어서 막혀요", RED)
-t = Term([("$", P_HOME, "gh repo delete kim/my-notes"), ("o", ""), ("o", CONFIRM), ("e", DEL_403), ("o", DEL_HINT[0]), ("y", DEL_HINT[1])], 96, 214, size=24, w=1728, lh=1.8)
+t = Term([("$", P_HOME, "gh repo delete kim/my-notes"), ("o", ""), ("o", CONFIRM), ("e", DEL_403), ("o", DEL_HINT[0]), ("y", DEL_HINT[1])], 96, 214, size=24, w=1728, lh=1.8, tid="t-del")
 t.band(5, order=3)
 o.append(t.html())
 o += tag(t, 2, "실수하지 않게 이름을 한 번 더 쳐요", BL, 1)
 rx = t.tx
 o.append(pen_box(2, round(rx - 8), round(t.top(3) + 6), round(t.sw("HTTP 403") + 16), round(t.lp - 12), RED))
 o += tag(t, 3, "허락할 수 없다는 뜻", RED, 2)
+o.append(shake(2, "t-del"))
 o += tag(t, 5, "칠 명령까지 알려 줘요", OR, 3)
 chips = [chip(k, BL, "#E3ECFD", f"k{i}") for i, (k, _) in enumerate(SC)]
 chips.append(f'<div id="slot-del" style="width:300px;height:84px;flex:none;border:3px dashed {RED};border-radius:14px;font-family:{MONO};font-size:30px;font-weight:700;line-height:78px;text-align:center;color:{RED}">delete_repo ?</div>')
@@ -717,8 +724,10 @@ rows_ += (f'<div id="perm-del" style="width:100%;display:flex;flex-direction:row
 binner = p(f"font-size:30px;font-weight:700;color:{INK}", "Authorize GitHub CLI") + f'<div style="width:100%">{rows_}</div>' + gh_button("Authorize github", "btn-auth2")
 bx_, by_ = 820, t.y + t.h - 20
 o.append(browser(bx_, by_, 760, 560, "github.com/login/device", binner, "br-auth", align="flex-start", pad="26px 40px").replace("justify-content:center;gap:22px", "justify-content:flex-start;gap:18px"))
+o.append(zoom(1, bx_, by_ + 52, 760, 420, 40, 1.8))
 o.append(ring(1, bx_ + 46, by_ + 52 + 26 + 45 + 18 + 120 + 10, 300, 40, RED))
 o.append(p(f"position:absolute;left:96px;top:{by_ + 260}px;width:620px;font-size:30px;font-weight:700;line-height:1.45;color:{RED}", "새로 더해지는 권한이에요.<br>코드 넣기는 로그인 때와 같아요.", bi("fade", 1)))
+o.append(zoom_off(2))
 o.append(cursor(2, target="btn-auth2"))
 o.append(cursor_off(3))
 W("refresh", o, "에러가 알려 준 명령을 그대로 쳐요. 1파트 로그인 때처럼 코드가 나오고, Enter를 누르면 브라우저가 열려요. 코드를 넣고 Continue를 누르면 허락 화면이 나와요. 이번 허락 화면에는 레포 지우기 권한(Delete repositories)이 새로 들어 있어요. Authorize github를 누르고 터미널에 Authentication complete가 나오면 끝이에요. 질문 네 개는 다시 묻지 않아요. 코드는 칠 때마다 달라요. 브라우저 화면은 단순하게 그린 그림이에요.")
@@ -732,6 +741,7 @@ o.append(underline(1, round(dx), round(dx + t.sw("'delete_repo'")), round(t.top(
 chips = [chip(k, BL, "#E3ECFD", f"k{i}") for i, (k, _) in enumerate(SC)]
 chips.append(chip("delete_repo", RED, "#FBE4E2", "k4", w=300))
 o.append(badge(96, 226, chips))
+o.append(pulse(2, "k4"))
 o.append(caption("이제 지우기를 다시 해 봐요.", 446, 2, size=30, color=SUB))
 W("status2", o, "gh auth status를 다시 쳐서 확인해요. Token scopes 맨 앞에 delete_repo가 생겼어요. 출입증에 다섯 번째 칸이 생겼으니 이제 지우기를 다시 해 봐요. " + MADE)
 
@@ -787,7 +797,7 @@ t = Term([("$", P_TI, "gh pr merge 2 --merge"), ("g", PR_MERGED), ("o", ""), ("$
 t.band(1, order=1)
 o.append(t.html())
 o += tag(t, 1, "합쳤어요", OR, 1)
-t2 = Term([("$", P_TI, "git log --oneline")] + [("o", l[:30] + ("…" if len(l) > 30 else "")) for l in LOG_AFTER], 1350, 214, size=18, w=474, tid="t-log", attrs=bi("rise", 2))
+t2 = Term([("$", P_TI, "git log --oneline")] + [("o", l[:30] + ("…" if len(l) > 30 else "")) for l in LOG_AFTER], 1350, 214, size=18, w=474, tid="t-log", attrs=SLIDE(2, 300, 0))
 t2.band(1, order=2)
 o.append(t2.html())
 o.append(caption(f"{cmd('--merge')}는 08에서 본 Merge 버튼 세 가지 중 Create a merge commit이에요.", 480, 3, left=1350, width=474, size=26))
@@ -824,9 +834,10 @@ for i, (q, a_, c_) in enumerate(tr):
     y = 262 + i * 122
     o.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:1px;background:{LINE}"></div>')
     mono = q.isascii()
-    o.append(p(f"position:absolute;left:96px;top:{y + 18}px;width:1000px;{'font-family:' + MONO + ';font-size:25px;' if mono else 'font-size:28px;'}font-weight:700;color:{RED if mono else INK}", e(q)))
-    o.append(p(f"position:absolute;left:96px;top:{y + 66}px;width:1000px;font-size:24px;color:{SUB}", e(a_)))
-    o.append(p(f"position:absolute;left:1140px;top:{y + 38}px;width:684px;font-family:{MONO};font-size:{22 if len(c_) > 30 else 25}px;font-weight:700;color:{INK};white-space:nowrap", e(c_)))
+    ra = bi("rise", 1) + DELAY(i * 80)
+    o.append(p(f"position:absolute;left:96px;top:{y + 18}px;width:1000px;{'font-family:' + MONO + ';font-size:25px;' if mono else 'font-size:28px;'}font-weight:700;color:{RED if mono else INK}", e(q), ra))
+    o.append(p(f"position:absolute;left:96px;top:{y + 66}px;width:1000px;font-size:24px;color:{SUB}", e(a_), ra))
+    o.append(p(f"position:absolute;left:1140px;top:{y + 38}px;width:684px;font-family:{MONO};font-size:{22 if len(c_) > 30 else 25}px;font-weight:700;color:{INK};white-space:nowrap", e(c_), ra))
 o.append(f'<div style="position:absolute;left:96px;top:{262 + 6 * 122}px;width:1728px;height:1px;background:{LINE}"></div>')
 W("trouble", o, "첫 줄은 설치 직후 자주 나요. 터미널을 껐다 켜면 새로 설치한 gh를 찾아요. 둘째 줄은 로그인 전이라는 뜻이에요. 셋째 줄은 4파트에서 본 권한 에러예요. 넷째 줄은 레포 폴더 밖에서 gh repo view, gh pr list처럼 지금 레포를 쓰는 명령을 쳤을 때예요. pwd로 위치를 보고 레포 폴더로 들어가요. 다섯째 줄은 브랜치를 push하기 전에 gh pr create를 쳤을 때 나오는 질문이에요. Ctrl+C로 멈추고 git push origin 브랜치이름을 친 뒤 다시 해요. 여섯째 줄은 브라우저가 저절로 안 열릴 때예요. 터미널의 코드를 보고 주소를 직접 열어요. 넷째 줄은 실제로 뒤에 (or any of the parent directories): .git이 더 붙어요. 다섯째 줄 질문의 선택지 중 Cancel을 골라도 멈춰요.", ("trouble", "정리"))
 

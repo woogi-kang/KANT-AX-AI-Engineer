@@ -8,13 +8,17 @@ Every cell and output comes from tools/demo.sh (tools/run_nb.py runs the cells w
 Layout rules (Stageshow skill, tools/DESIGN.md): the notebook cell is the one focal object of a slide; terms are
 leader tags beside the line they explain (tag, ly, oy, tx), not cards; a fix is the wrong line struck through
 next to the right one (fix); tables are hairline rows (rows), not boxes; highlights come from tools/highlight.py.
+Highlights (tools/HIGHLIGHT.md): slam and shine on the cover, one-click staggered rows (delay), keycaps, shake on the
+first KeyError, run band (i-false), code morph (i-nested), changed letter (mark, e-eq), line spotlight and count up
+(x-sale), zoom (x-grade), plus spotlight, cursor, fly, pen ring, underline and box. No typing effect anywhere.
 Usage: python3 tools/gen.py slides
 """
 
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline
+from highlight import (spot, spot_off, cursor, cursor_off, ring, box, underline, lspot, lspot_off, run, run_off, zoom, zoom_off,
+                       keys, shine, shake, SLAM, COUNT, MARK, DELAY, MORPH, MORPH_FROM, tok)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -83,7 +87,7 @@ def cell(c, left, top, w, sel=None, attrs=""):
     o = [f'<div id="{c["id"]}"{attrs or c.get("attrs", "")} style="position:absolute;left:{left}px;top:{top}px;width:{w}px;display:flex;flex-direction:column;gap:10px">']
     bar = f'<div style="width:7px;flex:none;border-radius:4px;background:{SEL if sel == c["id"] else "transparent"}"></div>'
     gutter = p(f"width:58px;flex:none;font-family:{MONO};font-size:22px;color:{GRAY};text-align:right;padding-top:12px", f"[{n}]" if n else "[ ]")
-    txt = "".join(p(f"font-family:{MONO};font-size:{fs}px;line-height:1.45;white-space:pre;color:{INK}", e(l) if l else "&#160;") for l in lines)
+    txt = "".join(p(f"font-family:{MONO};font-size:{fs}px;line-height:1.45;white-space:pre;color:{INK}", (l if c.get("raw") else e(l)) if l else "&#160;") for l in lines)
     tag_ = p(f"position:absolute;right:14px;bottom:8px;font-size:18px;color:{GRAY}", "Python")
     body = f'<div style="flex:1;position:relative;background:#FFFFFF;border:2px solid {LINE};border-radius:10px;padding:8px 18px 8px;display:flex;flex-direction:column">{txt}{tag_}</div>'
     o.append(f'<div style="display:flex;flex-direction:row;gap:10px;align-items:stretch">{bar}{gutter}{body}</div>')
@@ -170,7 +174,7 @@ def chain(rows, left, top, start=1, color=PUR, gap=74, fs=28, lw=110):
     return o
 
 
-def rows(left, top, widths, data, head_=None, order0=1, rh=78, fs=28, step=1, kinds=None, ids=None):
+def rows(left, top, widths, data, head_=None, order0=1, rh=78, fs=28, step=1, kinds=None, ids=None, delay=0):
     """A light table: gray header over a 3px rule, rows split by 2px hairlines, no boxes.
     kinds: per cell 'code', 'sans', 'tf' or a color for sans text. step: rows per build order."""
     o, y, w = [], top, sum(widths) + 24 * (len(widths) - 1)
@@ -190,7 +194,7 @@ def rows(left, top, widths, data, head_=None, order0=1, rh=78, fs=28, step=1, ki
                 col = kind if kind.startswith("#") else (INK if k == 0 else SUB)
                 cs += p(f"width:{cw}px;flex:none;font-size:{fs}px;font-weight:{700 if k == 0 or kind.startswith('#') else 500};line-height:1.35;color:{col}", e(c))
         rid = f' id="{ids[i]}"' if ids else ""
-        o.append(f'<div{rid}{at(order0 + i // step, "rise") if order0 else ""} style="position:absolute;left:{left}px;top:{y + i * rh:.0f}px;width:{w}px;height:{rh}px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">{cs}</div>')
+        o.append(f'<div{rid}{at(order0 + i // step, "rise") if order0 else ""}{DELAY((i % step) * delay) if delay and order0 else ""} style="position:absolute;left:{left}px;top:{y + i * rh:.0f}px;width:{w}px;height:{rh}px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">{cs}</div>')
     return o
 
 
@@ -199,14 +203,14 @@ def arrow_r(w=64, color="#B4B9C3"):
             f'<path d="M{w - 22},4 L{w - 4},14 L{w - 22},24" fill="none" stroke="{color}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>')
 
 
-def fix(left, top, bad, good, order, size=30, note=None):
+def fix(left, top, bad, good, order, size=30, note=None, good_html=None):
     """The wrong line struck through, an arrow, the right line."""
     return (f'<div{at(order, "rise")} style="position:absolute;left:{left}px;top:{top}px;display:flex;flex-direction:row;align-items:center;gap:22px">'
             + p(f"font-size:{size}px;font-weight:900;color:{RED}", "✕")
             + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{RED};text-decoration:line-through;text-decoration-thickness:3px;white-space:pre", e(bad))
             + arrow_r()
             + p(f"font-size:{size}px;font-weight:900;color:{GR}", "✓")
-            + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{INK};background:{GRBG};border:3px solid {GR};border-radius:14px;padding:6px 20px;white-space:pre", e(good))
+            + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{INK};background:{GRBG};border:3px solid {GR};border-radius:14px;padding:6px 20px;white-space:pre", good_html or e(good))
             + (p(f"margin-left:12px;font-size:{size - 2}px;font-weight:700;color:{GR};white-space:nowrap", e(note)) if note else "") + '</div>')
 
 
@@ -270,12 +274,13 @@ NEWK = " 이 파트는 새 커널이라 셀 번호가 [1]부터예요."
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#F2B27A">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       '<h1 style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">제어문 1<br>조건문 if</h1>',
+       f'<h1{SLAM(1)} style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">제어문 1<br>조건문 if</h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">조건에 따라<br>다른 줄을 실행하기</p>']
-cov.append('<div style="position:absolute;left:940px;top:300px;width:860px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">')
+cov.append('<div id="cov-code" style="position:absolute;left:940px;top:300px;width:860px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">')
 for line, c in [("if total >= 20000:", "#9DBDEB"), ('    print("10% 할인")', "#E6E9EF"), ("elif total >= 10000:", "#E3B877"), ('    print("5% 할인")', "#E6E9EF"), ("else:", "#E3B877"), ('    print("할인 없음")', "#E6E9EF")]:
     cov.append(p(f"font-family:{MONO};font-size:36px;font-weight:700;line-height:1.45;color:{c};white-space:pre", e(line)))
 cov.append('</div>')
+cov.append(shine(2, "cov-code"))
 W("cover", cov, "이번 챕터에서는 조건이 True일 때만 실행하는 if를 직접 써요. 15와 16에서 참고 칸에 두고 읽기만 했던 if 코드를 이번에 직접 쳐요. 12의 비교와 and, or, not, 13의 for를 그대로 가져와요. 같은 카페 예제로 이어 가고, 18에서는 while과 break로 반복을 다뤄요.", ("intro", "들어가기"))
 
 ORDER.append("toc")   # written last, after page numbers are known
@@ -301,6 +306,8 @@ o.append(f'<div style="position:absolute;left:{NBX}px;top:{NBY}px;width:{NBW}px;
          + '</div></div>')
 o.append(cursor(4, NBX + NBW - 34, NBY + 58 + 42))
 o.append(tag(NBX, NBY + 520, "커널이 .venv인지 보고, 새 셀에서 Shift+Enter로 실행해요", JP, 4, 26, False))
+o.append(cursor_off(5))
+o.append(keys(5, NBX, NBY + 580, "Shift+Enter"))
 W("ready", o, "09에서 만든 hello-uv 폴더를 VS Code로 열고 12부터 쓰던 basics.ipynb에 이어서 적어요. 왼쪽은 이번 챕터에서 다시 쓰는 내용과 기억이 안 날 때 볼 곳이에요. 오른쪽 위 커널이 .venv인지 먼저 보고, 새 셀에 적은 뒤 Shift+Enter로 실행해요. 슬라이드의 출력은 tools/demo.sh가 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요. 셀 번호는 파트마다 [1]부터 다시 셌어요.")
 
 # ---------- part 1 ----------
@@ -312,6 +319,7 @@ o += cell(c, 96, T, 1150, sel="c-why")
 o.append(hl(96, T, 1150, 2, 1, "err", 1))
 o.append(tag(tx(96, ["print(menu[order])"]), ly(T, 2), "tea가 없어도 이 줄을 실행해요", RED, 1))
 o.append(ring_tok(2, 96, T, 0, "", "KeyError: 'tea'", RED, out_n=3))
+o.append(shake(2, "c-why"))
 o.append(p(f"position:absolute;left:96px;top:620px;width:1150px;font-size:30px;font-weight:700;line-height:1.5;color:{GRAY}", "원하는 것은", at(3)))
 o.append(p(f"position:absolute;left:96px;top:676px;width:1150px;font-size:48px;font-weight:700;line-height:1.5;color:{INK}", "<b style=\"color:" + GR + "\">메뉴판에 있으면</b> 가격을 찍고,<br><b style=\"color:" + RED + "\">없으면</b> 없다고 말해요.", at(3)))
 # 15, 16 read-only code: quiet satellite column, no boxes
@@ -398,6 +406,10 @@ o.append(tag(TXF, ly(T2, 1), "3000 >= 4500", INK, 4, 30, False))
 o.append(f'<div{at(4)} style="position:absolute;left:{TXF}px;top:{ly(T2, 1) + 30:.0f}px">' + tf("False", 26) + '</div>')
 o.append(tag(TXF, ly(T2, 2) + 44, "건너뛰어요", GRAY, 5))
 o.append(tag(cx(96, "다음 손님") + 30, oy(T2, 4, 0), "출력이 한 줄뿐이지만 오류가 아니에요", GRAY, 6))
+# a run band follows the line being run: down the first cell, then over the skipped print of the second
+for k_, (top_, i_) in enumerate([(T1, 2), (T1, 3), (T1, 4), (T2, 1), (T2, 3)]):
+    o.append(run(k_ + 1, 96 + 87, top_ + 10 + i_ * LH(), 1100 - 89, LH()))
+o.append(run_off(6))
 o.append(caption("같은 코드라도 값에 따라 실행하는 줄이 달라져요.", 960, 7))
 CFS[0] = 30
 W("i-false", o, "조건이 False면 들여쓴 줄을 건너뛰고 if 다음 줄로 가요. 같은 if를 money만 바꿔서 두 번 실행했어요. 위는 5000이라 조건이 True고, 들여쓴 print를 실행해요. 아래는 3000이라 조건이 False라서 들여쓴 print를 건너뛰고 바로 다음 손님을 찍어요. 오류가 난 게 아니라 일부러 건너뛴 거예요. 아래 셀에는 price를 다시 적지 않았어요. 셀 [1]에서 넣은 4500이 그대로 남아 있어요." + NEWK + REAL, ("p2", "if, else, elif"))
@@ -512,8 +524,13 @@ o.append(tag(TXF, ly(T1, 2), "4칸 · 바깥 if가 True일 때만 물어요", BL
 o.append(hl(96, T1, 1000, 3, 1, "run", 2))
 o.append(tag(TXF, ly(T1, 3), "8칸 · 둘 다 True일 때만 실행", GR, 2))
 o.append(p(f"position:absolute;left:96px;top:{T2 - 66}px;font-size:28px;font-weight:700;color:{K3}", "and로 줄이면", at(3)))
-o += cell({"id": "c-n2", "lines": ["if height >= 120 and age >= 7:", '    print("탈 수 있어요")'], "n": None, "out": ["탈 수 있어요"]}, 96, T2, 1000, attrs=at(3, "rise"))
-o.append(tag(TXF, oy(T2, 2, 0), "셀 [1]과 같은 결과, 들여쓰기는 한 번", K3, 4))
+# code morph: a copy of the nested if folds into one and line (the PDF shows only the and line)
+PT = tok("p", e('print("탈 수 있어요")'))
+o += cell({"id": "c-n0", "raw": True, "lines": [tok("if", "if") + " " + tok("h", "height &gt;= 120") + tok("c", ":"), "    if " + tok("g", "age &gt;= 7") + ":", "        " + PT], "n": None},
+          96, T2, 1000, attrs=at(3, "rise") + MORPH_FROM())
+o += cell({"id": "c-n2", "raw": True, "lines": [tok("if", "if") + " " + tok("h", "height &gt;= 120") + " and " + tok("g", "age &gt;= 7") + tok("c", ":"), "    " + PT], "n": None, "out": ["탈 수 있어요"]},
+          96, T2, 1000, attrs=MORPH(4, "c-n0"))
+o.append(p(f"position:absolute;left:{TXF}px;top:{oy(T2, 2, 0) - 20:.0f}px;white-space:nowrap;font-size:28px;font-weight:700;line-height:1.45;color:{K3}", "← 셀 [3]과 같은 결과, 들여쓰기는 한 번", at(4) + DELAY(900)))
 o.append(caption("들여쓰기가 깊어지면 and로 합칠 수 있는지 먼저 봐요.", 960, 5))
 CFS[0] = 30
 W("i-nested", o, "if 안에 다시 if를 넣을 수 있고, 할 일이 한 군데뿐이면 and 한 줄로 줄일 수 있어요. 바깥 if가 True일 때만 안쪽 if를 물어요. 안쪽 if의 줄은 4칸을 한 번 더 들여써서 8칸이에요. 키가 120 이상이고 나이가 7 이상이어야 실행하니 and로 이은 조건과 같아요. 아래처럼 한 줄로 적으면 들여쓰기가 얕아져서 읽기 쉬워요. 메뉴판에 있으면 먼저 가격을 찍고 그다음 5000원 이하인지 다시 묻는 것처럼, 바깥 조건이 맞은 뒤에 따로 할 일이 있을 때는 안쪽 if가 필요해요." + REAL)
@@ -721,7 +738,8 @@ o.append(under_tok(1, 96, T, 0, "Cell In[1], ", "line 2", OR, out_n=3))
 o.append(tag(cx(96, "Cell In[1], line 2") + 30, oy(T, 3, 0), "둘째 줄이 문제예요", OR, 1))
 o.append(under_tok(2, 96, T, 1, "SyntaxError: invalid syntax. ", "Maybe you meant '=='", GR, out_n=3))
 o.append(tag(cx(96, "SyntaxError: invalid syntax. "), oy(T, 3, 1) + 56, "\"== 를 쓰려던 거 아니에요?\" · := 는 배우지 않은 기호예요", GR, 2, 26, False))
-o.append(fix(96, 650, 'if order = "coffee":', 'if order == "coffee":', 3, 34))
+o.append(fix(96, 650, 'if order = "coffee":', 'if order == "coffee":', 3, 34,
+             good_html='if order =<span' + MARK(4) + f' style="color:{GR};background:#BFE5CC;border-radius:4px">=</span> "coffee":'))
 o.append(p(f"position:absolute;left:96px;top:756px;width:1728px;font-size:30px;font-weight:700;color:{INK}", "= 하나는 넣기, == 두 개는 묻기 (12)", at(4)))
 o.append(p(f"position:absolute;left:96px;top:816px;width:1728px;font-size:28px;color:{SUB}", "SyntaxError는 실행 전에 문법을 검사하다 나서, 셀의 어느 줄도 실행되지 않아요.", at(4)))
 o.append(caption("SyntaxError가 나면 line 숫자의 줄부터 봐요.", 960, 5))
@@ -786,7 +804,12 @@ o += cell({"id": "c-p1", "lines": LS, "n": 1, "out": ["합계  15,500원", "할�
 o.append(hl(96, T, 1100, 3, 2, "mark", 1, "15 · 합계"))
 o.append(hl(96, T, 1100, 5, 6, "run", 2, "elif · 할인율"))
 o.append(hl(96, T, 1100, 11, 1, "mark", 3, "12 · 몫 //"))
+CB = (96 + 85, T, 1100 - 85, cell_h({"lines": LS}))
+for k_, (i_, n_, c_) in enumerate([(3, 2, BL), (5, 6, GR), (11, 1, BL)]):
+    o.append(lspot(k_ + 1, *CB, T + 10 + i_ * LH(), n_ * LH(), bar=c_))
+o.append(lspot_off(4))
 o += rows(1270, T, [554], [["coffee 2잔  4,500 × 2 = 9,000"], ["cake 1개  6,500 × 1 = 6,500"], ["합계 15,500 · 10000 이상이라 5%"], ["할인  15500 × 5 // 100 = 775"]], ["계산 따라가기"], 1, 92, 26, 2, ["sans"])
+o = [re.sub(r'<p( style="[^"]*">(?:(?!</p>|<p ).)*?15,500)', lambda m: "<p" + COUNT(1) + m.group(1), x) for x in o]
 o.append(caption("for로 합계를 내고, elif로 할인율 하나를 골라요.", 960, 4))
 W("x-sale", o, "for로 장바구니 합계를 내고 elif로 할인율 하나를 고르면 할인 영수증이 나와요. 15의 메뉴판과 장바구니 딕셔너리를 써요. items()로 장바구니를 돌며 가격 곱하기 수량을 total에 쌓으면 15500원이에요. 2만 원 이상 10, 1만 원 이상 5, 나머지 0이라 15500은 5퍼센트예요. 할인 금액은 total 곱하기 rate를 100으로 나눈 몫이에요. 12의 // 라서 소수점 없이 775원이 돼요. 출력은 13의 칸 맞추기와 천 단위 콤마예요. cart를 바꿔 2만 원이 넘게 담아 보고 10% 할인이 나오는지 확인해요." + NEWK + REAL, ("p6", "실습"))
 
@@ -798,10 +821,13 @@ o.append(hl(96, T, 1130, 2, 8, "run", 1, "elif 계단 · 8칸 안"))
 o.append(hl(96, T, 1130, 10, 1, "mark", 2, "for 안, if 밖 · 4칸"))
 stairs = [("90 이상", "A", GR), ("80 이상", "B", BL), ("70 이상", "C", OR), ("나머지", "F", RED)]
 for i, (k, g, col) in enumerate(stairs):
-    o.append(f'<div{at(i + 3, "rise")} style="position:absolute;left:{1270 + i * 44}px;top:{T + i * 124}px;width:{554 - i * 44}px;height:106px;border-top:4px solid {col};display:flex;flex-direction:row;align-items:center;gap:22px;padding:0 10px">'
+    o.append(f'<div{at(3, "rise")}{DELAY(i * 150)} style="position:absolute;left:{1270 + i * 44}px;top:{T + i * 124}px;width:{554 - i * 44}px;height:106px;border-top:4px solid {col};display:flex;flex-direction:row;align-items:center;gap:22px;padding:0 10px">'
              + p(f"font-family:{MONO};font-size:48px;font-weight:900;color:{col}", g) + p(f"font-size:28px;font-weight:700;color:{INK}", e(k)) + '</div>')
-o.append(tag(1270, T + 4 * 124 + 50, "높은 점수 조건부터 내려가요", K6, 7, 28, False))
-o.append(caption("for 안에 elif 계단을 넣으면 한 명씩 등급이 나와요.", 960, 8))
+o.append(p(f"position:absolute;left:1270px;top:{T + 4 * 124 + 30}px;white-space:nowrap;font-size:28px;font-weight:700;color:{K6}", "높은 점수 조건부터 내려가요", at(3) + DELAY(700)))
+OY = oy(T, 11, 0) - LH() / 2
+o.append(zoom(4, 96 + 95, OY - 10, 360, 4 * (LH() + 10) + 10, 20))
+o.append(zoom_off(5))
+o.append(caption("for 안에 elif 계단을 넣으면 한 명씩 등급이 나와요.", 960, 5))
 W("x-grade", o, "for 안에 elif 계단을 넣으면 한 명씩 등급을 매길 수 있어요. 14에서 이름과 점수를 같이 담은 2차원 리스트를 썼어요. 13의 for a, b in 모양으로 이름과 점수를 한 쌍씩 꺼내고, 점수가 높은 조건부터 elif로 계단을 내려가요. 92는 첫 계단에서 A, 78은 셋째 계단에서 C예요. 조건 순서를 바꾸면 2파트에서 본 것처럼 choi를 뺀 모두가 C가 돼요. if 계단은 for 안이라 4칸, 그 안의 grade는 8칸 들여써요. print는 for 안, if 밖이라 4칸이고 한 명마다 한 줄씩 찍혀요." + REAL)
 
 o = [sec("x-receipt")] + head(EB6, "메뉴판에 없는 주문은 빼고 계산해요", K6)
@@ -811,6 +837,7 @@ o += cell({"id": "c-p3", "lines": LR, "n": 3, "out": ["coffee   4,500원", "cake
 TXR = 1250
 o.append(hl(96, T, 1100, 4, 3, "run", 1))
 o.append(tag(TXR, ly(T, 5), "있으면 찍고 합계에 더해요", GR, 1))
+o = [re.sub(r'<p( style="[^"]*">(?:(?!</p>|<p ).)*?15,500)', lambda m: "<p" + COUNT(1) + m.group(1), x) for x in o]
 o.append(hl(96, T, 1100, 7, 2, "mark", 2))
 o.append(tag(TXR, ly(T, 7.5), "없으면 따로 모아요 · KeyError 없음", BL, 2))
 o.append(hl(96, T, 1100, 10, 1, "mark", 3))
@@ -828,8 +855,8 @@ ch = [["if", "할 일이 한 가지, 조건이 맞을 때만", "있으면 알려
       ["if 여러 개", "각각 따로 확인", "쿠폰 여러 장"],
       ["and, or, not", "조건 여러 개를 하나로", "키와 나이, 회원이거나 5만 원"],
       ["값1 if 조건 else 값2", "변수에 둘 중 하나 넣기", "msg 고르기"]]
-o += rows(96, 210, [480, 600, 576], ch, ["모양", "언제", "예"], 1, 104, 30, 2, ["code", "sans", GRAY])
-o.append(caption("처음에는 길게 적고, 같은 모양이 반복되면 줄여 써요.", 960, 4))
+o += rows(96, 210, [480, 600, 576], ch, ["모양", "언제", "예"], 1, 104, 30, 6, ["code", "sans", GRAY], delay=90)
+o.append(caption("처음에는 길게 적고, 같은 모양이 반복되면 줄여 써요.", 960, 2))
 W("x-choose", o, "조건이 몇 개이고 몇 개를 실행할지에 따라 if 모양을 골라요. 조건이 맞을 때만 할 일이 있으면 if 하나, 둘 중 하나는 꼭 해야 하면 if와 else예요. 셋 이상 중 하나만 고르면 elif, 각각 따로 확인하면 if를 여러 번 써요. 조건이 여러 개면 and, or, not으로 하나로 묶어요. 변수에 둘 중 하나를 넣을 때는 한 줄 모양도 있어요. 처음에는 길게 적고 결과를 확인한 뒤 줄여요.")
 
 # ---------- summary ----------
@@ -841,8 +868,8 @@ tr = [["1", "SyntaxError: ... Maybe you meant '=='", "if 뒤에 = 하나를 썼�
       ["5", "TypeError: '>=' not supported ... 'str' and 'int'", "글자와 숫자를 비교했어요", "int(price)"],
       ["6", "오류는 없는데 조건이 늘 True", "or 뒤에 비교 없이 값만 적었어요", 'o == "a" or o == "b"'],
       ["7", "오류는 없는데 결과가 이상함", "elif 순서, 들여쓰기 범위를 봐요", "좁은 조건부터"]]
-o += rows(96, 200, [40, 740, 520, 340], tr, None, 1, 104, 24, 2, [RED, "code", "sans", "code"])
-o.append(caption("오류가 안 나도 결과가 이상하면 if 안에 print를 넣어 어느 줄이 실행됐는지 봐요.", 960, 5))
+o += rows(96, 200, [40, 740, 520, 340], tr, None, 1, 104, 24, 7, [RED, "code", "sans", "code"], delay=90)
+o.append(caption("오류가 안 나도 결과가 이상하면 if 안에 print를 넣어 어느 줄이 실행됐는지 봐요.", 960, 2))
 W("trouble", o, "SyntaxError와 IndentationError는 실행 전에 나서 셀의 어느 줄도 실행되지 않으니, line 숫자로 어느 줄인지 먼저 찾아요. 5번은 글자와 숫자를 비교해서 나요. 6번과 7번은 오류가 없는데 결과가 이상한 경우예요. or 뒤에 비교를 빼먹었거나, elif 순서나 들여쓰기 범위가 틀렸어요. 어느 줄이 실행됐는지 궁금하면 if 안에 print를 하나 넣어 확인해요.", ("trouble", "정리"))
 
 o = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">',
@@ -872,7 +899,7 @@ t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:
      f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>']
 for i, (c_, h, s, a, b) in enumerate(parts):
     y = 196 + i * 120
-    t.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:120px;display:flex;flex-direction:row;align-items:center;gap:36px;border-bottom:2px solid {LINE}">'
+    t.append(f'<div data-build-in="rise order 1"{DELAY(i * 90)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:120px;display:flex;flex-direction:row;align-items:center;gap:36px;border-bottom:2px solid {LINE}">'
              + p(f"width:60px;flex:none;font-size:52px;font-weight:900;color:{c_}", str(i + 1))
              + '<div style="flex:1;display:flex;flex-direction:column;gap:4px">' + f'<h3 style="font-size:34px;font-weight:700;line-height:1.3;color:{INK}">{e(h)}</h3>'
              + p(f"font-size:24px;line-height:1.4;color:{SUB}", e(s)) + '</div>'
