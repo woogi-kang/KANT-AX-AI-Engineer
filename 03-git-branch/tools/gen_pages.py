@@ -2,7 +2,7 @@
 # Usage: python3 tools/gen_pages.py slides
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, zoom, zoom_off, shake, SLAM, STAGGER, WIPE, DIM, DELAY  # noqa: E402
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
 MONO = "'JetBrains Mono', 'Noto Sans KR', monospace"
@@ -39,7 +39,7 @@ def vrule(x, top, h, attrs=""):
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:{SANS};padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
  '<p style="font-size:28px;font-weight:700;color:#8FB3FF;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
- '<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">Git 브랜치,<br>눈으로 보기</h1>',
+ f'<h1{SLAM(1)} style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">Git 브랜치,<br>눈으로 보기</h1>',
  '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">따로 작업하고, 합치고,<br>충돌을 푸는 법</p>']
 # decorative graph on the right
 y0, y1 = 560, 400
@@ -64,7 +64,7 @@ parts = [("Lightbulb", "#3A4150", "브랜치란?", "점, 이름표, HEAD", "3–
          ("Wrench", "#1E3F8F", "막힐 때", "자주 나는 에러", "69–71쪽")]
 t = [f'<section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:{SANS};padding:96px 128px;display:flex;flex-direction:column;gap:40px">',
      '<h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>',
-     '<div style="display:grid;grid-template-columns:repeat(3,1fr);column-gap:64px;flex:1">']
+     f'<div{STAGGER(1, 90)} style="display:grid;grid-template-columns:repeat(3,1fr);column-gap:64px;flex:1">']
 for i, (ic, c, h, sub, pg) in enumerate(parts, 1):
     t.append(f'<div style="display:flex;flex-direction:row;gap:28px;align-items:flex-start;border-top:2px solid {HAIR};padding:28px 0 0 0">'
              f'<p style="width:56px;flex:none;font-size:56px;font-weight:900;line-height:1.2;margin-top:-8px;color:{c}">{i}</p>'
@@ -158,14 +158,15 @@ ym, yu = 560, 430
 m += [hline(176, 400, ym, BLL), conn(400, ym, 520, yu, GRL), hline(520, 660, yu, GRL)]
 for x in (176, 288, 400): m.append(node(x, ym, BL, 22))
 for x in (520, 660): m.append(node(x, yu, GR, 22))
-m += [pill(400, ym + 40, "main", "main", ' data-build-in="fade order 1"' if False else ''),
-      pill(660, yu - 66, "feature", "green")]
-m.append(pill(660, yu - 110, "main", "main", ' data-build-in="rise order 1"'))
-m.append(f'<p data-build-in="fade order 1" style="position:absolute;left:440px;top:600px;width:360px;font-size:24px;font-weight:700;color:#1E3F8F">main → 이 커밋으로 이동</p>')
+m += [pill(400, ym + 40, "main", "main", ' id="mk-main0"'), pill(660, yu - 66, "feature", "green")]
+# main flies to the feature tip; the old spot stays as a dashed ghost so the end state (PDF) shows where it came from
+m.append(f'<div data-build-in="fade order 1" style="position:absolute;left:351px;top:{ym + 36}px;width:98px;height:44px;box-sizing:border-box;background:rgba(236,234,227,.8);border:3px dashed #9AA0AB;border-radius:10px"></div>')
+m.append(pill(660, yu - 110, "main", "main", ' data-build-in="fly order 1" data-from="mk-main0"'))
+m.append(f'<p data-build-in="fade order 1"{DELAY(500)} style="position:absolute;left:716px;top:{yu - 110}px;width:200px;font-size:24px;font-weight:700;line-height:1.5;color:#1E3F8F">여기로 이동</p>')
 # merge commit
 o0 = 984
 m += [hline(o0 + 80, o0 + 760, ym, BLL), conn(o0 + 304, ym, o0 + 424, yu, ORL), hline(o0 + 424, o0 + 544, yu, ORL)]
-m.append(conn(o0 + 544, yu, o0 + 664, ym, ORL, ' data-build-in="fade order 2"'))
+m.append(conn(o0 + 544, yu, o0 + 664, ym, ORL, WIPE(2)))
 for x in (80, 192, 304, 474): m.append(node(o0 + x, ym, BL, 22))
 for x in (424, 544): m.append(node(o0 + x, yu, OR, 22))
 m.append(node(o0 + 664, ym, BL, 22, "merge", ' data-build-in="pop order 2"'))
@@ -208,8 +209,8 @@ steps = [("Link", "git checkout<br>-b feature/<br>login-button", "브랜치 만�
 f.append('<div style="position:absolute;left:126px;top:425px;width:1668px;height:6px;background:#C9C5BA;border-radius:3px"></div>')
 for i, (ic, cmd, lab, col, bg, bd) in enumerate(steps):
     L = 96 + i * 292
-    f.append(f'<p data-build-in="rise order {(1, 1, 1, 2, 2, 3)[i]}" style="position:absolute;left:{L}px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:{col};border-radius:30px">{i+1}</p>')
-    f.append(f'<div data-build-in="rise order {(1, 1, 1, 2, 2, 3)[i]}" style="position:absolute;left:{L}px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px">'
+    f.append(f'<p data-build-in="rise order {(1, 1, 1, 2, 2, 3)[i]}"{DIM("flow")} style="position:absolute;left:{L}px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:{col};border-radius:30px">{i+1}</p>')
+    f.append(f'<div data-build-in="rise order {(1, 1, 1, 2, 2, 3)[i]}"{DIM("flow")} style="position:absolute;left:{L}px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px">'
              f'<p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">{lab}</p>'
              f'<p style="font-family:{MONO};font-size:24px;line-height:1.45;font-weight:700;color:{col}">{cmd}</p></div>')
 for L, w_, col, name in ((96, 844, "#5B8DEF", "내 컴퓨터"), (972, 552, "#9A7BF0", "GitHub 웹사이트"), (1556, 268, "#5B8DEF", "내 컴퓨터")):
@@ -388,7 +389,7 @@ def tw(t, size):
     return sum(size if ord(ch) > 0x2E80 else size * 0.6 for ch in t)
 
 
-def term(L, top, w, lines, attrs="", size=28, build=None):
+def term(L, top, w, lines, attrs="", size=28, build=None, ids=None):
     """build: click order the whole terminal comes in on (1 = on screen from the start). No typing, so a slide
     takes as few clicks as possible. term.last is the last order used, term.boxes[i] the (x, y, w, h) of line i for box()."""
     if build is not None and build > 1:
@@ -399,7 +400,7 @@ def term(L, top, w, lines, attrs="", size=28, build=None):
     for k, text in lines:
         t = ("$ " + text) if k == "$" else text
         wgt = "700" if k == "$" else "400"
-        at = ""
+        at = f' id="{ids[len(term.boxes)]}"' if ids and len(term.boxes) in ids else ""
         if build is not None and build > 1:     # comes in after what is above it: the whole box on one click
             cur = build
         prev = k
@@ -439,11 +440,16 @@ def page(i, eyebrow, title, body, aside, color=RED, bg="#F6F5F1"):
     W(i, "\n".join([sec(i, bg), head(eyebrow, title, color)] + body + [f'<aside>{aside}</aside></section>']))
 
 
-def scen(i, eyebrow, title, left, right, lines, take, aside, err=1):
-    """Two file cards, then the merge is typed in, the error line gets a red box, then the takeaway."""
-    t = term(96, 610, 1728, lines, build=1)
+def scen(i, eyebrow, title, left, right, lines, take, aside, err=1, jolt=None):
+    """Two file cards and the terminal, then the error line gets a red box, then the takeaway.
+    jolt: index of a failing line that shakes on the first click (shake: once a deck)."""
+    t = term(96, 610, 1728, lines, build=1, ids={jolt: f"{i}-jolt"} if jolt is not None else None)
     n = term.last + 1
-    body = [filecard(96, 250, 840, 320, *left), filecard(984, 250, 840, 320, *right), t, errbox(n, err), takeaway(take, order=n + 1)]
+    body = [filecard(96, 250, 840, 320, *left), filecard(984, 250, 840, 320, *right), t]
+    if jolt is not None:
+        body.append(shake(n, f"{i}-jolt"))
+        n += 1
+    body += [errbox(n, err), takeaway(take, order=n + 1)]
     page(i, eyebrow, title, body, aside)
 
 
@@ -563,18 +569,18 @@ scen("sc-pull", EBP, "팀원이 먼저 같은 줄을 push했어요",
      [("$", "git push origin main"), ("r", " ! [rejected]        main -&gt; main (fetch first)"),
       ("$", "git pull origin main"), ("r", "fatal: Need to specify how to reconcile divergent branches.")],
      "갈라진 상태에서 pull하면 어떻게 합칠지 정해 달라며 멈춰요.",
-     "push가 거절돼서 pull했더니 fatal로 멈췄어요. 내 main과 GitHub main에 서로 모르는 커밋이 하나씩 있어서예요. 출력 중 error, hint 줄과 From 줄은 뺐어요. git 2.27부터 이렇게 물어봐요.", err=3)
+     "push가 거절돼서 pull했더니 fatal로 멈췄어요. 내 main과 GitHub main에 서로 모르는 커밋이 하나씩 있어서예요. 출력 중 error, hint 줄과 From 줄은 뺐어요. git 2.27부터 이렇게 물어봐요.", err=3, jolt=1)
 page("pull-config", EBP, "처음 한 번만 설정해요", [
     f'<div style="position:absolute;left:96px;top:250px;width:1728px;height:180px;background:#1D2330;border-radius:24px;display:flex;flex-direction:row;align-items:center;padding:0 48px">'
     f'<p style="font-family:{MONO};font-size:48px;font-weight:700;color:#F2C46D">git config --global pull.rebase false</p></div>',
-    '<div style="position:absolute;left:96px;top:520px;width:1728px;height:300px;display:flex;flex-direction:row;gap:24px;align-items:center">'
-    + "".join(f'<div data-build-in="rise order {k+1}" style="flex:1;display:flex;flex-direction:column;gap:16px;padding:0 0 0 {0 if k == 0 else 40}px;justify-content:center">'
+    f'<div{STAGGER(1, 160)} style="position:absolute;left:96px;top:520px;width:1728px;height:300px;display:flex;flex-direction:row;gap:24px;align-items:center">'
+    + "".join(f'<div style="flex:1;display:flex;flex-direction:column;gap:16px;padding:0 0 0 {0 if k == 0 else 40}px;justify-content:center">'
               f'<p style="font-family:{MONO};font-size:64px;font-weight:700;color:{c}">{a}</p><p style="font-size:32px;color:#4A5262">{b}</p></div>'
               for k, (a, b, c) in enumerate([("git pull", "pull은 두 단계예요", "#1D2330"), ("= fetch", "GitHub 커밋을 받아 오고", "#6B47D6"),
                                               ("+ merge", "내 main과 합쳐요", "#2459C9")]))
     + '</div>',
-    underline(4, 144 + round(20 * 28.8), 144 + round(37 * 28.8), 380, OR),
-    takeaway("pull.rebase false는 pull할 때 merge로 합치라는 뜻이에요. 설정한 뒤 다시 pull해요.", 916, order=4)],
+    underline(2, 144 + round(20 * 28.8), 144 + round(37 * 28.8), 380, OR),
+    takeaway("pull.rebase false는 pull할 때 merge로 합치라는 뜻이에요. 설정한 뒤 다시 pull해요.", 916, order=3)],
     "출력은 없어요. --global이라 내 컴퓨터의 모든 저장소에 한 번에 적용돼요. rebase는 08에서 다른 합치는 방법과 비교해 봐요. 02의 처음 설정(user.name, user.email)과 같이 해 두면 좋아요.")
 page("rs-pull", EBP, "다시 pull하면 익숙한 충돌이에요", [
     term(96, 250, 1060, [("$", "git pull origin main"), ("r", "CONFLICT (content): Merge conflict in login.md")], size=26),
@@ -600,7 +606,9 @@ pr = ['<div style="position:absolute;left:96px;top:250px;width:1728px;height:600
       f'<p style="font-size:34px;font-weight:700;color:#1D2330">This branch has conflicts that must be resolved</p></div>'
       f'<p style="font-family:{MONO};font-size:28px;color:#4A5262">Conflicting files: login.md</p>'
       f'<p style="font-size:28px;font-weight:700;color:#9AA0AB;background:#F0F1F3;border-radius:10px;padding:10px 24px;width:330px">Merge pull request</p></div>',
+      zoom(2, 144, 450, 1632, 340),
       underline(2, 252, 1044, 576, RED),
+      zoom_off(3),
       takeaway("내가 PR을 올린 사이 main이 같은 줄을 바꿨어요. Merge 버튼이 막혀요.", 916, order=3)]
 page("sc-pr", EBR, "PR 화면에 충돌이 떠요", pr,
      "feature/login-title을 push하고 PR을 만들었는데, 그 사이 팀원이 main의 같은 줄을 # 로그인 페이지로 바꿔 합쳤어요. GitHub 화면 문구와 모양은 업데이트에 따라 조금 다를 수 있어요. GitHub에서 Resolve conflicts 버튼으로 웹에서 풀 수도 있지만, 수업에서는 내 컴퓨터에서 푸는 법을 써요.")
@@ -621,13 +629,14 @@ rows = [("CONFLICT (content)", "같은 줄, 옆 줄", "고르고, 표시 지우�
 cs = [f'<div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column">',
       '<div style="display:flex;flex-direction:row;gap:24px;padding:0 8px 14px 8px;border-bottom:2px solid #9AA0AB">'
       + "".join(f'<p style="{w_}font-size:24px;font-weight:700;color:#6A7180">{t}</p>' for w_, t in (("width:720px;flex:none;", "메시지"), ("width:280px;flex:none;", "상황"), ("", "푸는 법"))) + '</div>']
+cs.append(f'<div{STAGGER(1, 120)} style="display:flex;flex-direction:column">')
 for k, (msg, sit, fix) in enumerate(rows):
     cs.append(f'<div style="display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {HAIR};padding:26px 8px">'
               f'<p style="width:720px;flex:none;font-family:{MONO};font-size:26px;font-weight:700;color:{RED}">{msg}</p>'
               f'<p style="width:280px;flex:none;font-size:28px;font-weight:700;color:#1D2330">{sit}</p>'
               f'<p style="font-size:28px;color:#4A5262">{fix}</p></div>')
-cs.append('</div>')
-cs.append(takeaway("어떤 충돌이든 막히면 git merge --abort로 처음으로 돌아갈 수 있어요.", 900))
+cs.append('</div></div>')
+cs.append(takeaway("어떤 충돌이든 막히면 git merge --abort로 처음으로 돌아갈 수 있어요.", 900, order=2))
 page("conflict-sum", EBS, "메시지로 충돌 종류를 알아봐요", cs,
      "메시지 첫 단어만 봐도 무엇을 할지 알 수 있어요. 충돌을 푼 뒤에는 git status로 남은 충돌 파일이 없는지 확인하고 커밋해요.")
 
@@ -687,14 +696,14 @@ uw = [("충돌이 나서 merge가 멈췄어요", "git merge --abort", "합치기
       ("커밋했는데 아직 push 전이에요", "git reset HEAD~1", "고친 내용은 작업 폴더에 남아요", "#1A7340"),
       ("merge를 끝냈고, 아직 push 전이에요", "git reset --hard HEAD~1", "git status가 깨끗한지 먼저 봐요", UC),
       ("push까지 했어요", "git revert 커밋", "merge 커밋이면 팀에 먼저 알려요", RED)]
-wb = [f'<div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column;border-top:2px solid {HAIR}">']
+wb = [f'<div{STAGGER(1, 120)} style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column;border-top:2px solid {HAIR}">']
 for k, (sit, cmd, tip, col) in enumerate(uw):
     wb.append(f'<div style="display:flex;flex-direction:row;gap:32px;align-items:center;border-bottom:2px solid {HAIR};padding:22px 8px">'
               f'<p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">{sit}</p>'
               f'<div style="display:flex;flex-direction:column;gap:8px"><p style="font-family:{MONO};font-size:32px;font-weight:700;color:{col}">{cmd}</p>'
               f'<p style="font-size:26px;color:#4A5262">{tip}</p></div></div>')
 wb.append('</div>')
-wb.append(takeaway("기준은 하나예요. push 전이면 reset, push 후면 revert.", 900))
+wb.append(takeaway("기준은 하나예요. push 전이면 reset, push 후면 revert.", 900, order=2))
 page("undo-when", EBU, "언제 무엇으로 되돌릴까?", wb,
      "일반 커밋은 기본값 --mixed가 가장 안전해요. 고친 내용이 파일에 남아요. merge를 되돌릴 땐 --hard가 깔끔해요. 브랜치에 작업이 그대로 있으니 다시 merge하면 되기 때문이에요. 단, 작업 폴더에 커밋하지 않은 변경이 있으면 같이 지워지니 git status부터 봐요. push한 일반 커밋은 02에서 배운 git revert로 되돌려요. push한 merge 커밋을 되돌리는 방법은 이 과정에서 다루지 않으니 강사나 팀과 먼저 이야기해요.",
      color=UC)
