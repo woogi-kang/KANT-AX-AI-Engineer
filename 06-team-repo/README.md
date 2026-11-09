@@ -233,7 +233,7 @@ node ../tools/build_player.js slides team-repo-slides.html
 node ../tools/export.js slides team-repo-slides.pdf
 ```
 
-터미널 출력과 해시는 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 사람마다 HOME을 따로 둬서 설정이 섞이지 않아요. 날짜를 고정해서 해시가 매번 같아요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/team-intro.git`으로 보이게 했어요. 뺀 줄은 발표자 노트에 적어 두었어요. 강조(커밋 날아오기, 펜 상자, 밑줄, 스포트라이트, 커서)는 맨 위 `tools/highlight.py`와 [HIGHLIGHT.md](../tools/HIGHLIGHT.md)를 따라요. 403 메시지는 GitHub이 보내는 것이라 로컬에서 재현하지 못했어요.
+터미널 출력과 해시는 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 사람마다 HOME을 따로 둬서 설정이 섞이지 않아요. 날짜를 고정해서 해시가 매번 같아요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/team-intro.git`으로 보이게 했어요. 뺀 줄은 발표자 노트에 적어 두었어요. 강조(커밋 날아오기, 펜 상자, 밑줄, 줄 스포트라이트, 커서, 확대, 배경 흐리기, 흔들기, 지난 항목 흐리기)는 맨 위 `tools/highlight.py`와 [HIGHLIGHT.md](../tools/HIGHLIGHT.md)를 따라요. 403 메시지는 GitHub이 보내는 것이라 로컬에서 재현하지 못했어요.
 
 </details>
 
