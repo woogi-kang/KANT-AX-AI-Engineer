@@ -1,0 +1,396 @@
+{
+ "why": {
+  "n": 1,
+  "out": [
+   "coffee 4500 2 9000",
+   "latte 5000 1 5000",
+   "cake 6500 3 19500",
+   "합계 33500"
+  ],
+  "err": false
+ },
+ "str-make": {
+  "n": 1,
+  "out": [
+   "True",
+   "5",
+   "It's me"
+  ],
+  "err": false
+ },
+ "str-index": {
+  "n": 2,
+  "out": [
+   "p",
+   "y",
+   "n"
+  ],
+  "err": false
+ },
+ "str-index-err": {
+  "n": 3,
+  "out": [
+   "IndexError: string index out of range"
+  ],
+  "err": true
+ },
+ "str-slice": {
+  "n": 4,
+  "out": [
+   "py",
+   "tho",
+   "py",
+   "thon"
+  ],
+  "err": false
+ },
+ "print-sep": {
+  "n": 5,
+  "out": [
+   "kim lee",
+   "kim-lee",
+   "2026.11.02",
+   "hello world",
+   "첫째 줄",
+   "둘째 줄",
+   "이름\tkim"
+  ],
+  "err": false
+ },
+ "fmt-ways": {
+  "n": 6,
+  "out": [
+   "주문: 치즈케이크 2개",
+   "주문: 치즈케이크 2개",
+   "주문: 치즈케이크 2개"
+  ],
+  "err": false
+ },
+ "fmt-sd": {
+  "n": 7,
+  "out": [
+   "치즈케이크 2개",
+   "치즈케이크 2개",
+   "치즈케이크 3개"
+  ],
+  "err": false
+ },
+ "fmt-format": {
+  "n": 8,
+  "out": [
+   "치즈케이크 5000원 2개",
+   "치즈케이크 2개, 하나에 5000원",
+   "치즈케이크, 치즈케이크"
+  ],
+  "err": false
+ },
+ "fmt-width": {
+  "n": 9,
+  "out": [
+   "[   42]",
+   "[   42]",
+   "[42   ]",
+   "[00042]",
+   "[kim  ]",
+   "[  kim]"
+  ],
+  "err": false
+ },
+ "fmt-float": {
+  "n": 10,
+  "out": [
+   "3.14",
+   "3.14",
+   "3.1416",
+   "[    3.14]"
+  ],
+  "err": false
+ },
+ "fmt-comma": {
+  "n": 11,
+  "out": [
+   "1,234,567원",
+   "1,234,567.89",
+   "[  35,000]",
+   "치즈케이크 2개, 합계 10,000원"
+  ],
+  "err": false
+ },
+ "fmt-align": {
+  "n": 12,
+  "out": [
+   "kim      90",
+   "lee     100",
+   "park      7",
+   "park      7"
+  ],
+  "err": false
+ },
+ "fmt-compare": {
+  "n": 13,
+  "out": [
+   "[   42]",
+   "3.14",
+   "1,234,567원"
+  ],
+  "err": false
+ },
+ "fmt-err1": {
+  "n": 14,
+  "out": [
+   "TypeError: %d format: a real number is required, not str"
+  ],
+  "err": true
+ },
+ "fmt-err2": {
+  "n": 15,
+  "out": [
+   "TypeError: not enough arguments for format string"
+  ],
+  "err": true
+ },
+ "fmt-err3": {
+  "n": 16,
+  "out": [
+   "ValueError: Unknown format code 'd' for object of type 'str'"
+  ],
+  "err": true
+ },
+ "fmt-err4": {
+  "n": 17,
+  "out": [
+   "ValueError: unsupported format character ',' (0x2c) at index 1"
+  ],
+  "err": true
+ },
+ "list-make": {
+  "n": 1,
+  "out": [
+   "[4500, 5000, 6500]",
+   "3",
+   "<class 'list'>"
+  ],
+  "err": false
+ },
+ "list-index": {
+  "n": 2,
+  "out": [
+   "coffee",
+   "cake",
+   "['coffee', 'latte']"
+  ],
+  "err": false
+ },
+ "list-change": {
+  "n": 3,
+  "out": [
+   "[4800, 5000, 6500, 3000]",
+   "19300",
+   "6500",
+   "3000"
+  ],
+  "err": false
+ },
+ "list-methods": {
+  "n": 4,
+  "out": [
+   "['coffee'] cake tea"
+  ],
+  "err": false
+ },
+ "list-find": {
+  "n": 5,
+  "out": [
+   "2",
+   "2",
+   "True",
+   "[70, 80, 95, 95]",
+   "[95, 95, 80, 70]"
+  ],
+  "err": false
+ },
+ "list-slice": {
+  "n": 6,
+  "out": [
+   "[20, 30, 40]",
+   "[10, 20, 30]",
+   "[50, 60]",
+   "[10, 30, 50]",
+   "[60, 50, 40, 30, 20, 10]"
+  ],
+  "err": false
+ },
+ "list-nested": {
+  "n": 7,
+  "out": [
+   "[4, 5, 6]",
+   "6",
+   "9",
+   "c",
+   "['coffee', 4500, True]"
+  ],
+  "err": false
+ },
+ "list-more": {
+  "n": 8,
+  "out": [
+   "[3, 1, 2, 5, 4] [3, 1, 2, 3, 1, 2]",
+   "[1, 2, 3] [3, 1, 2]",
+   "[4, 5, 2, 1, 3] []"
+  ],
+  "err": false
+ },
+ "list-str": {
+  "n": 9,
+  "out": [
+   "['coffee', 'latte', 'cake']",
+   "coffee / latte / cake",
+   "['hello', 'world']",
+   "['a', 'b', 'c']"
+  ],
+  "err": false
+ },
+ "list-compare": {
+  "n": 10,
+  "out": [
+   "['park', 'lee']",
+   "TypeError: 'str' object does not support item assignment"
+  ],
+  "err": true
+ },
+ "tuple": {
+  "n": 11,
+  "out": [
+   "coffee",
+   "9000",
+   "(4500, 2)",
+   "<class 'tuple'>"
+  ],
+  "err": false
+ },
+ "tuple-err": {
+  "n": 12,
+  "out": [
+   "TypeError: 'tuple' object does not support item assignment"
+  ],
+  "err": true
+ },
+ "orders": {
+  "n": 13,
+  "out": [
+   "3",
+   "('latte', 5000, 1)",
+   "latte",
+   "19500"
+  ],
+  "err": false
+ },
+ "tuple-more": {
+  "n": 14,
+  "out": [
+   "cake 6500 3",
+   "lee kim",
+   "1 2",
+   "['coffee', 4500, 2]"
+  ],
+  "err": false
+ },
+ "for-intro": {
+  "n": 15,
+  "out": [
+   "coffee",
+   "latte",
+   "cake"
+  ],
+  "err": false
+ },
+ "for-orders": {
+  "n": 16,
+  "out": [
+   "coffee 4500 2",
+   "latte 5000 1",
+   "cake 6500 3"
+  ],
+  "err": false
+ },
+ "for-total": {
+  "n": 17,
+  "out": [
+   "coffee 9000",
+   "latte 14000",
+   "cake 33500",
+   "합계: 33500"
+  ],
+  "err": false
+ },
+ "list-err1": {
+  "n": 18,
+  "out": [
+   "IndexError: list index out of range"
+  ],
+  "err": true
+ },
+ "list-err2": {
+  "n": 19,
+  "out": [
+   "IndexError: tuple index out of range"
+  ],
+  "err": true
+ },
+ "list-err3": {
+  "n": 20,
+  "out": [
+   "ValueError: list.remove(x): x not in list"
+  ],
+  "err": true
+ },
+ "for-err1": {
+  "n": 21,
+  "out": [
+   "SyntaxError: expected ':'"
+  ],
+  "err": true
+ },
+ "for-err2": {
+  "n": 22,
+  "out": [
+   "IndentationError: expected an indented block after 'for' statement on line 1"
+  ],
+  "err": true
+ },
+ "ex-line": {
+  "n": 1,
+  "out": [
+   "menu         price  qty    amount",
+   "메뉴명             단가   수량        금액",
+   "메뉴명        단가 수량      금액",
+   "coffee       4,500    2     9,000"
+  ],
+  "err": false
+ },
+ "ex-receipt": {
+  "n": 2,
+  "out": [
+   "=================================",
+   "            KANT 카페            ",
+   "=================================",
+   "메뉴명        단가 수량      금액",
+   "---------------------------------",
+   "coffee       4,500    2     9,000",
+   "latte        5,000    1     5,000",
+   "cake         6,500    3    19,500",
+   "---------------------------------",
+   "합계                       33,500",
+   "================================="
+  ],
+  "err": false
+ },
+ "ex-memo": {
+  "n": 3,
+  "out": [
+   "주문 5건, latte 3잔",
+   "cake / latte / latte / latte / tea"
+  ],
+  "err": false
+ }
+}

@@ -207,7 +207,7 @@ slides/
   deck.json        슬라이드 순서와 파트 구분 (gen.py가 만들어요)
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장과 deck.json 생성 (노트북 셀, 세 조각 색 구분, 고르기 파이프 그림)
+  gen.py           모든 장과 deck.json 생성 (노트북 셀, 세 조각이 대괄호로 날아가는 그림, 고르기 파이프 그림)
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
 python-comprehension-slides.html  배포용 HTML
