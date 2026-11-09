@@ -3,6 +3,7 @@
 <title>Git 브랜치, 눈으로 보기</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>section{position:relative;width:1920px;height:1080px;box-sizing:border-box;overflow:hidden}
+[data-pdf="hide"]{visibility:hidden}
 section *{box-sizing:border-box}
 p,h1,h2,h3,ul,ol{margin:0}
 h1{font-size:96px;font-weight:600;line-height:1.1} h2{font-size:64px;font-weight:600;line-height:1.15} h3{font-size:44px;font-weight:600;line-height:1.2} p{font-size:32px;line-height:1.4}
@@ -97,12 +98,33 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 .pl-cur.on{opacity:1}
 .pl-rip{position:absolute;z-index:44;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:5px solid #2459C9;opacity:0;pointer-events:none}
 .pl-rip.go{animation:pl-rip .6s ease-out}
-@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}</style></head>
+@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}
+#pl-stage [data-pdf="hide"]{visibility:inherit}
+[data-build-in^="lspot"],[data-build-in^="run"],[data-build-in^="zoom"],[data-build-in^="blur"],[data-build-in^="text"],[data-build-in^="pan"],[data-build-in^="kenburns"],[data-build-in^="pulse"],[data-build-in^="grow"],[data-build-in^="shine"],[data-build-in^="shake"]{visibility:hidden}
+[data-build-in^="wipe"]{clip-path:inset(0 0 0 0);transition:opacity .2s ease,clip-path .6s cubic-bezier(.65,0,.35,1)}
+.pending.wipe{opacity:1!important;clip-path:inset(0 100% 0 0)}
+[data-build-in^="slam"]{transition:opacity .25s ease,transform .5s cubic-bezier(.34,1.45,.64,1)}
+.pending.slam{transform:scale(2.2)!important}
+[data-build-in^="slide"]{transition:opacity .3s ease,transform .6s cubic-bezier(.16,1,.3,1)}
+.pending.slide{transform:translate(var(--dx,0px),var(--dy,60px))!important}
+.pending.stagger{opacity:1!important}
+[data-build-in^="stagger"]>*{transition:opacity .35s ease,transform .4s cubic-bezier(.2,.7,.2,1)}
+.pending.stagger>*{opacity:0;transform:translateY(18px)}
+[data-build-in^="mark"]{transition:background-color .45s ease,color .45s ease,text-decoration-color .45s ease,box-shadow .45s ease}
+.pending.mark{opacity:1!important;background-color:transparent!important;color:inherit!important;text-decoration-color:transparent!important;box-shadow:none!important}
+[data-dimgroup]{transition:opacity .45s ease,transform .45s ease,filter .4s ease}
+.pl-dim{filter:grayscale(1) opacity(.38)}
+.pl-blurs>*{transition:opacity .45s ease,transform .45s ease,filter .5s ease}
+.pl-bl{filter:blur(6px) opacity(.5)}
+.pl-veil{position:absolute;z-index:30;pointer-events:none;opacity:.8;transition:left .45s cubic-bezier(.65,0,.35,1),top .45s cubic-bezier(.65,0,.35,1),width .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),opacity .35s ease}
+.pl-lbar{position:absolute;z-index:31;width:7px;border-radius:4px;background:#2459C9;pointer-events:none;transition:top .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),left .45s,opacity .35s ease}
+.pl-run{position:absolute;z-index:29;pointer-events:none;border-radius:8px;background:rgba(31,138,76,.17);box-shadow:inset 7px 0 0 #1F8A4C;transition:left .4s cubic-bezier(.65,0,.35,1),top .4s cubic-bezier(.65,0,.35,1),width .4s,height .4s,opacity .3s ease}
+.pl-off{opacity:0!important}</style></head>
 <body>
 <div id="pl-stage">
 <section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
 <p style="font-size:28px;font-weight:700;color:#8FB3FF;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>
-<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">Git 브랜치,<br>눈으로 보기</h1>
+<h1 data-build-in="slam order 1" style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">Git 브랜치,<br>눈으로 보기</h1>
 <p style="font-size:40px;line-height:1.4;color:#BFC6D4">따로 작업하고, 합치고,<br>충돌을 푸는 법</p>
 <div style="position:absolute;left:1100px;top:557px;width:660px;height:6px;background:#5B7BC0"></div>
 <svg style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1260" y1="560" x2="1380" y2="400" stroke="rgb(78, 158, 112)" stroke-width="6"></line></svg>
@@ -120,7 +142,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px 128px;display:flex;flex-direction:column;gap:40px">
 <h2 style="font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);column-gap:64px;flex:1">
+<div data-build-in="stagger order 1" data-gap="90" style="display:grid;grid-template-columns:repeat(3,1fr);column-gap:64px;flex:1">
 <div style="display:flex;flex-direction:row;gap:28px;align-items:flex-start;border-top:2px solid #D9D6CD;padding:28px 0 0 0"><p style="width:56px;flex:none;font-size:56px;font-weight:900;line-height:1.2;margin-top:-8px;color:#3A4150">1</p><div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#1D2330">브랜치란?</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">점, 이름표, HEAD</p><p style="font-size:24px;color:#9AA0AB">3–6쪽</p></div></div>
 <div style="display:flex;flex-direction:row;gap:28px;align-items:flex-start;border-top:2px solid #D9D6CD;padding:28px 0 0 0"><p style="width:56px;flex:none;font-size:56px;font-weight:900;line-height:1.2;margin-top:-8px;color:#1A7340">2</p><div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#1D2330">만들고 옮기기</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">branch · checkout · switch</p><p style="font-size:24px;color:#9AA0AB">7–14쪽</p></div></div>
 <div style="display:flex;flex-direction:row;gap:28px;align-items:flex-start;border-top:2px solid #D9D6CD;padding:28px 0 0 0"><p style="width:56px;flex:none;font-size:56px;font-weight:900;line-height:1.2;margin-top:-8px;color:#2459C9">3</p><div style="display:flex;flex-direction:column;gap:8px"><h3 style="font-size:36px;font-weight:700;line-height:1.2;color:#1D2330">합치기</h3><p style="font-size:26px;line-height:1.4;color:#4A5262">merge · 이름 규칙</p><p style="font-size:24px;color:#9AA0AB">15–19쪽</p></div></div>
@@ -202,7 +224,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="h-d6b044a" style="position:absolute;left:612px;top:720px;width:160px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.2;text-align:center;color:#1D2330">d6b044a</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M738,680 L794,680"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="738" cy="680" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:808px;top:658px;width:437px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">오른쪽 점이 가장 최근 커밋</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:808px;top:658px;width:437px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">오른쪽 점이 가장 최근 커밋</p>
 <aside>그래프의 점 하나가 커밋 하나예요. 02에서 만든 hello-git 저장소를 이어서 써요. git log는 최근 커밋이 위에 나오고, 그래프는 오래된 커밋이 왼쪽이에요. 점 아래 글자는 커밋 해시 앞 7자리예요. 괄호 안 origin/main은 GitHub에 올라간 위치예요. GitHub 파트에서 다시 봐요.</aside>
 </section>
 <section id="g2-main" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -226,7 +248,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-main" style="position:absolute;left:638px;top:764px;width:108px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
 <svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M756,786 L812,786"></path></g></svg>
 <svg data-build-in="fade order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="756" cy="786" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 2" style="position:absolute;left:826px;top:764px;width:578px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">main 이름표는 마지막 커밋에 붙어요</p>
+<p id="note" data-build-in="fade order 2" data-delay="150" style="position:absolute;left:826px;top:764px;width:578px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">main 이름표는 마지막 커밋에 붙어요</p>
 <aside>브랜치는 커밋을 담는 상자가 아니라 커밋 하나를 가리키는 이름표예요. 그래서 브랜치를 만들어도 무겁지 않아요. git log 출력의 (HEAD -&gt; main)에서 main이 이 이름표예요.</aside>
 </section>
 <section id="g3-head" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -251,7 +273,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:756px;top:764px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M910,786 L966,786"></path></g></svg>
 <svg data-build-in="fade order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="910" cy="786" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 2" style="position:absolute;left:980px;top:764px;width:546px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">HEAD가 붙은 이름표가 지금 브랜치</p>
+<p id="note" data-build-in="fade order 2" data-delay="150" style="position:absolute;left:980px;top:764px;width:546px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">HEAD가 붙은 이름표가 지금 브랜치</p>
 <aside>HEAD는 지금 내가 서 있는 브랜치를 가리켜요. git log의 HEAD -&gt; main은 지금 main에 있다는 뜻이에요. 이 덱의 모든 장면은 이름표와 HEAD가 어디로 가는지만 보면 돼요.</aside>
 </section>
 <section id="b1-list" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -273,7 +295,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:756px;top:764px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M910,786 L966,786"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="910" cy="786" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:980px;top:764px;width:494px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">그래프에선 HEAD가 붙은 이름표</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:980px;top:764px;width:494px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">그래프에선 HEAD가 붙은 이름표</p>
 <aside>git branch는 목록만 보여 줘요. 아직 main 하나뿐이에요.</aside>
 </section>
 <section id="b2-create" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -295,7 +317,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-feature-login" style="position:absolute;left:557px;top:818px;width:270px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M837,840 L893,840"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="837" cy="840" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:907px;top:818px;width:520px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">커밋은 그대로, 이름표만 하나 더</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:907px;top:818px;width:520px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">커밋은 그대로, 이름표만 하나 더</p>
 <aside>git branch 이름은 출력 없이 이름표만 만들어요. 같은 커밋에 이름표가 두 개 붙었어요. 만들기만 했지 옮겨 가지는 않았어요.</aside>
 </section>
 <section id="b3-move" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -318,7 +340,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:837px;top:818px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M991,840 L1047,840"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="991" cy="840" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1061px;top:818px;width:430px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">HEAD만 옆 이름표로 왔어요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1061px;top:818px;width:430px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">HEAD만 옆 이름표로 왔어요</p>
 <aside>checkout은 HEAD를 옮겨요. 커밋도 이름표도 그대로고 HEAD만 옆 이름표로 갔어요.</aside>
 </section>
 <section id="b4-commit" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -345,7 +367,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:1063px;top:504px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M756,886 L812,886"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="756" cy="886" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:826px;top:864px;width:232px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">main은 제자리</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:826px;top:864px;width:232px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">main은 제자리</p>
 <aside>브랜치에서 커밋하면 그 브랜치 이름표만 앞으로 가요. 로그인 화면 파일 login.md(# 로그인, 아이디)를 만들고 커밋했어요. 출력 대괄호 안에 지금 브랜치 이름이 나와요. 새 커밋을 위로 그린 건 보기 쉽게 하려는 것이에요. 출력의 1 file changed 줄은 뺐어요.</aside>
 </section>
 <section id="b5-commit2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -375,7 +397,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:1289px;top:504px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1190,600 L1246,600"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1190" cy="600" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1260px;top:578px;width:533px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">브랜치에서 여러 번 커밋해도 돼요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1260px;top:578px;width:533px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">브랜치에서 여러 번 커밋해도 돼요</p>
 <aside>login.md에 비밀번호 줄을 더하고 커밋했어요. main은 계속 처음 모습이라 언제든 돌아갈 수 있어요.</aside>
 </section>
 <section id="b6-back" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -404,7 +426,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-feature-login" style="position:absolute;left:1009px;top:504px;width:270px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M910,886 L966,886"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="910" cy="886" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:980px;top:864px;width:456px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">HEAD만 main으로 돌아왔어요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:980px;top:864px;width:456px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">HEAD만 main으로 돌아왔어요</p>
 <aside>HEAD가 main으로 옮겨 갔어요. 다음 장에서 작업 폴더 파일도 같이 바뀌는 걸 봐요.</aside>
 </section>
 <section id="folder-switch" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -491,7 +513,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:1208px;top:450px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1280,440 L1280,384"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1280" cy="440" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1250px;top:331px;width:411px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">main 이름표가 당겨졌어요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1250px;top:331px;width:411px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">main 이름표가 당겨졌어요</p>
 <aside>main이 갈라진 뒤 main에는 커밋이 없었어요. 그래서 Git은 main 이름표를 feature/login 자리로 옮기기만 해요. 빨리 감기(Fast-forward)라고 해요. 출력의 파일 목록 줄은 뺐어요.</aside>
 </section>
 <section id="b8-delete" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -519,7 +541,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:1208px;top:764px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1190,680 L1246,680"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1190" cy="680" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1260px;top:658px;width:469px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">이름표만 떼요. 커밋은 그대로</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1260px;top:658px;width:469px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">이름표만 떼요. 커밋은 그대로</p>
 <aside>-d는 이미 합친 브랜치만 지워요. 합치지 않은 브랜치는 경고를 내고 멈춰요(막힐 때 파트). 위로 그렸던 커밋은 이제 main의 한 줄이에요.</aside>
 </section>
 <section id="naming" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -580,7 +602,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:1316px;top:818px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1388,872 L1388,928"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1388" cy="872" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1195px;top:938px;width:386px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">만들고 바로 옮겨 왔어요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1195px;top:938px;width:386px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">만들고 바로 옮겨 왔어요</p>
 <aside>git checkout -b docs/login-guide는 git branch docs/login-guide와 git checkout docs/login-guide를 한 번에 친 것과 같아요. 문서 작업이라 이름을 docs/로 시작했어요.</aside>
 </section>
 <section id="d2-commit" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -613,7 +635,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:1542px;top:504px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1370,494 L1370,438"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1370" cy="494" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1088px;top:385px;width:565px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">docs/login-guide만 한 칸 앞으로</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1088px;top:385px;width:565px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">docs/login-guide만 한 칸 앞으로</p>
 <aside>docs/login-guide 이름표만 새 커밋으로 가고 main은 그대로예요. README.md에 로그인 방법은 login.md를 봐요라는 안내를 넣고 커밋했어요.</aside>
 </section>
 <section id="d3-back" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -645,7 +667,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-docs-login-guide" style="position:absolute;left:1208px;top:504px;width:324px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#B26A00;color:#FFFFFF">docs/login-guide</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1080,886 L1024,886"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1080" cy="886" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:567px;top:864px;width:443px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">이번엔 main에서도 커밋해요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:567px;top:864px;width:443px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">이번엔 main에서도 커밋해요</p>
 <aside>main으로 돌아와서 main에도 커밋을 하나 만들어요. 팀에서는 내가 브랜치에서 일하는 동안 다른 사람 작업이 main에 들어오는 일이 흔해요. 그 상황을 혼자 만들어 봐요.</aside>
 </section>
 <section id="d4-main" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -681,7 +703,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-docs-login-guide" style="position:absolute;left:1208px;top:504px;width:324px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#B26A00;color:#FFFFFF">docs/login-guide</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1416,780 L1472,780"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1416" cy="780" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1486px;top:758px;width:334px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">양쪽에 커밋이 하나씩</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1486px;top:758px;width:334px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">양쪽에 커밋이 하나씩</p>
 <aside>이제 두 브랜치가 서로 다른 커밋을 하나씩 가져서 길이 갈라졌어요. hello.md에 nice to meet you 한 줄을 더했어요. main과 docs/login-guide 양쪽에 서로 모르는 커밋이 하나씩 있어요.</aside>
 </section>
 <section id="d5-merge" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -720,7 +742,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-docs-login-guide" style="position:absolute;left:1208px;top:504px;width:324px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#B26A00;color:#FFFFFF">docs/login-guide</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1596,734 L1596,678"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1596" cy="734" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1438px;top:625px;width:386px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">부모가 둘인 merge 커밋</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1438px;top:625px;width:386px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">부모가 둘인 merge 커밋</p>
+<div data-build-in="pulse order 1" data-target="n-486cb9c" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>양쪽에 새 커밋이 있으니 Git이 둘을 합친 커밋을 새로 만들어요. 부모가 둘인 커밋이에요. 편집기에 Merge branch 'docs/login-guide'가 미리 적혀 있어요. vim이 열리면 Esc를 누른 뒤 :wq 와 Enter를 쳐요. 출력의 파일 목록 줄은 뺐어요.</aside>
 </section>
 <section id="merge-kinds" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -739,14 +762,15 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <div style="position:absolute;left:378px;top:538px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:4px solid #2459C9"></div>
 <div style="position:absolute;left:498px;top:408px;width:44px;height:44px;border-radius:50%;background:#1F8A4C;border:4px solid #1F8A4C"></div>
 <div style="position:absolute;left:638px;top:408px;width:44px;height:44px;border-radius:50%;background:#1F8A4C;border:4px solid #1F8A4C"></div>
-<p style="position:absolute;left:357px;top:600px;width:86px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p id="mk-main0" style="position:absolute;left:357px;top:600px;width:86px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
 <p style="position:absolute;left:595px;top:364px;width:130px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature</p>
-<p data-build-in="rise order 1" style="position:absolute;left:617px;top:320px;width:86px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
-<p data-build-in="fade order 1" style="position:absolute;left:440px;top:600px;width:360px;font-size:24px;font-weight:700;color:#1E3F8F">main → 이 커밋으로 이동</p>
+<div data-build-in="fade order 1" style="position:absolute;left:351px;top:596px;width:98px;height:44px;box-sizing:border-box;background:rgba(236,234,227,.8);border:3px dashed #9AA0AB;border-radius:10px"></div>
+<p data-build-in="fly order 1" data-from="mk-main0" style="position:absolute;left:617px;top:320px;width:86px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;text-align:center;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p>
+<p data-build-in="fade order 1" data-delay="500" style="position:absolute;left:716px;top:320px;width:200px;font-size:24px;font-weight:700;line-height:1.5;color:#1E3F8F">여기로 이동</p>
 <div style="position:absolute;left:1064px;top:557px;width:680px;height:6px;background:#9DB8F2"></div>
 <svg style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1288" y1="560" x2="1408" y2="430" stroke="rgb(228, 192, 138)" stroke-width="6"></line></svg>
 <div style="position:absolute;left:1408px;top:427px;width:120px;height:6px;background:#E4C08A"></div>
-<svg data-build-in="fade order 2" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1528" y1="430" x2="1648" y2="560" stroke="rgb(228, 192, 138)" stroke-width="6"></line></svg>
+<svg data-build-in="wipe order 2" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1528" y1="430" x2="1648" y2="560" stroke="rgb(228, 192, 138)" stroke-width="6"></line></svg>
 <div style="position:absolute;left:1042px;top:538px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:4px solid #2459C9"></div>
 <div style="position:absolute;left:1154px;top:538px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:4px solid #2459C9"></div>
 <div style="position:absolute;left:1266px;top:538px;width:44px;height:44px;border-radius:50%;background:#2459C9;border:4px solid #2459C9"></div>
@@ -827,7 +851,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="z-chip" style="position:absolute;left:1388px;top:258px;width:412px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.6;padding:0 14px;border-radius:8px;background:#DCE7FB;color:#1E3F8F">hello.md · oops 줄</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1144,734 L1144,678"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1144" cy="734" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:840px;top:601px;width:488px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">이 커밋을 없던 일로 해 볼게요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:840px;top:601px;width:488px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">이 커밋을 없던 일로 해 볼게요</p>
 <aside>push 전에 실수한 커밋은 git reset으로 기록에서 뺄 수 있어요. merge 직후 main에서 hello.md에 oops 한 줄을 넣고 커밋했어요. 아직 push 전이라 42209fe는 내 저장소에만 있어요. 오른쪽 세 칸은 02에서 본 작업 폴더, 대기실, 내 저장소예요. 다음 세 장은 모두 이 상태에서 옵션만 바꿔 실행한 결과예요. 따라 할 땐 한 옵션을 해 본 뒤 다시 커밋하고 다음 옵션을 해요. 출력의 1 file changed 줄은 뺐어요.</aside>
 </section>
 <section id="r2-soft" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -870,7 +894,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="z-chip" style="position:absolute;left:1388px;top:408px;width:412px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.6;padding:0 14px;border-radius:8px;background:#DDF2E5;color:#1A7340">hello.md · oops 줄</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1594,642 L1594,698"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1594" cy="642" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1379px;top:708px;width:430px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">oops 줄은 대기실에 남아요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1379px;top:708px;width:430px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">oops 줄은 대기실에 남아요</p>
 <aside>--soft는 커밋만 취소하고 변경은 대기실에 남겨요. HEAD~1은 지금보다 한 칸 아래 커밋이에요. main 이름표가 42209fe에서 486cb9c로 돌아가요. 커밋 메시지만 고쳐서 다시 커밋하고 싶을 때 써요. git status 출력의 On branch main 줄과 괄호 안내 줄은 뺐어요.</aside>
 </section>
 <section id="r3-mixed" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -912,7 +936,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="z-chip" style="position:absolute;left:1388px;top:558px;width:412px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.6;padding:0 14px;border-radius:8px;background:#FBE4E2;color:#A33131">hello.md · oops 줄</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1594,642 L1594,698"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1594" cy="642" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1342px;top:708px;width:482px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">oops 줄은 작업 폴더에 남아요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1342px;top:708px;width:482px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">oops 줄은 작업 폴더에 남아요</p>
 <aside>--mixed는 커밋과 add를 취소하고 변경은 작업 폴더에 남겨요. 02 되돌리기 파트에서 쓴 git reset HEAD~1과 같은 명령이에요. 대기실은 비우고 고친 내용은 파일에 남겨요. 파일을 더 고친 뒤 add부터 다시 하고 싶을 때 써요.</aside>
 </section>
 <section id="r4-hard" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -954,7 +978,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="zl2" style="position:absolute;left:1388px;top:510px;width:412px;font-size:26px;font-weight:700;line-height:1.3;color:#3A4150">① 작업 폴더</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1594,642 L1594,698"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1594" cy="642" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1379px;top:708px;width:430px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">oops 줄이 어디에도 없어요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1379px;top:708px;width:430px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">oops 줄이 어디에도 없어요</p>
 <aside>세 칸 모두 42209fe 전 모습으로 돌아갔어요. 일반 커밋은 이 변경을 가진 브랜치가 따로 없어서 --hard로 지우면 파일에서 되찾기 어려워요. 02에서 본 git reflog로 해시를 찾는 방법만 남아요. 작업 폴더에 커밋하지 않은 다른 변경이 있었다면 그것도 같이 사라져요. 그래서 --hard 앞에는 git status를 봐요. git status 출력의 On branch main 줄은 뺐어요.</aside>
 </section>
 <section id="u1-oops" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -994,7 +1018,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="z-chip" style="position:absolute;left:1388px;top:258px;width:412px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.6;padding:0 14px;border-radius:8px;background:#DCE7FB;color:#1E3F8F">README.md · 로그인 안내</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1594,642 L1594,698"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1594" cy="642" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1291px;top:708px;width:533px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">merge로 들어온 줄은 내 저장소에</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1291px;top:708px;width:533px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">merge로 들어온 줄은 내 저장소에</p>
 <aside>merge 커밋도 커밋 하나라서 같은 reset으로 한 칸 되돌려요. 케이스 1을 --hard로 끝내서 다시 merge 직후 모습이에요. 아직 push하지 않았으니 merge 커밋 486cb9c은 내 저장소에만 있어요. 오른쪽 세 칸은 02에서 본 작업 폴더, 대기실, 내 저장소예요. merge로 들어온 README.md의 로그인 안내 줄이 지금 어느 칸에 있는지 봐요. 다음 세 장은 모두 이 상태에서 옵션만 바꿔 실행한 결과예요. log 출력 아래쪽 줄은 뺐어요.</aside>
 </section>
 <section id="u2-soft" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1034,7 +1058,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="z-chip" style="position:absolute;left:1388px;top:408px;width:412px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.6;padding:0 14px;border-radius:8px;background:#DDF2E5;color:#1A7340">README.md · 로그인 안내</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1594,642 L1594,698"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1594" cy="642" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1323px;top:708px;width:501px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">합쳐 온 변경이 대기실에 남아요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1323px;top:708px;width:501px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">합쳐 온 변경이 대기실에 남아요</p>
 <aside>merge 커밋을 --soft로 되돌리면 합쳐 온 변경이 대기실에 남아요. HEAD~1은 지금보다 한 칸 아래 커밋이에요. merge 커밋의 첫 번째 부모인 f0e6c3e로 main이 돌아가요. 점선 486cb9c은 이제 어느 이름표도 가리키지 않아요. 변경은 이미 add된 상태라 바로 커밋할 수 있어요. git status 출력의 On branch main 줄과 괄호 안내 줄은 뺐어요.</aside>
 </section>
 <section id="u3-mixed" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1073,7 +1097,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="z-chip" style="position:absolute;left:1388px;top:558px;width:412px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.6;padding:0 14px;border-radius:8px;background:#FBE4E2;color:#A33131">README.md · 로그인 안내</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1594,642 L1594,698"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1594" cy="642" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1272px;top:708px;width:552px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">합쳐 온 변경이 작업 폴더에 남아요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1272px;top:708px;width:552px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">합쳐 온 변경이 작업 폴더에 남아요</p>
 <aside>--mixed로 되돌리면 합쳐 온 변경이 작업 폴더에 남아요. 02 되돌리기 파트에서 쓴 git reset HEAD~1과 같은 명령이에요. main은 똑같이 한 칸 돌아가고, 대기실은 비워요. README.md는 Modified 상태로 작업 폴더에 남아요. 다시 담으려면 git add부터 해요.</aside>
 </section>
 <section id="u4-hard" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1112,7 +1136,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="zl2" style="position:absolute;left:1388px;top:510px;width:412px;font-size:26px;font-weight:700;line-height:1.3;color:#3A4150">① 작업 폴더</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1594,642 L1594,698"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1594" cy="642" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1382px;top:708px;width:424px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">세 칸 모두 merge 전 모습</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1382px;top:708px;width:424px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">세 칸 모두 merge 전 모습</p>
 <aside>세 칸 모두 merge 전 모습이에요. 작업 폴더에 커밋하지 않은 다른 변경이 있었다면 그것도 같이 사라지고 되찾을 수 없어요. 그래서 --hard 앞에는 꼭 git status를 봐요. 로그인 안내 커밋 29bd96c는 docs/login-guide 이름표가 아직 가리키고 있어서 잃어버리지 않았어요. git status 출력의 On branch main 줄은 뺐어요.</aside>
 </section>
 <section id="u5-again" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1150,7 +1174,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="z-chip" style="position:absolute;left:1388px;top:258px;width:412px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.6;padding:0 14px;border-radius:8px;background:#DCE7FB;color:#1E3F8F">README.md · 로그인 안내</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M918,734 L918,678"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="918" cy="734" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:888px;top:625px;width:482px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">브랜치가 있어서 다시 합쳤어요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:888px;top:625px;width:482px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">브랜치가 있어서 다시 합쳤어요</p>
+<div data-build-in="pulse order 1" data-target="n-486cb9c" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>브랜치를 지우지 않았으면 언제든 다시 merge할 수 있어요. merge를 다시 하면 merge 커밋이 새로 만들어져요. 그래서 보통은 해시가 처음과 달라요. 이 덱은 날짜를 고정해서 같은 486cb9c이 나왔어요. 출력의 파일 목록 줄은 뺐어요.</aside>
 </section>
 <section id="reset-compare" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1183,13 +1208,13 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <section id="undo-when" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p style="position:absolute;left:96px;top:72px;width:1728px;font-size:26px;font-weight:700;color:#8A5200">되돌리기 · 정리</p>
 <h2 style="position:absolute;left:96px;top:122px;width:1728px;font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">언제 무엇으로 되돌릴까?</h2>
-<div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column;border-top:2px solid #D9D6CD">
+<div data-build-in="stagger order 1" data-gap="120" style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column;border-top:2px solid #D9D6CD">
 <div style="display:flex;flex-direction:row;gap:32px;align-items:center;border-bottom:2px solid #D9D6CD;padding:22px 8px"><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">충돌이 나서 merge가 멈췄어요</p><div style="display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#3A4150">git merge --abort</p><p style="font-size:26px;color:#4A5262">합치기 전으로 돌아가요</p></div></div>
 <div style="display:flex;flex-direction:row;gap:32px;align-items:center;border-bottom:2px solid #D9D6CD;padding:22px 8px"><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">커밋했는데 아직 push 전이에요</p><div style="display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1A7340">git reset HEAD~1</p><p style="font-size:26px;color:#4A5262">고친 내용은 작업 폴더에 남아요</p></div></div>
 <div style="display:flex;flex-direction:row;gap:32px;align-items:center;border-bottom:2px solid #D9D6CD;padding:22px 8px"><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">merge를 끝냈고, 아직 push 전이에요</p><div style="display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#8A5200">git reset --hard HEAD~1</p><p style="font-size:26px;color:#4A5262">git status가 깨끗한지 먼저 봐요</p></div></div>
 <div style="display:flex;flex-direction:row;gap:32px;align-items:center;border-bottom:2px solid #D9D6CD;padding:22px 8px"><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">push까지 했어요</p><div style="display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#A33131">git revert 커밋</p><p style="font-size:26px;color:#4A5262">merge 커밋이면 팀에 먼저 알려요</p></div></div>
 </div>
-<p data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">기준은 하나예요. push 전이면 reset, push 후면 revert.</p>
+<p data-build-in="rise order 2" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">기준은 하나예요. push 전이면 reset, push 후면 revert.</p>
 <aside>일반 커밋은 기본값 --mixed가 가장 안전해요. 고친 내용이 파일에 남아요. merge를 되돌릴 땐 --hard가 깔끔해요. 브랜치에 작업이 그대로 있으니 다시 merge하면 되기 때문이에요. 단, 작업 폴더에 커밋하지 않은 변경이 있으면 같이 지워지니 git status부터 봐요. push한 일반 커밋은 02에서 배운 git revert로 되돌려요. push한 merge 커밋을 되돌리는 방법은 이 과정에서 다루지 않으니 강사나 팀과 먼저 이야기해요.</aside></section>
 <section id="d6-delete" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#8A5200">되돌리기 · 정리</p>
@@ -1226,7 +1251,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:1660px;top:864px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1370,554 L1370,498"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1370" cy="554" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1340px;top:445px;width:482px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">커밋은 main 기록 안에 남아요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1340px;top:445px;width:482px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">커밋은 main 기록 안에 남아요</p>
 <aside>되돌릴 일이 없는지 확인한 뒤에 지워요. 합친 브랜치는 지워서 목록을 깔끔하게 둬요. 커밋 29bd96c는 merge 커밋을 통해 main 기록에 그대로 있어요.</aside>
 </section>
 <section id="conflict-when" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1284,7 +1309,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </div>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1594,446 L1594,502"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1594" cy="446" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1408px;top:512px;width:373px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">첫 줄을 # 로그인하기로</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1408px;top:512px;width:373px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">첫 줄을 # 로그인하기로</p>
 <aside>충돌을 보려고 feature/login-title에서 login.md 첫 줄을 바꿔요. login.md 첫 줄을 고친 뒤 add, commit 했어요. 그래프 왼쪽 점선은 앞의 커밋들이 이어진다는 뜻이에요. checkout 출력은 뺐어요.</aside>
 </section>
 <section id="c2-main" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1326,7 +1351,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </div>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1594,446 L1594,502"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1594" cy="446" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1366px;top:512px;width:456px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">같은 줄을 # 로그인 페이지로</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1366px;top:512px;width:456px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">같은 줄을 # 로그인 페이지로</p>
 <aside>두 브랜치가 같은 파일의 같은 줄을 서로 다르게 고쳤어요. main에서는 첫 줄을 # 로그인 페이지로 바꿨어요.</aside>
 </section>
 <section id="c3-conflict" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1366,7 +1391,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-feature-login-title" style="position:absolute;left:729px;top:504px;width:378px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1F8A4C;color:#FFFFFF">feature/login-title</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1144,734 L1144,678"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1144" cy="734" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1114px;top:625px;width:475px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">Git이 고르지 못하고 멈췄어요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1114px;top:625px;width:475px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">Git이 고르지 못하고 멈췄어요</p>
 <aside>충돌은 고장이 아니에요. Git이 고를 수 없는 부분만 표시해 두고 멈춘 상태예요. 다른 줄은 알아서 합쳐졌어요. 첫 줄 Auto-merging login.md는 뺐어요. 그만두고 싶으면 git merge --abort로 합치기 전으로 돌아가요.</aside>
 </section>
 <section id="conflict-read" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1430,7 +1455,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </div>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1144,734 L1144,678"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1144" cy="734" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1114px;top:625px;width:405px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">두 길을 잇는 merge 커밋</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1114px;top:625px;width:405px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">두 길을 잇는 merge 커밋</p>
+<div data-build-in="pulse order 1" data-target="n-a4c0a4f" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>남길 내용으로 고치고 add, commit하면 충돌이 풀려요. 충돌 표시 세 줄을 지우고 # 로그인하기만 남긴 뒤 저장했어요. add는 이 파일 충돌을 풀었다는 표시예요. 다 쓴 feature/login-title은 git branch -d feature/login-title로 지워요.</aside>
 </section>
 <section id="abort" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1444,18 +1470,18 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="position:absolute;left:96px;top:72px;width:1728px;font-size:26px;font-weight:700;color:#6B47D6">GitHub에서 함께</p>
 <h2 style="position:absolute;left:96px;top:122px;width:1728px;font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">팀에서는 이 순서로 일해요</h2>
 <div style="position:absolute;left:126px;top:425px;width:1668px;height:6px;background:#C9C5BA;border-radius:3px"></div>
-<p data-build-in="rise order 1" style="position:absolute;left:96px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:30px">1</p>
-<div data-build-in="rise order 1" style="position:absolute;left:96px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">브랜치 만들기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#2459C9">git checkout<br>-b feature/<br>login-button</p></div>
-<p data-build-in="rise order 1" style="position:absolute;left:388px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:30px">2</p>
-<div data-build-in="rise order 1" style="position:absolute;left:388px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">작업하고 커밋</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#2459C9">add, commit</p></div>
-<p data-build-in="rise order 1" style="position:absolute;left:680px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:30px">3</p>
-<div data-build-in="rise order 1" style="position:absolute;left:680px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">브랜치 올리기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#2459C9">git push origin<br>feature/<br>login-button</p></div>
-<p data-build-in="rise order 2" style="position:absolute;left:972px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#5A3BB8;border-radius:30px">4</p>
-<div data-build-in="rise order 2" style="position:absolute;left:972px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">합쳐 달라고 요청</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#5A3BB8">Pull Request</p></div>
-<p data-build-in="rise order 2" style="position:absolute;left:1264px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#5A3BB8;border-radius:30px">5</p>
-<div data-build-in="rise order 2" style="position:absolute;left:1264px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">확인하고 합치기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#5A3BB8">리뷰 → Merge</p></div>
-<p data-build-in="rise order 3" style="position:absolute;left:1556px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:30px">6</p>
-<div data-build-in="rise order 3" style="position:absolute;left:1556px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">내 main 맞추기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#2459C9">git checkout main<br>git fetch origin<br>git pull origin main</p></div>
+<p data-build-in="rise order 1" data-dimgroup="flow" style="position:absolute;left:96px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:30px">1</p>
+<div data-build-in="rise order 1" data-dimgroup="flow" style="position:absolute;left:96px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">브랜치 만들기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#2459C9">git checkout<br>-b feature/<br>login-button</p></div>
+<p data-build-in="rise order 1" data-dimgroup="flow" style="position:absolute;left:388px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:30px">2</p>
+<div data-build-in="rise order 1" data-dimgroup="flow" style="position:absolute;left:388px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">작업하고 커밋</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#2459C9">add, commit</p></div>
+<p data-build-in="rise order 1" data-dimgroup="flow" style="position:absolute;left:680px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:30px">3</p>
+<div data-build-in="rise order 1" data-dimgroup="flow" style="position:absolute;left:680px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">브랜치 올리기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#2459C9">git push origin<br>feature/<br>login-button</p></div>
+<p data-build-in="rise order 2" data-dimgroup="flow" style="position:absolute;left:972px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#5A3BB8;border-radius:30px">4</p>
+<div data-build-in="rise order 2" data-dimgroup="flow" style="position:absolute;left:972px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">합쳐 달라고 요청</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#5A3BB8">Pull Request</p></div>
+<p data-build-in="rise order 2" data-dimgroup="flow" style="position:absolute;left:1264px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#5A3BB8;border-radius:30px">5</p>
+<div data-build-in="rise order 2" data-dimgroup="flow" style="position:absolute;left:1264px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">확인하고 합치기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#5A3BB8">리뷰 → Merge</p></div>
+<p data-build-in="rise order 3" data-dimgroup="flow" style="position:absolute;left:1556px;top:398px;width:60px;height:60px;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:30px">6</p>
+<div data-build-in="rise order 3" data-dimgroup="flow" style="position:absolute;left:1556px;top:500px;width:260px;display:flex;flex-direction:column;gap:16px"><p style="font-size:32px;font-weight:700;line-height:1.3;color:#1D2330">내 main 맞추기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:1.45;font-weight:700;color:#2459C9">git checkout main<br>git fetch origin<br>git pull origin main</p></div>
 <div style="position:absolute;left:96px;top:316px;width:844px;height:4px;background:#5B8DEF;border-radius:2px"></div>
 <p style="position:absolute;left:96px;top:264px;width:844px;font-size:28px;font-weight:700;color:#1E3F8F">내 컴퓨터</p>
 <div style="position:absolute;left:972px;top:316px;width:552px;height:4px;background:#9A7BF0;border-radius:2px"></div>
@@ -1501,7 +1527,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-head" style="position:absolute;left:1352px;top:504px;width:144px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#1D2330;color:#F6F5F1">◀ HEAD</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1190,600 L1246,600"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1190" cy="600" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1260px;top:578px;width:418px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">아직 내 컴퓨터에만 있어요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1260px;top:578px;width:418px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">아직 내 컴퓨터에만 있어요</p>
 <aside>팀에서는 새 작업마다 브랜치를 만들고 GitHub에 올려 PR로 합쳐요. 충돌을 푼 main을 git push origin main으로 올려 둔 상태예요. 그래서 origin/main이 main과 같은 곳에 있어요. login.md에 로그인 버튼 줄을 더하고 커밋했어요. checkout 출력과 1 file changed 줄은 뺐어요.</aside>
 </section>
 <section id="p1-push" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1540,7 +1566,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-origin-feature-login-button" style="position:absolute;left:883px;top:450px;width:522px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/feature/login-button</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1144,440 L1144,384"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1144" cy="440" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1114px;top:331px;width:386px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">GitHub에도 생긴 브랜치</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1114px;top:331px;width:386px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">GitHub에도 생긴 브랜치</p>
 <aside>git push origin 브랜치이름으로 브랜치째 GitHub에 올려요. 보라색 origin/ 이름표는 GitHub에 있는 브랜치 위치예요. 우리 과정 규칙대로 -u는 쓰지 않아요. 출력 앞부분(Enumerating objects..., remote: Create a pull request...)은 뺐어요.</aside>
 </section>
 <section id="pr-github" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1603,7 +1629,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-origin-feature-login-button" style="position:absolute;left:883px;top:450px;width:522px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/feature/login-button</p>
 <svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1370,734 L1370,678"></path></g></svg>
 <svg data-build-in="fade order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1370" cy="734" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 2" style="position:absolute;left:1340px;top:625px;width:437px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">아직 GitHub에만 있는 커밋</p>
+<p id="note" data-build-in="fade order 2" data-delay="150" style="position:absolute;left:1340px;top:625px;width:437px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">아직 GitHub에만 있는 커밋</p>
+<div data-build-in="pulse order 2" data-target="n-0e04baf" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>GitHub에서 합친 merge 커밋은 아직 GitHub에만 있어요. Merge pull request를 누르면 GitHub 안에서 merge 커밋(0e04baf)이 생겨요. 메시지는 Merge pull request #1 from kim/feature/login-button예요. 내 컴퓨터로 가져오려면 pull해야 해요.</aside>
 </section>
 <section id="p3-fetch" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1648,7 +1675,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-origin-feature-login-button" style="position:absolute;left:883px;top:450px;width:522px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/feature/login-button</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1370,734 L1370,678"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1370" cy="734" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1340px;top:625px;width:366px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">origin/main만 앞으로</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1340px;top:625px;width:366px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">origin/main만 앞으로</p>
 <aside>PR이 합쳐졌으면 먼저 합친 쪽 브랜치인 main으로 옮겨 가요. fetch는 GitHub의 새 커밋을 받아서 origin/main 이름표만 옮기고, 내 main과 작업 폴더는 건드리지 않아요. 점선 0e04baf는 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 출력의 From 줄은 뺐어요.</aside>
 </section>
 <section id="p3-log" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1693,7 +1720,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-origin-feature-login-button" style="position:absolute;left:883px;top:450px;width:522px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/feature/login-button</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1370,734 L1370,678"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1370" cy="734" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1266px;top:625px;width:558px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">main보다 앞서 있으면 pull할 차례</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1266px;top:625px;width:558px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">main보다 앞서 있으면 pull할 차례</p>
 <aside>02에서 배운 비교 방법 그대로예요. git log --oneline origin/main은 GitHub 쪽 main 기록을 보여 줘요. 내 main(HEAD -&gt; main)이 아래에 있으니 받아 올 커밋이 있다는 뜻이에요. 출력 아래쪽 줄은 뺐어요.</aside>
 </section>
 <section id="p3-pull" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1737,7 +1764,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-origin-feature-login-button" style="position:absolute;left:883px;top:450px;width:522px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/feature/login-button</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1370,734 L1370,678"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1370" cy="734" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1278px;top:625px;width:546px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">main이 origin/main과 같은 곳에</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1278px;top:625px;width:546px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">main이 origin/main과 같은 곳에</p>
 <aside>내 main에는 새 커밋이 없었으니 pull이 Fast-forward로 받아요. 작업 폴더의 login.md에도 로그인 버튼 줄이 생겨요. 출력의 From, FETCH_HEAD 줄과 파일 목록 줄은 뺐어요.</aside>
 </section>
 <section id="p4-delete" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1779,7 +1806,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-origin-feature-login-button" style="position:absolute;left:883px;top:504px;width:522px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/feature/login-button</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1190,600 L1246,600"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1190" cy="600" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1260px;top:578px;width:482px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">내 컴퓨터의 이름표만 지웠어요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1260px;top:578px;width:482px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">내 컴퓨터의 이름표만 지웠어요</p>
 <aside>main에 합쳐졌으니 -d로 지워져요. 보라색 origin/feature/login-button 이름표는 내 컴퓨터가 기억하는 GitHub 쪽 위치라서 남아 있어요. GitHub에서 Delete branch를 누른 뒤 git fetch origin --prune 하면 정리돼요.</aside>
 </section>
 <section id="p5-next" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1822,7 +1849,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="t-origin-feature-login-button" style="position:absolute;left:883px;top:504px;width:522px;height:44px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:44px;text-align:center;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/feature/login-button</p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1641,854 L1641,798"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1641" cy="854" r="6" fill="#4A5262"></circle></svg>
-<p id="note" data-build-in="fade order 1" style="position:absolute;left:1426px;top:745px;width:398px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">최신 main에서 새로 따요</p>
+<p id="note" data-build-in="fade order 1" data-delay="150" style="position:absolute;left:1426px;top:745px;width:398px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">최신 main에서 새로 따요</p>
 <aside>새 브랜치를 pull 하기 전의 main에서 따면 방금 합친 로그인 버튼 커밋이 없는 채로 시작해요. 그러면 나중에 충돌이 날 가능성이 커져요. 그래서 PR이 합쳐질 때마다 git checkout main, git fetch origin, git pull origin main 순서로 맞춘 뒤 다음 브랜치를 만들어요. 이 흐름이 그다음 장의 GitHub Flow예요.</aside>
 </section>
 <section id="strategy" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1930,17 +1957,18 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <h2 style="position:absolute;left:96px;top:122px;width:1728px;font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">팀원이 먼저 같은 줄을 push했어요</h2>
 <div style="position:absolute;left:96px;top:250px;width:840px;height:320px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:28px 36px;display:flex;flex-direction:column;gap:12px"><div style="display:flex;flex-direction:row;gap:16px;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;padding:0 14px;border-radius:8px;background:#E7DEFC;color:#4A2FA8;border:2px solid #8E6FEA">origin/main</p><p style="font-size:26px;font-weight:700;color:#4A5262">GitHub의 login.md (팀원)</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;line-height:1.4;padding:0 10px;border-radius:6px;color:#1A7340;background:#DDF2E5"># Login</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;line-height:1.4;padding:0 10px;border-radius:6px;color:#1D2330">아이디</p></div>
 <div style="position:absolute;left:984px;top:250px;width:840px;height:320px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:28px 36px;display:flex;flex-direction:column;gap:12px"><div style="display:flex;flex-direction:row;gap:16px;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.5;padding:0 14px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p><p style="font-size:26px;font-weight:700;color:#4A5262">내 login.md</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;line-height:1.4;padding:0 10px;border-radius:6px;color:#1E3F8F;background:#DCE7FB"># 로그인하기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;line-height:1.4;padding:0 10px;border-radius:6px;color:#1D2330">아이디</p></div>
-<div style="position:absolute;left:96px;top:610px;width:1728px;background:#1B2029;border-radius:20px;padding:24px 32px;display:flex;flex-direction:column;gap:6px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace"><p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git push origin main</p><p style="font-size:28px;font-weight:400;line-height:1.35;white-space:nowrap;color:#F28B82"> ! [rejected]        main -&gt; main (fetch first)</p><p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git pull origin main</p><p style="font-size:28px;font-weight:400;line-height:1.35;white-space:nowrap;color:#F28B82">fatal: Need to specify how to reconcile divergent branches.</p></div>
-<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="118" y="763" width="1011" height="42" rx="8"></rect></g></svg>
-<p data-build-in="rise order 2" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">갈라진 상태에서 pull하면 어떻게 합칠지 정해 달라며 멈춰요.</p>
+<div style="position:absolute;left:96px;top:610px;width:1728px;background:#1B2029;border-radius:20px;padding:24px 32px;display:flex;flex-direction:column;gap:6px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace"><p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git push origin main</p><p id="sc-pull-jolt" style="font-size:28px;font-weight:400;line-height:1.35;white-space:nowrap;color:#F28B82"> ! [rejected]        main -&gt; main (fetch first)</p><p style="font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#F2C46D">$ git pull origin main</p><p style="font-size:28px;font-weight:400;line-height:1.35;white-space:nowrap;color:#F28B82">fatal: Need to specify how to reconcile divergent branches.</p></div>
+<div data-build-in="shake order 1" data-target="sc-pull-jolt" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="118" y="763" width="1011" height="42" rx="8"></rect></g></svg>
+<p data-build-in="rise order 3" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">갈라진 상태에서 pull하면 어떻게 합칠지 정해 달라며 멈춰요.</p>
 <aside>pull 설정이 없으면 갈라진 상태에서 pull이 fatal로 멈춰요. push가 거절돼서 pull했더니 fatal로 멈췄어요. 내 main과 GitHub main에 서로 모르는 커밋이 하나씩 있어서예요. 출력 중 error, hint 줄과 From 줄은 뺐어요. git 2.27부터 이렇게 물어봐요.</aside></section>
 <section id="pull-config" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p style="position:absolute;left:96px;top:72px;width:1728px;font-size:26px;font-weight:700;color:#A33131">충돌 시나리오 5 · pull 할 때</p>
 <h2 style="position:absolute;left:96px;top:122px;width:1728px;font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">처음 한 번만 설정해요</h2>
 <div style="position:absolute;left:96px;top:250px;width:1728px;height:180px;background:#1D2330;border-radius:24px;display:flex;flex-direction:row;align-items:center;padding:0 48px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:48px;font-weight:700;color:#F2C46D">git config --global pull.rebase false</p></div>
-<div style="position:absolute;left:96px;top:520px;width:1728px;height:300px;display:flex;flex-direction:row;gap:24px;align-items:center"><div data-build-in="rise order 1" style="flex:1;display:flex;flex-direction:column;gap:16px;padding:0 0 0 0px;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:64px;font-weight:700;color:#1D2330">git pull</p><p style="font-size:32px;color:#4A5262">pull은 두 단계예요</p></div><div data-build-in="rise order 2" style="flex:1;display:flex;flex-direction:column;gap:16px;padding:0 0 0 40px;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:64px;font-weight:700;color:#6B47D6">= fetch</p><p style="font-size:32px;color:#4A5262">GitHub 커밋을 받아 오고</p></div><div data-build-in="rise order 3" style="flex:1;display:flex;flex-direction:column;gap:16px;padding:0 0 0 40px;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:64px;font-weight:700;color:#2459C9">+ merge</p><p style="font-size:32px;color:#4A5262">내 main과 합쳐요</p></div></div>
-<svg data-build-in="draw order 4" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B26A00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M720,380 L781,383 842,378 904,383 965,378 1026,383 1088,378 1149,383 1210,378"></path></g></svg>
-<p data-build-in="rise order 4" style="position:absolute;left:96px;top:916px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">pull.rebase false는 pull할 때 merge로 합치라는 뜻이에요. 설정한 뒤 다시 pull해요.</p>
+<div data-build-in="stagger order 1" data-gap="160" style="position:absolute;left:96px;top:520px;width:1728px;height:300px;display:flex;flex-direction:row;gap:24px;align-items:center"><div style="flex:1;display:flex;flex-direction:column;gap:16px;padding:0 0 0 0px;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:64px;font-weight:700;color:#1D2330">git pull</p><p style="font-size:32px;color:#4A5262">pull은 두 단계예요</p></div><div style="flex:1;display:flex;flex-direction:column;gap:16px;padding:0 0 0 40px;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:64px;font-weight:700;color:#6B47D6">= fetch</p><p style="font-size:32px;color:#4A5262">GitHub 커밋을 받아 오고</p></div><div style="flex:1;display:flex;flex-direction:column;gap:16px;padding:0 0 0 40px;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:64px;font-weight:700;color:#2459C9">+ merge</p><p style="font-size:32px;color:#4A5262">내 main과 합쳐요</p></div></div>
+<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B26A00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M720,380 L781,383 842,378 904,383 965,378 1026,383 1088,378 1149,383 1210,378"></path></g></svg>
+<p data-build-in="rise order 3" style="position:absolute;left:96px;top:916px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">pull.rebase false는 pull할 때 merge로 합치라는 뜻이에요. 설정한 뒤 다시 pull해요.</p>
 <aside>git config --global pull.rebase false를 한 번 쳐 두면 pull이 merge로 합쳐요. 출력은 없어요. --global이라 내 컴퓨터의 모든 저장소에 한 번에 적용돼요. rebase는 08에서 다른 합치는 방법과 비교해 봐요. 02의 처음 설정(user.name, user.email)과 같이 해 두면 좋아요.</aside></section>
 <section id="rs-pull" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p style="position:absolute;left:96px;top:72px;width:1728px;font-size:26px;font-weight:700;color:#A33131">충돌 시나리오 5 · pull 할 때</p>
@@ -1962,7 +1990,9 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
   <path d="M12 9v4"></path>
   <path d="M12 17h.01"></path>
 </svg></x-icon><p style="font-size:34px;font-weight:700;color:#1D2330">This branch has conflicts that must be resolved</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;color:#4A5262">Conflicting files: login.md</p><p style="font-size:28px;font-weight:700;color:#9AA0AB;background:#F0F1F3;border-radius:10px;padding:10px 24px;width:330px">Merge pull request</p></div>
+<div data-build-in="zoom order 2" data-pad="40" data-max="3" style="position:absolute;left:144px;top:450px;width:1632px;height:340px"></div>
 <svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M252,576 L313,579 374,574 435,579 496,574 557,579 618,574 678,579 739,574 800,579 861,574 922,579 983,574 1044,579"></path></g></svg>
+<div data-build-in="zoom-off order 3" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <p data-build-in="rise order 3" style="position:absolute;left:96px;top:916px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">내가 PR을 올린 사이 main이 같은 줄을 바꿨어요. Merge 버튼이 막혀요.</p>
 <aside>PR을 올린 사이 main이 같은 줄을 바꾸면 PR 화면에 충돌이 떠요. feature/login-title을 push하고 PR을 만들었는데, 그 사이 팀원이 main의 같은 줄을 # 로그인 페이지로 바꿔 합쳤어요. GitHub 화면 문구와 모양은 업데이트에 따라 조금 다를 수 있어요. GitHub에서 Resolve conflicts 버튼으로 웹에서 풀 수도 있지만, 수업에서는 내 컴퓨터에서 푸는 법을 써요.</aside></section>
 <section id="rs-pr" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1977,13 +2007,14 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <h2 style="position:absolute;left:96px;top:122px;width:1728px;font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">메시지로 충돌 종류를 알아봐요</h2>
 <div style="position:absolute;left:96px;top:250px;width:1728px;display:flex;flex-direction:column">
 <div style="display:flex;flex-direction:row;gap:24px;padding:0 8px 14px 8px;border-bottom:2px solid #9AA0AB"><p style="width:720px;flex:none;font-size:24px;font-weight:700;color:#6A7180">메시지</p><p style="width:280px;flex:none;font-size:24px;font-weight:700;color:#6A7180">상황</p><p style="font-size:24px;font-weight:700;color:#6A7180">푸는 법</p></div>
+<div data-build-in="stagger order 1" data-gap="120" style="display:flex;flex-direction:column">
 <div style="display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid #D9D6CD;padding:26px 8px"><p style="width:720px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">CONFLICT (content)</p><p style="width:280px;flex:none;font-size:28px;font-weight:700;color:#1D2330">같은 줄, 옆 줄</p><p style="font-size:28px;color:#4A5262">고르고, 표시 지우고, add, commit</p></div>
 <div style="display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid #D9D6CD;padding:26px 8px"><p style="width:720px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">CONFLICT (modify/delete)</p><p style="width:280px;flex:none;font-size:28px;font-weight:700;color:#1D2330">지움 vs 고침</p><p style="font-size:28px;color:#4A5262">git rm 또는 git add, commit</p></div>
 <div style="display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid #D9D6CD;padding:26px 8px"><p style="width:720px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">CONFLICT (add/add)</p><p style="width:280px;flex:none;font-size:28px;font-weight:700;color:#1D2330">같은 이름 새 파일</p><p style="font-size:28px;color:#4A5262">고르고, 표시 지우고, add, commit</p></div>
 <div style="display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid #D9D6CD;padding:26px 8px"><p style="width:720px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">fatal: Need to specify how to reconcile ...</p><p style="width:280px;flex:none;font-size:28px;font-weight:700;color:#1D2330">갈라진 채 pull</p><p style="font-size:28px;color:#4A5262">git config --global pull.rebase false</p></div>
 <div style="display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid #D9D6CD;padding:26px 8px"><p style="width:720px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">This branch has conflicts ...</p><p style="width:280px;flex:none;font-size:28px;font-weight:700;color:#1D2330">PR 충돌</p><p style="font-size:28px;color:#4A5262">내 브랜치에서 pull origin main, 풀고 push</p></div>
-</div>
-<p data-build-in="rise" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">어떤 충돌이든 막히면 git merge --abort로 처음으로 돌아갈 수 있어요.</p>
+</div></div>
+<p data-build-in="rise order 2" style="position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">어떤 충돌이든 막히면 git merge --abort로 처음으로 돌아갈 수 있어요.</p>
 <aside>메시지 첫 단어만 봐도 무엇을 할지 알 수 있어요. 충돌을 푼 뒤에는 git status로 남은 충돌 파일이 없는지 확인하고 커밋해요.</aside></section>
 <section id="err-name" data-transition="fade" style="background:#ECEAE3;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:112px 128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px"><p style="font-size:26px;font-weight:700;color:#A33131">에러 1 · 브랜치 이름</p><h2 style="font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">옮기려는데, 만들려는데 안 돼요</h2></div>
@@ -2047,7 +2078,7 @@ const stage=document.getElementById('pl-stage');
 const slides=[...stage.children];
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
-const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off'];
+const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off','wipe','slam','slide','stagger','count','mark','path','morph','lspot','lspot-off','run','run-off','zoom','zoom-off','blur','blur-off','text','pan','kenburns','pulse','grow','shine','shake'];
 const steps=slides.map(s=>{
   const els=[...s.querySelectorAll('[data-build-in]')];
   const groups=[];let auto=0;
@@ -2058,6 +2089,7 @@ const steps=slides.map(s=>{
     (groups[k]=groups[k]||[]).push(el);
     const kind=spec.trim().split(/\s+/)[0];
     el.dataset.fx=HL_KINDS.includes(kind)?kind:/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':/fly/.test(spec)?'fly':'fade';
+    if(kind==='slide'){el.style.setProperty('--dx',(el.dataset.dx||0)+'px');el.style.setProperty('--dy',(el.dataset.dy||60)+'px');}
     if(kind==='draw')[el,...el.querySelectorAll('path,rect,circle,ellipse,line,polyline,polygon')].forEach(x=>x.setAttribute('pathLength','1'));
   }
   return groups.filter(Boolean);
@@ -2075,9 +2107,11 @@ function setBuild(i,n,animate){
     el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
     if(fly)flyIn(el,slides[i].querySelector('#'+el.dataset.from));
     if(!animate||fly){void el.offsetWidth;el.style.transition='';}
-    if(el.dataset.fx==='type'){if(animate&&was&&gi<n)typeIn(el);else typeDone(el);}
+    entryFx(el,animate&&was&&gi<n,gi<n,i);
+    if(el.dataset.delay)el.style.transitionDelay=animate&&was&&gi<n?el.dataset.delay+'ms':'';
   }));
   hlState(i,n,animate);
+  fxState(i,n,animate);
   const fx=slides[i]._fx;if(fx&&fx.step)try{fx.step(n,animate);}catch(e){console.error(e);}
 }
 // moves el from the centre of src to its own place, so a value looks like it travels there
@@ -2090,13 +2124,6 @@ function flyIn(el,src){
 }
 // ---- highlights: typing, spotlight hole, mouse pointer (tools/HIGHLIGHT.md) ----
 function textNodes(el){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);return a;}
-function typeDone(el){if(el._tt){clearInterval(el._tt);el._tt=null;}if(el._orig)textNodes(el).forEach((t,k)=>t.nodeValue=el._orig[k]);}
-function typeIn(el){
-  typeDone(el);const ns=textNodes(el);el._orig=ns.map(t=>t.nodeValue);
-  const total=el._orig.join('').length,ms=Math.max(12,Math.min(45,1100/Math.max(1,total)));
-  ns.forEach(t=>t.nodeValue='');let k=0,j=0;
-  el._tt=setInterval(()=>{while(k<ns.length&&j>=el._orig[k].length){k++;j=0;}if(k>=ns.length){typeDone(el);return;}j++;ns[k].nodeValue=el._orig[k].slice(0,j);},ms);
-}
 const CUR_SVG='<svg viewBox="0 0 22 30" width="40" height="56"><path d="M2,2 L2,24 L8,18 L12,28 L16,26 L12,16 L20,16 Z" fill="#1D2330" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
 function hlParts(s){
   if(!s._spot){
@@ -2135,6 +2162,114 @@ function hlState(i,n,animate){
     if(!animate)free(cu);
     if(animate&&curNew&&cur.dataset.fx==='click'){clearTimeout(s._ripT);s._ripT=setTimeout(()=>{const rp=s._rip;rp.style.left=x+'px';rp.style.top=y+'px';rp.classList.remove('go');void rp.offsetWidth;rp.classList.add('go');},820);}
   }else{if(!animate)still(cu);cu.classList.remove('on');if(!animate)free(cu);}
+}
+// ---- more highlights (tools/HIGHLIGHT.md): entry kinds that need script, then marker states ----
+function entryFx(el,fresh,shown,i){
+  const f=el.dataset.fx,s=slides[i];
+  if(f==='stagger'){const gap=+(el.dataset.gap||70);[...el.children].forEach((c,k)=>{if(fresh){c.style.transitionDelay=(k*gap)+'ms';}else{c.style.transition='none';c.style.transitionDelay='';void c.offsetWidth;c.style.transition='';}});}
+  else if(f==='count'){countFx(el,fresh,shown);}
+  else if(f==='path'&&fresh){const p=s.querySelector('#'+el.dataset.path);if(p)pathFx(el,p);}
+  else if(f==='morph'){const a=s.querySelector('#'+el.dataset.from);if(a){if(fresh)morphFx(a,el);a.style.visibility=shown?'hidden':'';}}
+}
+function countFx(el,fresh,shown){
+  if(el._cnt===undefined){const tn=textNodes(el).find(t=>/\d/.test(t.nodeValue));el._cntNode=tn;el._cnt=tn?tn.nodeValue:'';}
+  const tn=el._cntNode;if(!tn)return;cancelAnimationFrame(el._raf);
+  if(!fresh){tn.nodeValue=el._cnt;return;}
+  const m=el._cnt.match(/[\d,]*\d(\.\d+)?/);if(!m){tn.nodeValue=el._cnt;return;}
+  const to=parseFloat(m[0].replace(/,/g,'')),dec=(m[1]||'').length-1>0?(m[1].length-1):0,comma=m[0].includes(','),t0=performance.now(),ms=+(el.dataset.ms||1200);
+  const fmt=v=>{let t=v.toFixed(dec);if(comma)t=Number(t).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});return el._cnt.slice(0,m.index)+t+el._cnt.slice(m.index+m[0].length);};
+  const tick=now=>{const k=Math.min(1,(now-t0)/ms);tn.nodeValue=fmt(to*(1-Math.pow(1-k,3)));if(k<1)el._raf=requestAnimationFrame(tick);else tn.nodeValue=el._cnt;};
+  tn.nodeValue=fmt(0);el._raf=requestAnimationFrame(tick);
+}
+function pathFx(el,p){
+  const b=rectIn(el),cx=b.x+b.w/2,cy=b.y+b.h/2,L=p.getTotalLength(),S=stage.getBoundingClientRect(),k=stage._s,M=p.getScreenCTM(),fr=[];
+  for(let j=0;j<=24;j++){const q=p.getPointAtLength(L*j/24),x=((M.a*q.x+M.c*q.y+M.e)-S.left)/k,y=((M.b*q.x+M.d*q.y+M.f)-S.top)/k;fr.push({transform:'translate('+(x-cx)+'px,'+(y-cy)+'px)',opacity:j?1:0});}
+  fr[fr.length-1].transform='none';
+  el.animate(fr,{duration:+(el.dataset.ms||1400),easing:'cubic-bezier(.45,0,.25,1)'});
+}
+function morphFx(a,b){
+  [a,b].forEach(x=>x.querySelectorAll('[data-m]').forEach(t=>{if(getComputedStyle(t).display==='inline')t.style.display='inline-block';}));
+  const from={};a.querySelectorAll('[data-m]').forEach(t=>from[t.dataset.m]=rectIn(t));
+  a.style.visibility='hidden';
+  b.style.transition='none';b.classList.remove('pending','morph');void b.offsetWidth;b.style.transition='';
+  b.querySelectorAll('[data-m]').forEach(t=>{const p=from[t.dataset.m],q=rectIn(t);
+    if(p)t.animate([{transform:'translate('+(p.x-q.x)+'px,'+(p.y-q.y)+'px)'},{transform:'none'}],{duration:850,easing:'cubic-bezier(.65,0,.35,1)'});
+    else t.animate([{opacity:0},{opacity:0,offset:.55},{opacity:1}],{duration:850,easing:'ease'});});
+  const g=a.cloneNode(true);g.removeAttribute('id');g.style.visibility='inherit';g.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+  g.querySelectorAll('[data-m]').forEach(t=>{if(b.querySelector('[data-m="'+t.dataset.m+'"]'))t.style.visibility='hidden';});
+  a.parentNode.insertBefore(g,a);g.animate([{opacity:1},{opacity:0}],{duration:450,easing:'ease'}).onfinish=()=>g.remove();
+}
+function fxParts(s){
+  if(!s._veil){
+    s._veil=[0,1].map(()=>{const d=document.createElement('div');d.className='pl-veil pl-off';return d;});
+    s._lbar=document.createElement('div');s._lbar.className='pl-lbar pl-off';
+    s._run=document.createElement('div');s._run.className='pl-run pl-off';
+    s.append(s._run,...s._veil,s._lbar);
+  }
+  return s;
+}
+function mbox(el){return{x:parseFloat(el.style.left)||0,y:parseFloat(el.style.top)||0,w:parseFloat(el.style.width)||0,h:parseFloat(el.style.height)||0};}
+function fxState(i,n,animate){
+  const s=slides[i];let ls=null,rn=null,zm=null,bl=null,last=null;const txt=new Map(),pan=new Map(),kb=new Map(),dims={};
+  steps[i].forEach((g,gi)=>g.forEach(el=>{const f=el.dataset.fx,shown=gi<n;
+    if(el.dataset.dimgroup&&shown){const d=dims[el.dataset.dimgroup]=dims[el.dataset.dimgroup]||{max:-1,els:[]};d.max=Math.max(d.max,gi);d.els.push([el,gi]);}
+    if(el.dataset.dimgroup&&!shown)el.classList.remove('pl-dim');
+    if(!shown)return;
+    if(f==='lspot')ls=el;else if(f==='lspot-off')ls=null;
+    else if(f==='run')rn=el;else if(f==='run-off')rn=null;
+    else if(f==='zoom')zm=el;else if(f==='zoom-off')zm=null;
+    else if(f==='blur')bl=el;else if(f==='blur-off')bl=null;
+    else if(f==='text')txt.set(el.dataset.target,el);
+    else if(f==='pan')pan.set(el.dataset.target,el);
+    else if(f==='kenburns')kb.set(el.dataset.target,el);
+    if(animate&&gi===n-1&&/^(pulse|grow|shine|shake|text)$/.test(f))(last=last||[]).push(el);
+  }));
+  Object.values(dims).forEach(d=>d.els.forEach(([el,gi])=>el.classList.toggle('pl-dim',gi<d.max)));
+  const instant=(el,fn)=>{if(!animate){el.style.transition='none';fn();void el.offsetWidth;el.style.transition='';}else fn();};
+  const any=ls||rn||s._veil;
+  if(any){fxParts(s);
+    if(ls){const b=mbox(ls),ly=+ls.dataset.ly,lh=+ls.dataset.lh,bg=ls.dataset.bg||'#FFFFFF',[v1,v2]=s._veil,wasOn=!v1.classList.contains('pl-off');
+      const put=()=>{Object.assign(v1.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:Math.max(0,ly-b.y)+'px',background:bg});
+        Object.assign(v2.style,{left:b.x+'px',top:(ly+lh)+'px',width:b.w+'px',height:Math.max(0,b.y+b.h-ly-lh)+'px',background:bg});
+        Object.assign(s._lbar.style,{left:(b.x+8)+'px',top:(ly+6)+'px',height:Math.max(0,lh-12)+'px',background:ls.dataset.bar||'#2459C9'});};
+      [v1,v2,s._lbar].forEach(x=>instant(x,()=>{}));
+      if(!animate||!wasOn){[v1,v2,s._lbar].forEach(x=>{x.style.transition='none';});put();[v1,v2,s._lbar].forEach(x=>{void x.offsetWidth;x.style.transition='';});}else put();
+      [v1,v2,s._lbar].forEach(x=>instant(x,()=>x.classList.remove('pl-off')));
+    }else [...s._veil,s._lbar].forEach(x=>instant(x,()=>x.classList.add('pl-off')));
+    if(rn){const b=mbox(rn),wasOn=!s._run.classList.contains('pl-off');
+      const put=()=>Object.assign(s._run.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'});
+      if(!animate||!wasOn){s._run.style.transition='none';put();void s._run.offsetWidth;s._run.style.transition='';}else put();
+      instant(s._run,()=>s._run.classList.remove('pl-off'));
+    }else instant(s._run,()=>s._run.classList.add('pl-off'));
+  }
+  // blur everything on the slide except the part that holds the target
+  if(bl||s.classList.contains('pl-blurs')){s.classList.add('pl-blurs');
+    const t=bl&&s.querySelector('#'+bl.dataset.target);
+    [...s.children].forEach(c=>{if(c.tagName==='ASIDE'||/^pl-/.test(c.className)||c.hasAttribute('data-build-in')&&/^(lspot|run|zoom|blur|text|pan|kenburns|pulse|grow|shine|shake|spot|cursor|click)/.test(c.getAttribute('data-build-in')))return;
+      instant(c,()=>c.classList.toggle('pl-bl',!!t&&!c.contains(t)&&c!==t));});
+    if(!bl&&!animate)s.classList.remove('pl-blurs');
+  }
+  // text values: the element keeps its last text in the HTML (for the PDF); data-start is what shows before any text step
+  s.querySelectorAll('[data-start]').forEach(t=>{if(t._final===undefined)t._final=t.textContent;const m=txt.get(t.id);t.textContent=m?m.dataset.text:t.dataset.start;});
+  pan.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t){t.style.transition=animate?'transform '+(m.dataset.ms||2000)+'ms cubic-bezier(.65,0,.35,1)':'none';t.style.transform='translateY('+(m.dataset.y||0)+'px)';}});
+  s.querySelectorAll('[data-panned]').forEach(t=>{if(!pan.has(t.id)){t.style.transition='none';t.style.transform='';}});
+  pan.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t)t.dataset.panned=1;});
+  kb.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t){t.style.transformOrigin=m.dataset.origin||'50% 50%';t.style.transition=animate?'transform '+(m.dataset.ms||6000)+'ms linear':'none';t.style.transform='scale('+(m.dataset.scale||1.12)+')';t.dataset.kb=1;}});
+  s.querySelectorAll('[data-kb]').forEach(t=>{if(!kb.has(t.id)){t.style.transition='none';t.style.transform='';}});
+  // camera: zoom the whole slide into the marker's box
+  if(zm){const b=mbox(zm),pad=+(zm.dataset.pad||40),k=Math.min(1920/(b.w+2*pad),1080/(b.h+2*pad),+(zm.dataset.max||3));
+    s.style.transformOrigin='0 0';s.style.transition=animate?'transform .9s cubic-bezier(.65,0,.35,1)':'none';
+    s.style.transform='translate('+(960-(b.x+b.w/2)*k)+'px,'+(540-(b.y+b.h/2)*k)+'px) scale('+k+')';}
+  else if(s.style.transform){s.style.transition=animate?'transform .9s cubic-bezier(.65,0,.35,1)':'none';s.style.transform='';}
+  (last||[]).forEach(m=>{const t=s.querySelector('#'+m.dataset.target);if(!t)return;const f=m.dataset.fx;
+    if(f==='pulse')t.animate([{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'}],{duration:900,easing:'ease-in-out'});
+    else if(f==='grow')t.animate([{transform:'scale(1)'},{transform:'scale(1.2)',offset:.4},{transform:'scale(1)'}],{duration:800,easing:'cubic-bezier(.2,.7,.2,1)'});
+    else if(f==='shake')t.animate([0,-14,14,-10,10,-5,0].map(x=>({transform:'translateX('+x+'px)'})),{duration:480,easing:'ease-out'});
+    else if(f==='text')t.animate([{backgroundColor:'rgba(255,214,64,.6)'},{backgroundColor:'rgba(255,214,64,0)'}],{duration:900,easing:'ease-out'});
+    else if(f==='shine'){const r=rectIn(t),g=document.createElement('div');Object.assign(g.style,{position:'absolute',left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px',overflow:'hidden',pointerEvents:'none',zIndex:35,borderRadius:getComputedStyle(t).borderRadius});
+      g.innerHTML='<div style="position:absolute;top:0;left:-40%;width:30%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg)"></div>';s.appendChild(g);
+      g.firstChild.animate([{left:'-40%'},{left:'120%'}],{duration:800,easing:'ease-in-out'}).onfinish=()=>g.remove();}
+  });
 }
 function rectIn(el){const r=el.getBoundingClientRect(),S=stage.getBoundingClientRect(),k=stage._s;return{x:(r.left-S.left)/k,y:(r.top-S.top)/k,w:r.width/k,h:r.height/k};}
 function topIds(sec){return [...sec.querySelectorAll('[id]')].filter(el=>!el.parentElement.closest('section [id]'));}
