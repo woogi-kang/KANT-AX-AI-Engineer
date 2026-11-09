@@ -22,19 +22,20 @@ def run(cells, seed=0):
 
 
 MENUS = 'menus = {"coffee", "latte", "cake"}'
+ORDERS = 'orders = ["coffee", "latte", "coffee", "cake", "latte"]'
 print("=== 1. 집합이 뭔가요")
-run(['nums = [3, 1, 3, 2, 1]\nprint(nums)\nprint(set(nums))',
+run([ORDERS + '\nprint(orders)\nprint(len(orders))',
+     'nums = [3, 1, 3, 2, 1]\nprint(nums)\nprint(set(nums))',
      'nums = {3, 1, 2, 3}\nprint(nums)\nprint(type(nums))\nprint(len(nums))',
      MENUS + '\nprint(menus)\nprint(sorted(menus))',
-     'orders = ["coffee", "latte", "coffee", "cake", "latte"]\nkinds = set(orders)\nprint(kinds)\nprint(len(orders), len(kinds))\nprint(sorted(kinds))',
+     'kinds = set(orders)\nprint(kinds)\nprint(len(orders), len(kinds))\nprint(sorted(kinds))',
      'kinds = set()\nfor o in orders:\n    kinds.add(o)\nprint(sorted(kinds))',
-     'print(set("banana"))\nprint(len(set("banana")))\nprint(set(["banana"]))\nprint({"banana"})',
      'a = {}\nprint(type(a))\nb = set()\nprint(type(b))\nprint(b)\nprint(len(b))',
+     'cart = {}\ncart.add("coffee")',
      'ok = {1, "kim", (2, 3)}\nprint(len(ok))',
      'bad = {[1, 2], 3}',
      'd = {[1, 2]: "a"}'], seed=22)
 print("=== 1b. 같은 셀을 새 커널에서")
-run([MENUS + '\nprint(menus)\nprint(sorted(menus))'], seed=22)
 run([MENUS + '\nprint(menus)\nprint(sorted(menus))'], seed=13)
 print("=== 2. 바꾸고 확인하기")
 run([MENUS + '\nmenus.add("tea")\nprint(menus)\nmenus.add("coffee")\nprint(menus)\nprint(len(menus))',
@@ -49,7 +50,7 @@ run([MENUS + '\nmenus.add("tea")\nprint(menus)\nmenus.add("coffee")\nprint(menus
      'print(sorted(menus))\nprint(sorted(menus)[0])\nprint(list(menus))',
      'menus.sort()',
      'nums = {30, 10, 20}\nprint(sorted(nums))\nprint(sorted(nums, reverse=True))\nprint(sorted(menus, reverse=True))\nprint(type(sorted(menus)))\nprint(menus)',
-     'orders = ["tea", "cake", "tea", "coffee", "cake"]\nprint(sorted(set(orders)))',
+     'orders = ["tea", "cake", "tea",\n          "coffee", "cake"]\nprint(sorted(set(orders)))',
      'for m in menus:\n    print(m)',
      'for m in sorted(menus):\n    print(m)'], seed=22)
 print("=== 3. 집합 연산")
@@ -58,15 +59,13 @@ run(['a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nprint(a | b)\nprint(a.union(b))',
      'print(a - b)\nprint(b - a)\nprint(a.difference(b))',
      'c = a | b\nprint(a, b)\nprint(len(c), len(a & b))',
      'c = set(a)\nfor x in b:\n    c.add(x)\nprint(c)'], seed=22)
-print("=== 4. 실습")
+print("=== 4. 비교와 오류")
+run(['print(set("banana"))\nprint(len(set("banana")))\nprint(set(["banana"]))\nprint({"banana"})'], seed=22)
+print("=== 5. 실습")
 run(['orders = ["coffee", "latte", "coffee", "cake",\n          "coffee", "latte", "tea"]\nkinds = set(orders)\nprint(f"주문 {len(orders)}잔, 메뉴 {len(kinds)}가지")\nfor m in sorted(kinds):\n    print(m, orders.count(m))',
      'python_class = {"kim", "lee", "park", "choi"}\ndata_class = {"park", "choi", "jung", "kang"}\nboth = python_class & data_class\nprint(sorted(both))\nprint(sorted(python_class - data_class))\nprint(sorted(data_class - python_class))\nprint(f"모두 {len(python_class | data_class)}명")',
      'menu = {"coffee": 4500, "latte": 5000, "cake": 6500}\norders = ["coffee", "tea", "cake", "juice", "coffee"]\nprint(set(menu))\nprint(sorted(set(orders) - set(menu)))\nprint(sorted(set(orders) & set(menu)))',
-     'total = 0\nfor m in sorted(set(orders) & set(menu)):\n    qty = orders.count(m)\n    print(f"{m:<8}{qty}개 {menu[m] * qty:>7,}원")\n    total += menu[m] * qty\nprint(f"합계 {total:,}원")',
-     'cart = {}\ncart.add("coffee")',
-     'menus = {"coffee", "latte"}\nmenus[0]',
-     'menus.remove("tea")',
-     'print(set("latte"))\nprint({"latte"})'], seed=22)
+     'total = 0\nfor m in sorted(set(orders) & set(menu)):\n    qty = orders.count(m)\n    print(f"{m:<8}{qty}개 {menu[m] * qty:>7,}원")\n    total += menu[m] * qty\nprint(f"합계 {total:,}원")'], seed=22)
 print("=== 참고 (if, 읽기만)")
 run(['orders = ["coffee", "latte", "coffee", "cake", "latte"]\nkinds = []\nfor o in orders:\n    if o not in kinds:\n        kinds.append(o)\nprint(kinds)',
      'a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nboth = set()\nfor x in a:\n    if x in b:\n        both.add(x)\nprint(both)',
