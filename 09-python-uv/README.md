@@ -1,6 +1,6 @@
 # 09 · uv로 파이썬 시작하기
 
-> 파이썬 프로젝트를 uv 하나로 만들고 실행해요. 먼저 예전 방식(venv, pip, requirements.txt)과 uv를 한 장에 나란히 놓고 비교해요. 그다음 `uv init`, `uv run`, `uv add`, `uv remove`, `uv sync`를 직접 쳐요. 예제 패키지는 웹 서버를 만드는 fastapi예요. uv가 만든 가상환경을 Mac과 Windows에서 직접 켜는 방법도 봐요. 마지막으로 머신러닝 수업에서 쓸 Jupyter 노트북을 VS Code에서 여는 준비까지 해요. 터미널 명령은 01, GitHub에 올리고 받는 명령은 02, 06과 같아요.
+> 파이썬 프로젝트를 uv 하나로 만들고 실행해요. 먼저 받은 프로젝트가 왜 남의 컴퓨터에서 안 돌아가는지 봐요. 그다음 `uv init`, `uv run`, `uv add`, `uv remove`, `uv sync`를 직접 쳐요. 예제 패키지는 웹 서버를 만드는 fastapi예요. uv가 만든 가상환경을 Mac과 Windows에서 직접 켜는 방법도 봐요. 머신러닝 수업에서 쓸 Jupyter 노트북을 VS Code에서 여는 준비도 해요. 마지막에 튜토리얼, 노트북, 팀 작업에서 자주 만나는 상황 세 가지를 풀어요. 터미널 명령은 01, GitHub에 올리고 받는 명령은 02, 06과 같아요.
 
 <!-- curriculum:top -->
 
@@ -14,28 +14,32 @@
 
 이 챕터를 마치면 다음을 할 수 있어요.
 
-- python이 `.py` 파일을 읽어 실행한다는 것과 패키지가 무엇인지 말해요.
-- 예전 방식의 여섯 단계가 uv 명령 세 개(`uv init`, `uv add`, `uv run`)로 줄어드는 것을 설명해요.
+- 받은 프로젝트가 `ModuleNotFoundError`로 멈추는 이유를 말해요.
+- python이 `.py` 파일을 읽어 실행한다는 것과 패키지, 가상환경이 무엇인지 말해요.
 - Mac은 `brew`, Windows는 `winget`으로 uv를 설치해요.
 - `uv init`으로 프로젝트를 만들고 `uv run`으로 실행해요.
 - uv가 만든 가상환경을 Mac과 Windows에서 직접 켜고 꺼요.
 - `uv add`, `uv remove`가 pyproject.toml, uv.lock, .venv 세 곳을 함께 바꾼다는 걸 알아요.
 - GitHub에 올릴 파일과 올리지 않을 파일(.venv)을 구분하고, 받은 프로젝트를 `uv sync`로 똑같이 맞춰요.
 - VS Code에 Python, Jupyter 확장을 설치하고, `uv add --dev ipykernel` 뒤 노트북 커널로 `.venv`를 골라 셀을 실행해요.
+- 인터넷 자료의 `pip install`을 `uv add`로 바꿔 치고, 팀원이 넣은 패키지를 `git pull origin main` 뒤 `uv sync`로 받아요.
 
 ## 구성
 
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
 | 들어가기 | 1–2 | 표지, 오늘의 순서 |
-| 1. 파이썬은 어떻게 실행되나 | 3–4 | python이 `.py`를 읽어 실행, 패키지와 PyPI |
-| 2. 예전 방식과 비교 | 5–7 | 가상환경(.venv), 예전 6단계와 uv 3개 나란히 보기, uv가 대신 해 주는 세 가지 |
+| 1. 왜 필요할까 | 3 | 받은 프로젝트를 `python3 main.py`로 실행했더니 `ModuleNotFoundError` |
+| 2. 큰 그림 | 4–7 | python이 `.py`를 읽어 실행, 패키지와 PyPI, 가상환경(.venv), uv가 챙기는 세 가지 |
 | 3. uv 설치하기 | 8 | Mac `brew install uv`, Windows `winget install --id=astral-sh.uv -e` |
 | 4. 프로젝트 만들고 실행하기 | 9–14 | `uv init`, pyproject.toml 읽기, 첫 `uv run`, 두 번째 `uv run`, 가상환경 직접 켜기(Mac, Windows), 파이썬 버전 |
 | 5. 패키지 넣고 빼기 | 15–19 | `uv add fastapi`, `uv tree`, 코드에서 불러오기, `uv remove`, 캐시 |
 | 6. 다른 컴퓨터에서 그대로 | 20–23 | 올릴 파일과 .gitignore, kim에서 lee로, `uv sync` 실제 출력, sync를 치는 때 |
-| 7. VS Code에서 Jupyter 쓰기 | 24–29 | 노트북과 셀, Python과 Jupyter 확장 설치, `uv add --dev ipykernel`, 커널로 .venv 고르기, 셀 실행, 막힐 때 |
-| 정리 | 30–32 | 예전 명령 바꿔 치기, 자주 나오는 메시지, 한 장 요약 |
+| 7. VS Code에서 Jupyter 쓰기 | 24–28 | 노트북과 셀, Python과 Jupyter 확장 설치, `uv add --dev ipykernel`, 커널로 .venv 고르기, 셀 실행 |
+| 8. 예전 방식과 비교 | 29 | 예전 명령(venv, pip, requirements.txt)을 uv 명령으로 바꿔 치기 |
+| 9. 막힐 때 | 30–31 | uv에서 자주 만나는 메시지, 노트북 커널과 pull 설정 |
+| 10. 실제 상황 예제 | 32–34 | 튜토리얼의 `pip install`을 `uv add`로, 노트북에서 없는 패키지 넣기, 팀원이 넣은 패키지 받기 |
+| 정리 | 35 | 언제 무엇을 치나 |
 
 ## 핵심 개념
 
@@ -129,7 +133,7 @@ deactivate                  # 끄기
 
 ```bash
 uv add fastapi
-cat pyproject.toml        # dependencies에 "fastapi>=0.162.0"
+cat pyproject.toml        # dependencies에 "fastapi>=0.162.2"
 uv tree --depth 2         # fastapi와 따라온 패키지
 ```
 
@@ -142,11 +146,11 @@ print("fastapi 버전:", fastapi.__version__)
 ```
 
 ```bash
-uv run main.py            # fastapi 버전: 0.162.0
+uv run main.py            # fastapi 버전: 0.162.2
 uv remove fastapi         # 11개가 함께 빠져요
 uv run main.py            # ModuleNotFoundError: No module named 'fastapi'
 uv add fastapi            # 캐시에 있어서 바로 들어가요
-uv run main.py            # fastapi 버전: 0.162.0
+uv run main.py            # fastapi 버전: 0.162.2
 ```
 
 ### 3. GitHub에 올리고 다른 컴퓨터에서 받기
@@ -167,7 +171,7 @@ git push origin main
 git clone https://github.com/kim/hello-uv.git
 cd hello-uv
 uv sync               # 파이썬, .venv, 패키지를 uv.lock대로
-uv run main.py        # fastapi 버전: 0.162.0
+uv run main.py        # fastapi 버전: 0.162.2
 ```
 
 팀원이 패키지를 넣고 push했으면 `git pull origin main` 뒤 `uv sync`로 내 `.venv`를 맞춰요.
@@ -198,6 +202,50 @@ print(sys.executable)     # .../hello-uv/.venv/bin/python 이면 맞게 고른 �
 
 VS Code가 ipykernel을 설치하라는 알림을 띄우면 Install을 누르지 말고 위의 `uv add --dev ipykernel`을 쳐요. Install은 pip로 넣어서 pyproject.toml에 적히지 않아요.
 
+### 5. 실제 상황 예제
+
+인터넷 튜토리얼에 `pip install requests`가 나오면 `uv add requests`로 바꿔 쳐요. 가상환경 만들기와 켜기는 `uv init`과 `uv run`이 대신해요.
+
+```bash
+cd ~
+uv init cafe-order
+cd cafe-order
+uv add requests           # requests와 따라온 4개, 모두 5개
+```
+
+`main.py`를 아래처럼 고쳐 저장하고 실행해요.
+
+```python
+import requests
+
+print("requests 버전:", requests.__version__)
+```
+
+```bash
+uv run main.py            # requests 버전: 2.34.2
+```
+
+노트북 셀에서 `ModuleNotFoundError: No module named 'requests'`가 나면 VS Code 터미널에서 넣고 같은 셀을 다시 실행해요.
+
+```bash
+cd ~/hello-uv
+uv add requests
+```
+
+넣은 패키지는 목록 파일 두 개를 커밋해서 올려요. 팀원은 pull 뒤 `uv sync`로 받아요.
+
+```bash
+git add pyproject.toml uv.lock
+git commit -m "feat: requests 패키지 넣기"
+git push origin main
+```
+
+```bash
+git pull origin main      # 팀원(lee) 컴퓨터
+uv sync
+uv tree --depth 1         # requests가 보여요
+```
+
 ## 명령어 요약
 
 | 명령 | 하는 일 |
@@ -212,6 +260,8 @@ VS Code가 ipykernel을 설치하라는 알림을 띄우면 Install을 누르지
 | `uv tree --depth 2` | 패키지가 어떤 패키지 때문에 들어왔는지 두 단계까지 보기 |
 | `uv sync` | uv.lock대로 .venv 맞추기 (clone 직후, pull 뒤) |
 | `uv add --dev ipykernel` | 노트북 커널 넣기. 개발용 칸(dev)에 적혀요 |
+| `uv tree --depth 1` | 내가 넣은 패키지만 한 단계로 보기 |
+| `git pull origin main` 뒤 `uv sync` | 팀원이 넣은 패키지를 내 .venv에 받기 |
 | `source .venv/bin/activate` | 가상환경 직접 켜기 (Windows Git Bash는 `.venv/Scripts/activate`) |
 | `deactivate` | 켠 가상환경 끄기 |
 
@@ -227,7 +277,9 @@ VS Code가 ipykernel을 설치하라는 알림을 띄우면 Install을 누르지
 | `.python-version` 숫자가 슬라이드와 달라요 | 컴퓨터에 이미 있던 파이썬을 썼어요. 그대로 써도 돼요 |
 | 노트북에서 ipykernel을 설치하라는 알림이 떠요 | Install 대신 터미널에서 `uv add --dev ipykernel`. 그다음 커널을 다시 골라요 |
 | 커널 목록에 `.venv`가 없어요 | `hello-uv` 폴더 자체를 열었는지 봐요. `uv sync` 뒤 VS Code를 다시 열어요 |
-| 노트북 셀에서 `ModuleNotFoundError` | 커널이 `.venv`가 아니에요. 오른쪽 위 커널 이름을 눌러 `.venv`로 바꿔요 |
+| 노트북 셀에서 `ModuleNotFoundError` | 커널이 `.venv`가 아니면 오른쪽 위 커널 이름을 눌러 `.venv`로 바꿔요. 커널이 맞으면 패키지가 없는 거예요. 터미널에서 `uv add 패키지` 뒤 같은 셀을 다시 실행해요 |
+| `fatal: Need to specify how to reconcile divergent branches.` | pull 설정이 없어요(06). `git config --global pull.rebase false`를 한 번 치고 다시 `git pull origin main` |
+| 팀원이 넣은 패키지를 불러오면 `ModuleNotFoundError` | pull은 목록 파일만 바꿔요. `uv sync`로 내 .venv에 설치해요 |
 
 ## 강사용
 
@@ -242,6 +294,7 @@ tools/
   gen.py           모든 장과 deck.json 생성 (폴더 그림, 세 곳 카드, 나란히 비교)
   demo.sh          모든 명령을 새 폴더에서 다시 실행해 실제 출력 확인
   run_nb.py        노트북 셀을 프로젝트 커널로 실행해 출력 확인 (demo.sh가 불러요)
+  run_nb2.py       커널 하나에서 셀, 터미널 명령, 같은 셀 순서로 실행 (33쪽, demo.sh가 불러요)
 python-uv-slides.html  배포용 HTML
 python-uv-slides.pdf   강사용 PDF
 ```
@@ -258,7 +311,7 @@ node ../tools/build_player.js slides python-uv-slides.html
 node ../tools/export.js slides python-uv-slides.pdf
 ```
 
-터미널 출력은 `tools/demo.sh`로 uv 0.11.32, Python 3.14.6에서 실제로 실행해 옮겼어요. uv 캐시와 파이썬 설치 폴더를 실습 폴더 안에 새로 만들어서, 파이썬이 없는 컴퓨터처럼 첫 실행에 파이썬을 받아요. lee 컴퓨터는 캐시와 파이썬 폴더를 따로 둬서 처음 받는 모습을 재현했어요. 예전 방식은 uv가 받은 Python 3.14.6을 `python3`로 써서 실행했어요. 예전 방식의 `pip uninstall fastapi` 뒤 남은 10개는 `pip freeze | wc -l`로 셌어요. 노트북 셀 출력은 `tools/run_nb.py`가 hello-uv 복사본의 커널(ipykernel)로 셀을 실행한 결과예요. VS Code 화면(확장, 커널 고르기)은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/hello-uv.git`으로 보이게 했어요. 출력의 폴더 주소는 01처럼 `/home/kim`으로 바꿨어요. `brew install uv`, `winget install` 출력은 이 환경에서 칠 수 없고 버전마다 달라서 옮기지 않았어요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요. 패키지 버전과 걸린 시간(ms)은 실행한 날에 따라 달라요.
+터미널 출력은 `tools/demo.sh`로 uv 0.11.32, Python 3.14.6에서 실제로 실행해 옮겼어요. uv 캐시와 파이썬 설치 폴더를 실습 폴더 안에 새로 만들어서, 파이썬이 없는 컴퓨터처럼 첫 실행에 파이썬을 받아요. lee 컴퓨터는 캐시와 파이썬 폴더를 따로 둬서 처음 받는 모습을 재현했어요. 예전 방식은 uv가 받은 Python 3.14.6을 `python3`로 써서 실행했어요. 예전 방식의 `pip uninstall fastapi` 뒤 남은 10개는 `pip freeze | wc -l`로 셌어요. 노트북 셀 출력은 `tools/run_nb.py`가 hello-uv 복사본의 커널(ipykernel)로 셀을 실행한 결과예요. 33쪽은 `tools/run_nb2.py`가 같은 커널에서 셀을 실행하고, `uv add requests`를 친 뒤, 같은 셀을 다시 실행한 결과예요. 3쪽과 34쪽의 lee 컴퓨터, 31쪽의 pull fatal 메시지도 demo.sh에서 실제 git으로 만들었어요. 출력은 2026-11-08에 다시 실행해서 옮겼어요. VS Code 화면(확장, 커널 고르기)은 이 환경에서 띄울 수 없어서 단순하게 그렸어요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/hello-uv.git`으로 보이게 했어요. 출력의 폴더 주소는 01처럼 `/home/kim`으로 바꿨어요. `brew install uv`, `winget install` 출력은 이 환경에서 칠 수 없고 버전마다 달라서 옮기지 않았어요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요. 패키지 버전과 걸린 시간(ms)은 실행한 날에 따라 달라요.
 
 </details>
 
