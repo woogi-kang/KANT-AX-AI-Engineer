@@ -11,7 +11,7 @@ picture with a leader line instead of side cards, hairline rows instead of borde
 terminals sized to their lines. Highlights come from tools/highlight.py (tools/HIGHLIGHT.md).
 Usage: python3 tools/gen.py slides
 """
-import html, json, os, sys
+import html, json, os, sys, zlib
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "tools"))
 from highlight import spot, spot_off, cursor, cursor_off, ring, box as pen_box, underline
@@ -83,9 +83,9 @@ def lead(x1, y1, x2, y2, color=SUB, order=None, dot=True, width=3):
 
 
 def path_svg(d, color, order=None, width=5, arrow=True, dashed=False):
-    mk = (f'<defs><marker id="ah{abs(hash(d)) % 99999}" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">'
+    mk = (f'<defs><marker id="ah{zlib.crc32(d.encode()) % 99999}" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">'
           f'<path d="M0,0 L10,5 L0,10 z" fill="{color}"/></marker></defs>') if arrow else ""
-    me = f' marker-end="url(#ah{abs(hash(d)) % 99999})"' if arrow else ""
+    me = f' marker-end="url(#ah{zlib.crc32(d.encode()) % 99999})"' if arrow else ""
     da = ' stroke-dasharray="14 12"' if dashed else ""
     return (f'<svg{bi("draw", order)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible">'
             f'{mk}<path d="{d}" fill="none" stroke="{color}" stroke-width="{width}" stroke-linecap="round"{da}{me}/></svg>')
