@@ -7,7 +7,7 @@ the object they name on a thin stem."""
 import html, os, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import underline  # noqa: E402
+from highlight import underline, SLIDE, DELAY, DIM, pulse  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -50,7 +50,7 @@ PARTS = [("1", "개념 잡기", "터미널 · 프롬프트 · 폴더 트리", "3
 o = light("toc", "오늘의 순서")
 for i, (n, t, sub, pg, c) in enumerate(PARTS):
     x, y = 128 + (i // 4) * 864, 236 + (i % 4) * 176
-    o.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:800px;height:176px;border-top:2px solid {RULE};display:flex;flex-direction:row;gap:32px;align-items:center">'
+    o.append(f'<div data-build-in="rise order 1"{DELAY(i * 70)} style="position:absolute;left:{x}px;top:{y}px;width:800px;height:176px;border-top:2px solid {RULE};display:flex;flex-direction:row;gap:32px;align-items:center">'
              + p(f"font-size:64px;font-weight:900;line-height:1;width:56px;color:{c}", n)
              + '<div style="flex:1;display:flex;flex-direction:column;gap:10px">'
              + p(f"font-size:40px;font-weight:700;line-height:1.25;color:{INK}", e(t))
@@ -72,14 +72,14 @@ o.append(f'<div style="position:absolute;left:128px;top:{TOP}px;width:{W}px;heig
 o.append(p(f"position:absolute;left:{128+W}px;top:{TOP+H//2-56}px;width:{1664-2*W}px;font-size:96px;font-weight:900;line-height:1;text-align:center;color:#9AA0AB", "="))
 TX = 1792 - W
 o.append(p(f"position:absolute;left:{TX}px;top:{TOP-52}px;width:{W}px;font-size:28px;font-weight:700;color:{GRAY}", "글자로 보기"))
-o.append(f'<div data-build-in="rise order 1" style="position:absolute;left:{TX}px;top:{TOP}px;width:{W}px;height:{H}px;background:#1B2029;border-radius:20px;padding:26px 32px;display:flex;flex-direction:column;gap:6px;font-family:{MONO}">'
+o.append(f'<div id="why-term"{SLIDE(1, 160, 0)} style="position:absolute;left:{TX}px;top:{TOP}px;width:{W}px;height:{H}px;background:#1B2029;border-radius:20px;padding:26px 32px;display:flex;flex-direction:column;gap:6px;font-family:{MONO}">'
          f'<div style="padding:0 0 22px 0">{dots()}</div>'
          + p("font-size:48px;line-height:1.45;white-space:nowrap;color:#F2C46D", f'<span style="color:#8FB3FF">~ $</span> ls')
          + p("font-size:48px;line-height:1.45;white-space:nowrap;color:#D8DEE9", "Desktop&#160;&#160;Documents")
          + p("font-size:48px;line-height:1.45;white-space:nowrap;color:#8FB3FF", '~ $ <span style="display:inline-block;width:26px;height:52px;vertical-align:-8px;background:#D8DEE9"></span>')
          + '</div>')
 o.append(p(f"position:absolute;left:128px;top:{TOP+H+56}px;width:1664px;font-size:32px;line-height:1.5;color:{SUB}",
-           "개발 도구는 대부분 터미널에서 실행해요. 그래서 폴더를 글자로 다루는 법부터 익혀요.", ' data-build-in="fade order 2"'))
+           "개발 도구는 대부분 터미널에서 실행해요. 그래서 폴더를 글자로 다루는 법부터 익혀요.", f' data-build-in="fade order 1"{DELAY(600)}'))
 write("why", o, "Finder나 파일 탐색기에서 보던 폴더를 글자로 보는 창이 터미널이에요. Mac은 터미널 앱, Windows는 Git을 설치할 때 같이 깔린 Git Bash를 열어요. 둘 다 오늘 배우는 명령이 똑같이 동작해요.")
 
 # ---------- prompt: one prompt line, labels on stems, three real prompts compared ----------
@@ -93,7 +93,7 @@ STEMS = [(0, 3, "사용자 이름", "#1A7340", 1), (4, 10, "컴퓨터 이름", "
 for a, b, t, c, k in STEMS:
     cx = round(X0 + (a + b) / 2 * CW)
     big = t == "현재 위치"
-    at = f' data-build-in="fade order 1"'
+    at = f' data-build-in="fade order 1"{DELAY((k - 1) * 180)}'
     o.append(f'<div{at} style="position:absolute;left:{cx-5}px;top:452px;width:10px;height:10px;border-radius:5px;background:{c}"></div>')
     o.append(f'<div{at} style="position:absolute;left:{cx-1}px;top:458px;width:2px;height:40px;background:{c}"></div>')
     o.append(p(f"position:absolute;left:{cx-150}px;top:506px;width:300px;font-size:{34 if big else 28}px;font-weight:700;line-height:1.3;text-align:center;color:{c}", e(t), at))
@@ -103,7 +103,7 @@ COLS = [("Mac 터미널 앱", f'kim@MacBook <span style="color:{BLUE}">kant</spa
         ("이 자료에서는", f'<span style="color:{BLUE}">~/kant</span> $', BLUE)]
 o.append(f'<div data-build-in="rise order 3" style="position:absolute;left:128px;top:668px;width:1664px;height:2px;background:{RULE}"></div>')
 for (lab, pr, c), x, w in zip(COLS, (128, 640, 1312), (480, 640, 480)):
-    o.append(f'<div data-build-in="rise order 3" style="position:absolute;left:{x}px;top:716px;width:{w}px;display:flex;flex-direction:column;gap:20px">'
+    o.append(f'<div data-build-in="rise order 3"{DELAY((x > 128) * (1 + (x > 640)) * 120)} style="position:absolute;left:{x}px;top:716px;width:{w}px;display:flex;flex-direction:column;gap:20px">'
              + p(f"font-size:30px;font-weight:700;color:{c}", e(lab))
              + p(f"font-family:{MONO};font-size:40px;font-weight:700;line-height:1.5;color:{INK}", pr) + '</div>')
 write("prompt", o, "프롬프트는 명령을 기다리는 줄이에요. 컴퓨터마다 모양은 달라도 현재 위치가 꼭 들어 있어요. $ 뒤에 명령을 쳐요. 이 자료에서는 화면을 아끼려고 현재 위치와 $ 만 남긴 짧은 모양으로 보여 줘요. Mac은 맨 끝이 $ 대신 % 예요. 자료의 명령을 따라 칠 때 $ 는 치지 않아요.")
@@ -122,8 +122,8 @@ steps = [("pwd", "지금 위치 확인"), ("ls", "지울 이름 확인"), ("rm",
 row = ['<div style="display:flex;flex-direction:row;gap:0;align-items:flex-start;margin-top:24px">']
 for i, (c, t) in enumerate(steps):
     if i:
-        row.append(p("font-size:56px;line-height:72px;width:120px;text-align:center;color:#6A7180", "›", f' data-build-in="fade order {i+1}"'))
-    row.append(f'<div data-build-in="rise order {i+1}" style="width:400px;display:flex;flex-direction:column;gap:12px">'
+        row.append(p("font-size:56px;line-height:72px;width:120px;text-align:center;color:#6A7180", "›", f' data-build-in="fade order 1"{DELAY(i * 300 - 150)}'))
+    row.append(f'<div data-build-in="rise order 1"{DELAY(i * 300)} style="width:400px;display:flex;flex-direction:column;gap:12px">'
                + p(f"font-family:{MONO};font-size:64px;font-weight:700;line-height:72px;color:{'#F28B82' if c == 'rm' else '#F2C46D'}", c)
                + p("font-size:30px;line-height:1.4;color:#BFC6D4", e(t)) + '</div>')
 o.append("".join(row) + '</div>')
@@ -134,7 +134,7 @@ o.append(p("font-size:80px;font-weight:900;line-height:1.15;color:#F6F5F1", "rm 
 o.append(p("font-size:40px;line-height:1.4;color:#BFC6D4", "아래 명령은 절대 치지 않아요."))
 rows = [("rm -rf ~", "내 홈 폴더 전부가 사라져요"), ("rm -rf /", "컴퓨터 전체가 사라져요"), ("rm -rf *", "지금 폴더 안 전부가 사라져요")]
 o.append('<div style="display:flex;flex-direction:column">' + "".join(
-    f'<div data-build-in="rise order {i+1}" style="height:96px;border-top:2px solid #3A4150;display:flex;flex-direction:row;align-items:center">'
+    f'<div data-build-in="rise order 1"{DELAY(i * 200)} style="height:96px;border-top:2px solid #3A4150;display:flex;flex-direction:row;align-items:center">'
     + p(f"font-family:{MONO};font-size:48px;font-weight:700;width:420px;color:#F28B82", e(c))
     + p("font-size:34px;color:#D8DEE9", e(t)) + '</div>' for i, (c, t) in enumerate(rows)) + '</div>')
 write("warn-rf", o, "-f 때문에 rm -rf는 확인도 묻지 않고 에러도 알려 주지 않아요. 경로에 띄어쓰기 하나만 잘못 들어가도 엉뚱한 폴더가 지워져요. 예를 들어 rm -rf old /는 old와 맨 위 폴더 / 를 따로 지우라는 뜻이 돼요. 인터넷에서 본 rm -rf 명령을 그대로 복사해 붙이지 않아요. 치기 전에 pwd로 위치를, ls로 지울 이름을 확인해요. * 는 지금 폴더의 모든 이름을 뜻하는 기호예요.")
@@ -147,7 +147,7 @@ KEYS = [("Tab", "이름 자동 완성", f'<span style="font-family:{MONO}">cd no
         ("clear", "화면 비우기", "파일은 그대로 두고 화면만 깨끗하게 해요")]
 for i, (k, t, sb) in enumerate(KEYS):
     top = 236 + i * 180
-    o.append(f'<div data-build-in="rise order {i+1}" style="position:absolute;left:128px;top:{top}px;width:1664px;height:180px;border-top:2px solid {RULE};display:flex;flex-direction:row;gap:56px;align-items:center">'
+    o.append(f'<div data-build-in="rise order {i+1}"{DIM("keys")} style="position:absolute;left:128px;top:{top}px;width:1664px;height:180px;border-top:2px solid {RULE};display:flex;flex-direction:row;gap:56px;align-items:center">'
              f'<div style="width:300px;height:116px;flex:none;background:#FDFCF9;border:3px solid #9AA0AB;border-bottom:12px solid #9AA0AB;border-radius:18px;display:flex;align-items:center;justify-content:center">'
              + p(f"font-family:{MONO};font-size:44px;font-weight:700;color:{INK}", e(k)) + '</div>'
              f'<div style="flex:1;display:flex;flex-direction:column;gap:10px">' + p("font-size:40px;font-weight:700;line-height:1.3;color:#1D6B70", e(t))
@@ -164,7 +164,7 @@ GROUPS = [("위치 보기", "#1A7340", [("pwd", "지금 위치 주소"), ("ls", 
 o = light("cheatsheet", "한 장 요약")
 for i, (g, c, items) in enumerate(GROUPS):
     x, y = 128 + (i % 3) * 568, 236 + (i // 3) * 400
-    o.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:528px;border-top:6px solid {c};padding-top:22px;display:flex;flex-direction:column;gap:16px">'
+    o.append(f'<div data-build-in="rise order 1"{DELAY(i * 90)} style="position:absolute;left:{x}px;top:{y}px;width:528px;border-top:6px solid {c};padding-top:22px;display:flex;flex-direction:column;gap:16px">'
              + p(f"font-size:34px;font-weight:700;color:{c};margin-bottom:6px", e(g))
              + "".join('<div style="display:flex;flex-direction:row;align-items:baseline">'
                        + p(f"font-family:{MONO};font-size:28px;font-weight:700;width:300px;white-space:nowrap;color:{INK}", e(cmd))

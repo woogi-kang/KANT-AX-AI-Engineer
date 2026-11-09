@@ -16,7 +16,7 @@ import html, json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
+from highlight import *  # noqa: E402,F403
 
 OUT = sys.argv[1]
 try:
@@ -65,9 +65,9 @@ def head(eyebrow, title, color=BL, size=52):
             f'<h2 id="title" style="position:absolute;left:96px;top:84px;width:1728px;font-size:{size}px;font-weight:700;line-height:1.25;color:{INK}">{title}</h2>']
 
 
-def label(x, y, w, text, order=None, size=30, color=INK, weight=700, align="left", lid=None):
+def label(x, y, w, text, order=None, size=30, color=INK, weight=700, align="left", lid=None, extra=""):
     """Plain words on the slide, no box. A label explains the thing its leader line points at."""
-    a = (bi("fade", order) if order else "") + (f' id="{lid}"' if lid else "")
+    a = (bi("fade", order) if order else "") + (f' id="{lid}"' if lid else "") + extra
     return p(f"position:absolute;left:{x}px;top:{y}px;width:{w}px;font-size:{size}px;font-weight:{weight};line-height:1.4;text-align:{align};color:{color}", text, a)
 
 
@@ -306,7 +306,7 @@ def fade_all(parts, order, kind="fade"):
 # =====================================================================================
 cov = [f'<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:{SANS};padding:128px;display:flex;flex-direction:column;justify-content:center;gap:36px;word-break:keep-all">',
        '<p style="font-size:28px;font-weight:700;color:#8FB3FF">KANT AX/AI 엔지니어 트랙 · 05</p>',
-       '<h1 style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">Git Graph로<br>기록 보기</h1>',
+       f'<h1{SLAM(1)} style="font-size:104px;font-weight:900;line-height:1.1;color:#F6F5F1">Git Graph로<br>기록 보기</h1>',
        '<p style="font-size:40px;line-height:1.45;color:#BFC6D4">터미널에서 친 결과를<br>VS Code에서 그림으로 확인해요</p>']
 g, _ = gg(ST["sc10"], L=930, T=250, W=1200, s=1.3, cols=(), pre="cv-", pad_top=10, win_h=900)
 cov += g
@@ -324,7 +324,7 @@ t = [sec("toc")] + head("05 · Git Graph", "오늘의 순서", BL)
 y0, RH = 236, 152
 for i, (h_, s_, pg) in enumerate(PARTS):
     y = y0 + i * RH
-    t.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:{RH}px;border-top:2px solid {HAIR};display:flex;flex-direction:row;align-items:center">'
+    t.append(f'<div data-build-in="rise order 1"{DELAY(i * 90)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:{RH}px;border-top:2px solid {HAIR};display:flex;flex-direction:row;align-items:center">'
              + p(f"width:620px;flex:none;font-size:44px;font-weight:700;color:{INK}", h_)
              + p(f"flex:1;font-size:32px;color:{SUB}", s_)
              + p(f"width:160px;flex:none;font-size:30px;text-align:right;color:{MUTE}", pg + "쪽") + '</div>')
@@ -346,7 +346,7 @@ ys = geo["ys"]
 lane_x = geo["gx"](1)
 w.append(ring(2, lane_x - 40, ys[1] - 10, 80, ys[3] - ys[1] + 20, OR))
 w.append(leader(2, [(560, ys[2] + 30), (lane_x - 70, ys[2] + 10)], OR))
-w.append(label(96, ys[2] - 10, 460, "feature/login에서 갈라졌다가<br>merge로 다시 만나요", 2, size=32, color=INK))
+w.append(label(96, ys[2] - 10, 460, "feature/login에서 갈라졌다가<br>merge로 다시 만나요", 2, size=32, color=INK, extra=DELAY(250)))
 W("why", w, "터미널 기록으로는 갈라졌다가 합쳐진 모양이 안 보여요. 같은 저장소를 터미널과 Git Graph로 본 화면이라 커밋 순서와 메시지는 같아요. Git Graph에서는 분홍 선으로 바로 보여요. Git Graph는 기록을 보여 주기만 하고 저장소를 바꾸지 않아요.")
 
 # =====================================================================================
@@ -390,9 +390,14 @@ bp.append(label(650, 680, 180, "명령으로<br>바꿔요", 1, size=28, align="c
 bp.append(arrow(2, 1120, 770, 1250, 770, GR))
 bp.append(label(1095, 680, 180, "읽어서<br>그려요", 2, size=28, color=GR, align="center"))
 bp.append(arrow(3, 925, 552, 925, 350, PUR))
-bp.append(arrow(3, 995, 350, 995, 552, PUR))
-bp.append(label(500, 380, 400, "git push origin main", 3, size=28, color=PUR, align="right"))
-bp.append(label(1020, 380, 400, "git fetch origin", 3, size=28, color=PUR))
+bp.append(arrow(4, 995, 350, 995, 552, PUR))
+bp.append(label(500, 380, 400, "git push origin main", 3, size=28, color=PUR, align="right", extra=DELAY(200)))
+bp.append(label(1020, 380, 400, "git fetch origin", 4, size=28, color=PUR, extra=DELAY(200)))
+# a commit dot travels along each road (push goes up, fetch comes down)
+bp.append('<svg viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none">'
+          '<path id="bp-road-up" d="M925,640 L925,360" fill="none" stroke="none"/><path id="bp-road-down" d="M995,300 L995,530" fill="none" stroke="none"/></svg>')
+bp.append(f'<div{PATH(3, "bp-road-up", 1200)} style="position:absolute;left:{925-16}px;top:{360-16}px;width:32px;height:32px;border-radius:50%;background:{BL};box-shadow:0 0 0 5px #FFFFFF"></div>')
+bp.append(f'<div{PATH(4, "bp-road-down", 1200)} style="position:absolute;left:{995-16}px;top:{530-16}px;width:32px;height:32px;border-radius:50%;background:{GR};box-shadow:0 0 0 5px #FFFFFF"></div>')
 W("bigpic", bp, "Git Graph는 내 컴퓨터의 저장소 기록을 읽어서 그림으로 보여 줘요. 기록을 바꾸는 건 터미널에서 치는 명령이에요. Git Graph는 GitHub에 직접 물어보지 않아요. 팀원이 GitHub에 올린 커밋은 git fetch origin으로 받아 와야 그림에 나타나요. 막히면 지금 하려는 일이 이 그림의 어느 화살표인지 먼저 찾아봐요.")
 
 # =====================================================================================
@@ -433,7 +438,7 @@ def steps(L, T, Wd, items, order0=2, color=OR, gap=40, foot=None):
     o = []
     y = T
     for n, (main_, sub_) in enumerate(items, 1):
-        o.append(f'<div{bi("fade", order0 + n - 1)} style="position:absolute;left:{L}px;top:{y}px;width:{Wd}px;display:flex;flex-direction:row;gap:22px;align-items:flex-start">'
+        o.append(f'<div{bi("rise", order0 + n - 1)}{DIM("steps")} style="position:absolute;left:{L}px;top:{y}px;width:{Wd}px;display:flex;flex-direction:row;gap:22px;align-items:flex-start">'
                  + disc(n, color, 52) + '<div style="display:flex;flex-direction:column;gap:8px;padding-top:4px">'
                  + p(f"font-size:34px;font-weight:700;line-height:1.35;color:{INK}", main_)
                  + (p(f"font-size:27px;line-height:1.45;color:{SUB}", sub_) if sub_ else "") + '</div></div>')
@@ -489,8 +494,9 @@ op.append(f'<div style="position:absolute;left:{PX+440}px;top:{VT+2}px;width:{VW
 op.append(f'<div style="position:absolute;left:{VL+2}px;top:{VT+VH-46}px;width:{VW-4}px;height:44px;background:{VS["bar"]};border-top:1px solid {VS["bd"]};border-radius:0 0 14px 14px;padding:0 24px;display:flex;flex-direction:row;gap:30px;align-items:center">'
           + f'<div style="display:flex;flex-direction:row;gap:8px;align-items:center">{branch_svg(VS["txt"], 24)}' + p(f"font-size:23px;color:{VS['txt']}", "main") + '</div>' + p(f"font-size:23px;color:{VS['txt']}", "⊗ 0  ⚠ 0")
           + p(f"font-size:23px;color:{VS['txt']};padding:0 8px;line-height:34px", "Git Graph", ' id="op-sb"') + '</div>')
-for k, tg in enumerate(["op-sb", "op-scm", "op-pal"]):
-    op += [spot(k + 2, target=tg, pad=10, r=10, dim=0.5), cursor(k + 2, target=tg, click=k < 2)]
+for k, tg in enumerate(["op-sb", "op-scm"]):
+    op += [spot(k + 2, target=tg, pad=10, r=10, dim=0.5), cursor(k + 2, target=tg)]
+op += [spot(4, PX + 456, VT + 18, 590, 300, pad=0, r=12, dim=0.5), cursor_off(4), keys(4, PX + 490, VT + 200, "Ctrl+Shift+P", 28)]
 op += [spot_off(5), cursor_off(5)]
 op += steps(1310, 250, 514, [("아래 상태 표시줄의<br>Git Graph", "가장 빨라요"),
                              ("소스 제어 탭 위의<br>그래프 아이콘", None),
@@ -514,11 +520,12 @@ for n, (hid, name) in enumerate(COLS, 1):
     if hid == "ov-h-desc":
         w_ = 300
     cx = x + (250 if hid == "ov-h-desc" else min(w_, 200) // 2)
-    ov.append(label(cx - 120, 228, 240, name, n, size=30, color=BL, align="center"))
-    ov.append(leader(n, [(cx, 280), (cx, OT - 4)], BL, 2))
+    ov.append(label(cx - 120, 228, 240, name, 1, size=30, color=BL, align="center", extra=DELAY((n - 1) * 110)))
+    ov.append(leader(1, [(cx, 280), (cx, OT - 4)], BL, 2))
     sw = (rect("overview", "ov-h-date")[0] - x - 24) if hid == "ov-h-desc" else w_
-    ov.append(spot(n, x - 14, y - 6, sw + 20, rows_bottom - y + 12, pad=4, r=10, dim=0.55))
-ov.append(spot_off(6))
+    if hid in ("ov-h-desc", "ov-h-commit"):
+        ov.append(spot(2 if hid == "ov-h-desc" else 3, x - 14, y - 6, sw + 20, rows_bottom - y + 12, pad=4, r=10, dim=0.55))
+ov.append(spot_off(4))
 W("overview", ov, "표 한 줄이 커밋 하나이고, git log --oneline처럼 맨 위가 가장 최근이에요. 어두운 테마 화면이지만 밝은 테마여도 배치는 같아요. 작성자 칸의 lee는 팀원이 GitHub에 올린 커밋이에요. 맨 위 줄의 Repo는 저장소 이름, Branches: Show All은 모든 브랜치를 보여 준다는 뜻이라 그대로 두면 돼요. 오른쪽 위 아이콘 중에서는 새로고침만 써요.")
 
 # dots: 03 drawing as a small satellite, Git Graph as hero, the dots fly over
@@ -541,8 +548,9 @@ dt += g
 ys = geo["ys"]
 gx0 = geo["gx"](0)
 dt.append(arrow(2, gx0, ys[-1] + 150, gx0, ys[-1] + 60, "#8C95A6"))
-dt.append(label(gx0 + 40, ys[-1] + 96, 640, "Git Graph는 아래에서 위로 쌓여요", 2, size=30, color=VS["txt"]))
+dt.append(label(gx0 + 40, ys[-1] + 96, 640, "Git Graph는 아래에서 위로 쌓여요", 2, size=30, color=VS["txt"], extra=DELAY(250)))
 dt.append(label(96, 900, 760, "커밋 번호는 8자리로 나와요.<br>터미널의 7자리와 앞부분이 같아요.", 3, size=30, color=INK, weight=400))
+dt.append(pulse(3, "dg-commit-A"))
 W("dots", dt, "03에서는 시간이 왼쪽에서 오른쪽으로 흐르게 그렸어요. Git Graph는 git log처럼 새 커밋을 위에 올려요. 03 그림을 세웠다고 생각하면 돼요. 선은 커밋이 어느 커밋 다음에 만들어졌는지 이어 줘요. e12ffc2와 e12ffc2e처럼 Git Graph 쪽이 한 글자 더 길어요.")
 
 # labels: close-up on one row, three leader notes above it
@@ -558,11 +566,12 @@ NOTES = [(hx + hw // 2, hy, 96, "속이 빈 점", "HEAD가 가리키는 커밋")
          (fx + fw // 2, fy, 560, "굵은 글씨, 색 테두리", "지금 있는 브랜치, HEAD -&gt;"),
          (ox + ow // 2, oy, 1130, "기울어진 origin", "origin/main도 같은 커밋")]
 for n, (tx, ty, lx, t1, t2) in enumerate(NOTES, 1):
-    lb.append(label(lx, 222, 420, f"{t1}<br><span style=\"font-weight:400;color:{SUB}\">{t2}</span>", n, size=32, color=INK))
+    lb.append(label(lx, 222, 420, f"{t1}<br><span style=\"font-weight:400;color:{SUB}\">{t2}</span>", n, size=32, color=INK, extra=DIM("notes")))
     lb.append(leader(n, [(lx + 12, 330), (lx + 12, 380), (tx, 420), (tx, ty - 10)] if abs(lx + 12 - tx) > 4 else [(tx, 330), (tx, ty - 10)], BL))
 LOGT = 900
 lterm, _ = terminal([("$", "git log --oneline"), ("o", f"{h7('L')} (HEAD -> feature/login, origin/main, main) docs: README 추가")], 96, LOGT - 40, 1728, size=26, tid="lb-term")
-lb += fade_all(lterm, 4, "rise")
+lterm[0] = lterm[0].replace(' style=', SLIDE(4, 0, 80) + ' style=', 1)
+lb += lterm
 lb.append(underline(5, col_x(96, 9, 26), col_x(96, 9 + len("HEAD -> feature/login"), 26), line_y(LOGT - 40, 1, 26) + 2, OR))
 W("labels", lb, "굵은 글씨에 색 테두리인 이름표가 지금 있는 브랜치예요. 브랜치 feature/login을 막 만든 화면이라 이름표가 두 개인데, feature/login만 굵어요. 터미널의 HEAD -> feature/login과 같은 뜻이에요. 맨 앞의 빈 점은 HEAD가 가리키는 커밋이라는 표시예요. main 옆의 기울어진 origin은 origin/main도 여기 있다는 뜻이에요.")
 
@@ -584,6 +593,9 @@ og.append(label(GX, 250, GW_, "GitHub의 실제 main", size=32, color=PUR))
 og.append(f'<div{bi("fade", 1)} id="og-new" style="position:absolute;left:{GX+2}px;top:{GY+72}px;width:{GW_-4}px;height:110px;border:4px solid {OR};border-radius:6px"></div>')
 og.append(f'<div style="position:absolute;left:96px;top:{GY + 480}px;width:1728px;height:2px;background:{HAIR}"></div>')
 og.append(label(96, GY + 530, 1728, "팀원 lee가 올린 b9f30e5는 GitHub에만 있고 내 Git Graph에는 아직 없어요.", 1, size=36))
+og.append('<svg viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none">'
+          f'<path id="og-road" d="M{GX+30},{GY+127} C{GX-60},{GY-60} 1100,{GY-60} 1010,{GY+40}" fill="none" stroke="none"/></svg>')
+og.append(f'<div{PATH(2, "og-road", 1300)} style="position:absolute;left:{1010-15}px;top:{GY+40-15}px;width:30px;height:30px;border-radius:50%;background:{LANE_C[0]};box-shadow:0 0 0 4px #1F1F1F"></div>')
 og.append(label(96, GY + 620, 1728, f'<span style="font-family:{MONO};color:{PUR}">git fetch origin</span>을 쳐야 내 컴퓨터로 받아지고 그림에 나타나요.', 2, size=32, color=SUB, weight=400))
 W("origin", og, "이름표가 main | origin 하나로 붙어 있어도 GitHub과 같다는 보장은 없어요. origin/main은 마지막으로 push하거나 fetch했을 때의 GitHub main 위치예요. 그 뒤에 팀원이 올린 커밋은 git fetch origin을 쳐야 내 컴퓨터로 받아지고 Git Graph에 나타나요. 02에서 git log --oneline과 git log --oneline origin/main을 따로 쳐서 비교했던 걸 Git Graph는 한 화면에 보여 줘요.")
 
@@ -624,6 +636,14 @@ def scene(sid, eyebrow, title, state, term, notes, hl, transition="magic", color
         elif kind == "ringid":
             x, y, w_, h_ = rect(sid, item[2], (300, ys[0] - 25, 200, 50))
             o.append(ring(order, x, y, w_, h_, item[3] if len(item) > 3 else OR))
+        elif kind == "zoom":
+            a, b, wz = item[2]
+            y0, y1 = ys[a] - ROW // 2 - 10, ys[b] + ROW // 2 + 10
+            o.append(zoom(order, SC_L, y0, wz, y1 - y0, 30, 2.2))
+        elif kind == "zoomoff":
+            o.append(zoom_off(order))
+        elif kind == "pulse":
+            o.append(pulse(order, item[2]))
         elif kind == "uline":
             line_i, c0, c1 = item[2]
             o.append(underline(order, col_x(TERM_L, c0), col_x(TERM_L, c1), line_y(tt, line_i) + 2, item[3] if len(item) > 3 else OR))
@@ -646,12 +666,12 @@ scene("sc3", "실습 3 · git push origin main", "origin이 main 옆에 붙어�
 scene("sc4", "실습 4 · git fetch origin", "팀원 커밋이 받아지고 origin/main이 main보다 위로 가요", "sc4",
       [("#", "# 팀원 lee가 GitHub에 push했어요"), ("$", "git fetch origin"), ("o", "From https://github.com/kim/hello-git"), ("o", f"   {h7('B')}..{h7('L')}  main       -> origin/main")],
       "팀원 lee가 GitHub에 커밋을 올렸어요. git fetch origin으로 받아 오면 lee의 커밋 b9f30e50이 맨 위에 생기고 origin/main 이름표가 붙어요. 작성자 칸에 lee가 보여요. 굵은 main은 아직 아래에 있어요. fetch는 기록만 받아 오고 내 파일은 바꾸지 않아서 내 폴더는 아직 예전 모습이에요.",
-      [("rows", 1, (0, 0)), ("off", 2)], color=GR)
+      [("zoom", 1, (0, 1, 1304)), ("zoomoff", 2)], color=GR)
 scene("sc5", "실습 5 · git pull origin main", "main이 올라가서 origin과 다시 붙어요", "sc5",
       [("$", "git pull origin main"), ("o", "From https://github.com/kim/hello-git"), ("o", " * branch            main       -> FETCH_HEAD"), ("o", f"Updating {h7('B')}..{h7('L')}"), ("o", "Fast-forward"),
        ("o", " README.md | 1 +"), ("o", " 1 file changed, 1 insertion(+)")],
       "pull하면 main이 origin/main 자리로 올라가서 다시 main | origin 하나가 돼요. 갈라진 게 없어서 Fast-forward로 이름표만 옮겨졌고 선은 한 줄 그대로예요. 이제 내 폴더에 README.md가 생겨요. 출력의 create mode 줄은 화면 폭 때문에 그 부분은 빼고 옮겼어요.",
-      [("uline", 1, (4, 0, 12), GR), ("ringid", 2, "ref-L-0", GR)], color=GR)
+      [("uline", 1, (4, 0, 12), GR), ("pulse", 2, "ref-L-0")], color=GR)
 scene("sc6", "실습 6 · git checkout -b feature/login", "같은 점에 이름표가 하나 더 붙어요", "sc6",
       [("$", "git checkout -b feature/login"), ("o", "Switched to a new branch 'feature/login'")],
       "브랜치를 만들면 지금 커밋에 feature/login 이름표가 하나 더 붙어요. 새 커밋은 아직 없어서 점은 그대로예요. 굵은 글씨가 main에서 feature/login으로 옮겨 갔어요. HEAD가 feature/login으로 옮겨 갔다는 뜻이에요.",
@@ -671,7 +691,7 @@ ys9 = g9["ys"]
 scene("sc9", "실습 9 · git merge feature/login", "두 선이 merge 커밋에서 만나요", "sc9",
       [("$", "git merge feature/login"), ("#", "# vim이 열리면 Esc, :wq, Enter"), ("o", "Merge made by the 'ort' strategy."), ("o", " login.md | 1 +"), ("o", " 1 file changed, 1 insertion(+)")],
       "main에서 git merge feature/login을 치면 merge 커밋 5991c366이 생겨요. 이 점에서 아래로 선이 두 개 나가요. 하나는 main의 ad50d357, 하나는 feature/login의 dd7f15af예요. 03처럼 merge 메시지를 쓰는 vim이 열리면 Esc를 누른 뒤 :wq와 Enter를 쳐요.",
-      [("ring", 1, (g9["gx"](0) - 22, ys9[0] - 22, g9["gx"](1) - g9["gx"](0) + 44, ys9[2] - ys9[0] + 34), BL)], color=BL)
+      [("zoom", 1, (0, 2, 900)), ("zoomoff", 2), ("ring", 2, (g9["gx"](0) - 22, ys9[0] - 22, g9["gx"](1) - g9["gx"](0) + 44, ys9[2] - ys9[0] + 34), BL)], color=BL)
 scene("sc10", "실습 10 · 다시 git push origin main", "main | origin이 맨 위에 같이 있어요", "sc10",
       [("$", "git push origin main"), ("o", "To https://github.com/kim/hello-git.git"), ("o", f"   {h7('L')}..{h7('M')}  main -> main")],
       "push하면 origin/main이 merge 커밋으로 올라와서 다시 main | origin이 돼요. feature/login은 push하지 않아서 origin이 붙지 않아요. GitHub에도 merge 커밋까지 올라갔어요.",
@@ -694,7 +714,7 @@ dl.append(f'<div{bi("rise", 2)} style="position:absolute;left:250px;top:{cy+6}px
           + f'<div id="dl-file" style="display:flex;flex-direction:row;gap:10px;align-items:center;padding:4px 10px">'
           + p(f"font-size:24px;color:#E2C08D", "login.md") + p(f"font-size:24px;color:{VS['txt']}", '(<span style="color:#7FD18B">+1</span>|<span style="color:#F28B82">-0</span>)') + '</div></div></div>')
 dl.append(cursor(3, target="dl-file"))
-dl.append(label(1386, cy + 116, 400, "누르면 04에서 본<br>diff 화면이 열려요", 3, size=26, color="#E2C08D", weight=400))
+dl.append(label(1386, cy + 158, 400, "누르면 04에서 본<br>diff 화면이 열려요", 3, size=26, color="#E2C08D", weight=400, extra=DELAY(700)))
 W("detail", dl, "커밋 줄 아무 데나 한 번 누르면 아래에 상세 정보가 펼쳐져요. 왼쪽은 커밋 번호 전체, 부모 커밋, 만든 사람, 날짜, 메시지예요. 오른쪽은 이 커밋에서 바뀐 파일과 더한 줄, 지운 줄 수예요. 파일 이름을 누르면 왼쪽에 예전, 오른쪽에 바뀐 내용이 나란히 보여요. 터미널의 git show와 같은 내용이에요. 다시 누르면 닫혀요. Committer 줄과 시간대 이름은 화면 폭 때문에 그 부분은 빼고 옮겼어요.")
 
 # =====================================================================================
@@ -712,8 +732,8 @@ ru.append(f'<div{bi("pop", 2)} style="position:absolute;left:560px;top:{MT}px;wi
 ru.append(box(3, 566, MT + 8 + 6 * 42 - 2, 568, 3 * 42 + 4, RED))
 ru.append(cursor_off(3))
 ru.append(label(1340, 236, 484, "메뉴 한 번에 merge, reset이 실행돼요", 3, size=36))
-ru.append(label(1340, 400, 484, "터미널에 남아야 오류가 났을 때 읽고 고칠 수 있어요.", 4, size=30, color=SUB, weight=400))
-ru.append(f'<div{bi("fade", 5)} style="position:absolute;left:1340px;top:620px;width:484px;display:flex;flex-direction:column;gap:18px">'
+ru.append(label(1340, 400, 484, "터미널에 남아야 오류가 났을 때 읽고 고칠 수 있어요.", 3, size=30, color=SUB, weight=400, extra=DELAY(250)))
+ru.append(f'<div{STAGGER(4, 160)} style="position:absolute;left:1340px;top:620px;width:484px;display:flex;flex-direction:column;gap:18px">'
           + p(f"font-size:30px;font-weight:700;line-height:1.5;padding:14px 24px;border-radius:12px;color:#FFFFFF;background:{INK}", "명령은 터미널")
           + p(f"font-size:30px;font-weight:700;line-height:1.5;padding:14px 24px;border-radius:12px;color:#FFFFFF;background:{GR}", "확인은 Git Graph")
           + p(f"font-size:26px;line-height:1.5;color:{SUB};margin-top:10px", f'Fetch 버튼 대신 <span style="font-family:{MONO}">git fetch origin</span>') + '</div>')
@@ -730,11 +750,12 @@ tb.append(p(f"position:absolute;left:1300px;top:{TY}px;width:524px;font-size:26p
 for i, (sym, err, why_, fix) in enumerate(CASES):
     y = TY + 56 + i * TH
     mono_fix = fix.startswith("git ")
-    tb.append(f'<div{bi("fade", i + 1)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:{TH}px;border-top:2px solid {HAIR};display:flex;flex-direction:row;align-items:center">'
+    tb.append(f'<div{bi("rise", i + 1)}{DIM("tb")} style="position:absolute;left:96px;top:{y}px;width:1728px;height:{TH}px;border-top:2px solid {HAIR};display:flex;flex-direction:row;align-items:center">'
               + '<div style="width:664px;flex:none;display:flex;flex-direction:column;gap:14px;padding-right:24px">' + p(f"font-size:38px;font-weight:700;line-height:1.35;color:{INK}", sym)
-              + (p(f"align-self:flex-start;font-family:{MONO};font-size:24px;color:#F28B82;background:#1F1F1F;padding:8px 16px;border-radius:8px", e(err)) if err else "") + '</div>'
+              + (p(f"align-self:flex-start;font-family:{MONO};font-size:24px;color:#F28B82;background:#1F1F1F;padding:8px 16px;border-radius:8px", e(err), ' id="tb-err"') if err else "") + '</div>'
               + p(f"width:540px;flex:none;font-size:30px;line-height:1.45;color:{SUB};padding-right:24px", why_)
               + p(f"flex:1;font-size:30px;font-weight:700;line-height:1.45;color:{INK}" + (f";font-family:{MONO}" if mono_fix else ""), fix) + '</div>')
+tb.append(shake(1, "tb-err"))
 tb.append(f'<div style="position:absolute;left:96px;top:{TY + 56 + 3 * TH}px;width:1728px;height:2px;background:{HAIR}"></div>')
 W("trouble", tb, "가장 흔한 건 1번이에요. 바탕화면이나 상위 폴더를 열면 Git 저장소를 못 찾아요. git init을 한 바로 그 폴더를 열어요. 2번은 큰 그림에서 본 대로 Git Graph가 GitHub에 직접 묻지 않기 때문이에요. 3번의 새로고침은 Git Graph 탭 오른쪽 위 둥근 화살표 아이콘이에요.")
 
@@ -751,7 +772,7 @@ for i, (q, rows, cmd, col) in enumerate(SIT):
     c1.append(p(f"position:absolute;left:{x}px;top:570px;width:544px;font-family:{MONO};font-size:28px;font-weight:700;line-height:1.7;text-align:center;border-radius:12px;color:#FFFFFF;background:{col}", cmd, bi("rise", i + 1)))
 c1.append(f'<div style="position:absolute;left:96px;top:720px;width:1728px;height:2px;background:{HAIR}"></div>')
 c1.append(label(96, 770, 1728, "위에 있는 쪽이 앞서요. main이 위면 push, origin/main이 위면 pull이에요.", 4, size=34))
-c1.append(label(96, 850, 1728, "origin/main이 안 움직였는데 팀원이 올렸다고 하면, 먼저 git fetch origin을 쳐서 그림을 새로 받아요.", 5, size=30, color=SUB, weight=400))
+c1.append(label(96, 850, 1728, extra=DELAY(300), text="origin/main이 안 움직였는데 팀원이 올렸다고 하면, 먼저 git fetch origin을 쳐서 그림을 새로 받아요.", order=4, size=30, color=SUB, weight=400))
 W("case1", c1, "main과 origin/main 중 위에 있는 쪽이 앞선 쪽이에요. 학생에게 먼저 그림만 보여 주고 무엇을 칠지 말하게 한 뒤 한 칸씩 답을 보여 주세요. main이 origin/main보다 위에 있으면 내 컴퓨터가 앞선 거라 push해요. origin/main이 위에 있으면 GitHub이 앞선 거라 pull해요. 둘이 붙어 있으면 할 일이 없어요.")
 
 # case 2: delete the finished branch, only the label goes
@@ -771,7 +792,7 @@ c2 += c2term
 c2.append(ring(3, geo["gx"](1) - 30, ys[2] - 30, 60, 60, OR))
 gx1 = geo["gx"](1)
 c2.append(leader(3, [(gx1, ys[-1] + 90), (gx1, ys[2] + 36)], OR))
-c2.append(label(gx1 - 30, ys[-1] + 100, 900, "점과 선은 그대로 남아요.<br>main의 기록에 이미 들어가 있어서예요.", 3, size=32, color=VS["txt"]))
+c2.append(label(gx1 - 30, ys[-1] + 100, 900, "점과 선은 그대로 남아요.<br>main의 기록에 이미 들어가 있어서예요.", 3, size=32, color=VS["txt"], extra=DELAY(250)))
 W("case2", c2, "merge하고 push까지 끝났으면 feature/login 이름표는 더 쓸 일이 없어요. 03에서 배운 git branch -d feature/login으로 지워요. Git Graph에서 이름표만 사라지고 분홍 점과 선은 그대로 있어요. 커밋은 merge 커밋을 통해 main의 기록에 들어가 있기 때문이에요. 이름표는 커밋을 가리키는 표시일 뿐이라는 걸 다시 확인할 수 있어요.")
 
 # summary: when to look where
@@ -787,7 +808,7 @@ for j, (hname, x, w_) in enumerate([("확인할 것", 96, 520), ("Git Graph에�
     sm.append(p(f"position:absolute;left:{x}px;top:{SY}px;width:{w_}px;font-size:26px;font-weight:700;color:{MUTE}", hname))
 for i, (a, b, c) in enumerate(ROWS):
     y = SY + 50 + i * SH
-    sm.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:{SH}px;border-top:2px solid {HAIR};display:flex;flex-direction:row;align-items:center">'
+    sm.append(f'<div data-build-in="rise order 1"{DELAY(i * 90)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:{SH}px;border-top:2px solid {HAIR};display:flex;flex-direction:row;align-items:center">'
               + p(f"width:540px;flex:none;font-size:32px;font-weight:700;color:{INK}", a) + p(f"width:660px;flex:none;font-size:30px;color:{SUB}", b)
               + p(f"flex:1;font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", c) + '</div>')
 sm.append(f'<div style="position:absolute;left:96px;top:{SY + 50 + 6 * SH}px;width:1728px;height:2px;background:{HAIR}"></div>')

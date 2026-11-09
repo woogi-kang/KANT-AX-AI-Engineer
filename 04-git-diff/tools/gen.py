@@ -9,7 +9,9 @@ Usage: python3 tools/gen.py slides
 import html, os, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, box, underline  # noqa: E402
+from highlight import (spot, spot_off, box, underline, lspot, lspot_off, pulse, shake, shine, keys,  # noqa: E402
+                       SLAM, STAGGER, WIPE, DELAY, DIM)
+from highlight import MARK as MARK_IN  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -78,8 +80,9 @@ def diff_lines(text):
 class Term:
     """A terminal that hugs its lines. Row geometry is kept so labels, tints and pen marks land on a row."""
 
-    def __init__(self, lines, left=96, top=232, w=1104, size=28, lh=1.45, tid="term", padx=32, pady=24):
+    def __init__(self, lines, left=96, top=232, w=1104, size=28, lh=1.45, tid="term", padx=32, pady=24, ids=None):
         self.lines, self.left, self.top, self.w, self.size, self.tid = lines, left, top, w, size, tid
+        self.ids = ids or {}
         self.rh, self.padx, self.pady = round(size * lh, 1), padx, pady
         self.h = round(pady * 2 + self.rh * len(lines))
         self.extra = []
@@ -135,12 +138,13 @@ class Term:
     def html(self, attrs=""):
         o = [f'<div id="{self.tid}"{attrs} style="position:absolute;left:{self.left}px;top:{self.top}px;width:{self.w}px;height:{self.h}px;background:#1B2029;border-radius:20px;padding:{self.pady}px {self.padx}px;display:flex;flex-direction:column;font-family:{MONO};font-variant-ligatures:none">']
         o += self.extra
-        for kind, text in self.lines:
+        for k_, (kind, text) in enumerate(self.lines):
             t = e(text).replace("\t", "        ")
             if kind == "$":
                 t = "$ " + t
             bold = "font-weight:700;" if kind in "h$" else ""
-            o.append(p(f"position:relative;font-size:{self.size}px;line-height:{self.rh}px;white-space:pre;{bold}color:{TC[kind]}", t if t else " "))
+            rid = f' id="{self.ids[k_]}"' if k_ in self.ids else ""
+            o.append(p(f"position:relative;font-size:{self.size}px;line-height:{self.rh}px;white-space:pre;{bold}color:{TC[kind]}", t if t else " ", rid))
         o.append('</div>')
         return "".join(o)
 
@@ -303,12 +307,13 @@ def scene(sid, eyebrow, title, term, cards, chips, notes, extra=(), transition="
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:{SANS}">',
        p("position:absolute;left:128px;top:300px;width:900px;font-size:28px;font-weight:700;color:#8FB3FF", "KANT AX/AI 엔지니어 트랙 · 04"),
-       '<h1 style="position:absolute;left:128px;top:356px;width:900px;font-size:108px;font-weight:900;line-height:1.1;color:#F6F5F1">Git diff,<br>눈으로 보기</h1>',
+       f'<h1{SLAM(1)} style="position:absolute;left:128px;top:356px;width:900px;font-size:108px;font-weight:900;line-height:1.1;color:#F6F5F1">Git diff,<br>눈으로 보기</h1>',
        p("position:absolute;left:128px;top:620px;width:900px;font-size:40px;line-height:1.4;color:#BFC6D4", "무엇이 바뀌었는지<br>커밋 전에 확인해요")]
-cov.append(f'<div style="position:absolute;left:1080px;top:300px;width:900px;height:480px;background:#252B36;border-radius:24px 0 0 24px;padding:48px 56px;display:flex;flex-direction:column;gap:12px;font-family:{MONO}">')
+cov.append(f'<div id="cov-code" style="position:absolute;left:1080px;top:300px;width:900px;height:480px;background:#252B36;border-radius:24px 0 0 24px;padding:48px 56px;display:flex;flex-direction:column;gap:12px;font-family:{MONO}">')
 for k, l in [("c", "@@ -1,3 +1,4 @@"), ("o", " # 로그인"), ("o", " 아이디"), ("r", "-비밀번호"), ("g", "+비밀번호 (8자 이상)"), ("g", "+로그인 버튼")]:
     cov.append(p(f"font-size:38px;line-height:1.4;white-space:pre;font-weight:700;color:{TC[k]}", e(l)))
 cov.append('</div>')
+cov.append(shine(2, "cov-code"))
 W("cover", cov, "오늘은 새 명령을 많이 배우기보다 확인하는 습관을 만들어요. 03에서 쓰던 hello-git 저장소와 login.md로 이어서 실습해요. add 전, commit 전, merge 전에 무엇이 바뀌는지 눈으로 보고 넘어가요.")
 
 # ---------- toc ----------
@@ -322,6 +327,7 @@ PARTS = [("diff란?", "status와 diff, 비교하는 두 칸", "3–4"),
          ("한 장 요약", "", "27")]
 t = [sec("toc"), f'<h2 style="position:absolute;left:128px;top:96px;font-size:60px;font-weight:700;line-height:1.2;color:{INK}">오늘의 순서</h2>']
 RH = 92
+t.append(f'<div{STAGGER(1, 80)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, (h, s, pg) in enumerate(PARTS):
     y = 236 + i * RH
     bd = f"border-top:2px solid {LINE};" if i else ""
@@ -331,6 +337,7 @@ for i, (h, s, pg) in enumerate(PARTS):
              + p(f"width:620px;font-family:{fam};font-size:36px;font-weight:700;color:{INK}", e(h))
              + p(f"flex:1;font-size:28px;color:{SUB}", e(s))
              + p(f"width:120px;font-size:26px;text-align:right;color:{MUTE}", pg + "쪽") + '</div>')
+t.append('</div>')
 W("toc", t, "1~3부는 02에서 본 칸 그림 위에서 진행해요. 4부 브랜치 비교는 03의 그래프를 다시 써요. 6부까지 배운 것을 7부의 실제 상황 두 개에서 섞어서 써 봐요.")
 
 # ---------- why ----------
@@ -368,11 +375,11 @@ for i, (a, b, lab, col, hint, dx) in enumerate([("wd", "st", "git diff", C_WD, "
     x1 = MZ[a][0] + MW // 2 + (0 if i == 0 else 14)
     x2 = MZ[b][0] + MW // 2 + (-14 if i == 0 else 0)
     hgt = 120 + i * 170
-    m.append(f'<div data-build-in="fade order {i + 1}" style="position:absolute;left:{x1}px;top:{BR_Y + 2}px;width:{x2 - x1}px;height:{hgt}px;border:6px solid {col};border-top:none;border-radius:0 0 16px 16px"></div>')
+    m.append(f'<div{WIPE(i + 1)} style="position:absolute;left:{x1}px;top:{BR_Y + 2}px;width:{x2 - x1}px;height:{hgt}px;border:6px solid {col};border-top:none;border-radius:0 0 16px 16px"></div>')
     lw = round(tw(lab, 30) + 44)
     mid = (x1 + x2) // 2
-    m.append(p(f"position:absolute;left:{mid - lw // 2}px;top:{BR_Y + hgt - 26}px;width:{lw}px;height:52px;font-family:{MONO};font-size:30px;font-weight:700;line-height:52px;text-align:center;border-radius:12px;background:{col};color:#FFFFFF", e(lab), f' data-build-in="fade order {i + 1}"'))
-    m.append(p(f"position:absolute;left:{mid - 300}px;top:{BR_Y + hgt + 40}px;width:600px;font-size:28px;text-align:center;color:{SUB}", hint, f' data-build-in="fade order {i + 1}"'))
+    m.append(p(f"position:absolute;left:{mid - lw // 2}px;top:{BR_Y + hgt - 26}px;width:{lw}px;height:52px;font-family:{MONO};font-size:30px;font-weight:700;line-height:52px;text-align:center;border-radius:12px;background:{col};color:#FFFFFF", e(lab), f' data-build-in="fade order {i + 1}"{DELAY(250)}'))
+    m.append(p(f"position:absolute;left:{mid - 300}px;top:{BR_Y + hgt + 40}px;width:600px;font-size:28px;text-align:center;color:{SUB}", hint, f' data-build-in="fade order {i + 1}"{DELAY(400)}'))
 W("map", m, "git diff는 ① 작업 폴더와 ② 대기실, git diff --staged는 ② 대기실과 ③ 마지막 커밋을 비교해요. status에서 빨간 글씨로 나온 파일은 git diff로, 초록 글씨로 나온 파일은 git diff --staged로 내용을 봐요. ③ 안의 커밋끼리 비교하는 git show와 브랜치 비교는 4부에서 봐요. ④ 원격 저장소는 이번 챕터에서 쓰지 않아서 그림에서 뺐어요. --staged 대신 --cached라고 써도 같아요.")
 
 # ---------- part 2: git diff ----------
@@ -389,18 +396,17 @@ scene("d1", "실습 1 · git diff", "git diff", T1,
 
 # read 1: what each row means (spotlight walks down the rows)
 RT = Term(diff_lines(DIFF1), top=228, w=1728, size=34, lh=1.55, tid="t-read")
-GROUPS = [(0, 4, "어느 파일인지", "a/ = 예전, b/ = 지금"), (4, 1, "몇째 줄 근처인지", "다음 장에서 봐요"),
-          (5, 2, "그대로인 줄", "앞이 빈칸, 위치 참고용"), (7, 1, "- 지운 줄", None), (8, 2, "+ 넣은 줄", None)]
+GROUPS = [(0, 4, "어느 파일인지", "a/ = 예전, b/ = 지금", 1), (4, 1, "몇째 줄 근처인지", "다음 장에서 봐요", 2),
+          (5, 2, "그대로인 줄", "앞이 빈칸, 위치 참고용", 3), (7, 1, "- 지운 줄", None, 4), (8, 2, "+ 넣은 줄", None, 4)]
 LCOL = {"- 지운 줄": "#F28B82", "+ 넣은 줄": "#7FD18B", "몇째 줄 근처인지": "#7CC7E8"}
 r = [sec("read-lines")] + head("출력 읽기", "- 는 지운 줄, + 는 넣은 줄이에요")
-for o_, (i, n, t1, t2) in enumerate(GROUPS, 1):
+for (i, n, t1, t2, o_) in GROUPS:
     RT.label(i, e(t1), LCOL.get(t1, "#FFFFFF"), sub=t2, n=n, order=o_, x=1100)
 r.append(RT.html())
-for o_, (i, n, _, _) in enumerate(GROUPS, 1):
-    x, y, ww, hh = RT.box(i, n, x0=RT.left + 14, x1=RT.left + RT.w - 14)
-    r.append(spot(o_, x, y, ww, hh, pad=6, r=12))
-r.append(spot_off(6))
-r.append(cap(RT.bottom + 44, "한 줄을 고치면 <b style=\"color:#A33131\">-</b> 한 줄과 <b style=\"color:#1A7340\">+</b> 한 줄이 짝으로 나와요. 예전 줄을 지우고 새 줄을 넣은 걸로 보여 줘요.", size=32, color=INK, attrs=' data-build-in="fade order 6"'))
+for o_, (i, n) in enumerate([(0, 4), (4, 1), (5, 2), (7, 3)], 1):
+    r.append(lspot(o_, RT.left, RT.top, RT.w, RT.h, RT.y(i) - 4, RT.rh * n + 8, bg="#1B2029"))
+r.append(lspot_off(5))
+r.append(cap(RT.bottom + 44, "한 줄을 고치면 <b style=\"color:#A33131\">-</b> 한 줄과 <b style=\"color:#1A7340\">+</b> 한 줄이 짝으로 나와요. 예전 줄을 지우고 새 줄을 넣은 걸로 보여 줘요.", size=32, color=INK, attrs=' data-build-in="fade order 5"'))
 W("read-lines", r, "diff 출력은 위에서부터 파일, 위치, 바뀐 줄 순서로 읽어요. 처음엔 diff --git 줄의 파일 이름만 봐도 돼요. index 줄의 숫자는 Git이 파일 내용에 붙인 번호라서 몰라도 돼요. 줄 맨 앞의 기호 한 칸은 파일 내용이 아니라 diff가 붙인 표시예요. 터미널에서는 빼기 줄이 빨강, 더하기 줄이 초록으로 나와요.")
 
 # read 2: @@
@@ -409,19 +415,19 @@ HS = 64
 hunk = "@@ -1,3 +1,4 @@"
 hx = 960 - tw(hunk, HS) / 2
 a.append(f'<div style="position:absolute;left:96px;top:232px;width:1728px;height:136px;background:#1B2029;border-radius:20px"></div>')
+PAIR = {"-1,3": ("rgba(242,139,130,.30)", 1), "+1,4": ("rgba(127,209,139,.30)", 2)}
 segs = [("@@ ", "#7CC7E8"), ("-1,3", "#F28B82"), (" ", "#7CC7E8"), ("+1,4", "#7FD18B"), (" @@", "#7CC7E8")]
-a.append(p(f"position:absolute;left:{hx:.0f}px;top:254px;width:900px;font-family:{MONO};font-size:{HS}px;font-weight:700;line-height:92px;white-space:pre", "".join(f'<span style="color:{c}">{e(s)}</span>' for s, c in segs)))
+a.append(p(f"position:absolute;left:{hx:.0f}px;top:254px;width:900px;font-family:{MONO};font-size:{HS}px;font-weight:700;line-height:92px;white-space:pre",
+           "".join(f'<span style="color:{c}"><span{MARK_IN(PAIR[s][1])} style="color:{c};background:{PAIR[s][0]};border-radius:10px">{e(s)}</span></span>' if s in PAIR else f'<span style="color:{c}">{e(s)}</span>' for s, c in segs)))
 xa = hx + tw("@@ ", HS)
 xb = hx + tw("@@ -1,3 ", HS)
-a.append(underline(1, round(xa), round(xa + tw("-1,3", HS)), 344, "#F28B82", 6))
-a.append(underline(2, round(xb), round(xb + tw("+1,4", HS)), 344, "#7FD18B", 6))
 for i, (lab, sign, col, bd, lines, marks, desc) in enumerate([("예전 파일", "-1,3", C_WD, "#E07A7A", V1, {2: "del"}, "1번째 줄부터 3줄"), ("지금 파일", "+1,4", C_ST, "#4DB57A", V2, {2: "add", 3: "add"}, "1번째 줄부터 4줄")]):
     x = 96 + i * 888
     rows = "".join(f'<div style="height:58px;display:flex;flex-direction:row;gap:24px;align-items:center">' + p(f"width:36px;font-family:{MONO};font-size:28px;color:#9AA0AB;text-align:right", str(j + 1))
                    + p(f"font-family:{MONO};font-size:34px;line-height:1.5;padding:0 12px;border-radius:6px;{MARK[marks.get(j)]}", e(l)) + '</div>' for j, l in enumerate(lines))
     a.append(f'<div id="hunk-{i}" style="position:absolute;left:{x}px;top:416px;width:840px;height:420px;background:#FFFFFF;border:2px solid {LINE};border-radius:20px;padding:32px 40px;display:flex;flex-direction:column;gap:6px">'
              + '<div style="display:flex;flex-direction:row;gap:20px;align-items:baseline;margin-bottom:14px">'
-             + p(f"font-family:{MONO};font-size:40px;font-weight:700;color:{col}", sign) + p(f"font-size:30px;font-weight:700;color:{INK}", desc)
+             + f'<p style="font-family:{MONO};font-size:40px;font-weight:700;color:{col}"><span{MARK_IN(i + 1)} style="color:{col};background:{PAIR[sign][0]};border-radius:8px;padding:0 8px">{sign}</span></p>' + p(f"font-size:30px;font-weight:700;color:{INK}", desc)
              + p(f"font-size:24px;color:{MUTE}", lab) + '</div>' + rows + '</div>')
     # the bar beside the rows the numbers describe
     a.append(f'<div data-build-in="fade order {i + 1}" style="position:absolute;left:{x + 20}px;top:{416 + 32 + 60 + 14}px;width:8px;height:{58 * len(lines) + 6 * (len(lines) - 1)}px;background:{col};border-radius:4px"></div>')
@@ -433,7 +439,7 @@ scene("d2", "실습 2 · add한 다음 git diff", "git diff", T2,
       [zcard("wd", "고친 그대로", V2), zcard("st", "올림", V2), zcard("lr", H0, V1, dim=True)],
       [chip("wd", "st", "git diff", C_WD, order=0)],
       "add한 뒤 git diff가 빈 화면인 건 작업 폴더와 대기실이 같아졌기 때문이에요. 이제 커밋될 내용은 다음 장의 git diff --staged로 봐요.",
-      extra=[spot(1, ZL, ZT["wd"], ZW, ZT["st"] + ZH - ZT["wd"], pad=10, r=22), spot_off(2),
+      extra=[pulse(1, "z-wd"), pulse(1, "z-st"),
              cap(T2.bottom + 40, "①과 ②가 똑같아서 보여 줄 줄이 없어요.<br>고친 내용은 ②로 옮겨 갔을 뿐 그대로 있어요.", w=1104, size=32, color=INK, attrs=' data-build-in="fade order 2"')])
 
 # ---------- part 3: --staged ----------
@@ -600,7 +606,7 @@ G2 = Term([("$", 'echo ".env" > .gitignore'), ("$", "git status"), ("o", "On bra
 G2.label(4, ".env가 목록에서 빠졌어요", order=1, x=1340)
 ig_frame("ig2", ".gitignore에 이름을 적으면 Git이 못 본 척해요",
          [F_LOGIN, file_tile("f-env", ".env", "무시됨 · status에 안 나와요", "hide", 498), file_tile("f-ig", ".gitignore", "새 파일 · 커밋해서 같이 써요", "red", 666)], G2,
-         [spot(1, target="f-env", pad=10, r=20), spot_off(2),
+         [box(1, 118, 488, 556, 152, PUR, 5, 20),
           cap(G2.bottom + 48, ".env 파일은 그대로 있고 Git만 못 본 척해요.<br>.gitignore는 커밋해서 팀원도 같은 규칙을 써요.", left=744, w=1080, size=32, color=INK, attrs=' data-build-in="fade order 2"')],
          ".gitignore에 이름을 적은 파일은 status에도 add에도 잡히지 않아요. .gitignore는 저장소 맨 위 폴더에 두고 한 줄에 하나씩 적어요. .env 파일 자체는 지워지지 않아요. status 출력의 안내 줄은 화면 때문에 뺐어요.")
 
@@ -631,15 +637,12 @@ c.append(f'<div style="position:absolute;left:96px;top:236px;width:1728px;height
          + "".join(p(f"width:{wd}px;flex:none;font-size:24px;font-weight:700;color:{MUTE}", h) for h, wd in [("언제", 220), ("status에 보이는 것", 360), ("칠 명령", 520), ("비교하는 두 곳", 500)]) + '</div>')
 for i, (when, st, cmd, col, pair) in enumerate(CMP):
     y = 296 + i * CH
-    c.append(f'<div id="cmp-{i}" style="position:absolute;left:96px;top:{y}px;width:1728px;height:{CH}px;border-top:2px solid {LINE};display:flex;flex-direction:row;align-items:center;gap:32px;padding:0 24px">'
+    c.append(f'<div id="cmp-{i}" data-build-in="rise order {i + 1}"{DIM("cmp")} style="position:absolute;left:96px;top:{y}px;width:1728px;height:{CH}px;border-top:2px solid {LINE};display:flex;flex-direction:row;align-items:center;gap:32px;padding:0 24px">'
              + p(f"width:220px;flex:none;font-size:34px;font-weight:700;color:{INK}", when)
              + p(f"width:360px;flex:none;font-size:28px;color:{SUB}", st)
              + p(f"width:520px;flex:none;font-family:{MONO};font-size:32px;font-weight:700;color:{col}", cmd)
              + p(f"width:500px;flex:none;font-size:28px;color:{INK}", pair) + '</div>')
-for i in range(4):
-    c.append(spot(i + 1, target=f"cmp-{i}", pad=4, r=14))
-c.append(spot_off(5))
-c.append(cap(296 + 4 * CH + 36, "빈 화면은 오류가 아니라 비교한 두 곳이 같다는 뜻이에요.", size=30, color=INK, attrs=' data-build-in="fade order 5"'))
+c.append(cap(296 + 4 * CH + 36, "빈 화면은 오류가 아니라 비교한 두 곳이 같다는 뜻이에요.", size=30, color=INK, attrs=' data-build-in="fade order 4"'))
 W("compare", c, "무엇을 칠지 헷갈리면 먼저 git status를 봐요. 빨간 글씨면 git diff, 초록 글씨면 git diff --staged, 깨끗하면 git show를 써요. merge 전에는 받을 쪽을 앞에 써서 git diff main 브랜치이름이에요. 수업에서는 이 장을 띄워 두고 상황마다 학생이 명령을 말해 보게 하세요.")
 
 tb = [sec("t-empty")] + head("막힐 때", "git diff에 아무것도 안 나와요", NAVY)
@@ -647,13 +650,15 @@ CASES = [("이미 git add 했어요", "대기실에 올린 건 --staged로 봐�
          ("새로 만든 파일이에요", "Untracked 파일은 git diff에 안 나와요. add한 뒤에 봐요", "git add 파일<br>git diff --staged"),
          ("이미 commit 했어요", "커밋한 내용은 git show로 봐요", "git show")]
 EH = 220
+tb.append(f'<div{STAGGER(1, 160)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, (q, a_, cmd) in enumerate(CASES):
     bd = f"border-top:2px solid {LINE};" if i else ""
-    tb.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:96px;top:{236 + i * EH}px;width:1728px;height:{EH}px;{bd}display:flex;flex-direction:row;gap:36px;align-items:center;padding:0 12px">'
+    tb.append(f'<div style="position:absolute;left:96px;top:{236 + i * EH}px;width:1728px;height:{EH}px;{bd}display:flex;flex-direction:row;gap:36px;align-items:center;padding:0 12px">'
               + p(f"width:60px;height:60px;flex:none;font-size:32px;font-weight:900;line-height:60px;text-align:center;color:#FFFFFF;background:{NAVY};border-radius:30px", str(i + 1))
               + f'<div style="flex:1;display:flex;flex-direction:column;gap:10px">' + p(f"font-size:38px;font-weight:700;color:{INK}", q) + p(f"font-size:28px;color:{SUB}", a_) + '</div>'
               + p(f"width:470px;flex:none;font-family:{MONO};font-size:30px;font-weight:700;line-height:1.5;color:{INK};background:#EBEDF1;padding:16px 24px;border-radius:12px", cmd) + '</div>')
-tb.append(cap(236 + 3 * EH + 36, "셋 다 아니면 git status부터 봐요. 고친 파일이 없으면 diff도 비어요.", size=30, color=INK, attrs=' data-build-in="fade order 4"'))
+tb.append('</div>')
+tb.append(cap(236 + 3 * EH + 36, "셋 다 아니면 git status부터 봐요. 고친 파일이 없으면 diff도 비어요.", size=30, color=INK, attrs=' data-build-in="fade order 2"'))
 W("t-empty", tb, "git diff가 빈 화면이면 비교한 두 곳이 같다는 뜻이고, 세 경우 중 하나예요. 새 파일이 git diff에 안 나오는 게 처음엔 가장 헷갈려요. Git이 아직 모르는 파일이라 비교할 예전 모습이 없어서예요.")
 
 tp = [sec("t-pager")] + head("막힐 때", "화면이 안 끝나면 q, 너무 길면 --stat", NAVY)
@@ -663,7 +668,7 @@ P1.label(14, "여기서 멈춰 있어요", "#F2C46D", order=1, x=560)
 tp.append(p(f"position:absolute;left:96px;top:236px;width:1000px;font-size:30px;font-weight:700;color:{INK}", "맨 아래에 : 나 (END)가 보이고 멈춰요"))
 tp.append(P1.html())
 kx, ky = P1.left + P1.w - 110, P1.bottom - 66
-tp.append(f'<div data-build-in="rise order 1" style="position:absolute;left:{kx}px;top:{ky}px;width:132px;height:132px;display:flex;align-items:center;justify-content:center;font-family:{MONO};font-size:64px;font-weight:700;color:{INK};background:#FFFFFF;border:3px solid #9AA0AB;border-bottom-width:10px;border-radius:20px;box-shadow:0 6px 16px rgba(0,0,0,.25)">q</div>')
+tp.append(keys(1, kx + 8, ky + 14, "q", size=60))
 tp.append(p(f"position:absolute;left:96px;top:{P1.bottom + 36}px;width:880px;font-size:28px;line-height:1.45;color:{SUB}", "q를 누르면 나와요. Space는 다음 화면이에요.", ' data-build-in="fade order 1"'))
 P2 = Term([("$", "git diff --stat main feature/login"), ("o", " login.md | 3 ++-"), ("o", " 1 file changed, 2 insertions(+),"), ("o", " 1 deletion(-)")], left=1200, top=300, w=624, size=24, lh=1.6, tid="t-p2")
 tp.append(p(f"position:absolute;left:1200px;top:236px;width:624px;font-size:30px;font-weight:700;color:{INK}", "파일 이름과 줄 수만 볼 때"))
@@ -704,13 +709,14 @@ bscene("br3", "실제 상황 1 · merge 전에 충돌 미리 보기", "같은 �
 
 c = [sec("conflict")] + head("실제 상황 1 · merge 전에 충돌 미리 보기", "충돌이 나면 git diff로 충돌 난 곳만 봐요", RED)
 CT = Term([("$", "git merge feature/login"), ("o", "Auto-merging login.md"), ("r", "CONFLICT (content): Merge conflict in login.md"), ("o", "Automatic merge failed; fix conflicts and then commit the result."), ("$", "git diff")] + diff_lines(DIFF_CC),
-          top=228, w=1728, size=25, lh=1.42, tid="t-cf")
+          top=228, w=1728, size=25, lh=1.42, tid="t-cf", ids={2: "cf-line"})
 CT.label(11, "↑ 위: main(HEAD) 쪽", "#9DB8F2", n=1, order=2, x=1000)
 CT.label(13, "↓ 아래: feature/login 쪽", "#7FD18B", n=1, order=2, x=1000)
 CT.label(10, "++ 로 시작하는 줄이 충돌 표시", "#F28B82", order=2, x=1000)
 CT.tint(10, 5, "r", order=2)
 c.append(CT.html())
 c.append(CT.pen(2))
+c.append(shake(1, "cf-line"))
 c.append(cap(CT.bottom + 28, "파일이 여러 개여도 git diff 하나로 충돌 표시가 남은 곳을 모두 찾아요.", size=30, color=INK, attrs=' data-build-in="fade order 3"'))
 W("conflict", c, "충돌 중에 git diff를 치면 충돌 난 부분만 diff --cc 모양으로 보여 줘요. 앞에 기호가 두 칸 붙는 건 두 브랜치와 각각 비교해서예요. 지금은 ++ 줄이 충돌 표시이고 그 사이 위아래가 양쪽 내용이라는 것만 기억하면 돼요. 푸는 순서는 03과 같아요.")
 
@@ -725,7 +731,7 @@ CHECK = [("<span style=\"font-family:'JetBrains Mono',monospace;font-weight:700\
 o.append(p(f"position:absolute;left:1272px;top:236px;width:552px;font-size:32px;font-weight:700;color:{INK}", "커밋 전에 볼 것"))
 for i, (t_, col) in enumerate(CHECK):
     bd = f"border-top:2px solid {LINE};"
-    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:1272px;top:{300 + i * 130}px;width:552px;height:130px;{bd}display:flex;flex-direction:row;gap:20px;align-items:center">'
+    o.append(f'<div data-build-in="rise order {i + 1}"{DIM("chk")} style="position:absolute;left:1272px;top:{300 + i * 130}px;width:552px;height:130px;{bd}display:flex;flex-direction:row;gap:20px;align-items:center">'
              + p(f"width:48px;height:48px;flex:none;font-size:26px;font-weight:900;line-height:48px;text-align:center;color:#FFFFFF;background:{col};border-radius:24px", str(i + 1))
              + p(f"font-size:28px;line-height:1.45;color:{INK}", t_) + '</div>')
 o.append(cap(RL.bottom + 28, "--staged는 main의 마지막 커밋과 비교해요. 이 merge 커밋에 들어갈 내용이에요.", w=1128, size=28, attrs=' data-build-in="fade order 3"'))
@@ -755,15 +761,17 @@ SUM = [("add 전", "git diff", C_WD, "status 빨간 글씨 파일의 고친 줄"
        ("merge 전", "git diff main 브랜치", OR, "받을 쪽을 앞에, 충돌 나면 git diff"),
        ("처음부터", ".gitignore", PUR, ".env, .venv/, __pycache__/, *.log")]
 SH = 120
+ch.append(f'<div{STAGGER(1, 90)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, (when, cmd, col, what) in enumerate(SUM):
     bd = f"border-top:2px solid {LINE};" if i else ""
     ch.append(f'<div style="position:absolute;left:96px;top:{224 + i * SH}px;width:1728px;height:{SH}px;{bd}display:flex;flex-direction:row;align-items:center;gap:32px;padding:0 12px">'
               + p(f"width:220px;flex:none;font-size:34px;font-weight:700;color:{INK}", when)
               + p(f"width:560px;flex:none;font-family:{MONO};font-size:34px;font-weight:700;color:{col}", e(cmd))
               + p(f"flex:1;font-size:28px;color:{SUB}", e(what)) + '</div>')
-ch.append(f'<div style="position:absolute;left:96px;top:{224 + 5 * SH + 20}px;width:1728px;height:96px;background:#1B2029;border-radius:18px;padding:0 40px;display:flex;flex-direction:row;align-items:center;gap:56px;font-family:{MONO}">'
+ch.append('</div>')
+ch.append(f'<div data-build-in="rise order 2" style="position:absolute;left:96px;top:{224 + 5 * SH + 20}px;width:1728px;height:96px;background:#1B2029;border-radius:18px;padding:0 40px;display:flex;flex-direction:row;align-items:center;gap:56px;font-family:{MONO}">'
           + "".join(f'<p style="font-size:32px;font-weight:700;color:{c_}">{t_}<span style="font-family:{SANS};font-weight:400;color:#D8DEE9;margin-left:14px">{d_}</span></p>'
                     for t_, c_, d_ in [("-", "#F28B82", "지운 줄"), ("+", "#7FD18B", "넣은 줄"), ("@@", "#7CC7E8", "위치"), ("q", "#F2C46D", "나가기")]) + '</div>')
-ch.append(cap(224 + 5 * SH + 156, "다음 05에서는 VS Code Git Graph로 이 기록을 그림으로 봐요.", size=30, color=INK))
+ch.append(cap(224 + 5 * SH + 156, "다음 05에서는 VS Code Git Graph로 이 기록을 그림으로 봐요.", size=30, color=INK, attrs=' data-build-in="fade order 2"'))
 W("cheatsheet", ch, "add, commit, merge 직전에는 status로 보고 diff로 확인한 다음 넘어가요. 수업 끝에 이 장을 띄워 두고 상황마다 무엇을 칠지 학생이 직접 말해 보게 하세요.")
 print("ok")
