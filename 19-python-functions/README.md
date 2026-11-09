@@ -247,7 +247,7 @@ python-functions-slides.pdf   강사용 PDF
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
-슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요. 장마다 코드 셀 하나를 크게 두고, 설명은 카드 대신 줄 옆 짧은 글로 달았어요. 강조는 장마다 [tools/HIGHLIGHT.md](../tools/HIGHLIGHT.md)에서 골랐어요(줄 색칠, 값 날아가기, 움직이는 스포트라이트, 커서 클릭, 펜 동그라미와 밑줄).
+슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요. 장마다 코드 셀 하나를 크게 두고, 설명은 카드 대신 줄 옆 짧은 글로 달았어요. 강조는 장마다 [tools/HIGHLIGHT.md](../tools/HIGHLIGHT.md) 상황별 표에서 골랐어요. 실행 순서는 실행 막대(9쪽), 고친 코드는 코드 모핑(12, 18, 21쪽), 값이 바뀌는 자리는 값 바꾸기(13, 21쪽), print와 return 비교는 배경 흐리기(14쪽), 합계는 숫자 올라가기(23쪽)처럼 상황마다 달라요. 장마다 클릭은 다섯 번 안쪽이고, 글자가 찍히는 효과는 쓰지 않아요.
 
 ```bash
 bash tools/demo.sh /tmp/func-demo > /tmp/func-demo.log 2>&1
