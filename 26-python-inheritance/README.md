@@ -1,6 +1,6 @@
 # 26 · 클래스 3 (상속과 클래스 변수)
 
-> 클래스 세 번째 챕터예요. 붕어빵마다 따로 들지 않고 틀에 새겨서 모두 같이 쓰는 값(클래스 변수)과, 붕어빵 틀을 물려받아 슈크림 붕어빵 틀을 만드는 상속을 배워요. 같은 코드를 복사하지 않고 다른 점만 적는 방법이에요. 24의 `Bread` 틀과 25의 `__str__`을 그대로 이어서 써요.
+> 클래스 세 번째 챕터예요. 붕어빵마다 따로 들지 않고 틀에 새겨서 모두 같이 쓰는 값(클래스 변수)과, 동물(`Animal`) 클래스를 물려받아 개(`Dog`)와 고양이(`Cat`) 클래스를 만드는 상속을 배워요. 같은 코드를 복사하지 않고 다른 점만 적는 방법이에요. 클래스 변수는 24의 `Bread` 틀로, 상속은 `Animal`, `Dog`, `Cat`으로 봐요.
 
 <!-- curriculum:top -->
 
@@ -16,9 +16,9 @@
 
 - 틀에 적은 클래스 변수(`shop`, `count`)와 `self.`로 붙인 인스턴스 변수의 차이를 말해요.
 - 클래스 변수는 `Bread.shop =`처럼 틀 이름으로 바꾸고 세요.
-- `class CreamBread(Bread):`로 틀을 물려받고, 자식 틀에 메서드를 더해요.
-- 칸을 더할 때 `super().__init__(flavor, price)`로 부모에게 맡겨요.
-- 같은 이름의 메서드로 덮어쓰고, `super().intro()`로 부모 것을 불러요.
+- `class Dog(Animal):`로 부모 클래스를 물려받고, 자식 클래스에 메서드를 더해요.
+- 같은 이름의 메서드로 덮어쓰고(`speak`), `super().eat()`로 부모 것을 불러요.
+- 칸을 더할 때 `super().__init__(name)`으로 부모에게 맡겨요.
 - "~는 ~의 한 종류"일 때만 상속한다는 기준으로 상속할지 골라요.
 
 ## 시작하기 전에
@@ -35,9 +35,9 @@
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
 | 들어가기 | 1–3 | 표지, 오늘의 순서, `basics.ipynb` 다시 열기 |
-| 1. 왜 필요한가 | 4–5 | 복사해서 만든 슈크림 붕어빵 틀(왜 필요한가), 틀에 새긴 값과 물려받는 틀 그림(큰 그림) |
+| 1. 왜 필요한가 | 4–5 | 복사해서 만든 `Dog`와 `Cat`(왜 필요한가), 틀에 새긴 값과 물려받는 클래스 그림(큰 그림) |
 | 2. 클래스 변수 | 6–9 | 틀에 적은 값, 한 번에 바꾸기, 찍을 때마다 개수 세기, 인스턴스 변수와 비교 |
-| 3. 상속 | 10–17 | `pass`로 전부 물려받기, 자식에 메서드 더하기, `super().__init__`, 한 줄에서 일어나는 다섯 단계, 덮어쓰기, `super().intro()`, 섞어 담기와 `isinstance`, 눌러 보기(어디서부터 찾을까) |
+| 3. 상속 | 10–17 | `Animal`, `Dog`, `Cat`으로 `pass`로 전부 물려받기(10), 자식에 메서드 더하기(11), 덮어쓰기(12), `super().eat()`(13), `super().__init__`(14), 한 줄에서 일어나는 다섯 단계(15), 섞어 담기와 `isinstance`(16), 눌러 보기(17) |
 | 4. 복사와 상속 비교 | 18–19 | 고칠 곳이 한 군데, "~는 ~의 한 종류"일 때만 |
 | 5. 오류와 함정 | 20–24 | `super().__init__` 빠짐, `self` 두 번, 자식 재료 수, `a.shop =`, `self.count` |
 | 6. 실습 | 25–28 | 도장 카드와 VIP 카드 두 장, 붕어빵과 미니 붕어빵 메뉴판 두 장 |
@@ -56,15 +56,15 @@
 
 `a.shop`을 꺼내면 파이썬은 붕어빵 `a`에서 먼저 찾고, 없으면 틀 `Bread`에서 찾아요.
 
-### `CreamBread("슈크림", 1200, "많이")` 한 줄에서
+### `Dog("초코", "푸들")` 한 줄에서
 
-1. 자식의 `__init__`이 불려요. `self`는 새 붕어빵이에요.
-2. `super().__init__(flavor, price)`로 부모의 `__init__`에 가요. 같은 `self`예요.
-3. 부모가 `self.flavor`, `self.price`를 붙여요.
-4. 자식으로 돌아와 `self.cream`을 붙여요.
-5. 세 칸이 다 붙은 붕어빵이 `c`에 담겨요.
+1. 자식의 `__init__`이 불려요. `self`는 새 객체예요.
+2. `super().__init__(name)`으로 부모의 `__init__`에 가요. 같은 `self`예요.
+3. 부모가 `self.name`을 붙여요.
+4. 자식으로 돌아와 `self.breed`를 붙여요.
+5. 두 칸이 다 붙은 객체가 `d`에 담겨요.
 
-메서드는 자식 틀부터 찾고, 없으면 부모 틀로 올라가요.
+메서드는 자식 클래스부터 찾고, 없으면 부모 클래스로 올라가요. `Dog`에 `speak`가 있으면 그걸 쓰고(덮어쓰기), `eat`처럼 없으면 `Animal`에서 찾아요(물려받기).
 
 ## 실습
 
@@ -93,42 +93,56 @@ print(Bread.count)
 # 2
 ```
 
-### 2. 상속과 `super().__init__`
+### 2. 상속, 덮어쓰기, `super()`
 
 ```python
-class Bread:
-    def __init__(self, flavor, price):
-        self.flavor = flavor
-        self.price = price
+class Animal:
+    def __init__(self, name):
+        self.name = name
 
-    def intro(self):
-        print(self.flavor, "붕어빵", self.price, "원")
+    def eat(self):
+        print(f"{self.name}가 밥을 먹어요")
 
-class CreamBread(Bread):
-    def __init__(self, flavor, price, cream):
-        super().__init__(flavor, price)
-        self.cream = cream
+    def speak(self):
+        print(f"{self.name}가 소리를 내요")
 
-    def intro(self):
-        super().intro()
-        print("  크림:", self.cream)
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)
+        self.breed = breed
 
-order = [Bread("팥", 1000), CreamBread("슈크림", 1200, "보통"), Bread("피자", 1500)]
-for b in order:
-    b.intro()
-# 팥 붕어빵 1000 원
-# 슈크림 붕어빵 1200 원
-#   크림: 보통
-# 피자 붕어빵 1500 원
+    def speak(self):
+        print(f"{self.name}가 멍멍 짖어요")
+
+class Cat(Animal):
+    def speak(self):
+        print(f"{self.name}가 야옹 울어요")
+
+animals = [Dog("초코", "푸들"), Cat("나비"), Animal("하마")]
+for x in animals:
+    x.speak()
+# 초코가 멍멍 짖어요
+# 나비가 야옹 울어요
+# 하마가 소리를 내요
 ```
 
-### 3. `isinstance`
+### 3. `super().메서드()`와 `isinstance`
 
 ```python
-c = CreamBread("슈크림", 1200, "많이")
-print(isinstance(c, CreamBread))
-print(isinstance(c, Bread))
-print(isinstance(order[0], CreamBread))
+class Dog(Animal):
+    def eat(self):
+        super().eat()
+        print(f"{self.name}가 꼬리를 흔들어요")
+
+d = Dog("초코")
+d.eat()
+# 초코가 밥을 먹어요
+# 초코가 꼬리를 흔들어요
+
+a = Animal("하마")
+print(isinstance(d, Dog))
+print(isinstance(d, Animal))
+print(isinstance(a, Dog))
 # True
 # True
 # False
@@ -211,25 +225,25 @@ print([m.flavor for m in menu if isinstance(m, MiniBread)])
 | --- | --- |
 | `shop = "붕어빵 1호점"` (class 바로 아래) | 클래스 변수. 모든 붕어빵이 같이 봐요 |
 | `Bread.shop = ...` | 클래스 변수 바꾸기. 틀 이름으로 |
-| `class CreamBread(Bread):` | 부모 틀 물려받기 |
-| `super().__init__(flavor, price)` | 부모의 `__init__`에 맡기기. `self`는 안 적어요 |
-| 같은 이름 `def intro(self):` | 부모 메서드 덮어쓰기 |
-| `super().intro()` | 부모 메서드 부르기 |
-| `isinstance(c, Bread)` | 그 틀(또는 그 자식)로 찍었는지 True, False |
+| `class Dog(Animal):` | 부모 클래스 물려받기 |
+| 같은 이름 `def speak(self):` | 부모 메서드 덮어쓰기 |
+| `super().eat()` | 부모 메서드 부르기 |
+| `super().__init__(name)` | 부모의 `__init__`에 맡기기. `self`는 안 적어요 |
+| `isinstance(d, Animal)` | 그 클래스(또는 그 자식)로 만들었는지 True, False |
 
 ## 문제 해결
 
 | 메시지 | 원인 | 해결 |
 | --- | --- | --- |
-| `AttributeError: 'CreamBread' object has no attribute 'flavor'` | 자식 `__init__`에서 `super().__init__`을 안 불렀어요 | 자식 `__init__` 첫 줄에 `super().__init__(flavor, price)` |
-| `TypeError: Bread.__init__() takes 3 positional arguments but 4 were given` | `super().__init__`에 `self`를 넣었어요 | `self`를 빼요 |
-| `TypeError: CreamBread.__init__() missing 1 required positional argument: 'cream'` | 자식 틀의 재료가 모자라요 | 자식 `__init__`의 칸 수에 맞추거나 기본값을 둬요 |
-| `NameError: name 'Bred' is not defined` | 괄호 안 부모 이름 오타이거나 부모 셀을 아직 안 실행했어요 | 이름을 고치고 부모 셀을 먼저 실행해요 |
+| `AttributeError: 'Dog' object has no attribute 'name'` | 자식 `__init__`에서 `super().__init__`을 안 불렀어요 | 자식 `__init__` 첫 줄에 `super().__init__(name)` |
+| `TypeError: Animal.__init__() takes 2 positional arguments but 3 were given` | `super().__init__`에 `self`를 넣었어요 | `self`를 빼요 |
+| `TypeError: Dog.__init__() missing 1 required positional argument: 'breed'` | 자식 클래스의 재료가 모자라요 | 자식 `__init__`의 칸 수에 맞추거나 기본값을 둬요 |
+| `NameError: name 'Anmal' is not defined` | 괄호 안 부모 이름 오타이거나 부모 셀을 아직 안 실행했어요 | 이름을 고치고 부모 셀을 먼저 실행해요 |
 | 한 붕어빵만 값이 달라요 | `a.shop =`으로 바꿔서 `a`에만 새 칸이 생겼어요 | `Bread.shop =` |
 | 개수가 0에서 안 늘어요 | `self.count = self.count + 1`로 셌어요 | `Bread.count = Bread.count + 1` |
 | 부모를 고쳤는데 자식은 그대로예요 | 자식이 같은 이름으로 덮어썼어요 | 자식에서 `super().메서드()`로 불러요 |
 
-헷갈리면 "자식 틀에서 먼저 찾고, 없으면 부모 틀" 순서로 따라가 봐요.
+헷갈리면 "자식 클래스에서 먼저 찾고, 없으면 부모 클래스" 순서로 따라가 봐요.
 
 ## 강사용
 
@@ -241,7 +255,7 @@ slides/
   deck.json        슬라이드 순서와 파트 구분 (gen.py가 만들어요)
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장과 deck.json 생성 (노트북 셀, 부모와 자식 틀 그림, super 단계)
+  gen.py           모든 장과 deck.json 생성 (노트북 셀, 부모와 자식 클래스 그림, super 단계)
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
   lab_find.js      17쪽 어디서부터 찾을까의 버튼 동작 (gen.py가 그 장에 넣어요)
@@ -261,7 +275,7 @@ node ../tools/export.js slides python-inheritance-slides.pdf
 
 셀 출력은 `tools/demo.sh`가 hello-uv(Python 3.14.6)를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 차례로 실행해서 셀 번호가 파트마다 [1]부터 시작해요. 4파트는 셀 없이 그림과 표만 있어요. 오류는 Traceback 마지막 줄만 옮겼어요.
 
-장마다 강조는 `tools/HIGHLIGHT.md`에서 골랐어요. 표지는 제목이 크게 들어오고 코드 칸에 빛이 지나가요. 목차, 들어가기, 19, 29, 30쪽 목록은 한 번 누르면 차례로 나와요(시차). 5쪽 화살표는 왼쪽부터 그려지고, 6쪽과 13쪽은 지난 단계가 흐려져요. 7쪽 붕어빵 이름표와 8쪽 개수는 값이 바뀌고, 8쪽과 26쪽은 실행 막대가 줄을 따라 내려가요. 9쪽 표는 스포트라이트로, 25, 27쪽 코드는 줄 스포트라이트로 한 덩어리씩 비춰요. 10쪽은 코드의 틀 이름과 그림의 틀이 같은 색으로 짝지어지고, 11, 14쪽은 부른 줄과 출력을 선으로 이어요. 17쪽은 커서가 누를 곳을 짚어요. 20쪽 오류는 한 번 흔들리고, 21, 24쪽은 틀린 줄이 그 자리에서 고친 줄로 바뀌어요(코드 모핑). 22쪽은 더한 글자만 칠하고, 23, 24쪽은 그대로인 틀을 두 번 두드려요.
+장마다 강조는 `tools/HIGHLIGHT.md`에서 골랐어요. 표지는 제목이 크게 들어오고 코드 칸에 빛이 지나가요. 목차, 들어가기, 19, 29, 30쪽 목록은 한 번 누르면 차례로 나와요(시차). 5쪽 화살표는 왼쪽부터 그려지고, 6쪽과 15쪽은 지난 단계가 흐려져요. 7쪽 붕어빵 이름표와 8쪽 개수는 값이 바뀌고, 8쪽과 26쪽은 실행 막대가 줄을 따라 내려가요. 9쪽 표는 스포트라이트로, 25, 27쪽 코드는 줄 스포트라이트로 한 덩어리씩 비춰요. 10쪽은 코드의 클래스 이름과 그림의 클래스가 같은 색으로 짝지어지고, 11쪽은 부른 줄과 출력을 선으로 이어요. 12쪽은 개와 고양이 출력에 차례로 밑줄이 그어지고 찾는 길이 차례로 나와요. 17쪽은 커서가 누를 곳을 짚어요. 20쪽 오류는 한 번 흔들리고, 21, 24쪽은 틀린 줄이 그 자리에서 고친 줄로 바뀌어요(코드 모핑). 22쪽은 더한 글자만 칠하고, 23, 24쪽은 그대로인 틀을 두 번 두드려요.
 
 눌러 보기 장은 장 안의 `<script type="text/slide-js">`를 `build_player.js`가 실행해서 움직여요. 그래서 버튼은 배포용 HTML에서만 눌러지고, PDF에는 처음 화면이 들어가요. 눌러 보기에 나오는 출력도 `tools/run_nb.py`로 실제로 실행한 결과예요.
 
