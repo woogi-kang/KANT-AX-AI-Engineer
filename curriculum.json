@@ -78,7 +78,10 @@
      "commands": "`__str__` `__repr__` `str()` `repr()` `sorted(key=lambda b: b.price)`", "slides": "python-str-repr-slides.html"},
     {"dir": "26-python-inheritance", "title": "클래스 3 (상속과 클래스 변수)", "track": "파이썬",
      "goal": "틀을 물려받아 다른 점만 적고, 모두 같이 쓰는 값은 틀에 둬요",
-     "commands": "`Bread.shop` `class CreamBread(Bread):` `super().__init__()` `isinstance()`", "slides": "python-inheritance-slides.html"}
+     "commands": "`Bread.shop` `class CreamBread(Bread):` `super().__init__()` `isinstance()`", "slides": "python-inheritance-slides.html"},
+    {"dir": "27-python-encapsulation", "title": "클래스 4 (캡슐화)", "track": "파이썬",
+     "goal": "칸은 안에 감추고, 메서드와 property라는 문으로만 꺼내고 바꾸게 해요",
+     "commands": "`self._stamps` `self.__password` `get_password()` `@property` `@password.setter`", "slides": "python-encapsulation-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

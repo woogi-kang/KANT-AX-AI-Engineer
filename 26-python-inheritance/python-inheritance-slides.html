@@ -136,7 +136,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;line-height:1.45;color:#E6E9EF;white-space:pre">        self.cream = cream</p>
 </div>
 <div data-build-in="shine order 1" data-target="cov-code" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
-<aside>클래스 마지막 챕터예요. 24에서 붕어빵 틀을 만들고, 25에서 print했을 때 보기 좋게 바꿨어요. 이번에는 두 가지를 배워요. 하나는 붕어빵마다 따로 들지 않고 틀 하나에 새겨서 모두 같이 쓰는 값, 클래스 변수예요. 다른 하나는 붕어빵 틀을 물려받아 슈크림 붕어빵 틀을 만드는 상속이에요. 같은 코드를 복사하지 않고 다른 점만 적는 방법이에요.</aside>
+<aside>클래스 세 번째 챕터예요. 24에서 붕어빵 틀을 만들고, 25에서 print했을 때 보기 좋게 바꿨어요. 이번에는 두 가지를 배워요. 하나는 붕어빵마다 따로 들지 않고 틀 하나에 새겨서 모두 같이 쓰는 값, 클래스 변수예요. 다른 하나는 붕어빵 틀을 물려받아 슈크림 붕어빵 틀을 만드는 상속이에요. 같은 코드를 복사하지 않고 다른 점만 적는 방법이에요.</aside>
 </section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
 <h2 style="position:absolute;left:96px;top:80px;font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>
@@ -783,8 +783,8 @@ return { leave: stop };
 <div style="position:absolute;left:984px;top:596px;width:840px;height:128px;display:flex;flex-direction:column;justify-content:center;gap:8px;border-bottom:2px solid #E1DED6"><p style="font-size:32px;font-weight:700;color:#A23B72;white-space:pre">~는 ~의 한 종류</p><p style="font-size:28px;color:#1D2330">상속할지 고르는 말</p></div>
 </div>
 <p data-build-in="rise order 2" style="position:absolute;left:96px;top:780px;width:1728px;font-size:36px;font-weight:700;line-height:1.4;color:#1D2330">붕어빵마다 다르면 self.이름, 모두 같으면 틀에 적어요. 한 종류면 물려받아요.</p>
-<p data-build-in="rise order 2" style="position:absolute;left:96px;top:860px;width:1728px;font-size:30px;line-height:1.4;color:#4A5262">클래스 세 챕터 끝: 붕어빵 틀로 데이터와 할 일을 한 곳에 묶었어요.</p>
-<aside>이번 챕터의 내용을 한 장에 모았어요. 모두 같은 값은 틀에 적는 클래스 변수로, 바꿀 땐 틀 이름으로 바꿔요. 자식 틀은 괄호에 부모 틀을 적어 물려받고, 칸을 더할 땐 super().__init__으로 부모에게 맡겨요. 같은 이름의 메서드를 다시 적으면 덮어쓰고, 부모 것도 쓰고 싶으면 super()로 불러요. 상속은 자식이 부모의 한 종류일 때만 써요. 24부터 26까지 붕어빵 틀 하나로 클래스의 기본을 모두 봤어요.</aside>
+<p data-build-in="rise order 2" style="position:absolute;left:96px;top:860px;width:1728px;font-size:30px;line-height:1.4;color:#4A5262">다음 27에서는 감춰 둘 칸과 밖에서 쓸 문을 나눠요.</p>
+<aside>이번 챕터의 내용을 한 장에 모았어요. 모두 같은 값은 틀에 적는 클래스 변수로, 바꿀 땐 틀 이름으로 바꿔요. 자식 틀은 괄호에 부모 틀을 적어 물려받고, 칸을 더할 땐 super().__init__으로 부모에게 맡겨요. 같은 이름의 메서드를 다시 적으면 덮어쓰고, 부모 것도 쓰고 싶으면 super()로 불러요. 상속은 자식이 부모의 한 종류일 때만 써요. 다음 27에서는 칸을 안에 감추고 메서드라는 문으로만 드나드는 캡슐화를 배워요.</aside>
 </section>
 </div>
 <button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
@@ -965,7 +965,7 @@ function fxState(i,n,animate){
   // blur everything on the slide except the part that holds the target
   if(bl||s.classList.contains('pl-blurs')){s.classList.add('pl-blurs');
     const t=bl&&s.querySelector('#'+bl.dataset.target);
-    [...s.children].forEach(c=>{if(c.tagName==='ASIDE'||/^pl-/.test(c.className)||c.hasAttribute('data-build-in')&&/^(lspot|run|zoom|blur|text|pan|kenburns|pulse|grow|shine|shake|spot|cursor|click)/.test(c.getAttribute('data-build-in')))return;
+    [...s.children].forEach(c=>{if(c.tagName==='ASIDE'||/^pl-(?!bl\b|dim\b)/.test(c.className)||c.hasAttribute('data-build-in')&&/^(lspot|run|zoom|blur|text|pan|kenburns|pulse|grow|shine|shake|spot|cursor|click)/.test(c.getAttribute('data-build-in')))return;
       instant(c,()=>c.classList.toggle('pl-bl',!!t&&!c.contains(t)&&c!==t));});
     if(!bl&&!animate)s.classList.remove('pl-blurs');
   }

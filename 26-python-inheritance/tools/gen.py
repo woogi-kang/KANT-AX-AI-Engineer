@@ -395,7 +395,7 @@ def mini(left, top, name, order_new=None):
 # ---------- cover ----------
 cover([("class Bread:", "#C7B8F2"), ('    shop = "붕어빵 1호점"', "#F2C48D"), ("", W_), ("class CreamBread(Bread):", "#8FD8DE"), ("    def __init__(self, f, p, cream):", W_), ("        super().__init__(f, p)", "#B8E8BE"), ("        self.cream = cream", W_)],
       "클래스 3<br>상속과<br>클래스 변수", "틀에 새긴 값과<br>물려받는 틀",
-      "클래스 마지막 챕터예요. 24에서 붕어빵 틀을 만들고, 25에서 print했을 때 보기 좋게 바꿨어요. 이번에는 두 가지를 배워요. 하나는 붕어빵마다 따로 들지 않고 틀 하나에 새겨서 모두 같이 쓰는 값, 클래스 변수예요. 다른 하나는 붕어빵 틀을 물려받아 슈크림 붕어빵 틀을 만드는 상속이에요. 같은 코드를 복사하지 않고 다른 점만 적는 방법이에요.", h1size=76)
+      "클래스 세 번째 챕터예요. 24에서 붕어빵 틀을 만들고, 25에서 print했을 때 보기 좋게 바꿨어요. 이번에는 두 가지를 배워요. 하나는 붕어빵마다 따로 들지 않고 틀 하나에 새겨서 모두 같이 쓰는 값, 클래스 변수예요. 다른 하나는 붕어빵 틀을 물려받아 슈크림 붕어빵 틀을 만드는 상속이에요. 같은 코드를 복사하지 않고 다른 점만 적는 방법이에요.", h1size=76)
 
 # ---------- ready ----------
 o = [sec("ready")] + head("들어가기", "25에서 이어서 해요", JP)
@@ -976,8 +976,8 @@ for col, items in enumerate(CH):
                  + p(f"font-size:28px;color:{INK}", e(d)) + '</div>')
 o.append('</div>')
 o.append(p(f"position:absolute;left:96px;top:780px;width:1728px;font-size:36px;font-weight:700;line-height:1.4;color:{INK}", "붕어빵마다 다르면 self.이름, 모두 같으면 틀에 적어요. 한 종류면 물려받아요.", at(2)))
-o.append(p(f"position:absolute;left:96px;top:860px;width:1728px;font-size:30px;line-height:1.4;color:{SUB}", "클래스 세 챕터 끝: 붕어빵 틀로 데이터와 할 일을 한 곳에 묶었어요.", at(2)))
-W("cheatsheet", o, "이번 챕터의 내용을 한 장에 모았어요. 모두 같은 값은 틀에 적는 클래스 변수로, 바꿀 땐 틀 이름으로 바꿔요. 자식 틀은 괄호에 부모 틀을 적어 물려받고, 칸을 더할 땐 super().__init__으로 부모에게 맡겨요. 같은 이름의 메서드를 다시 적으면 덮어쓰고, 부모 것도 쓰고 싶으면 super()로 불러요. 상속은 자식이 부모의 한 종류일 때만 써요. 24부터 26까지 붕어빵 틀 하나로 클래스의 기본을 모두 봤어요.")
+o.append(p(f"position:absolute;left:96px;top:860px;width:1728px;font-size:30px;line-height:1.4;color:{SUB}", "다음 27에서는 감춰 둘 칸과 밖에서 쓸 문을 나눠요.", at(2)))
+W("cheatsheet", o, "이번 챕터의 내용을 한 장에 모았어요. 모두 같은 값은 틀에 적는 클래스 변수로, 바꿀 땐 틀 이름으로 바꿔요. 자식 틀은 괄호에 부모 틀을 적어 물려받고, 칸을 더할 땐 super().__init__으로 부모에게 맡겨요. 같은 이름의 메서드를 다시 적으면 덮어쓰고, 부모 것도 쓰고 싶으면 super()로 불러요. 상속은 자식이 부모의 한 종류일 때만 써요. 다음 27에서는 칸을 안에 감추고 메서드라는 문으로만 드나드는 캡슐화를 배워요.")
 
 finish([(K1, "왜 필요한가", "복사해서 만든 슈크림 틀, 틀에 새긴 값과 물려받는 틀", "w-why", "w-big"),
         (K2, "클래스 변수", "틀에 적은 값, 한 번에 바꾸기, 개수 세기, 두 변수 비교", "cv-basic", "cv-table"),
