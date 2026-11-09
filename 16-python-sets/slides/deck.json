@@ -12,11 +12,11 @@
     "ready",
     "s-why",
     "s-four",
+    "s-min",
     "s-make",
     "s-order",
     "s-dedup",
     "s-long",
-    "s-str",
     "s-empty",
     "s-hash",
     "s-add",
@@ -33,13 +33,13 @@
     "s-diff",
     "s-ops",
     "s-long2",
+    "x-choose",
+    "s-str",
+    "trouble",
     "x-kinds",
     "x-class",
     "x-menu",
     "x-bill",
-    "x-choose",
-    "x-err",
-    "trouble",
     "cheatsheet"
   ],
   "sections": {
@@ -59,13 +59,17 @@
       "description": "집합 연산",
       "start": "s-venn"
     },
+    "trouble": {
+      "description": "비교와 오류",
+      "start": "x-choose"
+    },
     "practice": {
       "description": "실습",
       "start": "x-kinds"
     },
-    "trouble": {
+    "summary": {
       "description": "정리",
-      "start": "trouble"
+      "start": "cheatsheet"
     }
   },
   "faces": {

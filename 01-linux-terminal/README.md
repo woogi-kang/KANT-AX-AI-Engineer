@@ -173,16 +173,18 @@ slides/
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
   gen_scenes.py    터미널과 폴더 지도 장면 생성
+  gen_pages.py     목차, 왜, 프롬프트, 경고, 단축키, 요약 장 생성
 linux-terminal-slides.html  배포용 HTML
 linux-terminal-slides.pdf   강사용 PDF
 ```
 
-폴더 지도가 나오는 장면(`tree-map`, `s*`, `paths`, `special`, `err-*`)은 스크립트를 고친 뒤 다시 만들어요. 나머지 장은 `slides/`에서 바로 고쳐요.
+폴더 지도가 나오는 장면(`tree-map`, `s*`, `paths`, `special`, `err-*`)은 `gen_scenes.py`, 목차·왜·프롬프트·경고·단축키·요약 장(`toc`, `why`, `prompt`, `warn`, `warn-rf`, `keys`, `cheatsheet`)은 `gen_pages.py`를 고친 뒤 다시 만들어요. 표지(`cover`)와 마크다운 장(`markdown`)은 `slides/`에서 바로 고쳐요.
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
 ```bash
 python3 tools/gen_scenes.py slides
+python3 tools/gen_pages.py slides
 node ../tools/check.js slides shots                              # 전체 검사 (Playwright 필요)
 node ../tools/check.js slides shots s12-mv                       # 특정 장만
 node ../tools/build_player.js slides linux-terminal-slides.html
