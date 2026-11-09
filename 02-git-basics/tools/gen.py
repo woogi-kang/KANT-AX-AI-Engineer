@@ -7,7 +7,7 @@ Usage (in 02-git-basics): python3 tools/gen.py slides
 import html, math, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, pulse, grow, lspot, lspot_off, zoom, zoom_off, blur, blur_off, shake, PATH, STAGGER, SLAM, DIM, DELAY  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -137,7 +137,7 @@ def arrow(gap, direction="right", top=None, color="#2459C9", order=None):
 def pop(k, top, text, color="#1E3F8F", width=None, left=None, order=None, **_):
     """A label on the drawing: plain words right under the thing they explain, no box."""
     z = Z[k]
-    b = f' data-build-in="pop{" order " + str(order) if order else ""}"'
+    b = f' data-build-in="pop{" order " + str(order) if order else ""}"' + DELAY(150)  # the label follows its picture
     w = width or (z["w"] - 2 * IN)
     l = left if left is not None else zx(k)
     return p(f"position:absolute;left:{l}px;top:{top}px;width:{w}px;font-size:26px;font-weight:700;line-height:1.4;color:{color}", text, b)
@@ -170,6 +170,7 @@ def terminal(lines, left=96, top=None, w=1728, h=None, size=None, lh=1.4, build=
     top = top or ZTOP + CUR["zh"] + 32
     h = h or 1024 - top
     size = size or min(33, int((h - 52) / (len(lines) * lh)))
+    CUR["term"] = (left, top, w, h, size, lh)
     """build: first click order (None = no animation). Each command is typed on its own click and the
     output lines after it come in together on the next click."""
     o = [f'<div id="{tid}" style="position:absolute;left:{left}px;top:{top}px;width:{w}px;height:{h}px;background:#1B2029;border-radius:20px;padding:26px 36px;display:flex;flex-direction:column;font-family:{MONO};font-variant-ligatures:none">']
@@ -197,7 +198,24 @@ def terminal(lines, left=96, top=None, w=1728, h=None, size=None, lh=1.4, build=
     return o
 
 
-def write(sec_id, parts, notes, hot=None, lines=None):
+def tl(i):
+    """top and height of line i (from 0) of the last scene terminal"""
+    L, T, W_, H_, S, LH = CUR["term"]
+    return T + 26 + i * S * LH, S * LH
+
+
+def tcol(c):
+    """x of column c of the last scene terminal ("$ " counts as two columns)"""
+    L, T, W_, H_, S, LH = CUR["term"]
+    return L + 36 + c * S * 0.6
+
+
+def tbox():
+    L, T, W_, H_, S, LH = CUR["term"]
+    return L, T, W_, H_
+
+
+def write(sec_id, parts, notes, hot=None, lines=None, hl=None):
     """Scene slides: lines = the terminal lines. After the typed terminal, the next click lights up the
     zones that changed (hot) and brings in the labels on the drawing; the click after that turns the
     light off so the whole picture reads as one."""
@@ -205,8 +223,8 @@ def write(sec_id, parts, notes, hot=None, lines=None):
     if lines is not None:
         n = 0  # the terminal is shown whole from the start; no typing
         body = re.sub(r'data-build-in="(pop|fade)"', lambda m: f'data-build-in="{m.group(1)} order {n + 1}"', body)
-        extra = []
-        if hot:
+        extra = list(hl or [])
+        if hot and hl is None:
             x0 = min(Z[k]["left"] for k in hot)
             x1 = max(Z[k]["left"] + Z[k]["w"] for k in hot)
             extra.append(spot(n + 1, x0, ZTOP, x1 - x0, CUR["zh"], pad=10, r=26))
@@ -215,6 +233,19 @@ def write(sec_id, parts, notes, hot=None, lines=None):
     body += f"\n<aside>{e(notes)}</aside>\n</section>\n"
     with open(os.path.join(OUT, f"{sec_id}.html"), "w") as f:
         f.write(body)
+
+
+RED_, OR_ = "#A33131", "#B26A00"
+
+
+def travel(pid, a, b, nrows):
+    """Invisible arcs from each commit row of zone a to the same row of zone b, for PATH()."""
+    ds = []
+    for i in range(nrows):
+        y = ROW0 + i * PITCH + 19
+        x1, x2 = zx(a) + HASH_W / 2, zx(b) + HASH_W / 2
+        ds.append(f'<path id="{pid}-{i}" d="M{x1:.0f},{y} C{x1 + 160:.0f},{y - 130} {x2 - 160:.0f},{y - 130} {x2:.0f},{y}" fill="none" stroke="none"/>')
+    return f'<svg viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none">{"".join(ds)}</svg>'
 
 
 def span(a, b):
@@ -243,7 +274,7 @@ o.append(pop("wd", under("wd", 0), "Git이 처음 보는 파일", color="#A33131
 o += terminal(T := [("$", 'echo "hello" > hello.md'), ("$", "git status"), ("o", "On branch main"), ("o", "No commits yet"),
                ("o", "Untracked files:"), ("h", '  (use "git add <file>..." to include in what will be committed)'),
                ("r", "\thello.md"), ("o", "nothing added to commit but untracked files present")])
-write("s2-create", o, "에디터에서 새 파일을 저장해도 같은 상태예요. Git은 파일을 저절로 기록하지 않아요. 빨간 글씨는 아직 기록 대상이 아니라는 뜻이에요. 마지막 줄 끝의 (use \"git add\" to track) 안내는 화면 폭 때문에 생략했어요.", hot=['wd'], lines=T)
+write("s2-create", o, "에디터에서 새 파일을 저장해도 같은 상태예요. Git은 파일을 저절로 기록하지 않아요. 빨간 글씨는 아직 기록 대상이 아니라는 뜻이에요. 마지막 줄 끝의 (use \"git add\" to track) 안내는 화면 폭 때문에 생략했어요.", hl=[pulse(1, "wd-hello")], lines=T)
 
 o = frame("s3-add", f"실습 3 · {EB1}", "파일을 대기실에 올려요", rm_dim=True, zh=300)
 o.append(file_card("wd-hello", "wd", 0, "hello.md", "원본은 그대로", "ghost"))
@@ -254,7 +285,9 @@ o.append(pop("wd", under("wd", 0), "그 순간의 사진이 올라가요", color
 o += terminal(T := [("$", "git add hello.md"), ("#", "# 아무 출력이 없으면 성공"), ("$", "git status"), ("o", "On branch main"),
                ("o", "No commits yet"), ("o", "Changes to be committed:"),
                ("h", '  (use "git rm --cached <file>..." to unstage)'), ("g", "\tnew file:   hello.md")])
-write("s3-add", o, "add는 파일을 옮기는 게 아니라 그 순간의 사진을 대기실에 올리는 거예요. 그래서 작업 폴더 원본은 그대로 있어요. 초록 글씨는 커밋할 준비가 끝났다는 뜻이에요. 여러 파일을 한 번에 올릴 땐 git add . 을 써요.", hot=['wd', 'st'], lines=T)
+_y, _h = tl(7)
+H3L = [lspot(1, *tbox(), _y, _h, bg="#1B2029", bar="#1F8A4C"), lspot_off(2)]
+write("s3-add", o, "add는 파일을 옮기는 게 아니라 그 순간의 사진을 대기실에 올리는 거예요. 그래서 작업 폴더 원본은 그대로 있어요. 초록 글씨는 커밋할 준비가 끝났다는 뜻이에요. 여러 파일을 한 번에 올릴 땐 git add . 을 써요.", hl=H3L, lines=T)
 
 o = frame("s4-commit", f"실습 4 · {EB1}", "대기실에 올린 모습을 커밋해요", rm_dim=True, zh=300)
 o += [placeholder("st", "비어 있음")]
@@ -267,7 +300,7 @@ o.append(pop("lr", below(1), f"{H1} 번으로 기록됐어요"))
 o += terminal(T := [("$", 'git commit -m "feat: 인사 파일 추가"'), ("o", f"[main (root-commit) {H1}] feat: 인사 파일 추가"),
                ("o", " 1 file changed, 1 insertion(+)"), ("o", " create mode 100644 hello.md"),
                ("$", "git status"), ("o", "On branch main"), ("o", "nothing to commit, working tree clean")])
-write("s4-commit", o, "메시지 앞의 feat: 는 지금은 그대로 따라 쓰고, 두 번째 커밋 뒤에 자세히 봐요. 대기실에 있던 모습이 커밋 538dd06으로 저장됐어요. 해시는 사람마다 다르게 나와요. main 이름표는 지금 가장 최신 커밋을 가리켜요. GitHub에는 아직 없어요. -m을 빼먹어 vim이 열리면 Esc를 누르고 :q!, Enter를 쳐서 나온 뒤 다시 실행해요.", hot=['st', 'lr'], lines=T)
+write("s4-commit", o, "메시지 앞의 feat: 는 지금은 그대로 따라 쓰고, 두 번째 커밋 뒤에 자세히 봐요. 대기실에 있던 모습이 커밋 538dd06으로 저장됐어요. 해시는 사람마다 다르게 나와요. main 이름표는 지금 가장 최신 커밋을 가리켜요. GitHub에는 아직 없어요. -m을 빼먹어 vim이 열리면 Esc를 누르고 :q!, Enter를 쳐서 나온 뒤 다시 실행해요.", hl=[grow(1, f"lc-{H1}")], lines=T)
 
 o = frame("s5-edit", f"실습 5 · {EB1}", "커밋한 파일을 다시 고쳐요", rm_dim=True, zh=300)
 o.append(file_card("snap-2", "st", 0, "hello.md", "Staged · 수정", "green", hidden=True, at="wd"))
@@ -279,7 +312,9 @@ o += terminal(T := [("$", 'echo "world" >> hello.md'), ("$", "git status"), ("o"
                ("o", "Changes not staged for commit:"),
                ("h", '  (use "git add <file>..." to update what will be committed)'),
                ("r", "\tmodified:   hello.md"), ("o", 'no changes added to commit (use "git add" and/or "git commit -a")')])
-write("s5-edit", o, "Untracked는 처음 보는 파일, Modified는 이미 아는 파일이 바뀐 거예요. 다음은 다시 git add예요. 실제 status에는 안내 문구가 한 줄 더 나오지만 여기선 뺐어요.", hot=['wd'], lines=T)
+_y, _h = tl(5)
+H5L = [box(1, round(tcol(8) - 10), round(_y + 1), round(tcol(28) - tcol(8) + 20), round(_h - 2), RED_, width=4)]
+write("s5-edit", o, "Untracked는 처음 보는 파일, Modified는 이미 아는 파일이 바뀐 거예요. 다음은 다시 git add예요. 실제 status에는 안내 문구가 한 줄 더 나오지만 여기선 뺐어요.", hl=H5L, lines=T)
 
 o = frame("s6-mixed", "실습 6 · 헷갈림 주의", "add 한 뒤에 또 고치면 어떻게 될까요?", rm_dim=True, zh=300)
 o.append(file_card("wd-hello", "wd", 0, "hello.md", "Modified · more 추가", "red"))
@@ -305,7 +340,7 @@ o.append(pop("lr", below(2), "main은 늘 최신 커밋에 붙어요"))
 o += terminal(T := [("$", "git add hello.md"), ("$", 'git commit -m "feat: 인사말 추가"'),
                ("o", f"[main {H2}] feat: 인사말 추가"), ("o", " 1 file changed, 2 insertions(+)"),
                ("$", "git log --oneline"), ("o", f"{H2} (HEAD -> main) feat: 인사말 추가"), ("o", f"{H1} feat: 인사 파일 추가")])
-write("s7-commit2", o, "커밋은 점, 점을 잇는 선은 순서예요. 위가 최신이에요. main 이름표가 새 커밋으로 옮겨 가는 걸 보여 주세요. git log --oneline이 이 그림을 글자로 보여 주는 명령이에요.", hot=['st', 'lr'], lines=T)
+write("s7-commit2", o, "커밋은 점, 점을 잇는 선은 순서예요. 위가 최신이에요. main 이름표가 새 커밋으로 옮겨 가는 걸 보여 주세요. git log --oneline이 이 그림을 글자로 보여 주는 명령이에요.", hl=[pulse(1, "lt-main")], lines=T)
 
 # ---------- GitHub 연결 ----------
 o = frame("s9-remote", f"실습 9 · {EB2}", "GitHub 주소를 origin이라는 이름으로 등록해요", zh=340)
@@ -319,23 +354,29 @@ o.append(pop("rm", ROW0 + 56, "주소에 별명 origin을 붙였어요.<br>아�
 o += terminal(T := [("$", "git remote add origin https://github.com/kim/hello-git.git"), ("#", "# 출력 없음 = 등록 성공"),
                ("$", "git remote -v"), ("o", "origin  https://github.com/kim/hello-git.git (fetch)"),
                ("o", "origin  https://github.com/kim/hello-git.git (push)")])
-write("s9-remote", o, "전화번호부에 번호를 저장한 것과 같아요. 저장만 했지 전화를 건 건 아니에요. origin은 이 주소에 붙인 별명이에요.", hot=['lr', 'rm'], lines=T)
+_y, _h = tl(0)
+H9L = [underline(1, round(tcol(17)), round(tcol(23)), round(_y + _h - 2), OR_)]
+write("s9-remote", o, "전화번호부에 번호를 저장한 것과 같아요. 저장만 했지 전화를 건 건 아니에요. origin은 이 주소에 붙인 별명이에요.", hl=H9L, lines=T)
 
 o = frame("s10-push", f"실습 10 · {EB2}", "내 커밋을 GitHub으로 보내요", zh=340)
 o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
 o += commits("lr", [(H2, False), (H1, False)], "lc")
-o += commits("rm", [(H2, False), (H1, False)], "rc")
+H10L = [travel("p10", "lr", "rm", 2)]
+_rc = "\n".join(commits("rm", [(H2, False), (H1, False)], "rc"))
+for _i, _h in enumerate((H2, H1)):
+    _rc = _rc.replace(f'<div id="rc-{_h}"', f'<div id="rc-{_h}"{PATH(1, f"p10-{_i}")}')
+o.append(_rc.replace('<div id="rc-rail"', '<div id="rc-rail" data-build-in="fade order 1" data-delay="1300"'))
 o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
-o.append(tag("lt-origin", "lr", 0, 1, "origin/main", "origin"))
-o.append(tag("rt-main", "rm", 0, 0, "main", "rmain"))
+o.append(tag("lt-origin", "lr", 0, 1, "origin/main", "origin").replace('id="lt-origin"', 'id="lt-origin" data-build-in="fade order 1" data-delay="1300"'))
+o.append(tag("rt-main", "rm", 0, 0, "main", "rmain").replace('id="rt-main"', 'id="rt-main" data-build-in="fade order 1" data-delay="1300"'))
 o.append(arrow("lr-rm", top=ROW0 + 5, color="#6B47D6"))
-o.append(pop("rm", below(2), "해시가 같으면 같은 커밋이에요", color="#4A2FA8"))
+o.append(pop("rm", below(2), "해시가 같으면 같은 커밋이에요", color="#4A2FA8").replace('data-delay="150"', 'data-delay="1300"'))
 o += terminal(T := [("$", "git push origin main"), ("o", "Enumerating objects: 6, done."),
                ("o", "Writing objects: 100% (6/6), 466 bytes | 466.00 KiB/s, done."),
                ("o", "To https://github.com/kim/hello-git.git"), ("o", " * [new branch]      main -> main"),
                ("$", "git log --oneline"), ("o", f"{H2} (HEAD -> main, origin/main) feat: 인사말 추가"),
                ("o", f"{H1} feat: 인사 파일 추가")])
-write("s10-push", o, "push 뒤에 어디로(origin), 무엇을(main) 보낼지 적어요. 우리 과정에서는 -u를 쓰지 않고 매번 git push origin main처럼 둘 다 적어요. origin/main 이름표는 내 컴퓨터가 기억하는 GitHub의 main 위치예요. 처음 push 할 때 GitHub 로그인이나 토큰 입력 창이 뜰 수 있어요.", hot=['lr', 'rm'], lines=T)
+write("s10-push", o, "push 뒤에 어디로(origin), 무엇을(main) 보낼지 적어요. 우리 과정에서는 -u를 쓰지 않고 매번 git push origin main처럼 둘 다 적어요. origin/main 이름표는 내 컴퓨터가 기억하는 GitHub의 main 위치예요. 처음 push 할 때 GitHub 로그인이나 토큰 입력 창이 뜰 수 있어요.", hl=H10L, lines=T)
 
 o = frame("s11-ahead", "실습 11 · 커밋만 하고 push 안 하면?", "status는 깨끗한데, GitHub에는 없어요", zh=340)
 o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
@@ -350,7 +391,7 @@ o += terminal(T := [("$", "git add hello.md"), ("$", 'git commit -m "feat: 끝�
                ("$", "git status"), ("o", "nothing to commit, working tree clean"),
                ("$", "git log --oneline"), ("o", f"{H3} (HEAD -> main) feat: 끝인사 추가"),
                ("o", f"{H2} (origin/main) feat: 인사말 추가"), ("o", f"{H1} feat: 인사 파일 추가")])
-write("s11-ahead", o, "-u 없이 작업하면 git status가 GitHub과 비교해 주지 않아요. 그래서 clean이라고만 나와요. 안 보낸 커밋은 git log --oneline에서 main이 origin/main보다 위에 있는지로 확인해요.", hot=['lr'], lines=T)
+write("s11-ahead", o, "-u 없이 작업하면 git status가 GitHub과 비교해 주지 않아요. 그래서 clean이라고만 나와요. 안 보낸 커밋은 git log --oneline에서 main이 origin/main보다 위에 있는지로 확인해요.", hl=[box(1, zx("lr") - 12, ROW0 - 8, round(HASH_W + 14 + TAG_W["main"] + 24), 54, RED_, width=4)], lines=T)
 
 o = frame("s12-push2", f"실습 12 · {EB2}", "한 번 더 push 해서 맞춰요", zh=340)
 o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
@@ -400,11 +441,13 @@ o += terminal(T := [("$", "git fetch origin"), ("o", "From https://github.com/ki
                ("o", f"   {H3}..{H4}  main       -> origin/main"), ("$", "git log --oneline origin/main"),
                ("o", f"{H4} (origin/main) docs: README 추가"), ("o", f"{H3} (HEAD -> main) feat: 끝인사 추가"),
                ("o", f"{H2} feat: 인사말 추가"), ("o", f"{H1} feat: 인사 파일 추가")])
-write("s14-fetch", o, "fetch는 GitHub의 새 소식을 받아 origin/main 이름표만 옮겨요. 내 main보다 앞선 커밋은 git log --oneline origin/main으로 봐요. 그냥 git log --oneline에는 내 main까지만 나와요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.", hot=['lr', 'rm'], lines=T)
+write("s14-fetch", o, "fetch는 GitHub의 새 소식을 받아 origin/main 이름표만 옮겨요. 내 main보다 앞선 커밋은 git log --oneline origin/main으로 봐요. 그냥 git log --oneline에는 내 main까지만 나와요. 점선 커밋은 받아 왔지만 아직 내 main에 합치지 않은 커밋이에요. 작업 폴더에는 README.md가 아직 없어요.", hl=[zoom(1, Z["lr"]["left"], ZTOP, Z["lr"]["w"], 360, pad=30, max_scale=2), zoom_off(2)], lines=T)
 
 o = frame("s15-pull", "실습 15 · 받아서 합치기", "받아서 내 것에 합쳐요", zh=360)
 o.append(file_card("wd-hello", "wd", 0, "hello.md", "Committed · 변경 없음", "gray"))
-o.append(file_card("wd-readme", "wd", 1, "README.md", "pull로 생김", "new"))
+o.append(file_card("wd-readme", "wd", 1, "README.md", "pull로 생김", "new").replace('<div id="wd-readme"', f'<div id="wd-readme"{PATH(1, "p15")}', 1))
+_cx, _cy = zx("wd") + (Z["wd"]["w"] - 2 * IN) / 2, CARD_TOP + CARD_H + CARD_GAP + CARD_H / 2
+o.append(f'<svg viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none"><path id="p15" d="M{zx("lr") + HASH_W / 2:.0f},{ROW0 + 19} Q{(zx("lr") + _cx) / 2:.0f},{ROW0 - 120} {_cx:.0f},{_cy:.0f}" fill="none" stroke="none"/></svg>')
 o += commits("lr", [(H4, False), (H3, False), (H2, False), (H1, False)], "lc")
 o += commits("rm", [(H4, False), (H3, False), (H2, False), (H1, False)], "rc")
 o.append(tag("lt-main", "lr", 0, 0, "main", "main"))
@@ -418,7 +461,7 @@ o += terminal(T := [("$", "git pull origin main"), ("o", "From https://github.co
                ("o", " * branch            main       -> FETCH_HEAD"), ("o", f"Updating {H3}..{H4}"),
                ("o", "Fast-forward"), ("o", " README.md | 1 +"), ("o", " 1 file changed, 1 insertion(+)"),
                ("o", " create mode 100644 README.md")])
-write("s15-pull", o, "pull은 fetch(받기)와 merge(합치기)를 한 번에 해요. main 이름표가 origin/main 위치로 따라 올라가고, 그 커밋의 파일이 작업 폴더에 나타나요. 습관: 작업 시작 전에 git pull origin main.", hot=['wd', 'lr'], lines=T)
+write("s15-pull", o, "pull은 fetch(받기)와 merge(합치기)를 한 번에 해요. main 이름표가 origin/main 위치로 따라 올라가고, 그 커밋의 파일이 작업 폴더에 나타나요. 습관: 작업 시작 전에 git pull origin main.", hl=[], lines=T)
 
 # ---------- 되돌리기 ----------
 H5, H6 = "b81d4e2", "c4e9a07"
@@ -595,7 +638,7 @@ def W(name, parts, notes):
 # ---------- 1. cover ----------
 c = [sec("cover", bg="#1D2330")]
 c.append(p("position:absolute;left:120px;top:176px;width:1680px;font-size:30px;font-weight:700;color:#8FB4FF", "KANT AX/AI 엔지니어 트랙 · 보충 학습 자료"))
-c.append(f'<h1 style="position:absolute;left:120px;top:236px;width:1680px;font-size:128px;font-weight:900;line-height:1.12;color:#FFFFFF">Git 기본 흐름,<br>눈으로 보기</h1>')
+c.append(f'<h1 style="position:absolute;left:120px;top:236px;width:1680px;font-size:128px;font-weight:900;line-height:1.12;color:#FFFFFF">Git 기본 흐름,<br><span{SLAM(1)} style="display:inline-block">눈으로 보기</span></h1>')
 c.append(p("position:absolute;left:120px;top:548px;width:1680px;font-size:42px;line-height:1.5;color:#C9D1DE", "add, commit, push, pull 할 때<br>내 파일은 어디로 갈까요?"))
 c.append('<div style="position:absolute;left:120px;top:800px;width:1680px;display:flex;flex-direction:row;align-items:center;gap:22px">')
 for i, (k, t, ic) in enumerate([("wd", "작업 폴더", "Code"), ("st", "대기실", "CheckCircle"), ("lr", "내 저장소", "Database"), ("rm", "원격 저장소 (GitHub)", "Cloud")]):
@@ -614,6 +657,7 @@ TOC = [("1", "#3A4150", "Lightbulb", "개념 잡기", "4개의 공간<br>파일 
        ("6", RED, "Wrench", "막힐 때", "status 읽기<br>자주 나는 에러", "36–43쪽")]
 t = [sec("toc")] + head("", "오늘의 순서")
 t.append(f'<div style="position:absolute;left:96px;top:196px;width:1728px;height:2px;background:{INK}"></div>')
+t.append(f'<div{STAGGER(1, 90)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, (n, col, ic, ttl, sub, pg) in enumerate(TOC):
     y = 198 + i * 118
     t.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:118px;border-bottom:2px solid {LINE};display:flex;flex-direction:row;align-items:center;gap:32px;padding:0 8px">'
@@ -621,6 +665,7 @@ for i, (n, col, ic, ttl, sub, pg) in enumerate(TOC):
              + p(f"width:400px;font-size:40px;font-weight:700;color:{INK}", ttl)
              + p(f"flex:1;font-size:32px;color:{SUB}", sub.replace("<br>", ", "))
              + p(f"font-size:30px;font-weight:700;color:{col}", pg) + '</div>')
+t.append('</div>')
 t.append(p(f"position:absolute;left:96px;top:944px;width:1728px;font-size:32px;color:{SUB}", "44쪽은 한 장 요약이에요. 2부부터 4부까지는 hello-git 저장소 하나로 이어서 실습해요."))
 W("toc", t, "왼쪽에서 오른쪽으로 진행해요. 2~4부는 같은 hello-git 저장소 하나로 이어지는 실습이에요.")
 
@@ -671,12 +716,14 @@ AN = [("add", GR, "CheckCircle", "상자에 담기"), ("commit", BL, "Lock", "�
       ("push", PUR, "PaperPlane", "발송"), ("pull", PUR, "Home", "도착한 택배<br>받아서 풀기")]
 AW = 1728 // 5
 an.append(f'<div style="position:absolute;left:{96 + AW // 2}px;top:388px;width:{AW * 4}px;height:4px;background:#C9CCD3"></div>')
+an.append(f'<div{STAGGER(1, 160)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, (cmd, col, ic, desc) in enumerate(AN):
     x = 96 + i * AW
-    an.append(f'<div{bi("rise", i + 1)} style="position:absolute;left:{x}px;top:290px;width:{AW}px;display:flex;flex-direction:column;align-items:center;gap:30px">'
+    an.append(f'<div style="position:absolute;left:{x}px;top:290px;width:{AW}px;display:flex;flex-direction:column;align-items:center;gap:30px">'
               + f'<div style="width:200px;height:200px;border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center">' + icon(ic, 88, col) + '</div>'
               + mono(cmd, 40, col) + p(f"font-size:34px;line-height:1.45;text-align:center;color:{INK}", desc) + '</div>')
-an.append(f'<div{bi("fade", 6)} style="position:absolute;left:96px;top:800px;width:1728px;height:140px;background:#FFFFFF;border-radius:22px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:120px">'
+an.append('</div>')
+an.append(f'<div{bi("rise", 2)} style="position:absolute;left:96px;top:800px;width:1728px;height:140px;background:#FFFFFF;border-radius:22px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:120px">'
           + "".join(p(f"font-size:38px;font-weight:700;color:{INK}", f'<span style="color:{BL}">{a}</span> = {b}') for a, b in [("커밋 메시지", "송장"), ("커밋 해시", "운송장 번호")]) + '</div>')
 W("analogy", an, "담기(add)와 봉하기(commit)를 나누는 이유는, 여러 파일을 고쳤어도 이번 기록에 넣을 것만 골라 담을 수 있게 하려는 거예요. 송장에 무엇을 보냈는지 적듯 커밋 메시지에 무엇을 했는지 적고, 운송장 번호로 택배를 찾듯 커밋 해시로 커밋을 찾아요.")
 
@@ -732,6 +779,7 @@ CFL = [("$", 'git config --global user.name "홍길동"'), ("$", 'git config --g
        ("$", "git config --global init.defaultBranch main"), ("o", ""), ("$", "git config --global --list"),
        ("o", "user.name=홍길동"), ("o", "user.email=gildong@example.com"), ("o", "init.defaultbranch=main")]
 cf += term(CFL, 96, 236, 1728, 660, size=32, lh=70, build=None, pad=(40, 44))
+cf += [lspot(i + 1, 96, 236, 1728, 660, 236 + 40 + i * 70, 70, bg="#1B2029", bar="#F2C46D") for i in range(3)] + [lspot_off(4)]
 for i, lbl in enumerate(["커밋마다 붙는 작성자 이름", "GitHub 가입 메일과 같게", "기본 브랜치 이름을 main으로"]):
     y = 236 + 40 + i * 70 + 4
     cf.append(p(f"position:absolute;left:1236px;top:{y + 6}px;width:560px;height:50px;line-height:50px;font-size:28px;font-weight:700;color:#C9D1DE", "← " + lbl, bi("fade", i + 1)))
@@ -777,11 +825,13 @@ for x0, x1, lbl, col, lx in [(CX, CX + 4 * CH, "타입", GR, CX), (CX + 4 * CH, 
     cc.append(p(f"position:absolute;left:{round(lx)}px;top:{470 if lbl == '콜론과 공백' else 424}px;width:300px;font-size:30px;font-weight:700;color:{col}", lbl, bi("fade", 1)))
 TY = [("feat", GR, "새 기능"), ("fix", RED, "버그 수정"), ("docs", BL, "문서 (README 등)"), ("style", PUR, "모양만 정리"),
       ("refactor", OR, "동작은 같게, 구조 개선"), ("test", "#3A4150", "테스트 코드"), ("chore", "#6A7180", "설정, 패키지")]
+cc.append(f'<div{STAGGER(2, 80)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, (ty, col, desc) in enumerate(TY):
     x, y = 96 + (i // 4) * 888, 560 + (i % 4) * 104
-    cc.append(f'<div{bi("rise", 2)} style="position:absolute;left:{x}px;top:{y}px;width:840px;height:104px;border-bottom:2px solid #D9D6CD;display:flex;flex-direction:row;align-items:center;gap:24px">'
+    cc.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:840px;height:104px;border-bottom:2px solid #D9D6CD;display:flex;flex-direction:row;align-items:center;gap:24px">'
               + mono(ty, 38, col, extra=";width:220px") + p(f"font-size:32px;color:{INK}", desc) + '</div>')
-cc.append(p(f"position:absolute;left:984px;top:{560 + 3 * 104}px;width:840px;height:104px;line-height:104px;font-size:34px;font-weight:700;color:{INK}", "한 커밋에 한 가지 일, 요약은 짧게", bi("rise", 2)))
+cc.append(p(f"position:absolute;left:984px;top:{560 + 3 * 104}px;width:840px;height:104px;line-height:104px;font-size:34px;font-weight:700;color:{INK}", "한 커밋에 한 가지 일, 요약은 짧게"))
+cc.append('</div>')
 W("commit-convention", cc, "Conventional Commits라는 널리 쓰는 규칙을 바탕으로 했어요. 요약은 50자 안쪽으로, 무엇을 했는지 끝까지 읽지 않아도 알 수 있게 써요. 팀이나 회사에 정한 규칙이 있으면 그걸 먼저 따라요. 앞에서 쓴 feat: 인사 파일 추가, feat: 인사말 추가가 바로 이 형식이에요. 다음 GitHub 실습부터는 docs: 도 나와요.")
 
 # ---------- 19. s8-github ----------
@@ -961,13 +1011,15 @@ W("status-table", stt, "우리 과정은 -u를 쓰지 않아서 git status가 Gi
 el = [sec("err-lock", bg=BG2)] + head("에러 1 · index.lock", "index.lock은 Git의 ‘사용 중’ 팻말이에요", RED)
 EW = 500
 el.append(f'<div style="position:absolute;left:96px;top:236px;width:1728px;height:420px;background:#E9F6EE;border-radius:22px"></div>')
+el.append(f'<div{STAGGER(1, 220)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, (ic, t1, t2) in enumerate([("Lock", "명령 시작", "팻말 걸기"), ("Clock", "작업 중", "다른 명령은 기다려요"), ("CheckCircle", "명령 끝", "팻말 떼기")]):
     x = 96 + i * (EW + 114)
-    el.append(f'<div{bi("rise", i + 1)} style="position:absolute;left:{x}px;top:236px;width:{EW}px;height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px">'
+    el.append(f'<div style="position:absolute;left:{x}px;top:236px;width:{EW}px;height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px">'
               + icon(ic, 96, "#1A7340") + p("font-size:40px;font-weight:700;color:#1A7340", t1) + p(f"font-size:30px;color:{SUB}", t2) + '</div>')
     if i:
-        el.append(arrow_svg(x - 98, 446, x - 18, 446, "#1A7340", order=i + 1))
-el.append(f'<div{bi("rise", 4)} style="position:absolute;left:96px;top:712px;width:1728px;display:flex;flex-direction:column;gap:18px">'
+        el.append(arrow_svg(x - 98, 446, x - 18, 446, "#1A7340"))
+el.append('</div>')
+el.append(f'<div{bi("rise", 2)} style="position:absolute;left:96px;top:712px;width:1728px;display:flex;flex-direction:column;gap:18px">'
           + '<div style="display:flex;flex-direction:row;gap:20px;align-items:center">' + icon("Warning", 56, RED) + p(f"font-size:42px;font-weight:700;color:{RED}", "끝나기 전에 멈추면 팻말이 남아요") + '</div>'
           + "".join(p(f"font-size:34px;line-height:1.5;color:{INK};padding-left:76px", c_) for c_ in ["터미널 창을 강제로 닫았을 때", "커밋 메시지 에디터를 닫지 않았을 때", "VS Code가 같은 저장소에서 git을 실행 중일 때"]) + '</div>')
 W("err-lock", el, "index는 대기실의 정식 이름이에요. add, commit, pull처럼 대기실을 고치는 명령이 일하는 동안 다른 명령이 끼어들지 못하게 Git이 스스로 잠가 둬요. 정상이라면 명령이 끝날 때 저절로 사라지고, 비정상 종료됐을 때만 남아서 에러를 내요.")
@@ -988,9 +1040,9 @@ for i, (n, t1, t2, cmd) in enumerate(FX):
     inner = (p(f"font-size:60px;font-weight:900;line-height:1;color:{BL}", n) + p(f"font-size:36px;font-weight:700;line-height:1.35;color:{INK}", t1)
              + (p(f"font-size:30px;line-height:1.45;color:{SUB}", t2) if t2 else "")
              + (p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{INK};background:#FFFFFF;padding:18px 22px;border-radius:12px", cmd) if cmd else ""))
-    ef.append(f'<div{bi("rise", 2)} style="position:absolute;left:{x}px;top:512px;width:{FW}px;display:flex;flex-direction:column;gap:20px">{inner}</div>')
-ef.append(p(f"position:absolute;left:{96 + FW + 48}px;top:756px;width:{FW}px;font-size:28px;color:{SUB}", "Mac 터미널, Windows Git Bash 똑같아요", bi("rise", 2)))
-ef.append(p(f"position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;color:{RED}", "지우는 건 index.lock 하나뿐이에요. index나 .git 폴더는 지우지 않아요.", bi("fade", 2)))
+    ef.append(f'<div{bi("rise", i + 2)}{DIM("fx")} style="position:absolute;left:{x}px;top:512px;width:{FW}px;display:flex;flex-direction:column;gap:20px">{inner}</div>')
+ef.append(p(f"position:absolute;left:{96 + FW + 48}px;top:756px;width:{FW}px;font-size:28px;color:{SUB}", "Mac 터미널, Windows Git Bash 똑같아요", bi("rise", 3) + DELAY(150)))
+ef.append(p(f"position:absolute;left:96px;top:900px;width:1728px;font-size:34px;font-weight:700;color:{RED}", "지우는 건 index.lock 하나뿐이에요. index나 .git 폴더는 지우지 않아요.", bi("fade", 3) + DELAY(300)))
 W("err-lock-fix", ef, "1번은 열려 있는 커밋 에디터, 다른 터미널 창, VS Code의 Git 작업을 확인하는 단계예요. 이걸 건너뛰고 지우면 실제로 돌던 작업과 부딪힐 수 있어요. 명령은 .git 폴더가 있는 저장소 맨 위에서 쳐요. 우리 과정은 Windows에서도 Git Bash를 쓰니 rm 명령이 똑같이 돼요. 메시지 원문 뒷부분은 \"다른 git이 실행 중인 것 같다, 예전에 비정상 종료됐다면 파일을 직접 지워라\"라는 뜻이에요.")
 
 # ---------- 39. err-nothing ----------
@@ -1014,13 +1066,14 @@ er = [sec("err-remote", bg=BG2)] + head("에러 3 · origin 설정", "origin이 
 for i, (x, ic, ttl, err, why, fixes) in enumerate([
         (96, "Link", "두 번 등록했어요", "error: remote origin already exists.", "remote add를 두 번 쳤거나<br>clone한 폴더에서 또 등록했어요", ["git remote -v", "git remote set-url origin 새주소"]),
         (984, "Search", "등록하지 않았어요", "fatal: 'origin' does not appear<br>to be a git repository", "init으로 시작하고<br>remote add를 빠뜨렸어요", ["git remote add origin 주소", "git push origin main"])]):
-    er.append(f'<div style="position:absolute;left:{x}px;top:236px;width:840px;height:720px;background:{CARD};border-radius:22px;padding:40px 44px;display:flex;flex-direction:column;gap:24px">'
+    er.append(f'<div id="er-c{i}" style="position:absolute;left:{x}px;top:236px;width:840px;height:720px;background:{CARD};border-radius:22px;padding:40px 44px;display:flex;flex-direction:column;gap:24px">'
               + '<div style="display:flex;flex-direction:row;gap:16px;align-items:center">' + icon(ic, 44, RED) + p(f"font-size:38px;font-weight:700;color:{INK}", ttl) + '</div>'
               + p(f"font-family:{MONO};font-size:27px;line-height:1.5;color:#F28B82;background:#1B2029;padding:24px 28px;border-radius:14px;height:136px", err)
               + p(f"font-size:30px;line-height:1.5;color:{SUB}", why)
               + '<div style="flex:1"></div>'
               + f'<div{bi("rise", i + 1)} style="display:flex;flex-direction:column;gap:14px">' + p(f"font-size:28px;font-weight:700;color:{GR}", "이렇게 고쳐요")
               + "".join(p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{INK};background:#EEEFF2;padding:16px 24px;border-radius:12px", e(f_)) for f_ in fixes) + '</div></div>')
+er += [blur(1, "er-c0"), blur(2, "er-c1"), blur_off(3)]
 W("err-remote", er, "어느 쪽이든 git remote -v로 지금 등록된 주소를 먼저 확인하세요. 주소를 잘못 넣었으면 set-url로 고쳐요.")
 
 # ---------- 41. err-upstream ----------
@@ -1046,7 +1099,8 @@ ej = [sec("err-rejected", bg=BG2)] + head("에러 5 · push 거절", "push 했�
 EJL = [("$", "git push origin main"), ("r", " ! [rejected]        main -> main (fetch first)"),
        ("r", "error: failed to push some refs to 'https://github.com/kim/hello-git.git'"),
        ("h", "hint: Updates were rejected because the remote contains work that you do not"), ("h", "hint: have locally. ...")]
-ej += term(EJL, 96, 236, 1728, 300, size=27, lh=46, pad=(32, 40))
+ej += term(EJL, 96, 236, 1728, 300, size=27, lh=46, pad=(32, 40), tid="ej-term")
+ej.append(shake(1, "ej-term"))
 _i = EJL[1][1].index("(fetch")
 ej.append(box(1, round(96 + 40 + _i * 16.2) - 8, 236 + 32 + 46 + 2, round(13 * 16.2) + 16, 42, RED, width=4))
 ej.append(f'<div{bi("rise", 2)} style="position:absolute;left:96px;top:576px;width:1180px;height:372px;background:#FFFFFF;border-radius:22px"></div>')
@@ -1094,11 +1148,13 @@ CSC = [("새로 시작", "#1E3F8F", "#5B8DEF", "#FFFFFF", ["git init", "add → 
        ("GitHub에서 받기", PUR, "#9A7BF0", "#FFFFFF", ["git clone 주소", "cd 폴더이름"]),
        ("매일 반복", "#FFFFFF", "#1D2330", "#1D2330", ["git pull origin main", "(작업)", "git status", "git add 파일", 'git commit -m "..."', "git push origin main"]),
        ("되돌리기", RED, "#E07A7A", "#FFFFFF", ["git reset HEAD~1", "git revert 커밋", "git reflog"])]
+cs.append(f'<div{STAGGER(1, 120)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for x, (ttl, col, bd, bg, cmds) in zip(ZX, CSC):
     dark = bg == "#1D2330"
     cs.append(f'<div style="position:absolute;left:{x}px;top:500px;width:{ZW}px;height:430px;background:{bg};border-radius:20px;padding:30px 30px;display:flex;flex-direction:column;gap:10px">'
               + p(f"font-size:32px;font-weight:700;color:{col};margin-bottom:8px", ttl)
               + "".join(p(f"font-family:{MONO};font-size:27px;line-height:1.5;white-space:nowrap;color:{'#F2C46D' if dark else INK}", c_) for c_ in cmds) + '</div>')
+cs.append('</div>')
 W("cheatsheet", cs, "수업 끝에 이 장을 띄워 두고, 지금 내 파일이 몇 번 칸에 있는지 학생이 직접 말해 보게 하세요. 막히면 git status, GitHub과 비교할 땐 fetch 후 git log --oneline. 이 두 가지만 기억해도 대부분 풀려요.")
 
 print("ok")
