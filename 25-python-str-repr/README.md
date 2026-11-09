@@ -267,6 +267,8 @@ node ../tools/export.js slides python-str-repr-slides.pdf
 
 눌러 보기 장은 장 안의 `<script type="text/slide-js">`를 `build_player.js`가 실행해서 움직여요. 그래서 버튼은 배포용 HTML에서만 눌러지고, PDF에는 처음 화면이 들어가요. 눌러 보기에 나오는 출력도 `tools/run_nb.py`로 실제로 실행한 결과예요.
 
+장 디자인은 `tools/DESIGN.md`(Stageshow 원칙)와 `tools/HIGHLIGHT.md`를 따라요. 장마다 노트북 셀 하나를 크게 두고, 설명은 셀 옆 "← 짧은 글"로 달아요. 긴 설명은 발표자 노트에 둬요. 오류 장은 틀린 줄에 줄을 긋고 고친 줄을 옆에 둬요. 14쪽 눌러 보기의 출력은 글자를 하나씩 찍지 않고 한 줄이 한 번에 나타나요.
+
 범위: `__str__`, `__repr__`, `repr()`, 메서드로 상태 바꾸기를 처음 다뤄요. `__len__`, `__add__`는 16쪽에서 읽기만 보여 줘요. 그 밖의 매직 메서드, `__eq__`, `!r` 포맷, `@property`는 다루지 않아요.
 
 </details>
