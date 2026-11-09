@@ -7,14 +7,16 @@ Every cell and output comes from tools/demo.sh (tools/run_nb.py runs the cells w
 
 Layout rules (Stageshow, 2026-11-08 redo): one focal object per slide, labels drawn on the code or the picture
 instead of side cards, say it once, no empty bands, values move (fly) instead of being swapped.
-Highlights come from tools/highlight.py (see tools/HIGHLIGHT.md). No typing animation.
+Highlights come from tools/highlight.py (see tools/HIGHLIGHT.md), a different one where each slide needs it:
+SLAM and shine on the cover, STAGGER for lists, DELAY labels, DIM for read-out tags, line spotlight, COUNT, MARK,
+shake for the one failing line, one zoom on the receipt. No typing animation.
 Usage: python3 tools/gen.py slides
 """
 
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, ring, box, underline
+from highlight import spot, spot_off, ring, box, underline, lspot, lspot_off, zoom, zoom_off, shake, shine, keys, WIPE, SLAM, STAGGER, COUNT, MARK, DIM, DELAY
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -134,12 +136,12 @@ def cell(c, left, top, w, sel=False, fs=None, attrs=""):
     return o
 
 
-def tag(x, y, text, color, order=None, size=28, lead=True, anim="rise", mono=False, w=None):
+def tag(x, y, text, color, order=None, size=28, lead=True, anim="rise", mono=False, w=None, extra=""):
     """A label beside a code line or a picture: '← text', centred on y. No box."""
     ws = f"width:{w}px;white-space:normal;" if w else "white-space:nowrap;"
     fam = f"font-family:{MONO};" if mono else ""
     return p(f"position:absolute;left:{x:.0f}px;top:{y - size * 0.725:.0f}px;{ws}{fam}font-size:{size}px;font-weight:700;line-height:1.45;color:{color}",
-             ("← " if lead else "") + text, bi(anim, order))
+             ("← " if lead else "") + text, bi(anim, order) + extra)
 
 
 def tick(x1, y1, x2, y2, color, order=None, width=3, dot=True):
@@ -235,12 +237,12 @@ def hair(x, y, w, color=LINE, order=None, h=2):
     return f'<div{bi("fade", order)} style="position:absolute;left:{x}px;top:{y}px;width:{w}px;height:{h}px;background:{color}"></div>'
 
 
-def fix(x, y, bad, good, order, size=30, note=None, gap=26):
+def fix(x, y, bad, good, order, size=30, note=None, gap=26, good_html=None):
     """The wrong code struck through, an arrow, the right code (no card)."""
     return (f'<div{bi("rise", order)} style="position:absolute;left:{x}px;top:{y}px;display:flex;flex-direction:row;align-items:center;gap:{gap}px">'
             + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{RED};text-decoration:line-through;text-decoration-thickness:3px;white-space:pre", e(bad))
             + f'<x-shape kind="arrow-right" style="width:52px;height:30px;flex:none;background:#B4B9C3"></x-shape>'
-            + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{INK};background:#E6F4EC;border:3px solid {GR};border-radius:14px;padding:4px 18px;white-space:pre", e(good))
+            + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{INK};background:#E6F4EC;border:3px solid {GR};border-radius:14px;padding:4px 18px;white-space:pre", good_html or e(good))
             + (p(f"font-size:26px;font-weight:700;color:{SUB};white-space:nowrap", e(note)) if note else "") + '</div>')
 
 
@@ -253,16 +255,17 @@ NB = "basics.ipynb"
 # =====================================================================
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       '<h1 style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초 4<br>딕셔너리</h1>',
+       '<h1 style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초 4<br><span' + SLAM(1) + ' style="display:inline-block">딕셔너리</span></h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">번호 대신 키로<br>값을 찾고 바꾸기</p>']
 cov.append(p(f"position:absolute;left:1010px;top:300px;font-family:{MONO};font-size:44px;font-weight:700;color:#9DBDEB;white-space:pre", e('menu["latte"]')))
 cov.append(p(f"position:absolute;left:1500px;top:300px;font-family:{MONO};font-size:44px;font-weight:700;color:#E6E9EF;white-space:pre", "→ 5000"))
 for i, (k, v) in enumerate(M0):
     on = i == 1
-    cov.append(f'<div style="position:absolute;left:{1010 + i * 280}px;top:420px;width:260px;height:300px;border-radius:18px;border:3px solid {"#9DBDEB" if on else "#4A5262"};background:{"#26344D" if on else "#252B36"};display:flex;flex-direction:column;overflow:hidden">'
+    cov.append(f'<div id="cv-l{i}" style="position:absolute;left:{1010 + i * 280}px;top:420px;width:260px;height:300px;border-radius:18px;border:3px solid {"#9DBDEB" if on else "#4A5262"};background:{"#26344D" if on else "#252B36"};display:flex;flex-direction:column;overflow:hidden">'
                + p(f"height:66px;flex:none;background:{'#9DBDEB' if on else '#3A4150'};color:{INK if on else '#BFC6D4'};font-family:{MONO};font-size:28px;font-weight:700;line-height:66px;text-align:center", e(k))
                + '<div style="flex:1;display:flex;align-items:center;justify-content:center">' + p(f"font-family:{MONO};font-size:52px;font-weight:700;color:{'#FFFFFF' if on else '#8A93A3'}", v) + '</div></div>')
 cov.append(tick(1420, 372, 1420, 412, "#9DBDEB", dot=False))
+cov.append(shine(2, "cv-l1"))
 W("cover", cov, "이번 챕터는 번호 대신 이름(키)으로 값을 찾는 딕셔너리예요. 13에서 리스트와 튜플에 주문을 담고, 14에서 in과 2차원 리스트를 봤어요. 1파트는 만들고 꺼내기, 2파트는 바꾸고 지우기, 3파트는 for로 둘러보기예요. 4파트는 리스트와 섞고, 5파트는 리스트·튜플과 비교한 뒤 카페 예제 세 개로 마무리해요. 모든 예제는 12~14에서 쓰던 노트북 셀에 이어서 적고 실행해요.", ("intro", "들어가기"))
 
 ORDER.append("toc")   # written last, after page numbers are known
@@ -290,6 +293,7 @@ for i, (tid, text) in enumerate(steps, 1):
              + p(f"width:56px;height:56px;flex:none;border-radius:50%;background:{JP};color:#FFFFFF;font-size:30px;font-weight:900;line-height:56px;text-align:center", str(i))
              + p(f"font-size:32px;font-weight:700;color:{INK};white-space:nowrap", e(text)) + '</div>')
     o.append(f'<div data-build-in="click order {i}" data-target="{tid}" style="position:absolute;left:0;top:0;width:2px;height:2px"></div>')
+o.append(keys(4, 1380, 380, "Shift+Enter"))
 o.append(f'<div data-build-in="cursor-off order 5" style="position:absolute;left:0;top:0;width:1px;height:1px"></div>')
 o.append(hair(96, 840, 1728))
 o.append(p(f"position:absolute;left:96px;top:868px;width:1728px;font-size:28px;line-height:1.6;color:{SUB}",
@@ -329,8 +333,8 @@ for i, l in enumerate(code_big):
 for i in range(3):
     y = 230 + 44 + 54 + 26 + i * 110 + 42
     o.append(arrow(760, y, 1080, 300 + (i + 1) * 96 + 34, "#9AA1AE", 1))
-o.append(p(f"position:absolute;left:1130px;top:736px;width:200px;text-align:center;font-size:30px;font-weight:700;color:{K1}", "메뉴 이름이 키", bi("rise", 2)))
-o.append(p(f"position:absolute;left:1372px;top:736px;width:160px;text-align:center;font-size:30px;font-weight:700;color:{K1}", "가격이 값", bi("rise", 2)))
+o.append(p(f"position:absolute;left:1130px;top:736px;width:200px;text-align:center;font-size:30px;font-weight:700;color:{K1}", "메뉴 이름이 키", bi("rise", 2) + DELAY(150)))
+o.append(p(f"position:absolute;left:1372px;top:736px;width:160px;text-align:center;font-size:30px;font-weight:700;color:{K1}", "가격이 값", bi("rise", 2) + DELAY(300)))
 o.append(underline(2, 1120, 1340, 662, K1, 4))
 o.append(underline(2, 1396, 1508, 662, K1, 4))
 o.append(tick(1230, 730, 1230, 676, K1, 2, dot=False))
@@ -384,7 +388,7 @@ GT = 220
 o += cell(cg, 96, GT, 900, sel=True)
 gtags = [("latte가 있으니 그 값", K1), ("tea가 없으면 None, 값이 없다는 뜻이에요", K1), ("없을 때 줄 값을 정해 둘 수 있어요", K1)]
 for j, (t, c) in enumerate(gtags):
-    o.append(tag(lx(96, "None") + 50, oy(cg, GT, j), t, c, j + 1, 28))
+    o.append(tag(lx(96, "None") + 50, oy(cg, GT, j), t, c, j + 1, 28, extra=DIM("g")))
 o.append(hair(96, 640, 1728))
 o.append(p(f"position:absolute;left:96px;top:676px;font-size:28px;font-weight:700;color:{SUB}", "없는 키를 물었을 때", bi("fade", 4)))
 o.append(at(96, 740, mono('menu["tea"]', 34, RED), bi("rise", 4)))
@@ -508,6 +512,8 @@ o += cell(cv, 96, VT, 1728, sel=True)
 vtags = [(0, "키만"), (1, "값만"), (2, "(키, 값) 튜플"), (3, "보통 리스트")]
 for j, t in vtags:
     o.append(tag(lx(96, cv["out"][j]) + 36, oy(cv, VT, j), t, K3, j + 1, 28))
+    o.append(lspot(j + 1, 96 + 87, VT, 1728 - 87, len(cv["lines"]) * LH() + 20, ly(VT, j + 1) - LH() / 2, LH()))
+o.append(lspot_off(5))
 GY = 760
 for g, (lbl, md) in enumerate([("keys()", "key"), ("values()", "val"), ("items()", None)]):
     gx = 96 + g * 590
@@ -556,7 +562,7 @@ W("d-for", o, "for 뒤에 변수를 두 개 적고 items()를 넣으면 키와 �
 
 o = [sec("d-calc")] + head(EB3, "values()에도 sum, max, in을 써요", K3)
 cc = {"id": "c-c", "lines": ["print(sum(menu.values()))", "print(max(menu.values()))", "print(5000 in menu.values())", "print(sorted(menu))"], "n": 6,
-      "out": ["16000", "6500", "True", "['cake', 'coffee', 'latte']"]}
+      "out": ["16000", "6500", "True", "['cake', 'coffee', 'latte']"], "oattrs": {0: COUNT(1)}}
 CT2 = 210
 o += cell(cc, 96, CT2, 720, sel=True)
 ctags = [(0, "값을 모두 더해요"), (1, "가장 큰 값"), (2, "값 쪽에서 찾아요"), (3, "키만 abc 순으로 정렬해요")]
@@ -583,7 +589,9 @@ o.append(tag(lx(96, "{'name': 'kim'}") + 40, oy(cu1, 200, 3), "settings는 그�
 o += cell(cu2, 960, 200, 864, sel=True, attrs=bi("rise", 2))
 o.append(tag(lx(960, "coffee 2 9000") + 40, oy(cu2, 200, 1), "메뉴판에 없으면 0원", K3, 2, 26))
 o.append(hair(96, 760, 1728))
-o.append(fix(96, 800, "price = menu[name]", "price = menu.get(name, 0)", 3, 32, "tea에서 KeyError로 멈추지 않아요"))
+HIT = f"background:#FBE7B5;border-radius:6px;color:{OR}"
+o.append(fix(96, 800, "price = menu[name]", "price = menu.get(name, 0)", 3, 32, "tea에서 KeyError로 멈추지 않아요",
+             good_html=f'price = menu<span{MARK(4)} style="{HIT}">.get(</span>name<span{MARK(4)} style="{HIT}">, 0)</span>'))
 W("d-getuse", o, "get은 키가 없을 수도 있는 곳에 써요. 첫째는 설정값이에요. 사용자가 이름만 적고 언어와 테마는 적지 않았으면, get의 두 번째 값으로 정해 둔 기본값을 써요. get은 꺼내기만 해서 settings는 바뀌지 않아요. 둘째는 장바구니예요. 메뉴판에 없는 tea가 들어와도 menu.get(name, 0)은 0을 줘서 for가 끝까지 돌아요. menu[name]으로 꺼냈다면 tea에서 KeyError가 나고 셀이 멈춰요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("d-count")] + head(EB3, "get으로 개수를 세요", K3)
@@ -596,20 +604,22 @@ for t, dx in hd:
     o.append(p(f"position:absolute;left:{TX0 + dx}px;top:206px;font-family:{MONO if t != '넣는 값' else SANS};font-size:22px;font-weight:700;color:{GRAY}", e(t)))
 o.append(hair(TX0, 246, 574, INK))
 steps_ = [("coffee", 0), ("latte", 0), ("coffee", 1), ("cake", 0), ("coffee", 2), ("latte", 1)]
+o.append(f'<div{STAGGER(1, 140)} style="position:absolute;left:{TX0}px;top:256px;width:574px;height:{58 * 6}px">')
 for i, (w_, g) in enumerate(steps_):
     y = 256 + i * 58
-    o.append(f'<div{bi("rise", i // 2 + 1)} style="position:absolute;left:{TX0}px;top:{y}px;width:574px;height:58px;border-bottom:2px solid {LINE};display:flex;flex-direction:row;align-items:center">'
+    o.append(f'<div style="position:absolute;left:0;top:{y - 256}px;width:574px;height:58px;border-bottom:2px solid {LINE};display:flex;flex-direction:row;align-items:center">'
              + p(f"width:170px;flex:none;font-family:{MONO};font-size:24px;font-weight:700;color:{INK}", e(f'"{w_}"'))
              + p(f"width:250px;flex:none;font-family:{MONO};font-size:24px;font-weight:700;color:{GRAY if g == 0 else INK}", str(g))
              + p(f"flex:1;font-family:{MONO};font-size:24px;font-weight:700;color:{K3}", f"{g} + 1 = {g + 1}") + '</div>')
-o += row_of("cq", [('"coffee"', "3"), ('"latte"', "2"), ('"cake"', "1")], TX0, 660, 182, 170, 14, K3, K3BG, attrs=bi("rise", 4), fs=48, kfs=24)
-o.append(name_label("count", TX0, 612, K3, 4))
+o.append('</div>')
+o += row_of("cq", [('"coffee"', "3"), ('"latte"', "2"), ('"cake"', "1")], TX0, 660, 182, 170, 14, K3, K3BG, attrs=bi("rise", 2), fs=48, kfs=24)
+o.append(name_label("count", TX0, 612, K3, 2))
 cq2 = {"id": "c-q2", "lines": ["votes = {}", 'votes["coffee"] = votes["coffee"] + 1'], "n": 10, "out": ["KeyError: 'coffee'"], "err": True}
 Q2 = 640
-o += cell(cq2, 96, Q2, 1100, attrs=bi("rise", 5))
-o.append(tag(lx(96, "KeyError: 'coffee'") + 40, oy(cq2, Q2, 0), "처음엔 아무 키도 없어요", RED, 5, 26))
-o.append(p(f"position:absolute;left:96px;top:860px;font-size:22px;font-weight:700;color:{GRAY}", "참고, 읽기만 · get이 줄인 원래 코드 (if는 17에서)", bi("fade", 6)))
-o.append(at(96, 898, mono("count[w] = (count[w] if w in count else 0) + 1", 26, "#8A93A3"), bi("rise", 6)))
+o += cell(cq2, 96, Q2, 1100, attrs=bi("rise", 3))
+o.append(tag(lx(96, "KeyError: 'coffee'") + 40, oy(cq2, Q2, 0), "처음엔 아무 키도 없어요", RED, 3, 26))
+o.append(p(f"position:absolute;left:96px;top:860px;font-size:22px;font-weight:700;color:{GRAY}", "참고, 읽기만 · get이 줄인 원래 코드 (if는 17에서)", bi("fade", 4)))
+o.append(at(96, 898, mono("count[w] = (count[w] if w in count else 0) + 1", 26, "#8A93A3"), bi("rise", 4)))
 W("d-count", o, "count[w] = count.get(w, 0) + 1 한 줄로 몇 번 나왔는지 세요. 빈 딕셔너리 count에서 시작해요. for로 단어를 하나씩 꺼내서 count.get(w, 0) + 1을 다시 그 키에 넣어요. 처음 나온 단어는 키가 없어서 get이 0을 주고, 1이 들어가요. 두 번째부터는 지금까지 센 값에 1을 더해요. 2파트에서 본 것처럼 없는 키면 추가, 있는 키면 수정이라 한 줄로 둘 다 돼요. 대괄호로 꺼내면 처음 나온 키에서 KeyError가 나요. 맨 아래 회색 줄은 get이 줄여 준 원래 코드예요. 키가 있으면 그 값, 없으면 0에 1을 더해요. if는 17에서 배우니 읽기만 해요. 출력은 실제로 실행한 결과예요.")
 
 # =====================================================================
@@ -718,7 +728,7 @@ W("x-compare", o, "순서대로 번호로 찾을 값은 리스트, 이름으로 
 o = [sec("x-err")] + head(EB5, "딕셔너리에서 자주 나는 오류 세 가지", K5)
 errs = [({"id": "c-e0", "lines": ["scores[0]"], "n": 4, "out": ["KeyError: 0"], "err": True}, 'scores["kim"]', "딕셔너리에는 번호가 없어요"),
         ({"id": "c-e1", "lines": ['scores["Lee"]'], "n": 5, "out": ["KeyError: 'Lee'"], "err": True}, 'scores["lee"]', "키는 대문자와 소문자를 구분해요"),
-        ({"id": "c-e2", "lines": ['orders["menu"]'], "n": 6, "out": ["TypeError: list indices must be integers or slices, not str"], "err": True}, 'orders[0]["menu"]', "orders는 리스트예요. 번호부터 적어요")]
+        ({"id": "c-e2", "lines": ['orders["menu"]'], "n": 6, "out": ["TypeError: list indices must be integers or slices, not str"], "err": True, "oattrs": {0: ' id="e2-o"'}}, 'orders[0]["menu"]', "orders는 리스트예요. 번호부터 적어요")]
 for i, (c, good, why) in enumerate(errs):
     y = 210 + i * 245
     o += cell(c, 96, y, 1190)
@@ -726,6 +736,7 @@ for i, (c, good, why) in enumerate(errs):
     o.append(at(1340, y + 50, mono(good, 32, INK, "#E6F4EC", "border:3px solid " + GR + ";")))
     o.append(p(f"position:absolute;left:1340px;top:{y + 124}px;width:484px;font-size:24px;font-weight:700;line-height:1.4;color:{SUB}", e(why)))
     o.append(spot(i + 1, 96, y, 1728, 190, pad=10, dim=0.45))
+o.append(shake(3, "e2-o"))
 o.append(spot_off(4))
 W("x-err", o, "오류 마지막 줄의 KeyError 뒤에는 찾던 키가 나와요. scores[0]은 리스트처럼 번호로 꺼낸 경우예요. 딕셔너리에는 번호가 없어서 0이라는 키를 찾다가 KeyError가 나요. scores[\"Lee\"]는 대문자 L로 적어서 lee와 다른 키예요. orders[\"menu\"]는 리스트에 키를 넣은 경우예요. orders는 바깥이 리스트라 번호부터 적고, 그다음에 키를 적어요. scores와 orders는 4파트에서 만든 것을 그대로 써서 셀 번호가 이어져요. 출력은 실제로 실행한 결과예요.")
 
@@ -739,10 +750,13 @@ o = [sec("x-receipt")] + head(EB5, "KANT 카페 영수증을 딕셔너리로 다
 crc = {"id": "c-rc", "lines": RECEIPT, "n": 7}
 RFS = 20
 o += cell(crc, 96, 210, 1150, sel=True, fs=RFS)
-o.append(f'<div{bi("fade", 1)} style="position:absolute;left:{96 + 87}px;top:{ly(210, 8, RFS) - LH(RFS) / 2:.0f}px;width:{1150 - 89}px;height:{LH(RFS) * 5:.0f}px;background:rgba(162,59,114,0.10);border-left:6px solid {K4};border-radius:6px"></div>')
+o.append(lspot(1, 96 + 87, 210, 1150 - 87, len(RECEIPT) * LH(RFS) + 20, ly(210, 8, RFS) - LH(RFS) / 2, LH(RFS) * 5, bar=K4))
+o.append(lspot_off(2))
 o.append(tag(96 + 105, 210 + cell_h(crc, RFS) + 50, '13은 for menu, price, qty in orders:, 이번에는 order["price"]처럼 키로 꺼내요', K4, 1, 26, lead=False))
 o.append(f'<div data-build-in="rise order 2" style="position:absolute;left:1250px;top:250px;width:560px;padding:34px 30px;background:#FFFFFF;border-radius:10px;box-shadow:0 2px 0 rgba(0,0,0,0.04),0 18px 40px rgba(29,35,48,0.16);display:flex;flex-direction:column">'
          + "".join(p(f"font-family:{MONO};font-size:24px;line-height:1.5;white-space:pre;color:{INK}", WIDE(e(l))) for l in RC_OUT) + '</div>')
+o.append(zoom(3, 1250, 250 + 34 + 6 * 36, 560, 6 * 36, pad=50, max_scale=2.2))
+o.append(zoom_off(4))
 W("x-receipt", o, "13에서 찍은 KANT 카페 영수증을 딕셔너리 리스트로 다시 찍어요. 머리글과 구분선은 13과 같고, 바뀐 곳은 for 안쪽이에요. 13에서는 for menu, price, qty in orders:로 튜플을 나눠 담았어요. 이번에는 order 하나에 딕셔너리가 통째로 들어가서 order[\"price\"]처럼 키로 꺼내요. f-string 중괄호 안에서 키를 적을 때는 바깥 큰따옴표와 겹치지 않게 작은따옴표로 적어요. 결과는 13과 같은 영수증이에요. 영수증의 한글은 영어 두 칸 너비로 그렸어요. 출력은 실제로 실행한 결과예요.")
 
 o = [sec("x-cart")] + head(EB5, "장바구니에는 수량만, 가격은 메뉴판에서 찾아요", K5)
@@ -765,7 +779,7 @@ W("x-cart", o, "가게에서는 메뉴판과 주문을 따로 둬요. menu는 �
 o = [sec("x-sold")] + head(EB5, "주문 목록에서 메뉴별로 몇 개 팔렸는지 세요", K5)
 csd = {"id": "c-sd", "lines": ['orders = [{"menu": "coffee", "qty": 2},', '          {"menu": "latte", "qty": 1},', '          {"menu": "coffee", "qty": 1},', '          {"menu": "cake", "qty": 2},', '          {"menu": "latte", "qty": 3}]',
                                "sold = {}", "for order in orders:", '    name = order["menu"]', '    sold[name] = sold.get(name, 0) + order["qty"]', "print(sold)", 'print(sold["latte"])', "print(sum(sold.values()))"], "n": 9,
-       "out": ["{'coffee': 3, 'latte': 4, 'cake': 2}", "4", "9"]}
+       "out": ["{'coffee': 3, 'latte': 4, 'cake': 2}", "4", "9"], "oattrs": {2: COUNT(3, 900)}}
 SDT = 196
 o += cell(csd, 96, SDT, 1060, sel=True, fs=26)
 o.append(f'<div{bi("fade", 1)} style="position:absolute;left:{96 + 87}px;top:{ly(SDT, 8, 26) - LH(26) / 2:.0f}px;width:{1060 - 89}px;height:{LH(26):.0f}px;background:rgba(15,124,134,0.12);border-left:6px solid {K3};border-radius:6px"></div>')
@@ -798,24 +812,28 @@ o.append(p(f"position:absolute;left:96px;top:206px;font-size:24px;font-weight:70
 o.append(p(f"position:absolute;left:880px;top:206px;font-size:24px;font-weight:700;color:{GRAY}", "까닭"))
 o.append(p(f"position:absolute;left:1380px;top:206px;font-size:24px;font-weight:700;color:{GRAY}", "고치기"))
 o.append(hair(96, 248, 1728, INK, h=3))
+o.append(f'<div{STAGGER(1, 120)} style="position:absolute;left:96px;top:252px;width:1728px;height:{108 * len(tr)}px">')
 for i, (q, a_, cmd) in enumerate(tr):
     y = 252 + i * 108
-    o.append(f'<div{bi("rise", i + 1)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:108px;border-bottom:2px solid {LINE};display:flex;flex-direction:row;align-items:center">'
+    o.append(f'<div style="position:absolute;left:0;top:{y - 252}px;width:1728px;height:108px;border-bottom:2px solid {LINE};display:flex;flex-direction:row;align-items:center">'
              + p(f"width:784px;flex:none;font-family:{MONO};font-size:26px;font-weight:700;color:{RED if 'Error' in q else INK};white-space:pre", e(q))
              + p(f"width:500px;flex:none;font-size:26px;font-weight:700;color:{SUB}", e(a_))
              + p(f"flex:1;{'font-family:' + MONO + ';' if cmd.isascii() else ''}font-size:26px;font-weight:700;color:{GR};white-space:pre", e(cmd)) + '</div>')
-o.append(caption("오류가 안 나도 결과가 이상하면 키가 겹치지 않았는지 봐요.", 950, 6))
+o.append('</div>')
+o.append(caption("오류가 안 나도 결과가 이상하면 키가 겹치지 않았는지 봐요.", 950, 2))
 W("trouble", o, "1번부터 3번은 모두 KeyError예요. 오류 마지막 줄의 KeyError 뒤에 찾던 키가 나와서, 어떤 키가 없는지 바로 알 수 있어요. 없을 수도 있는 키는 get으로 꺼내요. 4번은 바깥이 리스트인데 키부터 적은 경우예요. 5번과 6번은 오류는 안 나지만 결과가 생각과 다른 경우예요. 같은 키를 두 번 넣으면 마지막 값만 남고, in은 값이 아니라 키를 봐요. 오류 메시지는 hello-uv 커널에서 실제로 실행한 결과예요.", ("trouble", "정리"))
 
 o = [sec("cheatsheet")] + head("정리", "이럴 땐 이렇게 써요", RED)
 cheat = [("값을 이름으로 담기", '{"latte": 5000}'), ("이름으로 꺼내기", 'menu["latte"]'), ("없을 수도 있는 키 꺼내기", 'menu.get("tea", 0)'), ("더하거나 바꾸기", 'menu["tea"] = 4000'),
          ("지우기", 'del menu["tea"]   menu.pop("tea")'), ("키가 있는지 묻기", '"tea" in menu'), ("한 쌍씩 돌기", "for k, v in menu.items():"), ("개수 세기", "count[w] = count.get(w, 0) + 1")]
+o.append(f'<div{STAGGER(1, 80)} style="position:absolute;left:96px;top:220px;width:1728px;height:{132 * 4}px">')
 for i, (when, code) in enumerate(cheat):
-    col, row = i // 4, i % 4
+    col, row = i % 2, i // 2
     x, y = 96 + col * 880, 220 + row * 132
-    o.append(p(f"position:absolute;left:{x}px;top:{y}px;font-size:26px;font-weight:700;color:{SUB}", e(when)))
-    o.append(p(f"position:absolute;left:{x}px;top:{y + 42}px;font-family:{MONO};font-size:{30 if len(code) < 28 else 27}px;font-weight:700;color:{INK};white-space:pre", e(code)))
-    o.append(hair(x, y + 112, 848))
+    o.append(f'<div style="position:absolute;left:{x - 96}px;top:{y - 220}px;width:848px;height:114px;border-bottom:2px solid {LINE}">'
+             + p(f"font-size:26px;font-weight:700;color:{SUB}", e(when))
+             + p(f"margin-top:8px;font-family:{MONO};font-size:{30 if len(code) < 28 else 27}px;font-weight:700;color:{INK};white-space:pre", e(code)) + '</div>')
+o.append('</div>')
 o.append(f'<div style="position:absolute;left:96px;top:800px;width:1728px;height:130px;border-radius:20px;background:{INK};display:flex;flex-direction:row;align-items:center;padding:0 44px;gap:36px">'
          + p("font-size:28px;font-weight:700;color:#F2B27A;white-space:nowrap", "다음 · 16 집합")
          + p("font-size:30px;font-weight:700;color:#F6F5F1", "같은 값은 한 번만 담는 그릇이에요. 딕셔너리의 키처럼 겹치지 않아요.") + '</div>')
@@ -829,13 +847,15 @@ parts = [(K1, "만들고 꺼내기", "번호 대신 키, 메뉴판 모양, { 키
          (K4, "리스트와 섞기", "값이 리스트인 딕셔너리, 딕셔너리 리스트, for로 주문 돌기", "x-listval", "x-for"),
          (K5, "실제로 써 보기", "리스트·튜플과 비교, 오류 세 가지, 영수증, 장바구니, 판매 개수", "x-compare", "x-sold")]
 TOC_NOTE = "다섯 파트로 나눴어요. 1파트는 딕셔너리를 만들고 키로 꺼내는 법, 2파트는 추가, 수정, 삭제예요. 3파트는 for로 둘러보고, 4파트는 리스트와 섞어요. 5파트는 리스트, 튜플과 비교한 뒤 카페 예제 세 개를 풀어요. 파트마다 새 커널에서 위에서부터 차례로 실행해요. 5파트는 4파트 커널에 이어서 실행해요."
-t = [sec("toc"), f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>']
+t = [sec("toc"), f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>',
+     f'<div{STAGGER(1, 90)} style="position:absolute;left:96px;top:210px;width:1728px;height:{136 * 5}px">']
 for i, (c, h, s, a, b) in enumerate(parts):
     y = 210 + i * 136
-    t.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:136px;border-bottom:2px solid {LINE};display:flex;flex-direction:row;align-items:center;gap:36px">'
+    t.append(f'<div style="position:absolute;left:0;top:{y - 210}px;width:1728px;height:136px;border-bottom:2px solid {LINE};display:flex;flex-direction:row;align-items:center;gap:36px">'
              + p(f"width:70px;flex:none;font-size:64px;font-weight:900;color:{c}", str(i + 1))
              + '<div style="flex:1;display:flex;flex-direction:column;gap:6px">' + p(f"font-size:36px;font-weight:700;color:{INK}", h) + p(f"font-size:24px;color:{SUB}", e(s)) + '</div>'
              + p(f"font-size:28px;font-weight:700;color:{GRAY};white-space:nowrap", f"{page[a]}–{page[b]}쪽") + '</div>')
+t.append('</div>')
 t.append(p(f"position:absolute;left:96px;top:910px;font-size:26px;color:{SUB}", f'{page["ready"]}쪽은 노트북 준비, {page["trouble"]}–{page["cheatsheet"]}쪽은 막힐 때와 정리예요.'))
 with open(os.path.join(OUT, "toc.html"), "w") as f:
     f.write("\n".join(t) + f"\n<aside>{e(TOC_NOTE)}</aside>\n</section>\n")
