@@ -13,14 +13,17 @@ Layout rules (2026-11-08 remake, from the Stageshow skill: github.com/benjitaylo
 3. say it once: what the speaker notes say does not repeat in cards
 4. no empty bands: the focal object grows, or the payoff gets the room
 5. values move instead of swapping (fly), and a fix is the wrong line struck through beside the right one
-Highlights come from tools/HIGHLIGHT.md (line tint, pen ring, underline, box, spotlight, cursor, fly). No typing effect.
+Highlights come from tools/HIGHLIGHT.md, as many kinds as fit: slam and shine on the cover, staggered rows (delay), line tint,
+line spotlight, fly, spotlight, pen ring/underline/box, shake on a failure, code morph, zoom, paired colors (mark),
+count-up, run band. No typing effect.
 Usage: python3 tools/gen.py slides
 """
 
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline
+from highlight import (spot, spot_off, cursor, cursor_off, ring, box, underline, lspot, lspot_off, run, run_off, zoom, zoom_off,
+                       shine, shake, SLAM, COUNT, MARK, DELAY, MORPH, MORPH_FROM, tok)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -275,30 +278,31 @@ def reading(x, y, text, color, order, size=32):
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       '<h1 style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">리스트<br>컴프리헨션</h1>',
+       f'<h1{SLAM(1)} style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">리스트<br>컴프리헨션</h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">바꾸고 고르는 for를<br>대괄호 한 줄로 쓰기</p>',
-       f'<div style="position:absolute;left:900px;top:300px;width:900px;height:480px;background:{DARK};border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">']
+       f'<div id="cov-code" style="position:absolute;left:900px;top:300px;width:900px;height:480px;background:{DARK};border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">']
 for line, c in [(PR4, W_), ("", W_), ("[p + 500 for p in prices]", CF), ("# [5000, 5500, 7000, 3500]", "#9AA1AE"), ("", W_), ("[p for p in prices if p >= 5000]", CK), ("# [5000, 6500]", "#9AA1AE")]:
     cov.append(p(f"font-family:{MONO};font-size:30px;font-weight:700;line-height:1.45;color:{c};white-space:pre", e(line) if line else "&#160;"))
 cov.append('</div>')
+cov.append(shine(2, "cov-code"))
 W("cover", cov, "21에서 map과 filter로 한 일을 대괄호 안의 for 한 줄로 써요. 이 모양을 리스트 컴프리헨션이라고 불러요. lambda 없이 읽혀서 파이썬에서 가장 자주 보는 모양이에요. 딕셔너리와 집합도 같은 모양으로 만들고, 22의 sorted, max와 함께 써요.", ("intro", "들어가기"))
 ORDER.append("toc")
 
 # ---------- ready ----------
 o = [sec("ready")] + head("들어가기", "22에서 이어서 해요", JP)
 for i, (a_, b_) in enumerate([("리스트, 튜플, for, append, join", "13"), ("딕셔너리 items(), 집합", "15, 16"), ("if, 한 줄 if else", "17"), ("range()", "18"), ("lambda, map, filter, key=", "21, 22")]):
-    o.append(f'<div data-build-in="rise order {min(i + 1, 4)}" style="position:absolute;left:96px;top:{220 + i * 120}px;width:800px;height:104px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div data-build-in="rise order 1"{DELAY(i * 90)} style="position:absolute;left:96px;top:{220 + i * 120}px;width:800px;height:104px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
              + f'<x-icon name="CheckCircle" style="width:48px;height:48px;color:{GR}"></x-icon>'
              + p(f"flex:1;font-size:34px;font-weight:700;color:{INK}", e(a_))
              + p(f"font-size:30px;font-weight:700;color:{GRAY}", e(b_)) + '</div>')
-o.append(p(f"position:absolute;left:1000px;top:246px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", rise(5)))
+o.append(p(f"position:absolute;left:1000px;top:246px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", rise(2)))
 steps_ = [p(f"font-size:32px;color:{INK}", "VS Code로 hello-uv 폴더 열기"),
           p(f"font-size:32px;color:{INK}", "탐색기에서") + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{JP}", NB) + p(f"font-size:32px;color:{INK}", "열기"),
           p(f"font-size:32px;color:{INK}", "오른쪽 위 커널이 .venv인지 보기"),
           p(f"font-size:32px;color:{INK}", "셀에 적고") + kbd("Shift+Enter", 26) + p(f"font-size:32px;color:{INK}", "로 실행")]
 for i, inner in enumerate(steps_):
-    o.append(f'<div data-build-in="rise order 5" style="position:absolute;left:1000px;top:{342 + i * 120}px;width:824px;height:104px;display:flex;flex-direction:row;align-items:center;gap:18px">' + num(i + 1, JP) + inner + '</div>')
-o.append(caption("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 봐요.", 880))
+    o.append(f'<div data-build-in="rise order 2"{DELAY(90 + i * 90)} style="position:absolute;left:1000px;top:{342 + i * 120}px;width:824px;height:104px;display:flex;flex-direction:row;align-items:center;gap:18px">' + num(i + 1, JP) + inner + '</div>')
+o.append(caption("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 봐요.", 880, 3))
 W("ready", o, "12부터 쓰던 basics.ipynb에 이어서 적어요. 09에서 만든 hello-uv 폴더를 VS Code로 열고 노트북을 열어요. 13의 for와 append, 17의 if와 한 줄 if else, 18의 range를 대괄호 안에 넣어요. 21의 map, filter와 나란히 비교하고, 22의 sorted, max와 함께 써요. 슬라이드의 출력은 tools/demo.sh가 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요. 셀 번호는 파트마다 [1]부터 다시 셌어요.")
 
 # ---------- part 1 ----------
@@ -351,9 +355,11 @@ CFS[0] = 32
 B3 = [PR4, "up = []", "for p in prices:", "    up.append(p + 500)", "print(up)", "print(list(map(lambda p: p + 500, prices)))", "print([p + 500 for p in prices])"]
 o += cell({"id": "c-b1", "lines": B3, "n": 1, "out": ["[5000, 5500, 7000, 3500]"] * 3}, 96, T, FW, sel="c-b1")
 TX = 96 + FW + 30
-o.append(hl(96, T, FW, 1, 3, "mark", 1)); o.append(tag(TX, ly(T, 2), "13의 for, 네 줄", BL, 1))
-o.append(hl(96, T, FW, 5, 1, "skip", 2)); o.append(tag(TX, ly(T, 5), "21의 map, lambda까지", GRAY, 2))
-o.append(hl(96, T, FW, 6, 1, "run", 3)); o.append(tag(TX, ly(T, 6), "컴프리헨션, 한 줄", GR, 3))
+CB = (96 + 87, T, FW - 87, 10 + 7 * LH() + 8)   # the code box of the cell
+for k, (i, n, t, c) in enumerate([(1, 3, "13의 for, 네 줄", BL), (5, 1, "21의 map, lambda까지", GRAY), (6, 1, "컴프리헨션, 한 줄", GR)]):
+    o.append(lspot(k + 1, *CB, T + 10 + i * LH(), n * LH(), bar=c))
+    o.append(tag(TX, ly(T, i + (n - 1) / 2), t, c, k + 1))
+o.append(lspot_off(4))
 OX, OW = 96 + 85 + 20, tw("[5000, 5500, 7000, 3500]")
 o.append(box(4, OX - 16, oy(T, 7, 0) - LH() / 2 - 6, OW + 32, oy(T, 7, 2) - oy(T, 7, 0) + LH() + 12, OR, 5, 12))
 o.append(tag(OX + OW + 50, oy(T, 7, 1), "결과는 셋 다 같아요", OR, 4))
@@ -504,6 +510,7 @@ o.append(arrow(110, K3, fade(1), f"position:absolute;left:{96 + 4 * BW + 42 + 40
 o.append(label(1124, BY - 56, "buyers", K3, 30, fade(1), True))
 o += boxes(['"kim"', '"lee"', '"park"'], 1124, BY, BW, 110, K3, K3BG, True, 32, 14, attrs=[fly(1, "rs-0"), fly(1, "rs-1"), fly(1, "rs-2")])
 o.append(box(2, 96 + 3 * (BW + 14) - 10, BY - 10, BW + 20, 130, RED, 5, 18))
+o.append(shake(2, "rs-3"))
 o.append(label(96 + 3 * (BW + 14) - 10, BY + 140, "↑ kim은 이미 있어서 빠져요", RED, 28, fade(2)))
 o.append(caption("집합을 찍는 순서는 실행할 때마다 달라질 수 있어요.", 900, 3))
 W("r-set", o, "중괄호 안에 키: 값 대신 값 하나만 적으면 집합이 만들어져요. 주문 기록에서 손님 이름만 모았어요. kim이 두 번 주문했지만 16의 집합 규칙대로 한 번만 남아서 3명이에요. 집합을 그대로 찍으면 순서가 실행할 때마다 다를 수 있어서 22의 sorted로 줄 세워 찍었어요. 괄호 모양으로 무엇을 만드는지 구분해요. 대괄호는 리스트, 값만 든 중괄호는 집합, 키: 값이 든 중괄호는 딕셔너리예요. orders는 앞 셀에서 만들었어요." + REAL)
@@ -521,9 +528,13 @@ o.append(spot(2, 96 + 80, ly(T, 3) - LH() / 2 - 2, 1180, LH() + 4, pad=2, dim=0.
 o.append(spot_off(3))
 QY = 640
 o.append(label(96, QY, "19의 calc_total에서는 세 줄", GRAY, 28, fade(3)))
-o.append(p(f"position:absolute;left:96px;top:{QY + 52}px;font-family:{MONO};font-size:30px;font-weight:700;line-height:1.5;color:{GRAY};white-space:pre", e("total = 0\nfor m in cart:\n    total += menu[m]"), fade(3)))
+QS = f"position:absolute;left:96px;top:{QY + 52}px;font-family:{MONO};font-size:30px;font-weight:700;line-height:1.5;color:{GRAY};white-space:pre"
+o.append(p(QS, e("total = 0\nfor m in cart:\n    total += menu[m]"), fade(3)))
+# a copy of the three lines that only the player shows: its tokens travel into the strip on click 4
+o.append(p(QS, "total = 0\n" + tok("f", "for m in cart") + ":\n    total += " + tok("v", "menu[m]"), ' id="ws-a"' + fade(3) + MORPH_FROM()))
 o.append(arrow(90, K4, fade(4), f"position:absolute;left:700px;top:{QY + 112}px"))
-o.append(strip(830, QY + 40, 994, 150, [seg([("sum([", W_), ("menu[m]", CV), (" ", W_), ("for m in cart", CF), ("])", W_)], 44)], rise(4), 48))
+o.append(strip(830, QY + 40, 994, 150, [p(f"font-family:{MONO};font-size:44px;font-weight:700;line-height:1.5;color:{W_};white-space:pre",
+                                          "sum([" + tok("v", "menu[m]", f"color:{CV}") + " " + tok("f", "for m in cart", f"color:{CF}") + "])")], MORPH(4, "ws-a"), 48))
 o.append(caption("계산할 값만 리스트로 모아 sum, max, len에 넘겨요.", 920, 5))
 W("w-sum", o, "컴프리헨션이 만든 리스트는 sum, max에 바로 넘길 수 있어요. 장바구니 cart의 메뉴마다 menu[m]으로 가격을 꺼내 리스트를 만들고, sum이 더해요. 19에서 calc_total 안에 적었던 세 줄이 한 줄이 됐어요. 메뉴 이름 길이를 모아 max에 넘기면 가장 긴 이름의 길이 6이 나와요." + NEWK + REAL, ("p4", "함수와 함께 쓰기"))
 
@@ -562,6 +573,8 @@ o.append(label(1180, 330, "참고, 읽기만", GRAY, 28, fade(3)))
 CFS[0] = 28
 o += cell({"id": "c-w3", "lines": ["scores = [[90, 80], [70, 60]]", "print([x for row in scores", "       for x in row])"], "n": 3, "out": ["[90, 80, 70, 60]"]}, 1180, 384, 644, attrs=rise(3))
 o.append(p(f"position:absolute;left:1180px;top:680px;width:644px;font-size:28px;font-weight:700;line-height:1.5;color:{GRAY}", "for를 두 번 적었어요. 앞의 for가 바깥 반복이에요.", fade(4)))
+o.append(zoom(4, 1160, 320, 684, 440, 30))
+o.append(zoom_off(5))
 CFS[0] = 30
 o.append(caption("한 줄이 길어지면 for로 풀어 써요.", 950, 5))
 W("w-when", o, "컴프리헨션은 새 리스트 하나를 만들 때만 써요. print로 찍기만 하거나, 합계를 쌓으면서 재고도 줄이는 것처럼 한 번에 여러 줄을 할 때는 for가 맞아요. 18의 break로 중간에 멈춰야 할 때도 for예요. 조건이 두 개를 넘으면 if, elif로 나눠 쓰는 편이 읽기 쉬워요. 오른쪽은 참고로 보여 드리는 겹친 컴프리헨션이에요. 14의 2차원 리스트를 한 줄로 펼쳐요. 앞에 적은 for가 바깥 반복이에요. 따라 치지 않아도 되고, 남의 코드에서 만나면 읽을 수 있게만 봐 두세요. 대괄호 안에서는 줄을 나눠 적어도 돼요." + REAL)
@@ -572,6 +585,7 @@ T = 206
 CFS[0] = 32
 o += cell({"id": "c-t1", "lines": [PR4, "print([p for p in prices if p >= 5000 else 0])"], "n": 1, "out": ["SyntaxError: invalid syntax"], "err": True}, 96, T, 1728, sel="c-t1")
 o.append(hl(96, T, 1728, 1, 1, "err", 1, "뒤의 if에 else"))
+o.append(shake(1, "c-t1"))
 o.append(box(1, cx(96, "", True) - 10, oy(T, 2, 0) - LH() / 2 - 2, tw("SyntaxError: invalid syntax") + 20, LH() + 4, RED, 4, 10))
 CFS[0] = 30
 o.append(reading(96, 450, "읽는 법: for 뒤의 if는 고르기라서 else를 받지 않아요.", RED, 2))
@@ -618,7 +632,7 @@ o.append(tag(tx(96, ["NameError: name 'x' is not defined"], 40, True), oy(T, 1, 
 CFS[0] = 30
 FS, X0 = 72, 96 + 64
 cw = FS * 0.6
-o.append(strip(96, 400, 1728, 180, [seg([("[", W_), ("x", CI), (" + 10 for ", W_), ("p", CF), (" in prices]", W_)], FS)], "", 64))
+o.append(strip(96, 400, 1728, 180, [seg([("[", W_), ("x", CI, MARK(2)), (" + 10 for ", W_), ("p", CF, MARK(3)), (" in prices]", W_)], FS)], "", 64))
 o.append(box(2, X0 + cw - 4, 436, cw + 8, 108, CI, 5, 10))
 o.append(label(X0 + cw - 12, 608, "↑ 앞의 값은 x", RED, 30, fade(2)))
 o.append(box(3, X0 + 12 * cw - 4, 436, cw + 8, 108, CF, 5, 10))
@@ -633,6 +647,7 @@ T, FW = 200, 1240
 CFS[0] = 34
 RC = ['menu = {"coffee": 4500, "latte": 5000, "cake": 6500}', 'cart = ["latte", "cake", "coffee"]', 'lines = [f"{m:<7}{menu[m]:>6,}원" for m in cart]', 'print("\\n".join(lines))', 'print(f"합계   {sum([menu[m] for m in cart]):>6,}원")']
 o += cell({"id": "c-x1", "lines": RC, "n": 1, "out": ["latte   5,000원", "cake    6,500원", "coffee  4,500원", "합계   16,000원"]}, 96, T, FW, sel="c-x1")
+o = [re.sub(r'<p( style="[^"]*">합계   16,000원</p>)', lambda m: "<p" + COUNT(3) + m.group(1), x) for x in o]
 TX = 96 + FW + 30
 o.append(hl(96, T, FW, 2, 1, "mark", 1)); o.append(tag(TX, ly(T, 2), "메뉴마다 한 줄씩", BL, 1))
 o.append(hl(96, T, FW, 4, 1, "run", 2)); o.append(tag(TX, ly(T, 4), "합계는 가격 리스트를 sum", GR, 2))
@@ -669,10 +684,9 @@ FW = 1260
 o += cell({"id": "c-x3", "lines": GR_, "n": 3, "out": ["['kim', 'park']", "['합격', '합격', '합격', '재시험']", "78.5", "kim"]}, 96, T, FW, sel="c-x3")
 TX = 96 + FW + 30
 for k, t in enumerate(["뒤의 if: 80점 이상 고르기", "앞의 if else: 모두에게", "점수만 모아 평균", "22의 key로 1등"]):
-    o.append(hl(96, T, FW, k + 1, 1, "mark", k + 1))
-    o.append(tag(TX, ly(T, k + 1), t, BL, k + 1, 28))
-    o.append(spot(k + 1, 96 + 80, ly(T, k + 1) - LH() / 2 - 2, 1824 - 96 - 80, LH() + 4, pad=2, dim=0.5))
-o.append(spot_off(5))
+    o.append(run(k + 1, 96 + 89, T + 10 + (k + 1) * LH(), FW - 93, LH()))
+    o.append(tag(TX, ly(T, k + 1), t, GR, k + 1, 28))
+o.append(run_off(5))
 CFS[0] = 30
 o.append(caption("고르기, 바꾸기, 함수와 함께 쓰기를 한 셀에서 다 썼어요.", 860, 5))
 W("x-grades", o, "14의 성적 2차원 리스트에서 고르기, 바꾸기, 평균, 1등을 한 셀로 뽑아요. 안쪽 리스트 두 칸을 name, score로 꺼내 담아요. 80점 이상은 뒤에 if를 붙여 골랐어요. 합격과 재시험은 앞에 한 줄 if else를 넣어 모두에게 붙였어요. 평균은 점수만 모은 리스트를 sum에 넘기고 사람 수로 나눴어요. 1등은 22에서 배운 max와 key예요." + REAL)

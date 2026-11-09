@@ -3,14 +3,16 @@
 Scenes reuse the zones of 02 (작업 폴더, 대기실, 내 저장소, 원격 저장소) as filled panels with no outline.
 The restore parts crop to the three local zones. The stash part adds the remote zone and a drawer under
 작업 폴더; the file card flies into the drawer and back out. Labels sit on the drawing, not in cards.
-Highlights come from tools/HIGHLIGHT.md (spot, ring, underline, box, fly). No typing animation.
+Highlights come from tools/HIGHLIGHT.md: spot, blur, zoom, line spotlight, path, shake, stagger by delay, dim earlier
+steps, underline, box, fly; SLAM and shine on the cover only. No typing animation.
 Terminal output comes from tools/demo.sh (git 2.43).
 Usage (in 07-git-restore-stash): python3 tools/gen.py slides
 """
 import html, os, sys, unicodedata
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, ring, box, underline  # noqa: E402
+from highlight import (spot, spot_off, ring, box, underline, lspot, lspot_off, blur, blur_off, zoom, zoom_off,  # noqa: E402
+                       shine, shake, SLAM, DIM, DELAY, PATH)
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -315,12 +317,13 @@ def num(i, color, size=56):
 # ======================================================================
 cov = [f'<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:{SANS};padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#8FB3FF">KANT AX/AI 엔지니어 트랙 · 07</p>',
-       '<h1 style="font-size:96px;font-weight:900;line-height:1.1;color:#F6F5F1">커밋 전 변경<br>취소하기와<br>잠깐 보관하기</h1>',
+       f'<h1{SLAM(1)} style="font-size:96px;font-weight:900;line-height:1.1;color:#F6F5F1">커밋 전 변경<br>취소하기와<br>잠깐 보관하기</h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">git restore와 git stash</p>']
-cov.append(f'<div style="position:absolute;left:1120px;top:330px;width:672px;height:420px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:10px;font-family:{MONO}">')
+cov.append(f'<div id="cov-code" style="position:absolute;left:1120px;top:330px;width:672px;height:420px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:10px;font-family:{MONO}">')
 for k, l in [("$", "$ git restore login.md"), ("#", "  고친 걸 버려요"), ("$", "$ git stash"), ("#", "  서랍에 넣어요"), ("$", "$ git stash pop"), ("#", "  서랍에서 꺼내요")]:
     cov.append(p(f"font-size:34px;line-height:1.45;white-space:pre;font-weight:{700 if k == '$' else 400};color:{TC[k]}", e(l)))
 cov.append('</div>')
+cov.append(shine(2, "cov-code"))
 W("cover", cov, "커밋하기 전의 변경을 버리고, 잠깐 치워 두는 명령을 배워요. 02의 네 칸 그림과 hello-git 저장소, login.md로 이어서 실습해요. 고친 걸 버리는 git restore, add를 취소하는 git restore --staged, 고치던 걸 잠깐 치우는 git stash 세 가지예요. 팀 레포에서 pull이 막힐 때 바로 쓰는 명령이에요.")
 
 # ======================================================================
@@ -366,7 +369,7 @@ for i, (c, q, cmd, d, sol) in enumerate(cases):
              + '<div style="display:flex;flex-direction:row;gap:20px;align-items:baseline">'
              + p(f"font-family:{MONO};font-size:28px;font-weight:700;white-space:pre;color:{MUTE}", "$ " + e(cmd))
              + p(f"font-size:28px;color:{SUB}", d) + '</div></div>'
-             + p(f"width:470px;flex:none;font-family:{MONO};font-size:36px;font-weight:700;color:{c}", sol, f' data-build-in="fade order {i + 1}"')
+             + p(f"width:470px;flex:none;font-family:{MONO};font-size:36px;font-weight:700;color:{c}", sol, f' data-build-in="rise order {i + 1}"')
              + '</div>')
     w.append(hair(96, y + RH, 1728))
 w.append(p(f"position:absolute;left:96px;top:{230 + 3 * RH + 44}px;width:1728px;font-size:32px;line-height:1.4;color:{SUB}", "셋 다 아직 커밋하지 않은 변경을 다뤄요.", ' data-build-in="fade order 4"'))
@@ -459,9 +462,12 @@ o += T.html()
 x, y, _, _ = T.line_box(6)
 _, y2, _, h2 = T.line_box(8)
 w3 = max(T.line_box(i)[2] for i in (6, 7, 8))
-o.append(box(1, x - 4, y - 6, w3 + 8, y2 + h2 - y + 12, RED))
+o.append(lspot(1, T.left, T.top, T.w, T.h, y - 6, y2 + h2 - y + 12, bg="#1B2029", bar=RED))
 x9, y9, w9, h9 = T.line_box(9)
 o.append(label(x + w3 + 48, round(y + 6), 700, "restore하면 돌아오는 세 줄", "#F28B82", 1, size=26))
+o.append(lspot(2, T.left, T.top, T.w, T.h, y9 - 6, h9 + 12, bg="#1B2029", bar=GR))
+o.append(label(x + w9 + 48, round(y9 - 2), 700, "이 줄은 사라져요", "#7EE2A8", 2, size=26))
+o.append(lspot_off(3))
 W("r2", o, "restore는 되돌릴 수 없으니, 04에서 배운 git diff로 사라질 줄부터 봐요. - 세 줄이 원래 있던 줄, + 한 줄이 새로 생긴 줄이에요. restore를 치면 + 줄은 사라지고 - 줄이 돌아와요. 사라지는 + 줄 중에 남길 게 있는지 꼭 확인하고 넘어가요.")
 
 o = frame("r3", "실습 1 · 고친 걸 버리기", "git restore로 마지막 커밋 모습으로 돌려요")
@@ -488,14 +494,14 @@ tips = [("먼저 git diff로 봐요", "사라질 줄을 눈으로 확인해요",
 RH = 216
 for i, (h, d, cmd) in enumerate(tips):
     y = 332 + i * RH
-    wr.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:{RH}px;display:flex;flex-direction:row;align-items:center;gap:36px;padding:0 10px">'
+    wr.append(f'<div data-build-in="rise order 1"{DELAY(i * 120)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:{RH}px;display:flex;flex-direction:row;align-items:center;gap:36px;padding:0 10px">'
               + num(i + 1, C_RS) + '<div style="flex:1;display:flex;flex-direction:column;gap:10px">'
               + p(f"font-size:38px;font-weight:700;color:{INK}", h) + p(f"font-size:28px;color:{SUB}", d) + '</div>'
               + p(f"width:520px;flex:none;font-family:{MONO};font-size:30px;font-weight:700;line-height:1.5;color:{INK}", cmd) + '</div>')
     wr.append(hair(96, y + RH, 1728))
 # underline "git restore ." inside the third row's description
 y3 = 332 + 2 * RH
-wr.append(underline(1, 1294, 1294 + round(em_width("git restore .") * 30), round(y3 + RH / 2 + 22.5 + 22), C_RS))
+wr.append(underline(2, 1294, 1294 + round(em_width("git restore .") * 30), round(y3 + RH / 2 + 22.5 + 22), C_RS))
 W("r-warn", wr, "restore로 버린 변경은 되찾을 수 없어서, 버리기 전에 세 가지를 지켜요. 02에서 본 reflog도 커밋만 기억해서 여기엔 소용없어요. 먼저 git diff로 보고, 남길 줄이 있으면 커밋부터 하고, 파일 이름을 꼭 적어요. git restore . 처럼 점을 쓰면 폴더 안 모든 파일의 변경이 한 번에 사라져요.")
 
 # ======================================================================
@@ -507,12 +513,14 @@ o.append(chip("wd-memo", "wd", "memo.md", "새 파일", "gray", CARD_TOP + CHIP_
 o.append(chip("st-login", "st", "login.md", "Staged · 고침", "green", CARD_TOP))
 o.append(chip("st-memo", "st", "memo.md", "Staged · 새 파일", "green", CARD_TOP + CHIP_P))
 o.append(commit_row("lr", H0))
-o.append(label(zl("lr") + IN, CARD_TOP + 64, zw("lr") - 2 * IN, "이대로 commit, push하면<br>팀원 모두 내 메모를 받아요", RED, 1))
+o.append(label(zl("lr") + IN, CARD_TOP + 64, zw("lr") - 2 * IN, "이대로 commit, push하면<br>팀원 모두 내 메모를 받아요", RED, 2))
 T = Term([("$", 'echo "로그인 버튼" >> login.md'), ("$", 'echo "내일 할 일: 디자인 묻기" > memo.md'), ("$", "git add ."), ("$", "git status"),
           ("o", "On branch main"), ("o", "Changes to be committed:"), ("H", HINT_UN), ("g", "\tmodified:   login.md"), ("g", "\tnew file:   memo.md")],
          96, zbot() + 32, 1728, 1024 - zbot() - 32)
 o += T.html()
-o.append(box(1, zl("st") + IN - 8, CARD_TOP + CHIP_P - 8, zw("st") - 2 * IN + 16, CHIP_H + 16, RED))
+o.append(blur(1, "st-memo"))
+o.append(blur_off(2))
+o.append(box(2, zl("st") + IN - 8, CARD_TOP + CHIP_P - 8, zw("st") - 2 * IN + 16, CHIP_H + 16, RED))
 W("s1", o, "git add . 은 폴더 안 바뀐 파일을 모두 올려서, 개인 메모 memo.md까지 대기실에 들어갔어요. login.md에 로그인 버튼을 붙이고, 내 할 일을 적은 memo.md도 만든 상황이에요. 이대로 commit하고 push하면 팀원 모두가 내 메모를 받아요. 터미널의 노란 줄이 add를 취소하는 방법이에요. unstage는 대기실에서 내린다는 뜻이에요.")
 
 o = frame("s2", "실습 2 · add 취소하기", "memo.md만 대기실에서 내려요", color=C_UN)
@@ -587,7 +595,8 @@ o.append(placeholder("wd", "비어 있음", top=DTOP + 76, pid="dr-empty"))
 T = Term([("$", 'echo "비밀번호 찾기" >> login.md'), ("$", "git pull origin main")] + PULL_ERR, TL, DTOP, 1824 - TL, DH)
 o += T.html()
 x, y, w_, h_ = T.line_box(8)
-o.append(box(1, x - 4, y - 4, w_ + 8, h_ + 8, RED))
+o.append(shake(1, T.tid))
+o.append(box(2, x - 4, y - 4, w_ + 8, h_ + 8, RED))
 W("st0", o, "고치던 파일을 pull이 덮을 수 있으면 Git이 멈추고, 커밋하거나 stash 하라고 알려 줘요. 팀원 lee가 login.md 제목을 로그인 페이지로 고쳐 push했어요. 나는 같은 파일에 비밀번호 찾기를 쓰던 중이고, 아직 커밋하기엔 덜 끝났어요. 상자 친 줄이 해결 방법이에요. 같은 파일을 둘 다 고쳤을 때만 이 메시지가 나와요.")
 
 o = stash_frame("st1", "git stash로 고치던 걸 서랍에 넣어요")
@@ -629,7 +638,7 @@ for i, (s, c, t1, t2) in enumerate(segs):
     cx = 96 + i * 432 + 24
     mx = round((ux0 + ux1) / 2)
     rd.append(f'<x-connector data-build-in="fade order {i + 1}" x1="{mx}" y1="344" x2="{cx + 4}" y2="410" style="color:{ucol[i]};border-width:3px"></x-connector>')
-    rd.append(f'<div data-build-in="pop order {i + 1}" style="position:absolute;left:{cx}px;top:420px;width:400px;display:flex;flex-direction:column;gap:6px">'
+    rd.append(f'<div data-build-in="pop order {i + 1}"{DELAY(150)} style="position:absolute;left:{cx}px;top:420px;width:400px;display:flex;flex-direction:column;gap:6px">'
               + p(f"font-size:34px;font-weight:700;color:{INK}", t1) + p(f"font-size:28px;color:{SUB}", t2) + '</div>')
     x += sw
 rd.append(hair(96, 600, 1728))
@@ -648,8 +657,8 @@ remote(o)
 o.append(dr_card("dr-doc", DTOP, VW, "stash@{0}", marks={4: "add"}))
 T = Term([("$", "git pull origin main")] + PULL_OK, TL, DTOP, 1824 - TL, DH)
 o += T.html()
-o.append(spot(1, zl("wd"), ZTOP, zl("lr") + zw("lr") - zl("wd"), ZH_S, pad=10, r=26))
-o.append(spot_off(2))
+o.append(zoom(1, zl("lr"), ZTOP, zw("lr"), ZH_S, 30))
+o.append(zoom_off(2))
 o.append(label(zl("lr") + IN + 280, CARD_TOP + 2, zw("lr") - 2 * IN - 280, "lee의 커밋", ZSTYLE["lr"]["tc"], 2, size=26))
 o.append(label(TL, DTOP + T.h + 20, 1824 - TL, "서랍 안의 비밀번호 찾기는 그대로 기다려요", C_SH, 2))
 W("st2", o, "작업 폴더가 깨끗하니 pull이 바로 끝나요. Fast-forward는 내 커밋이 없어서 이름표가 앞으로만 따라갔다는 뜻이에요. 03에서 본 것과 같아요. ①과 ③의 제목이 로그인 페이지로 바뀌었어요. 서랍 안의 비밀번호 찾기는 그대로 기다리고 있어요.")
@@ -735,8 +744,8 @@ for i, (c, cond, verb, cmd, note) in enumerate(opts):
     # elbow from the question to this answer
     ch_.append(f'<div style="position:absolute;left:520px;top:{min(cy, RT + RH + 128):.0f}px;width:60px;height:{abs(cy - (RT + RH + 128)):.0f}px;border-left:4px solid #B9BDC6;{"border-top" if cy < RT + RH + 128 else "border-bottom"}:0"></div>' if False else "")
     ch_.append(f'<x-connector x1="500" y1="{RT + RH + 128}" x2="{BX - 12}" y2="{cy}" head="end" style="color:#9AA0AB;border-width:4px"></x-connector>')
-ch_.append(spot(1, BX, RT + RH, 1824 - BX, RH, pad=4, r=20))
-ch_.append(spot_off(2))
+ch_.append(blur(1, "opt-1"))
+ch_.append(blur_off(2))
 ch_.append(label(96, RT + RH + 64 + 128 + 28, 440, "모르겠으면 stash가<br>가장 안전해요", C_SH, 2, size=30))
 W("choose", ch_, "고치던 게 있으면 셋 중 하나를 골라요. 고친 게 필요 없으면 restore로 버려요. 덜 끝났으면 stash로 치웠다가 pop으로 꺼내요. 끝났으면 커밋해요. 어느 쪽인지 모르겠으면 stash가 가장 안전해요. 지우지 않고 서랍에 넣어 두니까요.")
 
@@ -763,7 +772,7 @@ for i, (k, l) in enumerate(fl):
     pc.append(p(f"position:absolute;left:{FX + 28}px;top:{y}px;width:{FW - 56}px;font-family:{MONO};font-size:27px;line-height:{FLH}px;padding:0 8px;margin-left:-8px;border-radius:6px;white-space:pre;{st}", e(l)))
 for t1, c, line in [("받은 쪽 (lee)", PUR, 5), ("내 쪽 (서랍)", C_SH, 7)]:
     y = FT + 24 + 54 + line * FLH
-    pc.append(p(f"position:absolute;left:{FX + FW - 40 - 240}px;top:{y}px;width:240px;text-align:right;font-size:26px;font-weight:700;line-height:{FLH}px;color:{c}", t1, ' data-build-in="pop order 1"'))
+    pc.append(p(f"position:absolute;left:{FX + FW - 40 - 240}px;top:{y}px;width:240px;text-align:right;font-size:26px;font-weight:700;line-height:{FLH}px;color:{c}", t1, ' data-build-in="pop order 1"' + DELAY(150)))
 W("pop-c", pc, "같은 줄을 둘 다 고쳤으면 pop에서 충돌이 나고, 서랍의 내용은 지워지지 않고 남아요. 이번엔 lee가 비밀번호 찾기를 비밀번호 재설정으로 바꿔 push했고, 나는 같은 줄에 (이메일)을 붙이던 중이었어요. stash와 pull까지는 잘 되고 pop에서 충돌이 나요. 03에서 본 충돌 표시와 같지만, 이름이 HEAD 대신 Updated upstream, 브랜치 이름 대신 Stashed changes로 나와요. 위가 받은 것, 아래가 내 것이에요. 서랍이 남아 있으니 풀다가 틀려도 다시 꺼낼 수 있어요.")
 
 pr = [sec("pop-r")] + head("막힐 때 · 충돌 풀기", "03처럼 풀고, 서랍을 비워요", RED)
@@ -775,13 +784,13 @@ RH = 168
 for i, (cmd, d, c) in enumerate(rsteps):
     y = 212 + i * RH
     cc = c or MUTE
-    pr.append(f'<div data-build-in="fade order {i + 1}" style="position:absolute;left:{SX}px;top:{y}px;width:{SW}px;height:{RH}px;display:flex;flex-direction:row;gap:28px;align-items:center;padding:0 8px">'
+    pr.append(f'<div data-build-in="rise order {i + 1}"{DIM("pr")} style="position:absolute;left:{SX}px;top:{y}px;width:{SW}px;height:{RH}px;display:flex;flex-direction:row;gap:28px;align-items:center;padding:0 8px">'
               + num(i + 1, cc, 52) + '<div style="flex:1;display:flex;flex-direction:column;gap:16px">'
               + p(f"font-family:{MONO if cmd.startswith('git') else SANS};font-size:32px;font-weight:700;line-height:1.35;color:{INK}", cmd)
               + p(f"font-size:26px;color:{SUB}", d) + '</div></div>')
     pr.append(hair(SX, y + RH, SW))
 y3 = 212 + 2 * RH
-pr.append(underline(5, SX + 88, SX + 88 + round(em_width("git stash drop") * 32), round(y3 + (RH - 95) / 2 + 43 + 5), OR))
+pr.append(underline(3, SX + 88, SX + 88 + round(em_width("git stash drop") * 32), round(y3 + (RH - 95) / 2 + 43 + 5), OR))
 T = Term([("$", "cat login.md"), ("o", "# 로그인 페이지"), ("o", "아이디"), ("o", "비밀번호"), ("o", "로그인 버튼"), ("o", "비밀번호 재설정 (이메일)"), ("$", "git add login.md"), ("$", "git stash drop"),
           ("H", "Dropped refs/stash@{0} (30ebc16b62d989d22d6cf5dc856d28b138dee3ba)"), ("$", "git stash list"), ("$", 'git commit -m "feat: 비밀번호 재설정에 이메일 안내 추가"'),
           ("o", f"[main {H3}] feat: 비밀번호 재설정에 이메일 안내 추가"), ("$", "git push origin main"), ("o", f"   {HL2}..{H3}  main -> main")],
@@ -799,7 +808,7 @@ tb.append(hair(96, 210, 1728, INK))
 RH = 162
 for i, (q, a_, cmd) in enumerate(cases):
     y = 212 + i * RH
-    tb.append(f'<div data-build-in="fade order {i + 1}" style="position:absolute;left:96px;top:{y}px;width:1728px;height:{RH}px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px">'
+    tb.append(f'<div data-build-in="rise order 1"{DELAY(i * 90)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:{RH}px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px">'
               + p(f"width:48px;flex:none;font-size:40px;font-weight:900;color:{RED}", str(i + 1))
               + '<div style="flex:1;display:flex;flex-direction:column;gap:10px">' + p(f"font-family:{MONO if q.isascii() else SANS};font-size:{28 if q.isascii() else 30}px;font-weight:700;color:{RED}", e(q))
               + p(f"font-size:26px;color:{SUB}", e(a_)) + '</div>'
@@ -819,7 +828,7 @@ def timeline(o, steps, top, hot, order0=1, size=28):
     o.append(f'<div style="position:absolute;left:{96 + cw / 2:.0f}px;top:{top + 27}px;width:{cw * (n - 1):.0f}px;height:4px;background:#CDD0D6"></div>')
     for i, (cmd, d, c) in enumerate(steps):
         cx = 96 + cw * i + cw / 2
-        o.append(f'<div data-build-in="fade order {order0 + i}" style="position:absolute;left:{96 + cw * i:.0f}px;top:{top}px;width:{cw:.0f}px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px">'
+        o.append(f'<div data-build-in="rise order {order0}"{DELAY(i * 110)} style="position:absolute;left:{96 + cw * i:.0f}px;top:{top}px;width:{cw:.0f}px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px">'
                  + num(i + 1, c, 58)
                  + p(f"height:{round(2 * size * 1.4)}px;font-family:{MONO if cmd.startswith('git') else SANS};font-size:{size}px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:{INK}", cmd)
                  + p(f"font-size:26px;line-height:1.4;text-align:center;color:{SUB}", d) + '</div>')
@@ -834,9 +843,9 @@ T = Term([("$", "git log --oneline"), ("o", f"{H2} (HEAD -> main, origin/main) f
 tf += T.html()
 xa, ya, wa, ha = T.line_box(1)
 xb, yb, wb, hb = T.line_box(2)
-tf.append(box(6, xa - 4, ya - 4, max(wa, wb) + 8, yb + hb - ya + 8, BL))
-tf.append(label(1396, 536 + 40, 428, "merge 커밋 없이<br>한 줄로 이어졌어요", BL, 6, size=34))
-tf.append(label(1396, 536 + 190, 428, "lee의 커밋 위에<br>내 커밋이 올라갔어요", SUB, 6, size=30, kind="fade"))
+tf.append(box(2, xa - 4, ya - 4, max(wa, wb) + 8, yb + hb - ya + 8, BL))
+tf.append(label(1396, 536 + 40, 428, "merge 커밋 없이<br>한 줄로 이어졌어요", BL, 2, size=34, attrs=DELAY(150)))
+tf.append(label(1396, 536 + 190, 428, "lee의 커밋 위에<br>내 커밋이 올라갔어요", SUB, 2, size=30, kind="fade", attrs=DELAY(300)))
 W("team-flow", tf, "팀원이 먼저 push했고 나는 고치던 중이면, stash, pull, pop 순서로 받고 나서 커밋해요. 오늘 팀 실습에서 그대로 쓰는 순서예요. 1번부터 3번이 stash, pull, pop이고, 4번과 5번은 늘 하던 add, commit, push예요. 고치던 걸 먼저 커밋하고 pull해도 돼요. 그러면 03에서 본 merge 커밋이 하나 생겨요. stash를 쓰면 팀원 커밋 위에 내 커밋이 올라가서 git log가 한 줄로 이어져요. 커밋할 만큼 끝났으면 커밋, 덜 끝났으면 stash라고 기억해요.")
 
 co = [sec("st-co")] + head("팀에서 쓰기 · 급히 브랜치를 옮길 때", "checkout이 막혀도 stash로 치우고 가요", PUR)
@@ -847,8 +856,13 @@ x, y, w_, h_ = T.line_box(3)
 co.append(underline(1, x + 6, x + w_ - 6, round(y + h_ + 2), RED))
 flow = [("git stash", "feature/login에서<br>고치던 걸 넣기", C_SH), ("git checkout main", "main으로 가서", MUTE), ("급한 일", "고치고 commit, push", MUTE),
         ("git checkout<br>feature/login", "돌아와서", MUTE), ("git stash pop", "꺼내서 이어서", C_SH)]
-timeline(co, flow, 210 + T.h + 64, {0, 4}, order0=2, size=24)
-co.append(label(96, 880, 1728, "서랍은 저장소에 하나예요. 꺼낼 때는 넣었던 브랜치로 돌아가서 pop해요.", SUB, 7, size=30, kind="fade"))
+CT = 210 + T.h + 64
+timeline(co, flow, CT, {0, 4}, order0=2, size=24)
+cw_ = 1728 / 5
+px0, px1, py = round(96 + cw_ / 2), round(96 + cw_ * 4.5), CT - 30
+co.append(f'<svg style="position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible;pointer-events:none"><path id="co-path" d="M{px0},{py} C{px0 + 300},{py - 70} {px1 - 300},{py - 70} {px1},{py}" fill="none" stroke="none"/></svg>')
+co.append(f'<div{PATH(3, "co-path", 1800)} style="position:absolute;left:{px1 - 14}px;top:{py - 14}px;width:28px;height:28px;border-radius:50%;background:{C_SH};box-shadow:0 0 0 6px rgba(178,106,0,.25)"></div>')
+co.append(label(96, 880, 1728, "서랍은 저장소에 하나예요. 꺼낼 때는 넣었던 브랜치로 돌아가서 pop해요.", SUB, 3, size=30, kind="fade", attrs=DELAY(1600)))
 W("st-co", co, "브랜치를 옮길 때 checkout이 막혀도, stash로 치우고 갔다가 돌아와서 pop하면 돼요. 03에서 본 checkout 에러예요. 그때는 커밋하고 옮기라고 했어요. 덜 끝난 작업이면 stash로 치워도 돼요. 서랍은 저장소에 하나뿐이라 다른 브랜치에서도 같은 서랍이 보여요. 다른 브랜치에서 pop하면 그 브랜치에 얹혀서 헷갈려요. stash list의 on main, on feature/login 부분을 보고 넣었던 브랜치에서 꺼내요.")
 
 # ======================================================================

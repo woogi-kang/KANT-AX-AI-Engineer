@@ -28,6 +28,8 @@
 <p data-build-in="fade order 3" style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#FFE7A8;background:rgba(242,196,109,.2);border-radius:6px;margin:0 -10px;padding:0 10px">├── requests v2.34.2</p>
 <p data-build-in="fade order 3" style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">└── ipykernel v7.4.0 (group: dev)</p>
 </div>
+<svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path id="rt-path" d="M942,560 C972,560 936,296 966,296" fill="none" stroke="#5A3BB8" stroke-width="3" stroke-dasharray="8 10" opacity=".6"/></svg>
+<div data-build-in="path order 1" data-path="rt-path" data-ms="1400" style="position:absolute;left:953px;top:283px;width:26px;height:26px;border-radius:50%;background:#5A3BB8"></div>
 <p data-build-in="fade order 4" style="position:absolute;left:96px;top:870px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">pull은 목록 파일만 바꿔요. 내 .venv에 실제로 설치하는 건 uv sync예요.</p>
 <aside>팀원이 패키지를 넣고 push했으면 git pull origin main 뒤에 uv sync를 쳐요. kim은 앞 장에서 넣은 requests를 커밋해서 올렸어요. git add는 바뀐 두 파일 pyproject.toml과 uv.lock을 적어요. lee는 pull로 두 파일을 받고, uv sync로 requests와 따라온 패키지를 .venv에 설치했어요. uv tree --depth 1로 보면 lee의 프로젝트에도 requests가 들어 있어요. pull에서 fatal: Need to specify how to reconcile divergent branches.가 나오면 31쪽처럼 pull.rebase false를 설정해요. 출력은 tools/demo.sh로 실제로 실행한 결과이고, pull 출력 앞부분과 설치 목록 3줄, uv tree의 Resolved 줄은 뺐어요.</aside>
 </section>

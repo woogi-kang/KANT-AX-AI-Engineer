@@ -12,7 +12,9 @@ Layout (2026-11-08 remake, rules from the Stageshow skill, github.com/benjitaylo
 3. say it once: what the speaker notes explain stays out of the slide; one caption sentence at the bottom
 4. values that change move: map and filter results fly out of their input boxes
 5. a fix is the wrong line struck through next to the right line
-Highlights come from tools/HIGHLIGHT.md (line tint, line spotlight, pen ring, underline, box, fly). No typing.
+Highlights come from tools/HIGHLIGHT.md (2026-11-09 player): slam and shine on the cover, staggered rows, dimmed steps,
+line spotlight, run band, changed letters (mark), code morph, value change, pulse, blur, shake,
+count, fly, pen ring/underline/box, brackets with delayed labels. Nothing that looks like typing.
 Usage: python3 tools/gen.py slides
 """
 
@@ -100,12 +102,13 @@ def arrow(w=60, color="#C9CED8"):
 def cover(lines, h1, sub, note, accent="#F2B27A", h1size=92):
     cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
            f'<p style="font-size:28px;font-weight:700;color:{accent};letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-           f'<h1 style="font-size:{h1size}px;font-weight:900;line-height:1.1;color:#F6F5F1">{h1}</h1>',
+           f'<h1{SLAM(1)} style="font-size:{h1size}px;font-weight:900;line-height:1.1;color:#F6F5F1">{h1}</h1>',
            f'<p style="font-size:40px;line-height:1.4;color:#BFC6D4">{sub}</p>']
-    cov.append(f'<div style="position:absolute;left:900px;top:300px;width:900px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">')
+    cov.append(f'<div id="cov-code" style="position:absolute;left:900px;top:300px;width:900px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">')
     for line, c in lines:
         cov.append(p(f"font-family:{MONO};font-size:30px;font-weight:700;line-height:1.45;color:{c};white-space:pre", e(line)))
     cov.append('</div>')
+    cov.append(shine(2, "cov-code"))
     W("cover", cov, note, ("intro", "들어가기"))
     ORDER.append("toc")
 
@@ -121,7 +124,16 @@ PR = "prices = [4500, 5000, 6500]"
 
 # ======================= 2026-11-08 remake helpers =======================
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, ring, box, underline
+from highlight import (spot, spot_off, ring, box, underline, lspot, lspot_off, run, run_off, pulse, blur, blur_off,
+                       shake, shine, SLAM, COUNT, MARK, DIM, DELAY, MORPH, MORPH_FROM, tok)
+from highlight import text as vtext
+
+RAW = "\x00"       # a code line starting with RAW is already HTML (it holds MARK spans)
+
+
+def mk(s_, order, bg="rgba(178,106,0,0.20)"):
+    """Code letters whose tint fades in on their step (MARK)."""
+    return f'<span{MARK(order)} style="background:{bg};border-radius:6px;box-shadow:0 0 0 4px {bg}">{e(s_)}</span>'
 
 CFS = [30]          # code font size of the cells on the slide being drawn
 
@@ -137,7 +149,7 @@ def cell(c, left, top, w, sel=None, mode="cmd", pre="", attrs=""):
     o = [f'<div id="{pre}{c["id"]}"{attrs or c.get("attrs", "")} style="position:absolute;left:{left}px;top:{top}px;width:{w}px;display:flex;flex-direction:column;gap:10px">']
     bar = f'<div style="width:7px;flex:none;border-radius:4px;background:{SEL if chosen else "transparent"}"></div>'
     gutter = p(f"width:58px;flex:none;font-family:{MONO};font-size:22px;color:{GRAY};text-align:right;padding-top:{max(8, fs * 0.3):.0f}px", f"[{n}]" if n else "[ ]")
-    txt = "".join(p(f"font-family:{MONO};font-size:{fs}px;line-height:1.45;white-space:pre;color:{INK}", e(l) if l else "&#160;") for l in lines)
+    txt = "".join(p(f"font-family:{MONO};font-size:{fs}px;line-height:1.45;white-space:pre;color:{INK}", (l[1:] if l.startswith(RAW) else e(l)) if l else "&#160;") for l in lines)
     tag_ = p(f"position:absolute;right:14px;bottom:8px;font-size:18px;color:{GRAY}", "Python")
     bx_ = f'<div style="flex:1;position:relative;background:#FFFFFF;border:2px solid {LINE};border-radius:10px;padding:8px 18px 8px;display:flex;flex-direction:column">{txt}{tag_}</div>'
     o.append(f'<div style="display:flex;flex-direction:row;gap:10px;align-items:stretch">{bar}{gutter}{bx_}</div>')
@@ -200,6 +212,21 @@ def pen_box(order, left, line, k0, k1, y, color=RED):
     """A pen-drawn box tight around characters k0..k1 of a code or output line (y = centre of that line)."""
     x0, x1 = cx(left, line, k0), cx(left, line, k1)
     return box(order, round(x0 - 8), round(y - LHf() * 0.5), round(x1 - x0 + 16), round(LHf()), color)
+
+
+def CB(left, top, w, n):
+    """The code box of a cell with n code lines."""
+    return (left + 85, top, w - 85, round(n * LHf() + 20))
+
+
+def lsp(order, left, top, w, n, i, k=1, bar=BL):
+    """Line spotlight on code lines i..i+k-1 of a cell with n code lines (the rest of the box is veiled)."""
+    return lspot(order, *CB(left, top, w, n), top + 10 + i * LHf(), k * LHf(), bar=bar)
+
+
+def runl(order, left, top, w, i):
+    """Green run band over code line i."""
+    return run(order, left + 87, round(top + 10 + i * LHf()), w - 89, round(LHf()))
 
 
 def line_spot(order, left, top, i, n, x_end, pad=10):
@@ -306,7 +333,7 @@ def finish(parts, toc_note, title):
          f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>']
     for i, (ic, c, h, s, a, b) in enumerate(parts, 1):
         y = 196 + (i - 1) * 118
-        t.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:118px;display:flex;flex-direction:row;align-items:center;gap:36px;border-bottom:2px solid {LINE}">'
+        t.append(f'<div data-build-in="rise order 1"{DELAY((i - 1) * 90)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:118px;display:flex;flex-direction:row;align-items:center;gap:36px;border-bottom:2px solid {LINE}">'
                  + p(f"width:64px;flex:none;font-size:56px;font-weight:900;color:{c};text-align:center", str(i))
                  + p(f"width:470px;flex:none;font-size:38px;font-weight:700;color:{INK};white-space:nowrap", e(h))
                  + p(f"flex:1;font-size:27px;line-height:1.4;color:{SUB}", e(s))
@@ -339,10 +366,8 @@ STEPS = [("VS Code로 hello-uv 폴더 열기", None), ("탐색기에서 basics.i
 for i, (s_, rid) in enumerate(STEPS):
     y = 220 + i * 150
     idt = f' id="{rid}"' if rid else ""
-    o.append(f'<div{idt} style="position:absolute;left:{L}px;top:{y}px;width:980px;height:110px;display:flex;flex-direction:row;align-items:center;gap:30px">'
+    o.append(f'<div{idt} data-build-in="rise order {i + 1}"{DIM("rd")} style="position:absolute;left:{L}px;top:{y}px;width:980px;height:110px;display:flex;flex-direction:row;align-items:center;gap:30px">'
              + num(i + 1, JP, 48) + p(f"font-size:38px;font-weight:700;color:{INK};white-space:nowrap", e(s_)) + '</div>')
-o.append(spot(1, target="venv-row", pad=16, r=20))
-o.append(spot_off(2))
 o.append(txt(1180, 214, "앞에서 배운 것", 26, GRAY))
 for i, (a_, b_) in enumerate([("리스트, 튜플, for, append", "13"), ("딕셔너리 키로 for 돌기", "15"), ("if, 한 줄 if else", "17"), ("def, return, 괄호를 뺀 hello", "19"), ("키워드 인자 reverse=True", "20")]):
     y = 266 + i * 104
@@ -357,15 +382,19 @@ CFS[0] = 40
 o = [sec("l-why")] + head(EB1, "가격을 바꿀 때마다 for 네 줄을 다시 적어요", K1)
 WHY = [PR, "up = []", "for p in prices:", "    up.append(p + 500)", "print(up)", "down = []", "for p in prices:", "    down.append(p - 500)", "print(down)"]
 T = 196
-o += cell({"id": "c-why", "lines": WHY, "n": 1, "out": ["[5000, 5500, 7000]", "[4000, 4500, 6000]"]}, L, T, 1300, sel="c-why")
-o.append(hl(L, T, 1300, 3, 1, "mark", 1))
-o.append(hl(L, T, 1300, 7, 1, "mark", 1))
-o.append(tag(tx(L, WHY[1:]), ly(T, 3), "500원 올리기", K1, 1, 32))
-o.append(tag(tx(L, WHY[1:]), ly(T, 7), "500원 내리기", K1, 1, 32))
-o.append(tag(tx(L, WHY[1:]), (ly(T, 1) + ly(T, 2)) / 2, "나머지는 똑같아요", GRAY, 2, 30))
-o.append(tag(tx(L, WHY[1:]), (ly(T, 5) + ly(T, 6)) / 2, "나머지는 똑같아요", GRAY, 2, 30))
+WHYR = list(WHY)
+WHYR[3] = RAW + e("    up.append(") + mk("p + 500", 3) + ")"
+WHYR[7] = RAW + e("    down.append(") + mk("p - 500", 3) + ")"
+o += cell({"id": "c-why", "lines": WHYR, "n": 1, "out": ["[5000, 5500, 7000]", "[4000, 4500, 6000]"]}, L, T, 1300, sel="c-why")
+o.append(lsp(1, L, T, 1300, 9, 1, 4, K1))
+o.append(tag(tx(L, WHY[1:]), ly(T, 1) + LHf() / 2, "500원 올리는 네 줄", K1, 1, 32))
+o.append(lsp(2, L, T, 1300, 9, 5, 4, K1))
+o.append(tag(tx(L, WHY[1:]), ly(T, 5) + LHf() / 2, "500원 내리는 네 줄", K1, 2, 32))
+o.append(lspot_off(3))
+o.append(tag(tx(L, WHY[1:]), ly(T, 3), "다른 건 여기뿐", OR, 3, 30))
+o.append(tag(tx(L, WHY[1:]), ly(T, 7), "다른 건 여기뿐", OR, 3, 30))
 SAT = "up = list(map(lambda p: p + 500, prices))"
-o.append(f'<div data-build-in="rise order 3" style="position:absolute;left:1030px;top:700px;width:794px;height:180px;background:#FFFFFF;border-radius:20px;box-shadow:0 1px 0 #E1DED6,0 14px 34px rgba(29,35,48,0.16);padding:28px 34px;display:flex;flex-direction:column;justify-content:center;gap:12px">'
+o.append(f'<div data-build-in="rise order 4" style="position:absolute;left:1030px;top:700px;width:794px;height:180px;background:#FFFFFF;border-radius:20px;box-shadow:0 1px 0 #E1DED6,0 14px 34px rgba(29,35,48,0.16);padding:28px 34px;display:flex;flex-direction:column;justify-content:center;gap:12px">'
          + p(f"font-size:26px;font-weight:700;color:{K3}", "이번 챕터에서 배우면 한 줄이에요")
          + p(f"font-family:{MONO};font-size:28px;font-weight:700;color:{INK};white-space:pre", e(SAT)) + '</div>')
 o.append(caption("두 덩어리에서 다른 건 한 줄뿐이에요."))
@@ -395,7 +424,7 @@ ax = lambda k: 201 + k * AF * 0.6
 o.append(txt(201, 470, e(AN), AF, INK, mono_=True))
 for (k0, k1, y, col, lab, od) in [(9, 25, 572, K2, "x를 받아 x + 10을 돌려주는 함수", 1), (5, 35, 652, K3, "numbers의 값마다 그 함수를 써요", 2), (0, 36, 732, K1, "나온 값을 리스트로 모아요", 3)]:
     o.append(bracket(od, ax(k0), ax(k1), y, col))
-    o.append(txt(ax(k0), y + 10, e(lab), 30, col, attrs=f' data-build-in="fade order {od}"'))
+    o.append(txt(ax(k0), y + 10, e(lab), 30, col, attrs=f' data-build-in="fade order {od}"' + DELAY(250)))
 o.append(caption("함수와 리스트를 map에 넘기면, 값마다 함수를 써서 결과를 모아 줘요."))
 W("l-min", o, "lambda로 함수를 만들고, map이 값마다 쓰고, list가 모아요. numbers의 값 1, 2, 3에 10씩 더해요. lambda x: x + 10은 x를 받아 x + 10을 돌려주는 함수예요. 2파트에서 자세히 봐요. map은 이 함수를 numbers의 값마다 써요. 1을 넣으면 11, 2를 넣으면 12, 3을 넣으면 13이 나와요. 마지막으로 list로 감싸서 [11, 12, 13] 리스트로 모아요. list가 왜 필요한지는 3파트에서 봐요. 앞 장의 for 네 줄이 한 줄이 됐어요." + REAL)
 
@@ -414,9 +443,10 @@ o.append(f'<div style="position:absolute;left:1250px;top:226px">{chip("add10", K
 o.append(f'<div id="sat-plus" data-build-in="fly order 2" data-from="a-plus" style="position:absolute;left:1580px;top:226px">{chip("plus", K2, K2BG, 36)}</div>')
 o.append(down(1326, 316))
 o.append(down(1636, 316, attrs=' data-build-in="fade order 2"'))
-o.append(f'<div style="position:absolute;left:1180px;top:370px;width:644px;height:220px;border-radius:24px;background:{K2};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">'
+o.append(f'<div id="fnbox" style="position:absolute;left:1180px;top:370px;width:644px;height:220px;border-radius:24px;background:{K2};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">'
          + p("font-size:28px;font-weight:700;color:#FFFFFF", "함수 하나") + p(f"font-family:{MONO};font-size:36px;font-weight:700;color:#FFFFFF", "x를 받아 x + 10") + '</div>')
-o.append(txt(1180, 620, "같은 함수에 이름이 하나 더 생겨요", 30, K2, attrs=' data-build-in="fade order 2"'))
+o.append(txt(1180, 620, "같은 함수에 이름이 하나 더 생겨요", 30, K2, attrs=' data-build-in="fade order 3"'))
+o.append(pulse(3, "fnbox"))
 o.append(caption("괄호를 빼면 함수를 실행하지 않고 값처럼 다룰 수 있어요."))
 W("v-value", o, "괄호 없이 적은 함수 이름은 함수 그 자체라서 변수에 담을 수 있어요. 19에서 괄호를 빼고 hello만 적었더니 함수 자체가 나왔어요. 함수도 숫자나 리스트처럼 하나의 값이에요. 그래서 plus = add10처럼 다른 변수에 담을 수 있어요. 괄호가 없으니 add10을 실행하지 않고 함수 그대로 담아요. 이제 plus와 add10은 같은 함수를 가리켜서 plus(5)도 15예요. print(add10)의 0x로 시작하는 숫자는 함수가 저장된 메모리 위치라서 화면마다 달라요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p2", "함수를 값처럼, lambda"))
 
@@ -425,14 +455,17 @@ o = [sec("v-pass")] + head(EB2, "함수를 다른 함수에 넘길 수 있어요
 VP = ["def double(x):", "    return x * 2", "", "def apply(f, x):", "    return f(x)", "", "print(apply(add10, 5))", "print(apply(double, 5))"]
 T = 196
 o += cell({"id": "c-v2", "lines": VP, "n": 2, "out": ["15", "10"]}, L, T, 1000, sel="c-v2")
-o.append(hl(L, T, 1000, 4, 1, "mark", 1))
-o.append(tag(tx(L, VP), ly(T, 4), "받은 함수를 불러요", K2, 1, 30))
-o.append(uline(2, L, VP[6], 12, 17, ly(T, 6), OR))
-o.append(uline(2, L, VP[7], 12, 18, ly(T, 7), OR))
-o.append(tag(tx(L, VP), (ly(T, 6) + ly(T, 7)) / 2, "이름만 넘겨요", OR, 2, 30))
+o.append(runl(1, L, T, 1000, 6))
+o.append(runl(2, L, T, 1000, 4))
+o.append(tag(tx(L, VP), ly(T, 4), "받은 함수를 불러요", K2, 2, 30))
+o.append(runl(3, L, T, 1000, 7))
+o.append(run_off(4))
+o.append(uline(4, L, VP[6], 12, 17, ly(T, 6), OR))
+o.append(uline(4, L, VP[7], 12, 18, ly(T, 7), OR))
+o.append(tag(tx(L, VP), (ly(T, 6) + ly(T, 7)) / 2, "이름만 넘겨요", OR, 4, 30))
 for i, (a_, b_, c_) in enumerate([("apply(add10, 5)", "add10(5)", "15"), ("apply(double, 5)", "double(5)", "10")]):
     y = 300 + i * 220
-    o.append(f'<div data-build-in="rise order {i + 3}" style="position:absolute;left:1180px;top:{y}px;width:644px;display:flex;flex-direction:column;gap:14px">'
+    o.append(f'<div data-build-in="rise order {1 + 2 * i}" style="position:absolute;left:1180px;top:{y}px;width:644px;display:flex;flex-direction:column;gap:14px">'
              + p(f"font-family:{MONO};font-size:34px;font-weight:700;color:{INK};white-space:pre", e(a_))
              + '<div style="display:flex;flex-direction:row;align-items:center;gap:18px">' + arrow(46, K2) + mono(b_, 34, K2, K2BG) + arrow(46, K2) + p(f"font-family:{MONO};font-size:34px;font-weight:700;color:{INK}", c_) + '</div></div>')
 o.append(caption("함수도 인자로 넘길 수 있어요. 넘길 때는 이름만 적어요."))
@@ -443,18 +476,26 @@ LB, LX, LC, LV = "#9DBDEB", "#8FD8DE", "#F2A0A0", "#B8E8BE"
 WH = "#E6E9EF"
 sp = lambda t, c, sid=None, at="": (f'<span{" id=" + chr(34) + sid + chr(34) if sid else ""}{at} style="display:inline-block;white-space:pre;color:{c}">{e(t)}</span>')
 o.append(txt(L, 196, "19의 def", 26, GRAY))
-o.append(f'<div style="position:absolute;left:{L}px;top:240px;width:760px;height:170px;background:#252B36;border-radius:22px;padding:24px 40px;display:flex;flex-direction:column;justify-content:center;gap:4px">'
-         + p(f"font-family:{MONO};font-size:38px;font-weight:700;line-height:1.45;white-space:pre", sp("def", LB) + sp(" add10", "#E3B877") + sp("(", WH) + sp("x", LX, "dx") + sp("):", WH))
-         + p(f"font-family:{MONO};font-size:38px;font-weight:700;line-height:1.45;white-space:pre", sp("    return ", WH) + sp("x + 10", LV, "dv")) + '</div>')
+DEFBOX = f"position:absolute;left:{L}px;top:240px;width:760px;height:170px;border-radius:22px;padding:24px 40px;display:flex;flex-direction:column;justify-content:center;gap:4px"
+DEFF = f"font-family:{MONO};font-size:38px;font-weight:700;line-height:1.45;white-space:pre"
+o.append(f'<div style="{DEFBOX};background:#252B36">'
+         + p(DEFF, sp("def", LB) + sp(" add10", "#E3B877") + sp("(", WH) + sp("x", LX) + sp("):", WH))
+         + p(DEFF, sp("    return ", WH) + sp("x + 10", LV)) + '</div>')
+# a copy that only the player shows: its x and x + 10 travel into the lambda line
+o.append(f'<div id="def-a"{MORPH_FROM()} style="{DEFBOX}">'
+         + p(DEFF, sp("def", LB) + sp(" add10", "#E3B877") + sp("(", WH) + tok("x", "x", f"color:{LX};white-space:pre") + sp("):", WH))
+         + p(DEFF, sp("    return ", WH) + tok("v", "x + 10", f"color:{LV};white-space:pre")) + '</div>')
 LF = 76
 LX0 = 136
 lxk = lambda k: LX0 + k * LF * 0.6
 o.append(txt(L, 456, "lambda", 26, K2, attrs=' data-build-in="fade order 1"'))
-o.append(f'<div data-build-in="rise order 1" style="position:absolute;left:{L}px;top:500px;width:980px;height:170px;background:#252B36;border-radius:22px;padding:0 40px;display:flex;align-items:center">'
-         + p(f"font-family:{MONO};font-size:{LF}px;font-weight:700;line-height:1.2;white-space:pre", sp("lambda", LB) + sp(" ", WH) + sp("x", LX, None, ' data-build-in="fly order 2" data-from="dx"') + sp(":", LC) + sp(" ", WH) + sp("x + 10", LV, None, ' data-build-in="fly order 2" data-from="dv"')) + '</div>')
+LBOX = f"position:absolute;left:{L}px;top:500px;width:980px;height:170px;border-radius:22px;padding:0 40px;display:flex;align-items:center"
+o.append(f'<div data-build-in="rise order 1" style="{LBOX};background:#252B36"></div>')
+o.append(f'<div{MORPH(1, "def-a")} style="{LBOX}">'
+         + p(f"font-family:{MONO};font-size:{LF}px;font-weight:700;line-height:1.2;white-space:pre", tok("l", "lambda", f"color:{LB}") + sp(" ", WH) + tok("x", "x", f"color:{LX}") + tok("c", ":", f"color:{LC}") + sp(" ", WH) + tok("v", "x + 10", f"color:{LV};white-space:pre")) + '</div>')
 PIECES = [(0, 6, "lambda", "def 대신 써요", BL, 136), (7, 8, "x", "매개변수, 괄호 없이", TEAL, 480), (8, 9, ":", "뒤가 돌려줄 값", RED, 820), (10, 16, "x + 10", "return 없이 돌려줘요", GR, 1160)]
 for i, (k0, k1, code, d_, c_, lx) in enumerate(PIECES):
-    od = 3 + i
+    od = 2 + i
     pxc = (lxk(k0) + lxk(k1)) / 2
     o.append(leader(od, pxc, 650, lx + 10, 742, c_))
     o.append(f'<div data-build-in="fade order {od}" style="position:absolute;left:{lx}px;top:752px;width:400px;display:flex;flex-direction:column;gap:6px">'
@@ -491,8 +532,8 @@ o.append(uline(2, L, DM[2], 18, len(DM[2]), ly(T, 2), K2))
 o.append(tag(tx(L, DM), ly(T, 2), "17의 한 줄 if else", K2, 2, 30))
 TR = [("이름", "있어요", "없어요"), ("몸통", "여러 줄", "값 하나"), ("return", "적어요", "안 적어요"), ("언제", "여러 번 부를 함수", "다른 함수에 바로 넘길 때")]
 o += rows_plain(L, 540, FULL, ["", "def", "lambda"], TR, [240, 640, 760], 3, 80, 32, ids=["dm-r0", "dm-r1", "dm-r2", "dm-r3"])
-o.append(spot(4, target="dm-r1", pad=10, r=12))
-o.append(spot_off(5))
+o.append(blur(4, "dm-r1"))
+o.append(blur_off(5))
 W("d-more", o, "lambda도 매개변수를 여러 개 받고, 값 하나로 계산되는 한 줄 if else를 쓸 수 있어요. price_of는 가격과 잔 수를 쉼표로 받아 곱한 값을 돌려줘요. 콜론 뒤에는 값 하나만 올 수 있어서 17의 if 문은 못 넣어요. 대신 17에서 배운 한 줄 if else는 값 하나로 계산되니까 쓸 수 있어요. 아래 표에 def와 lambda를 나란히 정리했어요. 가장 큰 차이는 몸통이에요. def는 여러 줄, lambda는 값 하나예요. 여러 번 부를 함수는 def, 다른 함수에 바로 넘길 짧은 함수는 lambda로 만들어요." + REAL)
 
 # ---------- part 3 ----------
@@ -502,13 +543,13 @@ MT = [PR, "", "def add500(p):", "    return p + 500", "", "print(list(map(add500
 T = 196
 o += cell({"id": "c-m1", "lines": MT, "n": 1, "out": ["[5000, 5500, 7000]", "[5000, 5500, 7000]", "[4500, 5000, 6500]"]}, L, T, FULL, sel="c-m1")
 TX_ = tx(L, MT)
-o.append(line_spot(1, L, T, 5, 1, TX_ + 360))
+o.append(lsp(1, L, T, FULL, 8, 5, 1, K3))
 o.append(tag(TX_, ly(T, 5), "def로 만든 이름 넘기기", K3, 1, 30))
-o.append(line_spot(2, L, T, 6, 1, TX_ + 360))
+o.append(lsp(2, L, T, FULL, 8, 6, 1, K3))
 o.append(tag(TX_, ly(T, 6), "lambda 바로 넘기기", K3, 2, 30))
-o.append(line_spot(3, L, T, 7, 1, TX_ + 360))
+o.append(lsp(3, L, T, FULL, 8, 7, 1, GRAY))
 o.append(tag(TX_, ly(T, 7), "원본은 그대로", GRAY, 3, 30))
-o.append(spot_off(4))
+o.append(lspot_off(4))
 FOR3 = ["up = []", "for p in prices:", "    up.append(p + 500)"]
 o.append(f'<div data-build-in="rise order 4" style="position:absolute;left:1180px;top:640px;width:644px;height:250px;background:#FFFFFF;border-radius:20px;box-shadow:0 1px 0 #E1DED6,0 14px 34px rgba(29,35,48,0.16);padding:26px 34px;display:flex;flex-direction:column;gap:6px">'
          + p(f"font-size:26px;font-weight:700;color:{GRAY};margin-bottom:6px", "1파트의 for도 같은 결과예요")
@@ -519,12 +560,17 @@ W("m-three", o, "for와 append 네 줄, def 넘기기, lambda 넘기기 모두 �
 o = [sec("m-pic")] + head(EB3, "map은 값을 하나씩 함수에 넣어요", K3)
 pp, yb = pipe2("mp", L, 230, ["4500", "5000", "6500"], "lambda p: p + 500", ["5000", "5500", "7000"], K3, K3BG, [1, 2, 3], w=280, h=140, fs=40, band_h=120)
 o += pp
-for i, (pv, rv) in enumerate([("4500", "5000"), ("5000", "5500"), ("6500", "7000")]):
-    y = 250 + i * 170
-    o.append(f'<div data-build-in="fade order {i + 1}" style="position:absolute;left:1060px;top:{y}px;width:764px;height:120px;display:flex;flex-direction:row;align-items:center;gap:22px;border-bottom:2px solid {LINE}">'
-             + p(f"width:56px;flex:none;font-size:36px;font-weight:900;color:{K3}", str(i + 1))
-             + p(f"width:250px;flex:none;font-family:{MONO};font-size:34px;font-weight:700;color:{INK};white-space:pre", f"p = {pv}")
-             + arrow(46, K3) + p(f"font-family:{MONO};font-size:34px;font-weight:700;color:{K3}", rv) + '</div>')
+SLOT = f"width:220px;height:120px;flex:none;border-radius:16px;border:3px solid {K3};font-family:{MONO};font-size:44px;font-weight:700;line-height:114px;text-align:center"
+o.append(txt(1080, 250, "지금 p 칸에 들어간 값과 돌려받은 값", 26, GRAY, attrs=' data-build-in="fade order 1"'))
+o.append(f'<div data-build-in="rise order 1" style="position:absolute;left:1080px;top:310px;width:744px;display:flex;flex-direction:row;align-items:center;gap:26px">'
+         + p(f"font-family:{MONO};font-size:44px;font-weight:700;color:{INK};white-space:pre", "p")
+         + p(SLOT + f";background:#FFFFFF;color:{INK}", "6500", ' id="mp-p" data-start="4500"')
+         + arrow(60, K3)
+         + p(SLOT + f";background:{K3BG};color:{K3}", "7000", ' id="mp-r" data-start="5000"') + '</div>')
+o.append(vtext(2, "mp-p", "5000"))
+o.append(vtext(2, "mp-r", "5500"))
+o.append(vtext(3, "mp-p", "6500"))
+o.append(vtext(3, "mp-r", "7000"))
 o.append(txt(L, yb + 30, "넣은 순서대로 3개가 나와요", 30, K3, attrs=' data-build-in="fade order 4"'))
 o.append(caption("map이 리스트의 값을 차례로 lambda의 p에 넣고, 돌려받은 값을 모아요."))
 W("m-pic", o, "map은 리스트의 값을 하나씩 lambda의 p 칸에 넣고, 돌려받은 값을 순서대로 모아요. 첫 값 4500이 p 칸에 들어가서 5000이 돌아와요. 다음 5000이 들어가 5500, 6500이 들어가 7000이 돌아와요. 그래서 결과는 원래 순서 그대로이고 개수도 같아요. lambda의 p는 13에서 for p in prices:라고 적었을 때 p와 같은 역할이에요.")
@@ -563,9 +609,11 @@ o = [sec("f-for")] + head(EB4, "for와 if로 골라 담던 일을 filter 한 줄
 FF = ["prices = [4500, 5000, 6500, 3000]", "big = []", "for p in prices:", "    if p >= 5000:", "        big.append(p)", "print(big)", "print(list(filter(lambda p: p >= 5000, prices)))"]
 T = 196
 o += cell({"id": "c-f1", "lines": FF, "n": 1, "out": ["[5000, 6500]", "[5000, 6500]"]}, L, T, FULL, sel="c-f1")
-o.append(hl(L, T, FULL, 1, 4, "mark", 1))
+o.append(lsp(1, L, T, FULL, 7, 1, 4, K4))
 o.append(tag(tx(L, FF[1:6]), ly(T, 3), "17에서 for 안의 if로 골라 담기", K4, 1, 30))
-o.append(hl(L, T, FULL, 6, 1, "run", 2))
+o.append(lsp(2, L, T, FULL, 7, 6, 1, GR))
+o.append(lspot_off(3))
+o.append(box(3, round(ox(L, "", 0)) - 14, round(oy(T, 7, 0) - LHf() / 2) - 6, round(tw("[5000, 6500]")) + 28, round(oy(T, 7, 1) - oy(T, 7, 0) + LHf()) + 12, GR, 5, 12))
 o.append(tag(ox(L, "[5000, 6500]", 12) + 40, (oy(T, 7, 0) + oy(T, 7, 1)) / 2, "결과가 같아요", GR, 3, 30))
 o.append(caption("for 안의 if로 골라 담는 일은 filter 한 줄로 줄여요."))
 W("f-for", o, "for 안의 if로 골라 담던 다섯 줄을 filter 한 줄로 바꿀 수 있어요. 17에서 5000원 이상인 가격만 big에 담았어요. filter의 첫째 인자는 조건 함수이고, 둘째는 리스트예요. 조건 함수가 True를 돌려준 값만 남아요. lambda p: p >= 5000은 p가 5000 이상인지 True나 False로 답해요. filter도 map처럼 결과를 꺼내 줄 준비만 하니까 list로 감싸서 봐요. 원본 prices는 그대로예요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p4", "filter"))
@@ -608,7 +656,8 @@ o = [sec("f-chain")] + head(EB4, "고른 다음 바꾸려면 filter 결과를 ma
 FC = ["big = list(filter(lambda p: p >= 5000, prices))", "print(big)", "print(list(map(lambda p: p * 9 // 10, big)))", "print(list(map(lambda p: p * 9 // 10, filter(lambda p: p >= 5000, prices))))"]
 T = 196
 o += cell({"id": "c-f4", "lines": FC, "n": 4, "out": ["[5000, 6500]", "[4500, 5850]", "[4500, 5850]"]}, L, T, FULL, sel="c-f4")
-o.append(hl(L, T, FULL, 0, 3, "mark", 1))
+o.append(lsp(1, L, T, FULL, 4, 0, 3, K4))
+o.append(lspot_off(2))
 o.append(tag(tx(L, FC[:3]), ly(T, 1), "두 번에 나눠 쓰면 중간 결과 big을 볼 수 있어요", K4, 1, 28))
 AN2 = "list(map(lambda p: p * 9 // 10, filter(lambda p: p >= 5000, prices)))"
 AF2 = 34
@@ -630,6 +679,7 @@ E1O = "TypeError: 'map' object is not subscriptable"
 T1 = 196
 o += cell({"id": "c-t1", "lines": E1, "n": 1, "out": [E1O], "err": True}, L, T1, FULL, sel="c-t1")
 o.append(pen_box(1, L, E1O, 0, len(E1O), oy(T1, 2, 0)))
+o.append(shake(1, "c-t1"))
 T2 = 412
 E2O = "TypeError: object of type 'map' has no len()"
 o += cell({"id": "c-t2", "lines": ["print(len(doubled))"], "n": 2, "out": [E2O], "err": True}, L, T2, FULL, attrs=' data-build-in="rise order 2"')
@@ -637,8 +687,9 @@ o.append(underline(2, round(ox(L, E2O, 0)), round(ox(L, E2O, len(E2O))), round(o
 o.append(tag(ox(L, E2O, len(E2O)) + 40, oy(T2, 1, 0), "filter 결과도 같아요", RED, 2, 28))
 T3 = 600
 EF = ["doubled = list(map(lambda x: x * 2, [1, 2, 3]))", "print(doubled[0])", "print(len(doubled))"]
-o += cell({"id": "c-t2f", "lines": EF, "n": 3, "out": ["2", "3"]}, L, T3, FULL, attrs=' data-build-in="rise order 3"')
-o.append(uline(3, L, EF[0], 10, 15, ly(T3, 0), GR))
+GRT = "rgba(31,138,76,0.20)"
+EFR = [RAW + e("doubled = ") + mk("list(", 3, GRT) + e("map(lambda x: x * 2, [1, 2, 3])") + mk(")", 3, GRT)] + EF[1:]
+o += cell({"id": "c-t2f", "lines": EFR, "n": 3, "out": ["2", "3"]}, L, T3, FULL, attrs=' data-build-in="rise order 3"')
 o.append(tag(tx(L, EF), ly(T3, 0), "list()로 바꾸면 돼요", GR, 3, 30))
 o.append(caption("번호로 꺼내거나 길이를 재려면 먼저 list()로 바꿔요."))
 W("t-list", o, "map 결과는 리스트가 아니라서 번호로 꺼내거나 len으로 잴 수 없어요. doubled는 map object예요. 그래서 doubled[0]처럼 번호로 꺼내면 subscriptable이 아니라는 TypeError가 나요. len으로 길이를 재도 map에는 len이 없다는 TypeError가 나요. filter 결과도 똑같아요. 아래처럼 list로 감싸 리스트로 만들어 두면 번호와 len을 쓸 수 있어요. Traceback 위쪽 줄은 빼고 마지막 줄만 옮겼어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p5", "오류와 함정"))
@@ -682,6 +733,7 @@ TRN = ["add10 = lambda x: return x + 10"]
 T = 196
 o += cell({"id": "c-t5", "lines": TRN, "n": 7, "out": ["SyntaxError: invalid syntax"], "err": True}, L, T, FULL, sel="c-t5")
 o.append(pen_box(1, L, TRN[0], 18, 24, ly(T, 0)))
+o.append(shake(1, "c-t5"))
 o.append(tag(tx(L, TRN) + 20, ly(T, 0), "콜론 뒤에는 값만 와요", RED, 1, 32))
 o.append(fix(L, 520, "lambda x: return x + 10", "lambda x: x + 10", 2, 52))
 o.append(caption("lambda는 콜론 뒤에 돌려줄 값 하나만 적어요."))
@@ -693,15 +745,19 @@ LL = ['label = lambda p: "비쌈" if p >= 6000 else ("보통" if p >= 4500 else 
 T1 = 236
 o.append(txt(L, 196, "lambda 한 줄", 26, GRAY))
 o += cell({"id": "c-t6", "lines": LL, "n": 8, "out": ["비쌈 보통 쌈"]}, L, T1, FULL, sel="c-t6")
-o.append(line_spot(1, L, T1, 0, 1, L + 105 + tw(LL[0]) + 20))
-o.append(spot_off(2))
+o.append(lsp(1, L, T1, FULL, 2, 0, 1, OR))
+o.append(lspot_off(2))
 T2 = 480
 LD = ["def label(p):", "    if p >= 6000:", '        return "비쌈"', "    elif p >= 4500:", '        return "보통"', '    return "쌈"', "", "print(label(6500), label(5000), label(3000))"]
 o.append(txt(L, T2 - 40, "def로 나눠 쓰기", 26, GR, attrs=' data-build-in="fade order 2"'))
 o += cell({"id": "c-t7", "lines": LD, "n": 9, "out": ["비쌈 보통 쌈"]}, L, T2, 1100, attrs=' data-build-in="rise order 2"')
-o.append(tag(tx(L, LD[:6]), (ly(T2, 1) + ly(T2, 4)) / 2, "조건이 한 줄에 하나씩", GR, 2, 30))
-o.append(tag(ox(L, "비쌈 보통 쌈", 8) + 40, oy(T2, 8, 0), "결과는 같아요", GRAY, 3, 30))
-W("t-long", o, "조건이 두 개를 넘으면 lambda 대신 def로 나눠 써요. 한 줄 if else를 괄호로 겹치면 lambda 한 줄에 조건 두 개를 넣을 수 있고 결과도 맞아요. 그런데 어디까지가 어느 조건인지 읽기 어려워요. 아래 def처럼 if와 elif로 나눠 쓰면 19에서 본 모양이라 금방 읽혀요. map에는 map(label, prices)처럼 이름만 넘기면 돼요. lambda는 한 줄로 바로 읽히는 짧은 일에만 써요." + REAL)
+o.append(tag(L + 1130, ly(T2, 1), "조건이 한 줄에 하나씩", GR, 2, 30))
+o.append(tag(L + 1130, ly(T2, 3), "label(5000)을 따라가 봐요", GR, 3, 30))
+o.append(runl(3, L, T2, 1100, 1))
+o.append(runl(4, L, T2, 1100, 3))
+o.append(runl(5, L, T2, 1100, 4))
+o.append(tag(ox(L, "비쌈 보통 쌈", 8) + 40, oy(T2, 8, 0), "결과는 같아요", GRAY, 5, 30))
+W("t-long", o, "조건이 두 개를 넘으면 lambda 대신 def로 나눠 써요. 한 줄 if else를 괄호로 겹치면 lambda 한 줄에 조건 두 개를 넣을 수 있고 결과도 맞아요. 그런데 어디까지가 어느 조건인지 읽기 어려워요. 아래 def처럼 if와 elif로 나눠 쓰면 19에서 본 모양이라 금방 읽혀요. label(5000)을 따라가면 첫 if는 False라 건너뛰고, elif에서 보통을 돌려줘요. map에는 map(label, prices)처럼 이름만 넘기면 돼요. lambda는 한 줄로 바로 읽히는 짧은 일에만 써요." + REAL)
 
 # ---------- part 6 ----------
 CFS[0] = 32
@@ -710,13 +766,13 @@ RAISE = ['menu = {"coffee": 4500, "latte": 5000, "cake": 6500}', "print(list(map
 T = 196
 o += cell({"id": "c-x1", "lines": RAISE, "n": 1, "out": ["[4950, 5500, 7150]", "coffee  4,500원 →  4,950원", "latte   5,000원 →  5,500원", "cake    6,500원 →  7,150원"]}, L, T, FULL, sel="c-x1")
 TX_ = tx(L, RAISE[1:])
-o.append(line_spot(1, L, T, 1, 1, TX_ + 300))
+o.append(lsp(1, L, T, FULL, 8, 1, 1, K6))
 o.append(tag(TX_, ly(T, 1), "새 가격만", K6, 1, 28))
-o.append(line_spot(2, L, T, 3, 3, TX_ + 420))
+o.append(lsp(2, L, T, FULL, 8, 3, 3, K6))
 o.append(tag(TX_, ly(T, 4), "줄 만들기는 길어서 def", K6, 2, 28))
-o.append(line_spot(3, L, T, 7, 1, TX_ + 460))
+o.append(lsp(3, L, T, FULL, 8, 7, 1, K6))
 o.append(tag(TX_, ly(T, 7), "메뉴마다 한 줄, \\n으로 이어 찍기", K6, 3, 28))
-o.append(spot_off(4))
+o.append(lspot_off(4))
 o.append(caption("한 줄 계산은 lambda, 줄 만들기처럼 긴 일은 def로 만들어 map에 넘겨요."))
 W("x-raise", o, "한 줄 계산은 lambda로, 줄 만들기처럼 긴 일은 def로 만들어 map에 넘겨요. 메뉴 가격을 10% 올려 봐요. 11을 곱하고 10으로 몫 나누기하면 10% 오른 값이 돼요. 먼저 lambda로 새 가격만 리스트로 뽑았어요. 딕셔너리를 넘겨서 m에는 메뉴 이름이 들어가고, 가격은 menu[m]이에요. 원래 가격과 새 가격을 나란히 찍는 줄은 길어서 line이라는 def로 만들었어요. map(line, menu)가 메뉴마다 한 줄씩 만들고, join이 줄바꿈 \\n으로 이어서 한 번에 찍어요. 13의 칸 맞추기와 천 단위 콤마를 그대로 썼어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p6", "실습"))
 
@@ -755,6 +811,7 @@ o.append(txt(L + 372, 716, "(", 56, GRAY, mono_=True))
 o.append(txt(L + 420 + 900 - 4, 716, ")", 56, GRAY, mono_=True))
 o.append(box(1, L + 420 + 600 - 8, 702, 296, 126, K4))
 o.append(box(2, L + 420 - 8, 702, 296, 126, K3))
+o = [re.sub(r'<p( style="[^"]*">7</p>)', lambda m_: "<p" + COUNT(3, 900) + m_.group(1), x_) for x_ in o]
 o.append(caption("튜플 하나가 lambda의 o 칸에 들어가고, 번호로 칸을 꺼내요.", 900))
 W("x-orders", o, "filter와 map에는 튜플 하나씩 들어가고, 번호로 칸을 꺼내요. 13에서 배운 튜플로 주문 기록을 적었어요. 튜플 하나가 이름, 메뉴, 잔 수예요. filter에 넘기면 튜플 하나씩 o 칸에 들어가요. o[2]가 잔 수라서 2잔 이상인 주문만 골랐어요. 그 결과를 map에 넘겨 o[0], 곧 이름만 꺼냈어요. 마지막 줄은 모든 주문의 잔 수를 map으로 꺼내 sum에 바로 넘겼어요. sum은 list로 바꾸지 않아도 값을 하나씩 꺼내 더해요. 모두 7잔이에요." + REAL)
 
@@ -771,7 +828,7 @@ o.append(f'<div style="position:absolute;left:{L}px;top:196px;width:{FULL}px;hei
          + p("width:50px;flex:none", "") + p(f"width:860px;flex:none;font-size:24px;font-weight:700;color:{GRAY}", "보이는 것") + p(f"width:400px;flex:none;font-size:24px;font-weight:700;color:{GRAY}", "까닭") + p(f"flex:1;font-size:24px;font-weight:700;color:{GRAY}", "고치기") + '</div>')
 for i, (q, a_, cmd) in enumerate(TRB, 1):
     y = 246 + (i - 1) * 90
-    o.append(f'<div style="position:absolute;left:{L}px;top:{y}px;width:{FULL}px;height:90px;display:flex;flex-direction:row;align-items:center;gap:30px;border-bottom:2px solid {LINE}">'
+    o.append(f'<div data-build-in="rise order 1"{DELAY((i - 1) * 80)} style="position:absolute;left:{L}px;top:{y}px;width:{FULL}px;height:90px;display:flex;flex-direction:row;align-items:center;gap:30px;border-bottom:2px solid {LINE}">'
              + p(f"width:50px;flex:none;font-size:30px;font-weight:900;color:{RED}", str(i))
              + p(f"width:860px;flex:none;{'font-family:' + MONO + ';font-size:26px;' if q.isascii() else 'font-size:28px;'}font-weight:700;color:{INK};white-space:nowrap", e(q))
              + p(f"width:400px;flex:none;font-size:26px;font-weight:500;color:{SUB};white-space:nowrap", e(a_))
@@ -785,7 +842,7 @@ o = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1
      f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">한 장 요약</h2>']
 for i, (k, d, c) in enumerate(CH):
     x, y = L + (i // 4) * 888, 196 + (i % 4) * 140
-    o.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:840px;height:140px;display:flex;flex-direction:row;align-items:center;gap:28px;border-bottom:2px solid {LINE}">'
+    o.append(f'<div data-build-in="rise order 1"{DELAY(i * 70)} style="position:absolute;left:{x}px;top:{y}px;width:840px;height:140px;display:flex;flex-direction:row;align-items:center;gap:28px;border-bottom:2px solid {LINE}">'
              + p(f"width:420px;flex:none;font-family:{MONO};font-size:36px;font-weight:700;color:{c};white-space:pre", e(k))
              + p(f"flex:1;font-size:34px;font-weight:700;color:{INK};white-space:nowrap", e(d)) + '</div>')
 o.append(p(f"position:absolute;left:{L}px;top:820px;width:{FULL}px;font-size:38px;font-weight:700;color:{INK}", "함수를 넘길 땐 괄호 없이 이름만 적어요."))

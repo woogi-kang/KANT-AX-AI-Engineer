@@ -11,10 +11,10 @@ Highlights come from tools/highlight.py (tools/HIGHLIGHT.md). No typing animatio
 Terminal output comes from tools/demo.sh (git 2.43), run at /tmp/merge-demo.
 Usage: python3 tools/gen.py slides
 """
-import html, json, os, sys
+import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, box, underline  # noqa: E402
+from highlight import spot, spot_off, cursor, cursor_off, box, underline, SLAM, STAGGER, PATH, DELAY, DIM, MARK, pulse, shake  # noqa: E402
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -234,6 +234,13 @@ def scene(sid, eyebrow, title, term=None, color=BL, transition="magic", section=
     return o
 
 
+def stagger(parts, k, order, delay):
+    """Staggered entry without a wrapper: parts[k:] rise on one click, delay ms after the step starts."""
+    for j in range(k, len(parts)):
+        if "data-build-in" not in parts[j].split(">", 1)[0]:
+            parts[j] = re.sub(r"^<([\w-]+)", lambda m: f'<{m.group(1)} data-build-in="rise order {order}"{DELAY(delay)}', parts[j], count=1)
+
+
 # ---------- the story (hashes from tools/demo.sh) ----------
 A, B, C, D, E_ = "9f452aa", "6d19f01", "d51d818", "6a9792d", "3573c9a"
 NM, M, D2, E2, S = "d847d12", "8818bb8", "a40dc47", "6852264", "8a6fe21"
@@ -252,7 +259,7 @@ nohash = lambda nodes: {k: v[:5] + ("",) for k, v in nodes.items()}
 # ---------- cover ----------
 cov = [sec("cover", "fade", INK).replace(f"color:{INK}", "color:#F6F5F1"),
        p("position:absolute;left:128px;top:300px;width:900px;font-size:28px;font-weight:700;color:#8FB3FF", "KANT AX/AI 엔지니어 트랙 · 08"),
-       f'<h1 style="position:absolute;left:128px;top:360px;width:900px;font-size:104px;font-weight:900;line-height:1.12;color:#F6F5F1">합치는 방법,<br>눈으로 비교하기</h1>',
+       f'<h1{SLAM(1)} style="position:absolute;left:128px;top:360px;width:900px;font-size:104px;font-weight:900;line-height:1.12;color:#F6F5F1">합치는 방법,<br>눈으로 비교하기</h1>',
        p("position:absolute;left:128px;top:620px;width:900px;font-size:40px;line-height:1.4;color:#BFC6D4", "fast-forward, merge, rebase, squash")]
 CG = dict(x0=1060, step=170, up=420, main=600, r=40, lf=34, hf=0, tf=26, th=42)
 n_cov = dict(nohash(n_split), Q=(4, "main", "gray", "ghost", "?", ""))
@@ -309,6 +316,8 @@ ANCH["gh-mb"] = (1304, 500, 340, 60)
 # the pull arrow between the two places
 o.append(f'<x-connector id="pull-arrow" x1="1220" y1="760" x2="952" y2="760" head="end" style="color:{PUR};border-width:6px"></x-connector>')
 o.append(p(f"position:absolute;left:946px;top:700px;width:280px;font-family:{MONO};font-size:28px;font-weight:700;text-align:center;color:{PUR}", "git pull"))
+o.append(f'<svg viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none"><path id="pull-path" d="M1530,604 C1530,760 1330,760 1220,760 L900,760" fill="none" stroke="none"/></svg>')
+o.append(f'<div{PATH(2, "pull-path")} style="position:absolute;left:882px;top:742px;width:36px;height:36px;border-radius:50%;background:{PUR}"></div>')
 MARKS = [(1, "pcn:M", "①", "git merge, git rebase<br>git merge --squash", "1~3부", (150, 690)),
          (2, "pull-arrow", "②", "받아 와서<br>합치기", "4부", (960, 796)),
          (3, "gh-mb", "③", "PR의 Merge 버튼", "5부", (1304, 636))]
@@ -353,6 +362,7 @@ o = scene("split", EB2, "main에 C가 생기면 길이 갈라져요", [("$", "gi
           color=SUB, transition="fade", section=("split", "갈라졌을 때"))
 o += graph(n_split, e_split, [("main", "C", "main"), (FB, "E", "green")], "main")
 o += note(1, "이 모양에서 셋을 비교해요", "t:HEAD", "r")
+o.append(pulse(1, "n-C"))
 W("split", o, "main에 C가 생기면 이름표만 옮겨서는 C와 D, E를 같이 담을 수 없어요. 다시 6쪽 상태로 돌아가서, 이번엔 main에서 README.md를 만들어 커밋했어요(C). 내가 브랜치에서 일하는 동안 팀원 작업이 main에 들어온 모습과 같아요. 이 그림이 이 덱의 출발점이에요. 다음 장부터 이 상태에서 merge, rebase, squash를 하나씩 해 봐요.")
 
 n_merge = dict(n_split, M=(4, "main", "main", "merge", "M", M))
@@ -380,12 +390,18 @@ LINES.clear()
 o += terminal([("$", "git log --oneline"), ("o", f"{E2} (HEAD -> {FB}) fix: 버튼 글자 고치기"), ("o", f"{D2} feat: 로그인 버튼 추가"),
                ("o", f"{C} (main) docs: README 추가"), ("o", f"{B} feat: 아이디 입력 추가")], left=984, top=276, size=(26, 22), tid="t2", w=840)
 after = list(LINES)
-hw7 = 7 * 22 * 0.6
-for i in (1, 2):   # pen underline under the seven hash letters of D and E, before and after
-    x, y, w, h = before[i]
-    o.append(underline(1, round(x), round(x + hw7), round(y + h + 2), OR))
-    x, y, w, h = after[i]
-    o.append(underline(2, round(x), round(x + hw7), round(y + h + 2), OR))
+def tint(parts, hashes, order):   # the changed hashes get a tint on their step
+    out = []
+    for el in parts:
+        for h in hashes:
+            if f">{h} " in el:
+                el = el.replace(f">{h} ", f'><span{MARK(order)} style="background:rgba(178,106,0,.55);border-radius:4px">{h}</span> ', 1)
+        out.append(el)
+    return out
+
+
+o = tint(o, (D, E_), 1)
+o = tint(o, (D2, E2), 2)
 MINI = dict(BIG, up=650, main=790, r=32, lf=26, hf=22, tf=24, th=36)
 MINI.pop("solo")
 n_bf = {"A": (0, "main", "main", "n", "A", ""), "B": (1, "main", "main", "n", "B", ""), "D": (2, "up", "green", "n", "D", D), "E": (3, "up", "green", "n", "E", E_)}
@@ -500,7 +516,7 @@ for i, t, c in LAB:   # labels in a column right of the terminal, level with eac
     x, y, w, h = LINES[i]
     tx = ANCH["term"][0] + ANCH["term"][2] + 40
     o.append(p(f"position:absolute;left:{tx}px;top:{round(y)}px;font-size:26px;font-weight:700;line-height:{round(h)}px;white-space:nowrap;color:{c};border-left:5px solid {c};padding-left:14px",
-               e(t), ' data-build-in="rise order 2"'))
+               e(t), f' data-build-in="rise order 2"{DELAY((i - 4) * 150)}'))
 o.append(p(f"position:absolute;left:96px;top:{round(ANCH['term'][1] + ANCH['term'][3] + 60)}px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:{INK}", "06에서 git config --global pull.rebase false로 첫째 줄을 골랐어요.", ' data-build-in="fade order 3"'))
 W("pl-none", o, "힌트 세 줄은 merge, rebase, fast-forward only 중에서 pull 방법을 고르라는 뜻이에요. 06에서 본 그 메시지예요. 그때는 해결만 봤어요. 우리 과정은 06에서 git config --global pull.rebase false로 첫째 줄을 골랐어요. From 줄, 빈 hint 줄, 힌트 아래쪽 줄도 나오는데, 그 부분은 빼고 옮겼어요.")
 
@@ -521,6 +537,7 @@ o = scene("pl-ff", EB4, "pull.ff only: 갈라졌으면 받지 않아요", [("#",
 o.append(pen(1, 2))
 o += graph(n_pl, e_pl, [("origin/main", "C", "origin"), ("main", "D", "main")], "main")
 o += note(1, "멈춰서 그림이 그대로예요", "n:C", "r")
+o.append(shake(1, "term"))
 W("pl-ff", o, "pull.ff only면 갈라지지 않았을 때만 fast-forward로 받고, 갈라졌으면 멈춰요. 보기만 하는 장이에요. 그래프가 앞 장과 같은 건 실패해서 바뀐 게 없기 때문이에요. 이 설정이 있는 컴퓨터에서 이 메시지가 나오면 git config --global --unset pull.ff로 지우고 수업 설정만 남겨요. From 줄과 힌트 줄(git merge --no-ff 또는 git rebase)도 나오는데, 그 부분은 빼고 옮겼어요.")
 
 o = [sec("pl-why")] + head(EB4, "수업은 pull.rebase false로 통일해요", C_MG)
@@ -616,10 +633,10 @@ STEPS = [("1", "표시 세 줄을 지우고 남길 내용으로 고쳐요", Fals
 sy = 620
 for i, (n, t, mono) in enumerate(STEPS):
     top = sy + i * 84
-    o.append(f'<div data-build-in="rise order 3" style="position:absolute;left:96px;top:{top}px;width:1100px;height:72px;display:flex;flex-direction:row;align-items:center;gap:24px">'
+    o.append(f'<div data-build-in="rise order {3 + i}"{DIM("st")} style="position:absolute;left:96px;top:{top}px;width:1100px;height:72px;display:flex;flex-direction:row;align-items:center;gap:24px">'
              + p(f"width:48px;height:48px;flex:none;border-radius:50%;background:{C_RB};color:#FFFFFF;font-size:28px;font-weight:700;line-height:48px;text-align:center", n)
              + p(f"font-size:{34 if mono else 32}px;font-weight:700;color:{INK}" + (f";font-family:{MONO}" if mono else ""), e(t)) + '</div>')
-o.append(f'<div data-build-in="rise order 4" style="position:absolute;left:1240px;top:{sy + 84}px;width:584px;display:flex;flex-direction:column;gap:10px;border-left:4px solid {RED};padding-left:28px">'
+o.append(f'<div data-build-in="rise order 5" style="position:absolute;left:1240px;top:{sy + 84}px;width:584px;display:flex;flex-direction:column;gap:10px;border-left:4px solid {RED};padding-left:28px">'
          + p(f"font-size:28px;font-weight:700;color:{RED}", "헷갈리면 그만두기") + p(f"font-family:{MONO};font-size:34px;font-weight:700;color:{INK}", "git rebase --abort") + '</div>')
 W("cf-rb", o, "rebase는 커밋을 하나씩 옮기다 멈춘 상태라서 commit 대신 git rebase --continue로 이어 가요. merge 충돌은 고치고 add 뒤 commit으로 끝냈어요(03). rebase는 main 끝으로 가서 내 커밋을 하나씩 얹기 때문에, 내 브랜치에서 쳤어도 HEAD 쪽이 main 내용이에요. 내 커밋은 아래쪽이에요. --continue 뒤 편집기가 열리면 그대로 저장하고 닫아요. 헷갈리면 git rebase --abort로 rebase 전 모습으로 돌아가요. squash 충돌은 merge처럼 고치고 add, commit 해요.")
 
@@ -630,6 +647,7 @@ o = scene("warn", EB6, "push한 브랜치는 rebase하지 않아요", [("$", "gi
 o.append(pen(1, 2))
 o += graph(n_sh, [("A", "B"), ("B", "C"), ("C", "D"), ("D", "E"), ("B", "Dx"), ("Dx", "Ex")], [(OFB, "Ex", "origin"), (FB, "E", "green")], FB)
 o += note(1, "GitHub에는 옛 D, E", "n:Dx", "l")
+o.append(shake(1, "term"))
 W("warn", o, "rebase는 push 전, 나만 가진 커밋에만 써요. feature/login-button을 이미 push한 뒤에 rebase했어요. 내 컴퓨터에는 D', E', GitHub에는 D, E가 있어서 push가 거절돼요. 힌트는 pull하라고 하지만, pull하면 D, E와 D', E'가 둘 다 기록에 들어가고 합치기 커밋까지 생겨요. 메시지가 같은 커밋이 두 쌍 보여서 기록을 읽기 어려워져요. 강제로 덮어쓰는 방법도 있지만 팀원이 받아 간 커밋과 어긋나서 이 과정에서는 쓰지 않아요. 이 상태가 되면 더 치지 말고 강사에게 물어봐요. main처럼 같이 쓰는 브랜치에서는 rebase하지 않아요. rebase 출력 줄도 나오는데, 그 부분은 빼고 옮겼어요.")
 
 o = [sec("trouble")] + head(EB6, "이 메시지가 나오면 이렇게 해요", RED)
@@ -639,6 +657,7 @@ cases = [("fatal: Need to specify how to reconcile divergent branches.", "pull �
          ("error: could not apply ...  (rebase 중 CONFLICT)", "고치고 add 뒤 이어 가요. 그만두려면 --abort", "git rebase --continue"),
          ("! [rejected] ... (non-fast-forward)  rebase 뒤", "push한 브랜치를 rebase했어요. pull하지 말고", "강사에게 물어봐요")]
 y = 236
+k0 = len(o)
 for i, (q, a_, cmd) in enumerate(cases, 1):
     mono = cmd.startswith("git")
     o.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px">'
@@ -648,6 +667,8 @@ for i, (q, a_, cmd) in enumerate(cases, 1):
     if i < len(cases):
         o.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:2px;background:{LINE}"></div>')
         y += 2
+    stagger(o, k0, 1, (i - 1) * 110)
+    k0 = len(o)
 W("trouble", o, "합치다 막히면 대부분 이 다섯 메시지 중 하나예요. 1번은 06에서 본 메시지예요. 2번은 다른 자료를 보고 pull.ff only를 설정한 컴퓨터에서 나요. 설정을 지우고 06처럼 pull.rebase false만 남겨요. 3번은 squash나 Rebase and merge 뒤에 나요. 4번은 rebase 중 충돌이에요. 5번은 push한 브랜치를 rebase한 경우예요. pull로 풀면 같은 커밋이 두 번 들어가니 멈추고 물어봐요.")
 
 # ---------- part 7: worked examples (one pull request from start to finish) ----------
@@ -712,6 +733,7 @@ parts = [(C_FF, "갈라지지 않았을 때", "fast-forward, --no-ff", "ff", "no
          (PUR, "실제 상황 예제", "PR 하나를 올리고 합치기까지", "ex1", "ex3")]
 t = [sec("toc"), f'<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:{INK}">오늘의 순서</h2>']
 y = 210
+k0 = len(t)
 for i, (c, h, s, a, b) in enumerate(parts, 1):
     pg = f"{page[a]}–{page[b]}쪽"
     t.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px">'
@@ -722,6 +744,8 @@ for i, (c, h, s, a, b) in enumerate(parts, 1):
     y += 92
     t.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:2px;background:{LINE}"></div>')
     y += 2
+    stagger(t, k0, 1, (i - 1) * 90)
+    k0 = len(t)
 t.append(p(f"position:absolute;left:96px;top:{y + 30}px;width:1728px;font-size:28px;color:{SUB}",
            f'{page["why"]}–{page["story2"]}쪽은 왜 배우는지와 오늘의 예시, {page["cheatsheet"]}쪽은 한 장 정리예요.'))
 with open(os.path.join(OUT, "toc.html"), "w") as f:

@@ -6,6 +6,7 @@ const path = require('path');
 
 const FONTS = 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap';
 const BASE_CSS = `section{position:relative;width:1920px;height:1080px;box-sizing:border-box;overflow:hidden}
+[data-pdf="hide"]{visibility:hidden}
 section *{box-sizing:border-box}
 p,h1,h2,h3,ul,ol{margin:0}
 h1{font-size:96px;font-weight:600;line-height:1.1} h2{font-size:64px;font-weight:600;line-height:1.15} h3{font-size:44px;font-weight:600;line-height:1.2} p{font-size:32px;line-height:1.4}
