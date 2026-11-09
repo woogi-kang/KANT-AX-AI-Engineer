@@ -14,7 +14,7 @@ Layout rules (2026-11-08 remake, from the Stageshow skill: github.com/benjitaylo
 4. no empty bands: the focal object grows, or the payoff gets the room
 5. values move instead of swapping (fly), and a fix is the wrong line struck through beside the right one
 Highlights come from tools/HIGHLIGHT.md, as many kinds as fit: slam and shine on the cover, staggered rows (delay), line tint,
-line spotlight, fly, wipe, spotlight, pen ring/underline/box, shake on a failure, code morph, zoom, paired colors (mark),
+line spotlight, fly, spotlight, pen ring/underline/box, shake on a failure, code morph, zoom, paired colors (mark),
 count-up, run band. No typing effect.
 Usage: python3 tools/gen.py slides
 """
@@ -23,7 +23,7 @@ import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
 from highlight import (spot, spot_off, cursor, cursor_off, ring, box, underline, lspot, lspot_off, run, run_off, zoom, zoom_off,
-                       shine, shake, WIPE, SLAM, COUNT, MARK, DELAY, MORPH, MORPH_FROM, tok)
+                       shine, shake, SLAM, COUNT, MARK, DELAY, MORPH, MORPH_FROM, tok)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -375,8 +375,8 @@ o.append(underline(1, X0 + 9 * cw, X0 + 24 * cw, 336, CF, 6))
 o.append(label(X0 + 9 * cw, 396, "① p를 하나 꺼내요", LF, 32, fade(1)))
 o.append(underline(2, X0 + 1 * cw, X0 + 8 * cw, 336, CV, 6))
 o.append(label(X0, 396, "② 계산해서 모아요", LV, 32, fade(2)))
-o += [x.replace('data-build-in="rise order', 'data-build-in="wipe order') for x in plain_rows(96, 530, 1728, [("4500", "5000", "[5000]"), ("5000", "5500", "[5000, 5500]"), ("6500", "7000", "[5000, 5500, 7000]"), ("3000", "3500", "[5000, 5500, 7000, 3500]")],
-                [300, 300, 1068], 3, 80, ("꺼낸 p", "p + 500", "모인 리스트"), 34, (0, 1, 2))]
+o += plain_rows(96, 530, 1728, [("4500", "5000", "[5000]"), ("5000", "5500", "[5000, 5500]"), ("6500", "7000", "[5000, 5500, 7000]"), ("3000", "3500", "[5000, 5500, 7000, 3500]")],
+                [300, 300, 1068], 3, 80, ("꺼낸 p", "p + 500", "모인 리스트"), 34, (0, 1, 2))
 W("b-read", o, "컴프리헨션은 뒤의 for부터 움직이고, 앞의 값을 모아요. 적은 순서는 값이 먼저지만 실제로는 prices에서 p를 하나 꺼내는 일이 먼저예요. 그 p로 앞의 p + 500을 계산해 리스트에 모아요. 표처럼 4500을 꺼내 5000을 모으고, 5000을 꺼내 5500을 모아요. 네 값을 다 꺼내면 리스트가 완성돼요. 처음에는 for 부분을 먼저 읽고, 앞으로 돌아와 무엇을 모으는지 보면 쉬워요.")
 
 o = [sec("b-filter")] + head(EB2, "뒤에 if를 붙이면 골라 담아요", K2)

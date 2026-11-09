@@ -3,7 +3,7 @@
 // Extras a slide can use, both ignored by check.js and export.js so the PDF shows the slide's plain layout:
 // - data-build-in="fly order N" data-from="someId": the element flies in from where #someId is drawn.
 // - highlights (see tools/HIGHLIGHT.md): data-build-in="draw order N" on an SVG draws its strokes like a pen;
-//   "type order N" types the text in; "spot order N" on an empty box dims the slide except that box, and the
+//   "type order N" is kept only as a plain fade (no typing animation in any deck); "spot order N" on an empty box dims the slide except that box, and the
 //   hole slides to the next "spot" box ("spot-off" clears it); "cursor order N" / "click order N" on an empty box
 //   moves a mouse pointer there (click adds a ripple), "cursor-off" hides it. spot, cursor and click may name
 //   data-target="someId" to use that element's box instead of their own.
@@ -165,7 +165,6 @@ function setBuild(i,n,animate){
     el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
     if(fly)flyIn(el,slides[i].querySelector('#'+el.dataset.from));
     if(!animate||fly){void el.offsetWidth;el.style.transition='';}
-    if(el.dataset.fx==='type'){if(animate&&was&&gi<n)typeIn(el);else typeDone(el);}
     entryFx(el,animate&&was&&gi<n,gi<n,i);
     if(el.dataset.delay)el.style.transitionDelay=animate&&was&&gi<n?el.dataset.delay+'ms':'';
   }));
@@ -183,13 +182,6 @@ function flyIn(el,src){
 }
 // ---- highlights: typing, spotlight hole, mouse pointer (tools/HIGHLIGHT.md) ----
 function textNodes(el){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);return a;}
-function typeDone(el){if(el._tt){clearInterval(el._tt);el._tt=null;}if(el._orig)textNodes(el).forEach((t,k)=>t.nodeValue=el._orig[k]);}
-function typeIn(el){
-  typeDone(el);const ns=textNodes(el);el._orig=ns.map(t=>t.nodeValue);
-  const total=el._orig.join('').length,ms=Math.max(12,Math.min(45,1100/Math.max(1,total)));
-  ns.forEach(t=>t.nodeValue='');let k=0,j=0;
-  el._tt=setInterval(()=>{while(k<ns.length&&j>=el._orig[k].length){k++;j=0;}if(k>=ns.length){typeDone(el);return;}j++;ns[k].nodeValue=el._orig[k].slice(0,j);},ms);
-}
 const CUR_SVG='<svg viewBox="0 0 22 30" width="40" height="56"><path d="M2,2 L2,24 L8,18 L12,28 L16,26 L12,16 L20,16 Z" fill="#1D2330" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
 function hlParts(s){
   if(!s._spot){
