@@ -419,7 +419,7 @@ o.append(caption("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 
 W("ready", o, "09에서 만든 hello-uv 폴더를 VS Code로 열고, basics.ipynb를 다시 열어요. 24의 Bread 틀에서 이어서 해요. self와 __init__이 헷갈리면 24의 3파트를, __str__이 헷갈리면 25를 먼저 봐요. 클래스 변수를 볼 때 20의 전역 변수가 떠오를 거예요. 슬라이드의 출력은 tools/demo.sh가 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요.")
 
 # ---------- part 1 ----------
-o = [sec("w-why")] + head(EB1, "개와 고양이 클래스를 따로 만들면 거의 다 복사예요", K1)
+o = [sec("w-why")] + head(EB1, "개와 고양이 클래스를 따로 만들면 같은 코드를 두 번 적어요", K1)
 CFS[0] = 26
 WD = ["class Dog:", "    def __init__(self, name):", "        self.name = name", "", "    def eat(self):", '        print(f"{self.name}가 밥을 먹어요")', "", "    def speak(self):", '        print(f"{self.name}가 멍멍 짖어요")', "", 'd = Dog("초코")', "d.speak()"]
 WC = ["class Cat:", "    def __init__(self, name):", "        self.name = name", "", "    def eat(self):", '        print(f"{self.name}가 밥을 먹어요")', "", "    def speak(self):", '        print(f"{self.name}가 야옹 울어요")', "", 'c = Cat("나비")', "c.speak()"]
@@ -432,13 +432,13 @@ for k, (left, L_, out_) in enumerate([(96, WD, "초코가 멍멍 짖어요"), (9
     o.append(tag(tx(left, ["    def speak(self):"], 30), ly(T, 7), "다른 건 여기뿐", BL, 2, size=26, ex=DELAY(150 * k)))
 CFS[0] = 30
 RY = 760
-o.append(p(f"position:absolute;left:96px;top:{RY}px;font-size:30px;font-weight:700;color:{RED}", "동물이 늘면 복사도 늘어요", at(3, "fade")))
+o.append(p(f"position:absolute;left:96px;top:{RY}px;font-size:30px;font-weight:700;color:{RED}", "동물이 늘수록 같은 코드도 늘어나요", at(3, "fade")))
 o.append(f'<div{STAGGER(3, 110)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
 for i, nm in enumerate(["class Dog", "class Cat", "class Rabbit", "class Duck", "class Cow"]):
     o.append(f'<div style="position:absolute;left:{96 + i * 352}px;top:{RY + 60}px;width:320px;height:92px;border:3px dashed {GRAY};border-radius:18px;background:{CARD};display:flex;flex-direction:column;justify-content:center;padding:0 22px">'
-             + p(f"font-family:{MONO};font-size:26px;font-weight:700;color:{INK}", e(nm)) + p(f"font-size:22px;color:{RED}", "__init__, eat 복사") + '</div>')
+             + p(f"font-family:{MONO};font-size:26px;font-weight:700;color:{INK}", e(nm)) + p(f"font-size:22px;color:{RED}", "__init__, eat 또 적기") + '</div>')
 o.append('</div>')
-W("w-why", o, "지금까지 배운 방법만으로 개와 고양이 클래스를 만들면 거의 다 복사예요. 이름을 붙이는 __init__과 밥 먹는 eat는 두 클래스가 한 글자도 다르지 않아요. 다른 건 우는 소리를 내는 speak뿐이에요. 밥 먹는 문구를 고치려면 두 클래스를 다 고쳐야 하고, 하나를 빼먹으면 서로 달라져요. 토끼, 오리, 소를 더하면 같은 코드를 그만큼 또 복사해요. 3파트의 상속이 이 문제를 풀어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p1", "왜 필요한가"))
+W("w-why", o, "지금까지 배운 방법만으로 개와 고양이 클래스를 만들면 같은 코드를 두 번 적게 돼요. 이름을 붙이는 __init__과 밥 먹는 eat는 두 클래스가 한 글자도 다르지 않아요. 다른 건 우는 소리를 내는 speak뿐이에요. 밥 먹는 문구를 고치려면 두 클래스를 다 고쳐야 하고, 하나를 빼먹으면 서로 달라져요. 토끼, 오리, 소를 더하면 같은 코드를 그만큼 또 복사해요. 3파트의 상속이 이 문제를 풀어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p1", "왜 필요한가"))
 
 o = [sec("w-big")] + head(EB1, "틀에 새기는 값, 그리고 물려받는 클래스", K1)
 M1 = mold_h(3)
