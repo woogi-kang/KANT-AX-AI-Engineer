@@ -1,30 +1,16 @@
 <section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">정리</p>
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">이럴 땐 이렇게 써요</h2>
-<p style="position:absolute;left:96px;top:220px;font-size:26px;font-weight:700;color:#4A5262">값을 이름으로 담기</p>
-<p style="position:absolute;left:96px;top:262px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">{"latte": 5000}</p>
-<div style="position:absolute;left:96px;top:332px;width:848px;height:2px;background:#E1DED6"></div>
-<p style="position:absolute;left:96px;top:352px;font-size:26px;font-weight:700;color:#4A5262">이름으로 꺼내기</p>
-<p style="position:absolute;left:96px;top:394px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">menu["latte"]</p>
-<div style="position:absolute;left:96px;top:464px;width:848px;height:2px;background:#E1DED6"></div>
-<p style="position:absolute;left:96px;top:484px;font-size:26px;font-weight:700;color:#4A5262">없을 수도 있는 키 꺼내기</p>
-<p style="position:absolute;left:96px;top:526px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">menu.get("tea", 0)</p>
-<div style="position:absolute;left:96px;top:596px;width:848px;height:2px;background:#E1DED6"></div>
-<p style="position:absolute;left:96px;top:616px;font-size:26px;font-weight:700;color:#4A5262">더하거나 바꾸기</p>
-<p style="position:absolute;left:96px;top:658px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">menu["tea"] = 4000</p>
-<div style="position:absolute;left:96px;top:728px;width:848px;height:2px;background:#E1DED6"></div>
-<p style="position:absolute;left:976px;top:220px;font-size:26px;font-weight:700;color:#4A5262">지우기</p>
-<p style="position:absolute;left:976px;top:262px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:pre">del menu["tea"]   menu.pop("tea")</p>
-<div style="position:absolute;left:976px;top:332px;width:848px;height:2px;background:#E1DED6"></div>
-<p style="position:absolute;left:976px;top:352px;font-size:26px;font-weight:700;color:#4A5262">키가 있는지 묻기</p>
-<p style="position:absolute;left:976px;top:394px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">"tea" in menu</p>
-<div style="position:absolute;left:976px;top:464px;width:848px;height:2px;background:#E1DED6"></div>
-<p style="position:absolute;left:976px;top:484px;font-size:26px;font-weight:700;color:#4A5262">한 쌍씩 돌기</p>
-<p style="position:absolute;left:976px;top:526px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">for k, v in menu.items():</p>
-<div style="position:absolute;left:976px;top:596px;width:848px;height:2px;background:#E1DED6"></div>
-<p style="position:absolute;left:976px;top:616px;font-size:26px;font-weight:700;color:#4A5262">개수 세기</p>
-<p style="position:absolute;left:976px;top:658px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:pre">count[w] = count.get(w, 0) + 1</p>
-<div style="position:absolute;left:976px;top:728px;width:848px;height:2px;background:#E1DED6"></div>
+<div data-build-in="stagger order 1" data-gap="80" style="position:absolute;left:96px;top:220px;width:1728px;height:528px">
+<div style="position:absolute;left:0px;top:0px;width:848px;height:114px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#4A5262">값을 이름으로 담기</p><p style="margin-top:8px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">{"latte": 5000}</p></div>
+<div style="position:absolute;left:880px;top:0px;width:848px;height:114px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#4A5262">이름으로 꺼내기</p><p style="margin-top:8px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">menu["latte"]</p></div>
+<div style="position:absolute;left:0px;top:132px;width:848px;height:114px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#4A5262">없을 수도 있는 키 꺼내기</p><p style="margin-top:8px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">menu.get("tea", 0)</p></div>
+<div style="position:absolute;left:880px;top:132px;width:848px;height:114px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#4A5262">더하거나 바꾸기</p><p style="margin-top:8px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">menu["tea"] = 4000</p></div>
+<div style="position:absolute;left:0px;top:264px;width:848px;height:114px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#4A5262">지우기</p><p style="margin-top:8px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:pre">del menu["tea"]   menu.pop("tea")</p></div>
+<div style="position:absolute;left:880px;top:264px;width:848px;height:114px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#4A5262">키가 있는지 묻기</p><p style="margin-top:8px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">"tea" in menu</p></div>
+<div style="position:absolute;left:0px;top:396px;width:848px;height:114px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#4A5262">한 쌍씩 돌기</p><p style="margin-top:8px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">for k, v in menu.items():</p></div>
+<div style="position:absolute;left:880px;top:396px;width:848px;height:114px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#4A5262">개수 세기</p><p style="margin-top:8px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:pre">count[w] = count.get(w, 0) + 1</p></div>
+</div>
 <div style="position:absolute;left:96px;top:800px;width:1728px;height:130px;border-radius:20px;background:#1D2330;display:flex;flex-direction:row;align-items:center;padding:0 44px;gap:36px"><p style="font-size:28px;font-weight:700;color:#F2B27A;white-space:nowrap">다음 · 16 집합</p><p style="font-size:30px;font-weight:700;color:#F6F5F1">같은 값은 한 번만 담는 그릇이에요. 딕셔너리의 키처럼 겹치지 않아요.</p></div>
 <aside>딕셔너리는 이름으로 값을 찾을 때 써요. 이 장의 코드를 노트북 마크다운 셀에 옮겨 두면 복습할 때 같이 봐요. 키는 겹치지 않고, 같은 키에 넣으면 값이 바뀐다는 것만 기억해요. 다음 16에서는 같은 값을 한 번만 담는 집합을 배워요. 집합의 값도 딕셔너리의 키처럼 겹치지 않아요.</aside>
 </section>

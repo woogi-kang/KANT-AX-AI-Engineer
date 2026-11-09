@@ -7,7 +7,9 @@ not on the chapter 15 menu, the bill) -> one-page summary.
 
 Layout follows the Stageshow rules (tools/DESIGN.md): one focal object per slide, terms written beside
 the code line or the picture as leader tags instead of cards, no empty bands, values that change move
-(fly) instead of swapping. Highlights come from tools/HIGHLIGHT.md.
+(fly) instead of swapping. Highlights come from the situation table in tools/HIGHLIGHT.md, as many kinds as fit:
+slam on the cover, cursor and keycaps, spotlight, pen ring/underline/box, run band, line
+spotlight, shake on a failure, pulse, code morph, zoom, staggered labels (delay), count-up. No typing effect.
 Every cell and output comes from tools/demo.sh (tools/run_nb.py runs the cells with the project kernel).
 Usage: python3 tools/gen.py slides
 """
@@ -15,7 +17,8 @@ Usage: python3 tools/gen.py slides
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline
+from highlight import (spot, spot_off, cursor, cursor_off, ring, box, underline, SLAM, DELAY, COUNT, MORPH, MORPH_FROM, tok,
+                       run, run_off, lspot, lspot_off, zoom, zoom_off, keys, pulse, shake)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -289,7 +292,7 @@ ORDERS = 'orders = ["coffee", "latte", "coffee", "cake", "latte"]'
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:{BG};font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       '<h1 style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초 5<br>집합</h1>',
+       f'<h1{SLAM(1)} style="font-size:92px;font-weight:900;line-height:1.1;color:#F6F5F1">파이썬 기초 5<br>집합</h1>',
        '<p style="font-size:40px;line-height:1.4;color:#BFC6D4">중복 없이 모으고<br>겹치는 것 찾기</p>']
 # the chapter in one picture: a list with repeats drops into a pouch that keeps one of each
 cov.append(f'<p style="position:absolute;left:1010px;top:250px;font-family:{MONO};font-size:44px;font-weight:700;color:#9AA3B5;white-space:pre">[3, 1, 3, 2, 1]</p>')
@@ -317,6 +320,8 @@ o.append(cursor(1, target="nb-file"))
 o.append(p(f"position:absolute;left:{bx + bw - 520}px;top:{by - 64}px;width:500px;text-align:right;font-size:28px;font-weight:700;color:{GR};white-space:nowrap", "② 커널이 .venv인지 봐요", at("fade", 2)))
 o.append(cursor(2, target="nb-kernel"))
 o.append(cursor_off(3))
+o.append(keys(4, bx + bw - 330, by + 230, "Shift+Enter"))
+o.append(p(f"position:absolute;left:{bx + bw - 330}px;top:{by + 186}px;font-size:24px;font-weight:700;color:{GRAY};white-space:nowrap", "셀 실행", at("fade", 4)))
 o.append(p(f"position:absolute;left:96px;top:700px;width:1728px;font-size:26px;font-weight:700;color:{GRAY}", "다시 쓰는 것", ' data-build-in="fade order 3"'))
 o += rows_table(96, 744, [180, 1524], [["13", "리스트와 튜플, <code style=\"font-family:'JetBrains Mono'\">for</code>, <code style=\"font-family:'JetBrains Mono'\">sorted()</code>, <code style=\"font-family:'JetBrains Mono'\">count()</code>, f-string"],
                                         ["14 · 15", "<code style=\"font-family:'JetBrains Mono'\">in</code>과 <code style=\"font-family:'JetBrains Mono'\">not in</code>, 딕셔너리와 <code style=\"font-family:'JetBrains Mono'\">KeyError</code>"]],
@@ -469,8 +474,9 @@ CX, CY, CW = 96, 370, 1000
 o += cell(c, CX, CY, CW, sel=True, attrs=at("rise", 1))
 tx0 = tx(CX, c["lines"])
 for i, (t, k) in enumerate([("빈 주머니로 시작", 1), ("주문을 하나씩 꺼내서", 2), ("넣어요. 있으면 그대로", 3)]):
-    o.append(hl(CX, CY, CW, i, 1, "run", k))
+    o.append(run(k, CX + 89, CY + 10 + i * LH(), CW - 93, LH()))
     o.append(tag(tx0, ly(CY, i), t, GR, k))
+o.append(run_off(4))
 o.append(tag(CX + 105 + tw("['cake', 'coffee', 'latte']") + 34, oy(CY, 4, 0), "set(orders)와 같아요", K1, 4))
 o.append(ref_box(96, 690, 1000, ["kinds = []", "for o in orders:", "    if o not in kinds:", "        kinds.append(o)", "print(kinds)"], ["['coffee', 'latte', 'cake']"], "참고 · 집합이 없으면", at("rise", 5), 20))
 o.append(bag([], 1180, 240, 644, 600, K1, K1BG, fs=40, name="kinds", empty="", attrs=at("rise", 1)))
@@ -550,6 +556,7 @@ T = tx(CX, ['menus.discard("juice")'])
 o.append(tag(T, ly(y1, 0), "있는 값을 빼요", K2))
 o.append(ring(1, CX + 105, int(oy(y2, 1, 0) - 22), int(tw("KeyError: 'juice'")), 44, RED, 5))
 o.append(tag(CX + 105 + tw("KeyError: 'juice'") + 60, oy(y2, 1, 0), "없는 값이면 셀이 멈춰요", RED, 1))
+o.append(shake(1, "c-r2"))
 o.append(hl(CX, y3, CW, 0, 1, "skip", 2))
 o.append(tag(T, ly(y3, 0), "없으면 그냥 넘어가요", GRAY, 2))
 o.append(hl(CX, y3, CW, 1, 1, "run", 2))
@@ -608,7 +615,8 @@ for j, (t, col, k) in enumerate([("latte가 주머니에 있어요", GR, 1), ("t
     o.append(tag(ox, oy(CY, 4, j), t, col, k))
 CF[0] = 30
 o.append(p(f"position:absolute;left:96px;top:720px;width:1000px;font-size:30px;font-weight:700;line-height:1.5;color:{SUB}", "14에서 리스트, 튜플, 문자열에 쓴 in 그대로예요.<br>집합은 꺼내기보다 들어 있는지 묻는 데 써요.", at("rise", 4)))
-o.append(bag(['"latte"', '"cake"', '"coffee"'], 1150, 260, 660, 420, K2, K2BG, fs=34, name="menus", pos=[(0.28, 0.38), (0.70, 0.34), (0.48, 0.72)]))
+o.append(bag(['"latte"', '"cake"', '"coffee"'], 1150, 260, 660, 420, K2, K2BG, fs=34, name="menus", pos=[(0.28, 0.38), (0.70, 0.34), (0.48, 0.72)], chip_attrs={0: ' id="in-latte"'}))
+o.append(pulse(1, "in-latte"))
 o.append(ring(1, 1150 + int(0.28 * 660) - 85, 260 + 30 + int(0.38 * 390) - 30, 170, 60, GR, 5))
 o.append(f'<div{at("rise", 2)} style="position:absolute;left:1380px;top:760px">' + chip('"tea"', GRAY, GRAYBG, 32, "border-style:dashed") + '</div>')
 o.append(tag(1380 + 150, 790, "밖에 있어요", GRAY, 2, 28))
@@ -627,7 +635,10 @@ o += cell(c2, CX, y2, CW, attrs=at("rise", 2))
 o.append(hlo(CX, y2, CW, 3, 1, "run", 2, tw("cake") + 30))
 o.append(tag(CX + 105 + tw("cake") + 40, oy(y2, 3, 1), "abc 순서 리스트라 [0]은 늘 cake", GR, 2))
 o.append(tag(CX + 105 + tw("['latte', 'cake', 'coffee']") + 40, oy(y2, 3, 2), "list()는 순서가 정해져 있지 않아요", OR, 3))
-o.append(fix(96, 870, "menus[0]", "sorted(menus)[0]", 4, 32, "15의 list(menu.keys())처럼 리스트로 바꿔요"))
+MS = f"position:absolute;left:96px;top:850px;font-family:{MONO};font-size:44px;font-weight:700;line-height:1.4;white-space:pre"
+o.append(p(MS + f";color:{RED}", tok("m", "menus") + tok("i", "[0]"), ' id="ni-a"' + at("fade", 3) + MORPH_FROM()))
+o.append(p(MS + f";color:{GR}", "sorted(" + tok("m", "menus") + ")" + tok("i", "[0]"), MORPH(4, "ni-a")))
+o.append(p(f"position:absolute;left:{96 + int(tw('sorted(menus)[0]') * 44 / 30) + 50}px;top:866px;font-size:30px;font-weight:700;color:{SUB};white-space:nowrap", "15의 list(menu.keys())처럼 리스트로 바꿔요", at("fade", 4)))
 W("s-noindex", o, "집합에는 칸 번호가 없어서 menus[0]처럼 꺼내면 TypeError가 나요. subscriptable은 대괄호로 꺼낼 수 있다는 뜻이에요. 꼭 번호로 꺼내야 하면 리스트로 바꿔요. sorted()는 abc 순서로 줄 세운 리스트를 줘서 [0]이 늘 cake예요. list()도 리스트를 주지만 집합이 찍히던 순서를 그대로 따라서 실행할 때마다 다를 수 있어요. 15에서 keys()에 번호를 붙이려고 list()로 바꾼 것과 같은 방법이에요." + REAL)
 
 o = [sec("s-sort")] + head(EB2, "집합에는 sort()가 없어요. sorted()를 써요", K2)
@@ -651,6 +662,8 @@ o.append(tag(OX + 40, oy(y2, 6, 4), "menus는 그대로 집합", K2, 2, 26))
 o.append(p(f"position:absolute;left:1150px;top:220px;font-size:26px;font-weight:700;color:{K2}", "가장 많이 쓰는 모양", at("fade", 3)))
 o += cell(c3, 1150, 266, 674, attrs=at("rise", 3))
 o.append(hl(1150, 266, 674, 2, 1, "run", 3))
+o.append(zoom(4, 1140, 210, 700, 220, 30))
+o.append(zoom_off(5))
 CF[0] = 30
 o.append(p(f"position:absolute;left:1150px;top:540px;width:674px;font-size:28px;font-weight:700;line-height:1.5;color:{SUB}", "겹친 주문을 없애고<br>abc 순서로 줄 세운 목록이<br>한 줄에 나와요", at("rise", 3)))
 W("s-sort", o, "집합에는 sort()가 없어서 sorted()로 줄 세운 새 리스트를 받아요. 13에서 리스트는 sort()로 제자리 정렬을 했어요. 집합에 sort()를 쓰면 AttributeError가 나요. 집합에는 자리가 없어서 자리를 바꿔 줄 세우는 sort()가 없기 때문이에요. sorted()는 집합을 그대로 두고, 줄 세운 새 리스트를 돌려줘요. 13에서 본 reverse=True를 넣으면 큰 것부터, 글자는 z 쪽부터예요. type으로 보면 결과는 list이고, menus는 여전히 집합이에요. 실제로 가장 많이 쓰는 모양은 sorted(set(orders))예요." + REAL)
@@ -677,7 +690,7 @@ o.append(f'<div id="ab-code" style="position:absolute;left:96px;top:206px;displa
 o.append(venn(VX, VY, ["1", "2"], ["3", "4"], ["5", "6"], w=VW, h=VH, sid="vn-ab", fs=46,
               hi=[("a-b", VA, 1), ("inter", K3, 2), ("b-a", VB, 3)]))
 for i, (t, c_) in enumerate([("a에만 있는 값  1, 2", VA), ("a와 b에 다 있는 값  3, 4", K3), ("b에만 있는 값  5, 6", VB)]):
-    o.append(p(f"position:absolute;left:1100px;top:{400 + i * 120}px;font-size:34px;font-weight:700;color:{c_};white-space:nowrap", e(t), at("rise", i + 1)))
+    o.append(p(f"position:absolute;left:1100px;top:{400 + i * 120}px;font-size:34px;font-weight:700;color:{c_};white-space:nowrap", e(t), at("rise", i + 1) + DELAY(250)))
 o.append(caption("이 그림을 벤 다이어그램이라고 불러요.", 960, 4))
 W("s-venn", o, "원 하나가 집합 하나예요. 겹친 곳에는 두 집합에 다 있는 값이 들어가요. a는 1부터 4, b는 3부터 6이에요. 3과 4는 두 집합에 다 있어서 원이 겹친 곳에 그려요. 1과 2는 a에만, 5와 6은 b에만 있어요. 이 파트는 이 그림 하나에 색을 칠하면서 세 가지 연산을 봐요. 숫자로 시작하는 이유는 작은 정수 집합이 보통 작은 수부터 찍혀서 읽기 쉽기 때문이에요.", ("ops", "집합 연산"))
 
@@ -740,13 +753,14 @@ c = {"id": "c-l2", "lines": ["c = set(a)", "for x in b:", "    c.add(x)", "print
 CX, CY, CW = 96, 310, 960
 o += cell(c, CX, CY, CW, sel=True)
 T = tx(CX, c["lines"])
-for i, (t, k) in enumerate([("a를 복사해 담고", 1), ("b를 하나씩 꺼내서", 1), ("넣어요. 겹친 3, 4는 그대로", 1)]):
+for i, (t, k) in enumerate([("a를 복사해 담고", 1), ("b를 하나씩 꺼내서", 2), ("넣어요. 겹친 3, 4는 그대로", 3)]):
+    o.append(lspot(k, CX + 87, CY + 2, CW - 89, 16 + 4 * LH(), CY + 10 + i * LH(), LH()))
     o.append(tag(T, ly(CY, i), t, GR, k, 26))
-o.append(hl(CX, CY, CW, 0, 3, "run", 1))
-o.append(p(f"position:absolute;left:96px;top:660px;width:960px;font-size:30px;font-weight:700;line-height:1.55;color:{SUB}", "& 와 - 는 b에 있는지 물어서 담을지 정해요.<br>그때 if가 필요해서 오른쪽은 읽기만 해요.", at("rise", 2)))
-o.append(ref_box(1150, 200, 674, ["both = set()", "for x in a:", "    if x in b:", "        both.add(x)", "print(both)"], ["{3, 4}"], "참고 · a & b", at("rise", 2), 22))
-o.append(ref_box(1150, 560, 674, ["only_a = set()", "for x in a:", "    if x not in b:", "        only_a.add(x)", "print(only_a)"], ["{1, 2}"], "참고 · a - b", at("rise", 3), 22))
-o.append(caption("실제로 쓸 때는 기호 한 줄로 적어요.", 960, 4))
+o.append(lspot_off(4))
+o.append(p(f"position:absolute;left:96px;top:660px;width:960px;font-size:30px;font-weight:700;line-height:1.55;color:{SUB}", "& 와 - 는 b에 있는지 물어서 담을지 정해요.<br>그때 if가 필요해서 오른쪽은 읽기만 해요.", at("rise", 4)))
+o.append(ref_box(1150, 200, 674, ["both = set()", "for x in a:", "    if x in b:", "        both.add(x)", "print(both)"], ["{3, 4}"], "참고 · a & b", at("rise", 4), 22))
+o.append(ref_box(1150, 560, 674, ["only_a = set()", "for x in a:", "    if x not in b:", "        only_a.add(x)", "print(only_a)"], ["{1, 2}"], "참고 · a - b", at("rise", 4) + DELAY(300), 22))
+o.append(caption("실제로 쓸 때는 기호 한 줄로 적어요.", 960, 5))
 W("s-long2", o, "연산 기호 하나는 for로 하나씩 담는 반복을 줄인 거예요. 합집합은 a를 그대로 담은 새 집합에 b의 값을 하나씩 add하면 돼요. 이건 지금까지 배운 것만으로 쓸 수 있어서 셀로 실행해요. 교집합과 차집합은 b에 있는지, 없는지 물어서 담을지 정해야 해서 if가 필요해요. if는 17에서 배우니 오른쪽 두 칸은 읽기만 해요. 결과는 각각 {3, 4}, {1, 2}로 & 와 - 결과와 같아요. 긴 코드는 기호가 무슨 일을 하는지 이해하는 데 써요." + REAL)
 
 # ---------- part 4: compare and errors ----------
@@ -791,7 +805,7 @@ o.append(f'<div style="position:absolute;left:96px;top:214px;width:1728px;height
 for i, (q, a_, cmd) in enumerate(tr):
     y = 266 + i * 108
     qa = q.isascii()
-    o.append(f'<div{at("rise", 1 if i < 4 else 2)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:108px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{at("rise", 1 if i < 4 else 2)}{DELAY((i % 4) * 120)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:108px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {LINE}">'
              + p(f"width:870px;flex:none;{'font-family:' + MONO + ';font-size:26px;' if qa else 'font-size:28px;'}font-weight:700;color:{RED if 'Error' in q else INK};white-space:nowrap", e(q))
              + p(f"width:440px;flex:none;font-size:28px;color:{SUB}", e(a_))
              + p(f"width:370px;flex:none;{'font-family:' + MONO + ';font-size:26px;' if cmd.isascii() else 'font-size:28px;'}font-weight:700;color:{GR};white-space:pre", ("✓ " if True else "") + e(cmd)) + '</div>')
@@ -854,6 +868,8 @@ for k, (i, t) in enumerate([(1, "메뉴판에 있는 주문만 돌아요"), (2, 
     o.append(hl(CX, CY, CW, i, 1, "mark", k))
     o.append(tag(T - 20 if i == 1 else T, ly(CY, i), t, K4, k, 26))
 o.append(tag(CX + 105 + tw("합계 15,500원") + 80, oy(CY, 6, 2), "tea, juice는 & 에서 빠져서 menu[m]에서 KeyError가 안 나요", GR, 4, 28))
+# the total counts up when its tag comes in
+o = [x.replace("<p style=", "<p" + COUNT(4) + " style=", 1) if "15,500" in x and x.startswith("<p") else x for x in o]
 CF[0] = 30
 o.append(p(f"position:absolute;left:96px;top:900px;width:1728px;font-size:30px;font-weight:700;line-height:1.55;color:{SUB}", "15에서는 menu.get(name, 0)으로 없는 메뉴를 0원 처리했어요. 집합으로 먼저 거르면 그럴 일이 없어요.", at("rise", 5)))
 W("x-bill", o, "교집합으로 먼저 걸러 두면 for 안에서 없는 키를 만나지 않아요. 앞 장의 교집합으로 팔 수 있는 메뉴만 for로 돌아요. 메뉴마다 13의 count로 몇 잔인지 세고, 15처럼 menu[m]으로 가격을 꺼내 곱해요. tea와 juice는 교집합에서 이미 빠져서 menu[m]에서 KeyError가 나지 않아요. 15에서는 get(name, 0)으로 없는 메뉴를 0원 처리했는데, 집합으로 미리 거르는 방법도 있어요. 앞 장의 set(orders) - set(menu)를 찍으면 준비 중인 메뉴를 손님에게 알려 줄 수도 있어요. 칸 맞추기와 콤마는 13의 f-string이에요. 출력의 한글은 영어 두 칸 너비로 그렸어요." + REAL)

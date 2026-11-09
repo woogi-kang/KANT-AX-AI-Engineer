@@ -3,6 +3,7 @@
 <title>uv로 파이썬 시작하기</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>section{position:relative;width:1920px;height:1080px;box-sizing:border-box;overflow:hidden}
+[data-pdf="hide"]{visibility:hidden}
 section *{box-sizing:border-box}
 p,h1,h2,h3,ul,ol{margin:0}
 h1{font-size:96px;font-weight:600;line-height:1.1} h2{font-size:64px;font-weight:600;line-height:1.15} h3{font-size:44px;font-weight:600;line-height:1.2} p{font-size:32px;line-height:1.4}
@@ -97,14 +98,35 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 .pl-cur.on{opacity:1}
 .pl-rip{position:absolute;z-index:44;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:5px solid #2459C9;opacity:0;pointer-events:none}
 .pl-rip.go{animation:pl-rip .6s ease-out}
-@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}</style></head>
+@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}
+#pl-stage [data-pdf="hide"]{visibility:inherit}
+[data-build-in^="lspot"],[data-build-in^="run"],[data-build-in^="zoom"],[data-build-in^="blur"],[data-build-in^="text"],[data-build-in^="pan"],[data-build-in^="kenburns"],[data-build-in^="pulse"],[data-build-in^="grow"],[data-build-in^="shine"],[data-build-in^="shake"]{visibility:hidden}
+[data-build-in^="wipe"]{clip-path:inset(0 0 0 0);transition:opacity .2s ease,clip-path .6s cubic-bezier(.65,0,.35,1)}
+.pending.wipe{opacity:1!important;clip-path:inset(0 100% 0 0)}
+[data-build-in^="slam"]{transition:opacity .25s ease,transform .5s cubic-bezier(.34,1.45,.64,1)}
+.pending.slam{transform:scale(2.2)!important}
+[data-build-in^="slide"]{transition:opacity .3s ease,transform .6s cubic-bezier(.16,1,.3,1)}
+.pending.slide{transform:translate(var(--dx,0px),var(--dy,60px))!important}
+.pending.stagger{opacity:1!important}
+[data-build-in^="stagger"]>*{transition:opacity .35s ease,transform .4s cubic-bezier(.2,.7,.2,1)}
+.pending.stagger>*{opacity:0;transform:translateY(18px)}
+[data-build-in^="mark"]{transition:background-color .45s ease,color .45s ease,text-decoration-color .45s ease,box-shadow .45s ease}
+.pending.mark{opacity:1!important;background-color:transparent!important;color:inherit!important;text-decoration-color:transparent!important;box-shadow:none!important}
+[data-dimgroup]{transition:opacity .45s ease,transform .45s ease,filter .4s ease}
+.pl-dim{filter:grayscale(1) opacity(.38)}
+.pl-blurs>*{transition:opacity .45s ease,transform .45s ease,filter .5s ease}
+.pl-bl{filter:blur(6px) opacity(.5)}
+.pl-veil{position:absolute;z-index:30;pointer-events:none;opacity:.8;transition:left .45s cubic-bezier(.65,0,.35,1),top .45s cubic-bezier(.65,0,.35,1),width .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),opacity .35s ease}
+.pl-lbar{position:absolute;z-index:31;width:7px;border-radius:4px;background:#2459C9;pointer-events:none;transition:top .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),left .45s,opacity .35s ease}
+.pl-run{position:absolute;z-index:29;pointer-events:none;border-radius:8px;background:rgba(31,138,76,.17);box-shadow:inset 7px 0 0 #1F8A4C;transition:left .4s cubic-bezier(.65,0,.35,1),top .4s cubic-bezier(.65,0,.35,1),width .4s,height .4s,opacity .3s ease}
+.pl-off{opacity:0!important}</style></head>
 <body>
 <div id="pl-stage">
 <section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center">
 <p style="position:absolute;left:128px;top:300px;width:820px;font-size:28px;font-weight:700;color:#7FD6DC">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>
-<h1 style="position:absolute;left:128px;top:356px;width:820px;font-size:104px;font-weight:900;line-height:1.12;color:#F6F5F1">uv로<br>파이썬 시작하기</h1>
+<h1 data-build-in="slam order 1" style="position:absolute;left:128px;top:356px;width:820px;font-size:104px;font-weight:900;line-height:1.12;color:#F6F5F1">uv로<br>파이썬 시작하기</h1>
 <p style="position:absolute;left:128px;top:620px;width:820px;font-size:38px;line-height:1.45;color:#BFC6D4">프로젝트를 만들고, 패키지를 넣고,<br>다른 컴퓨터에서 그대로 받기</p>
-<div style="position:absolute;left:1010px;top:240px;width:1000px;height:900px;background:#11151C;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
+<div id="cov-code" style="position:absolute;left:1010px;top:240px;width:1000px;height:900px;background:#11151C;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
 <p style="font-size:32px;line-height:64px;height:64px;white-space:pre;font-weight:700;color:#F2C46D">$ uv init hello-uv</p>
 <p style="font-size:32px;line-height:64px;height:64px;white-space:pre;font-weight:400;color:#9AA3B2">Initialized project `hello-uv`</p>
 <p style="font-size:32px;line-height:64px;height:64px;white-space:pre;font-weight:700;color:#F2C46D">$ cd hello-uv</p>
@@ -115,20 +137,21 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:32px;line-height:64px;height:64px;white-space:pre;font-weight:700;color:#F2C46D">$ uv sync</p>
 <p style="font-size:32px;line-height:64px;height:64px;white-space:pre;font-weight:400;color:#9AA3B2">Resolved 12 packages in 1ms</p>
 </div>
+<div data-build-in="shine order 2" data-target="cov-code" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>오늘부터 파이썬 프로젝트는 uv 하나로 만들고 실행해요. 먼저 받은 프로젝트가 왜 남의 컴퓨터에서 안 돌아가는지 봐요. 그다음 uv init, uv run, uv add, uv remove, uv sync를 순서대로 쳐 봐요. VS Code에서 Jupyter 노트북을 여는 준비까지 마쳐요. 마지막에 실제로 자주 만나는 상황 세 가지를 풀어요.</aside>
 </section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;word-break:keep-all;padding:96px">
 <h2 style="position:absolute;left:96px;top:72px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">오늘의 순서</h2>
-<div style="position:absolute;left:96px;top:176px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#A33131">1</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">왜 필요할까</p><p style="flex:1;font-size:27px;color:#4A5262">받은 프로젝트가 안 돌아가는 이유</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">3쪽</p></div>
-<div style="position:absolute;left:96px;top:254px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#2459C9">2</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">큰 그림</p><p style="flex:1;font-size:27px;color:#4A5262">python, 패키지, 가상환경, uv</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">4–7쪽</p></div>
-<div style="position:absolute;left:96px;top:332px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#0F7C86">3</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">uv 설치하기</p><p style="flex:1;font-size:27px;color:#4A5262">brew, winget</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">8쪽</p></div>
-<div style="position:absolute;left:96px;top:410px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#2459C9">4</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">프로젝트 만들고 실행하기</p><p style="flex:1;font-size:27px;color:#4A5262">uv init, uv run, 가상환경 켜기</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">9–14쪽</p></div>
-<div style="position:absolute;left:96px;top:488px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#1E3F8F">5</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">패키지 넣고 빼기</p><p style="flex:1;font-size:27px;color:#4A5262">uv add, uv tree, uv remove</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">15–19쪽</p></div>
-<div style="position:absolute;left:96px;top:566px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#5A3BB8">6</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">다른 컴퓨터에서 그대로</p><p style="flex:1;font-size:27px;color:#4A5262">GitHub, uv sync</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">20–23쪽</p></div>
-<div style="position:absolute;left:96px;top:644px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#B8560F">7</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">VS Code에서 Jupyter 쓰기</p><p style="flex:1;font-size:27px;color:#4A5262">확장, ipykernel, 커널 고르기</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">24–28쪽</p></div>
-<div style="position:absolute;left:96px;top:722px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#B26A00">8</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">예전 방식과 비교</p><p style="flex:1;font-size:27px;color:#4A5262">pip, venv를 uv로 바꿔 치기</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">29쪽</p></div>
-<div style="position:absolute;left:96px;top:800px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#A33131">9</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">막힐 때</p><p style="flex:1;font-size:27px;color:#4A5262">자주 만나는 메시지</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">30–31쪽</p></div>
-<div style="position:absolute;left:96px;top:878px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#1F8A4C">10</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">실제 상황 예제</p><p style="flex:1;font-size:27px;color:#4A5262">튜토리얼, 노트북, 팀원과 함께</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">32–34쪽</p></div>
+<div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:176px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#A33131">1</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">왜 필요할까</p><p style="flex:1;font-size:27px;color:#4A5262">받은 프로젝트가 안 돌아가는 이유</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">3쪽</p></div>
+<div data-build-in="rise order 1" data-delay="70" style="position:absolute;left:96px;top:254px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#2459C9">2</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">큰 그림</p><p style="flex:1;font-size:27px;color:#4A5262">python, 패키지, 가상환경, uv</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">4–7쪽</p></div>
+<div data-build-in="rise order 1" data-delay="140" style="position:absolute;left:96px;top:332px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#0F7C86">3</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">uv 설치하기</p><p style="flex:1;font-size:27px;color:#4A5262">brew, winget</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">8쪽</p></div>
+<div data-build-in="rise order 1" data-delay="210" style="position:absolute;left:96px;top:410px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#2459C9">4</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">프로젝트 만들고 실행하기</p><p style="flex:1;font-size:27px;color:#4A5262">uv init, uv run, 가상환경 켜기</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">9–14쪽</p></div>
+<div data-build-in="rise order 1" data-delay="280" style="position:absolute;left:96px;top:488px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#1E3F8F">5</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">패키지 넣고 빼기</p><p style="flex:1;font-size:27px;color:#4A5262">uv add, uv tree, uv remove</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">15–19쪽</p></div>
+<div data-build-in="rise order 1" data-delay="350" style="position:absolute;left:96px;top:566px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#5A3BB8">6</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">다른 컴퓨터에서 그대로</p><p style="flex:1;font-size:27px;color:#4A5262">GitHub, uv sync</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">20–23쪽</p></div>
+<div data-build-in="rise order 1" data-delay="420" style="position:absolute;left:96px;top:644px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#B8560F">7</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">VS Code에서 Jupyter 쓰기</p><p style="flex:1;font-size:27px;color:#4A5262">확장, ipykernel, 커널 고르기</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">24–28쪽</p></div>
+<div data-build-in="rise order 1" data-delay="490" style="position:absolute;left:96px;top:722px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#B26A00">8</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">예전 방식과 비교</p><p style="flex:1;font-size:27px;color:#4A5262">pip, venv를 uv로 바꿔 치기</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">29쪽</p></div>
+<div data-build-in="rise order 1" data-delay="560" style="position:absolute;left:96px;top:800px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#A33131">9</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">막힐 때</p><p style="flex:1;font-size:27px;color:#4A5262">자주 만나는 메시지</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">30–31쪽</p></div>
+<div data-build-in="rise order 1" data-delay="630" style="position:absolute;left:96px;top:878px;width:1728px;height:78px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center"><p style="width:90px;flex:none;font-size:36px;font-weight:900;color:#1F8A4C">10</p><p style="width:620px;flex:none;font-size:32px;font-weight:700;color:#1D2330">실제 상황 예제</p><p style="flex:1;font-size:27px;color:#4A5262">튜토리얼, 노트북, 팀원과 함께</p><p style="width:160px;flex:none;font-size:26px;text-align:right;color:#6A7180">32–34쪽</p></div>
 <p style="position:absolute;left:96px;top:980px;width:1728px;font-size:26px;color:#4A5262">35쪽은 한 장 요약이에요. 4파트에서 만든 hello-uv 폴더를 끝까지 계속 써요.</p>
 <aside>1, 2파트는 눈으로 보는 배경이에요. 3파트에서 uv를 설치하고, 4파트부터 직접 따라 쳐요. 4파트에서 만든 hello-uv 폴더를 5, 6, 7파트와 실제 상황 예제에서 계속 써요. 8파트의 예전 방식은 따라 치지 않아요.</aside>
 </section>
@@ -150,6 +173,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:29px;line-height:46px;height:46px;white-space:pre;font-weight:700;color:#F28B82">ModuleNotFoundError: No module named 'fastapi'</p>
 </div>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="120.0" y="736" width="841.8" height="42" rx="8"></rect></g></svg>
+<div data-build-in="shake order 1" data-target="term" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <svg data-build-in="fade order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1146,757 L992,757" fill="none" stroke="#A33131" stroke-width="3" stroke-linecap="round"></path><circle cx="991.8" cy="757.0" r="7" fill="#A33131" stroke="none"></circle></svg>
 <p data-build-in="fade order 2" style="position:absolute;left:1160px;top:736px;width:620px;font-size:28px;font-weight:700;line-height:1.5;text-align:left;color:#A33131">fastapi는 kim 컴퓨터에만 있어요</p>
 <p data-build-in="fade order 3" style="position:absolute;left:96px;top:870px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">코드와 목록 파일은 받았는데, 코드가 쓰는 패키지는 따라오지 않았어요.</p>
@@ -210,9 +234,9 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
   <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
   <circle cx="12" cy="12" r="3"></circle>
 </svg></x-icon><p style="font-size:32px;font-weight:700;color:#1D2330">컴퓨터에 설치한 파이썬</p><p style="font-size:26px;color:#6A7180">여기에 바로 넣으면 모든 프로젝트가 한 벌을 같이 써요</p></div>
-<div data-build-in="rise order 1" style="position:absolute;left:96px;top:380px;width:840px;height:380px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:30px 36px;display:flex;flex-direction:column;gap:22px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#6A7180;">project-a/</p><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:30px;flex:none;display:flex;flex-direction:row;justify-content:flex-start;align-items:center"><div style="width:22px;height:28px;background:#B9BFCB;border-radius:3px"></div></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330;">main.py</p></div><div style="flex:1;background:#E4F3EA;border-radius:16px;padding:22px 28px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:30px;flex:none;display:flex;flex-direction:row;justify-content:flex-start;align-items:center"><div style="width:30px;height:22px;background:#E0B54A;border-radius:4px"></div></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1F8A4C;">.venv/</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;white-space:nowrap;color:#2459C9;background:#FFFFFF;border-radius:10px;padding:6px 18px;align-self:flex-start">fastapi 0.162.2</p></div></div>
-<div data-build-in="rise order 2" style="position:absolute;left:984px;top:380px;width:840px;height:380px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:30px 36px;display:flex;flex-direction:column;gap:22px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#6A7180;">project-b/</p><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:30px;flex:none;display:flex;flex-direction:row;justify-content:flex-start;align-items:center"><div style="width:22px;height:28px;background:#B9BFCB;border-radius:3px"></div></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330;">main.py</p></div><div style="flex:1;background:#E4F3EA;border-radius:16px;padding:22px 28px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:30px;flex:none;display:flex;flex-direction:row;justify-content:flex-start;align-items:center"><div style="width:30px;height:22px;background:#E0B54A;border-radius:4px"></div></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1F8A4C;">.venv/</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;white-space:nowrap;color:#1F8A4C;background:#FFFFFF;border-radius:10px;padding:6px 18px;align-self:flex-start">fastapi 0.110.0</p></div></div>
-<p data-build-in="fade order 3" style="position:absolute;left:96px;top:820px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">프로젝트끼리 패키지 버전이 달라도 부딪히지 않아요. uv도 이 .venv를 그대로 써요.</p>
+<div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:380px;width:840px;height:380px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:30px 36px;display:flex;flex-direction:column;gap:22px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#6A7180;">project-a/</p><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:30px;flex:none;display:flex;flex-direction:row;justify-content:flex-start;align-items:center"><div style="width:22px;height:28px;background:#B9BFCB;border-radius:3px"></div></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330;">main.py</p></div><div style="flex:1;background:#E4F3EA;border-radius:16px;padding:22px 28px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:30px;flex:none;display:flex;flex-direction:row;justify-content:flex-start;align-items:center"><div style="width:30px;height:22px;background:#E0B54A;border-radius:4px"></div></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1F8A4C;">.venv/</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;white-space:nowrap;color:#2459C9;background:#FFFFFF;border-radius:10px;padding:6px 18px;align-self:flex-start">fastapi 0.162.2</p></div></div>
+<div data-build-in="rise order 1" data-delay="220" style="position:absolute;left:984px;top:380px;width:840px;height:380px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:22px;padding:30px 36px;display:flex;flex-direction:column;gap:22px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:nowrap;color:#6A7180;">project-b/</p><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:30px;flex:none;display:flex;flex-direction:row;justify-content:flex-start;align-items:center"><div style="width:22px;height:28px;background:#B9BFCB;border-radius:3px"></div></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330;">main.py</p></div><div style="flex:1;background:#E4F3EA;border-radius:16px;padding:22px 28px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:30px;flex:none;display:flex;flex-direction:row;justify-content:flex-start;align-items:center"><div style="width:30px;height:22px;background:#E0B54A;border-radius:4px"></div></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1F8A4C;">.venv/</p></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;white-space:nowrap;color:#1F8A4C;background:#FFFFFF;border-radius:10px;padding:6px 18px;align-self:flex-start">fastapi 0.110.0</p></div></div>
+<p data-build-in="fade order 2" style="position:absolute;left:96px;top:820px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">프로젝트끼리 패키지 버전이 달라도 부딪히지 않아요. uv도 이 .venv를 그대로 써요.</p>
 <aside>가상환경은 프로젝트 폴더마다 따로 두는 패키지 상자예요. 상자 없이 컴퓨터 파이썬에 바로 넣으면 모든 프로젝트가 패키지 한 벌을 같이 써요. 그러면 A는 fastapi 0.162, B는 0.110이 필요할 때 둘 중 하나가 깨져요. 그래서 폴더마다 .venv라는 상자를 두고 그 안에 패키지를 넣어요. .venv는 점으로 시작해서 ls -a로만 보여요(01). uv도 이 .venv를 그대로 써요. 다른 건 누가 상자를 만들고 켜느냐예요.</aside>
 </section>
 <section id="map" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px;display:flex;flex-direction:column">
@@ -306,6 +330,10 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p data-build-in="fade order 2" style="position:absolute;left:1286px;top:560px;width:520px;font-size:28px;font-weight:700;line-height:1.5;text-align:left;color:#1E3F8F">쓸 수 있는 파이썬 버전</p>
 <svg data-build-in="fade order 3" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1272,635 L470,635" fill="none" stroke="#1E3F8F" stroke-width="3" stroke-linecap="round"></path><circle cx="470.4" cy="635.0" r="7" fill="#1E3F8F" stroke="none"></circle></svg>
 <p data-build-in="fade order 3" style="position:absolute;left:1286px;top:614px;width:520px;font-size:28px;font-weight:700;line-height:1.5;text-align:left;color:#1E3F8F">쓰는 패키지, 아직 없어요</p>
+<div data-build-in="lspot order 1" data-ly="338" data-lh="54" data-bg="#FFFFFF" data-bar="#1E3F8F" style="position:absolute;left:96px;top:220px;width:1100px;height:462px"></div>
+<div data-build-in="lspot order 2" data-ly="554" data-lh="54" data-bg="#FFFFFF" data-bar="#1E3F8F" style="position:absolute;left:96px;top:220px;width:1100px;height:462px"></div>
+<div data-build-in="lspot order 3" data-ly="608" data-lh="54" data-bg="#FFFFFF" data-bar="#1E3F8F" style="position:absolute;left:96px;top:220px;width:1100px;height:462px"></div>
+<div data-build-in="lspot-off order 4" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <div id="c-ver" data-build-in="rise order 4" style="position:absolute;left:96px;top:718px;width:400px;height:134px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:18px 30px 0;display:flex;flex-direction:column">
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:44px;height:44px;color:#2459C9">.python-version</p>
 <p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;line-height:50px;height:50px;white-space:pre;color:#1D2330">3.14</p>
@@ -350,11 +378,11 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:40px;line-height:70px;height:70px;white-space:pre;font-weight:700;color:#F2C46D">$ uv run main.py</p>
 <p style="font-size:40px;line-height:70px;height:70px;white-space:pre;font-weight:700;color:#FFE7A8;background:rgba(242,196,109,.2);border-radius:6px;margin:0 -10px;padding:0 10px">Hello from hello-uv!</p>
 </div>
-<div data-build-in="fade order 1" style="position:absolute;left:96px;top:540px;width:520px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#1F8A4C;color:#FFFFFF;font-size:30px;font-weight:900;line-height:60px;text-align:center">1</p><p style="font-size:40px;font-weight:700;color:#1F8A4C">켜요</p></div><p style="font-size:30px;line-height:1.45;color:#4A5262;padding-left:78px">.venv 안의 파이썬을 골라요</p></div>
+<div data-build-in="fade order 1" data-dimgroup="r2" style="position:absolute;left:96px;top:540px;width:520px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#1F8A4C;color:#FFFFFF;font-size:30px;font-weight:900;line-height:60px;text-align:center">1</p><p style="font-size:40px;font-weight:700;color:#1F8A4C">켜요</p></div><p style="font-size:30px;line-height:1.45;color:#4A5262;padding-left:78px">.venv 안의 파이썬을 골라요</p></div>
 <svg data-build-in="fade order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B9BFCB" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M516,570 L656,570"></path><path d="M638,580 L656,570 L638,560"></path></g></svg>
-<div data-build-in="fade order 2" style="position:absolute;left:696px;top:540px;width:520px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#2459C9;color:#FFFFFF;font-size:30px;font-weight:900;line-height:60px;text-align:center">2</p><p style="font-size:40px;font-weight:700;color:#2459C9">실행해요</p></div><p style="font-size:30px;line-height:1.45;color:#4A5262;padding-left:78px">main.py를 읽고 실행해요</p></div>
+<div data-build-in="fade order 2" data-dimgroup="r2" style="position:absolute;left:696px;top:540px;width:520px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#2459C9;color:#FFFFFF;font-size:30px;font-weight:900;line-height:60px;text-align:center">2</p><p style="font-size:40px;font-weight:700;color:#2459C9">실행해요</p></div><p style="font-size:30px;line-height:1.45;color:#4A5262;padding-left:78px">main.py를 읽고 실행해요</p></div>
 <svg data-build-in="fade order 3" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B9BFCB" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M1116,570 L1256,570"></path><path d="M1238,580 L1256,570 L1238,560"></path></g></svg>
-<div data-build-in="fade order 3" style="position:absolute;left:1296px;top:540px;width:520px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#6A7180;color:#FFFFFF;font-size:30px;font-weight:900;line-height:60px;text-align:center">3</p><p style="font-size:40px;font-weight:700;color:#6A7180">꺼요</p></div><p style="font-size:30px;line-height:1.45;color:#4A5262;padding-left:78px">끝나면 원래대로 돌아와요</p></div>
+<div data-build-in="fade order 3" data-dimgroup="r2" style="position:absolute;left:1296px;top:540px;width:520px;display:flex;flex-direction:column;gap:14px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><p style="width:60px;height:60px;flex:none;border-radius:50%;background:#6A7180;color:#FFFFFF;font-size:30px;font-weight:900;line-height:60px;text-align:center">3</p><p style="font-size:40px;font-weight:700;color:#6A7180">꺼요</p></div><p style="font-size:30px;line-height:1.45;color:#4A5262;padding-left:78px">끝나면 원래대로 돌아와요</p></div>
 <div style="position:absolute;left:96px;top:500px;width:1728px;height:2px;background:#E1DED6"></div>
 <p data-build-in="fade order 3" style="position:absolute;left:96px;top:800px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">uv run 한 줄이 이 세 가지를 해요. 프롬프트에 (hello-uv)가 붙지 않아서 끄는 걸 잊을 일이 없어요.</p>
 <aside>uv run은 .venv를 켜고, 실행하고, 끄는 일을 한 번에 해요. .venv가 이미 있어서 이번엔 결과만 나와요. 실행할 때만 .venv의 파이썬을 쓰고 끝나면 원래대로 돌아와서 프롬프트가 바뀌지 않아요. main.py를 고친 뒤에도 같은 명령으로 다시 실행해요. 출력은 tools/demo.sh로 실제로 실행한 결과예요.</aside>
@@ -442,9 +470,9 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </div>
 <p id="tok-fast" style="position:absolute;left:262px;top:236px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:44px;color:transparent">fastapi</p>
 <div id="three" style="position:absolute;left:1020px;top:210px;width:804px;height:650px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px"></div>
-<div style="position:absolute;left:1044px;top:214px;width:756px;height:214px;padding:22px 10px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#1E3F8F"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1E3F8F">pyproject.toml</p><p style="font-size:24px;color:#6A7180">내가 고른 패키지</p></div><div id="v-py" data-build-in="fly order 1" data-from="tok-fast" style="display:flex;flex-direction:column;gap:6px;padding-left:34px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:pre;color:#1D2330">"fastapi&gt;=0.162.2",</p><p style="font-size:24px;line-height:1.4;color:#4A5262">dependencies 칸에 적혀요</p></div></div>
-<div style="position:absolute;left:1044px;top:428px;width:756px;height:214px;border-top:2px solid #E3E0D8;padding:22px 10px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#5A3BB8"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#5A3BB8">uv.lock</p><p style="font-size:24px;color:#6A7180">따라온 것까지 정확한 버전</p></div><div id="v-lock" data-build-in="rise order 2" style="display:flex;flex-direction:column;gap:6px;padding-left:34px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:pre;color:#1D2330">고른 1개 + 따라온 10개</p><p style="font-size:24px;line-height:1.4;color:#4A5262">pydantic 2.14.3, starlette 1.10.0 …</p></div></div>
-<div style="position:absolute;left:1044px;top:642px;width:756px;height:214px;border-top:2px solid #E3E0D8;padding:22px 10px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#1F8A4C"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1F8A4C">.venv</p><p style="font-size:24px;color:#6A7180">실제로 설치된 패키지</p></div><div id="v-venv" data-build-in="rise order 3" style="display:flex;flex-direction:column;gap:6px;padding-left:34px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:pre;color:#1D2330">패키지 11개 설치</p><p style="font-size:24px;line-height:1.4;color:#4A5262">uv run으로 실행하면 바로 써요</p></div></div>
+<div style="position:absolute;left:1044px;top:214px;width:756px;height:214px;padding:22px 10px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#1E3F8F"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1E3F8F">pyproject.toml</p><p style="font-size:24px;color:#6A7180">내가 고른 패키지</p></div><div id="v-py" data-build-in="fly order 1" data-from="tok-fast" data-dimgroup="add3" style="display:flex;flex-direction:column;gap:6px;padding-left:34px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:pre;color:#1D2330">"fastapi&gt;=0.162.2",</p><p style="font-size:24px;line-height:1.4;color:#4A5262">dependencies 칸에 적혀요</p></div></div>
+<div style="position:absolute;left:1044px;top:428px;width:756px;height:214px;border-top:2px solid #E3E0D8;padding:22px 10px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#5A3BB8"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#5A3BB8">uv.lock</p><p style="font-size:24px;color:#6A7180">따라온 것까지 정확한 버전</p></div><div id="v-lock" data-build-in="rise order 2" data-dimgroup="add3" style="display:flex;flex-direction:column;gap:6px;padding-left:34px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:pre;color:#1D2330">고른 1개 + 따라온 10개</p><p style="font-size:24px;line-height:1.4;color:#4A5262">pydantic 2.14.3, starlette 1.10.0 …</p></div></div>
+<div style="position:absolute;left:1044px;top:642px;width:756px;height:214px;border-top:2px solid #E3E0D8;padding:22px 10px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#1F8A4C"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1F8A4C">.venv</p><p style="font-size:24px;color:#6A7180">실제로 설치된 패키지</p></div><div id="v-venv" data-build-in="rise order 3" data-dimgroup="add3" style="display:flex;flex-direction:column;gap:6px;padding-left:34px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:pre;color:#1D2330">패키지 11개 설치</p><p style="font-size:24px;line-height:1.4;color:#4A5262">uv run으로 실행하면 바로 써요</p></div></div>
 <aside>uv add는 명령 하나로 세 곳을 함께 바꿔요. pyproject.toml의 dependencies 칸에 fastapi를 적고, uv.lock에 정확한 버전을 적고, .venv에 설치해요. 예전의 pip install과 목록 적기를 합친 일이에요. &gt;=0.162.2는 0.162.2 이상이면 된다는 뜻이고, 실제로 쓸 버전은 uv.lock이 정해요. Downloading pydantic-core 줄은 크기가 큰 패키지를 받을 때만 보여요. hello-uv 폴더에서 쳐요. 출력은 tools/demo.sh로 실제로 실행한 결과예요.</aside>
 </section>
 <section id="tree" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px;display:flex;flex-direction:column">
@@ -464,7 +492,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </div>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1046,442 L952,442" fill="none" stroke="#1E3F8F" stroke-width="3" stroke-linecap="round"></path><circle cx="952" cy="442.0" r="7" fill="#1E3F8F" stroke="none"></circle></svg>
 <p data-build-in="fade order 1" style="position:absolute;left:1060px;top:421px;width:700px;font-size:28px;font-weight:700;line-height:1.5;text-align:left;color:#1E3F8F">내가 고른 패키지</p>
-<svg data-build-in="fade order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M810,480 q14,0 14,14 L824,782 q0,14 -14,14" fill="none" stroke="#1E3F8F" stroke-width="3"></path></svg>
+<svg data-build-in="wipe order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M810,480 q14,0 14,14 L824,782 q0,14 -14,14" fill="none" stroke="#1E3F8F" stroke-width="3"></path></svg>
 <svg data-build-in="fade order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1046,638 L832,638" fill="none" stroke="#1E3F8F" stroke-width="3" stroke-linecap="round"></path></svg>
 <p data-build-in="fade order 2" style="position:absolute;left:1060px;top:617px;width:700px;font-size:28px;font-weight:700;line-height:1.5;text-align:left;color:#1E3F8F">fastapi가 쓰는 패키지 6개</p>
 <p data-build-in="fade order 2" style="position:absolute;left:1060px;top:678.0px;width:764px;font-size:28px;font-weight:400;line-height:1.45;text-align:left;color:#4A5262">그 아래 단계에서 4개가 더 들어와서 모두 11개예요.</p>
@@ -513,6 +541,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <div style="position:absolute;left:1044px;top:214px;width:756px;height:214px;padding:22px 10px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#1E3F8F"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1E3F8F">pyproject.toml</p><p style="font-size:24px;color:#6A7180">내가 고른 패키지</p></div><div id="v-py" data-build-in="fade order 1" style="display:flex;flex-direction:column;gap:6px;padding-left:34px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:pre;color:#A33131">dependencies = []</p><p style="font-size:24px;line-height:1.4;color:#4A5262">fastapi 줄이 지워져요</p></div></div>
 <div style="position:absolute;left:1044px;top:428px;width:756px;height:214px;border-top:2px solid #E3E0D8;padding:22px 10px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#5A3BB8"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#5A3BB8">uv.lock</p><p style="font-size:24px;color:#6A7180">따라온 것까지 정확한 버전</p></div><div id="v-lock" data-build-in="fade order 2" style="display:flex;flex-direction:column;gap:6px;padding-left:34px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:pre;color:#A33131">프로젝트만 남아요</p><p style="font-size:24px;line-height:1.4;color:#4A5262">따라왔던 10개도 지워요</p></div></div>
 <div style="position:absolute;left:1044px;top:642px;width:756px;height:214px;border-top:2px solid #E3E0D8;padding:22px 10px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;flex-direction:row;gap:18px;align-items:center"><div style="width:16px;height:16px;flex:none;border-radius:50%;background:#1F8A4C"></div><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1F8A4C">.venv</p><p style="font-size:24px;color:#6A7180">실제로 설치된 패키지</p></div><div id="v-venv" data-build-in="fade order 3" style="display:flex;flex-direction:column;gap:6px;padding-left:34px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.35;white-space:pre;color:#A33131">패키지 11개 삭제</p><p style="font-size:24px;line-height:1.4;color:#4A5262">딸린 패키지까지 같이 빠져요</p></div></div>
+<div data-build-in="shake order 4" data-target="term" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <svg data-build-in="draw order 4" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="122.0" y="766" width="682.4" height="40" rx="8"></rect></g></svg>
 <aside>uv remove는 uv add를 거꾸로 해서 세 곳에서 함께 빼요. pyproject.toml에서 지우고, uv.lock과 .venv에서도 빼요. 함께 들어왔던 10개도 다른 패키지가 쓰지 않으면 같이 빠져요. main.py는 아직 fastapi를 불러오고 있어서 실행하면 ModuleNotFoundError가 나요. 다음 장에서 다시 넣어요. 출력은 tools/demo.sh로 실제로 실행한 결과이고, 지운 목록 가운데 6줄과 Traceback 가운데 두 줄은 뺐어요.</aside>
 </section>
@@ -756,21 +785,27 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <div style="position:absolute;left:86px;top:0;width:1114px;height:63px;background:#FFFFFF;border:2px solid #E1DED6;border-left:6px solid #2459C9;border-radius:10px;padding:10px 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;height:39px;white-space:pre;color:#1D2330">print("안녕하세요")</p></div>
 <p id="jo1" style="position:absolute;left:112px;top:77px;width:1080px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">안녕하세요</p>
 </div>
+<div data-build-in="run order 1" style="position:absolute;left:200px;top:300px;width:1096px;height:63px"></div>
 <div data-build-in="rise order 2" style="position:absolute;left:96px;top:450px;width:1200px;height:165px">
 <p style="position:absolute;left:0;top:12px;width:70px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;color:#6A7180;text-align:right">[2]</p>
 <div style="position:absolute;left:86px;top:0;width:1114px;height:102px;background:#FFFFFF;border:2px solid #E1DED6;border-left:6px solid #2459C9;border-radius:10px;padding:10px 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;height:39px;white-space:pre;color:#1D2330">import sys</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;height:39px;white-space:pre;color:#1D2330">print(sys.executable)</p></div>
 <p id="jo2" style="position:absolute;left:112px;top:116px;width:1080px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">/home/kim/hello-uv/.venv/bin/python</p>
 </div>
+<div data-build-in="run order 2" style="position:absolute;left:200px;top:450px;width:1096px;height:102px"></div>
 <div data-build-in="rise order 3" style="position:absolute;left:96px;top:639px;width:1200px;height:165px">
 <p style="position:absolute;left:0;top:12px;width:70px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;color:#6A7180;text-align:right">[3]</p>
 <div style="position:absolute;left:86px;top:0;width:1114px;height:102px;background:#FFFFFF;border:2px solid #E1DED6;border-left:6px solid #2459C9;border-radius:10px;padding:10px 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;height:39px;white-space:pre;color:#1D2330">import fastapi</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;height:39px;white-space:pre;color:#1D2330">print(fastapi.__version__)</p></div>
 <p id="jo3" style="position:absolute;left:112px;top:116px;width:1080px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">0.162.2</p>
 </div>
+<div data-build-in="run order 3" style="position:absolute;left:200px;top:639px;width:1096px;height:102px"></div>
 <div data-build-in="rise order 4" style="position:absolute;left:96px;top:828px;width:1200px;height:126px">
 <p style="position:absolute;left:0;top:12px;width:70px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;color:#6A7180;text-align:right">[4]</p>
 <div style="position:absolute;left:86px;top:0;width:1114px;height:63px;background:#FFFFFF;border:2px solid #E1DED6;border-left:6px solid #2459C9;border-radius:10px;padding:10px 20px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;height:39px;white-space:pre;color:#1D2330">1 + 2</p></div>
 <p id="jo4" style="position:absolute;left:112px;top:77px;width:1080px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">3</p>
 </div>
+<div data-build-in="run order 4" style="position:absolute;left:200px;top:828px;width:1096px;height:63px"></div>
+<div data-build-in="run-off order 5" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<div data-build-in="stagger order 1" data-gap="160" style="position:absolute;left:1420px;top:300px;display:flex;flex-direction:row;align-items:center;gap:12px"><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;line-height:1.2;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:6px;border-radius:12px;padding:8px 18px">Shift</span><span style="font-size:24px;font-weight:700;color:#6A7180">+</span><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;line-height:1.2;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:6px;border-radius:12px;padding:8px 18px">Enter</span></div>
 <svg data-build-in="draw order 5" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#1F8A4C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M451.0,606 L512,609 572,604 633,609 694,604"></path></g></svg>
 <svg data-build-in="fade order 5" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1406,586 L805,586" fill="none" stroke="#1F8A4C" stroke-width="3" stroke-linecap="round"></path><circle cx="805.1999999999999" cy="586" r="7" fill="#1F8A4C" stroke="none"></circle></svg>
 <p data-build-in="fade order 5" style="position:absolute;left:1420px;top:565px;width:404px;font-size:28px;font-weight:700;line-height:1.5;text-align:left;color:#1F8A4C">.venv면 잘 고른 거예요</p>
@@ -911,7 +946,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="nb-ok" style="position:absolute;left:112px;top:108px;width:760px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:35px;white-space:pre;color:#1D2330">requests 버전: 2.34.2</p>
 </div>
 <p data-build-in="fade order 3" style="position:absolute;left:182px;top:507px;width:700px;font-size:26px;font-weight:700;line-height:1.45;text-align:left;color:#1F8A4C">같은 셀을 다시 실행해요</p>
-<p data-build-in="fade order 4" style="position:absolute;left:96px;top:870px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">셀은 노트북에서, 패키지는 터미널에서 넣어요. VS Code 알림의 Install 버튼은 누르지 않아요.</p>
+<div data-build-in="pulse order 4" data-target="nb-ok" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<p data-build-in="fade order 5" style="position:absolute;left:96px;top:870px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">셀은 노트북에서, 패키지는 터미널에서 넣어요. VS Code 알림의 Install 버튼은 누르지 않아요.</p>
 <aside>노트북 셀에서 ModuleNotFoundError가 나면 VS Code 터미널에서 uv add로 패키지를 넣고 같은 셀을 다시 실행해요. 커널은 hello-uv의 .venv라서, uv add로 .venv에 넣으면 노트북에서도 바로 불러와요. idna는 fastapi와 함께 이미 들어와 있어서 이번엔 4개만 설치됐어요. 알림의 Install이나 pip install은 목록 파일에 적히지 않아서 쓰지 않아요. 노트북 출력은 tools/demo.sh가 커널 하나에서 셀, uv add, 같은 셀 순서로 실제로 실행한 결과예요.</aside>
 </section>
 <section id="real-team" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px;display:flex;flex-direction:column">
@@ -944,6 +980,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p data-build-in="fade order 3" style="font-size:25px;line-height:44px;height:44px;white-space:pre;font-weight:700;color:#FFE7A8;background:rgba(242,196,109,.2);border-radius:6px;margin:0 -10px;padding:0 10px">├── requests v2.34.2</p>
 <p data-build-in="fade order 3" style="font-size:25px;line-height:44px;height:44px;white-space:pre;color:#D8DEE9">└── ipykernel v7.4.0 (group: dev)</p>
 </div>
+<svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path id="rt-path" d="M942,560 C972,560 936,296 966,296" fill="none" stroke="#5A3BB8" stroke-width="3" stroke-dasharray="8 10" opacity=".6"></path></svg>
+<div data-build-in="path order 1" data-path="rt-path" data-ms="1400" style="position:absolute;left:953px;top:283px;width:26px;height:26px;border-radius:50%;background:#5A3BB8"></div>
 <p data-build-in="fade order 4" style="position:absolute;left:96px;top:870px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">pull은 목록 파일만 바꿔요. 내 .venv에 실제로 설치하는 건 uv sync예요.</p>
 <aside>팀원이 패키지를 넣고 push했으면 git pull origin main 뒤에 uv sync를 쳐요. kim은 앞 장에서 넣은 requests를 커밋해서 올렸어요. git add는 바뀐 두 파일 pyproject.toml과 uv.lock을 적어요. lee는 pull로 두 파일을 받고, uv sync로 requests와 따라온 패키지를 .venv에 설치했어요. uv tree --depth 1로 보면 lee의 프로젝트에도 requests가 들어 있어요. pull에서 fatal: Need to specify how to reconcile divergent branches.가 나오면 31쪽처럼 pull.rebase false를 설정해요. 출력은 tools/demo.sh로 실제로 실행한 결과이고, pull 출력 앞부분과 설치 목록 3줄, uv tree의 Resolved 줄은 뺐어요.</aside>
 </section>
@@ -951,27 +989,27 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">언제 무엇을 치나</h2>
 <div style="position:absolute;left:96px;top:210px;width:1728px;height:52px;border-bottom:3px solid #1D2330;display:flex;flex-direction:row;align-items:center"><p style="width:900px;padding:0 20px;font-size:24px;font-weight:700;color:#6A7180">이럴 때</p><p style="width:828px;padding:0 20px;font-size:24px;font-weight:700;color:#6A7180">이렇게</p></div>
-<div style="position:absolute;left:96px;top:262px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
+<div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:262px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
 <p style="width:900px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-size:30px">새 프로젝트를 만들 때</p>
 <p style="width:828px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;font-size:32px;color:#0F7C86">uv init 이름</p>
 </div>
-<div style="position:absolute;left:96px;top:354px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
+<div data-build-in="rise order 1" data-delay="80" style="position:absolute;left:96px;top:354px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
 <p style="width:900px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-size:30px">코드를 실행할 때</p>
 <p style="width:828px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;font-size:32px;color:#0F7C86">uv run main.py</p>
 </div>
-<div style="position:absolute;left:96px;top:446px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
+<div data-build-in="rise order 1" data-delay="160" style="position:absolute;left:96px;top:446px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
 <p style="width:900px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-size:30px">패키지를 넣을 때 (pip install 대신)</p>
 <p style="width:828px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;font-size:32px;color:#0F7C86">uv add 패키지</p>
 </div>
-<div style="position:absolute;left:96px;top:538px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
+<div data-build-in="rise order 1" data-delay="240" style="position:absolute;left:96px;top:538px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
 <p style="width:900px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-size:30px">패키지를 뺄 때</p>
 <p style="width:828px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;font-size:32px;color:#0F7C86">uv remove 패키지</p>
 </div>
-<div style="position:absolute;left:96px;top:630px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
+<div data-build-in="rise order 1" data-delay="320" style="position:absolute;left:96px;top:630px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
 <p style="width:900px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-size:30px">받은 프로젝트를 맞출 때 (clone, pull 뒤)</p>
 <p style="width:828px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;font-size:32px;color:#0F7C86">uv sync</p>
 </div>
-<div style="position:absolute;left:96px;top:722px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
+<div data-build-in="rise order 1" data-delay="400" style="position:absolute;left:96px;top:722px;width:1728px;height:92px;border-bottom:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">
 <p style="width:900px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-size:30px">노트북 커널을 넣을 때</p>
 <p style="width:828px;padding:0 20px;font-size:30px;line-height:1.35;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;font-size:32px;color:#0F7C86">uv add --dev ipykernel</p>
 </div>
@@ -991,7 +1029,7 @@ const stage=document.getElementById('pl-stage');
 const slides=[...stage.children];
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
-const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off'];
+const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off','wipe','slam','slide','stagger','count','mark','path','morph','lspot','lspot-off','run','run-off','zoom','zoom-off','blur','blur-off','text','pan','kenburns','pulse','grow','shine','shake'];
 const steps=slides.map(s=>{
   const els=[...s.querySelectorAll('[data-build-in]')];
   const groups=[];let auto=0;
@@ -1002,6 +1040,7 @@ const steps=slides.map(s=>{
     (groups[k]=groups[k]||[]).push(el);
     const kind=spec.trim().split(/\s+/)[0];
     el.dataset.fx=HL_KINDS.includes(kind)?kind:/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':/fly/.test(spec)?'fly':'fade';
+    if(kind==='slide'){el.style.setProperty('--dx',(el.dataset.dx||0)+'px');el.style.setProperty('--dy',(el.dataset.dy||60)+'px');}
     if(kind==='draw')[el,...el.querySelectorAll('path,rect,circle,ellipse,line,polyline,polygon')].forEach(x=>x.setAttribute('pathLength','1'));
   }
   return groups.filter(Boolean);
@@ -1019,9 +1058,11 @@ function setBuild(i,n,animate){
     el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
     if(fly)flyIn(el,slides[i].querySelector('#'+el.dataset.from));
     if(!animate||fly){void el.offsetWidth;el.style.transition='';}
-    if(el.dataset.fx==='type'){if(animate&&was&&gi<n)typeIn(el);else typeDone(el);}
+    entryFx(el,animate&&was&&gi<n,gi<n,i);
+    if(el.dataset.delay)el.style.transitionDelay=animate&&was&&gi<n?el.dataset.delay+'ms':'';
   }));
   hlState(i,n,animate);
+  fxState(i,n,animate);
   const fx=slides[i]._fx;if(fx&&fx.step)try{fx.step(n,animate);}catch(e){console.error(e);}
 }
 // moves el from the centre of src to its own place, so a value looks like it travels there
@@ -1034,13 +1075,6 @@ function flyIn(el,src){
 }
 // ---- highlights: typing, spotlight hole, mouse pointer (tools/HIGHLIGHT.md) ----
 function textNodes(el){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);return a;}
-function typeDone(el){if(el._tt){clearInterval(el._tt);el._tt=null;}if(el._orig)textNodes(el).forEach((t,k)=>t.nodeValue=el._orig[k]);}
-function typeIn(el){
-  typeDone(el);const ns=textNodes(el);el._orig=ns.map(t=>t.nodeValue);
-  const total=el._orig.join('').length,ms=Math.max(12,Math.min(45,1100/Math.max(1,total)));
-  ns.forEach(t=>t.nodeValue='');let k=0,j=0;
-  el._tt=setInterval(()=>{while(k<ns.length&&j>=el._orig[k].length){k++;j=0;}if(k>=ns.length){typeDone(el);return;}j++;ns[k].nodeValue=el._orig[k].slice(0,j);},ms);
-}
 const CUR_SVG='<svg viewBox="0 0 22 30" width="40" height="56"><path d="M2,2 L2,24 L8,18 L12,28 L16,26 L12,16 L20,16 Z" fill="#1D2330" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
 function hlParts(s){
   if(!s._spot){
@@ -1079,6 +1113,114 @@ function hlState(i,n,animate){
     if(!animate)free(cu);
     if(animate&&curNew&&cur.dataset.fx==='click'){clearTimeout(s._ripT);s._ripT=setTimeout(()=>{const rp=s._rip;rp.style.left=x+'px';rp.style.top=y+'px';rp.classList.remove('go');void rp.offsetWidth;rp.classList.add('go');},820);}
   }else{if(!animate)still(cu);cu.classList.remove('on');if(!animate)free(cu);}
+}
+// ---- more highlights (tools/HIGHLIGHT.md): entry kinds that need script, then marker states ----
+function entryFx(el,fresh,shown,i){
+  const f=el.dataset.fx,s=slides[i];
+  if(f==='stagger'){const gap=+(el.dataset.gap||70);[...el.children].forEach((c,k)=>{if(fresh){c.style.transitionDelay=(k*gap)+'ms';}else{c.style.transition='none';c.style.transitionDelay='';void c.offsetWidth;c.style.transition='';}});}
+  else if(f==='count'){countFx(el,fresh,shown);}
+  else if(f==='path'&&fresh){const p=s.querySelector('#'+el.dataset.path);if(p)pathFx(el,p);}
+  else if(f==='morph'){const a=s.querySelector('#'+el.dataset.from);if(a){if(fresh)morphFx(a,el);a.style.visibility=shown?'hidden':'';}}
+}
+function countFx(el,fresh,shown){
+  if(el._cnt===undefined){const tn=textNodes(el).find(t=>/\d/.test(t.nodeValue));el._cntNode=tn;el._cnt=tn?tn.nodeValue:'';}
+  const tn=el._cntNode;if(!tn)return;cancelAnimationFrame(el._raf);
+  if(!fresh){tn.nodeValue=el._cnt;return;}
+  const m=el._cnt.match(/[\d,]*\d(\.\d+)?/);if(!m){tn.nodeValue=el._cnt;return;}
+  const to=parseFloat(m[0].replace(/,/g,'')),dec=(m[1]||'').length-1>0?(m[1].length-1):0,comma=m[0].includes(','),t0=performance.now(),ms=+(el.dataset.ms||1200);
+  const fmt=v=>{let t=v.toFixed(dec);if(comma)t=Number(t).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});return el._cnt.slice(0,m.index)+t+el._cnt.slice(m.index+m[0].length);};
+  const tick=now=>{const k=Math.min(1,(now-t0)/ms);tn.nodeValue=fmt(to*(1-Math.pow(1-k,3)));if(k<1)el._raf=requestAnimationFrame(tick);else tn.nodeValue=el._cnt;};
+  tn.nodeValue=fmt(0);el._raf=requestAnimationFrame(tick);
+}
+function pathFx(el,p){
+  const b=rectIn(el),cx=b.x+b.w/2,cy=b.y+b.h/2,L=p.getTotalLength(),S=stage.getBoundingClientRect(),k=stage._s,M=p.getScreenCTM(),fr=[];
+  for(let j=0;j<=24;j++){const q=p.getPointAtLength(L*j/24),x=((M.a*q.x+M.c*q.y+M.e)-S.left)/k,y=((M.b*q.x+M.d*q.y+M.f)-S.top)/k;fr.push({transform:'translate('+(x-cx)+'px,'+(y-cy)+'px)',opacity:j?1:0});}
+  fr[fr.length-1].transform='none';
+  el.animate(fr,{duration:+(el.dataset.ms||1400),easing:'cubic-bezier(.45,0,.25,1)'});
+}
+function morphFx(a,b){
+  [a,b].forEach(x=>x.querySelectorAll('[data-m]').forEach(t=>{if(getComputedStyle(t).display==='inline')t.style.display='inline-block';}));
+  const from={};a.querySelectorAll('[data-m]').forEach(t=>from[t.dataset.m]=rectIn(t));
+  a.style.visibility='hidden';
+  b.style.transition='none';b.classList.remove('pending','morph');void b.offsetWidth;b.style.transition='';
+  b.querySelectorAll('[data-m]').forEach(t=>{const p=from[t.dataset.m],q=rectIn(t);
+    if(p)t.animate([{transform:'translate('+(p.x-q.x)+'px,'+(p.y-q.y)+'px)'},{transform:'none'}],{duration:850,easing:'cubic-bezier(.65,0,.35,1)'});
+    else t.animate([{opacity:0},{opacity:0,offset:.55},{opacity:1}],{duration:850,easing:'ease'});});
+  const g=a.cloneNode(true);g.removeAttribute('id');g.style.visibility='inherit';g.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+  g.querySelectorAll('[data-m]').forEach(t=>{if(b.querySelector('[data-m="'+t.dataset.m+'"]'))t.style.visibility='hidden';});
+  a.parentNode.insertBefore(g,a);g.animate([{opacity:1},{opacity:0}],{duration:450,easing:'ease'}).onfinish=()=>g.remove();
+}
+function fxParts(s){
+  if(!s._veil){
+    s._veil=[0,1].map(()=>{const d=document.createElement('div');d.className='pl-veil pl-off';return d;});
+    s._lbar=document.createElement('div');s._lbar.className='pl-lbar pl-off';
+    s._run=document.createElement('div');s._run.className='pl-run pl-off';
+    s.append(s._run,...s._veil,s._lbar);
+  }
+  return s;
+}
+function mbox(el){return{x:parseFloat(el.style.left)||0,y:parseFloat(el.style.top)||0,w:parseFloat(el.style.width)||0,h:parseFloat(el.style.height)||0};}
+function fxState(i,n,animate){
+  const s=slides[i];let ls=null,rn=null,zm=null,bl=null,last=null;const txt=new Map(),pan=new Map(),kb=new Map(),dims={};
+  steps[i].forEach((g,gi)=>g.forEach(el=>{const f=el.dataset.fx,shown=gi<n;
+    if(el.dataset.dimgroup&&shown){const d=dims[el.dataset.dimgroup]=dims[el.dataset.dimgroup]||{max:-1,els:[]};d.max=Math.max(d.max,gi);d.els.push([el,gi]);}
+    if(el.dataset.dimgroup&&!shown)el.classList.remove('pl-dim');
+    if(!shown)return;
+    if(f==='lspot')ls=el;else if(f==='lspot-off')ls=null;
+    else if(f==='run')rn=el;else if(f==='run-off')rn=null;
+    else if(f==='zoom')zm=el;else if(f==='zoom-off')zm=null;
+    else if(f==='blur')bl=el;else if(f==='blur-off')bl=null;
+    else if(f==='text')txt.set(el.dataset.target,el);
+    else if(f==='pan')pan.set(el.dataset.target,el);
+    else if(f==='kenburns')kb.set(el.dataset.target,el);
+    if(animate&&gi===n-1&&/^(pulse|grow|shine|shake|text)$/.test(f))(last=last||[]).push(el);
+  }));
+  Object.values(dims).forEach(d=>d.els.forEach(([el,gi])=>el.classList.toggle('pl-dim',gi<d.max)));
+  const instant=(el,fn)=>{if(!animate){el.style.transition='none';fn();void el.offsetWidth;el.style.transition='';}else fn();};
+  const any=ls||rn||s._veil;
+  if(any){fxParts(s);
+    if(ls){const b=mbox(ls),ly=+ls.dataset.ly,lh=+ls.dataset.lh,bg=ls.dataset.bg||'#FFFFFF',[v1,v2]=s._veil,wasOn=!v1.classList.contains('pl-off');
+      const put=()=>{Object.assign(v1.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:Math.max(0,ly-b.y)+'px',background:bg});
+        Object.assign(v2.style,{left:b.x+'px',top:(ly+lh)+'px',width:b.w+'px',height:Math.max(0,b.y+b.h-ly-lh)+'px',background:bg});
+        Object.assign(s._lbar.style,{left:(b.x+8)+'px',top:(ly+6)+'px',height:Math.max(0,lh-12)+'px',background:ls.dataset.bar||'#2459C9'});};
+      [v1,v2,s._lbar].forEach(x=>instant(x,()=>{}));
+      if(!animate||!wasOn){[v1,v2,s._lbar].forEach(x=>{x.style.transition='none';});put();[v1,v2,s._lbar].forEach(x=>{void x.offsetWidth;x.style.transition='';});}else put();
+      [v1,v2,s._lbar].forEach(x=>instant(x,()=>x.classList.remove('pl-off')));
+    }else [...s._veil,s._lbar].forEach(x=>instant(x,()=>x.classList.add('pl-off')));
+    if(rn){const b=mbox(rn),wasOn=!s._run.classList.contains('pl-off');
+      const put=()=>Object.assign(s._run.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'});
+      if(!animate||!wasOn){s._run.style.transition='none';put();void s._run.offsetWidth;s._run.style.transition='';}else put();
+      instant(s._run,()=>s._run.classList.remove('pl-off'));
+    }else instant(s._run,()=>s._run.classList.add('pl-off'));
+  }
+  // blur everything on the slide except the part that holds the target
+  if(bl||s.classList.contains('pl-blurs')){s.classList.add('pl-blurs');
+    const t=bl&&s.querySelector('#'+bl.dataset.target);
+    [...s.children].forEach(c=>{if(c.tagName==='ASIDE'||/^pl-/.test(c.className)||c.hasAttribute('data-build-in')&&/^(lspot|run|zoom|blur|text|pan|kenburns|pulse|grow|shine|shake|spot|cursor|click)/.test(c.getAttribute('data-build-in')))return;
+      instant(c,()=>c.classList.toggle('pl-bl',!!t&&!c.contains(t)&&c!==t));});
+    if(!bl&&!animate)s.classList.remove('pl-blurs');
+  }
+  // text values: the element keeps its last text in the HTML (for the PDF); data-start is what shows before any text step
+  s.querySelectorAll('[data-start]').forEach(t=>{if(t._final===undefined)t._final=t.textContent;const m=txt.get(t.id);t.textContent=m?m.dataset.text:t.dataset.start;});
+  pan.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t){t.style.transition=animate?'transform '+(m.dataset.ms||2000)+'ms cubic-bezier(.65,0,.35,1)':'none';t.style.transform='translateY('+(m.dataset.y||0)+'px)';}});
+  s.querySelectorAll('[data-panned]').forEach(t=>{if(!pan.has(t.id)){t.style.transition='none';t.style.transform='';}});
+  pan.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t)t.dataset.panned=1;});
+  kb.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t){t.style.transformOrigin=m.dataset.origin||'50% 50%';t.style.transition=animate?'transform '+(m.dataset.ms||6000)+'ms linear':'none';t.style.transform='scale('+(m.dataset.scale||1.12)+')';t.dataset.kb=1;}});
+  s.querySelectorAll('[data-kb]').forEach(t=>{if(!kb.has(t.id)){t.style.transition='none';t.style.transform='';}});
+  // camera: zoom the whole slide into the marker's box
+  if(zm){const b=mbox(zm),pad=+(zm.dataset.pad||40),k=Math.min(1920/(b.w+2*pad),1080/(b.h+2*pad),+(zm.dataset.max||3));
+    s.style.transformOrigin='0 0';s.style.transition=animate?'transform .9s cubic-bezier(.65,0,.35,1)':'none';
+    s.style.transform='translate('+(960-(b.x+b.w/2)*k)+'px,'+(540-(b.y+b.h/2)*k)+'px) scale('+k+')';}
+  else if(s.style.transform){s.style.transition=animate?'transform .9s cubic-bezier(.65,0,.35,1)':'none';s.style.transform='';}
+  (last||[]).forEach(m=>{const t=s.querySelector('#'+m.dataset.target);if(!t)return;const f=m.dataset.fx;
+    if(f==='pulse')t.animate([{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'}],{duration:900,easing:'ease-in-out'});
+    else if(f==='grow')t.animate([{transform:'scale(1)'},{transform:'scale(1.2)',offset:.4},{transform:'scale(1)'}],{duration:800,easing:'cubic-bezier(.2,.7,.2,1)'});
+    else if(f==='shake')t.animate([0,-14,14,-10,10,-5,0].map(x=>({transform:'translateX('+x+'px)'})),{duration:480,easing:'ease-out'});
+    else if(f==='text')t.animate([{backgroundColor:'rgba(255,214,64,.6)'},{backgroundColor:'rgba(255,214,64,0)'}],{duration:900,easing:'ease-out'});
+    else if(f==='shine'){const r=rectIn(t),g=document.createElement('div');Object.assign(g.style,{position:'absolute',left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px',overflow:'hidden',pointerEvents:'none',zIndex:35,borderRadius:getComputedStyle(t).borderRadius});
+      g.innerHTML='<div style="position:absolute;top:0;left:-40%;width:30%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg)"></div>';s.appendChild(g);
+      g.firstChild.animate([{left:'-40%'},{left:'120%'}],{duration:800,easing:'ease-in-out'}).onfinish=()=>g.remove();}
+  });
 }
 function rectIn(el){const r=el.getBoundingClientRect(),S=stage.getBoundingClientRect(),k=stage._s;return{x:(r.left-S.left)/k,y:(r.top-S.top)/k,w:r.width/k,h:r.height/k};}
 function topIds(sec){return [...sec.querySelectorAll('[id]')].filter(el=>!el.parentElement.closest('section [id]'));}
