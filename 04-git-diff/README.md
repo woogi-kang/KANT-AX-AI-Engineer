@@ -25,15 +25,14 @@
 
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
-| 1. diff란? | 3–4 | 두 모습을 비교하는 명령, 네 칸 중 어느 두 칸을 보나 |
-| 2. git diff | 5–8 | add 전에 고친 줄 보기, 출력 읽는 법, add 뒤엔 빈 화면 |
-| 3. git diff --staged | 9–12 | 커밋될 내용 확인, add 뒤에 또 고쳤을 때 |
-| 4. git show | 13 | 커밋 하나 들여다보기 |
-| 5. 브랜치 비교 | 14–16 | merge 전에 미리 보기, 순서를 바꾸면 뒤집히는 기호, 충돌 예고 |
-| 6. 충돌 볼 때 | 17–18 | 충돌 중 `git diff`, 풀고 나서 `--staged`로 확인 |
-| 7. .gitignore | 19–22 | `.env` 숨기기, 자주 적는 것, 이미 커밋한 파일 |
-| 8. 막힐 때 | 23–24 | 아무것도 안 나올 때, 화면이 안 끝날 때 |
-| 요약 | 25 | 한 장 요약 |
+| 1. diff란? | 3–4 | status는 파일 이름만, diff는 바뀐 줄까지. 네 칸 중 어느 두 칸을 비교하나 |
+| 2. git diff | 5–8 | add 전에 고친 줄 보기, 출력 읽는 법(`-`, `+`, `@@`), add 뒤엔 빈 화면 |
+| 3. git diff --staged | 9–12 | 커밋될 내용 확인, add 뒤에 또 고쳤을 때, 커밋하고 나면 |
+| 4. git show와 브랜치 비교 | 13–15 | 커밋 하나 들여다보기, merge 전에 미리 보기, 순서를 바꾸면 뒤집히는 기호 |
+| 5. .gitignore | 16–18 | `.env` 숨기기, 자주 적는 이름 |
+| 6. 비교와 막힐 때 | 19–22 | status를 보고 명령 고르기, 아무것도 안 나올 때, 화면이 안 끝날 때, 이미 커밋한 파일 |
+| 7. 실제 상황 | 23–26 | merge 전에 충돌 미리 보고 풀기, 커밋 전에 빠진 파일 찾기 |
+| 요약 | 27 | 한 장 요약 |
 
 ## 핵심 개념
 
@@ -100,7 +99,20 @@ git diff main feature/login
 git diff --stat main feature/login  # 파일 이름과 줄 수만
 ```
 
-### 3. .gitignore 만들기
+### 3. 커밋 전에 빠진 파일 찾기
+
+```bash
+echo "회원가입 링크" >> login.md
+echo "# 회원가입" > signup.md
+git add login.md
+git diff --staged --stat            # 1 file changed: 하나가 빠졌어요
+git status                          # signup.md가 Untracked로 남아 있어요
+git add signup.md
+git diff --staged --stat            # 2 files changed
+git commit -m "feat: 회원가입 화면과 링크 추가"
+```
+
+### 4. .gitignore 만들기
 
 ```bash
 echo "API_KEY=abc123" > .env
@@ -134,6 +146,7 @@ __pycache__/
 | `git show 해시` | 그 커밋이 바꾼 것 보기 |
 | `git diff main 브랜치` | merge하면 main에 들어올 변경 보기 |
 | `git diff --stat` | 파일 이름과 바뀐 줄 수만 보기 |
+| `git diff --staged --stat` | 커밋에 들어갈 파일 목록과 줄 수 보기 |
 | `git rm --cached 파일` | 이미 커밋한 파일을 기록 대상에서 빼기 (파일은 남아요) |
 
 ## 문제 해결
@@ -155,7 +168,7 @@ slides/
   deck.json        슬라이드 순서와 파트 구분
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장 생성 (네 칸 장면, 출력 읽기, 브랜치 그래프, .gitignore)
+  gen.py           모든 장 생성 (터미널이 주인공, 오른쪽 칸 그림은 비교하는 두 칸만 표시)
   demo.sh          실습을 새 저장소에서 다시 실행해 실제 출력 확인
 git-diff-slides.html  배포용 HTML
 git-diff-slides.pdf   강사용 PDF
