@@ -3,6 +3,7 @@
 <title>합치는 방법, 눈으로 비교하기</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>section{position:relative;width:1920px;height:1080px;box-sizing:border-box;overflow:hidden}
+[data-pdf="hide"]{visibility:hidden}
 section *{box-sizing:border-box}
 p,h1,h2,h3,ul,ol{margin:0}
 h1{font-size:96px;font-weight:600;line-height:1.1} h2{font-size:64px;font-weight:600;line-height:1.15} h3{font-size:44px;font-weight:600;line-height:1.2} p{font-size:32px;line-height:1.4}
@@ -97,12 +98,33 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 .pl-cur.on{opacity:1}
 .pl-rip{position:absolute;z-index:44;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:5px solid #2459C9;opacity:0;pointer-events:none}
 .pl-rip.go{animation:pl-rip .6s ease-out}
-@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}</style></head>
+@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}
+#pl-stage [data-pdf="hide"]{visibility:inherit}
+[data-build-in^="lspot"],[data-build-in^="run"],[data-build-in^="zoom"],[data-build-in^="blur"],[data-build-in^="text"],[data-build-in^="pan"],[data-build-in^="kenburns"],[data-build-in^="pulse"],[data-build-in^="grow"],[data-build-in^="shine"],[data-build-in^="shake"]{visibility:hidden}
+[data-build-in^="wipe"]{clip-path:inset(0 0 0 0);transition:opacity .2s ease,clip-path .6s cubic-bezier(.65,0,.35,1)}
+.pending.wipe{opacity:1!important;clip-path:inset(0 100% 0 0)}
+[data-build-in^="slam"]{transition:opacity .25s ease,transform .5s cubic-bezier(.34,1.45,.64,1)}
+.pending.slam{transform:scale(2.2)!important}
+[data-build-in^="slide"]{transition:opacity .3s ease,transform .6s cubic-bezier(.16,1,.3,1)}
+.pending.slide{transform:translate(var(--dx,0px),var(--dy,60px))!important}
+.pending.stagger{opacity:1!important}
+[data-build-in^="stagger"]>*{transition:opacity .35s ease,transform .4s cubic-bezier(.2,.7,.2,1)}
+.pending.stagger>*{opacity:0;transform:translateY(18px)}
+[data-build-in^="mark"]{transition:background-color .45s ease,color .45s ease,text-decoration-color .45s ease,box-shadow .45s ease}
+.pending.mark{opacity:1!important;background-color:transparent!important;color:inherit!important;text-decoration-color:transparent!important;box-shadow:none!important}
+[data-dimgroup]{transition:opacity .45s ease,transform .45s ease,filter .4s ease}
+.pl-dim{filter:grayscale(1) opacity(.38)}
+.pl-blurs>*{transition:opacity .45s ease,transform .45s ease,filter .5s ease}
+.pl-bl{filter:blur(6px) opacity(.5)}
+.pl-veil{position:absolute;z-index:30;pointer-events:none;opacity:.8;transition:left .45s cubic-bezier(.65,0,.35,1),top .45s cubic-bezier(.65,0,.35,1),width .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),opacity .35s ease}
+.pl-lbar{position:absolute;z-index:31;width:7px;border-radius:4px;background:#2459C9;pointer-events:none;transition:top .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),left .45s,opacity .35s ease}
+.pl-run{position:absolute;z-index:29;pointer-events:none;border-radius:8px;background:rgba(31,138,76,.17);box-shadow:inset 7px 0 0 #1F8A4C;transition:left .4s cubic-bezier(.65,0,.35,1),top .4s cubic-bezier(.65,0,.35,1),width .4s,height .4s,opacity .3s ease}
+.pl-off{opacity:0!important}</style></head>
 <body>
 <div id="pl-stage">
 <section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p style="position:absolute;left:128px;top:300px;width:900px;font-size:28px;font-weight:700;color:#8FB3FF">KANT AX/AI 엔지니어 트랙 · 08</p>
-<h1 style="position:absolute;left:128px;top:360px;width:900px;font-size:104px;font-weight:900;line-height:1.12;color:#F6F5F1">합치는 방법,<br>눈으로 비교하기</h1>
+<h1 data-build-in="slam order 1" style="position:absolute;left:128px;top:360px;width:900px;font-size:104px;font-weight:900;line-height:1.12;color:#F6F5F1">합치는 방법,<br>눈으로 비교하기</h1>
 <p style="position:absolute;left:128px;top:620px;width:900px;font-size:40px;line-height:1.4;color:#BFC6D4">fast-forward, merge, rebase, squash</p>
 <div id="cve-A-B" style="position:absolute;left:1100px;top:597px;width:90px;height:6px;background:#9DB8F2"></div>
 <svg id="cve-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1230" y1="600" x2="1400" y2="420" stroke="rgb(158, 211, 180)" stroke-width="6"></line></svg>
@@ -121,20 +143,20 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">오늘의 순서</h2>
-<div style="position:absolute;left:96px;top:210px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#2459C9">1</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">갈라지지 않았을 때</p><p style="flex:1;font-size:30px;color:#4A5262">fast-forward, --no-ff</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">7–8쪽</p></div>
-<div style="position:absolute;left:96px;top:302px;width:1728px;height:2px;background:#E1DED6"></div>
-<div style="position:absolute;left:96px;top:304px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#1E3F8F">2</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">갈라졌을 때</p><p style="flex:1;font-size:30px;color:#4A5262">merge, rebase, squash</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">9–16쪽</p></div>
-<div style="position:absolute;left:96px;top:396px;width:1728px;height:2px;background:#E1DED6"></div>
-<div style="position:absolute;left:96px;top:398px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#4A5262">3</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">한눈에 비교</p><p style="flex:1;font-size:30px;color:#4A5262">네 가지 결과 그림과 표</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">17–18쪽</p></div>
-<div style="position:absolute;left:96px;top:490px;width:1728px;height:2px;background:#E1DED6"></div>
-<div style="position:absolute;left:96px;top:492px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#3A4150">4</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">git pull은 무엇을 하나</p><p style="flex:1;font-size:30px;color:#4A5262">pull 설정 세 가지</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">19–24쪽</p></div>
-<div style="position:absolute;left:96px;top:584px;width:1728px;height:2px;background:#E1DED6"></div>
-<div style="position:absolute;left:96px;top:586px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#5A3BB8">5</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">GitHub PR의 Merge 버튼</p><p style="flex:1;font-size:30px;color:#4A5262">버튼 세 개와 명령</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">25–26쪽</p></div>
-<div style="position:absolute;left:96px;top:678px;width:1728px;height:2px;background:#E1DED6"></div>
-<div style="position:absolute;left:96px;top:680px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#A33131">6</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">충돌과 오류</p><p style="flex:1;font-size:30px;color:#4A5262">충돌, push한 브랜치, 막힐 때</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">27–30쪽</p></div>
-<div style="position:absolute;left:96px;top:772px;width:1728px;height:2px;background:#E1DED6"></div>
-<div style="position:absolute;left:96px;top:774px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#5A3BB8">7</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">실제 상황 예제</p><p style="flex:1;font-size:30px;color:#4A5262">PR 하나를 올리고 합치기까지</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">31–33쪽</p></div>
-<div style="position:absolute;left:96px;top:866px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:210px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#2459C9">1</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">갈라지지 않았을 때</p><p style="flex:1;font-size:30px;color:#4A5262">fast-forward, --no-ff</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">7–8쪽</p></div>
+<div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:302px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="90" style="position:absolute;left:96px;top:304px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#1E3F8F">2</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">갈라졌을 때</p><p style="flex:1;font-size:30px;color:#4A5262">merge, rebase, squash</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">9–16쪽</p></div>
+<div data-build-in="rise order 1" data-delay="90" style="position:absolute;left:96px;top:396px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="180" style="position:absolute;left:96px;top:398px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#4A5262">3</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">한눈에 비교</p><p style="flex:1;font-size:30px;color:#4A5262">네 가지 결과 그림과 표</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">17–18쪽</p></div>
+<div data-build-in="rise order 1" data-delay="180" style="position:absolute;left:96px;top:490px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="270" style="position:absolute;left:96px;top:492px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#3A4150">4</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">git pull은 무엇을 하나</p><p style="flex:1;font-size:30px;color:#4A5262">pull 설정 세 가지</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">19–24쪽</p></div>
+<div data-build-in="rise order 1" data-delay="270" style="position:absolute;left:96px;top:584px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="360" style="position:absolute;left:96px;top:586px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#5A3BB8">5</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">GitHub PR의 Merge 버튼</p><p style="flex:1;font-size:30px;color:#4A5262">버튼 세 개와 명령</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">25–26쪽</p></div>
+<div data-build-in="rise order 1" data-delay="360" style="position:absolute;left:96px;top:678px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="450" style="position:absolute;left:96px;top:680px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#A33131">6</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">충돌과 오류</p><p style="flex:1;font-size:30px;color:#4A5262">충돌, push한 브랜치, 막힐 때</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">27–30쪽</p></div>
+<div data-build-in="rise order 1" data-delay="450" style="position:absolute;left:96px;top:772px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="540" style="position:absolute;left:96px;top:774px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#5A3BB8">7</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">실제 상황 예제</p><p style="flex:1;font-size:30px;color:#4A5262">PR 하나를 올리고 합치기까지</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">31–33쪽</p></div>
+<div data-build-in="rise order 1" data-delay="540" style="position:absolute;left:96px;top:866px;width:1728px;height:2px;background:#E1DED6"></div>
 <p style="position:absolute;left:96px;top:898px;width:1728px;font-size:28px;color:#4A5262">3–6쪽은 왜 배우는지와 오늘의 예시, 34쪽은 한 장 정리예요.</p>
 <aside>1부와 2부는 같은 예시로 방법을 하나씩 봐요. 3부에서 결과를 나란히 비교해요. 4부와 5부는 그 방법이 git pull과 GitHub 버튼에서 어떻게 쓰이는지 연결해요. 6부는 충돌과 막힐 때, 7부는 PR 하나를 올리고 합치기까지 실제 순서대로 풀어 봐요.</aside>
 </section>
@@ -200,6 +222,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <div id="gh-mb" style="position:absolute;left:1304px;top:500px;width:340px;height:60px;background:#1F883D;border-radius:10px;display:flex;flex-direction:row;align-items:center"><p style="flex:1;font-size:24px;font-weight:700;color:#FFFFFF;text-align:center">Merge pull request</p><div style="width:2px;height:60px;background:#17692F"></div><p style="width:56px;font-size:20px;color:#FFFFFF;text-align:center">▼</p></div>
 <svg id="pull-arrow" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1220" y1="760" x2="971.2" y2="760" stroke="rgb(90, 59, 184)" stroke-width="6"></line><polygon points="952,760 973.6107304564642,749.5608271813305 973.6107304564642,770.4391728186695" fill="rgb(90, 59, 184)"></polygon></svg>
 <p style="position:absolute;left:946px;top:700px;width:280px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;text-align:center;color:#5A3BB8">git pull</p>
+<svg viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none"><path id="pull-path" d="M1530,604 C1530,760 1330,760 1220,760 L900,760" fill="none" stroke="none"></path></svg>
+<div data-build-in="path order 2" data-path="pull-path" data-ms="1400" style="position:absolute;left:882px;top:742px;width:36px;height:36px;border-radius:50%;background:#5A3BB8"></div>
 <div data-build-in="rise order 1" style="position:absolute;left:150px;top:690px;display:flex;flex-direction:row;gap:14px;align-items:flex-start"><p style="width:44px;height:44px;flex:none;border-radius:50%;background:#1D2330;color:#FFFFFF;font-size:26px;font-weight:700;line-height:44px;text-align:center">1</p><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:30px;font-weight:700;line-height:1.35;color:#1D2330">git merge, git rebase<br>git merge --squash</p><p style="font-size:24px;font-weight:700;color:#6A7180">1~3부</p></div></div>
 <div data-build-in="rise order 2" style="position:absolute;left:960px;top:796px;display:flex;flex-direction:row;gap:14px;align-items:flex-start"><p style="width:44px;height:44px;flex:none;border-radius:50%;background:#1D2330;color:#FFFFFF;font-size:26px;font-weight:700;line-height:44px;text-align:center">2</p><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:30px;font-weight:700;line-height:1.35;color:#1D2330">받아 와서<br>합치기</p><p style="font-size:24px;font-weight:700;color:#6A7180">4부</p></div></div>
 <div data-build-in="rise order 3" style="position:absolute;left:1304px;top:636px;display:flex;flex-direction:row;gap:14px;align-items:flex-start"><p style="width:44px;height:44px;flex:none;border-radius:50%;background:#1D2330;color:#FFFFFF;font-size:26px;font-weight:700;line-height:44px;text-align:center">3</p><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:30px;font-weight:700;line-height:1.35;color:#1D2330">PR의 Merge 버튼</p><p style="font-size:24px;font-weight:700;color:#6A7180">5부</p></div></div>
@@ -342,6 +366,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M1005,911 L1061,911"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="1005" cy="911" r="6" fill="#4A5262"></circle></svg>
 <p id="note" data-build-in="fade order 1" style="position:absolute;left:1075px;top:890px;width:391px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">이 모양에서 셋을 비교해요</p>
+<div data-build-in="pulse order 1" data-target="n-C" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>main에 C가 생기면 이름표만 옮겨서는 C와 D, E를 같이 담을 수 없어요. 다시 6쪽 상태로 돌아가서, 이번엔 main에서 README.md를 만들어 커밋했어요(C). 내가 브랜치에서 일하는 동안 팀원 작업이 main에 들어온 모습과 같아요. 이 그림이 이 덱의 출발점이에요. 다음 장부터 이 상태에서 merge, rebase, squash를 하나씩 해 봐요.</aside>
 </section>
 <section id="merge" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -419,23 +444,19 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="position:absolute;left:96px;top:226px;width:846px;font-size:28px;font-weight:700;color:#4A5262">rebase 전</p>
 <div id="t1" style="position:absolute;left:96px;top:276px;width:852px;background:#1B2029;border-radius:20px;padding:20px 32px;display:flex;flex-direction:column;gap:4px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
 <p style="font-size:26px;font-weight:700;line-height:1.35;white-space:pre;color:#F2C46D">$ git log --oneline</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">3573c9a (HEAD -&gt; feature/login-button) fix: 버튼 글자 고치기</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">6a9792d feat: 로그인 버튼 추가</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9"><span data-build-in="mark order 1" style="background:rgba(178,106,0,.55);border-radius:4px">3573c9a</span> (HEAD -&gt; feature/login-button) fix: 버튼 글자 고치기</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9"><span data-build-in="mark order 1" style="background:rgba(178,106,0,.55);border-radius:4px">6a9792d</span> feat: 로그인 버튼 추가</p>
 <p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">6d19f01 feat: 아이디 입력 추가</p>
 <p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">9f452aa feat: 로그인 화면 추가</p>
 </div>
 <p style="position:absolute;left:984px;top:226px;width:840px;font-size:28px;font-weight:700;color:#B26A00">rebase 뒤</p>
 <div id="t2" style="position:absolute;left:984px;top:276px;width:840px;background:#1B2029;border-radius:20px;padding:20px 32px;display:flex;flex-direction:column;gap:4px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
 <p style="font-size:26px;font-weight:700;line-height:1.35;white-space:pre;color:#F2C46D">$ git log --oneline</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">6852264 (HEAD -&gt; feature/login-button) fix: 버튼 글자 고치기</p>
-<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">a40dc47 feat: 로그인 버튼 추가</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9"><span data-build-in="mark order 2" style="background:rgba(178,106,0,.55);border-radius:4px">6852264</span> (HEAD -&gt; feature/login-button) fix: 버튼 글자 고치기</p>
+<p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9"><span data-build-in="mark order 2" style="background:rgba(178,106,0,.55);border-radius:4px">a40dc47</span> feat: 로그인 버튼 추가</p>
 <p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">d51d818 (main) docs: README 추가</p>
 <p style="font-size:22px;line-height:1.35;white-space:pre;color:#D8DEE9">6d19f01 feat: 아이디 입력 추가</p>
 </div>
-<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B26A00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M128,367 L174,370 220,365"></path></g></svg>
-<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B26A00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M1016,367 L1062,370 1108,365"></path></g></svg>
-<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B26A00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M128,400 L174,403 220,398"></path></g></svg>
-<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B26A00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M1016,400 L1062,403 1108,398"></path></g></svg>
 <div id="Le-A-B" style="position:absolute;left:212px;top:788px;width:126px;height:5px;background:#9DB8F2"></div>
 <svg id="Le-B-D" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="370" y1="790" x2="560" y2="650" stroke="rgb(158, 211, 180)" stroke-width="5"></line></svg>
 <div id="Le-D-E" style="position:absolute;left:592px;top:648px;width:126px;height:5px;background:#9ED3B4"></div>
@@ -740,9 +761,9 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:24px;line-height:1.35;white-space:pre;color:#F28B82">fatal: Need to specify how to reconcile divergent branches.</p>
 </div>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="116" y="497" width="874" height="38" rx="8"></rect></g></svg>
-<p data-build-in="rise order 2" style="position:absolute;left:1302px;top:391px;font-size:26px;font-weight:700;line-height:32px;white-space:nowrap;color:#1E3F8F;border-left:5px solid #1E3F8F;padding-left:14px">merge로 합쳐요 · 수업 설정</p>
-<p data-build-in="rise order 2" style="position:absolute;left:1302px;top:427px;font-size:26px;font-weight:700;line-height:32px;white-space:nowrap;color:#B26A00;border-left:5px solid #B26A00;padding-left:14px">rebase로 옮겨 붙여요</p>
-<p data-build-in="rise order 2" style="position:absolute;left:1302px;top:464px;font-size:26px;font-weight:700;line-height:32px;white-space:nowrap;color:#2459C9;border-left:5px solid #2459C9;padding-left:14px">fast-forward만 받아요</p>
+<p data-build-in="rise order 2" data-delay="0" style="position:absolute;left:1302px;top:391px;font-size:26px;font-weight:700;line-height:32px;white-space:nowrap;color:#1E3F8F;border-left:5px solid #1E3F8F;padding-left:14px">merge로 합쳐요 · 수업 설정</p>
+<p data-build-in="rise order 2" data-delay="150" style="position:absolute;left:1302px;top:427px;font-size:26px;font-weight:700;line-height:32px;white-space:nowrap;color:#B26A00;border-left:5px solid #B26A00;padding-left:14px">rebase로 옮겨 붙여요</p>
+<p data-build-in="rise order 2" data-delay="300" style="position:absolute;left:1302px;top:464px;font-size:26px;font-weight:700;line-height:32px;white-space:nowrap;color:#2459C9;border-left:5px solid #2459C9;padding-left:14px">fast-forward만 받아요</p>
 <p data-build-in="fade order 3" style="position:absolute;left:96px;top:613px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">06에서 git config --global pull.rebase false로 첫째 줄을 골랐어요.</p>
 <aside>힌트 세 줄은 merge, rebase, fast-forward only 중에서 pull 방법을 고르라는 뜻이에요. 06에서 본 그 메시지예요. 그때는 해결만 봤어요. 우리 과정은 06에서 git config --global pull.rebase false로 첫째 줄을 골랐어요. From 줄, 빈 hint 줄, 힌트 아래쪽 줄도 나오는데, 그 부분은 빼고 옮겼어요.</aside>
 </section>
@@ -835,6 +856,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M850,800 L906,800"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="850" cy="800" r="6" fill="#4A5262"></circle></svg>
 <p id="note" data-build-in="fade order 1" style="position:absolute;left:920px;top:778px;width:382px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">멈춰서 그림이 그대로예요</p>
+<div data-build-in="shake order 1" data-target="term" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>pull.ff only면 갈라지지 않았을 때만 fast-forward로 받고, 갈라졌으면 멈춰요. 보기만 하는 장이에요. 그래프가 앞 장과 같은 건 실패해서 바뀐 게 없기 때문이에요. 이 설정이 있는 컴퓨터에서 이 메시지가 나오면 git config --global --unset pull.ff로 지우고 수업 설정만 남겨요. From 줄과 힌트 줄(git merge --no-ff 또는 git rebase)도 나오는데, 그 부분은 빼고 옮겼어요.</aside>
 </section>
 <section id="pl-why" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -991,10 +1013,10 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M811,463 L869,463"></path></g></svg>
 <svg data-build-in="fade order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="811" cy="463" r="6" fill="#4A5262"></circle></svg>
 <p id="n2" data-build-in="fade order 2" style="position:absolute;left:883px;top:442px;width:359px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;color:#1D2330">아래쪽이 옮기던 내 커밋</p>
-<div data-build-in="rise order 3" style="position:absolute;left:96px;top:620px;width:1100px;height:72px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:48px;height:48px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:28px;font-weight:700;line-height:48px;text-align:center">1</p><p style="font-size:32px;font-weight:700;color:#1D2330">표시 세 줄을 지우고 남길 내용으로 고쳐요</p></div>
-<div data-build-in="rise order 3" style="position:absolute;left:96px;top:704px;width:1100px;height:72px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:48px;height:48px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:28px;font-weight:700;line-height:48px;text-align:center">2</p><p style="font-size:34px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">git add login.md</p></div>
-<div data-build-in="rise order 3" style="position:absolute;left:96px;top:788px;width:1100px;height:72px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:48px;height:48px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:28px;font-weight:700;line-height:48px;text-align:center">3</p><p style="font-size:34px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">git rebase --continue</p></div>
-<div data-build-in="rise order 4" style="position:absolute;left:1240px;top:704px;width:584px;display:flex;flex-direction:column;gap:10px;border-left:4px solid #A33131;padding-left:28px"><p style="font-size:28px;font-weight:700;color:#A33131">헷갈리면 그만두기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;font-weight:700;color:#1D2330">git rebase --abort</p></div>
+<div data-build-in="rise order 3" data-dimgroup="st" style="position:absolute;left:96px;top:620px;width:1100px;height:72px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:48px;height:48px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:28px;font-weight:700;line-height:48px;text-align:center">1</p><p style="font-size:32px;font-weight:700;color:#1D2330">표시 세 줄을 지우고 남길 내용으로 고쳐요</p></div>
+<div data-build-in="rise order 4" data-dimgroup="st" style="position:absolute;left:96px;top:704px;width:1100px;height:72px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:48px;height:48px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:28px;font-weight:700;line-height:48px;text-align:center">2</p><p style="font-size:34px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">git add login.md</p></div>
+<div data-build-in="rise order 5" data-dimgroup="st" style="position:absolute;left:96px;top:788px;width:1100px;height:72px;display:flex;flex-direction:row;align-items:center;gap:24px"><p style="width:48px;height:48px;flex:none;border-radius:50%;background:#B26A00;color:#FFFFFF;font-size:28px;font-weight:700;line-height:48px;text-align:center">3</p><p style="font-size:34px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">git rebase --continue</p></div>
+<div data-build-in="rise order 5" style="position:absolute;left:1240px;top:704px;width:584px;display:flex;flex-direction:column;gap:10px;border-left:4px solid #A33131;padding-left:28px"><p style="font-size:28px;font-weight:700;color:#A33131">헷갈리면 그만두기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;font-weight:700;color:#1D2330">git rebase --abort</p></div>
 <aside>rebase는 커밋을 하나씩 옮기다 멈춘 상태라서 commit 대신 git rebase --continue로 이어 가요. merge 충돌은 고치고 add 뒤 commit으로 끝냈어요(03). rebase는 main 끝으로 가서 내 커밋을 하나씩 얹기 때문에, 내 브랜치에서 쳤어도 HEAD 쪽이 main 내용이에요. 내 커밋은 아래쪽이에요. --continue 뒤 편집기가 열리면 그대로 저장하고 닫아요. 헷갈리면 git rebase --abort로 rebase 전 모습으로 돌아가요. squash 충돌은 merge처럼 고치고 add, commit 해요.</aside>
 </section>
 <section id="warn" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1032,20 +1054,21 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4A5262" stroke-width="3" stroke-linecap="round"><path d="M750,620 L694,620"></path></g></svg>
 <svg data-build-in="fade order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><circle cx="750" cy="620" r="6" fill="#4A5262"></circle></svg>
 <p id="note" data-build-in="fade order 1" style="position:absolute;left:378px;top:598px;width:302px;font-size:32px;font-weight:700;line-height:1.35;white-space:nowrap;text-align:right;color:#1D2330">GitHub에는 옛 D, E</p>
+<div data-build-in="shake order 1" data-target="term" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>rebase는 push 전, 나만 가진 커밋에만 써요. feature/login-button을 이미 push한 뒤에 rebase했어요. 내 컴퓨터에는 D', E', GitHub에는 D, E가 있어서 push가 거절돼요. 힌트는 pull하라고 하지만, pull하면 D, E와 D', E'가 둘 다 기록에 들어가고 합치기 커밋까지 생겨요. 메시지가 같은 커밋이 두 쌍 보여서 기록을 읽기 어려워져요. 강제로 덮어쓰는 방법도 있지만 팀원이 받아 간 커밋과 어긋나서 이 과정에서는 쓰지 않아요. 이 상태가 되면 더 치지 말고 강사에게 물어봐요. main처럼 같이 쓰는 브랜치에서는 rebase하지 않아요. rebase 출력 줄도 나오는데, 그 부분은 빼고 옮겼어요.</aside>
 </section>
 <section id="trouble" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">6. 충돌과 오류</p>
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">이 메시지가 나오면 이렇게 해요</h2>
-<div style="position:absolute;left:96px;top:236px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">fatal: Need to specify how to reconcile divergent branches.</p><p style="font-size:28px;color:#4A5262">pull 설정이 없어요</p></div><p style="width:640px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">git config --global pull.rebase false</p></div>
-<div style="position:absolute;left:96px;top:376px;width:1728px;height:2px;background:#E1DED6"></div>
-<div style="position:absolute;left:96px;top:378px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">fatal: Not possible to fast-forward, aborting.</p><p style="font-size:28px;color:#4A5262">pull.ff only가 설정돼 있어요</p></div><p style="width:640px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">git config --global --unset pull.ff</p></div>
-<div style="position:absolute;left:96px;top:518px;width:1728px;height:2px;background:#E1DED6"></div>
-<div style="position:absolute;left:96px;top:520px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">error: the branch '...' is not fully merged.</p><p style="font-size:28px;color:#4A5262">squash나 rebase로 합쳤어요. 합친 걸 확인하고</p></div><p style="width:640px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">git branch -D 브랜치</p></div>
-<div style="position:absolute;left:96px;top:660px;width:1728px;height:2px;background:#E1DED6"></div>
-<div style="position:absolute;left:96px;top:662px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">error: could not apply ...  (rebase 중 CONFLICT)</p><p style="font-size:28px;color:#4A5262">고치고 add 뒤 이어 가요. 그만두려면 --abort</p></div><p style="width:640px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">git rebase --continue</p></div>
-<div style="position:absolute;left:96px;top:802px;width:1728px;height:2px;background:#E1DED6"></div>
-<div style="position:absolute;left:96px;top:804px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">! [rejected] ... (non-fast-forward)  rebase 뒤</p><p style="font-size:28px;color:#4A5262">push한 브랜치를 rebase했어요. pull하지 말고</p></div><p style="width:640px;flex:none;font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">강사에게 물어봐요</p></div>
+<div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:236px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">fatal: Need to specify how to reconcile divergent branches.</p><p style="font-size:28px;color:#4A5262">pull 설정이 없어요</p></div><p style="width:640px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">git config --global pull.rebase false</p></div>
+<div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:376px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="110" style="position:absolute;left:96px;top:378px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">fatal: Not possible to fast-forward, aborting.</p><p style="font-size:28px;color:#4A5262">pull.ff only가 설정돼 있어요</p></div><p style="width:640px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">git config --global --unset pull.ff</p></div>
+<div data-build-in="rise order 1" data-delay="110" style="position:absolute;left:96px;top:518px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="220" style="position:absolute;left:96px;top:520px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">error: the branch '...' is not fully merged.</p><p style="font-size:28px;color:#4A5262">squash나 rebase로 합쳤어요. 합친 걸 확인하고</p></div><p style="width:640px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">git branch -D 브랜치</p></div>
+<div data-build-in="rise order 1" data-delay="220" style="position:absolute;left:96px;top:660px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="330" style="position:absolute;left:96px;top:662px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">error: could not apply ...  (rebase 중 CONFLICT)</p><p style="font-size:28px;color:#4A5262">고치고 add 뒤 이어 가요. 그만두려면 --abort</p></div><p style="width:640px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">git rebase --continue</p></div>
+<div data-build-in="rise order 1" data-delay="330" style="position:absolute;left:96px;top:802px;width:1728px;height:2px;background:#E1DED6"></div>
+<div data-build-in="rise order 1" data-delay="440" style="position:absolute;left:96px;top:804px;width:1728px;height:140px;display:flex;flex-direction:row;align-items:center;gap:32px"><div style="flex:1;display:flex;flex-direction:column;gap:8px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#A33131">! [rejected] ... (non-fast-forward)  rebase 뒤</p><p style="font-size:28px;color:#4A5262">push한 브랜치를 rebase했어요. pull하지 말고</p></div><p style="width:640px;flex:none;font-size:28px;font-weight:700;line-height:1.4;color:#1D2330">강사에게 물어봐요</p></div>
 <aside>합치다 막히면 대부분 이 다섯 메시지 중 하나예요. 1번은 06에서 본 메시지예요. 2번은 다른 자료를 보고 pull.ff only를 설정한 컴퓨터에서 나요. 설정을 지우고 06처럼 pull.rebase false만 남겨요. 3번은 squash나 Rebase and merge 뒤에 나요. 4번은 rebase 중 충돌이에요. 5번은 push한 브랜치를 rebase한 경우예요. pull로 풀면 같은 커밋이 두 번 들어가니 멈추고 물어봐요.</aside>
 </section>
 <section id="ex1" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -1239,7 +1262,7 @@ const stage=document.getElementById('pl-stage');
 const slides=[...stage.children];
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
-const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off'];
+const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off','wipe','slam','slide','stagger','count','mark','path','morph','lspot','lspot-off','run','run-off','zoom','zoom-off','blur','blur-off','text','pan','kenburns','pulse','grow','shine','shake'];
 const steps=slides.map(s=>{
   const els=[...s.querySelectorAll('[data-build-in]')];
   const groups=[];let auto=0;
@@ -1250,6 +1273,7 @@ const steps=slides.map(s=>{
     (groups[k]=groups[k]||[]).push(el);
     const kind=spec.trim().split(/\s+/)[0];
     el.dataset.fx=HL_KINDS.includes(kind)?kind:/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':/fly/.test(spec)?'fly':'fade';
+    if(kind==='slide'){el.style.setProperty('--dx',(el.dataset.dx||0)+'px');el.style.setProperty('--dy',(el.dataset.dy||60)+'px');}
     if(kind==='draw')[el,...el.querySelectorAll('path,rect,circle,ellipse,line,polyline,polygon')].forEach(x=>x.setAttribute('pathLength','1'));
   }
   return groups.filter(Boolean);
@@ -1267,9 +1291,11 @@ function setBuild(i,n,animate){
     el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
     if(fly)flyIn(el,slides[i].querySelector('#'+el.dataset.from));
     if(!animate||fly){void el.offsetWidth;el.style.transition='';}
-    if(el.dataset.fx==='type'){if(animate&&was&&gi<n)typeIn(el);else typeDone(el);}
+    entryFx(el,animate&&was&&gi<n,gi<n,i);
+    if(el.dataset.delay)el.style.transitionDelay=animate&&was&&gi<n?el.dataset.delay+'ms':'';
   }));
   hlState(i,n,animate);
+  fxState(i,n,animate);
   const fx=slides[i]._fx;if(fx&&fx.step)try{fx.step(n,animate);}catch(e){console.error(e);}
 }
 // moves el from the centre of src to its own place, so a value looks like it travels there
@@ -1282,13 +1308,6 @@ function flyIn(el,src){
 }
 // ---- highlights: typing, spotlight hole, mouse pointer (tools/HIGHLIGHT.md) ----
 function textNodes(el){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);return a;}
-function typeDone(el){if(el._tt){clearInterval(el._tt);el._tt=null;}if(el._orig)textNodes(el).forEach((t,k)=>t.nodeValue=el._orig[k]);}
-function typeIn(el){
-  typeDone(el);const ns=textNodes(el);el._orig=ns.map(t=>t.nodeValue);
-  const total=el._orig.join('').length,ms=Math.max(12,Math.min(45,1100/Math.max(1,total)));
-  ns.forEach(t=>t.nodeValue='');let k=0,j=0;
-  el._tt=setInterval(()=>{while(k<ns.length&&j>=el._orig[k].length){k++;j=0;}if(k>=ns.length){typeDone(el);return;}j++;ns[k].nodeValue=el._orig[k].slice(0,j);},ms);
-}
 const CUR_SVG='<svg viewBox="0 0 22 30" width="40" height="56"><path d="M2,2 L2,24 L8,18 L12,28 L16,26 L12,16 L20,16 Z" fill="#1D2330" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
 function hlParts(s){
   if(!s._spot){
@@ -1327,6 +1346,114 @@ function hlState(i,n,animate){
     if(!animate)free(cu);
     if(animate&&curNew&&cur.dataset.fx==='click'){clearTimeout(s._ripT);s._ripT=setTimeout(()=>{const rp=s._rip;rp.style.left=x+'px';rp.style.top=y+'px';rp.classList.remove('go');void rp.offsetWidth;rp.classList.add('go');},820);}
   }else{if(!animate)still(cu);cu.classList.remove('on');if(!animate)free(cu);}
+}
+// ---- more highlights (tools/HIGHLIGHT.md): entry kinds that need script, then marker states ----
+function entryFx(el,fresh,shown,i){
+  const f=el.dataset.fx,s=slides[i];
+  if(f==='stagger'){const gap=+(el.dataset.gap||70);[...el.children].forEach((c,k)=>{if(fresh){c.style.transitionDelay=(k*gap)+'ms';}else{c.style.transition='none';c.style.transitionDelay='';void c.offsetWidth;c.style.transition='';}});}
+  else if(f==='count'){countFx(el,fresh,shown);}
+  else if(f==='path'&&fresh){const p=s.querySelector('#'+el.dataset.path);if(p)pathFx(el,p);}
+  else if(f==='morph'){const a=s.querySelector('#'+el.dataset.from);if(a){if(fresh)morphFx(a,el);a.style.visibility=shown?'hidden':'';}}
+}
+function countFx(el,fresh,shown){
+  if(el._cnt===undefined){const tn=textNodes(el).find(t=>/\d/.test(t.nodeValue));el._cntNode=tn;el._cnt=tn?tn.nodeValue:'';}
+  const tn=el._cntNode;if(!tn)return;cancelAnimationFrame(el._raf);
+  if(!fresh){tn.nodeValue=el._cnt;return;}
+  const m=el._cnt.match(/[\d,]*\d(\.\d+)?/);if(!m){tn.nodeValue=el._cnt;return;}
+  const to=parseFloat(m[0].replace(/,/g,'')),dec=(m[1]||'').length-1>0?(m[1].length-1):0,comma=m[0].includes(','),t0=performance.now(),ms=+(el.dataset.ms||1200);
+  const fmt=v=>{let t=v.toFixed(dec);if(comma)t=Number(t).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});return el._cnt.slice(0,m.index)+t+el._cnt.slice(m.index+m[0].length);};
+  const tick=now=>{const k=Math.min(1,(now-t0)/ms);tn.nodeValue=fmt(to*(1-Math.pow(1-k,3)));if(k<1)el._raf=requestAnimationFrame(tick);else tn.nodeValue=el._cnt;};
+  tn.nodeValue=fmt(0);el._raf=requestAnimationFrame(tick);
+}
+function pathFx(el,p){
+  const b=rectIn(el),cx=b.x+b.w/2,cy=b.y+b.h/2,L=p.getTotalLength(),S=stage.getBoundingClientRect(),k=stage._s,M=p.getScreenCTM(),fr=[];
+  for(let j=0;j<=24;j++){const q=p.getPointAtLength(L*j/24),x=((M.a*q.x+M.c*q.y+M.e)-S.left)/k,y=((M.b*q.x+M.d*q.y+M.f)-S.top)/k;fr.push({transform:'translate('+(x-cx)+'px,'+(y-cy)+'px)',opacity:j?1:0});}
+  fr[fr.length-1].transform='none';
+  el.animate(fr,{duration:+(el.dataset.ms||1400),easing:'cubic-bezier(.45,0,.25,1)'});
+}
+function morphFx(a,b){
+  [a,b].forEach(x=>x.querySelectorAll('[data-m]').forEach(t=>{if(getComputedStyle(t).display==='inline')t.style.display='inline-block';}));
+  const from={};a.querySelectorAll('[data-m]').forEach(t=>from[t.dataset.m]=rectIn(t));
+  a.style.visibility='hidden';
+  b.style.transition='none';b.classList.remove('pending','morph');void b.offsetWidth;b.style.transition='';
+  b.querySelectorAll('[data-m]').forEach(t=>{const p=from[t.dataset.m],q=rectIn(t);
+    if(p)t.animate([{transform:'translate('+(p.x-q.x)+'px,'+(p.y-q.y)+'px)'},{transform:'none'}],{duration:850,easing:'cubic-bezier(.65,0,.35,1)'});
+    else t.animate([{opacity:0},{opacity:0,offset:.55},{opacity:1}],{duration:850,easing:'ease'});});
+  const g=a.cloneNode(true);g.removeAttribute('id');g.style.visibility='inherit';g.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+  g.querySelectorAll('[data-m]').forEach(t=>{if(b.querySelector('[data-m="'+t.dataset.m+'"]'))t.style.visibility='hidden';});
+  a.parentNode.insertBefore(g,a);g.animate([{opacity:1},{opacity:0}],{duration:450,easing:'ease'}).onfinish=()=>g.remove();
+}
+function fxParts(s){
+  if(!s._veil){
+    s._veil=[0,1].map(()=>{const d=document.createElement('div');d.className='pl-veil pl-off';return d;});
+    s._lbar=document.createElement('div');s._lbar.className='pl-lbar pl-off';
+    s._run=document.createElement('div');s._run.className='pl-run pl-off';
+    s.append(s._run,...s._veil,s._lbar);
+  }
+  return s;
+}
+function mbox(el){return{x:parseFloat(el.style.left)||0,y:parseFloat(el.style.top)||0,w:parseFloat(el.style.width)||0,h:parseFloat(el.style.height)||0};}
+function fxState(i,n,animate){
+  const s=slides[i];let ls=null,rn=null,zm=null,bl=null,last=null;const txt=new Map(),pan=new Map(),kb=new Map(),dims={};
+  steps[i].forEach((g,gi)=>g.forEach(el=>{const f=el.dataset.fx,shown=gi<n;
+    if(el.dataset.dimgroup&&shown){const d=dims[el.dataset.dimgroup]=dims[el.dataset.dimgroup]||{max:-1,els:[]};d.max=Math.max(d.max,gi);d.els.push([el,gi]);}
+    if(el.dataset.dimgroup&&!shown)el.classList.remove('pl-dim');
+    if(!shown)return;
+    if(f==='lspot')ls=el;else if(f==='lspot-off')ls=null;
+    else if(f==='run')rn=el;else if(f==='run-off')rn=null;
+    else if(f==='zoom')zm=el;else if(f==='zoom-off')zm=null;
+    else if(f==='blur')bl=el;else if(f==='blur-off')bl=null;
+    else if(f==='text')txt.set(el.dataset.target,el);
+    else if(f==='pan')pan.set(el.dataset.target,el);
+    else if(f==='kenburns')kb.set(el.dataset.target,el);
+    if(animate&&gi===n-1&&/^(pulse|grow|shine|shake|text)$/.test(f))(last=last||[]).push(el);
+  }));
+  Object.values(dims).forEach(d=>d.els.forEach(([el,gi])=>el.classList.toggle('pl-dim',gi<d.max)));
+  const instant=(el,fn)=>{if(!animate){el.style.transition='none';fn();void el.offsetWidth;el.style.transition='';}else fn();};
+  const any=ls||rn||s._veil;
+  if(any){fxParts(s);
+    if(ls){const b=mbox(ls),ly=+ls.dataset.ly,lh=+ls.dataset.lh,bg=ls.dataset.bg||'#FFFFFF',[v1,v2]=s._veil,wasOn=!v1.classList.contains('pl-off');
+      const put=()=>{Object.assign(v1.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:Math.max(0,ly-b.y)+'px',background:bg});
+        Object.assign(v2.style,{left:b.x+'px',top:(ly+lh)+'px',width:b.w+'px',height:Math.max(0,b.y+b.h-ly-lh)+'px',background:bg});
+        Object.assign(s._lbar.style,{left:(b.x+8)+'px',top:(ly+6)+'px',height:Math.max(0,lh-12)+'px',background:ls.dataset.bar||'#2459C9'});};
+      [v1,v2,s._lbar].forEach(x=>instant(x,()=>{}));
+      if(!animate||!wasOn){[v1,v2,s._lbar].forEach(x=>{x.style.transition='none';});put();[v1,v2,s._lbar].forEach(x=>{void x.offsetWidth;x.style.transition='';});}else put();
+      [v1,v2,s._lbar].forEach(x=>instant(x,()=>x.classList.remove('pl-off')));
+    }else [...s._veil,s._lbar].forEach(x=>instant(x,()=>x.classList.add('pl-off')));
+    if(rn){const b=mbox(rn),wasOn=!s._run.classList.contains('pl-off');
+      const put=()=>Object.assign(s._run.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'});
+      if(!animate||!wasOn){s._run.style.transition='none';put();void s._run.offsetWidth;s._run.style.transition='';}else put();
+      instant(s._run,()=>s._run.classList.remove('pl-off'));
+    }else instant(s._run,()=>s._run.classList.add('pl-off'));
+  }
+  // blur everything on the slide except the part that holds the target
+  if(bl||s.classList.contains('pl-blurs')){s.classList.add('pl-blurs');
+    const t=bl&&s.querySelector('#'+bl.dataset.target);
+    [...s.children].forEach(c=>{if(c.tagName==='ASIDE'||/^pl-/.test(c.className)||c.hasAttribute('data-build-in')&&/^(lspot|run|zoom|blur|text|pan|kenburns|pulse|grow|shine|shake|spot|cursor|click)/.test(c.getAttribute('data-build-in')))return;
+      instant(c,()=>c.classList.toggle('pl-bl',!!t&&!c.contains(t)&&c!==t));});
+    if(!bl&&!animate)s.classList.remove('pl-blurs');
+  }
+  // text values: the element keeps its last text in the HTML (for the PDF); data-start is what shows before any text step
+  s.querySelectorAll('[data-start]').forEach(t=>{if(t._final===undefined)t._final=t.textContent;const m=txt.get(t.id);t.textContent=m?m.dataset.text:t.dataset.start;});
+  pan.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t){t.style.transition=animate?'transform '+(m.dataset.ms||2000)+'ms cubic-bezier(.65,0,.35,1)':'none';t.style.transform='translateY('+(m.dataset.y||0)+'px)';}});
+  s.querySelectorAll('[data-panned]').forEach(t=>{if(!pan.has(t.id)){t.style.transition='none';t.style.transform='';}});
+  pan.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t)t.dataset.panned=1;});
+  kb.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t){t.style.transformOrigin=m.dataset.origin||'50% 50%';t.style.transition=animate?'transform '+(m.dataset.ms||6000)+'ms linear':'none';t.style.transform='scale('+(m.dataset.scale||1.12)+')';t.dataset.kb=1;}});
+  s.querySelectorAll('[data-kb]').forEach(t=>{if(!kb.has(t.id)){t.style.transition='none';t.style.transform='';}});
+  // camera: zoom the whole slide into the marker's box
+  if(zm){const b=mbox(zm),pad=+(zm.dataset.pad||40),k=Math.min(1920/(b.w+2*pad),1080/(b.h+2*pad),+(zm.dataset.max||3));
+    s.style.transformOrigin='0 0';s.style.transition=animate?'transform .9s cubic-bezier(.65,0,.35,1)':'none';
+    s.style.transform='translate('+(960-(b.x+b.w/2)*k)+'px,'+(540-(b.y+b.h/2)*k)+'px) scale('+k+')';}
+  else if(s.style.transform){s.style.transition=animate?'transform .9s cubic-bezier(.65,0,.35,1)':'none';s.style.transform='';}
+  (last||[]).forEach(m=>{const t=s.querySelector('#'+m.dataset.target);if(!t)return;const f=m.dataset.fx;
+    if(f==='pulse')t.animate([{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'}],{duration:900,easing:'ease-in-out'});
+    else if(f==='grow')t.animate([{transform:'scale(1)'},{transform:'scale(1.2)',offset:.4},{transform:'scale(1)'}],{duration:800,easing:'cubic-bezier(.2,.7,.2,1)'});
+    else if(f==='shake')t.animate([0,-14,14,-10,10,-5,0].map(x=>({transform:'translateX('+x+'px)'})),{duration:480,easing:'ease-out'});
+    else if(f==='text')t.animate([{backgroundColor:'rgba(255,214,64,.6)'},{backgroundColor:'rgba(255,214,64,0)'}],{duration:900,easing:'ease-out'});
+    else if(f==='shine'){const r=rectIn(t),g=document.createElement('div');Object.assign(g.style,{position:'absolute',left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px',overflow:'hidden',pointerEvents:'none',zIndex:35,borderRadius:getComputedStyle(t).borderRadius});
+      g.innerHTML='<div style="position:absolute;top:0;left:-40%;width:30%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg)"></div>';s.appendChild(g);
+      g.firstChild.animate([{left:'-40%'},{left:'120%'}],{duration:800,easing:'ease-in-out'}).onfinish=()=>g.remove();}
+  });
 }
 function rectIn(el){const r=el.getBoundingClientRect(),S=stage.getBoundingClientRect(),k=stage._s;return{x:(r.left-S.left)/k,y:(r.top-S.top)/k,w:r.width/k,h:r.height/k};}
 function topIds(sec){return [...sec.querySelectorAll('[id]')].filter(el=>!el.parentElement.closest('section [id]'));}
