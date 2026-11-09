@@ -10,23 +10,27 @@
     "cover",
     "toc",
     "ready",
+    "in-why",
     "in-list",
     "in-tuple-str",
     "in-logic",
     "in-orders",
+    "m-why",
     "m-make",
     "m-index",
     "m-change",
     "m-for",
     "m-col",
     "m-total",
-    "m-table",
-    "m-in",
     "m-slice",
+    "m-in",
     "m-add",
-    "m-seats",
+    "m-compare",
     "m-trap",
     "m-err",
+    "x-report",
+    "x-seats",
+    "x-cafe",
     "trouble",
     "cheatsheet"
   ],
@@ -37,11 +41,15 @@
     },
     "in": {
       "description": "in과 not in",
-      "start": "in-list"
+      "start": "in-why"
     },
     "matrix": {
       "description": "2차원 리스트",
-      "start": "m-make"
+      "start": "m-why"
+    },
+    "real": {
+      "description": "실제로 써 보기",
+      "start": "x-report"
     },
     "trouble": {
       "description": "정리",
