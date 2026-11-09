@@ -17,7 +17,7 @@ import html, json, os, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline  # noqa: E402
+from highlight import spot, spot_off, cursor, cursor_off, ring, box, underline, shine, pulse, keys as keycaps, shake, zoom, zoom_off, STAGGER, DIM, PATH  # noqa: E402
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -115,7 +115,7 @@ def caption(text, top, left=96, width=1728, size=30, color=INK, order=None, cid=
 
 
 # ---------- leader lines: a label joined to the thing it explains (Stageshow annotations.md) ----------
-def lead(order, tid, text, side="l", dx=48, dy=0, color=INK, size=28, w=None, lid=None, gap=10, at=None, z=None, align="left", build="fade", edge=None):
+def lead(order, tid, text, side="l", dx=48, dy=0, color=INK, size=28, w=None, lid=None, gap=10, at=None, z=None, align="left", build="fade", edge=None, extra=""):
     """side l/r: the label sits left/right of the target at the same height (dy moves it, with one bend).
     side t/b: the line leaves the top/bottom of the target, goes dy up/down, and the label starts beside its end.
     at=(x, y) aims at that point instead of the target's edge. Needs tools/rects.json (pass 2)."""
@@ -162,10 +162,10 @@ def lead(order, tid, text, side="l", dx=48, dy=0, color=INK, size=28, w=None, li
     d = "M" + " L".join(f"{a:.0f},{b:.0f}" for a, b in pts)
     ws = f"width:{w}px;white-space:normal" if w else "white-space:nowrap"
     idattr = f' id="{lid}"' if lid else ""
-    return [f'<svg{bi("draw", order)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible{zs}">'
+    return [f'<svg{bi("draw", order)}{extra} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible{zs}">'
             f'<path d="{d}" fill="none" stroke="{QUIET}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-            f'<div{bi("fade", order)} style="position:absolute;left:{ax - 6:.0f}px;top:{ay - 6:.0f}px;width:12px;height:12px;border-radius:50%;background:{color}{zs}"></div>',
-            p(f"position:absolute;{pos};top:{ly - half:.0f}px;{ws};font-size:{size}px;font-weight:700;line-height:1.35;color:{color}{zs}", text, idattr + bi(build, order))]
+            f'<div{bi("fade", order)}{extra} style="position:absolute;left:{ax - 6:.0f}px;top:{ay - 6:.0f}px;width:12px;height:12px;border-radius:50%;background:{color}{zs}"></div>',
+            p(f"position:absolute;{pos};top:{ly - half:.0f}px;{ws};font-size:{size}px;font-weight:700;line-height:1.35;color:{color}{zs}", text, idattr + bi(build, order) + extra)]
 
 
 def aim(order, tid, fx=0.85, fy=0.8):
@@ -374,6 +374,7 @@ def build():
          '<p style="width:820px;font-size:40px;line-height:1.4;color:#BFC6D4">셀 실행하는 법과<br>자주 쓰는 단축키</p>']
     o2, pos, _, _ = scene([C(C_X, n=1), C(C_P, n=2, out=["20"])], s=1.25, toolbar=False, sel="c-p", pre="cv-", x=1180, y=330, right=2100)
     o += o2 + [selbar(28, pos["c-p"][0], pos["c-p"][2], pre="cv-"), '</div>']
+    o.append(shine(1, "cv-c-p-box"))
     W("cover", o, "09에서 VS Code에 Jupyter를 연결하고 첫 셀을 실행했어요. 이번 챕터는 그 노트북을 손에 익히는 시간이에요. 셀을 실행하는 세 가지 키, 실행 번호 읽는 법, 명령 모드와 편집 모드, Windows와 Mac 단축키를 차례로 봐요.", ("intro", "들어가기"))
 
     ORDER.append("toc")   # written last, after page numbers are known
@@ -386,6 +387,7 @@ def build():
         x_, y_, w2, h2 = RECTS["why"]["wt-10"]
         o.append(underline(1, x_ - 4, x_ + w2 + 4, y_ + h2 - 4, color="#F2B27A", width=5))
     o += lead(1, "wt-10", "앞에서 본 20이 또 나와요", side="r", dx=40, color="#F2B27A", gap=24)
+    o.append(pulse(1, "wt-1"))
     o.append(f'<div{bi("rise", 2)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
     w_, top = window(1110, 300, 714, toolbar=False, pre="wy-", h=540)
     o += w_
@@ -405,12 +407,14 @@ def build():
     y1 = G(0, pos["c-x"][0] + pos["c-x"][1] / 2)[1]
     y2 = G(0, pos["c-p"][0] + pos["c-p"][1] + 34)[1]
     o.append(f'<svg{bi("draw", 1)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible">'
-             f'<path d="M1076,{y1:.0f} C1190,{y1:.0f} 1200,470 1300,470" fill="none" stroke="{BL}" stroke-width="5" stroke-linecap="round"/>'
+             f'<path id="bp-go" d="M1076,{y1:.0f} C1190,{y1:.0f} 1200,470 1300,470" fill="none" stroke="{BL}" stroke-width="5" stroke-linecap="round"/>'
              f'<path d="M1300,470 l-20,-12 M1300,470 l-20,12" fill="none" stroke="{BL}" stroke-width="5" stroke-linecap="round"/></svg>')
+    o.append(f'<div{PATH(1, "bp-go")} style="position:absolute;left:1291px;top:461px;width:18px;height:18px;border-radius:50%;background:{BL};box-shadow:0 0 0 6px rgba(36,89,201,.18)"></div>')
     o.append(p(f"position:absolute;left:1150px;top:{y1 - 60:.0f}px;font-size:26px;font-weight:700;color:{BL}", "코드를 보내요", bi("fade", 1)))
     o.append(f'<svg{bi("draw", 2)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible">'
-             f'<path d="M1300,640 C1190,640 1190,{y2:.0f} 1076,{y2:.0f}" fill="none" stroke="{GR}" stroke-width="5" stroke-linecap="round"/>'
+             f'<path id="bp-back" d="M1300,640 C1190,640 1190,{y2:.0f} 1076,{y2:.0f}" fill="none" stroke="{GR}" stroke-width="5" stroke-linecap="round"/>'
              f'<path d="M1076,{y2:.0f} l20,-12 M1076,{y2:.0f} l20,12" fill="none" stroke="{GR}" stroke-width="5" stroke-linecap="round"/></svg>')
+    o.append(f'<div{PATH(2, "bp-back")} style="position:absolute;left:1067px;top:{y2 - 9:.0f}px;width:18px;height:18px;border-radius:50%;background:{GR};box-shadow:0 0 0 6px rgba(31,138,76,.18)"></div>')
     o.append(p(f"position:absolute;left:1150px;top:{y2 + 34:.0f}px;font-size:26px;font-weight:700;color:{GR}", "결과를 돌려줘요", bi("fade", 2)))
     o.append(caption("값은 파일이 아니라 커널이 기억해요.", 880, left=1330, width=494, size=28, color=SUB, order=2))
     W("big", o, "노트북에서 셀을 실행하면 코드가 커널로 가요. 커널은 VS Code가 뒤에서 켜 둔 파이썬이에요. 09에서 고른 .venv의 파이썬이 커널이 돼요. 1번 셀의 x = 10을 실행하면 커널이 x를 기억해요. 2번 셀을 실행하면 커널이 기억한 x로 계산하고, 결과 20을 2번 셀 바로 아래로 돌려줘요. notebook.ipynb 파일에는 코드와 출력이 저장되고, x 같은 값은 커널에만 있어요. 그래서 VS Code를 다시 열면 값을 다시 만들어야 해요.", None)
@@ -458,7 +462,7 @@ def build():
     SX, SY, SW = 560, 300, 1264
     w_, top = window(SX, SY, SW)
     o += w_
-    cs, pos = cells([C(C_X, n=1), C(C_P, n=2, out=["20"], oids=["o-20"]), {"id": "c-md", "kind": "mdr", "lines": ["# 오늘 배운 것", "- 셀은 따로 실행해요"]}], SX + 28, top, SW, sel="c-p")
+    cs, pos = cells([C(C_X, n=1), C(C_P, n=2, out=["20"], oids=["o-20"]), {"id": "c-md", "kind": "mdr", "lines": ["# 오늘 배운 것", "- 셀은 따로 실행해요"]}], SX + 28, top, SW - 48, sel="c-p")
     o += cs + [selbar(SX + 28, pos["c-p"][0], pos["c-p"][2])]
     marks = [("kernel", "커널 " + sub("· .venv인지 봐요"), dict(side="t", dy=150, align="right")),
              ("tb-tools", "위쪽 버튼 " + sub("· 셀 추가, 전체 실행, 다시 시작"), dict(side="t", dy=100)),
@@ -526,6 +530,7 @@ def build():
     o, pos = run_scene("order", "대괄호 숫자는 실행한 순서예요", "fade", 4, "11", "11",
                        {"mem_name": (bi("fly", 1) + ' data-from="o-kim"',), "mem_x": (bi("fly", 2) + ' data-from="o-inc"',)})
     o.append(caption("4번 셀을 한 번 더 실행하면<br>어떻게 될까요?", 620, width=520, size=32, order=3))
+    o.append(pulse(3, "mem-x-v"))
     W("order", o, "1번 셀에서 x에 10을 넣었고, 2번 셀은 그 x로 20을 출력했어요. 셀은 따로 실행해도 값은 커널 하나가 계속 기억해요. 왼쪽이 지금 커널이 기억하는 값이에요. 3번 셀에서 name에 'kim'을 넣었고, 4번 셀은 x에 1을 더해서 11이 됐어요. 다음 장에서 4번 셀을 한 번 더 실행해요. 출력은 tools/run_nb.py로 hello-uv 커널에서 실제로 실행한 결과예요.")
 
     o, pos = run_scene("again", "같은 셀을 다시 실행하면 번호도 값도 바뀌어요", "magic", 5, "12", "12",
@@ -569,7 +574,7 @@ def build():
             ("bt-clear", "출력만 지우기", "커널이 기억한 값은 그대로예요", 400),
             ("bt-vars", "기억한 값을 표로 보기", "아래쪽에 표가 열려요", 130)]
     for i, (tid, a_, b_, dy) in enumerate(expl, 1):
-        o += lead(i, tid, a_ + f'<br><span style="font-size:24px;font-weight:400;color:{SUB}">{b_}</span>', side="b", dy=dy, gap=12, align="center", w=360)
+        o += lead(i, tid, a_ + f'<br><span style="font-size:24px;font-weight:400;color:{SUB}">{b_}</span>', side="b", dy=dy, gap=12, align="center", w=360, extra=DIM("btn"))
     o.append(caption("+ Code와 + Markdown은 셀을 더하는 버튼이에요. 화면이 좁으면 몇 개는 ··· 메뉴 안에 들어가요.", 960, size=26, color=SUB))
     W("buttons", o, "맨 위 줄 버튼은 노트북 전체를 한 번에 다뤄요. Run All은 맨 위 셀부터 끝까지 실행해요. 노트북을 새로 열었을 때도 커널은 아무것도 기억하지 않아서 Run All부터 눌러요. Restart는 앞 장에서 본 대로 기억을 지워요. Interrupt는 셀이 실행되는 동안에만 보이는 버튼이에요. 끝나지 않는 셀을 멈춰요. Clear All Outputs는 화면의 출력만 지우고 커널의 값은 남겨요. Variables는 커널이 기억하는 값을 표로 보여 줘요.")
 
@@ -609,6 +614,12 @@ def build():
             now = (p(f"font-size:24px;font-weight:400;line-height:1.35;color:{PUR};width:270px;white-space:normal;margin-top:4px", lab, bi("fade", 1))) if j == i else ""
             rows.append(f'<div style="height:{124 if j == i else 92}px;display:flex;flex-direction:row;align-items:center;gap:20px;opacity:{1 if j <= i else .55}">{mark}'
                         f'<div style="width:236px;flex:none">{kbd(k, 26)}</div><div style="display:flex;flex-direction:column">' + p(f"font-size:26px;font-weight:{700 if j == i else 400};color:{col};white-space:nowrap", d) + now + '</div></div>')
+        combo = {"flow1": ["Esc"], "flow2": ["B"], "flow3": ["M", "Enter"], "flow4": ["Shift+Enter"]}[sid]
+        o.append(p(f"position:absolute;left:96px;top:790px;font-size:22px;font-weight:700;color:{GRAY}", "지금 누른 키", bi("fade", 1)))
+        kx = 96
+        for c_ in combo:
+            o.append(keycaps(1, kx, 836, c_, size=34))
+            kx += 64 + 26 * len(c_)
         o.append(f'<div id="flow-steps" style="position:absolute;left:96px;top:300px;width:560px;display:flex;flex-direction:column">' + "".join(rows) + '</div>')
         notes = {"flow1": "마우스 없이 셀을 만드는 흐름을 네 장에 걸쳐 봐요. 1번 셀에 x = 10을 적고 실행한 뒤, 셀 안을 다시 클릭해 편집 모드인 상태에서 시작해요. Esc를 치면 커서가 빠지고 명령 모드가 돼요. 지금부터 치는 글자는 셀에 들어가지 않고 명령으로 읽혀요.",
                  "flow2": "명령 모드에서 B를 치면 아래(Below)에 빈 코드 셀이 생겨요. A는 위(Above)에 만들어요. 새 셀은 골라진 상태지만 아직 명령 모드예요. 그래서 다음에 M을 치면 글자가 아니라 셀 종류가 바뀌어요.",
@@ -619,12 +630,14 @@ def build():
     o = [sec("cmdkeys")] + head(EB3, "명령 모드에서 쓰는 글자 키", PUR)
     ck = [("A", "위에 셀 추가", "Above"), ("B", "아래에 셀 추가", "Below"), ("D+D", "셀 지우기", "D를 두 번"), ("Z", "지운 셀 되살리기", "방금 지운 것 되돌리기"),
           ("M", "마크다운 셀로", "Markdown"), ("Y", "코드 셀로", "다시 코드로"), ("L", "줄 번호 켜고 끄기", "오류 줄 찾을 때"), ("Enter", "편집 모드로", "셀 안으로 들어가기")]
+    o.append(f'<div{STAGGER(1, 90)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
     for i, (k, a_, b_) in enumerate(ck):
         col, row = i // 4, i % 4
         o.append(hairrow(96 + col * 880, 236 + row * 150, 848, 150,
                          f'<div style="width:190px;flex:none">{kbd(k, 40)}</div>'
                          + '<div style="display:flex;flex-direction:column;gap:4px">' + p(f"font-size:32px;font-weight:700;color:{INK}", e(a_)) + p(f"font-size:24px;color:{GRAY}", e(b_)) + '</div>',
                          top_line=row > 0))
+    o.append('</div>')
     o.append(caption("Windows와 Mac이 같아요. Shift 없이 그냥 누르고, 글자가 셀에 들어가면 Esc부터 쳐요.", 880, size=28, color=SUB))
     W("cmdkeys", o, "명령 모드에서만 동작하는 글자 키예요. 대문자로 적었지만 Shift 없이 그냥 눌러요. D는 한 번이 아니라 두 번 연달아 눌러야 지워요. 실수로 지웠으면 바로 Z로 되살려요. L은 셀 하나의 줄 번호를 켜요. 오류 메시지에 line 3처럼 줄 번호가 나올 때 써요. 한글 입력 상태에서는 글자 키가 먹지 않을 수 있어요. 한/영 키로 영문으로 바꿔요.")
 
@@ -651,6 +664,7 @@ def build():
     if RECTS.get("err-md"):
         x_, y_, w2, h2 = RECTS["err-md"]["o-syn"]
         o.append(ring(1, x_, y_, w2, h2, color=RED, width=5))
+    o.append(shake(1, "o-syn"))
     o.append(caption("파이썬 코드로 읽어서 나는 오류예요.<br>오른쪽 아래가 Python이에요.", 300, width=540, size=28, color=RED, order=1))
     fx = [f'<div{bi("rise", 2)} style="position:absolute;left:96px;top:620px;width:760px;background:#FFFFFF;border-radius:20px;box-shadow:{SH_SAT};padding:26px 32px;display:flex;flex-direction:column;gap:18px">',
           '<div style="display:flex;flex-direction:row;align-items:center;gap:14px">' + p(f"font-size:26px;font-weight:700;color:{GR}", "이렇게 고쳐요") + kbd("Esc", 26) + p(f"font-size:26px;color:{GRAY}", "다음") + kbd("M", 26) + '</div>',
@@ -664,12 +678,14 @@ def build():
     tr = [("글자를 쳤는데 셀이 생기거나 지워져요", "명령 모드였어요", "셀 안 클릭, Enter"), ("A, B, M을 눌러도 아무 일이 없어요", "편집 모드거나 한글 입력 상태예요", "Esc, 한/영 키"),
           (NAME_ERR, "앞 셀을 안 돌렸거나 Restart 뒤예요", "▷ Run All"), (SYN_ERR, "설명 글을 코드 셀에 적었어요", "Esc 다음 M"),
           ("셀이 끝나지 않고 계속 돌아요", "오래 걸리거나 끝나지 않는 코드예요", "□ Interrupt"), ("Mac에서 Cmd+Enter로 실행이 안 돼요", "Mac 실행 키는 control이에요", "control+Enter")]
+    o.append(f'<div{STAGGER(1, 90)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
     for i, (q, a_, cmd) in enumerate(tr):
         mono = q.endswith(("defined", "syntax"))
         o.append(hairrow(96, 286 + i * 112, 1728, 112,
                          p(f"width:760px;flex:none;{'font-family:' + MONO + ';font-size:24px;color:' + RED if mono else 'font-size:29px;color:' + INK};font-weight:700", e(q))
                          + p(f"width:520px;flex:none;font-size:26px;color:{SUB}", e(a_))
                          + p(f"flex:1;font-size:28px;font-weight:700;color:{INK};white-space:nowrap", e(cmd))))
+    o.append('</div>')
     W("trouble", o, "첫 두 줄은 모드를 헷갈려서 나요. 셀 테두리와 커서로 지금 모드를 봐요. 한글 입력 상태에서는 명령 모드 글자 키가 먹지 않을 수 있어서 한/영 키로 영문으로 바꿔요. NameError는 Restart 장에서, SyntaxError는 바로 앞 장에서 본 오류예요. 셀이 끝나지 않으면 셀 왼쪽에 도는 표시가 계속 보여요. Mac 실행 키는 다른 프로그램의 Jupyter와 VS Code 기본 설정이 다른 곳이에요. 커널이 .venv가 아니라서 나는 ModuleNotFoundError는 09의 31쪽을 봐요.")
 
     # ---------- part 5: real notes written in a notebook ----------
@@ -787,12 +803,14 @@ def build():
     CUR = "cheatsheet"
     cheat = [("Shift+Enter", "실행하고 다음 셀로", ""), ("Ctrl+Enter", "실행하고 머물기", "Mac은 control+Enter"), ("Esc", "명령 모드로", ""),
              ("Enter", "편집 모드로", ""), ("A B", "위, 아래에 셀 추가", "명령 모드에서"), ("M Y", "마크다운, 코드 셀로", "명령 모드에서")]
+    o.append(f'<div{STAGGER(1, 90)} style="position:absolute;left:0;top:0;width:1920px;height:1080px">')
     for i, (k, d, n_) in enumerate(cheat):
         col, row = i % 2, i // 2
         o.append(hairrow(96 + col * 880, 210 + row * 140, 848, 140,
                          f'<div style="width:350px;flex:none">{kbd(k, 36)}</div>'
                          + '<div style="display:flex;flex-direction:column;gap:4px">' + p(f"font-size:32px;font-weight:700;color:{INK}", e(d)) + (p(f"font-size:22px;color:{GRAY}", e(n_)) if n_ else "") + '</div>',
                          top_line=row > 0))
+    o.append('</div>')
     rules = ['<b>[숫자]는 실행한 순서예요.</b> ' + sub("화면 위아래 순서가 아니에요."),
              f'<b>꼬이면 <span style="color:{JP}">↻ Restart</span> 뒤 <span style="color:{GR}">▷ Run All</span></b>',
              f'<b>패키지는 터미널에서 <span style="font-family:{MONO};color:{TEAL}">uv add 패키지</span></b> ' + sub("알림의 Install 버튼은 쓰지 않아요.")]
