@@ -72,3 +72,6 @@ r git log --oneline
 step "12 커밋 하나 보기"
 r git show --stat HEAD~1
 r "git log --format='%H %P %ad %an %s' --date=format:'%d %b %Y %H:%M'"
+step "13 다 쓴 브랜치 지우기"
+r git branch -d feature/login
+r git log --oneline

@@ -9,11 +9,13 @@
   "order": [
     "cover",
     "toc",
+    "why",
+    "big",
     "ready",
+    "first",
     "screen",
     "kinds",
     "run-ctrl",
-    "run-shift",
     "run-alt",
     "order",
     "again",
@@ -25,6 +27,9 @@
     "flow3",
     "flow4",
     "cmdkeys",
+    "compare",
+    "err-md",
+    "trouble",
     "md-rules",
     "name-err",
     "conv",
@@ -32,7 +37,6 @@
     "type-check",
     "keys-run",
     "keys-edit",
-    "trouble",
     "cheatsheet"
   ],
   "sections": {
@@ -52,6 +56,10 @@
       "description": "명령 모드와 편집 모드",
       "start": "modes"
     },
+    "compare": {
+      "description": "파일 실행과 비교하고 막힐 때 보기",
+      "start": "compare"
+    },
     "rules": {
       "description": "노트북에 수업 내용 정리하기",
       "start": "md-rules"
@@ -59,10 +67,6 @@
     "keys": {
       "description": "단축키 모음",
       "start": "keys-run"
-    },
-    "trouble": {
-      "description": "정리",
-      "start": "trouble"
     }
   },
   "faces": {

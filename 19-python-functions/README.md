@@ -133,7 +133,18 @@ print(b + 1000)
 # 10000
 ```
 
-### 4. return을 만나면 끝나요
+### 4. return이 없으면 None
+
+```python
+def hi():
+    print("안녕")
+
+print(hi())
+# 안녕
+# None
+```
+
+### 5. return을 만나면 끝나요
 
 ```python
 def check(stock):
@@ -147,7 +158,7 @@ print(check(3))
 # 주문 가능
 ```
 
-### 5. 실습: 장바구니 총액
+### 6. 실습: 장바구니 총액
 
 ```python
 menu = {"coffee": 4500, "latte": 5000, "cake": 6500}
@@ -166,7 +177,7 @@ print(f"합계 {calc_total(cart2, menu):,}원")
 # 합계 16,500원
 ```
 
-### 6. 실습: 할인 결제
+### 7. 실습: 할인 결제
 
 ```python
 def discount_rate(total):
@@ -227,7 +238,7 @@ slides/
   deck.json        슬라이드 순서와 파트 구분 (gen.py가 만들어요)
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장과 deck.json 생성 (노트북 셀, 실행한 줄 표시, 함수 상자, 실행 순서 표)
+  gen.py           모든 장과 deck.json 생성 (노트북 셀, 줄 옆 설명, 값이 칸으로 날아가는 상자, 실행 순서 번호)
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
 python-functions-slides.html  배포용 HTML
@@ -236,7 +247,7 @@ python-functions-slides.pdf   강사용 PDF
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
-슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
+슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요. 장마다 코드 셀 하나를 크게 두고, 설명은 카드 대신 줄 옆 짧은 글로 달았어요. 강조는 장마다 [tools/HIGHLIGHT.md](../tools/HIGHLIGHT.md)에서 골랐어요(줄 색칠, 값 날아가기, 움직이는 스포트라이트, 커서 클릭, 펜 동그라미와 밑줄).
 
 ```bash
 bash tools/demo.sh /tmp/func-demo > /tmp/func-demo.log 2>&1
