@@ -9,7 +9,8 @@ Usage (in 06-team-repo): python3 tools/gen.py slides
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, cursor, cursor_off, ring, underline, box  # noqa: E402
+from highlight import (spot, spot_off, cursor, cursor_off, ring, underline, box, lspot, lspot_off, zoom, zoom_off,  # noqa: E402
+                       blur, blur_off, pulse, shake, SLAM, STAGGER, DIM, DELAY, WIPE)
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -236,7 +237,7 @@ def label(lane_key, top_of_band_bottom, text, color, order=None, width=None, kin
             p(f"position:absolute;left:{tl}px;top:{y0 + 32}px;width:{w}px;{al}font-size:28px;font-weight:700;line-height:1.3;color:{color}", text, b)]
 
 
-def scene(sid, eyebrow, title, states, who, term, notes, labels=(), arrive=None, hot=None, badges=None, color=None, transition="magic"):
+def scene(sid, eyebrow, title, states, who, term, notes, labels=(), arrive=None, hot=None, badges=None, color=None, transition="magic", extra=()):
     """labels: (lane, text, color[, width]). hot: (line index, 'ring'|'underline', color) drawn on click 1.
     Order: click 1 = commits fly in (arrive) or the pen mark (hot); labels come with click 1, or click 2 after a pen mark."""
     o = [sec(sid, transition)] + head(eyebrow, title, color or PC[who if isinstance(who, str) else who[0]])
@@ -257,6 +258,7 @@ def scene(sid, eyebrow, title, states, who, term, notes, labels=(), arrive=None,
         i, kind, c = hot
         x, y, w, h = line_box(96, ttop, term, size, i)
         o.append(box(1, x - 10, y, w + 20, h, c, width=4) if kind == "ring" else underline(1, x, x + w, y + h - 2, c))
+    o += list(extra)
     W(sid, o, notes)
 
 
@@ -269,7 +271,7 @@ def person_dot(who, x, y, size=120, pre=""):
 # cover
 cov = [f'<section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:{SANS};padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        '<p style="font-size:28px;font-weight:700;color:#8FB3FF">KANT AX/AI 엔지니어 트랙 · 06</p>',
-       '<h1 style="font-size:92px;font-weight:900;line-height:1.2;color:#F6F5F1">팀 레포에서<br>같이 작업하고<br>충돌 풀기</h1>',
+       '<h1 style="font-size:92px;font-weight:900;line-height:1.2;color:#F6F5F1">팀 레포에서<br>같이 작업하고<br><span'+SLAM(1)+' style="display:inline-block">충돌 풀기</span></h1>',
        '<p style="font-size:36px;line-height:1.45;color:#BFC6D4">셋이 한 저장소에 push하고 pull하다<br>엉키는 순간을 일부러 만들고 풀어 봐요</p>']
 cov.append(f'<div style="position:absolute;left:1220px;top:270px;width:520px;height:140px;border-radius:24px;background:#2A3242;display:flex;flex-direction:row;gap:18px;align-items:center;justify-content:center">'
            f'<x-icon name="Cloud" style="width:56px;height:56px;color:#B9A5F5"></x-icon>' + p("font-size:40px;font-weight:700;line-height:1;color:#F6F5F1", "GitHub") + '</div>')
@@ -303,7 +305,7 @@ for i, (code, txt, c) in enumerate(outs):
     x = 96 + i * 588
     if i:
         w.append(f'<div style="position:absolute;left:{x - 20}px;top:820px;width:2px;height:170px;background:{HAIR}"></div>')
-    w.append(f'<div{bi("rise", i + 1)} style="position:absolute;left:{x + (16 if i else 0)}px;top:822px;width:540px;display:flex;flex-direction:column;gap:14px">'
+    w.append(f'<div{bi("rise", 1)}{DELAY(i * 180)} style="position:absolute;left:{x + (16 if i else 0)}px;top:822px;width:540px;display:flex;flex-direction:column;gap:14px">'
              + p(f"font-family:{MONO};font-size:40px;font-weight:700;line-height:1.2;color:{c}", e(code)) + p(f"font-size:28px;line-height:1.45;color:{INK}", txt) + '</div>')
 W("why", w, "GitHub의 저장소 하나를 kim, lee, park 셋이 각자 컴퓨터로 clone해서 써요. 혼자 쓸 때와 달리 남이 먼저 올린 커밋이 생겨요. 그래서 오늘은 세 가지 메시지를 일부러 만나 봐요. push가 거절되는 rejected, pull 하면 저절로 합쳐지는 Merge made, 같은 줄을 고쳐서 생기는 CONFLICT예요. 세 가지 모두 고장이 아니에요. Git이 다음에 할 일을 알려 주는 메시지예요.")
 
@@ -312,12 +314,12 @@ ro = [sec("roles")] + head("1부 · 팀 레포 준비", "한 명이 팀장이 �
 roles = [("kim", "팀장", "GitHub에 레포 만들기<br>팀원 초대하기"), ("lee", "팀원", "초대 수락하기<br>clone 하기"), ("park", "팀원", "초대 수락하기<br>clone 하기")]
 for i, (who, role, todo) in enumerate(roles):
     cx = 390 + i * 570
-    ro.append(f'<div{bi("rise", i + 1)} style="position:absolute;left:{cx - 260}px;top:240px;width:520px;display:flex;flex-direction:column;align-items:center;gap:26px">'
+    ro.append(f'<div{bi("rise", 1)}{DELAY(i * 150)} style="position:absolute;left:{cx - 260}px;top:240px;width:520px;display:flex;flex-direction:column;align-items:center;gap:26px">'
               f'<div style="width:240px;height:240px;border-radius:50%;background:{PC[who]};display:flex;align-items:center;justify-content:center">' + p("font-size:64px;font-weight:900;line-height:1;color:#FFFFFF", who) + '</div>'
               + p(f"font-size:48px;font-weight:700;line-height:1.2;color:{PC[who]}", role)
               + p(f"font-size:34px;line-height:1.6;text-align:center;color:{INK}", todo) + '</div>')
 ro.append(hair(96, 860, 1728))
-ro.append(p(f"position:absolute;left:96px;top:890px;width:1728px;font-size:30px;line-height:1.6;color:{SUB}", "슬라이드의 kim, lee, park 자리에 팀원 이름을 넣어요. 2인 팀이면 park 차례는 건너뛰어요.<br>색은 끝까지 같아요. 파랑 kim, 초록 lee, 주황 park, 보라 GitHub.", bi("fade", 4)))
+ro.append(p(f"position:absolute;left:96px;top:890px;width:1728px;font-size:30px;line-height:1.6;color:{SUB}", "슬라이드의 kim, lee, park 자리에 팀원 이름을 넣어요. 2인 팀이면 park 차례는 건너뛰어요.<br>색은 끝까지 같아요. 파랑 kim, 초록 lee, 주황 park, 보라 GitHub.", bi("fade", 2)))
 W("roles", ro, "한 명이 팀장이 돼서 레포를 만들고 나머지를 초대해요. 레포 주인만 처음에 push할 수 있어서 초대가 꼭 필요해요. 이 덱에서 kim은 파랑, lee는 초록, park는 주황, GitHub은 보라로 계속 그려요. 커밋 점의 색이 그 커밋을 만든 사람이에요.")
 
 
@@ -366,7 +368,8 @@ nr.append(p(f"position:absolute;left:{fx}px;top:{fy + 560}px;width:280px;font-si
 nr += [marker(1, fx + 684, fy + 125), marker(2, fx + 440, fy + 263), marker(3, fx + 100 + 50, fy + 398), marker(4, fx + 300, fy + 566)]
 nr += steps_list(1240, 290, 584, [("이름은 team-intro", "소문자와 하이픈만 써요"), ("Public 그대로", "Private이면 초대한 팀원만 보여요"),
                                    ("Add README를 켜요", "첫 커밋이 생겨서 바로 clone할 수 있어요"), ("Create repository", "주소는 github.com/kim/team-intro")], OR)
-nr += [cursor(1, fx + 600, fy + 160), cursor(2, fx + 380, fy + 296), cursor(3, fx + 66, fy + 428), cursor(4, fx + 250, fy + 600), cursor_off(5)]
+nr += [cursor(1, fx + 600, fy + 160), cursor(2, fx + 380, fy + 296), cursor_off(3), zoom(3, fx - 30, fy + 330, 640, 160, pad=30, max_scale=1.8), zoom_off(4),
+       cursor(4, fx + 250, fy + 600), cursor_off(5)]
 W("new-repo", nr, "오른쪽 위 + 버튼에서 New repository를 눌러요. 02에서는 README 없이 빈 저장소를 만들었어요. 팀 레포는 README를 켜서 만들어요. Initial commit이 하나 생겨서 셋이 바로 clone할 수 있어요. GitHub 화면은 자주 바뀌어요. 체크 상자로 보이면 Add a README file을 체크해요.")
 
 # invite: the settings window leads, the invitation lee sees straddles its right edge
@@ -380,13 +383,13 @@ iv.append(p(f"position:absolute;left:450px;top:392px;width:220px;font-size:22px;
 iv.append(p(f"position:absolute;left:450px;top:484px;width:480px;font-size:26px;line-height:52px;padding:0 16px;border:2px solid #0969DA;border-radius:8px;color:{GHT}", "lee"))
 iv.append(p(f"position:absolute;left:450px;top:556px;width:480px;font-size:22px;line-height:1.5;color:{GHS}", "아이디나 이메일로 찾아요.<br>park도 같은 방법으로 한 번 더 해요."))
 iv += [marker(1, 388, 378), marker(2, 682, 395), marker(3, 890, 488)]
-iv.append(f'<div{bi("rise", 4)} style="position:absolute;left:1000px;top:400px;width:600px;height:500px;background:#FFFFFF;border-radius:20px;box-shadow:0 0 0 1px #D0D7DE,0 24px 60px rgba(29,35,48,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding-top:60px">'
+iv.append(f'<div id="iv-card"{bi("rise", 4)} style="position:absolute;left:1000px;top:400px;width:600px;height:500px;background:#FFFFFF;border-radius:20px;box-shadow:0 0 0 1px #D0D7DE,0 24px 60px rgba(29,35,48,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding-top:60px">'
           + p(f"position:absolute;left:28px;top:24px;font-size:24px;font-weight:700;line-height:1;color:{GR}", "lee, park가 보는 화면")
           + p(f"position:absolute;left:28px;top:60px;font-family:{MONO};font-size:18px;line-height:1;color:{GHS}", "github.com/kim/team-intro/invitations")
           + f'<div style="width:110px;height:110px;border-radius:50%;background:{BL};display:flex;align-items:center;justify-content:center">' + p("font-size:34px;font-weight:900;line-height:1;color:#FFFFFF", "kim") + '</div>'
           + p(f"font-size:28px;line-height:1.5;text-align:center;color:{GHT}", "kim invited you to collaborate<br>on <b>kim/team-intro</b>")
           + p(f"width:300px;font-size:24px;font-weight:700;line-height:56px;text-align:center;border-radius:8px;color:#FFFFFF;background:#1F883D", "Accept invitation") + '</div>')
-iv += [cursor(1, 330, 392), cursor(2, 640, 420), cursor(3, 850, 512), cursor(5, 1430, 816), cursor_off(6)]
+iv += [cursor(1, 330, 392), cursor(2, 640, 420), cursor(3, 850, 512), cursor_off(4), blur(4, "iv-card"), blur_off(5), cursor(5, 1430, 816), cursor_off(6)]
 W("invite", iv, "kim은 레포의 Settings에서 Collaborators를 열고 Add people로 팀원 아이디를 넣어요. 초대받은 사람은 GitHub에 가입한 이메일로 온 메일이나 레포 주소 뒤에 /invitations를 붙인 페이지에서 Accept invitation을 눌러요. 수락하지 않으면 clone은 돼도 push할 때 403 오류가 나요.")
 
 # clone: one terminal (the output is the same on all three computers) and the team picture
@@ -436,7 +439,7 @@ scene("a2", f"{P2} · lee", "lee의 push는 거절돼요",
        ("r", " ! [rejected]        main -> main (fetch first)"), ("r", "error: failed to push some refs to 'https://github.com/kim/team-intro.git'"),
        ("#", "hint: ..."), ("#", "hint: 'git pull' before pushing again.")],
       "lee도 커밋하고 push했는데 거절됐어요. GitHub 칸과 lee 칸을 비교해 보세요. GitHub에는 kim의 파란 점이 있는데 lee 컴퓨터에는 없어요. 그대로 올리면 kim의 커밋이 사라지니까 Git이 막는 거예요. hint가 말하듯 먼저 pull 해요. --force로 밀어 올리면 kim의 커밋이 지워져요. 쓰지 않아요. hint는 일부만 옮겼어요.",
-      labels=[("lee", "GitHub의 파란 점이 lee 칸에는 없어요", OR, 800)], hot=(6, "ring", RED))
+      labels=[("lee", "GitHub의 파란 점이 lee 칸에는 없어요", OR, 800)], hot=(6, "ring", RED), extra=[shake(1, "term")])
 scene("a3", f"{P2} · lee", "pull 하면 다른 파일이라 저절로 합쳐져요",
       {"gh": (S_K, None), "kim": (S_K, FK), "lee": (S_M, FA), "park": (S_I, F0)}, "lee",
       [("$", "git pull origin main"), ("o", "From https://github.com/kim/team-intro"), ("o", " * branch            main       -> FETCH_HEAD"),
@@ -460,11 +463,11 @@ vm.append(p(f"position:absolute;left:{x + ww + 36}px;top:{y + 2}px;width:400px;f
 ky = 184 + vh + 56
 for i, (k, t) in enumerate([("Esc", "입력 모드 끝내기"), (":wq", "저장하고 닫기"), ("Enter", "실행")]):
     kx = 96 + i * 300
-    vm.append(f'<div{bi("rise", 2)} style="position:absolute;left:{kx}px;top:{ky}px;width:260px;display:flex;flex-direction:column;align-items:center;gap:16px">'
+    vm.append(f'<div{bi("pop", 2)}{DELAY(i * 260)} style="position:absolute;left:{kx}px;top:{ky}px;width:260px;display:flex;flex-direction:column;align-items:center;gap:16px">'
               + p(f"min-width:200px;font-family:{MONO};font-size:52px;font-weight:700;line-height:104px;text-align:center;padding:0 28px;border-radius:16px;background:#FFFFFF;box-shadow:inset 0 -6px 0 #DAD6CC,0 0 0 2px #DAD6CC;color:{INK}", k)
               + p(f"font-size:26px;line-height:1.3;color:{SUB}", t) + '</div>')
     if i < 2:
-        vm.append(f'<x-shape kind="arrow-right"{bi("rise", 2)} style="position:absolute;left:{kx + 266}px;top:{ky + 38}px;width:28px;height:28px;background:#B9B5AA"></x-shape>')
+        vm.append(f'<x-shape kind="arrow-right"{bi("fade", 2)}{DELAY(i * 260 + 130)} style="position:absolute;left:{kx + 266}px;top:{ky + 38}px;width:28px;height:28px;background:#B9B5AA"></x-shape>')
 vm.append(p(f"position:absolute;left:1020px;top:{ky + 14}px;width:800px;font-size:30px;font-weight:700;line-height:1.5;color:{INK}", "메시지를 그대로 두고 저장하고 닫으면 pull이 끝나요.", bi("fade", 3)))
 W("vim", vm, "pull이 merge 커밋을 만들 때 메시지 편집기가 열려요. 03에서 merge할 때 본 화면과 같아요. 첫 줄이 메시지이고 #으로 시작하는 줄은 무시돼요. 그대로 두고 Esc, :wq, Enter를 치면 닫히면서 pull이 끝나요. VS Code가 편집기로 설정된 사람은 탭이 열려요. 그 탭을 닫으면 돼요. 화면 아래 상태 줄은 사람마다 조금 달라요.")
 
@@ -480,7 +483,7 @@ x, y, ww, hh = line_box(96, 184, NL, 31, 9)
 nc.append(box(1, x - 10, y, ww + 20, hh, RED, width=4))
 for j, (n, cmd, col, note) in enumerate([("1", "git config --global pull.rebase false", RED, "설정을 넣고"), ("2", "git pull origin main", GR, "같은 pull을 다시 쳐요. 앞 장처럼 합쳐져요.")]):
     yy = 184 + nh + 48 + j * 120
-    nc.append(f'<div{bi("rise", 2 + j)} style="position:absolute;left:96px;top:{yy}px;width:1728px;height:96px;display:flex;flex-direction:row;gap:24px;align-items:center">'
+    nc.append(f'<div{bi("rise", 2 + j)}{DIM("fix")} style="position:absolute;left:96px;top:{yy}px;width:1728px;height:96px;display:flex;flex-direction:row;gap:24px;align-items:center">'
               + p(f"width:56px;height:56px;flex:none;font-size:30px;font-weight:900;line-height:56px;text-align:center;border-radius:28px;color:#FFFFFF;background:{col}", n)
               + p(f"width:960px;flex:none;font-family:{MONO};font-size:36px;font-weight:700;line-height:96px;padding:0 32px;border-radius:18px;color:#F2C46D;background:#1B2029", cmd)
               + p(f"flex:1;font-size:28px;line-height:1.45;color:{SUB}", note) + '</div>')
@@ -503,7 +506,7 @@ scene("a6", f"{P2} · park", "park은 fetch로 먼저 보고 시작해요",
        ("$", "git log --oneline"), ("o", "7f7794e (HEAD -> main) Initial commit"), ("$", "git log --oneline origin/main"),
        ("o", "3c66163 (origin/main, origin/HEAD) Merge branch 'main' of https://github.com/kim/team-intro"), ("o", "a078082 docs: lee 자기소개 추가"), ("o", "11f6ff4 docs: kim 자기소개 추가"), ("o", "7f7794e (HEAD -> main) Initial commit")],
       "park은 그동안 쉬고 있었어요. 작업을 시작하기 전에 팀원이 무엇을 올렸는지 먼저 봐요. 02에서 배운 대로 git fetch origin 뒤에 두 log를 비교해요. origin/main 쪽에만 커밋 세 개가 더 있어요. 그림의 점선 점이 그 세 개예요. fetch는 받아만 와서 폴더의 파일은 아직 README.md 하나예요.",
-      labels=[("lee", "점선 점은 origin/main에만 있어요. 파일은 그대로예요.", PUR, 820)], arrive={"park": (1, "KLM", "gh")})
+      labels=[("lee", "점선 점은 origin/main에만 있어요. 파일은 그대로예요.", PUR, 820)], arrive={"park": (1, "KLM", "gh")}, extra=[pulse(2, "park-om")])
 scene("a7", f"{P2} · park", "pull 하면 넷이 같아져요",
       {"gh": (S_M, None), "kim": (S_M, FA), "lee": (S_M, FA), "park": (S_M, FA)}, "park",
       [("$", "git pull origin main"), ("o", "From https://github.com/kim/team-intro"), ("o", " * branch            main       -> FETCH_HEAD"), ("o", "Updating 7f7794e..3c66163"), ("g", "Fast-forward"),
@@ -526,7 +529,7 @@ scene("b2", f"{P3} · lee", "lee도 같은 줄을 바꿔서 또 거절돼요",
       [("$", "git diff"), ("r", "-# team-intro"), ("g", "+# 커밋조 팀"), ("$", "git add README.md"), ("$", 'git commit -m "docs: 팀 이름을 커밋조로 정하기"'), ("o", "[main f08005f] docs: 팀 이름을 커밋조로 정하기"),
        ("$", "git push origin main"), ("r", " ! [rejected]        main -> main (fetch first)"), ("r", "error: failed to push some refs to 'https://github.com/kim/team-intro.git'")],
       "lee는 같은 시간에 같은 줄을 # 커밋조 팀으로 바꿨어요. push하면 2부와 똑같이 거절돼요. 순서도 같아요. pull 해요. 다만 이번엔 두 사람이 같은 줄을 서로 다르게 고쳐서 Git이 하나를 고를 수 없어요. diff 머리 줄과 hint 줄은 뺐어요.",
-      labels=[("lee", "같은 첫 줄을 # 커밋조 팀으로 바꿨어요", OR, 800)], hot=(2, "underline", OR))
+      labels=[("lee", "같은 첫 줄을 # 커밋조 팀으로 바꿨어요", OR, 800)], hot=(2, "underline", OR), extra=[shake(1, "term")])
 scene("b3", f"{P3} · lee", "pull 하면 같은 줄이라 CONFLICT가 나요",
       {"gh": (S_N, None), "kim": (S_N, FA), "lee": (S_NO, ["README.md!", "kim.md", "lee.md"]), "park": (S_M, FA)}, "lee",
       [("$", "git pull origin main"), ("o", "From https://github.com/kim/team-intro"), ("o", "   3c66163..0586354  main       -> origin/main"), ("o", "Auto-merging README.md"),
@@ -556,9 +559,10 @@ for j, (txt, sub, c) in enumerate([("위는 HEAD, 내 것 (lee)", "pull 하기 �
               f'<circle cx="{620 if j == 0 else 560}" cy="{my}" r="6" fill="{c}"/><line x1="{620 if j == 0 else 560}" y1="{my}" x2="1212" y2="{my}" stroke="{c}" stroke-width="2"/></svg>')
     cr.append(f'<div{bi("fade", j + 1)} style="position:absolute;left:1228px;top:{my - 26}px;width:600px;display:flex;flex-direction:column;gap:6px">'
               + p(f"font-size:32px;font-weight:700;line-height:1.3;color:{c}", txt) + p(f"font-size:24px;line-height:1.4;color:{SUB}", sub) + '</div>')
-cr.append(spot(1, 116, RY[0][0] - 8, 1040, RY[1][0] + RY[1][1] - RY[0][0] + 16, dim=0.45))
-cr.append(spot(2, 116, RY[2][0] - 8, 1040, RY[4][0] + RY[4][1] - RY[2][0] + 16, dim=0.45))
-cr.append(spot_off(3))
+CB = (116, RY[0][0] - 12, 1044, RY[4][0] + RY[4][1] - RY[0][0] + 24)
+cr.append(lspot(1, *CB, RY[0][0] - 6, RY[1][0] + RY[1][1] - RY[0][0] + 12, bar=GR))
+cr.append(lspot(2, *CB, RY[2][0] - 6, RY[4][0] + RY[4][1] - RY[2][0] + 12, bar=BL))
+cr.append(lspot_off(3))
 cr.append(hair(96, 790, 1728))
 cr.append(f'<div{bi("rise", 3)} style="position:absolute;left:96px;top:826px;width:1728px;display:flex;flex-direction:row;gap:32px;align-items:flex-start">'
           f'<x-icon name="Chat" style="width:64px;height:64px;color:{RED}"></x-icon>'
@@ -593,7 +597,7 @@ for i, (n, t, s) in enumerate(RL):
     y = 200 + i * 164
     if i:
         ru.append(hair(96, y - 18, 1728))
-    ru.append(f'<div{bi("rise", i + 1)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:128px;display:flex;flex-direction:row;gap:40px;align-items:center">'
+    ru.append(f'<div{bi("rise", i + 1)}{DIM("rule")} style="position:absolute;left:96px;top:{y}px;width:1728px;height:128px;display:flex;flex-direction:row;gap:40px;align-items:center">'
               + p(f"width:80px;flex:none;font-size:72px;font-weight:900;line-height:1;color:{OR}", n)
               + p(f"width:640px;flex:none;font-size:40px;font-weight:700;line-height:1.3;color:{INK}", t) + p(f"flex:1;font-size:30px;line-height:1.45;color:{SUB}", s) + '</div>')
 W("rules", ru, "오늘 겪은 일에서 나온 규칙이에요. 1번은 park, 4번은 lee의 첫 push에서 봤어요. 3번은 3부 충돌을 막는 방법이에요. 2번은 충돌이 나더라도 고칠 양을 줄여 줘요. 팀이 처음 모였을 때 누가 어떤 파일을 맡을지 정해 두면 3번이 쉬워요.")
@@ -604,18 +608,18 @@ STEPS = [("받기", "git pull origin main", PUR), ("작업", "파일 고치기",
 CX = [96 + 176 + i * 344 for i in range(5)]
 for i, (t, cmd, c) in enumerate(STEPS):
     cx = CX[i]
-    cy.append(f'<div{bi("rise", i + 1)} style="position:absolute;left:{cx - 165}px;top:240px;width:330px;display:flex;flex-direction:column;align-items:center;gap:20px">'
+    cy.append(f'<div{bi("rise", 1)}{DELAY(i * 160)} style="position:absolute;left:{cx - 165}px;top:240px;width:330px;display:flex;flex-direction:column;align-items:center;gap:20px">'
               + p(f"width:120px;height:120px;font-size:56px;font-weight:900;line-height:120px;text-align:center;border-radius:60px;color:#FFFFFF;background:{c}", str(i + 1))
               + p(f"font-size:40px;font-weight:700;line-height:1.2;color:{c}", t)
               + p(f"font-family:{MONO};font-size:25px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:{INK}", e(cmd)) + '</div>')
     if i < 4:
-        cy.append(f'<x-shape kind="arrow-right"{bi("rise", i + 2)} style="position:absolute;left:{cx + 154}px;top:286px;width:36px;height:28px;background:#B9B5AA"></x-shape>')
-cy.append(f'<svg{bi("draw", 6)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible">'
+        cy.append(f'<x-shape kind="arrow-right"{bi("fade", 1)}{DELAY(i * 160 + 90)} style="position:absolute;left:{cx + 154}px;top:286px;width:36px;height:28px;background:#B9B5AA"></x-shape>')
+cy.append(f'<svg{WIPE(2)} viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible">'
           f'<path d="M{CX[4]},540 L{CX[4]},660 L{CX[0]},660 L{CX[0]},548" fill="none" stroke="{RED}" stroke-width="5" stroke-dasharray="14 10"/>'
           f'<polygon points="{CX[0]},536 {CX[0] - 12},560 {CX[0] + 12},560" fill="{RED}"/></svg>')
-cy.append(p(f"position:absolute;left:560px;top:626px;width:800px;font-size:34px;font-weight:700;line-height:68px;text-align:center;color:{RED};background:{BG}", "push가 거절되면 1번으로", bi("fade", 6)))
+cy.append(p(f"position:absolute;left:560px;top:626px;width:800px;font-size:34px;font-weight:700;line-height:68px;text-align:center;color:{RED};background:{BG}", "push가 거절되면 1번으로", bi("fade", 2) + DELAY(300)))
 cy.append(hair(96, 780, 1728))
-cy.append(f'<div{bi("rise", 7)} style="position:absolute;left:96px;top:820px;width:1728px;display:flex;flex-direction:column;gap:20px">'
+cy.append(f'<div{bi("rise", 3)} style="position:absolute;left:96px;top:820px;width:1728px;display:flex;flex-direction:column;gap:20px">'
           + p(f"font-size:38px;font-weight:700;line-height:1.3;color:{INK}", "pull에서 CONFLICT가 나면")
           + p(f"font-family:{MONO};font-size:32px;line-height:1.5;color:{SUB}", "파일 고치기 → git add 파일 → git commit -m \"fix: ...\" → git push origin main") + '</div>')
 W("cycle", cy, "하루에 이 순환을 여러 번 돌아요. push가 거절되면 놀라지 말고 다시 1번 pull로 돌아가요. pull에서 충돌이 나면 3부에서 한 것처럼 고치고 add, commit, push해요.")
@@ -655,12 +659,18 @@ def case(sid, who, title, situ, term, take, notes, hot, tcol=GR, start=False):
         o.append(box(1, x - 10, y, w + 20, h, c, width=4))
     elif kind == "underline":
         o.append(underline(1, x, x + w, y + h - 2, c))
+    elif kind == "lspot":
+        tb = (96, top + T_PAD + T_HEAD - 6, 1728, th - T_PAD - T_HEAD)
+        for k, (li, ln) in enumerate(nl):
+            ly = line_box(96, top, term, size, li)[1]
+            o.append(lspot(k + 1, *tb, ly - 2, ln * size * T_LH + 4, bg="#1B2029", bar=c))
+        o.append(lspot_off(len(nl) + 1))
     else:
         ws = [line_box(96, top, term, size, j)[2] for j in range(i, i + nl)]
         o.append(spot(1, 96 + 20, y - 4, max(ws) + (x - 96 - 20) + 24, h * nl + 8, pad=6, r=12, dim=0.5))
         o.append(spot_off(2))
     ty = top + th + 30
-    o.append(f'<div id="take"{bi("rise", 2)} style="position:absolute;left:96px;top:{ty}px;width:1728px;display:flex;flex-direction:row;gap:24px;align-items:flex-start">'
+    o.append(f'<div id="take"{bi("rise", len(nl) + 1 if kind == "lspot" else 2)} style="position:absolute;left:96px;top:{ty}px;width:1728px;display:flex;flex-direction:row;gap:24px;align-items:flex-start">'
              f'<x-icon name="{TAKE_ICON[tcol]}" style="width:48px;height:48px;color:{tcol}"></x-icon>' + p(f"font-size:32px;font-weight:700;line-height:1.5;color:{INK}", take) + '</div>')
     W(sid, o, notes)
 
@@ -703,7 +713,7 @@ def pr_page(sid, title, num, author, branch, ok, notes, n):
         o += [cursor(1, BX + 46 + 330, by + 50), cursor_off(3)]
     else:
         hw = round(len(head_txt) * 38 * 0.55)
-        o.append(box(1, BX + 30, BY + 34, hw + 30, 62, RED, width=4))
+        o += [zoom(1, BX, BY, 1600, 200, pad=40, max_scale=2), zoom_off(2), box(2, BX + 30, BY + 34, hw + 30, 62, RED, width=4)]
     W(sid, o, notes)
 
 
@@ -713,7 +723,7 @@ case("c1", "lee", "일을 시작할 땐 main을 받고 새 브랜치를 만들�
       ("$", "git checkout -b feature/lee-intro"), ("g", "Switched to a new branch 'feature/lee-intro'")],
      "순서는 늘 같아요. main으로 가서 pull, 그다음 새 브랜치.",
      "브랜치를 만들기 전에 main을 최신으로 맞추는 게 첫 단계예요. 오래된 main에서 브랜치를 만들면 팀원이 이미 합친 내용 없이 시작해서 나중에 충돌이 나기 쉬워요. 03 7부의 순서와 같아요. 이 파트의 출력은 tools/cases.sh로 새 저장소에서 실제로 실행했어요. README.md는 # 깃벗 팀, 소개: 준비 중, ## 멤버 세 부분으로 시작해요. 해시는 06 앞 파트와 달라요.",
-     (3, "spot", GR, 4), start=True)
+     (0, "lspot", GR, [(0, 3), (3, 4), (7, 2)]), start=True)
 case("c2", "lee", "커밋하고 내 브랜치를 push해요", "lee.md를 만들어 커밋했어요. main이 아니라 feature/lee-intro를 올려요.",
      [("$", 'echo "안녕하세요, lee예요" > lee.md'), ("$", "git add lee.md"), ("$", 'git commit -m "docs: lee 자기소개 추가"'),
       ("o", "[feature/lee-intro 6fb7cc2] docs: lee 자기소개 추가"), ("o", " 1 file changed, 1 insertion(+)"), ("o", " create mode 100644 lee.md"),
@@ -784,7 +794,7 @@ case("c8", "kim", "main에 커밋했는데 아직 push 전이면 브랜치로 �
       ("o", "0af5f5a (HEAD -> feature/next-meeting) docs: 다음 모임 날짜 추가"), ("o", "1ef2620 (origin/main, origin/HEAD, main) Merge pull request #6 ...")],
      "branch로 이름표를 붙이고, main만 한 칸 되돌리고, 그 브랜치로 옮겨요. push한 뒤라면 팀에 먼저 알려요.",
      "커밋은 그대로 두고 이름표만 옮기는 방법이에요. git branch 이름은 지금 커밋에 새 이름표만 붙여요. 그다음 main을 03에서 배운 reset --hard로 한 칸 되돌려요. --hard는 커밋 안 한 변경을 지우니 git status가 깨끗한지 먼저 봐요. 마지막으로 새 브랜치로 옮기면 커밋이 거기 있어요. 이미 push했다면 되돌리지 말고 팀에 말한 뒤 revert를 써요. echo, add 줄과 status의 On branch main 줄, 안내 줄, 마지막 log의 아래 줄들은 뺐어요.",
-     (2, "spot", BL, 6), tcol=BL)
+     (2, "lspot", BL, [(2, 2), (7, 2), (9, 4)]), tcol=BL)
 
 # cheatsheet: five columns split by hairlines
 ch = [sec("cheatsheet")] + [f'<h2 style="position:absolute;left:96px;top:72px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:{INK}">한 장 요약</h2>']
@@ -798,7 +808,7 @@ for i, (h_, hc, body) in enumerate(cards):
     x = round(96 + i * (cw + 48))
     if i:
         ch.append(f'<div style="position:absolute;left:{x - 25}px;top:200px;width:2px;height:680px;background:{HAIR}"></div>')
-    ch.append(f'<div style="position:absolute;left:{x}px;top:204px;width:{round(cw)}px;display:flex;flex-direction:column;gap:22px">'
+    ch.append(f'<div{bi("rise", 1)}{DELAY(i * 120)} style="position:absolute;left:{x}px;top:204px;width:{round(cw)}px;display:flex;flex-direction:column;gap:22px">'
               f'<h3 style="font-size:36px;font-weight:700;line-height:1.2;color:{hc}">{h_}</h3>'
               f'<p style="font-size:28px;line-height:1.7;color:{INK}">{body}</p></div>')
 ch.append(hair(96, 920, 1728))
@@ -846,7 +856,7 @@ fd = [sec("finder")] + head(P5, "막혔을 때 어느 장을 볼까요?", NAVY)
 for i, (msg, why_, sid) in enumerate(FIND):
     yy = 184 + i * 76
     fd.append(hair(96, yy, 1728))
-    fd.append(f'<div style="position:absolute;left:96px;top:{yy + 2}px;width:1728px;height:74px;display:flex;flex-direction:row;gap:24px;align-items:center">'
+    fd.append(f'<div{bi("rise", 1)}{DELAY(i * 60)} style="position:absolute;left:96px;top:{yy + 2}px;width:1728px;height:74px;display:flex;flex-direction:row;gap:24px;align-items:center">'
               + p(f"width:900px;flex:none;font-family:{MONO};font-variant-ligatures:none;font-size:24px;font-weight:700;line-height:1.2;color:{RED};white-space:nowrap;overflow:hidden", e(msg))
               + p(f"flex:1;font-size:26px;line-height:1.2;color:{SUB}", why_)
               + p(f"width:110px;flex:none;font-size:28px;font-weight:700;line-height:1;text-align:right;color:{NAVY}", f"{pg(sid)}쪽") + '</div>')
@@ -858,7 +868,7 @@ t = [sec("toc")] + [f'<h2 style="position:absolute;left:96px;top:72px;width:1728
 for i, (c, h, s_, a, b) in enumerate(TOC_PARTS):
     y = 186 + i * 154
     t.append(hair(96, y, 1728))
-    t.append(f'<div style="position:absolute;left:96px;top:{y + 2}px;width:1728px;height:150px;display:flex;flex-direction:row;gap:40px;align-items:center">'
+    t.append(f'<div{bi("rise", 1)}{DELAY(i * 110)} style="position:absolute;left:96px;top:{y + 2}px;width:1728px;height:150px;display:flex;flex-direction:row;gap:40px;align-items:center">'
              + p(f"width:80px;flex:none;font-size:72px;font-weight:900;line-height:1;color:{c}", str(i + 1))
              + '<div style="flex:1;display:flex;flex-direction:column;gap:10px">' + p(f"font-size:40px;font-weight:700;line-height:1.2;color:{INK}", h) + p(f"font-size:28px;line-height:1.3;color:{SUB}", s_) + '</div>'
              + p(f"width:200px;flex:none;font-size:28px;line-height:1;text-align:right;color:{MUTE}", f"{pg(a)}–{pg(b)}쪽") + '</div>')
