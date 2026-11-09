@@ -9,6 +9,10 @@ errors, and part 6 builds a sales ranking, price board, menu board and score she
 Layout rules (Stageshow, see tools/DESIGN.md): one focal object per slide (the notebook cell or one picture), terms
 labelled beside the code line or picture with leader tags instead of cards, the speaker notes carry the explanation,
 values that move are animated with fly, and a fix is the wrong line struck through next to the right one.
+Highlights follow tools/HIGHLIGHT.md and vary by slide: slam and shine on the cover, staggered rows with delay (toc, ready,
+trouble, cheatsheet), lagging labels, line tint, line spotlight (s-min, x-rank), pen box/underline, pulse and grow, shake on
+a failure (o-none, m-default), dim earlier rows (o-what, k-lower, p-index, p-multi, p-dict), spotlight (m-dict), zoom (t-mix).
+No typing effect anywhere.
 Every cell and output comes from tools/demo.sh (tools/run_nb.py runs the cells with the project kernel).
 Usage: python3 tools/gen.py slides
 """
@@ -16,7 +20,7 @@ Usage: python3 tools/gen.py slides
 import html, json, os, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, ring, box, underline
+from highlight import spot, spot_off, ring, box, underline, lspot, lspot_off, zoom, zoom_off, pulse, grow, shine, shake, SLAM, DELAY, DIM
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -103,7 +107,8 @@ def cell(c, left, top, w, sel=True, attrs=""):
     if c.get("out"):
         import re
         col = lambda l: RED if c.get("err") and re.match(r"[A-Za-z]+(Error|Interrupt)", l) else INK
-        o.append("".join(p(f"margin-left:85px;padding:0 20px;font-family:{MONO};font-size:{FS}px;line-height:1.45;white-space:pre;color:{col(l)}", e(l) if l else "&#160;") for l in c["out"]))
+        oid = c.get("oid")
+        o.append("".join(p(f"margin-left:85px;padding:0 20px;font-family:{MONO};font-size:{FS}px;line-height:1.45;white-space:pre;color:{col(l)}", e(l) if l else "&#160;", f' id="{oid}{j}"' if oid else "") for j, l in enumerate(c["out"])))
     o.append('</div>')
     return o
 
@@ -120,6 +125,11 @@ def hl(left, top, w, i, n=1, kind="run", order=1):
     """Tints code lines i..i+n-1 of a cell drawn by cell(c, left, top, w)."""
     y = top + 10 + i * LH
     return f'<div{at("fade", order)} style="position:absolute;left:{left + 87}px;top:{y:.0f}px;width:{w - 89}px;height:{n * LH:.0f}px;background:{HL[kind]};border-radius:6px"></div>'
+
+
+def lsp(order, left, top, w, nlines, i, n=1, bar=BL):
+    """Line spotlight over code lines i..i+n-1 of a cell drawn by cell(c, left, top, w) with nlines code lines."""
+    return lspot(order, left + 85, top, w - 85, 20 + nlines * LH, top + 10 + i * LH, n * LH, bar=bar)
 
 
 def ly(top, i):
@@ -142,10 +152,10 @@ def cx(left, prefix):
     return left + 105 + tw(prefix)
 
 
-def tag(x, y, text, color, order=None, size=28, lead=True):
-    """A leader label: '← text' centred on y. No box."""
+def tag(x, y, text, color, order=None, size=28, lead=True, delay=0):
+    """A leader label: '← text' centred on y. No box. delay: follows its box a moment later (HIGHLIGHT.md 여운)."""
     t = ("← " if lead else "") + e(text)
-    return p(f"position:absolute;left:{x:.0f}px;top:{y - size * 0.72:.0f}px;font-size:{size}px;font-weight:700;line-height:1.45;color:{color};white-space:nowrap", t, at("fade", order))
+    return p(f"position:absolute;left:{x:.0f}px;top:{y - size * 0.72:.0f}px;font-size:{size}px;font-weight:700;line-height:1.45;color:{color};white-space:nowrap", t, at("fade", order) + (DELAY(delay) if delay and order else ""))
 
 
 def lbl(x, y, text, color, order=None, size=28, w=None, mono=False):
@@ -248,7 +258,7 @@ def fix(left, top, bad, good, order, size=32, w=1728, alt=None):
             + '</div>')
 
 
-def plain_rows(left, top, w, rows, widths, order0=1, rh=84, head_=None, fs=30, hi=(), mono_cols=(), colors=None):
+def plain_rows(left, top, w, rows, widths, order0=1, rh=84, head_=None, fs=30, hi=(), mono_cols=(), colors=None, dim=None):
     """A light table: header in gray over a dark rule, rows split by thin rules, no boxes.
     rows: lists of cells; a cell "True"/"False" becomes a chip. hi: rows tinted orange."""
     o = []
@@ -267,7 +277,7 @@ def plain_rows(left, top, w, rows, widths, order0=1, rh=84, head_=None, fs=30, h
             col = (colors[k] if colors and colors[k] else (INK if mono or k == 0 else SUB))
             cells_ += p(f"width:{cw}px;flex:none;font-family:{MONO if mono else SANS};font-size:{fs}px;font-weight:{700 if mono or k == 0 else 500};color:{col};white-space:pre", e(c))
         bg = "background:rgba(178,106,0,0.10);" if i in hi else ""
-        o.append(f'<div{at("rise", order0 + i if order0 else 0)} id="row{top}-{i}" style="position:absolute;left:{left}px;top:{y + i * rh}px;width:{w}px;height:{rh}px;{bg}display:flex;flex-direction:row;align-items:center;gap:24px;padding:0 12px;border-bottom:2px solid {LINE}">{cells_}</div>')
+        o.append(f'<div{at("rise", order0 + i if order0 else 0)}{DIM(dim) if dim else ""} id="row{top}-{i}" style="position:absolute;left:{left}px;top:{y + i * rh}px;width:{w}px;height:{rh}px;{bg}display:flex;flex-direction:row;align-items:center;gap:24px;padding:0 12px;border-bottom:2px solid {LINE}">{cells_}</div>')
     return o
 
 
@@ -302,12 +312,13 @@ SALES_P = [("coffee", "12"), ("latte", "30"), ("cake", "8"), ("tea", "15")]
 def cover(lines, h1, sub, note, accent="#F2B27A", h1size=76):
     cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
            f'<p style="font-size:28px;font-weight:700;color:{accent};letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-           f'<h1 style="font-size:{h1size}px;font-weight:900;line-height:1.1;color:#F6F5F1">{h1}</h1>',
+           f'<h1{SLAM(1)} style="font-size:{h1size}px;font-weight:900;line-height:1.1;color:#F6F5F1">{h1}</h1>',
            f'<p style="font-size:40px;line-height:1.4;color:#BFC6D4">{sub}</p>',
-           '<div style="position:absolute;left:900px;top:280px;width:1020px;height:520px;background:#252B36;border-radius:24px 0 0 24px;padding:44px 56px;display:flex;flex-direction:column;justify-content:center;gap:16px">']
+           '<div id="cov-code" style="position:absolute;left:900px;top:280px;width:1020px;height:520px;background:#252B36;border-radius:24px 0 0 24px;padding:44px 56px;display:flex;flex-direction:column;justify-content:center;gap:16px">']
     for line, c in lines:
         cov.append(p(f"font-family:{MONO};font-size:32px;font-weight:700;line-height:1.45;color:{c};white-space:pre", e(line) if line else "&#160;"))
     cov.append('</div>')
+    cov.append(shine(2, "cov-code"))
     W("cover", cov, note, ("intro", "들어가기"))
     ORDER.append("toc")
 
@@ -321,18 +332,18 @@ cover([('sales = {"coffee": 12, "latte": 30,', "#E6E9EF"), ('         "cake": 8,
 # ---------- ready ----------
 o = [sec("ready")] + head("들어가기", "21에서 이어서 해요", JP)
 for i, (a_, b_) in enumerate([("리스트, 튜플, sort, sorted, max, min", "13"), ("딕셔너리 get, items()", "15"), ("sorted(..., reverse=True)", "16, 20"), ("for, enumerate()", "13, 18"), ("lambda, map, filter", "21")]):
-    o.append(f'<div{at("rise", min(i + 1, 4))} style="position:absolute;left:96px;top:{230 + i * 120}px;width:820px;height:104px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{at("rise", 1)}{DELAY(i * 90)} style="position:absolute;left:96px;top:{230 + i * 120}px;width:820px;height:104px;display:flex;flex-direction:row;gap:24px;align-items:center;border-bottom:2px solid {LINE}">'
              + f'<x-icon name="CheckCircle" style="width:48px;height:48px;color:{GR}"></x-icon>'
              + p(f"flex:1;font-size:32px;font-weight:700;color:{INK}", e(a_))
              + p(f"font-size:30px;font-weight:700;color:{GRAY};white-space:nowrap", e(b_)) + '</div>')
-o.append(p(f"position:absolute;left:1020px;top:256px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", at("rise", 5)))
+o.append(p(f"position:absolute;left:1020px;top:256px;font-size:36px;font-weight:700;color:{JP}", "노트북 다시 열기", at("rise", 2)))
 steps_ = [p(f"font-size:32px;color:{INK}", "VS Code로 hello-uv 폴더 열기"),
           p(f"font-size:32px;color:{INK}", "탐색기에서") + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{JP}", NB) + p(f"font-size:32px;color:{INK}", "열기"),
           p(f"font-size:32px;color:{INK}", "오른쪽 위 커널이 .venv인지 보기"),
           p(f"font-size:32px;color:{INK}", "셀에 적고") + kbd("Shift+Enter", 26) + p(f"font-size:32px;color:{INK}", "로 실행")]
 for i, inner in enumerate(steps_):
-    o.append(row(1020, 352 + i * 120, 804, 104, num(i + 1, JP, 40) + inner, 5))
-o.append(caption("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 봐요.", 900, 6))
+    o.append(row(1020, 352 + i * 120, 804, 104, num(i + 1, JP, 40) + inner, 2))
+o.append(caption("기억이 안 나면 왼쪽에 적힌 챕터를 먼저 다시 봐요.", 900, 3))
 W("ready", o, "hello-uv의 basics.ipynb를 다시 열고, 13, 15, 16, 20, 21에서 배운 것을 이어서 써요. 09에서 만든 hello-uv 폴더를 VS Code로 열어요. 13의 sorted, sort, max, min과 튜플, 15의 get과 items, 16과 20의 reverse=True를 다시 써요. 21의 lambda를 key에 넣는 게 이번 챕터의 중심이라 21을 먼저 보고 오면 좋아요. 슬라이드의 출력은 tools/demo.sh가 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요. 셀 번호는 파트마다 [1]부터 다시 셌어요.")
 
 # ---------- part 1 ----------
@@ -346,7 +357,8 @@ o.append(tag(TX, ly(T, 2), "기대한 건 latte", RED, 1))
 o.append(tag(TX, oy(T, 3, 0), "키만 abc 순으로 줄 섰어요", K1, 2))
 o.append(tag(TX, oy(T, 3, 1), "abc 순으로 가장 뒤라서 가장 커요", K1, 2))
 LT = 620
-o.append(lockers(SALES_P, 96, LT, 280, 200, K1, K1BG, hi=(1,), fs=44, kfs=28, gap=16, attrs=at("rise", 3)))
+o.append(lockers(SALES_P, 96, LT, 280, 200, K1, K1BG, hi=(1,), fs=44, kfs=28, gap=16, attrs=at("rise", 3), ids=["sw0", "sw1", "sw2", "sw3"]))
+o.append(pulse(4, "sw1"))
 o.append(tag(96 + 4 * 296 + 20, LT + 120, "판매량은 latte가 30잔으로 가장 많아요", K1, 3))
 o.append(caption("이름 말고 판매량으로 비교하라고 알려 주는 방법이 key예요.", 960, 4))
 W("s-why", o, "max(sales)는 판매량이 아니라 이름끼리 비교해서 tea를 돌려줘요. 메뉴별 판매량을 딕셔너리에 담고 가장 많이 팔린 메뉴를 물었어요. 판매량은 latte가 30잔으로 가장 많은데 tea가 나와요. sorted와 max는 딕셔너리를 받으면 키만 봐요. 키가 글자라서 abc 순으로 비교했고, tea가 가장 뒤라서 가장 큰 값이 됐어요. 이름이 아니라 판매량으로 비교하라고 알려 줘야 해요. 그 방법이 key예요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p1", "왜 필요한가"))
@@ -369,12 +381,12 @@ for i, x in enumerate(cols):
 o.append(lbl(96, RB + 30, "비교할 값", K1, 2, 30))
 for i, (x, v) in enumerate(zip(cols, LENS)):
     o.append(vbox(f"bl{i}", v, x, RB, BW, 100, K1, K1BG, at("rise", 2), 40))
-o.append(tag(X0 + BAND_W + 40, RB + 50, "이 값으로 비교해요", K1, 2))
+o.append(tag(X0 + BAND_W + 40, RB + 50, "이 값으로 비교해요", K1, 2, delay=150))
 o.append(lbl(X0, RB + 112, "작은 것부터 줄 서요", GRAY, 3, 26))
 o.append(lbl(96, RC + 40, "결과", GR, 3, 30))
 for slot, src in enumerate([1, 0, 2]):          # 3, 5, 6 -> tea, latte, coffee
     o.append(vbox(None, NAMES[src], cols[slot], RC, BW, 130, GR, GRBG, f' data-build-in="fly order 3" data-from="bn{src}"', 36, sub=LENS[src]))
-o.append(tag(X0 + BAND_W + 40, RC + 65, "줄 서는 건 원래 값이에요", GR, 4))
+o.append(tag(X0 + BAND_W + 40, RC + 65, "줄 서는 건 원래 값이에요", GR, 4, delay=150))
 W("s-big", o, "key에 넣은 함수가 값마다 비교할 값을 만들고, 줄은 그 값으로 서요. 이름 세 개를 길이순으로 세우고 싶어요. key=len을 주면 sorted가 값마다 len을 써서 비교할 값 5, 3, 6을 만들어요. 21의 map이 값을 하나씩 함수에 넣던 것과 같아요. 그다음 비교할 값이 작은 것부터 줄을 세워요. 결과에는 숫자가 아니라 원래 이름이 들어가요. tea, latte, coffee 순이에요. max와 min도 key를 받아서 같은 방식으로 비교해요.")
 
 o = [sec("s-min")] + head(EB1, "가장 짧은 key: 이름을 길이순으로", K1)
@@ -382,10 +394,11 @@ T, FW = 220, 1180
 TX = 96 + FW + 30
 MIN = ['names = ["latte", "tea", "coffee"]', "print(sorted(names))", "print(sorted(names, key=len))", "print(max(sales, key=sales.get))"]
 o += cell({"lines": MIN, "n": 2, "out": ["['coffee', 'latte', 'tea']", "['tea', 'latte', 'coffee']", "latte"]}, 96, T, FW)
-o.append(code_line(1, 96, T, 2, "print(sorted(names, ", "key=len", K1))
+o.append(lsp(1, 96, T, FW, 4, 2, bar=K1))
 o.append(tag(TX, ly(T, 2), "길이로 비교", K1, 1))
 o.append(tag(TX, oy(T, 4, 1), "길이 3, 5, 6 순", K1, 1))
-o.append(code_line(2, 96, T, 3, "print(max(sales, ", "key=sales.get", GR))
+o.append(lsp(2, 96, T, FW, 4, 3, bar=GR))
+o.append(lspot_off(3))
 o.append(tag(TX, ly(T, 3), "판매량으로 비교", GR, 2))
 o.append(tag(TX, oy(T, 4, 2), "앞 장의 tea가 latte로", GR, 2))
 o += plain_rows(96, 720, 1728, [["21", "map(len, names)", "len을 괄호 없이 넘겼어요"], ["22", "sorted(names, key=len)", "key에도 괄호 없이 넘겨요"]], [100, 640, 860], 3, 84, None, 32, mono_cols=(1,))
@@ -416,13 +429,14 @@ W("o-two", o, "sorted는 줄 세운 새 리스트를 주고, sort는 원래 리�
 o = [sec("o-none")] + head(EB2, "prices = prices.sort()를 하면 None만 남아요", K2)
 T, FW = 220, 1000
 TX = 96 + FW + 30
-o += cell({"lines": ["prices = [6500, 4500, 5000]", "prices = prices.sort()", "print(prices)"], "n": 2, "out": ["None"]}, 96, T, FW)
+o += cell({"lines": ["prices = [6500, 4500, 5000]", "prices = prices.sort()", "print(prices)"], "n": 2, "out": ["None"], "oid": "on"}, 96, T, FW)
 o.append(hl(96, T, FW, 1, 1, "err", 1))
 o.append(tag(TX, ly(T, 1), "sort가 돌려준 값을 prices에 넣었어요", RED, 1))
 o.append(out_ring(2, 96, T, 3, 0, "None"))
+o.append(shake(2, "on0"))
 o.append(tag(TX, oy(T, 3, 0), "줄 세운 리스트를 잃었어요", RED, 2))
 o += plain_rows(96, 470, 1300, [["1", "prices.sort()", "prices를 줄 세워요"], ["2", "돌려준 값", "None"], ["3", "prices = None", "prices에 None이 들어가요"]], [80, 520, 600], 3, 80, None, 30, mono_cols=(1,), colors=(K5, None, None))
-o.append(fix(96, 790, "prices = prices.sort()", "prices.sort()", 6, 32, alt="prices = sorted(prices)"))
+o.append(fix(96, 790, "prices = prices.sort()", "prices.sort()", 5, 32, alt="prices = sorted(prices)"))
 W("o-none", o, "sort는 돌려주는 값이 없어서, 그 결과를 다시 담으면 None만 남아요. 자주 하는 실수예요. 줄 세운 결과를 다시 prices에 담으려고 prices = prices.sort()라고 적었어요. 찍어 보면 None이에요. sort는 prices를 줄 세우기만 하고 돌려주는 값이 없어요. 19에서 return이 없는 함수가 None을 돌려준 것과 같아요. 그 None을 prices에 넣어서 줄 세운 리스트를 잃었어요. sort는 prices.sort()처럼 한 줄로만 쓰고, 결과를 변수에 담고 싶으면 sorted를 써요." + REAL)
 
 o = [sec("o-rev")] + head(EB2, "큰 것부터 세우려면 reverse=True", K2)
@@ -451,7 +465,7 @@ o += cell({"lines": WHAT, "n": 4, "out": ["['Latte', 'Tea', 'cake', 'coffee']", 
 o.append(out_ring(3, 96, T, 3, 2, "['10', '100', '9']"))
 o.append(tag(TX, oy(T, 3, 2), "크기순이 아니에요", RED, 3))
 o += plain_rows(96, 640, 1728, [['"Tea" < "cake"', "True", "대문자 A~Z 뒤에 소문자 a~z가 와요"], ['"녹차" < "라떼"', "True", "한글은 가나다 순이에요"], ['"100" < "9"', "True", "첫 글자 1과 9를 먼저 비교해요"]],
-                [420, 160, 1000], 1, 90, None, 32, mono_cols=(0,))
+                [420, 160, 1000], 1, 90, None, 32, mono_cols=(0,), dim="ow")
 W("o-what", o, "글자는 사전처럼 첫 글자부터 하나씩 비교해요. 첫째 줄에서 Latte와 Tea가 cake보다 앞에 왔어요. 파이썬은 대문자를 소문자보다 앞에 둬요. 한글은 가나다 순이에요. 셋째 줄은 숫자를 글자로 담았어요. 첫 글자 1과 9를 비교해서 10과 100이 9보다 앞에 와요. 이렇게 크기순이 아닌 결과는 다음 두 장의 key로 고쳐요." + REAL)
 
 o = [sec("k-len")] + head(EB2, "key=len: 길이를 재서 비교해요", K2)
@@ -481,7 +495,7 @@ o.append(code_line(1, 96, T, 0, 'print("Latte"', ".lower()", K2))
 o.append(code_line(2, 96, T, 1, 'print(sorted(["Latte", "cake", "Tea", "coffee"], ', "key=str.lower", K2))
 o.append(code_line(3, 96, T, 2, 'print(sorted(["10", "9", "100"], ', "key=int", GR))
 o += plain_rows(96, 640, 1728, [['"Latte".lower()', "글자를 모두 소문자로 바꾼 새 글자를 줘요"], ["key=str.lower", "소문자로 바꿔서 비교해요. 결과는 원래 글자예요"], ["key=int", "숫자로 바꿔서 크기순으로 비교해요"]],
-                [440, 1180], 1, 90, None, 32, mono_cols=(0,), colors=(K2, None))
+                [440, 1180], 1, 90, None, 32, mono_cols=(0,), colors=(K2, None), dim="kl")
 W("k-lower", o, "비교할 때만 값을 바꾸고 싶으면 key에 바꾸는 함수를 넣어요. 앞 장에서 이상했던 두 결과를 key로 고쳐요. lower는 이번에 처음 보는 글자 메서드예요. 글자를 모두 소문자로 바꾼 새 글자를 줘요. key=str.lower를 주면 소문자로 바꾼 값끼리 비교해서 대소문자 상관없이 abc 순이 돼요. 결과에는 Latte, Tea처럼 원래 글자가 그대로 들어가요. 글자로 담긴 숫자는 12에서 배운 int를 key로 주면 숫자 크기순이 돼요. str.lower는 글자 메서드 lower를 함수로 넘기는 이름이에요. 괄호는 붙이지 않아요." + REAL)
 
 # ---------- part 3 ----------
@@ -489,9 +503,9 @@ o = [sec("p-tuple")] + head(EB3, "튜플은 앞 칸부터 비교해요", K3)
 T, FW = 220, 1728
 o += cell({"lines": ['items = [("latte", 5000), ("cake", 6500), ("coffee", 4500), ("cake", 6000)]', "print(sorted(items))"], "n": 1, "out": ["[('cake', 6000), ('cake', 6500), ('coffee', 4500), ('latte', 5000)]"]}, 96, T, FW)
 o.append(row(96, 470, 1180, 110, tup(['"cake"', "6000"], hi=(1,), w=210, h=90) + small("<", K3, 40) + tup(['"cake"', "6500"], hi=(1,), w=210, h=90), 1))
-o.append(tag(1300, 525, "첫 칸이 같아서 둘째 칸으로", K3, 1))
+o.append(tag(1300, 525, "첫 칸이 같아서 둘째 칸으로", K3, 1, delay=150))
 o.append(row(96, 660, 1180, 110, tup(['"coffee"', "4500"], hi=(0,), w=210, h=90) + small("<", K3, 40) + tup(['"latte"', "5000"], hi=(0,), w=210, h=90), 2))
-o.append(tag(1300, 715, "첫 칸이 다르면 거기서 끝", K3, 2))
+o.append(tag(1300, 715, "첫 칸이 다르면 거기서 끝", K3, 2, delay=150))
 o.append(caption("글자를 첫 글자부터 비교하듯, 튜플은 첫 칸부터 비교해요.", 900, 3))
 W("p-tuple", o, "튜플 리스트를 그냥 줄 세우면 첫 칸 기준, 같으면 둘째 칸 기준이에요. 13에서 배운 튜플로 메뉴와 가격을 묶었어요. 그냥 sorted하면 첫 칸인 이름 순으로 서요. cake가 둘이라 첫 칸이 같아요. 그럴 때는 둘째 칸 6000과 6500을 비교해서 6000짜리가 먼저예요. coffee와 latte는 첫 칸이 달라서 둘째 칸은 보지 않아요. 앞 파트에서 글자를 첫 글자부터 비교한 것과 같은 방식이에요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p3", "튜플과 딕셔너리 정렬"))
 
@@ -503,8 +517,8 @@ o += cell({"lines": PI, "n": 2, "out": ["[('coffee', 4500), ('latte', 5000), ('c
 o.append(code_line(1, 96, T, 1, "print(sorted(items, key=lambda m: ", "m[1]", K3))
 o.append(tag(TX, ly(T, 1), "m에 튜플이 하나씩", K3, 1))
 for i, (n_, v) in enumerate([('"latte"', "5000"), ('"cake"', "6500"), ('"coffee"', "4500")]):
-    o.append(row(96, 600 + i * 110, 1100, 96, small("m =", GRAY, 30, 90, True) + tup([n_, v], hi=(1,), dim=(0,), w=200) + arrow(60, K3) + small("m[1]", K3, 30, 100, True) + chip(v, K3, K3BG, 32), 2))
-o.append(tag(1180, 710, "가격으로 비교하고, 결과는 튜플 그대로", K3, 3))
+    o.append(row(96, 600 + i * 110, 1100, 96, small("m =", GRAY, 30, 90, True) + tup([n_, v], hi=(1,), dim=(0,), w=200) + arrow(60, K3) + small("m[1]", K3, 30, 100, True) + chip(v, K3, K3BG, 32), 2 + i).replace("<div ", '<div data-dimgroup="pi" ', 1))
+o.append(tag(1180, 710, "가격으로 비교하고, 결과는 튜플 그대로", K3, 5))
 W("p-index", o, "원하는 칸으로 세우려면 그 칸을 꺼내는 lambda를 key에 넣어요. 가격순으로 세우고 싶은데 이미 있는 함수가 없어서 21의 lambda로 만들어요. key=lambda m: m[1]은 튜플 하나를 m으로 받아 둘째 칸, 곧 가격을 돌려줘요. sorted는 이 가격으로 비교해서 4500, 5000, 6500 순으로 세워요. 결과에는 튜플이 그대로 들어가요. reverse=True를 같이 주면 비싼 것부터예요. 이름은 m[0]이라 key=lambda m: m[0]이면 그냥 sorted와 같아요." + REAL)
 
 o = [sec("p-multi")] + head(EB3, "판매량 많은 순, 같으면 이름순으로 세워요", K3)
@@ -518,7 +532,7 @@ o.append(tag(OTX, oy(T, 4, 0), "30끼리는 원래 순서", GRAY, 1))
 o.append(hl(96, T, FW, 3, 1, "run", 2))
 o.append(tag(OTX, oy(T, 4, 2), "같으면 이름순", GR, 2))
 o += plain_rows(96, 640, 1728, [['("coffee", 30)', "(-30, 'coffee')", "-30이 가장 작고, 이름도 c가 먼저"], ['("latte", 30)', "(-30, 'latte')", "-30이 같아서 이름으로 비교해요"], ['("tea", 15)', "(-15, 'tea')", "다음은 -15"], ['("cake", 8)', "(-8, 'cake')", "-8이 가장 커서 맨 뒤"]],
-                [380, 380, 880], 3, 68, ["튜플", "key 결과", "읽는 법"], 28, hi=(0, 1), mono_cols=(0, 1))
+                [380, 380, 880], 2, 68, ["튜플", "key 결과", "읽는 법"], 28, hi=(0, 1), mono_cols=(0, 1), dim="pm")
 W("p-multi", o, "key가 (-판매량, 이름) 튜플을 돌려주면 많은 순으로 세우고, 같으면 이름순으로 세워요. reverse=True로 많은 순을 세우면 30잔인 latte와 coffee는 원래 순서대로 남아요. key가 튜플을 돌려주면 앞 장처럼 첫 칸부터 비교해요. 첫 칸에 -m[1], 둘째 칸에 m[0]을 넣었어요. 판매량에 -를 붙이면 30이 -30이 돼서 작은 것부터 세워도 많이 팔린 메뉴가 앞에 와요. 첫 칸이 -30으로 같으면 둘째 칸 이름으로 비교해서 coffee가 먼저예요. reverse는 쓰지 않았어요." + REAL)
 
 o = [sec("p-dict")] + head(EB3, "딕셔너리는 키, 값, 짝 중 무엇을 줄 세울지 골라요", K3)
@@ -528,7 +542,7 @@ GW = 552
 for g, (code, mode, said) in enumerate([("sorted(sales)", "key", "키만, 이름이 abc 순으로"), ("sorted(sales.values())", "val", "값만, 메뉴 이름은 빠져요"), ("sorted(sales.items())", None, "(키, 값) 튜플, 첫 칸 이름순")]):
     x = 96 + g * (GW + 36)
     o.append(lbl(x, 640, code, K3, g + 1, 28, mono=True))
-    o.append(lockers(SALES_P, x, 690, 126, 150, K3, K3BG, hi=(0, 1, 2, 3) if mode is None else (), fs=32, kfs=22, gap=16, mode=mode, attrs=at("rise", g + 1)))
+    o.append(lockers(SALES_P, x, 690, 126, 150, K3, K3BG, hi=(0, 1, 2, 3) if mode is None else (), fs=32, kfs=22, gap=16, mode=mode, attrs=at("rise", g + 1) + DIM("pd")))
     o.append(lbl(x, 860, said, SUB if mode else K3, g + 1, 26))
 W("p-dict", o, "딕셔너리는 sorted에 무엇을 넘기느냐에 따라 키, 값, 짝 중 하나가 줄 서요. 15의 판매량 딕셔너리로 돌아와요. 딕셔너리를 그대로 넘기면 키만 줄 세워요. values()를 넘기면 판매량만 줄 세우는데 어느 메뉴인지가 빠져요. items()를 넘기면 키와 값을 묶은 튜플 리스트가 돼요. 앞 장의 튜플 규칙대로 첫 칸인 이름 순이에요. 이름과 판매량을 같이 두고 판매량으로 세우려면 다음 장처럼 items()에 key를 줘요." + REAL)
 
@@ -572,6 +586,8 @@ for i, v in enumerate(['"coffee"', '"latte"', '"tea"']):
 for lx, lt in ((SX, "min"), (SX + 2 * (SWD + 16), "max")):
     o.append(p(f"position:absolute;left:{lx}px;top:864px;width:{SWD}px;text-align:center;font-family:{MONO};font-size:30px;font-weight:700;color:{K4}", lt, at("fade", 4)))
 o.append(tag(SX + 3 * (SWD + 16) + 24, 800, "맨 앞이 min, 맨 뒤가 max", K4, 4))
+o.append(grow(4, "ms0"))
+o.append(grow(4, "ms2"))
 W("m-basic", o, "max(xs, key=함수)는 함수 결과가 가장 큰 원래 값을 돌려줘요. 13에서 max와 min은 가장 큰 값과 가장 작은 값을 줬어요. 비교 규칙은 sorted와 같아서 글자는 abc 순이에요. tea가 가장 크고 coffee가 가장 작아요. max와 min도 key를 받아요. key=len을 주면 길이로 비교해서 가장 긴 coffee를 돌려줘요. 돌아오는 건 길이 6이 아니라 원래 값이에요. sorted로 줄 세운 맨 뒤가 max, 맨 앞이 min이라고 생각하면 돼요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p4", "max와 min"))
 
 o = [sec("m-dict")] + head(EB4, "가장 많이 팔린 메뉴는 max(sales, key=sales.get)", K4)
@@ -581,16 +597,17 @@ o += cell({"lines": [SALES, "print(max(sales))", "print(max(sales, key=sales.get
 o.append(hl(96, T, FW, 1, 1, "skip", 1))
 o.append(tag(TX, oy(T, 5, 0), "1파트의 tea", GRAY, 1))
 o.append(tag(TX, oy(T, 5, 1), "판매량이 가장 많은 키", K4, 2))
-o.append(tag(TX, oy(T, 5, 2), "판매량이 가장 적은 키", K4, 3))
-o.append(tag(TX, oy(T, 5, 3), "이름과 판매량을 같이", K3, 4))
-o.append(lockers(SALES_P, 96, 760, 250, 160, K4, K4BG, hi=(1,), fs=40, kfs=26, gap=16, attrs=at("rise", 5), ids=["md0", "md1", "md2", "md3"]))
-o.append(spot(6, target="md1", pad=14))
+o.append(tag(TX, oy(T, 5, 2), "판매량이 가장 적은 키", K4, 2))
+o.append(tag(TX, oy(T, 5, 3), "이름과 판매량을 같이", K3, 3))
+o.append(lockers(SALES_P, 96, 760, 250, 160, K4, K4BG, hi=(1,), fs=40, kfs=26, gap=16, attrs=at("rise", 4), ids=["md0", "md1", "md2", "md3"]))
+o.append(spot(5, target="md1", pad=14))
 W("m-dict", o, "max(sales, key=sales.get)는 판매량으로 비교해서 가장 많이 팔린 메뉴 이름을 돌려줘요. 1파트의 문제를 다시 봐요. max(sales)는 키끼리 비교해서 tea였어요. key=sales.get을 주면 키마다 판매량을 꺼내 비교해서 latte를 돌려줘요. min도 같아서 가장 적게 팔린 cake이 나와요. 이름과 판매량이 같이 필요하면 items()를 넘기고 kv[1]로 비교해요. 결과가 ('latte', 30) 튜플이에요. 이름만 필요하면 get, 둘 다 필요하면 items()를 골라요." + REAL)
 
 o = [sec("m-default")] + head(EB4, "빈 리스트에 max를 쓰면 ValueError가 나요", K4)
 T1, T2, FW = 210, 400, 1180
 TX = 96 + FW + 30
-o += cell({"lines": ["print(max([]))"], "n": 3, "out": ["ValueError: max() iterable argument is empty"], "err": True}, 96, T1, FW)
+o += cell({"lines": ["print(max([]))"], "n": 3, "out": ["ValueError: max() iterable argument is empty"], "err": True, "oid": "mv"}, 96, T1, FW)
+o.append(shake(1, "mv0"))
 o.append(out_line(1, 96, T1, 1, 0, "ValueError: max() ", "iterable argument is empty"))
 o.append(tag(TX, oy(T1, 1, 0), "고를 값이 하나도 없어요", RED, 1))
 o += cell({"lines": ["big = list(filter(lambda p: p > 10000, prices))", "print(big)", "print(max(big, default=0))"], "n": 4, "out": ["[]", "0"]}, 96, T2, FW, attrs=at("rise", 2))
@@ -622,6 +639,8 @@ T1, T2, FW = 210, 410, 1728
 o += cell({"lines": ['print(sorted([4500, "5000", 6500]))'], "n": 1, "out": ["TypeError: '<' not supported between instances of 'str' and 'int'"], "err": True}, 96, T1, FW)
 o.append(out_line(1, 96, T1, 1, 0, "TypeError: '<' not supported between instances of ", "'str' and 'int'"))
 o.append(tag(cx(96, "TypeError: '<' not supported between instances of 'str' and 'int'") + 30, oy(T1, 1, 0), "글자와 숫자", RED, 1))
+o.append(zoom(1, 96 + 85, int(oy(T1, 1, 0) - LH / 2 - 16), 1500, int(LH + 32), 40, 1.6))
+o.append(zoom_off(2))
 o += cell({"lines": ['print(sorted([4500, "5000", 6500], key=int))'], "n": 2, "out": ["[4500, '5000', 6500]"]}, 96, T2, 1180, attrs=at("rise", 2))
 o.append(tag(96 + 1180 + 30, ly(T2, 0), "비교할 때만 숫자로", GR, 2))
 o.append(tag(96 + 1180 + 30, oy(T2, 1, 0), "\"5000\"은 그대로 글자", OR, 3))
@@ -662,9 +681,10 @@ T, FW = 210, 1400
 TX = 96 + FW + 30
 RK = ['sales = {"coffee": 12, "latte": 30, "cake": 8, "tea": 15, "juice": 15}', "rank = sorted(sales.items(), key=lambda kv: (-kv[1], kv[0]))", "for i, kv in enumerate(rank[:3], 1):", '    print(f"{i}위 {kv[0]:<6}{kv[1]:>3}잔")']
 o += cell({"lines": RK, "n": 1, "out": ["1위 latte  30잔", "2위 juice  15잔", "3위 tea    15잔"]}, 96, T, FW)
-o.append(hl(96, T, FW, 1, 1, "mark", 1))
+o.append(lsp(1, 96, T, FW, 4, 1, bar=K3))
 o.append(tag(TX, ly(T, 1), "두 기준 (3파트)", K3, 1))
-o.append(hl(96, T, FW, 2, 1, "run", 2))
+o.append(lsp(2, 96, T, FW, 4, 2, 2, bar=GR))
+o.append(lspot_off(3))
 o.append(tag(TX, ly(T, 2), "1위부터 (18)", GR, 2))
 o.append(row(96, 640, 1500, 110, small("key 결과", GRAY, 30, 180) + tup(["-15", "'juice'"], hi=(1,), w=180) + small("<", K6, 40) + tup(["-15", "'tea'"], hi=(1,), w=180), 3))
 o.append(tag(1220, 695, "-15가 같아서 이름으로, juice가 먼저", K6, 3))
@@ -722,12 +742,12 @@ TR = [("max(sales)가 엉뚱한 이름이에요", "딕셔너리는 키끼리 비
 for i, (q, a_, cmd) in enumerate(TR):
     y = 200 + i * 98
     mq = q.isascii()
-    o.append(f'<div{at("rise", min(i + 1, 7))} style="position:absolute;left:96px;top:{y}px;width:1728px;height:98px;display:flex;flex-direction:row;align-items:center;gap:28px;padding:0 12px;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{at("rise", 1)}{DELAY(i * 80)} style="position:absolute;left:96px;top:{y}px;width:1728px;height:98px;display:flex;flex-direction:row;align-items:center;gap:28px;padding:0 12px;border-bottom:2px solid {LINE}">'
              + num(i + 1, RED, 30)
              + p(f"width:700px;flex:none;{'font-family:' + MONO + ';font-size:26px;' if mq else 'font-size:28px;'}font-weight:700;color:{INK};white-space:nowrap", e(q))
              + p(f"width:480px;flex:none;font-size:26px;font-weight:500;color:{SUB};white-space:nowrap", e(a_))
              + p(f"flex:1;{'font-family:' + MONO + ';font-size:26px;' if cmd.isascii() else 'font-size:27px;'}font-weight:700;color:{GR};white-space:nowrap", e(cmd)) + '</div>')
-o.append(caption("순서가 이상하면 map(key 함수, 리스트)로 비교할 값을 먼저 찍어 봐요.", 940, 8))
+o.append(caption("순서가 이상하면 map(key 함수, 리스트)로 비교할 값을 먼저 찍어 봐요.", 940, 2))
 W("trouble", o, "순서가 이상하거나 오류가 나면 무엇끼리 비교했는지부터 봐요. 1번과 3번은 오류 없이 순서만 이상한 경우예요. 2번은 sort가 값을 돌려주지 않아서 생겨요. 4번은 타입이 섞였을 때, 5번과 6번은 key에 함수를 잘못 넣었을 때예요. 7번은 고른 결과가 비었을 때예요. 순서가 기대와 다르면 21의 map으로 key 함수 결과를 먼저 찍어 보면 원인이 보여요.", ("trouble", "정리"))
 
 o = [f'<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:{INK};font-family:{SANS};font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">',
@@ -736,10 +756,10 @@ CH = [("sorted(xs)", "새 리스트, 원본 그대로", K2), ("xs.sort()", "원�
       ("key=lambda m: (-m[1], m[0])", "많은 순, 같으면 이름순", K3), ("sorted(d, key=d.get)", "값 순서로 키 세우기", K3), ("max(d, key=d.get)", "값이 가장 큰 키", K4), ("max(xs, default=0)", "비어 있으면 0", K4)]
 for i, (k, d, c) in enumerate(CH):
     x, y = 96 + (i // 4) * 888, 200 + (i % 4) * 130
-    o.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:840px;height:130px;display:flex;flex-direction:column;justify-content:center;gap:6px;border-bottom:2px solid {LINE}">'
+    o.append(f'<div{at("rise", 1)}{DELAY(i * 70)} style="position:absolute;left:{x}px;top:{y}px;width:840px;height:130px;display:flex;flex-direction:column;justify-content:center;gap:6px;border-bottom:2px solid {LINE}">'
              + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:{c};white-space:pre", e(k)) + p(f"font-size:28px;font-weight:500;color:{SUB}", e(d)) + '</div>')
-o.append(p(f"position:absolute;left:96px;top:780px;width:1728px;font-size:32px;font-weight:700;color:{INK}", "key에는 괄호 없이 함수 이름이나 lambda를 넣어요."))
-o.append(p(f"position:absolute;left:96px;top:850px;width:1728px;font-size:30px;font-weight:500;color:{SUB}", "다음 챕터 23에서는 리스트 컴프리헨션으로 고르고 바꾸기를 한 줄에 적어요."))
+o.append(p(f"position:absolute;left:96px;top:780px;width:1728px;font-size:32px;font-weight:700;color:{INK}", "key에는 괄호 없이 함수 이름이나 lambda를 넣어요.", at("rise", 2)))
+o.append(p(f"position:absolute;left:96px;top:850px;width:1728px;font-size:30px;font-weight:500;color:{SUB}", "다음 챕터 23에서는 리스트 컴프리헨션으로 고르고 바꾸기를 한 줄에 적어요.", at("rise", 2)))
 W("cheatsheet", o, "key에 함수를 넣으면 그 결과로 비교한다는 것 하나로 이번 챕터를 묶을 수 있어요. sorted는 새 리스트를 주고 sort는 원본을 바꿔요. 튜플은 앞 칸부터 비교하니까 기준이 둘이면 튜플을 돌려주는 lambda를 써요. 딕셔너리는 get이나 items로 값 기준 정렬을 해요. max와 min도 key와 default를 받아요. 23에서는 21의 map, filter를 더 읽기 쉽게 쓰는 리스트 컴프리헨션을 배워요.")
 
 
@@ -750,7 +770,7 @@ def finish(parts, toc_note, title):
          f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>']
     for i, (ic, c, h, a, b) in enumerate(parts):
         x, y = 96 + (i // 3) * 888, 220 + (i % 3) * 200
-        t.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:840px;height:200px;display:flex;flex-direction:row;align-items:center;gap:28px;border-bottom:2px solid {LINE}">'
+        t.append(f'<div data-build-in="rise order 1"{DELAY(i * 90)} style="position:absolute;left:{x}px;top:{y}px;width:840px;height:200px;display:flex;flex-direction:row;align-items:center;gap:28px;border-bottom:2px solid {LINE}">'
                  f'<p style="width:70px;flex:none;font-size:72px;font-weight:900;line-height:1;color:{c}">{i + 1}</p>'
                  f'<x-icon name="{ic}" style="width:48px;height:48px;color:{c}"></x-icon>'
                  f'<p style="flex:1;font-size:40px;font-weight:700;color:{INK}">{e(h)}</p>'
