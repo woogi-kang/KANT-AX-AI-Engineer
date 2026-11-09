@@ -763,9 +763,9 @@ o.append(underline(4, cx(96, E, 0), cx(96, E, 9), oy(T2, 2, 0) + 22, RED))
 W("ex-split", o, "주문서 파일에서 읽어 온 수량은 숫자처럼 보여도 글자인 경우가 많아요. 그래서 qty에 따옴표로 감싼 \"3\"을 넣었어요. 계산하려면 2파트의 int()로 정수로 바꿔요. 아메리카노 세 잔과 라떼 한 잔이라 4500 * 3 + 5000 = 18500이에요. 세 사람이 나눠 내면 3파트의 몫 // 로 한 사람이 낼 6166원, 나머지 % 로 남는 2원을 구해요. 아래 셀처럼 int() 없이 숫자와 글자를 더하면 TypeError가 나요. 메시지는 + 의 양쪽이 int와 str이라 더할 수 없다는 뜻이에요. 출력은 hello-uv 커널에서 실제로 실행한 결과예요.")
 
 o = [sec("ex-discount")] + head(EB5, "사이즈 업과 할인 조건을 and, or로 적어요", CAFE)
-o.append(p(f"position:absolute;left:96px;top:196px;width:1728px;font-size:28px;color:{SUB}", f"사이즈 업 · 15000원 이상 <b style='color:{PUR}'>그리고</b> 쿠폰 있음 &#160;&#160;|&#160;&#160; 할인 · 회원 <b style='color:{PUR}'>또는</b> 20000원 이상"))
+o.append(p(f"position:absolute;left:96px;top:196px;width:1728px;font-size:28px;color:{SUB}", f"사이즈 업 · 15000원 이상 <b style='color:{PUR}'>그리고</b> 쿠폰 있음 &#160;&#160;|&#160;&#160; 할인 · 회원 <b style='color:{PUR}'>또는</b> 50000원 이상"))
 T = 260
-L = ["is_member = False", "has_coupon = True", "total = 18500", "size_up = total >= 15000 and has_coupon", "discount = is_member or total >= 20000",
+L = ["is_member = False", "has_coupon = True", "total = 18500", "size_up = total >= 15000 and has_coupon", "discount = is_member or total >= 50000",
      'print("사이즈 업:", size_up)', 'print("할인:", discount)', 'print("비회원:", not is_member)']
 o += cell({"id": "c-ex5", "lines": L, "n": 5, "out": ["사이즈 업: True", "할인: False", "비회원: True"]}, 96, T, 1100, sel="c-ex5")
 TXX = 96 + 1100 + 34
@@ -777,7 +777,7 @@ o.append(tag(TXX, ly(T, 4), "False or False", PUR, 3))
 o.append(tag(TXX, oy(T, 8, 1), "하나도 안 맞아서 False", RED, 4))
 o.append(hl(96, T, 1100, 7, 1, "mark", 5))
 o.append(tag(TXX, oy(T, 8, 2), "not False · 회원이 아닌가요?", PUR, 5))
-W("ex-discount", o, "카페의 두 가지 혜택을 조건으로 적었어요. 사이즈 업은 15000원 이상이고 쿠폰도 있어야 해서 and로 이어요. 18500 >= 15000이 True, has_coupon이 True라서 True and True는 True예요. 할인은 회원이거나 20000원 이상이면 돼서 or로 이어요. 회원이 아니고 18500원이라 False or False는 False예요. 4파트의 순서대로 비교를 먼저 하고 and, or를 나중에 해서 괄호가 없어도 돼요. not is_member는 '회원이 아닌가요?'라는 질문이라 True예요. True, False를 담는 이름은 is_, has_로 시작하면 질문처럼 읽혀요. 출력은 hello-uv 커널에서 실제로 실행한 결과예요.")
+W("ex-discount", o, "카페의 두 가지 혜택을 조건으로 적었어요. 사이즈 업은 15000원 이상이고 쿠폰도 있어야 해서 and로 이어요. 18500 >= 15000이 True, has_coupon이 True라서 True and True는 True예요. 할인은 회원이거나 50000원 이상이면 돼서 or로 이어요. 회원이 아니고 18500원이라 False or False는 False예요. 4파트의 순서대로 비교를 먼저 하고 and, or를 나중에 해서 괄호가 없어도 돼요. not is_member는 '회원이 아닌가요?'라는 질문이라 True예요. True, False를 담는 이름은 is_, has_로 시작하면 질문처럼 읽혀요. 출력은 hello-uv 커널에서 실제로 실행한 결과예요.")
 
 # ---------- summary ----------
 EBS = "정리"

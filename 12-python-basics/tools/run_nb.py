@@ -50,4 +50,4 @@ run(['americano = 4500\nlatte = 5000\ntotal = americano * 2 + latte\npaid = 2000
      'americano = 4800\ntotal = americano * 2 + latte\nprint("합계:", total)\nprint("잔돈:", paid - total)',
      'qty = "3"\ntotal = 4500 * int(qty) + 5000\npeople = 3\nprint("합계:", total)\nprint("한 사람:", total // people)\nprint("남는 돈:", total % people)',
      'qty = "3"\nprint(5000 + qty)',
-     'is_member = False\nhas_coupon = True\ntotal = 18500\nsize_up = total >= 15000 and has_coupon\ndiscount = is_member or total >= 20000\nprint("사이즈 업:", size_up)\nprint("할인:", discount)\nprint("비회원:", not is_member)'])
+     'is_member = False\nhas_coupon = True\ntotal = 18500\nsize_up = total >= 15000 and has_coupon\ndiscount = is_member or total >= 50000\nprint("사이즈 업:", size_up)\nprint("할인:", discount)\nprint("비회원:", not is_member)'])

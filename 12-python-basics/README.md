@@ -291,7 +291,7 @@ is_member = False
 has_coupon = True
 total = 18500
 size_up = total >= 15000 and has_coupon
-discount = is_member or total >= 20000
+discount = is_member or total >= 50000
 print("사이즈 업:", size_up)       # 사이즈 업: True
 print("할인:", discount)           # 할인: False
 print("비회원:", not is_member)    # 비회원: True
