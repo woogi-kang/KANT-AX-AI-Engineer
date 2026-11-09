@@ -1,0 +1,43 @@
+<section id="fmt-compare" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1F8A4C">1. 문자열과 출력</p>
+<h2 id="title" style="position:absolute;left:96px;top:90px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">세 방식 모두 콜론 뒤 모양은 같아요</h2>
+<div style="position:absolute;left:96px;top:230px;width:1728px;height:66px;border-bottom:3px solid #1D2330"></div>
+<p style="position:absolute;left:116px;top:242px;font-size:28px;font-weight:700;color:#1D2330">모양</p>
+<p style="position:absolute;left:476px;top:242px;font-size:28px;font-weight:700;color:#B26A00">% 방식</p>
+<p style="position:absolute;left:776px;top:242px;font-size:28px;font-weight:700;color:#2459C9">format()</p>
+<p style="position:absolute;left:1116px;top:242px;font-size:28px;font-weight:700;color:#1F8A4C">f-string</p>
+<p style="position:absolute;left:1456px;top:242px;font-size:28px;font-weight:700;color:#1D2330">결과</p>
+<div style="position:absolute;left:96px;top:296px;width:1728px;height:100px;border-bottom:1px solid #D9D5CB"></div>
+<p style="position:absolute;left:116px;top:322px;font-size:32px;font-weight:700;color:#1D2330;">다섯 칸</p>
+<p style="position:absolute;left:476px;top:322px;font-size:32px;font-weight:700;color:#B26A00;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">%5d</p>
+<p style="position:absolute;left:776px;top:322px;font-size:32px;font-weight:700;color:#2459C9;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">{0:5d}</p>
+<p style="position:absolute;left:1116px;top:322px;font-size:32px;font-weight:700;color:#1F8A4C;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">{42:5d}</p>
+<p style="position:absolute;left:1456px;top:322px;font-size:32px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">[   42]</p>
+<div style="position:absolute;left:96px;top:396px;width:1728px;height:100px;border-bottom:1px solid #D9D5CB"></div>
+<p style="position:absolute;left:116px;top:422px;font-size:32px;font-weight:700;color:#1D2330;">소수 두 자리</p>
+<p style="position:absolute;left:476px;top:422px;font-size:32px;font-weight:700;color:#B26A00;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">%.2f</p>
+<p style="position:absolute;left:776px;top:422px;font-size:32px;font-weight:700;color:#2459C9;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">{0:.2f}</p>
+<p style="position:absolute;left:1116px;top:422px;font-size:32px;font-weight:700;color:#1F8A4C;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">{pi:.2f}</p>
+<p style="position:absolute;left:1456px;top:422px;font-size:32px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">3.14</p>
+<div style="position:absolute;left:96px;top:496px;width:1728px;height:100px;border-bottom:1px solid #D9D5CB"></div>
+<p style="position:absolute;left:116px;top:522px;font-size:32px;font-weight:700;color:#1D2330;">천 단위 콤마</p>
+<p style="position:absolute;left:476px;top:522px;font-size:30px;color:#6A7180">없음</p>
+<p style="position:absolute;left:776px;top:522px;font-size:32px;font-weight:700;color:#2459C9;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">{0:,}</p>
+<p style="position:absolute;left:1116px;top:522px;font-size:32px;font-weight:700;color:#1F8A4C;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">{price:,}</p>
+<p style="position:absolute;left:1456px;top:522px;font-size:32px;font-weight:700;color:#1D2330;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;white-space:pre">1,234,567</p>
+<div data-build-in="spot order 1" data-pad="4" data-r="18px" data-dim="0.45" style="position:absolute;left:1096px;top:230px;width:340px;height:366px"></div>
+<div data-build-in="spot-off order 2" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<div data-build-in="rise order 2" id="fmt-compare" style="position:absolute;left:96px;top:660px;width:724px;height:165px">
+<div style="position:absolute;left:0;top:0;width:7px;height:100%;border-radius:4px;background:#2F7DE1"></div>
+<p style="position:absolute;left:17px;top:12px;width:58px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:47px;color:#6A7180;text-align:right">[13]</p>
+<div style="position:absolute;left:85px;top:0;right:0;bottom:0;background:#FFFFFF;border:2px solid #E1DED6;border-radius:10px"></div>
+<p id="fmt-compare-L0" style="position:absolute;left:107px;top:12px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;line-height:47px;white-space:pre;color:#1D2330">print("[{0:5d}]".format(42))</p>
+<p id="fmt-compare-L1" style="position:absolute;left:107px;top:59px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;line-height:47px;white-space:pre;color:#1D2330">print("{0:.2f}".format(pi))</p>
+<p id="fmt-compare-L2" style="position:absolute;left:107px;top:106px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;line-height:47px;white-space:pre;color:#1D2330">print("{0:,}원".format(price))</p>
+</div>
+<p id="fmt-compare-O0" style="position:absolute;left:203px;top:837px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;line-height:47px;white-space:pre;color:#1D2330">[   42]</p>
+<p id="fmt-compare-O1" style="position:absolute;left:203px;top:884px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;line-height:47px;white-space:pre;color:#1D2330">3.14</p>
+<p id="fmt-compare-O2" style="position:absolute;left:203px;top:931px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;line-height:47px;white-space:pre;color:#1D2330">1,234,567원</p>
+<div data-build-in="fade order 2"><svg style="position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible;pointer-events:none" viewBox="0 0 1920 1080"><path d="M828,742.5 L866,742.5" fill="none" stroke="#9AA1AE" stroke-width="2"/><circle cx="828" cy="742.5" r="6" fill="#9AA1AE"/></svg><p style="position:absolute;left:880px;top:722px;width:700px;font-size:28px;font-weight:500;line-height:1.5;color:#1D2330">format()은 콜론 앞에 번호,<br>f-string은 이름을 적어요</p></div>
+<aside>세 방식 모두 콜론 뒤에 적는 모양은 같아요. format()은 콜론 앞에 번호를, f-string은 변수 이름을 적어요. % 방식은 %5d처럼 % 뒤에 바로 모양을 적고, 콤마 옵션이 없어요. 새 코드는 f-string 칸만 기억하면 돼요. 아래 셀은 format()으로 실제로 실행한 결과예요.</aside>
+</section>
