@@ -77,6 +77,7 @@ r git status
 r git commit -m '"feat: 로그인 버튼 추가"'
 r git log --oneline
 r git log --oneline $B
+r cat login.md
 r git branch -d $B
 
 step "8 pull: GitHub에 C(lee), 내 main에 D"
@@ -174,3 +175,38 @@ r git checkout main
 at 41; r git pull origin main
 r git log --oneline
 r git branch -d $B
+
+step "12 예제 1: push 전, 최신 main 뒤로 옮기고 PR 올리기"
+fresh straight ex
+git init -q --bare "$D/ex.git"; point "$D/ex.git"
+git remote add origin $URL
+git push -q origin main 2>/dev/null
+git checkout -q $B
+git clone -q $URL "$D/ex-lee"; cd "$D/ex-lee"
+lee() { GIT_AUTHOR_NAME=lee GIT_AUTHOR_EMAIL=lee@example.com GIT_COMMITTER_NAME=lee GIT_COMMITTER_EMAIL=lee@example.com "$@"; }
+at 50; echo "# merge-lab" > README.md; git add README.md; lee git commit -q -m "docs: README 추가"; git push -q origin main 2>/dev/null
+cd "$D/ex"
+r git checkout main
+at 51; r git pull origin main
+r git checkout $B
+at 52; r git rebase main
+r git log --oneline
+r git push origin $B
+
+step "12b 예제 2: push한 뒤 main이 또 앞서 가면 pull로 합치기"
+cd "$D/ex-lee"
+at 53; git pull -q origin main 2>/dev/null; echo "비밀번호" >> README.md; git add README.md; lee git commit -q -m "docs: 비밀번호 안내 추가"; git push -q origin main 2>/dev/null
+cd "$D/ex"
+at 54; r git pull origin main
+r git log --oneline
+r git push origin $B
+
+step "12c 예제 3: 팀이 Squash and merge로 PR을 합친 뒤"
+rm -rf "$D/ex-web"; git clone -q $URL "$D/ex-web"; cd "$D/ex-web"
+at 55; git merge -q --squash origin/$B >/dev/null 2>&1; git commit -q -m "feat: 로그인 버튼 추가 (#1)"; git push -q origin main 2>/dev/null
+cd "$D/ex"
+r git checkout main
+at 56; r git pull origin main
+r git log --oneline
+r git branch -d $B
+r git branch -D $B
