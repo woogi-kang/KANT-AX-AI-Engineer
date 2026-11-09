@@ -9,6 +9,8 @@
   "order": [
     "cover",
     "toc",
+    "why",
+    "map",
     "story1",
     "story2",
     "ff",
@@ -31,30 +33,51 @@
     "pl-why",
     "gh-btn",
     "gh-res",
-    "gh-after",
     "cf-all",
     "cf-rb",
     "warn",
-    "choose",
     "trouble",
+    "ex1",
+    "ex2",
+    "ex3",
     "cheatsheet"
   ],
   "sections": {
     "intro": {
-      "description": "같은 예시 하나",
+      "description": "들어가기",
       "start": "cover"
+    },
+    "plain": {
+      "description": "갈라지지 않았을 때",
+      "start": "ff"
+    },
+    "split": {
+      "description": "갈라졌을 때",
+      "start": "split"
     },
     "compare": {
       "description": "한눈에 비교",
       "start": "cmp"
+    },
+    "pull": {
+      "description": "git pull",
+      "start": "pl0"
     },
     "github": {
       "description": "GitHub PR 버튼",
       "start": "gh-btn"
     },
     "trouble": {
-      "description": "막힐 때와 요약",
-      "start": "trouble"
+      "description": "충돌과 오류",
+      "start": "cf-all"
+    },
+    "examples": {
+      "description": "실제 상황 예제",
+      "start": "ex1"
+    },
+    "summary": {
+      "description": "정리",
+      "start": "cheatsheet"
     }
   },
   "faces": {
