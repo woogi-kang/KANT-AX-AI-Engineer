@@ -13,14 +13,18 @@ Layout rules (2026-11-08 remake, from the Stageshow skill and tools/DESIGN.md):
 - terms sit beside the code line they explain as "← label" leader tags, not in separate cards
 - say it once: what the speaker notes already say stays out of the slide; one caption at most
 - a fix is the wrong line struck through next to the right line
-- highlights vary by job (tools/HIGHLIGHT.md): line tint, fly, spotlight, pen ring, underline and box; no typing
+- highlights vary by job (tools/HIGHLIGHT.md, 2026-11-09 set): slam and shine on the cover, stagger and delay on lists,
+  dimming past items, line spotlight, run band, paired colors (mark), changed letters (mark), code morph on two fixes,
+  zoom, blur, value change (text), count up, shake once, fly, line draw, spotlight, pen ring/underline/box; no typing
 Usage: python3 tools/gen.py slides
 """
 
 import html, json, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, ring, box, underline
+from highlight import text as set_text
+from highlight import (spot, spot_off, ring, box, underline, lspot, lspot_off, run, run_off, zoom, zoom_off, blur, blur_off,
+                       shine, shake, SLAM, STAGGER, COUNT, MARK, DIM, DELAY, MORPH, MORPH_FROM, tok)
 
 OUT = sys.argv[1]
 os.makedirs(OUT, exist_ok=True)
@@ -93,16 +97,17 @@ def cell(c, left, top, w, fs=30, sel=True, attrs="", out_attrs="", gut=True, box
     o = [f'<div id="{c["id"]}"{attrs} style="position:absolute;left:{left}px;top:{top}px;width:{w}px;display:flex;flex-direction:column;gap:10px">']
     bar = f'<div style="width:7px;flex:none;border-radius:4px;background:{SEL if sel else "transparent"}"></div>'
     gutter = p(f"width:58px;flex:none;font-family:{MONO};font-size:22px;color:{GRAY};text-align:right;padding-top:{8 + (lh - 30) / 2:.0f}px", (f"[{n}]" if n else "[ ]") if gut else "")
-    txt = "".join(p(f"font-family:{MONO};font-size:{fs}px;line-height:1.45;white-space:pre;color:{INK}", e(l) if l else "&#160;") for l in lines)
+    esc = (lambda s: s) if c.get("raw") else e
+    txt = "".join(p(f"font-family:{MONO};font-size:{fs}px;line-height:1.45;white-space:pre;color:{INK}", esc(l) if l else "&#160;") for l in lines)
     tag = p(f"position:absolute;right:14px;bottom:8px;font-size:18px;color:{GRAY}", "Python")
     bw = f"width:{box_w + 85}px;" if box_w else ""
     o.append(f'<div style="{bw}display:flex;flex-direction:row;gap:10px;align-items:stretch">{bar}{gutter}'
              f'<div style="flex:1;position:relative;background:#FFFFFF;border:2px solid {LINE};border-radius:10px;padding:8px 18px;display:flex;flex-direction:column">{txt}{tag}</div></div>')
     if c.get("out"):
-        oids = c.get("oids", [])
+        oids, oat = c.get("oids", []), c.get("oattrs", [])
         col = lambda l: RED if c.get("err") and re.match(r"[A-Za-z]+(Error|Interrupt)", l) else INK
         o.append(f'<div{out_attrs} style="display:flex;flex-direction:column">' + "".join(
-            p(f"margin-left:85px;padding:0 20px;font-family:{MONO};font-size:{fs}px;line-height:1.45;white-space:pre;color:{col(l)}", e(l) if l else "&#160;", f' id="{oids[j]}"' if j < len(oids) and oids[j] else "")
+            p(f"margin-left:85px;padding:0 20px;font-family:{MONO};font-size:{fs}px;line-height:1.45;white-space:pre;color:{col(l)}", esc(l) if l else "&#160;", (f' id="{oids[j]}"' if j < len(oids) and oids[j] else "") + (oat[j] if j < len(oat) else ""))
             for j, l in enumerate(c["out"])) + '</div>')
     o.append('</div>')
     return o
@@ -128,6 +133,11 @@ def cx(left, s, fs=30):
     return left + 105 + tw(s, fs)
 
 
+def cbox(left, top, w, n, fs=30):
+    """(x, y, w, h) of the code box of a cell, for line spotlights and run bands."""
+    return (left + 85, top, w - 85, box_h(n, fs))
+
+
 def hl(left, top, w, i, n=1, kind="run", order=1, fs=30):
     """Tints code lines i..i+n-1. Colors: green run, gray skip, red error, blue mark."""
     tint = {"run": "rgba(31,138,76,0.16)", "skip": "rgba(106,113,128,0.18)", "err": "rgba(163,49,49,0.14)", "mark": "rgba(36,89,201,0.13)"}[kind]
@@ -151,14 +161,34 @@ def arrow(w=70, color="#C9CED8"):
     return f'<x-shape kind="arrow-right" style="width:{w}px;height:30px;flex:none;background:{color}"></x-shape>'
 
 
-def fix(left, top, bad, good, order, size=30):
+def fix(left, top, bad, good, order, size=30, raw=False):
     """The wrong line struck through, an arrow, the right line."""
     return (f'<div data-build-in="rise order {order}" style="position:absolute;left:{left}px;top:{top}px;width:1728px;display:flex;flex-direction:row;align-items:center;gap:22px">'
             + p(f"font-size:{size}px;font-weight:900;color:{RED}", "✕")
             + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{RED};text-decoration:line-through;text-decoration-thickness:3px;white-space:pre", e(bad))
             + arrow()
             + p(f"font-size:{size}px;font-weight:900;color:{GR}", "✓")
-            + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{INK};background:#E6F4EC;border:3px solid {GR};border-radius:14px;padding:6px 20px;white-space:pre", e(good)) + '</div>')
+            + p(f"font-family:{MONO};font-size:{size}px;font-weight:700;color:{INK};background:#E6F4EC;border:3px solid {GR};border-radius:14px;padding:6px 20px;white-space:pre", good if raw else e(good)) + '</div>')
+
+
+def morph_fix(fid, left, top, bad, good, o1, o2, size=30):
+    """A fix drawn as a code morph: the wrong line (red, struck) comes in on o1, then on o2 its pieces move into the right
+    line (green box) at the same place. bad and good are lists of (key, text); a key in both is the same piece.
+    The PDF shows only the right line."""
+    code = lambda parts, extra: "".join(tok(k, e(s), extra) for k, s in parts)
+    st = f"position:absolute;top:{top}px;font-family:{MONO};font-size:{size}px;font-weight:700;line-height:1.45;white-space:pre;padding:6px 20px;border-radius:14px"
+    x_ = tok("x", "✕", f"width:40px;padding-right:20px;font-family:{SANS};font-weight:900;text-decoration:none")
+    return [p(st + f";left:{left - 20}px;color:{RED};border:3px solid transparent", x_ + code(bad, "text-decoration:line-through;text-decoration-thickness:3px"),
+              f' id="{fid}" data-build-in="fade order {o1}"' + MORPH_FROM()),
+            p(f"position:absolute;left:{left}px;top:{top + 9}px;font-size:{size}px;font-weight:900;line-height:1.45;color:{GR}", "✓", f' data-build-in="fade order {o2}"'),
+            p(st + f";left:{left + 60}px;color:{INK};background:#E6F4EC;border:3px solid {GR}", code(good, ""), MORPH(o2, fid))]
+
+
+def group(parts, attrs=""):
+    """Wraps absolutely placed parts in one element (for STAGGER, or a part blur() keeps sharp). The wrapper sits at
+    (40, 30) with no height so check.js sees it inside the slide; each part's first left/top is moved by the same amount."""
+    sh = lambda s: re.sub(r"left:(-?[\d.]+)(px)?;top:(-?[\d.]+)(px)?", lambda m: f"left:{float(m.group(1)) - 40:g}px;top:{float(m.group(3)) - 30:g}px", s, count=1)
+    return [f'<div{attrs} style="position:absolute;left:40px;top:30px;width:1840px">'] + [sh(x) for x in parts] + ['</div>']
 
 
 def is_code(c):
@@ -203,27 +233,29 @@ def widest(lines, fs):
 # ---------- cover ----------
 cov = [f'<section id="cover" data-transition="fade" style="background:{INK};color:#F6F5F1;font-family:{SANS};font-variant-ligatures:none;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">',
        f'<p style="font-size:28px;font-weight:700;color:#F2B27A;letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
-       f'<h1 style="font-size:84px;font-weight:900;line-height:1.1;color:#F6F5F1">클래스 2<br>__str__과<br>__repr__</h1>',
+       f'<h1{SLAM(1)} style="font-size:84px;font-weight:900;line-height:1.1;color:#F6F5F1">클래스 2<br>__str__과<br>__repr__</h1>',
        f'<p style="font-size:40px;line-height:1.4;color:#BFC6D4">print했을 때<br>붕어빵이 보이게 만들기</p>',
-       '<div style="position:absolute;left:900px;top:300px;width:900px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">']
+       '<div id="cov-code" style="position:absolute;left:900px;top:300px;width:900px;height:480px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:16px">']
 for line, c in [("class Bread:", CK), ("    def __str__(self):", W_), ('        return "팥 붕어빵 1,000원"', CS), ("", W_),
                 ("print(a)", CA), ("# 팥 붕어빵 1,000원", "#9AA1AE"), ("# (전에는 <__main__.Bread object at ...>)", "#9AA1AE")]:
     cov.append(p(f"font-family:{MONO};font-size:30px;font-weight:700;line-height:1.45;color:{c};white-space:pre", e(line) if line else "&#160;"))
 cov.append('</div>')
+cov.append(shine(2, "cov-code"))
 W("cover", cov, "24에서 붕어빵 틀을 만들었어요. 그런데 붕어빵을 통째로 print하면 꺾쇠괄호 안에 낯선 글자가 나왔어요. 이번 챕터는 그 글자를 우리가 원하는 글자로 바꿔요. 파이썬이 정해진 순간에 알아서 부르는 메서드 두 개, __str__과 __repr__을 배워요. 왜 필요한지, 언제 불리는지, 둘이 어떻게 다른지를 차례로 봐요. 그다음 붕어빵을 여러 개 담아 정렬하고, 판매할 때마다 재고가 줄어드는 노점을 만들어요.", ("intro", "들어가기"))
 ORDER.append("toc")
 
 # ---------- ready: a plain checklist and the four steps, no cards ----------
 o = [sec("ready")] + head("들어가기", "24에서 이어서 해요", JP)
 rows_, _ = plain_rows(96, 196, 780, [("class, __init__, self", "24"), ("메서드와 a.intro()", "24"), ("f-string과 칸 맞추기", "13"), ("return과 print의 차이", "19"), ("sorted와 key=lambda", "22")],
-                      [620, 100], head_=["이번에 다시 쓰는 것", "챕터"], rh=96, fs=30)
+                      [620, 100], head_=["이번에 다시 쓰는 것", "챕터"], rh=96, fs=30,
+                      row_attrs=[f' data-build-in="rise order 1"{DELAY(i * 90)}' for i in range(5)])
 o += rows_
 o.append(p(f"position:absolute;left:1000px;top:196px;font-size:24px;font-weight:700;color:{GRAY}", "노트북 다시 열기"))
 for i, part in enumerate([p(f"font-size:32px;color:{INK}", "VS Code로 hello-uv 폴더 열기"),
                           p(f"font-size:32px;color:{INK}", "탐색기에서") + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{JP}", "basics.ipynb") + p(f"font-size:32px;color:{INK}", "열기"),
                           p(f"font-size:32px;color:{INK}", "오른쪽 위 커널이 .venv인지 보기"),
                           p(f"font-size:32px;color:{INK}", "셀에 적고") + kbd("Shift+Enter", 28) + p(f"font-size:32px;color:{INK}", "로 실행")]):
-    o.append(f'<div data-build-in="rise order {i + 1}" style="position:absolute;left:1000px;top:{262 + i * 112}px;width:824px;height:80px;display:flex;flex-direction:row;align-items:center;gap:20px">'
+    o.append(f'<div data-build-in="rise order {i + 2}" style="position:absolute;left:1000px;top:{262 + i * 112}px;width:824px;height:80px;display:flex;flex-direction:row;align-items:center;gap:20px">'
              + p(f"width:56px;height:56px;flex:none;border-radius:50%;background:{JP};color:#FFFFFF;font-size:30px;font-weight:900;line-height:56px;text-align:center", str(i + 1)) + part + '</div>')
 W("ready", o, "09에서 만든 hello-uv 폴더를 VS Code로 열고, basics.ipynb를 다시 열어요. 24의 Bread 틀에서 이어서 해요. 왼쪽 목록 오른쪽 숫자는 그 내용을 배운 챕터예요. 기억이 안 나면 그 챕터를 먼저 다시 봐요. 이번 챕터의 두 메서드는 글자를 return해야 해요. 19의 return과 print의 차이를 떠올려 두세요. 4파트에서는 22의 sorted와 key=lambda를 써요. 슬라이드의 출력은 tools/demo.sh가 hello-uv 커널에서 같은 셀을 실제로 실행한 결과예요. 0x로 시작하는 주소는 실행할 때마다 달라져요.")
 
@@ -278,18 +310,16 @@ W("w-min", o, "가장 짧은 __str__을 만들어요. 틀 안에 def __str__(sel
 # ---------- part 2 ----------
 o = [sec("s-basic")] + head(EB2, "__str__에 self의 값을 넣어 붕어빵마다 다르게", K2)
 FS = 32
-cs = {"id": "c-s1", "lines": B_INIT + [""] + B_STR + [""] + AB + ["print(a)", "print(b)"], "n": 1, "out": ["팥 붕어빵 1,000원", "슈크림 붕어빵 1,200원"]}
+# paired colors: {self.flavor} and the flavor in each output share orange, {self.price:,} and the price share blue
+mk = lambda s, c, k: f'<span{MARK(k)} style="color:{c};background:{c}1F;border-radius:6px">{e(s)}</span>'
+SB = [e(l) for l in B_INIT] + [""] + [e(B_STR[0]), e('        return f"') + mk("{self.flavor}", OR, 2) + e(" 붕어빵 ") + mk("{self.price:,}", BL, 3) + e('원"')] + [""] + [e(l) for l in AB] + ["print(a)", "print(b)"]
+cs = {"id": "c-s1", "raw": True, "lines": SB, "n": 1,
+      "out": [mk("팥", OR, 2) + " 붕어빵 " + mk("1,000", BL, 3) + "원", mk("슈크림", OR, 2) + " 붕어빵 " + mk("1,200", BL, 3) + "원"]}
 o += cell(cs, 96, 196, 1220, FS)
 o.append(hl(96, 196, 1220, 5, 2, "run", 1, FS))
 o.append(tag(1350, ly(196, 6, FS), "손님에게 보여 줄 메뉴판 글씨", K2, 1))
-pre = '        return f"'
-y6 = ly(196, 6, FS) + 22
-x1 = cx(96, pre, FS)
-o.append(underline(2, int(x1), int(x1 + tw("{self.flavor}", FS)), int(y6), OR))
-x2 = cx(96, pre + "{self.flavor} 붕어빵 ", FS)
-o.append(underline(2, int(x2), int(x2 + tw("{self.price:,}", FS)), int(y6), OR))
-o.append(tag(cx(96, "슈크림 붕어빵 1,200원", FS) + 50, oy(196, 12, 0, FS), "print(a): self가 a", K2, 3))
-o.append(tag(cx(96, "슈크림 붕어빵 1,200원", FS) + 50, oy(196, 12, 1, FS), "print(b): self가 b", K2, 3))
+o.append(tag(cx(96, "슈크림 붕어빵 1,200원", FS) + 50, oy(196, 12, 0, FS), "print(a): self가 a", K2, 4))
+o.append(tag(cx(96, "슈크림 붕어빵 1,200원", FS) + 50, oy(196, 12, 1, FS), "print(b): self가 b", K2, 4))
 W("s-basic", o, "__str__ 안에서 self를 쓰면 붕어빵마다 다른 글자를 돌려줄 수 있어요. 13의 f-string에 self.flavor와 self.price를 넣고, 가격에는 천 단위 콤마를 붙였어요. print(a)에서는 self가 a라서 팥 붕어빵 1,000원이, print(b)에서는 슈크림 붕어빵 1,200원이 나와요. __str__은 손님에게 보여 주는 메뉴판 글씨라고 생각하면 돼요. 사람이 읽기 좋은 글자로 적어요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p2", "__str__"))
 
 o = [sec("s-where")] + head(EB2, "print 말고도 글자가 필요한 곳에서 불려요", K2)
@@ -298,7 +328,9 @@ c2a = {"id": "c-s2", "lines": ["print(str(a))", 'print(f"주문: {a}")', 'print(
 o += cell(c2a, 96, 196, 1000, FS)
 TX = 1160
 for i, t in enumerate(["12의 타입 바꾸기 str()에 넣어도", "f-string 중괄호 안에 넣어도", "print에 쉼표로 넘겨도"]):
+    o.append(lspot(i + 1, *cbox(96, 196, 1000, 3, FS), 196 + 10 + i * LH(FS), LH(FS), bar=K2))
     o.append(tag(TX, ly(196, i, FS), t, K2, i + 1))
+o.append(lspot_off(4))
 c3a = {"id": "c-s3", "lines": ['msg = "포장할게요: " + str(a)', "print(msg)"], "n": 3, "out": ["포장할게요: 팥 붕어빵 1,000원"]}
 T3 = 600
 o += cell(c3a, 96, T3, 1000, FS, attrs=' data-build-in="rise order 4"')
@@ -311,15 +343,21 @@ FS = 30
 for k, (lbl, col, lines) in enumerate([("24의 intro", GRAY, ["    def intro(self):", '        print(self.flavor, "붕어빵")', "", "a.intro()", "print(a)   # 여전히 <... object>"]),
                                        ("__str__", K2, ["    def __str__(self):", '        return f"{self.flavor} 붕어빵"', "", "print(a)", 'f"주문: {a}"'])]):
     left = 96 + k * 882
-    o.append(p(f"position:absolute;left:{left + 105}px;top:196px;font-family:{MONO};font-size:28px;font-weight:700;color:{col}", e(lbl)))
-    o += cell({"id": f"c-si{k}", "lines": lines}, left, 246, 846, FS, sel=False, gut=False)
-y4 = ly(246, 4, FS)
-xu = 96 + 105 + int(tw("print(a)   ", FS))
-o.append(underline(1, xu, xu + int(tw("# 여전히 <... object>", FS)), int(y4 + 19), RED))
+    # one group per side, so blur() keeps the label, the cell and its pen mark sharp together
+    g = [p(f"position:absolute;left:{left + 105}px;top:196px;font-family:{MONO};font-size:28px;font-weight:700;color:{col}", e(lbl))]
+    g += cell({"id": f"c-si{k}", "lines": lines}, left, 246, 846, FS, sel=False, gut=False)
+    if k == 0:
+        y4 = ly(246, 4, FS)
+        xu = 96 + 105 + int(tw("print(a)   ", FS))
+        g.append(underline(1, xu, xu + int(tw("# 여전히 <... object>", FS)), int(y4 + 19), RED))
+    o += group(g, f' id="si-{k}"')
+o.append(blur(1, "si-0"))
+o.append(blur(2, "si-1"))
+o.append(blur_off(3))
 rows_, _ = plain_rows(96, 560, 1728, [["누가 부르나요", "우리가 a.intro()로", "print, str, f-string이 알아서"],
                                       ["무엇을 하나요", "안에서 바로 print", "글자를 return"],
                                       ["다른 글자와 잇기", "안 돼요", "f-string, 더하기로 이어요"]],
-                      [300, 680, 680], order0=2, rh=96, head_=["", "intro", "__str__"], fs=30)
+                      [300, 680, 680], order0=3, rh=96, head_=["", "intro", "__str__"], fs=30)
 o += rows_
 W("s-intro", o, "24에서 만든 intro도 붕어빵을 소개했어요. 그런데 __str__을 쓰는 이유가 있어요. intro는 우리가 직접 a.intro()로 불러야 하고, 안에서 바로 print해 버려요. 그래서 print(a)는 여전히 낯선 글자가 나오고, 소개 글자를 주문서나 영수증에 이어 붙일 수도 없어요. __str__은 print, str, f-string이 알아서 부르고 글자를 돌려줘요. 돌려받은 글자는 어디에든 다시 쓸 수 있어요. 파이썬이 원래 쓰던 방법에 우리 붕어빵이 끼어드는 거예요.")
 
@@ -361,17 +399,20 @@ FS = 26
 c5 = {"id": "c-r5", "lines": B_INIT + [""] + B_STR + [""] + B_REPR + [""] + AB + ["a"], "n": 5, "out": ["Bread('팥', 1000)"]}
 o += cell(c5, 96, 196, 1100, FS)
 o.append(hl(96, 196, 1100, 8, 2, "run", 1, FS))
-o.append(tag(1240, ly(196, 8.5, FS), "만든 사람이 보는 주문표 글씨", K3, 1))
-o.append(tag(1240, ly(196, 8.5, FS) + 44, "다시 찍는 코드 모양으로 적어요", K3, 1, size=24, lead=False))
+# the two new lines are small at 26px: the camera moves in on them once, then comes back for the tags
+o.append(zoom(1, 96 + 85, 196 + 10 + 8 * LH(FS), 1015, 2 * LH(FS), 40, 2.2))
+o.append(zoom_off(2))
+o.append(tag(1240, ly(196, 8.5, FS), "만든 사람이 보는 주문표 글씨", K3, 2))
+o.append(tag(1240, ly(196, 8.5, FS) + 44, "다시 찍는 코드 모양으로 적어요", K3, 2, size=24, lead=False))
 yo = oy(196, 14, 0, FS)
-o.append(box(2, 186, int(yo - 22), int(tw(c5["out"][0], FS)) + 30, 44, TEAL))
-o.append(tag(cx(96, c5["out"][0], FS) + 50, yo, "셀 마지막 줄도 이제 보여요", K3, 2))
+o.append(box(3, 186, int(yo - 22), int(tw(c5["out"][0], FS)) + 30, 44, TEAL))
+o.append(tag(cx(96, c5["out"][0], FS) + 50, yo, "셀 마지막 줄도 이제 보여요", K3, 3))
 T6 = 812
 c6 = {"id": "c-r6", "lines": ["print(a)", "print([a, b])"], "n": 6, "out": ["팥 붕어빵 1,000원", "[Bread('팥', 1000), Bread('슈크림', 1200)]"]}
-o += cell(c6, 96, T6, 1728, FS, attrs=' data-build-in="rise order 3"', box_w=1015)
+o += cell(c6, 96, T6, 1728, FS, attrs=' data-build-in="rise order 4"', box_w=1015)
 ox = cx(96, c6["out"][1], FS) + 50
-o.append(tag(ox, oy(T6, 2, 0, FS), "print는 여전히 __str__", K2, 4, size=26))
-o.append(tag(ox, oy(T6, 2, 1, FS), "리스트 안은 __repr__", K3, 4, size=26))
+o.append(tag(ox, oy(T6, 2, 0, FS), "print는 여전히 __str__", K2, 4, size=26) .replace('data-build-in="fade order 4"', 'data-build-in="fade order 4" data-delay="300"'))
+o.append(tag(ox, oy(T6, 2, 1, FS), "리스트 안은 __repr__", K3, 4, size=26).replace('data-build-in="fade order 4"', 'data-build-in="fade order 4" data-delay="450"'))
 W("r-basic", o, "__repr__을 더 만들어요. __repr__은 만든 사람이 보는 주문표 글씨예요. 보통 그 붕어빵을 다시 찍는 코드 모양으로 적어요. Bread('팥', 1000)을 그대로 복사해서 셀에 붙여 넣으면 같은 붕어빵이 다시 만들어져요. 맛 글자에는 따옴표를 직접 넣었어요. 이제 셀 마지막 줄에서도, 리스트 안에서도 낯선 글자 대신 Bread('팥', 1000)이 보여요. print(a)는 여전히 __str__의 메뉴판 글씨를 써요." + REAL)
 
 # r-who: a plain table; the spotlight walks down the rows
@@ -487,10 +528,14 @@ o = [sec("l-for")] + head(EB4, "붕어빵 여러 개를 리스트에 담아 하�
 FS = 28
 LB = B_INIT + [""] + B_STR + [""] + B_REPR + ["", 'breads = [Bread("팥", 1000), Bread("슈크림", 1200), Bread("피자", 1500)]', "for b in breads:", "    print(b)"]
 cl1 = {"id": "c-l1", "lines": LB, "n": 1, "out": ["팥 붕어빵 1,000원", "슈크림 붕어빵 1,200원", "피자 붕어빵 1,500원"]}
+# the run band walks for, print(b), for, print(b): the loop is seen running, one output per turn
+cl1["oattrs"] = [' data-build-in="fade order 2"', ' data-build-in="fade order 4"', ' data-build-in="fade order 4" data-delay="250"']
 o += cell(cl1, 96, 196, 1340, FS)
-o.append(hl(96, 196, 1340, 12, 2, "run", 1, FS))
+for k, i in enumerate([12, 13, 12, 13]):
+    o.append(run(k + 1, 96 + 87, 196 + 10 + i * LH(FS), 1340 - 89, LH(FS)))
+o.append(run_off(5))
 o.append(tag(cx(96, "for b in breads:", FS) + 40, ly(196, 12, FS), "하나씩 꺼내 print", GR, 1))
-o.append(tag(cx(96, "슈크림 붕어빵 1,200원", FS) + 50, oy(196, 14, 1, FS), "b는 붕어빵 하나라서 __str__을 써요", K4, 2))
+o.append(tag(cx(96, "슈크림 붕어빵 1,200원", FS) + 50, oy(196, 14, 1, FS), "b는 붕어빵 하나라서 __str__을 써요", K4, 5))
 W("l-for", o, "이제 __str__과 __repr__이 모두 있는 틀로 붕어빵 세 개를 리스트에 담아요. for로 하나씩 꺼내 print하면 b는 붕어빵 하나라서 __str__의 메뉴판 글씨가 나와요. 24의 실습에서는 b.intro()를 불렀는데, 이제는 print(b)만 쳐도 돼요. 이 셀의 breads를 다음 두 장에서 계속 써요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p4", "붕어빵 여러 개 다루기"))
 
 o = [sec("l-comp")] + head(EB4, "23의 컴프리헨션으로 맛만, 가격만, 비싼 것만", K4)
@@ -498,6 +543,7 @@ FS = 40
 cl2 = {"id": "c-l2", "lines": ["print([b.flavor for b in breads])", "print(sum([b.price for b in breads]))", "print([b for b in breads if b.price >= 1200])"], "n": 2,
        "out": ["['팥', '슈크림', '피자']", "3700", "[Bread('슈크림', 1200), Bread('피자', 1500)]"]}
 TC = 236
+cl2["oattrs"] = ["", COUNT(2)]     # the sum counts up to 3700 when its tag comes in
 o += cell(cl2, 96, TC, 1300, FS)
 for i, t in enumerate(["맛 칸만 모아요", "가격만 모아 sum에 넘겨요", "비싼 붕어빵을 통째로"]):
     o.append(tag(1430, ly(TC, i, FS), t, K4, i + 1))
@@ -528,10 +574,20 @@ SS = ["class Stall:", "    def __init__(self, name, stock):", "        self.name
 o += cell({"id": "c-st1", "lines": SS, "n": 5, "out": ["팥: 남은 10개, 판매 0개", "팥: 남은 7개, 판매 3개"]}, 96, 176, 1200, FS)
 o.append(hl(96, 176, 1200, 6, 3, "mark", 1, FS))
 o.append(tag(cx(96, "        self.stock = self.stock - qty", FS) + 40, ly(176, 7.5, FS), "값 바꾸기", BL, 1, size=26))
-rows_, ys = plain_rows(1350, 196, 474, [["찍기", "10", "0"], ["sell(3)", "7", "3"]], [190, 110, 100], order0=2, rh=84, head_=["일", "stock", "sold"], fs=30)
-o += rows_
-o.append(box(3, 1350 + 200, ys[1] + 12, 230, 60, BL))
-o.append(p(f"position:absolute;left:1350px;top:{ys[1] + 130}px;width:474px;font-size:28px;font-weight:700;line-height:1.5;color:{INK}", "바뀐 값은 다음에 부를 때까지 남아 있어요. 이걸 상태라고 불러요.", ' data-build-in="rise order 4"'))
+# the state of s: two value cells that change on the step sell(3) runs (text() flashes the new value)
+SX = 1350
+o.append(f'<div data-build-in="rise order 2" style="position:absolute;left:{SX}px;top:196px;width:474px;display:flex;flex-direction:column;gap:18px">'
+         + p(f"font-size:26px;font-weight:700;color:{GRAY}", "sell(3) 뒤 s의 상태", ' id="ss-when" data-start="찍은 뒤 s의 상태"')
+         + '<div style="display:flex;flex-direction:row;gap:24px">'
+         + "".join(f'<div style="width:225px;height:200px;background:#FFFFFF;border:3px solid {BL};border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">'
+                   + p(f"font-family:{MONO};font-size:26px;font-weight:700;color:{BL}", n_)
+                   + p(f"font-family:{MONO};font-size:72px;font-weight:700;line-height:1.3;color:{INK}", last, f' id="{sid}" data-start="{first}"') + '</div>'
+                   for n_, first, last, sid in [("self.stock", "10", "7", "ss-stock"), ("self.sold", "0", "3", "ss-sold")])
+         + '</div></div>')
+o.append(set_text(3, "ss-when", "sell(3) 뒤 s의 상태"))
+o.append(set_text(3, "ss-stock", "7"))
+o.append(set_text(3, "ss-sold", "3"))
+o.append(p(f"position:absolute;left:{SX}px;top:510px;width:474px;font-size:28px;font-weight:700;line-height:1.5;color:{INK}", "바뀐 값은 다음에 부를 때까지 남아 있어요. 이걸 상태라고 불러요.", ' data-build-in="rise order 4"'))
 W("st-sell", o, "붕어빵 노점 하나를 틀로 만들어요. 재고는 재료로 받고, 판매 개수는 24에서 본 것처럼 0에서 시작해요. sell 메서드는 판 개수만큼 재고를 빼고 판매 개수를 더해요. sell을 부를 때마다 칸의 값이 바뀌고, 바뀐 값은 다음에 부를 때까지 노점에 남아 있어요. 이렇게 객체가 지금 들고 있는 값을 상태라고 불러요. __str__이 있어서 print(s)만 쳐도 지금 상태가 보여요." + REAL)
 
 o = [sec("st-if")] + head(EB4, "재고가 모자라면 팔지 않게 if로 막아요", K4)
@@ -541,20 +597,22 @@ o.append(hl(96, 176, 1200, 7, 2, "err", 1, FS))
 o.append(tag(cx(96, '            return "재고가 모자라요"', FS) + 40, ly(176, 7.5, FS), "17의 if로 막기", RED, 1, size=26))
 OX = 520
 for j, (t, c) in enumerate([("5개 중 3개를 팔았어요", GR), ("4개는 막혔어요. return에서 바로 끝나요", RED), ("남은 2개, 판매 3개 그대로", GR)]):
-    o.append(tag(OX, oy(176, 17, j, FS), t, c, j + 2, size=26))
+    o.append(tag(OX, oy(176, 17, j, FS), t, c, j + 2, size=26).replace("<p ", "<p" + DIM("st-if") + " ", 1))
 W("st-if", o, "재고보다 많이 팔면 재고가 마이너스가 돼요. sell 안에 17의 if를 넣어서, 재고가 모자라면 글자를 return하고 바로 끝나게 했어요. 19에서 배운 대로 return을 만나면 아래 줄은 실행하지 않아서 재고와 판매 개수가 바뀌지 않아요. 3개를 판 뒤 남은 2개는 그대로예요. 메서드 안에 값을 지키는 규칙을 둘 수 있어서 재고가 마이너스가 되는 일을 막아요." + REAL)
 
 # ---------- part 5: the bad line, the error, one reading tag, the fix ----------
 FS = 30
 o = [sec("t-print")] + head(EB5, "__str__ 안에서 print하면 returned non-string", K5)
-ct = {"id": "c-t1", "lines": B_INIT + ["", "    def __str__(self):", '        print(self.flavor, "붕어빵")', ""] + AB + ["print(a)"], "n": 1, "out": ["팥 붕어빵", "TypeError: __str__ returned non-string (type NoneType)"], "err": True}
+ct = {"id": "c-t1", "lines": B_INIT + ["", "    def __str__(self):", '        print(self.flavor, "붕어빵")', ""] + AB + ["print(a)"], "n": 1, "out": ["팥 붕어빵", "TypeError: __str__ returned non-string (type NoneType)"], "err": True, "oids": ["", "tp-err"]}
 o += cell(ct, 96, 196, 1300, FS)
 o.append(hl(96, 196, 1300, 6, 1, "err", 1, FS))
 o.append(tag(cx(96, ct["lines"][6], FS) + 40, ly(196, 6, FS), "return이 없어요", RED, 1))
 ye = oy(196, 11, 1, FS)
 o.append(box(2, 193, int(ye - 20), int(tw(ct["out"][1], FS)) + 16, 40, RED))
 o.append(tag(cx(96, ct["out"][1], FS) + 60, ye, "글자 대신 None", RED, 2))
-o.append(fix(96, 860, 'print(self.flavor, "붕어빵")', 'return f"{self.flavor} 붕어빵"', 3))
+o.append(shake(2, "tp-err"))     # the one shake of the deck: the moment print(a) fails
+o += morph_fix("tp-bad", 96, 860, [("p", "print("), ("f", "self.flavor"), ("c", ", "), ("q1", '"'), ("s", "붕어빵"), ("q2", '"'), ("e", ")")],
+               [("r", "return "), ("o", 'f"{'), ("f", "self.flavor"), ("m", "} "), ("s", "붕어빵"), ("q2", '"')], 3, 4)
 W("t-print", o, "가장 많이 하는 실수예요. __str__ 안에서 return 대신 print를 썼어요. 출력을 보면 팥 붕어빵이 먼저 찍히고 바로 TypeError가 나요. __str__이 불려서 안의 print가 실행된 뒤, 돌려준 값이 글자가 아니라 None이었기 때문이에요. 19에서 배운 대로 return이 없는 함수는 None을 돌려줘요. __str__과 __repr__은 꼭 글자를 return해요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요." + REAL, ("p5", "오류와 함정"))
 
 o = [sec("t-int")] + head(EB5, "숫자를 돌려줘도 returned non-string", K5)
@@ -566,7 +624,7 @@ ye = oy(196, 11, 0, FS)
 xa = cx(96, "TypeError: __str__ returned non-string ", FS)
 o.append(underline(2, int(xa), int(xa + tw("(type int)", FS)), int(ye + 18), RED))
 o.append(tag(cx(96, ct["out"][0], FS) + 50, ye, "int = 숫자", RED, 2))
-o.append(fix(96, 830, "return self.price", 'return f"{self.price}원"', 3))
+o += morph_fix("ti-bad", 96, 830, [("r", "return "), ("v", "self.price")], [("r", "return "), ("o", 'f"{'), ("v", "self.price"), ("w", '}원"')], 3, 4)
 W("t-int", o, "이번엔 return은 했는데 가격 숫자를 그대로 돌려줬어요. 오류 끝의 type int가 숫자를 돌려줬다는 뜻이에요. __str__과 __repr__은 이름 그대로 글자를 돌려줘야 해요. 12에서 배운 str()로 바꿔 return str(self.price)라고 적거나, 화면처럼 f-string으로 감싸서 돌려줘요." + REAL)
 
 o = [sec("t-under")] + head(EB5, "밑줄이 하나면 오류 없이 그냥 무시돼요", K5)
@@ -578,7 +636,8 @@ o.append(box(1, int(xs - 4), int(y5 - 21), int(tw("_str_", FS)) + 8, 42, RED))
 o.append(tag(cx(96, ct["lines"][5], FS) + 40, y5, "밑줄이 하나씩이에요", RED, 1))
 yo = oy(196, 11, 0, FS)
 o.append(tag(cx(96, ct["out"][0], FS) + 50, yo, "오류 없이 기본 모양", RED, 2))
-o.append(fix(96, 830, "def _str_(self):", "def __str__(self):", 3))
+us = lambda: f'<span{MARK(4)} style="color:{GR};background:#BFE5CC;border-radius:4px">_</span>'
+o.append(fix(96, 830, "def _str_(self):", "def _" + us() + "str_" + us() + "(self):", 3, raw=True))
 W("t-under", o, "밑줄을 하나씩만 적었어요. 24의 __init__ 때는 TypeError가 났는데, 이번에는 오류가 안 나요. 파이썬이 print할 때 __str__을 찾았는데 없어서 그냥 기본 모양을 쓴 거예요. _str_은 이름이 비슷한 평범한 메서드일 뿐이에요. 오류가 없어서 오히려 찾기 어려우니, 낯선 글자가 그대로 나오면 밑줄 개수부터 봐요." + REAL)
 
 o = [sec("t-plus")] + head(EB5, "글자에 붕어빵을 바로 더하면 can only concatenate", K5)
@@ -588,8 +647,9 @@ o.append(hl(96, 196, 1300, 10, 1, "err", 1, FS))
 o.append(tag(cx(96, ct["lines"][10], FS) + 40, ly(196, 10, FS), "더하기는 __str__을 부르지 않아요", RED, 1))
 ye = oy(196, 11, 0, FS)
 o.append(underline(2, 201, int(cx(96, ct["out"][0], FS)), int(ye + 18), RED))
-o.append(fix(96, 820, '"주문: " + a', '"주문: " + str(a)', 3))
-o.append(caption('f"주문: {a}"나 print("주문:", a)처럼 적어도 __str__이 불려요.', 920, 4))
+sa = lambda s: f'<span{MARK(4)} style="color:{GR};background:#BFE5CC;border-radius:4px">{s}</span>'
+o.append(fix(96, 820, '"주문: " + a', e('"주문: " + ') + sa("str(") + "a" + sa(")"), 3, raw=True))
+o.append(caption('f"주문: {a}"나 print("주문:", a)처럼 적어도 __str__이 불려요.', 920, 5))
 W("t-plus", o, "__str__을 만들었으니 글자에 바로 더해도 될 것 같지만 TypeError가 나요. 글자에는 글자만 더할 수 있다는 뜻이에요. 더하기는 붕어빵을 글자로 바꿔 주지 않아요. 2파트에서 본 것처럼 str(a)로 먼저 바꾸거나, f-string 중괄호에 넣거나, print에 쉼표로 넘기면 __str__이 불려요. 12에서 숫자와 글자를 더할 때 난 오류와 같은 원리예요." + REAL)
 
 # ---------- part 6 ----------
@@ -642,13 +702,15 @@ TR = [("<__main__.Bread object at 0x...>", "__str__이나 __repr__이 없거나 
       ("재고가 마이너스가 돼요", "메서드에서 값을 확인하지 않았어요", "if와 return으로 막기")]
 o.append(f'<div style="position:absolute;left:96px;top:196px;width:1728px;height:48px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:3px solid {INK}">'
          + p(f"width:1300px;flex:none;font-size:24px;font-weight:700;color:{GRAY}", "보이는 것과 이유") + p(f"font-size:24px;font-weight:700;color:{GRAY}", "고치기") + '</div>')
+g = []
 for i, (q, a_, cmd) in enumerate(TR):
-    o.append(f'<div style="position:absolute;left:96px;top:{244 + i * 94}px;width:1728px;height:94px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {HAIR}">'
+    g.append(f'<div style="position:absolute;left:96px;top:{244 + i * 94}px;width:1728px;height:94px;display:flex;flex-direction:row;align-items:center;gap:24px;border-bottom:2px solid {HAIR}">'
              + '<div style="width:1300px;flex:none;display:flex;flex-direction:column;gap:2px">'
              + p(f"{'font-family:' + MONO + ';' if q.isascii() else ''}font-size:25px;font-weight:700;color:{INK};white-space:nowrap", e(q))
              + p(f"font-size:23px;color:{SUB}", e(a_)) + '</div>'
              + p(f"{'font-family:' + MONO + ';font-size:25px;' if cmd.isascii() else 'font-size:26px;'}font-weight:700;color:{GR};white-space:pre", e(cmd)) + '</div>')
-o.append(caption("낯선 글자가 나오면 \"지금 파이썬이 어느 메서드를 찾았을까\"부터 생각해요.", 944))
+o += group(g, STAGGER(1, 90))
+o.append(caption("낯선 글자가 나오면 \"지금 파이썬이 어느 메서드를 찾았을까\"부터 생각해요.", 944, 2))
 W("trouble", o, "이번 챕터에서 자주 만나는 일을 모았어요. 1번과 2번은 어느 메서드가 불리는지와 관련돼요. print는 __str__, 리스트 안은 __repr__이에요. 3번부터 5번은 두 메서드가 꼭 글자를 돌려줘야 해서 생기는 오류예요. 6번은 22의 key를, 7번은 17의 if를 메서드 안에서 쓰면 해결돼요. 낯선 글자가 나오면 지금 파이썬이 어느 메서드를 찾았을지부터 생각해 보세요.", ("trouble", "정리"))
 
 o = [sec("cheatsheet")] + [f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">한 장 요약</h2>']
@@ -656,11 +718,13 @@ CH = [("def __str__(self):", "print, str(), f-string에서 보일 글자", K2), 
       ('return f"..."', "두 메서드 모두 꼭 글자를 돌려줘요", K2), ("Bread('팥', 1000)", "repr은 다시 찍는 코드 모양으로", K3),
       ("str(a)", "글자로 바꿔 다른 글자와 잇기", K2), ("__repr__만", "하나만 만든다면. print도 빌려 써요", K3),
       ("key=lambda b: b.price", "붕어빵을 가격으로 줄 세우기", K4), ("self.stock - qty", "메서드로 상태 바꾸기, if로 막기", K4)]
+g = []
 for i, (k, d, c) in enumerate(CH):
     x, y = 96 + (i % 2) * 884, 196 + (i // 2) * 150
-    o.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:844px;height:150px;display:flex;flex-direction:column;justify-content:center;gap:10px;border-bottom:2px solid {HAIR}">'
+    g.append(f'<div style="position:absolute;left:{x}px;top:{y}px;width:844px;height:150px;display:flex;flex-direction:column;justify-content:center;gap:10px;border-bottom:2px solid {HAIR}">'
              + p(f"font-family:{MONO};font-size:34px;font-weight:700;color:{c};white-space:pre", e(k)) + p(f"font-size:28px;font-weight:500;color:{INK}", e(d)) + '</div>')
-o.append(p(f"position:absolute;left:96px;top:830px;width:1728px;font-size:34px;font-weight:700;line-height:1.5;color:{INK}", "__str__은 손님용 메뉴판, __repr__은 만든 사람용 주문표예요."))
+o += group(g, STAGGER(1, 90))
+o.append(p(f"position:absolute;left:96px;top:830px;width:1728px;font-size:34px;font-weight:700;line-height:1.5;color:{INK}", "__str__은 손님용 메뉴판, __repr__은 만든 사람용 주문표예요.", ' data-build-in="rise order 2"'))
 o.append(p(f"position:absolute;left:96px;top:900px;width:1728px;font-size:30px;font-weight:500;line-height:1.5;color:{SUB}", "다음 챕터: 26에서 틀을 물려받아 슈크림 붕어빵 틀을 만들어요."))
 W("cheatsheet", o, "이번 챕터에서 배운 것을 한 장에 모았어요. __str__과 __repr__은 파이썬이 정해진 순간에 알아서 부르는 메서드예요. print와 str과 f-string은 __str__을, 셀 마지막 줄과 리스트 안의 값은 __repr__을 찾아요. 둘 다 꼭 글자를 return해요. 하나만 만든다면 __repr__이에요. 붕어빵 여러 개는 22의 key로 정렬하고, 메서드 안에서 재고 같은 상태를 바꿔요. 26에서는 이 틀을 물려받아 새 틀을 만드는 상속을 배워요.")
 
@@ -673,13 +737,15 @@ PARTS = [(K1, "왜 필요한가", "print했을 때 낯선 글자, 파이썬이 �
          (K5, "오류와 함정", "print를 쓴 __str__, 숫자 돌려주기, 밑줄 하나, 글자 더하기", "t-print", "t-plus"),
          (K6, "실습", "노점의 하루 두 장, 카페 메뉴판", "x-stall", "x-menu")]
 t = [sec("toc"), f'<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:{INK}">오늘의 순서</h2>']
+g = []
 for i, (c, h, s, a, b) in enumerate(PARTS):
     y = 196 + i * 118
-    t.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:118px;display:flex;flex-direction:row;align-items:center;gap:32px;border-bottom:2px solid {HAIR}">'
+    g.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:118px;display:flex;flex-direction:row;align-items:center;gap:32px;border-bottom:2px solid {HAIR}">'
              + p(f"width:60px;flex:none;font-size:52px;font-weight:900;color:{c}", str(i + 1))
              + p(f"width:520px;flex:none;font-family:{MONO if h.isascii() else SANS};font-size:36px;font-weight:700;color:{INK}", e(h))
              + p(f"flex:1;font-size:26px;line-height:1.4;color:{SUB}", e(s))
              + p(f"width:130px;flex:none;text-align:right;font-size:26px;font-weight:700;color:{GRAY}", f"{page[a]}–{page[b]}쪽") + '</div>')
+t += group(g, STAGGER(1, 90))
 t.append(p(f"position:absolute;left:96px;top:930px;font-size:26px;color:{SUB}", f"{page['ready']}쪽은 노트북 준비, {page['trouble']}–{page['cheatsheet']}쪽은 막힐 때와 한 장 요약이에요."))
 with open(os.path.join(OUT, "toc.html"), "w") as f:
     f.write("\n".join(t) + "\n<aside>" + e("여섯 파트로 나눴어요. 1파트는 붕어빵을 print했을 때의 문제와 파이썬이 알아서 부르는 메서드 그림이에요. 2파트와 3파트가 중심이에요. __str__과 __repr__을 하나씩 만들고, 언제 어느 쪽이 불리는지 표로 정리해요. 4파트는 붕어빵 여러 개를 정렬하고 상태를 바꾸는 메서드, 5파트는 자주 나는 오류, 6파트는 노점과 카페 실습이에요. 파트마다 새 커널에서 위에서부터 차례로 실행해요.") + "</aside>\n</section>\n")
