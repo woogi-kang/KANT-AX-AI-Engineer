@@ -44,10 +44,14 @@ run([MENU + '\nprint(menu.keys())\nprint(menu.values())\nprint(menu.items())\npr
      'cart = {"coffee": 2, "tea": 1}\ntotal = 0\nfor name, qty in cart.items():\n    price = menu.get(name, 0)\n    print(name, qty, price * qty)\n    total += price * qty\nprint("합계:", total)',
      'words = "coffee latte coffee cake coffee latte".split()\ncount = {}\nfor w in words:\n    count[w] = count.get(w, 0) + 1\nprint(count)\nprint(count["coffee"])',
      'votes = {}\nvotes["coffee"] = votes["coffee"] + 1'])
-print("=== 4. 리스트와 섞기")
+SOLD = ('orders = [{"menu": "coffee", "qty": 2},\n          {"menu": "latte", "qty": 1},\n          {"menu": "coffee", "qty": 1},\n'
+        '          {"menu": "cake", "qty": 2},\n          {"menu": "latte", "qty": 3}]\nsold = {}\nfor order in orders:\n    name = order["menu"]\n'
+        '    sold[name] = sold.get(name, 0) + order["qty"]\nprint(sold)\nprint(sold["latte"])\nprint(sum(sold.values()))')
+print("=== 4. 리스트와 섞기, 5. 실제로 써 보기 (한 커널)")
 run(['scores = {"kim": [90, 85, 77],\n          "lee": [70, 95, 88],\n          "park": [60, 75, 99]}\nprint(scores["lee"])\nprint(scores["lee"][1])\nfor name, s in scores.items():\n    print(name, sum(s), max(s))',
      'orders = [{"menu": "coffee", "price": 4500, "qty": 2},\n          {"menu": "latte", "price": 5000, "qty": 1},\n          {"menu": "cake", "price": 6500, "qty": 3}]\nprint(len(orders))\nprint(orders[1])\nprint(orders[1]["menu"])\nprint(orders[2]["price"] * orders[2]["qty"])',
      'for order in orders:\n    print(order["menu"], order["price"] * order["qty"])',
+     'scores[0]', 'scores["Lee"]', 'orders["menu"]',
      'print("=" * 33)\nprint(f"{\'KANT 카페\':^31}")\nprint(f"{\'2026-11-03  14:30\':^33}")\nprint("=" * 33)\nprint(f"{\'메뉴명\':<7}{\'단가\':>6}{\'수량\':>3}{\'금액\':>8}")\nprint("-" * 33)\ntotal = 0\ncount = 0\nfor order in orders:\n    amount = order["price"] * order["qty"]\n    print(f"{order[\'menu\']:<10}{order[\'price\']:>8,}{order[\'qty\']:>5}{amount:>10,}")\n    total += amount\n    count += order["qty"]\nprint("-" * 33)\nprint(f"{\'수량\':<6}{count:>15}")\nprint(f"{\'합계\':<6}{total:>25,}")\nprint("=" * 33)\nprint(f"{\'감사합니다\':^28}")',
      MENU + '\ncart = {"coffee": 2, "cake": 3}\ntotal = 0\nfor name, qty in cart.items():\n    price = menu[name]\n    print(f"{name} {qty}개 {price * qty:,}원")\n    total += price * qty\nprint(f"합계 {total:,}원")',
-     'menu[0]', 'menu["Latte"]', 'orders["menu"]'])
+     SOLD])
