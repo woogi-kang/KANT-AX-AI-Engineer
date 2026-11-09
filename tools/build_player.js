@@ -303,7 +303,7 @@ function fxState(i,n,animate){
   // blur everything on the slide except the part that holds the target
   if(bl||s.classList.contains('pl-blurs')){s.classList.add('pl-blurs');
     const t=bl&&s.querySelector('#'+bl.dataset.target);
-    [...s.children].forEach(c=>{if(c.tagName==='ASIDE'||/^pl-/.test(c.className)||c.hasAttribute('data-build-in')&&/^(lspot|run|zoom|blur|text|pan|kenburns|pulse|grow|shine|shake|spot|cursor|click)/.test(c.getAttribute('data-build-in')))return;
+    [...s.children].forEach(c=>{if(c.tagName==='ASIDE'||/^pl-(?!bl$)/.test(c.className)||c.hasAttribute('data-build-in')&&/^(lspot|run|zoom|blur|text|pan|kenburns|pulse|grow|shine|shake|spot|cursor|click)/.test(c.getAttribute('data-build-in')))return;
       instant(c,()=>c.classList.toggle('pl-bl',!!t&&!c.contains(t)&&c!==t));});
     if(!bl&&!animate)s.classList.remove('pl-blurs');
   }

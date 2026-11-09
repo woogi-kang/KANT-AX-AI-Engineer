@@ -3,6 +3,7 @@
 <title>커밋 전 변경 취소하기와 잠깐 보관하기</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>section{position:relative;width:1920px;height:1080px;box-sizing:border-box;overflow:hidden}
+[data-pdf="hide"]{visibility:hidden}
 section *{box-sizing:border-box}
 p,h1,h2,h3,ul,ol{margin:0}
 h1{font-size:96px;font-weight:600;line-height:1.1} h2{font-size:64px;font-weight:600;line-height:1.15} h3{font-size:44px;font-weight:600;line-height:1.2} p{font-size:32px;line-height:1.4}
@@ -97,14 +98,35 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 .pl-cur.on{opacity:1}
 .pl-rip{position:absolute;z-index:44;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:5px solid #2459C9;opacity:0;pointer-events:none}
 .pl-rip.go{animation:pl-rip .6s ease-out}
-@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}</style></head>
+@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}
+#pl-stage [data-pdf="hide"]{visibility:inherit}
+[data-build-in^="lspot"],[data-build-in^="run"],[data-build-in^="zoom"],[data-build-in^="blur"],[data-build-in^="text"],[data-build-in^="pan"],[data-build-in^="kenburns"],[data-build-in^="pulse"],[data-build-in^="grow"],[data-build-in^="shine"],[data-build-in^="shake"]{visibility:hidden}
+[data-build-in^="wipe"]{clip-path:inset(0 0 0 0);transition:opacity .2s ease,clip-path .6s cubic-bezier(.65,0,.35,1)}
+.pending.wipe{opacity:1!important;clip-path:inset(0 100% 0 0)}
+[data-build-in^="slam"]{transition:opacity .25s ease,transform .5s cubic-bezier(.34,1.45,.64,1)}
+.pending.slam{transform:scale(2.2)!important}
+[data-build-in^="slide"]{transition:opacity .3s ease,transform .6s cubic-bezier(.16,1,.3,1)}
+.pending.slide{transform:translate(var(--dx,0px),var(--dy,60px))!important}
+.pending.stagger{opacity:1!important}
+[data-build-in^="stagger"]>*{transition:opacity .35s ease,transform .4s cubic-bezier(.2,.7,.2,1)}
+.pending.stagger>*{opacity:0;transform:translateY(18px)}
+[data-build-in^="mark"]{transition:background-color .45s ease,color .45s ease,text-decoration-color .45s ease,box-shadow .45s ease}
+.pending.mark{opacity:1!important;background-color:transparent!important;color:inherit!important;text-decoration-color:transparent!important;box-shadow:none!important}
+[data-dimgroup]{transition:opacity .45s ease,transform .45s ease,filter .4s ease}
+.pl-dim{filter:grayscale(1) opacity(.38)}
+.pl-blurs>*{transition:opacity .45s ease,transform .45s ease,filter .5s ease}
+.pl-bl{filter:blur(6px) opacity(.5)}
+.pl-veil{position:absolute;z-index:30;pointer-events:none;opacity:.8;transition:left .45s cubic-bezier(.65,0,.35,1),top .45s cubic-bezier(.65,0,.35,1),width .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),opacity .35s ease}
+.pl-lbar{position:absolute;z-index:31;width:7px;border-radius:4px;background:#2459C9;pointer-events:none;transition:top .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),left .45s,opacity .35s ease}
+.pl-run{position:absolute;z-index:29;pointer-events:none;border-radius:8px;background:rgba(31,138,76,.17);box-shadow:inset 7px 0 0 #1F8A4C;transition:left .4s cubic-bezier(.65,0,.35,1),top .4s cubic-bezier(.65,0,.35,1),width .4s,height .4s,opacity .3s ease}
+.pl-off{opacity:0!important}</style></head>
 <body>
 <div id="pl-stage">
 <section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
 <p style="font-size:28px;font-weight:700;color:#8FB3FF">KANT AX/AI 엔지니어 트랙 · 07</p>
-<h1 style="font-size:96px;font-weight:900;line-height:1.1;color:#F6F5F1">커밋 전 변경<br>취소하기와<br>잠깐 보관하기</h1>
+<h1 data-build-in="slam order 1" style="font-size:96px;font-weight:900;line-height:1.1;color:#F6F5F1">커밋 전 변경<br>취소하기와<br>잠깐 보관하기</h1>
 <p style="font-size:40px;line-height:1.4;color:#BFC6D4">git restore와 git stash</p>
-<div style="position:absolute;left:1120px;top:330px;width:672px;height:420px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:10px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
+<div id="cov-code" style="position:absolute;left:1120px;top:330px;width:672px;height:420px;background:#252B36;border-radius:24px;padding:44px 48px;display:flex;flex-direction:column;justify-content:center;gap:10px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace">
 <p style="font-size:34px;line-height:1.45;white-space:pre;font-weight:700;color:#F2C46D">$ git restore login.md</p>
 <p style="font-size:34px;line-height:1.45;white-space:pre;font-weight:400;color:#9AA3B5">  고친 걸 버려요</p>
 <p style="font-size:34px;line-height:1.45;white-space:pre;font-weight:700;color:#F2C46D">$ git stash</p>
@@ -112,6 +134,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:34px;line-height:1.45;white-space:pre;font-weight:700;color:#F2C46D">$ git stash pop</p>
 <p style="font-size:34px;line-height:1.45;white-space:pre;font-weight:400;color:#9AA3B5">  서랍에서 꺼내요</p>
 </div>
+<div data-build-in="shine order 2" data-target="cov-code" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>커밋하기 전의 변경을 버리고, 잠깐 치워 두는 명령을 배워요. 02의 네 칸 그림과 hello-git 저장소, login.md로 이어서 실습해요. 고친 걸 버리는 git restore, add를 취소하는 git restore --staged, 고치던 걸 잠깐 치우는 git stash 세 가지예요. 팀 레포에서 pull이 막힐 때 바로 쓰는 명령이에요.</aside>
 </section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
@@ -136,11 +159,11 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">들어가기</p>
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">이럴 때 쓰는 명령이에요</h2>
 <div style="position:absolute;left:96px;top:228px;width:1728px;height:2px;background:#1D2330"></div>
-<div style="position:absolute;left:96px;top:230px;width:1728px;height:214px;display:flex;flex-direction:row;align-items:center;gap:40px;padding:0 10px"><p style="width:56px;flex:none;font-size:56px;font-weight:900;color:#A33131">1</p><div style="flex:1;display:flex;flex-direction:column;gap:12px"><p style="font-size:42px;font-weight:700;line-height:1.25;color:#1D2330">파일을 망쳤어요</p><div style="display:flex;flex-direction:row;gap:20px;align-items:baseline"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;white-space:pre;color:#6A7180">$ echo "로그인 버튼" &gt; login.md</p><p style="font-size:28px;color:#4A5262">&gt;&gt; 대신 &gt; 를 쳐서 세 줄이 사라졌어요</p></div></div><p data-build-in="fade order 1" style="width:470px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#A33131">git restore</p></div>
+<div style="position:absolute;left:96px;top:230px;width:1728px;height:214px;display:flex;flex-direction:row;align-items:center;gap:40px;padding:0 10px"><p style="width:56px;flex:none;font-size:56px;font-weight:900;color:#A33131">1</p><div style="flex:1;display:flex;flex-direction:column;gap:12px"><p style="font-size:42px;font-weight:700;line-height:1.25;color:#1D2330">파일을 망쳤어요</p><div style="display:flex;flex-direction:row;gap:20px;align-items:baseline"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;white-space:pre;color:#6A7180">$ echo "로그인 버튼" &gt; login.md</p><p style="font-size:28px;color:#4A5262">&gt;&gt; 대신 &gt; 를 쳐서 세 줄이 사라졌어요</p></div></div><p data-build-in="rise order 1" style="width:470px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#A33131">git restore</p></div>
 <div style="position:absolute;left:96px;top:444px;width:1728px;height:2px;background:#D9D6CE"></div>
-<div style="position:absolute;left:96px;top:444px;width:1728px;height:214px;display:flex;flex-direction:row;align-items:center;gap:40px;padding:0 10px"><p style="width:56px;flex:none;font-size:56px;font-weight:900;color:#1A7340">2</p><div style="flex:1;display:flex;flex-direction:column;gap:12px"><p style="font-size:42px;font-weight:700;line-height:1.25;color:#1D2330">엉뚱한 파일까지 올렸어요</p><div style="display:flex;flex-direction:row;gap:20px;align-items:baseline"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;white-space:pre;color:#6A7180">$ git add .</p><p style="font-size:28px;color:#4A5262">개인 메모 memo.md까지 대기실에 올라갔어요</p></div></div><p data-build-in="fade order 2" style="width:470px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#1A7340">git restore --staged</p></div>
+<div style="position:absolute;left:96px;top:444px;width:1728px;height:214px;display:flex;flex-direction:row;align-items:center;gap:40px;padding:0 10px"><p style="width:56px;flex:none;font-size:56px;font-weight:900;color:#1A7340">2</p><div style="flex:1;display:flex;flex-direction:column;gap:12px"><p style="font-size:42px;font-weight:700;line-height:1.25;color:#1D2330">엉뚱한 파일까지 올렸어요</p><div style="display:flex;flex-direction:row;gap:20px;align-items:baseline"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;white-space:pre;color:#6A7180">$ git add .</p><p style="font-size:28px;color:#4A5262">개인 메모 memo.md까지 대기실에 올라갔어요</p></div></div><p data-build-in="rise order 2" style="width:470px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#1A7340">git restore --staged</p></div>
 <div style="position:absolute;left:96px;top:658px;width:1728px;height:2px;background:#D9D6CE"></div>
-<div style="position:absolute;left:96px;top:658px;width:1728px;height:214px;display:flex;flex-direction:row;align-items:center;gap:40px;padding:0 10px"><p style="width:56px;flex:none;font-size:56px;font-weight:900;color:#B26A00">3</p><div style="flex:1;display:flex;flex-direction:column;gap:12px"><p style="font-size:42px;font-weight:700;line-height:1.25;color:#1D2330">pull이 막혀요</p><div style="display:flex;flex-direction:row;gap:20px;align-items:baseline"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;white-space:pre;color:#6A7180">$ git pull origin main</p><p style="font-size:28px;color:#4A5262">고치던 게 있는데 팀원이 push했대요</p></div></div><p data-build-in="fade order 3" style="width:470px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#B26A00">git stash</p></div>
+<div style="position:absolute;left:96px;top:658px;width:1728px;height:214px;display:flex;flex-direction:row;align-items:center;gap:40px;padding:0 10px"><p style="width:56px;flex:none;font-size:56px;font-weight:900;color:#B26A00">3</p><div style="flex:1;display:flex;flex-direction:column;gap:12px"><p style="font-size:42px;font-weight:700;line-height:1.25;color:#1D2330">pull이 막혀요</p><div style="display:flex;flex-direction:row;gap:20px;align-items:baseline"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;white-space:pre;color:#6A7180">$ git pull origin main</p><p style="font-size:28px;color:#4A5262">고치던 게 있는데 팀원이 push했대요</p></div></div><p data-build-in="rise order 3" style="width:470px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;color:#B26A00">git stash</p></div>
 <div style="position:absolute;left:96px;top:872px;width:1728px;height:2px;background:#D9D6CE"></div>
 <p data-build-in="fade order 4" style="position:absolute;left:96px;top:916px;width:1728px;font-size:32px;line-height:1.4;color:#4A5262">셋 다 아직 커밋하지 않은 변경을 다뤄요.</p>
 <aside>셋 다 아직 커밋하지 않은 변경을 다루는 장면이에요. 첫째는 01에서 배운 &gt; 와 &gt;&gt; 를 헷갈린 경우예요. &gt; 는 파일을 새로 덮어쓰고, &gt;&gt; 는 끝에 붙여요. 둘째는 git add . 이 폴더 안 바뀐 파일을 모두 올려서 생겨요. 셋째는 오늘 팀 실습에서 가장 많이 막히는 곳이에요. 커밋한 뒤의 되돌리기는 02와 03에서 배운 reset과 revert가 맡아요.</aside>
@@ -274,8 +297,11 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:26px;line-height:1.4;white-space:pre;color:#F28B82">-비밀번호</p>
 <p style="font-size:26px;line-height:1.4;white-space:pre;color:#7FD18B">+로그인 버튼</p>
 </div>
-<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="120" y="840" width="149" height="117" rx="8"></rect></g></svg>
+<div data-build-in="lspot order 1" data-ly="840" data-lh="117" data-bg="#1B2029" data-bar="#A33131" style="position:absolute;left:96px;top:600px;width:1728px;height:416px"></div>
 <p data-build-in="pop order 1" style="position:absolute;left:313px;top:852px;width:700px;font-size:26px;font-weight:700;line-height:1.4;color:#F28B82">restore하면 돌아오는 세 줄</p>
+<div data-build-in="lspot order 2" data-ly="950" data-lh="44" data-bg="#1B2029" data-bar="#1F8A4C" style="position:absolute;left:96px;top:600px;width:1728px;height:416px"></div>
+<p data-build-in="pop order 2" style="position:absolute;left:349px;top:954px;width:700px;font-size:26px;font-weight:700;line-height:1.4;color:#7EE2A8">이 줄은 사라져요</p>
+<div data-build-in="lspot-off order 3" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>restore는 되돌릴 수 없으니, 04에서 배운 git diff로 사라질 줄부터 봐요. - 세 줄이 원래 있던 줄, + 한 줄이 새로 생긴 줄이에요. restore를 치면 + 줄은 사라지고 - 줄이 돌아와요. 사라지는 + 줄 중에 남길 게 있는지 꼭 확인하고 넘어가요.</aside>
 </section>
 <section id="r3" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
@@ -325,13 +351,13 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">restore로 버린 줄은 되찾을 수 없어요</h2>
 <p style="position:absolute;left:96px;top:200px;width:1728px;font-size:32px;line-height:1.5;color:#4A5262">커밋하지 않은 변경은 Git에 기록이 없어요. reset과 revert는 커밋을 다뤄서 기록이 남지만, restore로 버린 줄은 휴지통에도 가지 않아요.</p>
 <div style="position:absolute;left:96px;top:330px;width:1728px;height:2px;background:#1D2330"></div>
-<div style="position:absolute;left:96px;top:332px;width:1728px;height:216px;display:flex;flex-direction:row;align-items:center;gap:36px;padding:0 10px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#A33131;border-radius:28px">1</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-size:38px;font-weight:700;color:#1D2330">먼저 git diff로 봐요</p><p style="font-size:28px;color:#4A5262">사라질 줄을 눈으로 확인해요</p></div><p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;color:#1D2330">git diff</p></div>
+<div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:332px;width:1728px;height:216px;display:flex;flex-direction:row;align-items:center;gap:36px;padding:0 10px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#A33131;border-radius:28px">1</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-size:38px;font-weight:700;color:#1D2330">먼저 git diff로 봐요</p><p style="font-size:28px;color:#4A5262">사라질 줄을 눈으로 확인해요</p></div><p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;color:#1D2330">git diff</p></div>
 <div style="position:absolute;left:96px;top:548px;width:1728px;height:2px;background:#D9D6CE"></div>
-<div style="position:absolute;left:96px;top:548px;width:1728px;height:216px;display:flex;flex-direction:row;align-items:center;gap:36px;padding:0 10px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#A33131;border-radius:28px">2</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-size:38px;font-weight:700;color:#1D2330">남길 게 있으면 커밋부터 해요</p><p style="font-size:28px;color:#4A5262">커밋해 두면 나중에 되돌릴 수 있어요</p></div><p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;color:#1D2330">git add 파일<br>git commit -m "..."</p></div>
+<div data-build-in="rise order 1" data-delay="120" style="position:absolute;left:96px;top:548px;width:1728px;height:216px;display:flex;flex-direction:row;align-items:center;gap:36px;padding:0 10px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#A33131;border-radius:28px">2</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-size:38px;font-weight:700;color:#1D2330">남길 게 있으면 커밋부터 해요</p><p style="font-size:28px;color:#4A5262">커밋해 두면 나중에 되돌릴 수 있어요</p></div><p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;color:#1D2330">git add 파일<br>git commit -m "..."</p></div>
 <div style="position:absolute;left:96px;top:764px;width:1728px;height:2px;background:#D9D6CE"></div>
-<div style="position:absolute;left:96px;top:764px;width:1728px;height:216px;display:flex;flex-direction:row;align-items:center;gap:36px;padding:0 10px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#A33131;border-radius:28px">3</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-size:38px;font-weight:700;color:#1D2330">파일 이름을 꼭 적어요</p><p style="font-size:28px;color:#4A5262">점(.)을 쓰면 폴더 안 모든 파일의 변경을 한 번에 버려요</p></div><p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;color:#1D2330">git restore login.md<br><span style="color:#A33131">git restore .</span></p></div>
+<div data-build-in="rise order 1" data-delay="240" style="position:absolute;left:96px;top:764px;width:1728px;height:216px;display:flex;flex-direction:row;align-items:center;gap:36px;padding:0 10px"><p style="width:56px;height:56px;flex:none;font-size:28px;font-weight:900;line-height:56px;text-align:center;color:#FFFFFF;background:#A33131;border-radius:28px">3</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-size:38px;font-weight:700;color:#1D2330">파일 이름을 꼭 적어요</p><p style="font-size:28px;color:#4A5262">점(.)을 쓰면 폴더 안 모든 파일의 변경을 한 번에 버려요</p></div><p style="width:520px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;color:#1D2330">git restore login.md<br><span style="color:#A33131">git restore .</span></p></div>
 <div style="position:absolute;left:96px;top:980px;width:1728px;height:2px;background:#D9D6CE"></div>
-<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M1294,916 L1352,919 1411,914 1470,919 1528,914"></path></g></svg>
+<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M1294,916 L1352,919 1411,914 1470,919 1528,914"></path></g></svg>
 <aside>restore로 버린 변경은 되찾을 수 없어서, 버리기 전에 세 가지를 지켜요. 02에서 본 reflog도 커밋만 기억해서 여기엔 소용없어요. 먼저 git diff로 보고, 남길 줄이 있으면 커밋부터 하고, 파일 이름을 꼭 적어요. git restore . 처럼 점을 쓰면 폴더 안 모든 파일의 변경이 한 번에 사라져요.</aside>
 </section>
 <section id="s1" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
@@ -361,7 +387,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <div id="st-login" style="position:absolute;left:752px;top:304px;width:332px;height:92px;background:#D3EEDD;border-radius:14px;padding:12px 18px;display:flex;flex-direction:column;gap:2px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.3;color:#1D2330">login.md</p><p style="font-size:22px;font-weight:700;line-height:1.3;white-space:nowrap;color:#1A7340">Staged · 고침</p></div>
 <div id="st-memo" style="position:absolute;left:752px;top:408px;width:332px;height:92px;background:#D3EEDD;border-radius:14px;padding:12px 18px;display:flex;flex-direction:column;gap:2px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.3;color:#1D2330">memo.md</p><p style="font-size:22px;font-weight:700;line-height:1.3;white-space:nowrap;color:#1A7340">Staged · 새 파일</p></div>
 <div id="lc-e12ffc2" style="position:absolute;left:1164px;top:304px;height:38px;display:flex;flex-direction:row;gap:12px;align-items:center"><x-shape kind="ellipse" style="width:24px;height:24px;flex:none;background:#2459C9;border:3px solid #2459C9"></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330">e12ffc2</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:38px;padding:0 12px;border-radius:8px;background:#2459C9;color:#FFFFFF">main</p></div>
-<p data-build-in="pop order 1" style="position:absolute;left:1164px;top:368px;width:636px;font-size:26px;font-weight:700;line-height:1.4;color:#A33131">이대로 commit, push하면<br>팀원 모두 내 메모를 받아요</p>
+<p data-build-in="pop order 2" style="position:absolute;left:1164px;top:368px;width:636px;font-size:26px;font-weight:700;line-height:1.4;color:#A33131">이대로 commit, push하면<br>팀원 모두 내 메모를 받아요</p>
 <div id="term" style="position:absolute;left:96px;top:600px;width:1728px;height:417px;background:#1B2029;border-radius:20px;padding:26px 36px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
 <p style="font-size:29px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ echo "로그인 버튼" &gt;&gt; login.md</p>
 <p style="font-size:29px;line-height:1.4;white-space:pre;font-weight:700;color:#F2C46D">$ echo "내일 할 일: 디자인 묻기" &gt; memo.md</p>
@@ -373,7 +399,9 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:29px;line-height:1.4;white-space:pre;color:#7FD18B">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modified:   login.md</p>
 <p style="font-size:29px;line-height:1.4;white-space:pre;color:#7FD18B">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new file:   memo.md</p>
 </div>
-<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="744" y="400" width="348" height="108" rx="8"></rect></g></svg>
+<div data-build-in="blur order 1" data-target="st-memo" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<div data-build-in="blur-off order 2" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="744" y="400" width="348" height="108" rx="8"></rect></g></svg>
 <aside>git add . 은 폴더 안 바뀐 파일을 모두 올려서, 개인 메모 memo.md까지 대기실에 들어갔어요. login.md에 로그인 버튼을 붙이고, 내 할 일을 적은 memo.md도 만든 상황이에요. 이대로 commit하고 push하면 팀원 모두가 내 메모를 받아요. 터미널의 노란 줄이 add를 취소하는 방법이에요. unstage는 대기실에서 내린다는 뜻이에요.</aside>
 </section>
 <section id="s2" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
@@ -507,7 +535,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:26px;line-height:1.4;white-space:pre;color:#F28B82">Please commit your changes or stash them before you merge.</p>
 <p style="font-size:26px;line-height:1.4;white-space:pre;color:#D8DEE9">Aborting</p>
 </div>
-<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="532" y="915" width="929" height="40" rx="8"></rect></g></svg>
+<div data-build-in="shake order 1" data-target="term" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="532" y="915" width="929" height="40" rx="8"></rect></g></svg>
 <aside>고치던 파일을 pull이 덮을 수 있으면 Git이 멈추고, 커밋하거나 stash 하라고 알려 줘요. 팀원 lee가 login.md 제목을 로그인 페이지로 고쳐 push했어요. 나는 같은 파일에 비밀번호 찾기를 쓰던 중이고, 아직 커밋하기엔 덜 끝났어요. 상자 친 줄이 해결 방법이에요. 같은 파일을 둘 다 고쳤을 때만 이 메시지가 나와요.</aside>
 </section>
 <section id="st1" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
@@ -577,16 +606,16 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="position:absolute;left:340px;top:262px;width:1260px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:40px;font-weight:700;line-height:1.4;white-space:pre;color:#D8DEE9"><span style="color:#F2C46D">stash@{0}</span><span style="color:#9AA3B5">: WIP on </span><span style="color:#7CC7E8">main</span><span style="color:#D8DEE9">: 15d92cb feat: 로그인 버튼 추가</span></p>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#E0A93A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M340,330 L394,333 448,328 502,333 556,328"></path></g></svg>
 <svg data-build-in="fade order 1" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="448" y1="344" x2="124" y2="410" stroke="rgb(224, 169, 58)" stroke-width="3"></line></svg>
-<div data-build-in="pop order 1" style="position:absolute;left:120px;top:420px;width:400px;display:flex;flex-direction:column;gap:6px"><p style="font-size:34px;font-weight:700;color:#1D2330">서랍 번호</p><p style="font-size:28px;color:#4A5262">0이 가장 최근</p></div>
+<div data-build-in="pop order 1" data-delay="150" style="position:absolute;left:120px;top:420px;width:400px;display:flex;flex-direction:column;gap:6px"><p style="font-size:34px;font-weight:700;color:#1D2330">서랍 번호</p><p style="font-size:28px;color:#4A5262">0이 가장 최근</p></div>
 <svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#9AA3B5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M604,330 L676,333 748,328"></path></g></svg>
 <svg data-build-in="fade order 2" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="676" y1="344" x2="556" y2="410" stroke="rgb(154, 163, 181)" stroke-width="3"></line></svg>
-<div data-build-in="pop order 2" style="position:absolute;left:552px;top:420px;width:400px;display:flex;flex-direction:column;gap:6px"><p style="font-size:34px;font-weight:700;color:#1D2330">작업 중</p><p style="font-size:28px;color:#4A5262">Work In Progress</p></div>
+<div data-build-in="pop order 2" data-delay="150" style="position:absolute;left:552px;top:420px;width:400px;display:flex;flex-direction:column;gap:6px"><p style="font-size:34px;font-weight:700;color:#1D2330">작업 중</p><p style="font-size:28px;color:#4A5262">Work In Progress</p></div>
 <svg data-build-in="draw order 3" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#4FA3C7" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M772,330 L820,333 868,328"></path></g></svg>
 <svg data-build-in="fade order 3" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="820" y1="344" x2="988" y2="410" stroke="rgb(79, 163, 199)" stroke-width="3"></line></svg>
-<div data-build-in="pop order 3" style="position:absolute;left:984px;top:420px;width:400px;display:flex;flex-direction:column;gap:6px"><p style="font-size:34px;font-weight:700;color:#1D2330">넣은 브랜치</p><p style="font-size:28px;color:#4A5262">어디서 넣었나</p></div>
+<div data-build-in="pop order 3" data-delay="150" style="position:absolute;left:984px;top:420px;width:400px;display:flex;flex-direction:column;gap:6px"><p style="font-size:34px;font-weight:700;color:#1D2330">넣은 브랜치</p><p style="font-size:28px;color:#4A5262">어디서 넣었나</p></div>
 <svg data-build-in="draw order 4" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#9AA0AB" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M916,330 L976,333 1037,328 1097,333 1157,328 1218,333 1278,328 1339,333 1399,328 1459,333 1520,328 1580,333"></path></g></svg>
 <svg data-build-in="fade order 4" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="1248" y1="344" x2="1420" y2="410" stroke="rgb(154, 160, 171)" stroke-width="3"></line></svg>
-<div data-build-in="pop order 4" style="position:absolute;left:1416px;top:420px;width:400px;display:flex;flex-direction:column;gap:6px"><p style="font-size:34px;font-weight:700;color:#1D2330">그때 마지막 커밋</p><p style="font-size:28px;color:#4A5262">이 커밋 위에서 고치던 것</p></div>
+<div data-build-in="pop order 4" data-delay="150" style="position:absolute;left:1416px;top:420px;width:400px;display:flex;flex-direction:column;gap:6px"><p style="font-size:34px;font-weight:700;color:#1D2330">그때 마지막 커밋</p><p style="font-size:28px;color:#4A5262">이 커밋 위에서 고치던 것</p></div>
 <div style="position:absolute;left:96px;top:600px;width:1728px;height:2px;background:#D9D6CE"></div>
 <div id="term" style="position:absolute;left:96px;top:640px;width:1728px;height:244px;background:#1B2029;border-radius:20px;padding:26px 36px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
 <p style="font-size:32px;line-height:1.5;white-space:pre;font-weight:700;color:#F2C46D">$ git stash</p>
@@ -651,8 +680,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:34px;line-height:1.4;white-space:pre;color:#D8DEE9">&nbsp;login.md | 2 +-</p>
 <p style="font-size:34px;line-height:1.4;white-space:pre;color:#D8DEE9">&nbsp;1 file changed, 1 insertion(+), 1 deletion(-)</p>
 </div>
-<div data-build-in="spot order 1" data-pad="10" data-r="26px" style="position:absolute;left:96px;top:228px;width:1192px;height:340px"></div>
-<div data-build-in="spot-off order 2" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<div data-build-in="zoom order 1" data-pad="30" data-max="3" style="position:absolute;left:780px;top:228px;width:508px;height:340px"></div>
+<div data-build-in="zoom-off order 2" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <p data-build-in="pop order 2" style="position:absolute;left:1084px;top:306px;width:180px;font-size:26px;font-weight:700;line-height:1.4;color:#1E3F8F">lee의 커밋</p>
 <p data-build-in="pop order 2" style="position:absolute;left:508px;top:1005px;width:1316px;font-size:26px;font-weight:700;line-height:1.4;color:#B26A00">서랍 안의 비밀번호 찾기는 그대로 기다려요</p>
 <aside>작업 폴더가 깨끗하니 pull이 바로 끝나요. Fast-forward는 내 커밋이 없어서 이름표가 앞으로만 따라갔다는 뜻이에요. 03에서 본 것과 같아요. ①과 ③의 제목이 로그인 페이지로 바뀌었어요. 서랍 안의 비밀번호 찾기는 그대로 기다리고 있어요.</aside>
@@ -765,8 +794,8 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <div style="position:absolute;left:640px;top:748px;width:1184px;height:2px;background:#D9D6CE"></div>
 
 <svg style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><line x1="500" y1="620" x2="622.2756659776005" y2="864.551331955201" stroke="rgb(154, 160, 171)" stroke-width="4"></line><polygon points="628,876 615.3322050070793,866.226210048434 627.7816450344997,860.0014900347238" fill="rgb(154, 160, 171)"></polygon></svg>
-<div data-build-in="spot order 1" data-pad="4" data-r="20px" style="position:absolute;left:640px;top:492px;width:1184px;height:256px"></div>
-<div data-build-in="spot-off order 2" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<div data-build-in="blur order 1" data-target="opt-1" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<div data-build-in="blur-off order 2" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <p data-build-in="pop order 2" style="position:absolute;left:96px;top:712px;width:440px;font-size:30px;font-weight:700;line-height:1.4;color:#B26A00">모르겠으면 stash가<br>가장 안전해요</p>
 <aside>고치던 게 있으면 셋 중 하나를 골라요. 고친 게 필요 없으면 restore로 버려요. 덜 끝났으면 stash로 치웠다가 pop으로 꺼내요. 끝났으면 커밋해요. 어느 쪽인지 모르겠으면 stash가 가장 안전해요. 지우지 않고 서랍에 넣어 두니까요.</aside>
 </section>
@@ -798,23 +827,23 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="position:absolute;left:1164px;top:734px;width:632px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:70px;padding:0 8px;margin-left:-8px;border-radius:6px;white-space:pre;background:#FBE4E2;color:#7A1F1F;font-weight:700">=======</p>
 <p style="position:absolute;left:1164px;top:804px;width:632px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:70px;padding:0 8px;margin-left:-8px;border-radius:6px;white-space:pre;color:#B26A00;font-weight:700">비밀번호 찾기 (이메일)</p>
 <p style="position:absolute;left:1164px;top:874px;width:632px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:70px;padding:0 8px;margin-left:-8px;border-radius:6px;white-space:pre;background:#FBE4E2;color:#7A1F1F;font-weight:700">&gt;&gt;&gt;&gt;&gt;&gt;&gt; Stashed changes</p>
-<p data-build-in="pop order 1" style="position:absolute;left:1544px;top:664px;width:240px;text-align:right;font-size:26px;font-weight:700;line-height:70px;color:#5A3BB8">받은 쪽 (lee)</p>
-<p data-build-in="pop order 1" style="position:absolute;left:1544px;top:804px;width:240px;text-align:right;font-size:26px;font-weight:700;line-height:70px;color:#B26A00">내 쪽 (서랍)</p>
+<p data-build-in="pop order 1" data-delay="150" style="position:absolute;left:1544px;top:664px;width:240px;text-align:right;font-size:26px;font-weight:700;line-height:70px;color:#5A3BB8">받은 쪽 (lee)</p>
+<p data-build-in="pop order 1" data-delay="150" style="position:absolute;left:1544px;top:804px;width:240px;text-align:right;font-size:26px;font-weight:700;line-height:70px;color:#B26A00">내 쪽 (서랍)</p>
 <aside>같은 줄을 둘 다 고쳤으면 pop에서 충돌이 나고, 서랍의 내용은 지워지지 않고 남아요. 이번엔 lee가 비밀번호 찾기를 비밀번호 재설정으로 바꿔 push했고, 나는 같은 줄에 (이메일)을 붙이던 중이었어요. stash와 pull까지는 잘 되고 pop에서 충돌이 나요. 03에서 본 충돌 표시와 같지만, 이름이 HEAD 대신 Updated upstream, 브랜치 이름 대신 Stashed changes로 나와요. 위가 받은 것, 아래가 내 것이에요. 서랍이 남아 있으니 풀다가 틀려도 다시 꺼낼 수 있어요.</aside>
 </section>
 <section id="pop-r" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">막힐 때 · 충돌 풀기</p>
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">03처럼 풀고, 서랍을 비워요</h2>
 <div style="position:absolute;left:96px;top:210px;width:600px;height:2px;background:#1D2330"></div>
-<div data-build-in="fade order 1" style="position:absolute;left:96px;top:212px;width:600px;height:168px;display:flex;flex-direction:row;gap:28px;align-items:center;padding:0 8px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">1</p><div style="flex:1;display:flex;flex-direction:column;gap:16px"><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:32px;font-weight:700;line-height:1.35;color:#1D2330">파일을 고쳐요</p><p style="font-size:26px;color:#4A5262">표시 줄 세 개를 지우고 남길 내용으로</p></div></div>
+<div data-build-in="rise order 1" data-dimgroup="pr" style="position:absolute;left:96px;top:212px;width:600px;height:168px;display:flex;flex-direction:row;gap:28px;align-items:center;padding:0 8px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">1</p><div style="flex:1;display:flex;flex-direction:column;gap:16px"><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:32px;font-weight:700;line-height:1.35;color:#1D2330">파일을 고쳐요</p><p style="font-size:26px;color:#4A5262">표시 줄 세 개를 지우고 남길 내용으로</p></div></div>
 <div style="position:absolute;left:96px;top:380px;width:600px;height:2px;background:#D9D6CE"></div>
-<div data-build-in="fade order 2" style="position:absolute;left:96px;top:380px;width:600px;height:168px;display:flex;flex-direction:row;gap:28px;align-items:center;padding:0 8px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">2</p><div style="flex:1;display:flex;flex-direction:column;gap:16px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;line-height:1.35;color:#1D2330">git add login.md</p><p style="font-size:26px;color:#4A5262">다 풀었다고 알려요</p></div></div>
+<div data-build-in="rise order 2" data-dimgroup="pr" style="position:absolute;left:96px;top:380px;width:600px;height:168px;display:flex;flex-direction:row;gap:28px;align-items:center;padding:0 8px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">2</p><div style="flex:1;display:flex;flex-direction:column;gap:16px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;line-height:1.35;color:#1D2330">git add login.md</p><p style="font-size:26px;color:#4A5262">다 풀었다고 알려요</p></div></div>
 <div style="position:absolute;left:96px;top:548px;width:600px;height:2px;background:#D9D6CE"></div>
-<div data-build-in="fade order 3" style="position:absolute;left:96px;top:548px;width:600px;height:168px;display:flex;flex-direction:row;gap:28px;align-items:center;padding:0 8px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:26px">3</p><div style="flex:1;display:flex;flex-direction:column;gap:16px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;line-height:1.35;color:#1D2330">git stash drop</p><p style="font-size:26px;color:#4A5262">남아 있던 서랍을 비워요</p></div></div>
+<div data-build-in="rise order 3" data-dimgroup="pr" style="position:absolute;left:96px;top:548px;width:600px;height:168px;display:flex;flex-direction:row;gap:28px;align-items:center;padding:0 8px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:26px">3</p><div style="flex:1;display:flex;flex-direction:column;gap:16px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;line-height:1.35;color:#1D2330">git stash drop</p><p style="font-size:26px;color:#4A5262">남아 있던 서랍을 비워요</p></div></div>
 <div style="position:absolute;left:96px;top:716px;width:600px;height:2px;background:#D9D6CE"></div>
-<div data-build-in="fade order 4" style="position:absolute;left:96px;top:716px;width:600px;height:168px;display:flex;flex-direction:row;gap:28px;align-items:center;padding:0 8px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">4</p><div style="flex:1;display:flex;flex-direction:column;gap:16px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;line-height:1.35;color:#1D2330">git commit -m "..."</p><p style="font-size:26px;color:#4A5262">늘 하던 대로 커밋하고 push해요</p></div></div>
+<div data-build-in="rise order 4" data-dimgroup="pr" style="position:absolute;left:96px;top:716px;width:600px;height:168px;display:flex;flex-direction:row;gap:28px;align-items:center;padding:0 8px"><p style="width:52px;height:52px;flex:none;font-size:26px;font-weight:900;line-height:52px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:26px">4</p><div style="flex:1;display:flex;flex-direction:column;gap:16px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;line-height:1.35;color:#1D2330">git commit -m "..."</p><p style="font-size:26px;color:#4A5262">늘 하던 대로 커밋하고 push해요</p></div></div>
 <div style="position:absolute;left:96px;top:884px;width:600px;height:2px;background:#D9D6CE"></div>
-<svg data-build-in="draw order 5" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B26A00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M184,632 L251,635 318,630 386,635 453,630"></path></g></svg>
+<svg data-build-in="draw order 3" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B26A00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M184,632 L251,635 318,630 386,635 453,630"></path></g></svg>
 <div id="term" style="position:absolute;left:736px;top:210px;width:1088px;height:671px;background:#1B2029;border-radius:20px;padding:26px 36px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
 <p style="font-size:26px;line-height:1.7;white-space:pre;font-weight:700;color:#F2C46D">$ cat login.md</p>
 <p style="font-size:26px;line-height:1.7;white-space:pre;color:#D8DEE9"># 로그인 페이지</p>
@@ -837,15 +866,15 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">막힐 때</p>
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">이런 메시지가 나오면 이렇게 해요</h2>
 <div style="position:absolute;left:96px;top:210px;width:1728px;height:2px;background:#1D2330"></div>
-<div data-build-in="fade order 1" style="position:absolute;left:96px;top:212px;width:1728px;height:162px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px"><p style="width:48px;flex:none;font-size:40px;font-weight:900;color:#A33131">1</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#A33131">No local changes to save</p><p style="font-size:26px;color:#4A5262">고친 게 없거나 새 파일만 있어요. 새 파일은 add해야 서랍에 들어가요</p></div><p style="width:420px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">git add 파일<br>git stash</p></div>
+<div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:212px;width:1728px;height:162px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px"><p style="width:48px;flex:none;font-size:40px;font-weight:900;color:#A33131">1</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#A33131">No local changes to save</p><p style="font-size:26px;color:#4A5262">고친 게 없거나 새 파일만 있어요. 새 파일은 add해야 서랍에 들어가요</p></div><p style="width:420px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">git add 파일<br>git stash</p></div>
 <div style="position:absolute;left:96px;top:374px;width:1728px;height:2px;background:#D9D6CE"></div>
-<div data-build-in="fade order 2" style="position:absolute;left:96px;top:374px;width:1728px;height:162px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px"><p style="width:48px;flex:none;font-size:40px;font-weight:900;color:#A33131">2</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:30px;font-weight:700;color:#A33131">stash list에 여러 줄이 있어요</p><p style="font-size:26px;color:#4A5262">꺼내는 걸 잊었어요. 맨 위 {0}부터 하나씩 꺼내요</p></div><p style="width:420px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">git stash pop</p></div>
+<div data-build-in="rise order 1" data-delay="90" style="position:absolute;left:96px;top:374px;width:1728px;height:162px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px"><p style="width:48px;flex:none;font-size:40px;font-weight:900;color:#A33131">2</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-family:'Noto Sans KR', Arial, sans-serif;font-size:30px;font-weight:700;color:#A33131">stash list에 여러 줄이 있어요</p><p style="font-size:26px;color:#4A5262">꺼내는 걸 잊었어요. 맨 위 {0}부터 하나씩 꺼내요</p></div><p style="width:420px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">git stash pop</p></div>
 <div style="position:absolute;left:96px;top:536px;width:1728px;height:2px;background:#D9D6CE"></div>
-<div data-build-in="fade order 3" style="position:absolute;left:96px;top:536px;width:1728px;height:162px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px"><p style="width:48px;flex:none;font-size:40px;font-weight:900;color:#A33131">3</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#A33131">CONFLICT ... The stash entry is kept</p><p style="font-size:26px;color:#4A5262">같은 줄을 둘 다 고쳤어요. 20쪽처럼 풀어요</p></div><p style="width:420px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">git add 파일<br>git stash drop</p></div>
+<div data-build-in="rise order 1" data-delay="180" style="position:absolute;left:96px;top:536px;width:1728px;height:162px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px"><p style="width:48px;flex:none;font-size:40px;font-weight:900;color:#A33131">3</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#A33131">CONFLICT ... The stash entry is kept</p><p style="font-size:26px;color:#4A5262">같은 줄을 둘 다 고쳤어요. 20쪽처럼 풀어요</p></div><p style="width:420px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">git add 파일<br>git stash drop</p></div>
 <div style="position:absolute;left:96px;top:698px;width:1728px;height:2px;background:#D9D6CE"></div>
-<div data-build-in="fade order 4" style="position:absolute;left:96px;top:698px;width:1728px;height:162px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px"><p style="width:48px;flex:none;font-size:40px;font-weight:900;color:#A33131">4</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#A33131">error: pathspec 'signup2.md' did not match</p><p style="font-size:26px;color:#4A5262">파일 이름이 틀렸어요. status로 이름을 확인해요</p></div><p style="width:420px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">git status</p></div>
+<div data-build-in="rise order 1" data-delay="270" style="position:absolute;left:96px;top:698px;width:1728px;height:162px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px"><p style="width:48px;flex:none;font-size:40px;font-weight:900;color:#A33131">4</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#A33131">error: pathspec 'signup2.md' did not match</p><p style="font-size:26px;color:#4A5262">파일 이름이 틀렸어요. status로 이름을 확인해요</p></div><p style="width:420px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">git status</p></div>
 <div style="position:absolute;left:96px;top:860px;width:1728px;height:2px;background:#D9D6CE"></div>
-<div data-build-in="fade order 5" style="position:absolute;left:96px;top:860px;width:1728px;height:162px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px"><p style="width:48px;flex:none;font-size:40px;font-weight:900;color:#A33131">5</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#A33131">fatal: Need to specify how to reconcile divergent branches.</p><p style="font-size:26px;color:#4A5262">pull 설정이 없어요. 06에서 한 설정을 한 번 쳐요</p></div><p style="width:420px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">git config --global<br>pull.rebase false</p></div>
+<div data-build-in="rise order 1" data-delay="360" style="position:absolute;left:96px;top:860px;width:1728px;height:162px;display:flex;flex-direction:row;gap:32px;align-items:center;padding:0 10px"><p style="width:48px;flex:none;font-size:40px;font-weight:900;color:#A33131">5</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#A33131">fatal: Need to specify how to reconcile divergent branches.</p><p style="font-size:26px;color:#4A5262">pull 설정이 없어요. 06에서 한 설정을 한 번 쳐요</p></div><p style="width:420px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">git config --global<br>pull.rebase false</p></div>
 <div style="position:absolute;left:96px;top:1022px;width:1728px;height:2px;background:#D9D6CE"></div>
 <aside>자주 나오는 메시지 다섯 가지와 고치는 명령이에요. 1번은 새로 만든 파일만 있을 때 나요. Git이 아직 모르는 Untracked 파일은 stash에 들어가지 않아서, git add로 올린 뒤 stash해요. 2번은 pop을 잊고 또 stash했을 때예요. 3번은 19쪽과 20쪽의 장면이에요. 4번은 restore에 없는 파일 이름을 적었을 때예요. 파일 이름은 Tab 키로 자동 완성하면 틀리지 않아요. 5번은 pull 설정을 안 한 컴퓨터에서 내 main과 GitHub main이 갈라졌을 때 나요. 06에서 친 git config --global pull.rebase false를 한 번 치면 돼요.</aside>
 </section>
@@ -853,11 +882,11 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">팀에서 쓰기 · 팀원이 먼저 push했을 때</p>
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">stash, pull, pop 뒤에 커밋해요</h2>
 <div style="position:absolute;left:269px;top:277px;width:1382px;height:4px;background:#CDD0D6"></div>
-<div data-build-in="fade order 1" style="position:absolute;left:96px;top:250px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:29px">1</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git stash</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">고치던 걸 서랍에</p></div>
-<div data-build-in="fade order 2" style="position:absolute;left:442px;top:250px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#5A3BB8;border-radius:29px">2</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git pull origin main</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">팀원 커밋 받기</p></div>
-<div data-build-in="fade order 3" style="position:absolute;left:787px;top:250px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:29px">3</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git stash pop</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">꺼내서 이어서</p></div>
-<div data-build-in="fade order 4" style="position:absolute;left:1133px;top:250px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:29px">4</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git add login.md<br>git commit -m "..."</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">마저 하고 커밋</p></div>
-<div data-build-in="fade order 5" style="position:absolute;left:1478px;top:250px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#5A3BB8;border-radius:29px">5</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git push origin main</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">올리기</p></div>
+<div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:250px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:29px">1</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git stash</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">고치던 걸 서랍에</p></div>
+<div data-build-in="rise order 1" data-delay="110" style="position:absolute;left:442px;top:250px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#5A3BB8;border-radius:29px">2</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git pull origin main</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">팀원 커밋 받기</p></div>
+<div data-build-in="rise order 1" data-delay="220" style="position:absolute;left:787px;top:250px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:29px">3</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git stash pop</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">꺼내서 이어서</p></div>
+<div data-build-in="rise order 1" data-delay="330" style="position:absolute;left:1133px;top:250px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#2459C9;border-radius:29px">4</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git add login.md<br>git commit -m "..."</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">마저 하고 커밋</p></div>
+<div data-build-in="rise order 1" data-delay="440" style="position:absolute;left:1478px;top:250px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#5A3BB8;border-radius:29px">5</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git push origin main</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">올리기</p></div>
 <div id="term" style="position:absolute;left:96px;top:536px;width:1260px;height:409px;background:#1B2029;border-radius:20px;padding:26px 36px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
 <p style="font-size:34px;line-height:2.1;white-space:pre;font-weight:700;color:#F2C46D">$ git log --oneline</p>
 <p style="font-size:34px;line-height:2.1;white-space:pre;color:#D8DEE9">8eacb89 (HEAD -&gt; main, origin/main) feat: 비밀번호 찾기 추가</p>
@@ -865,9 +894,9 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:34px;line-height:2.1;white-space:pre;color:#D8DEE9">15d92cb feat: 로그인 버튼 추가</p>
 <p style="font-size:34px;line-height:2.1;white-space:pre;color:#D8DEE9">e12ffc2 feat: 로그인 화면 추가</p>
 </div>
-<svg data-build-in="draw order 6" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#2459C9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="120" y="631" width="1194" height="147" rx="8"></rect></g></svg>
-<p data-build-in="pop order 6" style="position:absolute;left:1396px;top:576px;width:428px;font-size:34px;font-weight:700;line-height:1.4;color:#2459C9">merge 커밋 없이<br>한 줄로 이어졌어요</p>
-<p data-build-in="fade order 6" style="position:absolute;left:1396px;top:726px;width:428px;font-size:30px;font-weight:700;line-height:1.4;color:#4A5262">lee의 커밋 위에<br>내 커밋이 올라갔어요</p>
+<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#2459C9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="120" y="631" width="1194" height="147" rx="8"></rect></g></svg>
+<p data-build-in="pop order 2" data-delay="150" style="position:absolute;left:1396px;top:576px;width:428px;font-size:34px;font-weight:700;line-height:1.4;color:#2459C9">merge 커밋 없이<br>한 줄로 이어졌어요</p>
+<p data-build-in="fade order 2" data-delay="300" style="position:absolute;left:1396px;top:726px;width:428px;font-size:30px;font-weight:700;line-height:1.4;color:#4A5262">lee의 커밋 위에<br>내 커밋이 올라갔어요</p>
 <aside>팀원이 먼저 push했고 나는 고치던 중이면, stash, pull, pop 순서로 받고 나서 커밋해요. 오늘 팀 실습에서 그대로 쓰는 순서예요. 1번부터 3번이 stash, pull, pop이고, 4번과 5번은 늘 하던 add, commit, push예요. 고치던 걸 먼저 커밋하고 pull해도 돼요. 그러면 03에서 본 merge 커밋이 하나 생겨요. stash를 쓰면 팀원 커밋 위에 내 커밋이 올라가서 git log가 한 줄로 이어져요. 커밋할 만큼 끝났으면 커밋, 덜 끝났으면 stash라고 기억해요.</aside>
 </section>
 <section id="st-co" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
@@ -882,12 +911,14 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </div>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M130,421 L191,424 253,419 314,424 375,419 437,424 498,419 560,424 621,419 682,424 744,419 805,424 866,419 928,424 989,419 1050,424 1112,419 1173,424 1235,419 1296,424 1357,419 1419,424 1480,419"></path></g></svg>
 <div style="position:absolute;left:269px;top:584px;width:1382px;height:4px;background:#CDD0D6"></div>
-<div data-build-in="fade order 2" style="position:absolute;left:96px;top:557px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:29px">1</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git stash</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">feature/login에서<br>고치던 걸 넣기</p></div>
-<div data-build-in="fade order 3" style="position:absolute;left:442px;top:557px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:29px">2</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git checkout main</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">main으로 가서</p></div>
-<div data-build-in="fade order 4" style="position:absolute;left:787px;top:557px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:29px">3</p><p style="height:67px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">급한 일</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">고치고 commit, push</p></div>
-<div data-build-in="fade order 5" style="position:absolute;left:1133px;top:557px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:29px">4</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git checkout<br>feature/login</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">돌아와서</p></div>
-<div data-build-in="fade order 6" style="position:absolute;left:1478px;top:557px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:29px">5</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git stash pop</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">꺼내서 이어서</p></div>
-<p data-build-in="fade order 7" style="position:absolute;left:96px;top:880px;width:1728px;font-size:30px;font-weight:700;line-height:1.4;color:#4A5262">서랍은 저장소에 하나예요. 꺼낼 때는 넣었던 브랜치로 돌아가서 pop해요.</p>
+<div data-build-in="rise order 2" data-delay="0" style="position:absolute;left:96px;top:557px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:29px">1</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git stash</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">feature/login에서<br>고치던 걸 넣기</p></div>
+<div data-build-in="rise order 2" data-delay="110" style="position:absolute;left:442px;top:557px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:29px">2</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git checkout main</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">main으로 가서</p></div>
+<div data-build-in="rise order 2" data-delay="220" style="position:absolute;left:787px;top:557px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:29px">3</p><p style="height:67px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">급한 일</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">고치고 commit, push</p></div>
+<div data-build-in="rise order 2" data-delay="330" style="position:absolute;left:1133px;top:557px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#6A7180;border-radius:29px">4</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git checkout<br>feature/login</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">돌아와서</p></div>
+<div data-build-in="rise order 2" data-delay="440" style="position:absolute;left:1478px;top:557px;width:346px;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 10px"><p style="width:58px;height:58px;flex:none;font-size:29px;font-weight:900;line-height:58px;text-align:center;color:#FFFFFF;background:#B26A00;border-radius:29px">5</p><p style="height:67px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;text-align:center;white-space:nowrap;color:#1D2330">git stash pop</p><p style="font-size:26px;line-height:1.4;text-align:center;color:#4A5262">꺼내서 이어서</p></div>
+<svg style="position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible;pointer-events:none"><path id="co-path" d="M269,527 C569,457 1351,457 1651,527" fill="none" stroke="none"></path></svg>
+<div data-build-in="path order 3" data-path="co-path" data-ms="1800" style="position:absolute;left:1637px;top:513px;width:28px;height:28px;border-radius:50%;background:#B26A00;box-shadow:0 0 0 6px rgba(178,106,0,.25)"></div>
+<p data-build-in="fade order 3" data-delay="1600" style="position:absolute;left:96px;top:880px;width:1728px;font-size:30px;font-weight:700;line-height:1.4;color:#4A5262">서랍은 저장소에 하나예요. 꺼낼 때는 넣었던 브랜치로 돌아가서 pop해요.</p>
 <aside>브랜치를 옮길 때 checkout이 막혀도, stash로 치우고 갔다가 돌아와서 pop하면 돼요. 03에서 본 checkout 에러예요. 그때는 커밋하고 옮기라고 했어요. 덜 끝난 작업이면 stash로 치워도 돼요. 서랍은 저장소에 하나뿐이라 다른 브랜치에서도 같은 서랍이 보여요. 다른 브랜치에서 pop하면 그 브랜치에 얹혀서 헷갈려요. stash list의 on main, on feature/login 부분을 보고 넣었던 브랜치에서 꺼내요.</aside>
 </section>
 <section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column;word-break:keep-all">
@@ -918,7 +949,7 @@ const stage=document.getElementById('pl-stage');
 const slides=[...stage.children];
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
-const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off'];
+const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off','wipe','slam','slide','stagger','count','mark','path','morph','lspot','lspot-off','run','run-off','zoom','zoom-off','blur','blur-off','text','pan','kenburns','pulse','grow','shine','shake'];
 const steps=slides.map(s=>{
   const els=[...s.querySelectorAll('[data-build-in]')];
   const groups=[];let auto=0;
@@ -929,6 +960,7 @@ const steps=slides.map(s=>{
     (groups[k]=groups[k]||[]).push(el);
     const kind=spec.trim().split(/\s+/)[0];
     el.dataset.fx=HL_KINDS.includes(kind)?kind:/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':/fly/.test(spec)?'fly':'fade';
+    if(kind==='slide'){el.style.setProperty('--dx',(el.dataset.dx||0)+'px');el.style.setProperty('--dy',(el.dataset.dy||60)+'px');}
     if(kind==='draw')[el,...el.querySelectorAll('path,rect,circle,ellipse,line,polyline,polygon')].forEach(x=>x.setAttribute('pathLength','1'));
   }
   return groups.filter(Boolean);
@@ -946,9 +978,11 @@ function setBuild(i,n,animate){
     el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
     if(fly)flyIn(el,slides[i].querySelector('#'+el.dataset.from));
     if(!animate||fly){void el.offsetWidth;el.style.transition='';}
-    if(el.dataset.fx==='type'){if(animate&&was&&gi<n)typeIn(el);else typeDone(el);}
+    entryFx(el,animate&&was&&gi<n,gi<n,i);
+    if(el.dataset.delay)el.style.transitionDelay=animate&&was&&gi<n?el.dataset.delay+'ms':'';
   }));
   hlState(i,n,animate);
+  fxState(i,n,animate);
   const fx=slides[i]._fx;if(fx&&fx.step)try{fx.step(n,animate);}catch(e){console.error(e);}
 }
 // moves el from the centre of src to its own place, so a value looks like it travels there
@@ -961,13 +995,6 @@ function flyIn(el,src){
 }
 // ---- highlights: typing, spotlight hole, mouse pointer (tools/HIGHLIGHT.md) ----
 function textNodes(el){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);return a;}
-function typeDone(el){if(el._tt){clearInterval(el._tt);el._tt=null;}if(el._orig)textNodes(el).forEach((t,k)=>t.nodeValue=el._orig[k]);}
-function typeIn(el){
-  typeDone(el);const ns=textNodes(el);el._orig=ns.map(t=>t.nodeValue);
-  const total=el._orig.join('').length,ms=Math.max(12,Math.min(45,1100/Math.max(1,total)));
-  ns.forEach(t=>t.nodeValue='');let k=0,j=0;
-  el._tt=setInterval(()=>{while(k<ns.length&&j>=el._orig[k].length){k++;j=0;}if(k>=ns.length){typeDone(el);return;}j++;ns[k].nodeValue=el._orig[k].slice(0,j);},ms);
-}
 const CUR_SVG='<svg viewBox="0 0 22 30" width="40" height="56"><path d="M2,2 L2,24 L8,18 L12,28 L16,26 L12,16 L20,16 Z" fill="#1D2330" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
 function hlParts(s){
   if(!s._spot){
@@ -1006,6 +1033,114 @@ function hlState(i,n,animate){
     if(!animate)free(cu);
     if(animate&&curNew&&cur.dataset.fx==='click'){clearTimeout(s._ripT);s._ripT=setTimeout(()=>{const rp=s._rip;rp.style.left=x+'px';rp.style.top=y+'px';rp.classList.remove('go');void rp.offsetWidth;rp.classList.add('go');},820);}
   }else{if(!animate)still(cu);cu.classList.remove('on');if(!animate)free(cu);}
+}
+// ---- more highlights (tools/HIGHLIGHT.md): entry kinds that need script, then marker states ----
+function entryFx(el,fresh,shown,i){
+  const f=el.dataset.fx,s=slides[i];
+  if(f==='stagger'){const gap=+(el.dataset.gap||70);[...el.children].forEach((c,k)=>{if(fresh){c.style.transitionDelay=(k*gap)+'ms';}else{c.style.transition='none';c.style.transitionDelay='';void c.offsetWidth;c.style.transition='';}});}
+  else if(f==='count'){countFx(el,fresh,shown);}
+  else if(f==='path'&&fresh){const p=s.querySelector('#'+el.dataset.path);if(p)pathFx(el,p);}
+  else if(f==='morph'){const a=s.querySelector('#'+el.dataset.from);if(a){if(fresh)morphFx(a,el);a.style.visibility=shown?'hidden':'';}}
+}
+function countFx(el,fresh,shown){
+  if(el._cnt===undefined){const tn=textNodes(el).find(t=>/\d/.test(t.nodeValue));el._cntNode=tn;el._cnt=tn?tn.nodeValue:'';}
+  const tn=el._cntNode;if(!tn)return;cancelAnimationFrame(el._raf);
+  if(!fresh){tn.nodeValue=el._cnt;return;}
+  const m=el._cnt.match(/[\d,]*\d(\.\d+)?/);if(!m){tn.nodeValue=el._cnt;return;}
+  const to=parseFloat(m[0].replace(/,/g,'')),dec=(m[1]||'').length-1>0?(m[1].length-1):0,comma=m[0].includes(','),t0=performance.now(),ms=+(el.dataset.ms||1200);
+  const fmt=v=>{let t=v.toFixed(dec);if(comma)t=Number(t).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});return el._cnt.slice(0,m.index)+t+el._cnt.slice(m.index+m[0].length);};
+  const tick=now=>{const k=Math.min(1,(now-t0)/ms);tn.nodeValue=fmt(to*(1-Math.pow(1-k,3)));if(k<1)el._raf=requestAnimationFrame(tick);else tn.nodeValue=el._cnt;};
+  tn.nodeValue=fmt(0);el._raf=requestAnimationFrame(tick);
+}
+function pathFx(el,p){
+  const b=rectIn(el),cx=b.x+b.w/2,cy=b.y+b.h/2,L=p.getTotalLength(),S=stage.getBoundingClientRect(),k=stage._s,M=p.getScreenCTM(),fr=[];
+  for(let j=0;j<=24;j++){const q=p.getPointAtLength(L*j/24),x=((M.a*q.x+M.c*q.y+M.e)-S.left)/k,y=((M.b*q.x+M.d*q.y+M.f)-S.top)/k;fr.push({transform:'translate('+(x-cx)+'px,'+(y-cy)+'px)',opacity:j?1:0});}
+  fr[fr.length-1].transform='none';
+  el.animate(fr,{duration:+(el.dataset.ms||1400),easing:'cubic-bezier(.45,0,.25,1)'});
+}
+function morphFx(a,b){
+  [a,b].forEach(x=>x.querySelectorAll('[data-m]').forEach(t=>{if(getComputedStyle(t).display==='inline')t.style.display='inline-block';}));
+  const from={};a.querySelectorAll('[data-m]').forEach(t=>from[t.dataset.m]=rectIn(t));
+  a.style.visibility='hidden';
+  b.style.transition='none';b.classList.remove('pending','morph');void b.offsetWidth;b.style.transition='';
+  b.querySelectorAll('[data-m]').forEach(t=>{const p=from[t.dataset.m],q=rectIn(t);
+    if(p)t.animate([{transform:'translate('+(p.x-q.x)+'px,'+(p.y-q.y)+'px)'},{transform:'none'}],{duration:850,easing:'cubic-bezier(.65,0,.35,1)'});
+    else t.animate([{opacity:0},{opacity:0,offset:.55},{opacity:1}],{duration:850,easing:'ease'});});
+  const g=a.cloneNode(true);g.removeAttribute('id');g.style.visibility='inherit';g.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+  g.querySelectorAll('[data-m]').forEach(t=>{if(b.querySelector('[data-m="'+t.dataset.m+'"]'))t.style.visibility='hidden';});
+  a.parentNode.insertBefore(g,a);g.animate([{opacity:1},{opacity:0}],{duration:450,easing:'ease'}).onfinish=()=>g.remove();
+}
+function fxParts(s){
+  if(!s._veil){
+    s._veil=[0,1].map(()=>{const d=document.createElement('div');d.className='pl-veil pl-off';return d;});
+    s._lbar=document.createElement('div');s._lbar.className='pl-lbar pl-off';
+    s._run=document.createElement('div');s._run.className='pl-run pl-off';
+    s.append(s._run,...s._veil,s._lbar);
+  }
+  return s;
+}
+function mbox(el){return{x:parseFloat(el.style.left)||0,y:parseFloat(el.style.top)||0,w:parseFloat(el.style.width)||0,h:parseFloat(el.style.height)||0};}
+function fxState(i,n,animate){
+  const s=slides[i];let ls=null,rn=null,zm=null,bl=null,last=null;const txt=new Map(),pan=new Map(),kb=new Map(),dims={};
+  steps[i].forEach((g,gi)=>g.forEach(el=>{const f=el.dataset.fx,shown=gi<n;
+    if(el.dataset.dimgroup&&shown){const d=dims[el.dataset.dimgroup]=dims[el.dataset.dimgroup]||{max:-1,els:[]};d.max=Math.max(d.max,gi);d.els.push([el,gi]);}
+    if(el.dataset.dimgroup&&!shown)el.classList.remove('pl-dim');
+    if(!shown)return;
+    if(f==='lspot')ls=el;else if(f==='lspot-off')ls=null;
+    else if(f==='run')rn=el;else if(f==='run-off')rn=null;
+    else if(f==='zoom')zm=el;else if(f==='zoom-off')zm=null;
+    else if(f==='blur')bl=el;else if(f==='blur-off')bl=null;
+    else if(f==='text')txt.set(el.dataset.target,el);
+    else if(f==='pan')pan.set(el.dataset.target,el);
+    else if(f==='kenburns')kb.set(el.dataset.target,el);
+    if(animate&&gi===n-1&&/^(pulse|grow|shine|shake|text)$/.test(f))(last=last||[]).push(el);
+  }));
+  Object.values(dims).forEach(d=>d.els.forEach(([el,gi])=>el.classList.toggle('pl-dim',gi<d.max)));
+  const instant=(el,fn)=>{if(!animate){el.style.transition='none';fn();void el.offsetWidth;el.style.transition='';}else fn();};
+  const any=ls||rn||s._veil;
+  if(any){fxParts(s);
+    if(ls){const b=mbox(ls),ly=+ls.dataset.ly,lh=+ls.dataset.lh,bg=ls.dataset.bg||'#FFFFFF',[v1,v2]=s._veil,wasOn=!v1.classList.contains('pl-off');
+      const put=()=>{Object.assign(v1.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:Math.max(0,ly-b.y)+'px',background:bg});
+        Object.assign(v2.style,{left:b.x+'px',top:(ly+lh)+'px',width:b.w+'px',height:Math.max(0,b.y+b.h-ly-lh)+'px',background:bg});
+        Object.assign(s._lbar.style,{left:(b.x+8)+'px',top:(ly+6)+'px',height:Math.max(0,lh-12)+'px',background:ls.dataset.bar||'#2459C9'});};
+      [v1,v2,s._lbar].forEach(x=>instant(x,()=>{}));
+      if(!animate||!wasOn){[v1,v2,s._lbar].forEach(x=>{x.style.transition='none';});put();[v1,v2,s._lbar].forEach(x=>{void x.offsetWidth;x.style.transition='';});}else put();
+      [v1,v2,s._lbar].forEach(x=>instant(x,()=>x.classList.remove('pl-off')));
+    }else [...s._veil,s._lbar].forEach(x=>instant(x,()=>x.classList.add('pl-off')));
+    if(rn){const b=mbox(rn),wasOn=!s._run.classList.contains('pl-off');
+      const put=()=>Object.assign(s._run.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'});
+      if(!animate||!wasOn){s._run.style.transition='none';put();void s._run.offsetWidth;s._run.style.transition='';}else put();
+      instant(s._run,()=>s._run.classList.remove('pl-off'));
+    }else instant(s._run,()=>s._run.classList.add('pl-off'));
+  }
+  // blur everything on the slide except the part that holds the target
+  if(bl||s.classList.contains('pl-blurs')){s.classList.add('pl-blurs');
+    const t=bl&&s.querySelector('#'+bl.dataset.target);
+    [...s.children].forEach(c=>{if(c.tagName==='ASIDE'||/^pl-(?!bl$)/.test(c.className)||c.hasAttribute('data-build-in')&&/^(lspot|run|zoom|blur|text|pan|kenburns|pulse|grow|shine|shake|spot|cursor|click)/.test(c.getAttribute('data-build-in')))return;
+      instant(c,()=>c.classList.toggle('pl-bl',!!t&&!c.contains(t)&&c!==t));});
+    if(!bl&&!animate)s.classList.remove('pl-blurs');
+  }
+  // text values: the element keeps its last text in the HTML (for the PDF); data-start is what shows before any text step
+  s.querySelectorAll('[data-start]').forEach(t=>{if(t._final===undefined)t._final=t.textContent;const m=txt.get(t.id);t.textContent=m?m.dataset.text:t.dataset.start;});
+  pan.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t){t.style.transition=animate?'transform '+(m.dataset.ms||2000)+'ms cubic-bezier(.65,0,.35,1)':'none';t.style.transform='translateY('+(m.dataset.y||0)+'px)';}});
+  s.querySelectorAll('[data-panned]').forEach(t=>{if(!pan.has(t.id)){t.style.transition='none';t.style.transform='';}});
+  pan.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t)t.dataset.panned=1;});
+  kb.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t){t.style.transformOrigin=m.dataset.origin||'50% 50%';t.style.transition=animate?'transform '+(m.dataset.ms||6000)+'ms linear':'none';t.style.transform='scale('+(m.dataset.scale||1.12)+')';t.dataset.kb=1;}});
+  s.querySelectorAll('[data-kb]').forEach(t=>{if(!kb.has(t.id)){t.style.transition='none';t.style.transform='';}});
+  // camera: zoom the whole slide into the marker's box
+  if(zm){const b=mbox(zm),pad=+(zm.dataset.pad||40),k=Math.min(1920/(b.w+2*pad),1080/(b.h+2*pad),+(zm.dataset.max||3));
+    s.style.transformOrigin='0 0';s.style.transition=animate?'transform .9s cubic-bezier(.65,0,.35,1)':'none';
+    s.style.transform='translate('+(960-(b.x+b.w/2)*k)+'px,'+(540-(b.y+b.h/2)*k)+'px) scale('+k+')';}
+  else if(s.style.transform){s.style.transition=animate?'transform .9s cubic-bezier(.65,0,.35,1)':'none';s.style.transform='';}
+  (last||[]).forEach(m=>{const t=s.querySelector('#'+m.dataset.target);if(!t)return;const f=m.dataset.fx;
+    if(f==='pulse')t.animate([{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'}],{duration:900,easing:'ease-in-out'});
+    else if(f==='grow')t.animate([{transform:'scale(1)'},{transform:'scale(1.2)',offset:.4},{transform:'scale(1)'}],{duration:800,easing:'cubic-bezier(.2,.7,.2,1)'});
+    else if(f==='shake')t.animate([0,-14,14,-10,10,-5,0].map(x=>({transform:'translateX('+x+'px)'})),{duration:480,easing:'ease-out'});
+    else if(f==='text')t.animate([{backgroundColor:'rgba(255,214,64,.6)'},{backgroundColor:'rgba(255,214,64,0)'}],{duration:900,easing:'ease-out'});
+    else if(f==='shine'){const r=rectIn(t),g=document.createElement('div');Object.assign(g.style,{position:'absolute',left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px',overflow:'hidden',pointerEvents:'none',zIndex:35,borderRadius:getComputedStyle(t).borderRadius});
+      g.innerHTML='<div style="position:absolute;top:0;left:-40%;width:30%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg)"></div>';s.appendChild(g);
+      g.firstChild.animate([{left:'-40%'},{left:'120%'}],{duration:800,easing:'ease-in-out'}).onfinish=()=>g.remove();}
+  });
 }
 function rectIn(el){const r=el.getBoundingClientRect(),S=stage.getBoundingClientRect(),k=stage._s;return{x:(r.left-S.left)/k,y:(r.top-S.top)/k,w:r.width/k,h:r.height/k};}
 function topIds(sec){return [...sec.querySelectorAll('[id]')].filter(el=>!el.parentElement.closest('section [id]'));}
