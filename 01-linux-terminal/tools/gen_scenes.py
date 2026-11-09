@@ -3,12 +3,15 @@
 Layout (2026-11-06, after the Stageshow skill): the folder map is the hero and sits on the page without a
 panel. What changed is named by a short label beside its node, not by a badge box. The terminal is only as
 tall as its lines, and the one-sentence takeaway sits under it as plain text, not in a card.
-Clicks on every scene (two only, so flipping stays quick): the terminal is whole from the start; click 1 lights
-up the changed rows with their labels (and underlines an error), click 2 brings in the takeaway."""
+Clicks on every scene (two or three, so flipping stays quick): the terminal is whole from the start (no typing).
+Click 1 shows what changed, with a technique picked per scene from tools/HIGHLIGHT.md: a spotlight on the changed
+rows, the blue position ring flying from the old folder (cd), a node flying out of its source (mv, cp), a tint on a
+renamed file, pen curves from the output to the map (ls), a zoom (touch), or a pen mark on the terminal first (errors,
+ls -a, ls -al). The last click brings in the takeaway."""
 import html, math, os, re, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
-from highlight import spot, spot_off, underline  # noqa: E402
+from highlight import spot, spot_off, underline, ring, box as pen_box, pulse, shake, zoom, zoom_off, DELAY, DIM, MARK, _svg  # noqa: E402
 
 OUT = sys.argv[1]
 SANS = "'Noto Sans KR', Arial, sans-serif"
@@ -94,11 +97,15 @@ def tag(x, top, text, kind, attrs=""):
     return p(f"position:absolute;left:{x}px;top:{y-19}px;font-size:26px;font-weight:700;line-height:38px;white-space:nowrap;color:{LABEL[kind]}", e(t), attrs), sw(t, 26)
 
 
-def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치", hot=None, title=True):
+def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치", hot=None, title=True, pin_from=None, fly=None, mark=None):
     """nodes: list of (id, name, kind, depth) in display order.
     hot: rows to light up after the terminal finishes. None = the rows with labels, "cwd" = the current row,
-    False = none. The labels come in with the spotlight; the takeaway comes on the next click."""
-    badges = badges or {}
+    False = none. The labels come in with the spotlight; the takeaway comes on the next click.
+    pin_from: the folder the current position came from. A dashed ring stays there and the blue ring flies over.
+    fly: {node id: (element id, step)}: the node flies in from that element (a copy out of its original).
+    mark: {node id: step}: the node's name gets a yellow tint on that step (a renamed file).
+    A label is (text, kind) or (text, kind, step)."""
+    badges, fly, mark = badges or {}, fly or {}, mark or {}
     rows = {n[0]: i for i, n in enumerate(nodes)}
     if hot is None:
         hot = [k for k, v in badges.items() if v and all(len(b) == 2 for b in v)]
@@ -108,7 +115,9 @@ def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치", ho
     ROW0, PITCH = map_row0(nodes), pitch(nodes)
     t0 = STATE["n"] + 1
     fresh = {k for k in hot if any(b[1] == "new" for b in badges.get(k, []))}
-    pop = lambda k: f' data-build-in="pop order {t0}"' if k in fresh else ""
+    pop = lambda k: (f' data-build-in="pop order {t0}"' if k in fresh else
+                     f' data-build-in="fade order {fly[k][1]}"' if k in fly else "")
+    STATE["rows"] = {}
     o = []
     if title:
         o.append(p(f"position:absolute;left:{MX}px;top:{ROW0-46}px;width:400px;font-size:24px;font-weight:700;line-height:1.2;color:#6A7180", "폴더 지도", ' id="tree-title"'))
@@ -131,8 +140,10 @@ def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치", ho
         left, w = node_left(d), node_w(n)
         glyph = (f'<div style="width:28px;height:22px;background:{gl};border-radius:4px"></div>' if kind != "file" and not (kind == "ghost" and "." in name)
                  else f'<div style="width:22px;height:26px;background:{gl};border-radius:3px"></div>')
+        STATE["rows"][nid] = (left, top, w)
+        name_html = (f'<span{MARK(mark[nid])} style="background:#FFE9A8;border-radius:6px;padding:0 4px">{e(label(n))}</span>' if nid in mark else e(label(n)))
         box = lambda at, bg, bd, col, glyph, i="": (f'<div{i}{at} style="position:absolute;left:{left}px;top:{top}px;width:{w}px;height:{NODE_H}px;background:{bg};border:{bd};border-radius:12px;padding:0 16px;display:flex;flex-direction:row;gap:14px;align-items:center">'
-                                                    + glyph + p(f"font-family:{MONO};font-size:{NFS}px;font-weight:700;white-space:nowrap;color:{col}", e(label(n))) + '</div>')
+                                                    + glyph + p(f"font-family:{MONO};font-size:{NFS}px;font-weight:700;white-space:nowrap;color:{col}", name_html) + '</div>')
         if kind == "ghost" and nid in hot:
             # deleted on this slide: the folder or file is drawn whole first, and the dashed ghost fades in over it
             k2 = "file" if "." in name else "dir"
@@ -141,6 +152,9 @@ def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치", ho
                   else f'<div style="width:28px;height:22px;background:{gl2};border-radius:4px"></div>')
             o.append(box("", bg2, bd2, col2, g2))
             o.append(box(f' data-build-in="fade order {t0}"', bg, bd, col, glyph, f' id="n-{nid}"'))
+        elif nid in fly:
+            src, k = fly[nid]
+            o.append(box(f' data-build-in="fly order {k}" data-from="{src}"', bg, bd, col, glyph, f' id="n-{nid}"'))
         else:
             o.append(box(pop(nid), bg, bd, col, glyph, f' id="n-{nid}"'))
         x = left + w + 20
@@ -148,16 +162,25 @@ def tree(nodes, cwd=None, badges=None, notes=True, pin_label="현재 위치", ho
             o.append(p(f"position:absolute;left:{x}px;top:{top + NODE_H // 2 - 17}px;font-size:24px;font-weight:700;line-height:34px;white-space:nowrap;color:#8A909C", e(NOTE[nid]), f' id="note-{nid}"'))
             x += sw(NOTE[nid], 24) + 20
         if nid == cwd:
-            o.append(f'<div id="pin" style="position:absolute;left:{left-7}px;top:{top-7}px;width:{w+14}px;height:{NODE_H+14}px;border:3px solid {BLUE};border-radius:17px"></div>')
+            pa, ta = "", ""
+            if pin_from:
+                pa = f' data-build-in="fly order {t0}" data-from="pin-old"'
+                ta = f' data-build-in="fade order {t0}"{DELAY(450)}'
+            o.append(f'<div id="pin"{pa} style="position:absolute;left:{left-7}px;top:{top-7}px;width:{w+14}px;height:{NODE_H+14}px;border:3px solid {BLUE};border-radius:17px"></div>')
             pw = sw(pin_label, 22) + 28
-            o.append(p(f"position:absolute;left:{x}px;top:{top + NODE_H // 2 - 18}px;width:{pw}px;height:36px;font-size:22px;font-weight:700;line-height:36px;text-align:center;color:#FFFFFF;background:{BLUE};border-radius:8px", e(pin_label), ' id="pin-tag"'))
+            o.append(p(f"position:absolute;left:{x}px;top:{top + NODE_H // 2 - 18}px;width:{pw}px;height:36px;font-size:22px;font-weight:700;line-height:36px;text-align:center;color:#FFFFFF;background:{BLUE};border-radius:8px", e(pin_label), ' id="pin-tag"' + ta))
             x += pw + 20
         for text, kind_b, *rest in badges.get(nid, []):
             order = f" order {rest[0]}" if rest else (f" order {t0}" if hot else "")
-            h, bw = tag(x, top, text, kind_b, f' data-build-in="fade{order}"')
+            h, bw = tag(x, top, text, kind_b, rest[1] if len(rest) > 1 else f' data-build-in="fade{order}"')
             o.append(h)
             x += bw + 14
         right = max(right, x)
+    if pin_from:
+        # where the current position was: a dashed ring the blue ring flies away from
+        fi = rows[pin_from]
+        fl, ft, fw = node_left(nodes[fi][3]), ROW0 + fi * PITCH, node_w(nodes[fi])
+        o.append(f'<div id="pin-old" style="position:absolute;left:{fl-7}px;top:{ft-7}px;width:{fw+14}px;height:{NODE_H+14}px;border:3px dashed #9DB6EA;border-radius:17px"></div>')
     if hot:
         ii = sorted(rows[h] for h in hot)
         y0, y1 = ROW0 + ii[0] * PITCH - 14, ROW0 + ii[-1] * PITCH + NODE_H + 14
@@ -198,6 +221,7 @@ def terminal(lines, size=None):
     for k, (kind, text) in enumerate(lines):
         at = ""
         prev = kind
+        at += f' id="tl{k}"'
         st = f"font-size:{size}px;line-height:{lh}px;height:{lh}px;white-space:nowrap;"
         if kind == "$":
             where, cmd = text.split("|", 1)
@@ -214,8 +238,9 @@ def terminal(lines, size=None):
             u = underline(1, TL + 28, round(TL + 28 + len(text) * size * 0.6), y, color="#E5534B")
             marks.append(u.replace("position:absolute;left:0;top:0;", "position:absolute;left:0;top:__Y0__px;", 1))
     o.append('</div>')
-    STATE["n"] = cur
+    STATE["n"] = 1 if any(kind == "r" for kind, _ in lines) else 0   # an error is underlined on click 1
     STATE["tb"] = TT + height
+    STATE["term"] = (size, lh)
     return o + marks
 
 
@@ -231,6 +256,35 @@ def explain(title, sub=None):
         o.append(p("font-size:30px;line-height:1.5;color:#4A5262", sub))
     o.append('</div>')
     return o
+
+
+def tline(k):
+    """Absolute (x of the first character, top, line height, char width) of terminal line k. Call after explain()."""
+    size, lh = STATE["term"]
+    return TL + 28, TT + STATE.get("dy", 0) + PT + DOTS + k * (lh + 4), lh, size * 0.6
+
+
+def term_ring(order, k, c0, c1, color=BLUE):
+    """Pen loop around characters c0..c1 of terminal line k."""
+    x, y, lh, cw = tline(k)
+    h = max(2, lh - 34)  # ring() adds 22px above and below, so keep the loop inside the neighbor lines
+    return ring(order, x + c0 * cw, y + (lh - h) / 2, (c1 - c0) * cw, h, color=color, width=5)
+
+
+def term_box(order, k0, k1, c0, c1, color=BLUE):
+    """Pen box around characters c0..c1 of terminal lines k0..k1."""
+    x, y0, lh, cw = tline(k0)
+    _, y1, _, _ = tline(k1)
+    return pen_box(order, round(x + c0 * cw - 8), y0 - 2, round((c1 - c0) * cw + 16), y1 - y0 + lh + 4, color=color, width=4)
+
+
+def out_link(order, k, nid, color=BLUE):
+    """Pen curve from the right edge of terminal line k to the left side of a map node."""
+    _, y, lh, _ = tline(k)
+    left, top, _ = STATE["rows"][nid]
+    x1, y1, x2, y2 = TL + TWD + 10, y + lh / 2, left - 12, top + NODE_H / 2
+    mx = (x1 + x2) / 2
+    return _svg(order, f'<path d="M{x1:.0f},{y1:.0f} C{mx:.0f},{y1:.0f} {mx:.0f},{y2:.0f} {x2:.0f},{y2:.0f}"/><circle cx="{x2:.0f}" cy="{y2:.0f}" r="5" fill="{color}"/>', color, 3)
 
 
 def write(sec_id, parts, notes):
@@ -268,7 +322,7 @@ for i, (row, sym, t, sub, c) in enumerate([(0, "/", "맨 위 폴더 (루트)", "
 o.append(spot_off(3))
 o.append(p("position:absolute;left:96px;top:724px;width:880px;font-size:32px;font-weight:700;color:#1D2330", "홈 폴더 주소는 컴퓨터마다 달라요", ' data-build-in="rise order 3"'))
 for i, (k, v) in enumerate([("Linux", "/home/kim"), ("Mac", "/Users/kim"), ("Windows Git Bash", "/c/Users/kim")]):
-    o.append(f'<div data-build-in="rise order 3" style="position:absolute;left:96px;top:{786 + i * 72}px;width:880px;height:72px;border-top:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">'
+    o.append(f'<div data-build-in="rise order 3"{DELAY(120 * (i + 1))} style="position:absolute;left:96px;top:{786 + i * 72}px;width:880px;height:72px;border-top:2px solid #E1DED6;display:flex;flex-direction:row;align-items:center">'
              + p("font-size:28px;font-weight:700;width:320px;color:#4A5262", e(k))
              + p(f"font-family:{MONO};font-size:32px;font-weight:700;color:#1D2330", e(v)) + '</div>')
 o += tree(BASE, cwd="kim")
@@ -278,13 +332,16 @@ write("tree-map", o, "폴더는 나무를 거꾸로 세운 모양이에요. 맨 
 o = head("s1-pwd", "look", "실습 1 · 둘러보기", "pwd")
 o += terminal([("$", "~|pwd"), ("o", "/home/kim")])
 o += explain("지금 있는 폴더의 주소를 알려 줘요", "pwd는 print working directory의 줄임말이에요.")
-o += tree(BASE, cwd="kim", hot="cwd")
+o += tree(BASE, cwd="kim", hot=False)
+o += [term_ring(1, 1, 0, 9), pulse(1, "pin")]
 write("s1-pwd", o, "터미널을 처음 열면 홈 폴더에서 시작해요. 프롬프트의 ~ 와 pwd가 알려 준 /home/kim은 같은 곳이에요. 길을 잃은 것 같으면 언제든 pwd부터 쳐요.")
 
 o = head("s2-ls", "look", "실습 2 · 둘러보기", "ls")
 o += terminal([("$", "~|pwd"), ("o", "/home/kim"), ("$", "~|ls"), ("o", "Desktop  Documents")])
 o += explain("지금 폴더 안에 든 것을 보여 줘요", "ls는 list의 줄임말이에요. 한 칸 아래에 있는 것만 보여요.")
-o += tree(BASE, cwd="kim", badges={"desk": [("ls에 보임", "info")], "docs": [("ls에 보임", "info")]})
+o += tree(BASE, cwd="kim", hot=False, badges={"desk": [("ls에 보임", "info", 1, f' data-build-in="fade order 1"{DELAY(400)}')],
+                                              "docs": [("ls에 보임", "info", 1, f' data-build-in="fade order 1"{DELAY(400)}')]})
+o += [out_link(1, 3, "desk"), out_link(1, 3, "docs")]
 write("s2-ls", o, "ls는 현재 위치 바로 아래 칸만 보여 줘요. 그래서 지도에서 kim 밑의 Desktop과 Documents만 나와요. 영어 소문자 L과 S예요. 숫자 1이나 대문자 I와 헷갈리지 않게 짚어 주세요.")
 
 o = head("s3-mkdir", "look", "실습 3 · 둘러보기", "mkdir kant")
@@ -296,20 +353,22 @@ write("s3-mkdir", o, "mkdir은 make directory의 줄임말이에요. 디렉터�
 o = head("s4-cd", "look", "실습 4 · 둘러보기", "cd kant")
 o += terminal([("$", "~|cd kant"), ("$", "~/kant|pwd"), ("o", "/home/kim/kant")])
 o += explain("폴더 안으로 들어가요", f"프롬프트 앞의 위치도 {code('~')} 에서 {code('~/kant')}로 바뀌어요.")
-o += tree(KANT, cwd="kant", hot="cwd")
+o += tree(KANT, cwd="kant", hot=False, pin_from="kim")
 write("s4-cd", o, "cd는 change directory예요. 파란 현재 위치 표시가 kant로 내려가는 걸 보여 주세요. 프롬프트 앞부분이 바뀐 것도 함께 짚어요. 명령을 치기 전에 프롬프트로 지금 위치를 확인하는 습관을 들이면 실수가 줄어요.")
 
 # ---------- 만들기 ----------
 o = head("s5-touch", "make", "실습 5 · 파일 만들기", "touch memo.md")
 o += terminal([("$", "~/kant|touch memo.md"), ("$", "~/kant|ls"), ("o", "memo.md")])
 o += explain("내용이 없는 빈 파일을 만들어요")
-o += tree(MEMO, cwd="kant", badges={"memo": [("새로 생김", "new")]})
+o += tree(MEMO, cwd="kant", hot=False, badges={"memo": [("새로 생김", "new", 1)]})
+(kl, kt, _), (_, mt, _) = STATE["rows"]["kant"], STATE["rows"]["memo"]
+o += [zoom(1, kl - 215, kt - 260, 720, mt - kt + NODE_H + 300, pad=0, max_scale=1.8), zoom_off(2)]
 write("s5-touch", o, "touch는 현재 위치에 파일을 만들어요. 그래서 memo.md는 kant 안에 생겨요. 이미 있는 파일에 touch를 쳐도 내용은 지워지지 않아요.")
 
 o = head("s6-echo", "make", "실습 6 · 파일 만들기", 'echo "# hello" &gt; memo.md')
 o += terminal([("$", '~/kant|echo "# hello" > memo.md'), ("$", "~/kant|cat memo.md"), ("o", "# hello")])
 o += explain("파일에 글자를 쓰고 읽어요", f"{code('>')} 는 파일 내용을 지우고 새로 써요. {code('cat')}은 내용을 화면에 보여 줘요.")
-o += tree(MEMO, cwd="kant", badges={"memo": [("# hello", "text")]})
+o += tree(MEMO, cwd="kant", hot=False, badges={"memo": [("# hello", "text", 1, ' data-build-in="fly order 1" data-from="tl2"')]})
 write("s6-echo", o, "echo는 글자를 화면에 그대로 출력하는 명령이에요. 뒤에 > 파일이름을 붙이면 화면 대신 파일로 보내요. > 는 기존 내용을 덮어쓰니 중요한 파일에는 쓰지 않아요. # 은 마크다운에서 제목을 뜻하는 기호예요. 다음 장에서 봐요. 실제 수업에서는 파일 내용을 VS Code 같은 에디터로 고치는 일이 더 많아요.")
 
 o = head("s7-mkdir2", "make", "실습 7 · 파일 만들기", "mkdir notes")
@@ -328,8 +387,8 @@ for i, (top, name, path_, sub, c) in enumerate([
              + p(f"font-family:{MONO};font-size:56px;font-weight:700;line-height:1.2;color:#1D2330", e(path_))
              + p("font-size:28px;line-height:1.5;color:#4A5262", e(sub)) + '</div>')
 o += tree(NOTES, cwd="kant", notes=False, badges={
-    "root": [("1", "num", 1)], "home": [("2", "num", 1)], "kim": [("3", "num", 1)],
-    "kant": [("4", "num", 1)], "notes": [("5", "num", 1), ("한 칸 아래", "green", 2)]})
+    **{k: [(str(i + 1), "num", 1, f' data-build-in="pop order 1"{DELAY(i * 180)}')] for i, k in enumerate(["root", "home", "kim", "kant"])},
+    "notes": [("5", "num", 1, f' data-build-in="pop order 1"{DELAY(720)}'), ("한 칸 아래", "green", 2)]})
 write("paths", o, "주소를 쓰는 방법이 두 가지예요. 절대 경로는 집 주소처럼 맨 위부터 다 적는 방식이에요. 상대 경로는 여기서 오른쪽 두 번째 집처럼 지금 위치를 기준으로 말하는 방식이에요. 평소에는 짧은 상대 경로를 많이 써요. 헷갈릴 때는 절대 경로가 확실해요.")
 
 o = head("special", "path", "경로 2", "기호 네 개만 기억해요", mono=False, transition="fade")
@@ -337,7 +396,7 @@ o = head("special", "path", "경로 2", "기호 네 개만 기억해요", mono=F
 SYM = [(".", "지금 폴더", 7, 1), ("..", "한 칸 위 폴더", 5, 2), ("~", "내 홈 폴더", 2, 3), ("/", "맨 위 폴더", 0, 4)]
 for s_, t, row, k in SYM:
     cy = map_row0(NOTES) + row * PITCH + NODE_H // 2
-    o.append(f'<div data-build-in="rise order {k}" style="position:absolute;left:96px;top:{cy-40}px;width:880px;height:80px;display:flex;flex-direction:row;gap:32px;align-items:center">'
+    o.append(f'<div data-build-in="rise order {k}"{DIM("sym")} style="position:absolute;left:96px;top:{cy-40}px;width:880px;height:80px;display:flex;flex-direction:row;gap:32px;align-items:center">'
              + p(f"font-family:{MONO};font-size:60px;font-weight:700;line-height:72px;width:100px;text-align:center;color:#5A3BB8", e(s_))
              + p("font-size:38px;font-weight:700;white-space:nowrap;color:#1D2330", e(t)) + '</div>')
 o += tree(NOTES, cwd="notes", notes=False, badges={
@@ -347,25 +406,28 @@ write("special", o, "현재 위치가 notes일 때 기준이에요. . 은 지금
 o = head("s8-cd-rel", "path", "실습 8 · 경로", "cd notes")
 o += terminal([("$", "~/kant|cd notes"), ("$", "~/kant/notes|pwd"), ("o", "/home/kim/kant/notes")])
 o += explain("지금 위치에서 notes로 들어가요", "kant 안에 notes가 있어서 이름만 적어도 돼요. 이렇게 적는 게 상대 경로예요.")
-o += tree(NOTES, cwd="notes", hot="cwd")
+o += tree(NOTES, cwd="notes", hot=False, pin_from="kant")
 write("s8-cd-rel", o, "notes만 적어도 되는 건 지금 kant 안에 있어서예요. 홈 폴더에서 cd notes를 치면 에러가 나요. 그 경우는 뒤의 막힐 때 파트에서 다시 봐요.")
 
 o = head("s9-cd-up", "path", "실습 9 · 경로", "cd ..")
 o += terminal([("$", "~/kant/notes|cd .."), ("$", "~/kant|pwd"), ("o", "/home/kim/kant")])
 o += explain("한 칸 위 폴더로 올라가요", f"{code('..')} 은 바로 위 폴더예요. {code('cd ../..')} 처럼 두 칸도 한 번에 가요.")
-o += tree(NOTES, cwd="kant", hot="cwd")
+o += tree(NOTES, cwd="kant", hot=False, pin_from="notes")
 write("s9-cd-up", o, "cd와 .. 사이에 띄어쓰기를 꼭 넣어요. cd.. 로 붙여 치면 에러가 나는 터미널이 있어요. 두 칸 위로 가려면 ../.. 처럼 / 로 이어요.")
 
 o = head("s10-cd-abs", "path", "실습 10 · 경로", "cd /home/kim/kant/notes")
 o += terminal([("$", "~/kant|cd /home/kim/kant/notes"), ("$", "~/kant/notes|pwd"), ("o", "/home/kim/kant/notes")])
+STATE["n"] = 1
 o += explain("맨 위부터 적은 주소로 바로 가요", "절대 경로는 지금 어디에 있든 같은 곳으로 가요.")
-o += tree(NOTES, cwd="notes", hot="cwd")
+o += tree(NOTES, cwd="notes", hot=False, pin_from="kant")
+x, y, lh, cw = tline(0)
+o.append(underline(1, round(x + 12 * cw), round(x + 32 * cw), round(y + lh - 2), color="#5A3BB8"))
 write("s10-cd-abs", o, "/ 로 시작하면 절대 경로예요. 지금 위치와 상관없이 늘 같은 곳으로 가요. 경로가 길어서 직접 치기보다는 Tab 자동 완성을 같이 써요.")
 
 o = head("s11-cd-home", "path", "실습 11 · 경로", "cd ~")
 o += terminal([("$", "~/kant/notes|cd ~"), ("$", "~|pwd"), ("o", "/home/kim")])
 o += explain("어디서든 홈 폴더로 돌아가요", f"길을 잃으면 {code('cd ~')} 하고 다시 시작해요.")
-o += tree(NOTES, cwd="kim", hot="cwd")
+o += tree(NOTES, cwd="kim", hot=False, pin_from="notes")
 write("s11-cd-home", o, "cd 뒤에 아무것도 적지 않아도 홈 폴더로 가요. 두 방법 모두 결과가 같아요. 다음 장면은 cd kant로 다시 들어간 뒤 이어져요.")
 
 # ---------- 옮기고 지우기 ----------
@@ -373,20 +435,22 @@ o = head("s12-mv", "move", "실습 12 · 옮기고 지우기", "mv memo.md notes
 o += terminal([("$", "~|cd kant"), ("$", "~/kant|mv memo.md notes/"), ("$", "~/kant|ls"), ("o", "notes"),
                ("$", "~/kant|ls notes"), ("o", "memo.md")])
 o += explain("파일을 다른 폴더로 옮겨요", f"원래 자리에는 남지 않아요. {code('mv 옮길것 도착할곳')} 순서로 적어요.")
-o += tree(MOVED, cwd="kant", badges={"memo": [("옮겨짐", "move")]})
+o += tree(MOVED, cwd="kant", hot=False, fly={"memo": ("n-kant", 1)},
+          badges={"memo": [("옮겨짐", "move", 1, f' data-build-in="fade order 1"{DELAY(600)}')]})
 write("s12-mv", o, "mv는 move예요. 첫 번째가 옮길 것, 두 번째가 도착할 곳이에요. ls notes처럼 ls 뒤에 폴더 이름을 주면 들어가지 않고도 그 안을 볼 수 있어요.")
 
 o = head("s13-cp", "move", "실습 13 · 옮기고 지우기", "cp notes/memo.md plan.md")
 o += terminal([("$", "~/kant|cp notes/memo.md plan.md"), ("$", "~/kant|ls"), ("o", "notes  plan.md"),
                ("$", "~/kant|cat plan.md"), ("o", "# hello")])
 o += explain("파일을 하나 더 복사해요", "원본 notes/memo.md는 그대로 있어요.")
-o += tree(COPY, cwd="kant", badges={"plan": [("복사본", "move")], "memo": [("원본", "info")]})
+o += tree(COPY, cwd="kant", hot=False, fly={"plan": ("n-memo", 1)},
+          badges={"plan": [("복사본", "move", 1, f' data-build-in="fade order 1"{DELAY(600)}')], "memo": [("원본", "info", 1)]})
 write("s13-cp", o, "cp는 copy예요. 순서는 mv와 같아요. notes/memo.md는 notes 폴더 안의 memo.md라는 상대 경로예요. 폴더를 통째로 복사할 땐 cp -r을 써요.")
 
 o = head("s14-rename", "move", "실습 14 · 옮기고 지우기", "mv plan.md todo.md")
 o += terminal([("$", "~/kant|mv plan.md todo.md"), ("$", "~/kant|ls"), ("o", "notes  todo.md")])
 o += explain("같은 자리에서 mv 하면 이름이 바뀌어요", f"이름 바꾸는 명령은 따로 없어요. {code('mv 원래이름 새이름')}으로 해요.")
-o += tree(RENAMED, cwd="kant", badges={"plan": [("이름 바뀜", "move")]})
+o += tree(RENAMED, cwd="kant", hot=False, mark={"plan": 1}, badges={"plan": [("이름 바뀜", "move", 1)]})
 write("s14-rename", o, "두 번째 자리에 폴더가 아니라 새 파일 이름을 주면 그 이름으로 옮겨져요. 결국 이름이 바뀐 것과 같아요. 같은 이름의 파일이 이미 있으면 묻지 않고 덮어쓰니 주의해요.")
 
 GH_TODO = MOVED + [("plan", "todo.md", "ghost", 4)]
@@ -418,17 +482,21 @@ write("s16b-rm-rf", o, "rm -rf는 -r과 -f를 합친 거예요. -f가 붙으면 
 o = head("s17-ls-a", "extra", "실습 17 · 숨김 파일", "ls -a")
 o += terminal([("$", "~/kant|git init"), ("o", "Initialized empty Git repository in /home/kim/kant/.git/"),
                ("$", "~/kant|ls"), ("#", "# 아무것도 안 보여요"), ("$", "~/kant|ls -a"), ("o", ".  ..  .git")], size=24)
+STATE["n"] = 1
 o += explain("점(.)으로 시작하는 이름은 숨겨져요", "ls -a를 쳐야 보여요. Git의 .git 폴더도 숨김이에요.")
 o += tree(KANT + [("git", ".git", "hidden", 4)], cwd="kant", badges={"git": [("숨김 폴더", "hide")]})
+o.append(term_ring(1, 5, 7, 11))
 write("s17-ls-a", o, "-a는 all이에요. 맨 앞의 . 과 .. 은 지금 폴더와 한 칸 위 폴더를 뜻하는 기호예요. git init은 다음 단원에서 배울 Git 명령이에요. 여기서는 숨김 폴더를 하나 만드는 데만 써요. git init이 만든 .git 폴더는 숨김이라 그냥 ls로는 안 보여요.")
 
 o = head("s18-ls-al", "extra", "실습 18 · 숨김 파일", "ls -al")
 o += terminal([("$", "~/kant|touch README.md"), ("$", "~/kant|ls"), ("o", "README.md"), ("$", "~/kant|ls -al"),
                ("o", "total 12"), ("l", "drwxr-xr-x 3 kim kim 4096 Oct 28 04:28 ."), ("l", "drwxr-xr-x 5 kim kim 4096 Oct 28 04:28 .."),
                ("l", "drwxr-xr-x 7 kim kim 4096 Oct 28 04:28 .git"), ("l", "-rw-r--r-- 1 kim kim    0 Oct 28 04:28 README.md")], size=26)
+STATE["n"] = 1
 o += explain("숨김까지 자세히 보여 줘요", f"{code('-a')}는 숨김까지, {code('-l')}은 자세히예요. 맨 앞이 {code('d')}면 폴더, {code('-')}면 파일이에요.")
 o += tree(KANT + [("git", ".git", "hidden", 4), ("readme", "README.md", "file", 4)], cwd="kant",
           badges={"git": [("d · 폴더", "hide")], "readme": [("- · 파일", "new")]})
+o.append(term_box(1, 5, 8, 0, 1, color="#1F8A4C"))
 write("s18-ls-al", o, "ls -al은 ls -a -l을 합친 거예요. 순서를 바꿔 ls -la로 쳐도 같아요. 한 줄에 권한, 주인, 크기, 고친 시각, 이름이 나와요. 지금은 맨 앞 글자로 폴더와 파일을 구분하는 것만 알면 돼요. 빈 파일인 README.md는 크기가 0이에요. 날짜와 시각은 실행한 때에 따라 달라요.")
 
 # ---------- 막힐 때 ----------
@@ -442,6 +510,7 @@ o = head("err-cmd", "help", "막힐 때 2", "command not found")
 o += terminal([("$", "~/kant|sl"), ("r", "bash: sl: command not found"), ("$", "~/kant|ls"), ("o", "notes  todo.md")])
 o += explain("명령 이름이 틀렸어요", "ls를 sl로 치는 오타가 흔해요. 설치하지 않은 프로그램을 불러도 같은 메시지가 나와요.")
 o += tree(RENAMED, cwd="kant")
+o.append(shake(1, "tl1"))
 write("err-cmd", o, "명령 이름 자체를 못 찾았다는 뜻이에요. 철자를 먼저 확인해요. 철자가 맞는데도 나오면 그 프로그램이 설치되지 않은 거예요. 예를 들어 Python을 설치하기 전에 python3을 치면 이 메시지가 나와요.")
 
 SPACE = KANT + [("folder", "folder", "dir", 4), ("my", "my", "dir", 4), ("notes", "notes", "dir", 4),
@@ -449,6 +518,8 @@ SPACE = KANT + [("folder", "folder", "dir", 4), ("my", "my", "dir", 4), ("notes"
 o = head("err-space", "help", "막힐 때 3", "mkdir my folder")
 o += terminal([("$", "~/kant|mkdir my folder"), ("$", "~/kant|ls"), ("o", "folder  my  notes  todo.md"),
                ("#", ""), ("#", "# 이렇게 고쳐요"), ("$", '~/kant|mkdir "my folder"'), ("$", "~/kant|ls"), ("o", "'my folder'")])
+STATE["n"] = 1
 o += explain("띄어쓰기는 이름을 둘로 나눠요", "따옴표로 묶거나, 처음부터 my-folder처럼 띄어쓰기 없이 지어요.")
 o += tree(SPACE, cwd="kant", badges={"folder": [("따로 생김", "del")], "my": [("따로 생김", "del")]})
+o.append(term_box(1, 2, 2, 0, 10, color="#A33131"))
 write("err-space", o, "터미널은 띄어쓰기를 기준으로 단어를 나눠요. 그래서 my와 folder 두 폴더가 생겨요. 아래 고친 예시는 잘못 만든 두 폴더를 지운 뒤 실행한 결과예요. 이름에 띄어쓰기를 넣지 않는 게 가장 편해요. 하이픈이나 밑줄을 써요.")
