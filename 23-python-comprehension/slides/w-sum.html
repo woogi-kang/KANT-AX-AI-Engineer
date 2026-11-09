@@ -14,8 +14,11 @@
 <p data-build-in="fade order 3" style="position:absolute;left:96px;top:692px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;color:#6A7180;white-space:pre">total = 0
 for m in cart:
     total += menu[m]</p>
+<p id="ws-a" data-build-in="fade order 3" data-pdf="hide" style="position:absolute;left:96px;top:692px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;line-height:1.5;color:#6A7180;white-space:pre">total = 0
+<span data-m="f" style="display:inline-block;">for m in cart</span>:
+    total += <span data-m="v" style="display:inline-block;">menu[m]</span></p>
 <x-shape data-build-in="fade order 4" kind="arrow-right" style="width:90px;height:30px;flex:none;background:#A23B72;position:absolute;left:700px;top:752px"></x-shape>
-<div data-build-in="rise order 4" style="position:absolute;left:830px;top:680px;width:994px;height:150px;background:#252B36;border-radius:22px;padding:0 48px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:44px;font-weight:700;line-height:1.5;color:#E6E9EF;white-space:pre"><span style="display:inline-block;color:#E6E9EF">sum([</span><span style="display:inline-block;color:#B8E8BE">menu[m]</span><span style="display:inline-block;color:#E6E9EF">&#160;</span><span style="display:inline-block;color:#8FD8DE">for&#160;m&#160;in&#160;cart</span><span style="display:inline-block;color:#E6E9EF">])</span></p></div>
+<div data-build-in="morph order 4" data-from="ws-a" style="position:absolute;left:830px;top:680px;width:994px;height:150px;background:#252B36;border-radius:22px;padding:0 48px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:44px;font-weight:700;line-height:1.5;color:#E6E9EF;white-space:pre">sum([<span data-m="v" style="display:inline-block;color:#B8E8BE">menu[m]</span> <span data-m="f" style="display:inline-block;color:#8FD8DE">for m in cart</span>])</p></div>
 <p id="caption" data-build-in="rise order 5" style="position:absolute;left:96px;top:920px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">계산할 값만 리스트로 모아 sum, max, len에 넘겨요.</p>
 <aside>컴프리헨션이 만든 리스트는 sum, max에 바로 넘길 수 있어요. 장바구니 cart의 메뉴마다 menu[m]으로 가격을 꺼내 리스트를 만들고, sum이 더해요. 19에서 calc_total 안에 적었던 세 줄이 한 줄이 됐어요. 메뉴 이름 길이를 모아 max에 넘기면 가장 긴 이름의 길이 6이 나와요. 이 파트는 새 커널이라 셀 번호가 [1]부터예요. 출력은 실제로 실행한 결과예요.</aside>
 </section>

@@ -34,7 +34,7 @@ aside{display:none}
       const sec = document.querySelector('section');
       const S = sec.getBoundingClientRect();
       const name = el => (el.id ? '#' + el.id : el.tagName.toLowerCase()) + ' "' + (el.textContent || '').trim().slice(0, 28) + '"';
-      const texts = [...sec.querySelectorAll('p,h1,h2,h3,td,th,li')].filter(el => (el.textContent || '').trim() && getComputedStyle(el).opacity !== '0' && !el.closest('[style*="opacity:0"]'));
+      const texts = [...sec.querySelectorAll('p,h1,h2,h3,td,th,li')].filter(el => (el.textContent || '').trim() && getComputedStyle(el).opacity !== '0' && !el.closest('[style*="opacity:0"]') && !el.closest('[data-pdf="hide"]'));
       const range = document.createRange();
       const inkRect = el => { range.selectNodeContents(el); const rs = [...range.getClientRects()]; if (!rs.length) return null; return { l: Math.min(...rs.map(r => r.left)), t: Math.min(...rs.map(r => r.top)), r: Math.max(...rs.map(r => r.right)), b: Math.max(...rs.map(r => r.bottom)) }; };
       // 1. text overflowing its own box or its container's padding box
@@ -56,7 +56,7 @@ aside{display:none}
       for (const d of sec.querySelectorAll('div')) {
         if (d.closest('[style*="opacity:0"]')) continue;
         // empty spotlight and pointer boxes (tools/highlight.py) are never painted
-        if (/^(spot|cursor|click)/.test(d.getAttribute('data-build-in') || '')) continue;
+        if (/^(spot|cursor|click|lspot|run|zoom|blur|text|pan|kenburns|pulse|grow|shine|shake)/.test(d.getAttribute('data-build-in') || '')) continue;
         if (d.scrollHeight > d.clientHeight + 2 && d.style.height) out.push(`box-overflow ${name(d).slice(0, 40)} by ${d.scrollHeight - d.clientHeight}`);
         const r = d.getBoundingClientRect();
         if (r.right > S.right - 40 || r.bottom > S.bottom - 40 || r.left < S.left + 40 || r.top < S.top + 30) out.push(`edge ${name(d).slice(0, 30)} ${Math.round(r.left)},${Math.round(r.top)},${Math.round(r.right)},${Math.round(r.bottom)}`);
