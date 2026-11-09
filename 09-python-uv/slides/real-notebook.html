@@ -24,6 +24,7 @@
 <p id="nb-ok" style="position:absolute;left:112px;top:108px;width:760px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:35px;white-space:pre;color:#1D2330">requests 버전: 2.34.2</p>
 </div>
 <p data-build-in="fade order 3" style="position:absolute;left:182px;top:507px;width:700px;font-size:26px;font-weight:700;line-height:1.45;text-align:left;color:#1F8A4C">같은 셀을 다시 실행해요</p>
-<p data-build-in="fade order 4" style="position:absolute;left:96px;top:870px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">셀은 노트북에서, 패키지는 터미널에서 넣어요. VS Code 알림의 Install 버튼은 누르지 않아요.</p>
+<div data-build-in="pulse order 4" data-target="nb-ok" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<p data-build-in="fade order 5" style="position:absolute;left:96px;top:870px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">셀은 노트북에서, 패키지는 터미널에서 넣어요. VS Code 알림의 Install 버튼은 누르지 않아요.</p>
 <aside>노트북 셀에서 ModuleNotFoundError가 나면 VS Code 터미널에서 uv add로 패키지를 넣고 같은 셀을 다시 실행해요. 커널은 hello-uv의 .venv라서, uv add로 .venv에 넣으면 노트북에서도 바로 불러와요. idna는 fastapi와 함께 이미 들어와 있어서 이번엔 4개만 설치됐어요. 알림의 Install이나 pip install은 목록 파일에 적히지 않아서 쓰지 않아요. 노트북 출력은 tools/demo.sh가 커널 하나에서 셀, uv add, 같은 셀 순서로 실제로 실행한 결과예요.</aside>
 </section>
