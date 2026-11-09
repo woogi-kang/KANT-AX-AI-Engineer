@@ -3,6 +3,7 @@
 <title>VS Code에서 Jupyter 노트북 쓰기</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap">
 <style>section{position:relative;width:1920px;height:1080px;box-sizing:border-box;overflow:hidden}
+[data-pdf="hide"]{visibility:hidden}
 section *{box-sizing:border-box}
 p,h1,h2,h3,ul,ol{margin:0}
 h1{font-size:96px;font-weight:600;line-height:1.1} h2{font-size:64px;font-weight:600;line-height:1.15} h3{font-size:44px;font-weight:600;line-height:1.2} p{font-size:32px;line-height:1.4}
@@ -97,7 +98,28 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 .pl-cur.on{opacity:1}
 .pl-rip{position:absolute;z-index:44;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:5px solid #2459C9;opacity:0;pointer-events:none}
 .pl-rip.go{animation:pl-rip .6s ease-out}
-@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}</style></head>
+@keyframes pl-rip{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3)}}
+#pl-stage [data-pdf="hide"]{visibility:inherit}
+[data-build-in^="lspot"],[data-build-in^="run"],[data-build-in^="zoom"],[data-build-in^="blur"],[data-build-in^="text"],[data-build-in^="pan"],[data-build-in^="kenburns"],[data-build-in^="pulse"],[data-build-in^="grow"],[data-build-in^="shine"],[data-build-in^="shake"]{visibility:hidden}
+[data-build-in^="wipe"]{clip-path:inset(0 0 0 0);transition:opacity .2s ease,clip-path .6s cubic-bezier(.65,0,.35,1)}
+.pending.wipe{opacity:1!important;clip-path:inset(0 100% 0 0)}
+[data-build-in^="slam"]{transition:opacity .25s ease,transform .5s cubic-bezier(.34,1.45,.64,1)}
+.pending.slam{transform:scale(2.2)!important}
+[data-build-in^="slide"]{transition:opacity .3s ease,transform .6s cubic-bezier(.16,1,.3,1)}
+.pending.slide{transform:translate(var(--dx,0px),var(--dy,60px))!important}
+.pending.stagger{opacity:1!important}
+[data-build-in^="stagger"]>*{transition:opacity .35s ease,transform .4s cubic-bezier(.2,.7,.2,1)}
+.pending.stagger>*{opacity:0;transform:translateY(18px)}
+[data-build-in^="mark"]{transition:background-color .45s ease,color .45s ease,text-decoration-color .45s ease,box-shadow .45s ease}
+.pending.mark{opacity:1!important;background-color:transparent!important;color:inherit!important;text-decoration-color:transparent!important;box-shadow:none!important}
+[data-dimgroup]{transition:opacity .45s ease,transform .45s ease,filter .4s ease}
+.pl-dim{filter:grayscale(1) opacity(.38)}
+.pl-blurs>*{transition:opacity .45s ease,transform .45s ease,filter .5s ease}
+.pl-bl{filter:blur(6px) opacity(.5)}
+.pl-veil{position:absolute;z-index:30;pointer-events:none;opacity:.8;transition:left .45s cubic-bezier(.65,0,.35,1),top .45s cubic-bezier(.65,0,.35,1),width .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),opacity .35s ease}
+.pl-lbar{position:absolute;z-index:31;width:7px;border-radius:4px;background:#2459C9;pointer-events:none;transition:top .45s cubic-bezier(.65,0,.35,1),height .45s cubic-bezier(.65,0,.35,1),left .45s,opacity .35s ease}
+.pl-run{position:absolute;z-index:29;pointer-events:none;border-radius:8px;background:rgba(31,138,76,.17);box-shadow:inset 7px 0 0 #1F8A4C;transition:left .4s cubic-bezier(.65,0,.35,1),top .4s cubic-bezier(.65,0,.35,1),width .4s,height .4s,opacity .3s ease}
+.pl-off{opacity:0!important}</style></head>
 <body>
 <div id="pl-stage">
 <section id="cover" data-transition="fade" style="background:#1D2330;color:#F6F5F1;font-family:'Noto Sans KR', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
@@ -119,6 +141,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </div>
 <div id="cv-sel" style="position:absolute;left:28px;top:192px;width:7px;height:142px;border-radius:4px;background:#2F7DE1;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease"></div>
 </div>
+<div data-build-in="shine order 1" data-target="cv-c-p-box" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>09에서 VS Code에 Jupyter를 연결하고 첫 셀을 실행했어요. 이번 챕터는 그 노트북을 손에 익히는 시간이에요. 셀을 실행하는 세 가지 키, 실행 번호 읽는 법, 명령 모드와 편집 모드, Windows와 Mac 단축키를 차례로 봐요.</aside>
 </section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
@@ -155,6 +178,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M216,758 L190,758" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
 <div data-build-in="fade order 1" style="position:absolute;left:184px;top:752px;width:12px;height:12px;border-radius:50%;background:#F2B27A"></div>
 <p data-build-in="fade order 1" style="position:absolute;left:230px;top:740px;white-space:nowrap;font-size:28px;font-weight:700;line-height:1.35;color:#F2B27A">앞에서 본 20이 또 나와요</p>
+<div data-build-in="pulse order 1" data-target="wt-1" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <div data-build-in="rise order 2" style="position:absolute;left:0;top:0;width:1920px;height:1080px">
 <div style="position:absolute;left:1110px;top:300px;width:714px;height:540px;background:#FFFFFF;border:1.5px solid #D9D5CB;border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(29,35,48,.05), 0 24px 56px rgba(29,35,48,.13)">
 <div style="height:58px;background:#EFEDE7;display:flex;flex-direction:row;align-items:flex-end;padding:0 18px"><div style="height:46px;background:#FFFFFF;border-radius:10px 10px 0 0;padding:0 24px;display:flex;flex-direction:row;align-items:center;gap:18px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">notebook.ipynb</p><p style="font-size:22px;color:#6A7180">×</p></div></div>
@@ -205,9 +229,11 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:26px;font-weight:700;color:#B8560F;margin-bottom:8px">기억하는 값</p>
 <div id="bp-mem-x" data-build-in="fly order 1" data-from="bp-l-x" style="height:66px;border-top:1px solid #EBD8C0;display:flex;flex-direction:row;align-items:center;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease;"><p style="width:46%;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1D2330">x</p><p id="bp-mem-x-v" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1D2330;padding:2px 10px;border-radius:8px;transition:background .4s ease">10</p></div>
 </div>
-<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1076,455 C1190,455 1200,470 1300,470" fill="none" stroke="#2459C9" stroke-width="5" stroke-linecap="round"></path><path d="M1300,470 l-20,-12 M1300,470 l-20,12" fill="none" stroke="#2459C9" stroke-width="5" stroke-linecap="round"></path></svg>
+<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path id="bp-go" d="M1076,455 C1190,455 1200,470 1300,470" fill="none" stroke="#2459C9" stroke-width="5" stroke-linecap="round"></path><path d="M1300,470 l-20,-12 M1300,470 l-20,12" fill="none" stroke="#2459C9" stroke-width="5" stroke-linecap="round"></path></svg>
+<div data-build-in="path order 1" data-path="bp-go" data-ms="1400" style="position:absolute;left:1291px;top:461px;width:18px;height:18px;border-radius:50%;background:#2459C9;box-shadow:0 0 0 6px rgba(36,89,201,.18)"></div>
 <p data-build-in="fade order 1" style="position:absolute;left:1150px;top:395px;font-size:26px;font-weight:700;color:#2459C9">코드를 보내요</p>
-<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1300,640 C1190,640 1190,679 1076,679" fill="none" stroke="#1F8A4C" stroke-width="5" stroke-linecap="round"></path><path d="M1076,679 l20,-12 M1076,679 l20,12" fill="none" stroke="#1F8A4C" stroke-width="5" stroke-linecap="round"></path></svg>
+<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path id="bp-back" d="M1300,640 C1190,640 1190,679 1076,679" fill="none" stroke="#1F8A4C" stroke-width="5" stroke-linecap="round"></path><path d="M1076,679 l20,-12 M1076,679 l20,12" fill="none" stroke="#1F8A4C" stroke-width="5" stroke-linecap="round"></path></svg>
+<div data-build-in="path order 2" data-path="bp-back" data-ms="1400" style="position:absolute;left:1067px;top:670px;width:18px;height:18px;border-radius:50%;background:#1F8A4C;box-shadow:0 0 0 6px rgba(31,138,76,.18)"></div>
 <p data-build-in="fade order 2" style="position:absolute;left:1150px;top:713px;font-size:26px;font-weight:700;color:#1F8A4C">결과를 돌려줘요</p>
 <p id="caption" data-build-in="fade order 2" style="position:absolute;left:1330px;top:880px;width:494px;font-size:28px;font-weight:700;line-height:1.45;color:#4A5262">값은 파일이 아니라 커널이 기억해요.</p>
 <script type="text/slide-js">
@@ -327,16 +353,16 @@ return { step: at };
 <div style="height:58px;background:#EFEDE7;display:flex;flex-direction:row;align-items:flex-end;padding:0 18px"><div style="height:46px;background:#FFFFFF;border-radius:10px 10px 0 0;padding:0 24px;display:flex;flex-direction:row;align-items:center;gap:18px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">notebook.ipynb</p><p style="font-size:22px;color:#6A7180">×</p></div></div>
 <div style="height:64px;border-bottom:1px solid #ECEAE4;display:flex;flex-direction:row;align-items:center;padding:0 26px;gap:30px"><div id="tb-tools" style="display:flex;flex-direction:row;align-items:center;gap:30px"><p id="tb-code" style="font-size:22px;color:#4A5262;white-space:nowrap">+ Code</p><p id="tb-md" style="font-size:22px;color:#4A5262;white-space:nowrap">+ Markdown</p><p id="tb-runall" style="font-size:22px;color:#4A5262;white-space:nowrap">▷ Run All</p><p id="tb-restart" style="font-size:22px;color:#4A5262;white-space:nowrap"><svg viewBox="0 0 24 24" style="width:.8em;height:.8em;vertical-align:-.08em;overflow:visible" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"></path><path d="M20 3.5v5h-5"></path></svg> Restart</p><p id="tb-clear" style="font-size:22px;color:#4A5262;white-space:nowrap">Clear All Outputs</p><p id="tb-vars" style="font-size:22px;color:#4A5262;white-space:nowrap">Variables</p></div><p style="font-size:22px;color:#6A7180">···</p><div style="flex:1"></div><p id="kernel" style="font-size:20px;font-weight:700;color:#1F8A4C;background:#E6F4EC;border-radius:8px;padding:5px 14px;white-space:nowrap">.venv (Python 3.14.6)</p></div>
 </div>
-<div id="c-x" style="position:absolute;left:588px;top:452px;width:1264px;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease">
+<div id="c-x" style="position:absolute;left:588px;top:452px;width:1216px;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease">
 <p id="c-x-n" style="position:absolute;left:10px;top:16px;width:84px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:50px;color:#6A7180;text-align:right;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease">[1]</p>
 <div id="c-x-box" style="margin-left:104px;position:relative;background:#FFFFFF;border:2px solid #E1DED6;border-radius:10px;padding:14px 22px;display:flex;flex-direction:column"><p id="l-x" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;line-height:50px;white-space:pre;color:#1D2330;width:fit-content">x = 10</p><p id="c-x-tag" style="position:absolute;right:16px;bottom:8px;font-size:19px;line-height:1.2;color:#6A7180">Python</p></div>
 </div>
-<div id="c-p" style="position:absolute;left:588px;top:556px;width:1264px;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease">
+<div id="c-p" style="position:absolute;left:588px;top:556px;width:1216px;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease">
 <p id="c-p-n" style="position:absolute;left:10px;top:16px;width:84px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;line-height:50px;color:#6A7180;text-align:right;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease">[2]</p>
 <div id="c-p-box" style="margin-left:104px;position:relative;background:#FFFFFF;border:2px solid #E1DED6;border-radius:10px;padding:14px 22px;display:flex;flex-direction:column"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;line-height:50px;white-space:pre;color:#1D2330;width:fit-content">print(x * 2)</p><p id="c-p-tag" style="position:absolute;right:16px;bottom:8px;font-size:19px;line-height:1.2;color:#6A7180">Python</p></div>
 <div id="c-p-out" style="margin-left:128px;padding-top:10px"><p id="o-20" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;line-height:50px;white-space:pre;color:#1D2330;width:fit-content">20</p></div>
 </div>
-<div id="c-md" style="position:absolute;left:588px;top:720px;width:1264px;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease">
+<div id="c-md" style="position:absolute;left:588px;top:720px;width:1216px;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease">
 <div id="c-md-box" style="margin-left:104px;padding:12px 22px;display:flex;flex-direction:column"><p style="font-size:44px;font-weight:700;line-height:65px;color:#1D2330">오늘 배운 것</p><p style="font-size:31px;line-height:50px;color:#1D2330">• 셀은 따로 실행해요</p></div>
 </div>
 <div id="sel" style="position:absolute;left:588px;top:556px;width:7px;height:142px;border-radius:4px;background:#2F7DE1;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease"></div>
@@ -527,6 +553,7 @@ return { step: at };
 <div id="mem-x" data-build-in="fly order 2" data-from="o-inc" style="height:66px;border-top:1px solid #EBD8C0;display:flex;flex-direction:row;align-items:center;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease;"><p style="width:46%;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1D2330">x</p><p id="mem-x-v" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:32px;font-weight:700;color:#1D2330;padding:2px 10px;border-radius:8px;transition:background .4s ease">11</p></div>
 </div>
 <p id="caption" data-build-in="fade order 3" style="position:absolute;left:96px;top:620px;width:520px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">4번 셀을 한 번 더 실행하면<br>어떻게 될까요?</p>
+<div data-build-in="pulse order 3" data-target="mem-x-v" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>1번 셀에서 x에 10을 넣었고, 2번 셀은 그 x로 20을 출력했어요. 셀은 따로 실행해도 값은 커널 하나가 계속 기억해요. 왼쪽이 지금 커널이 기억하는 값이에요. 3번 셀에서 name에 'kim'을 넣었고, 4번 셀은 x에 1을 더해서 11이 됐어요. 다음 장에서 4번 셀을 한 번 더 실행해요. 출력은 tools/run_nb.py로 hello-uv 커널에서 실제로 실행한 결과예요.</aside>
 </section>
 <section id="again" data-transition="magic" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
@@ -663,21 +690,21 @@ return { step: at };
 <p id="eyebrow" style="position:absolute;left:96px;top:52px;width:1728px;font-size:24px;font-weight:700;color:#2459C9">2. 셀 실행하기</p>
 <h2 id="title" style="position:absolute;left:96px;top:88px;width:1728px;font-size:52px;font-weight:700;line-height:1.25;color:#1D2330">위쪽 버튼으로 노트북 전체를 다뤄요</h2>
 <div style="position:absolute;left:96px;top:236px;width:1728px;height:150px;background:#FFFFFF;border:1.5px solid #D9D5CB;border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(29,35,48,.05), 0 24px 56px rgba(29,35,48,.13)"><div style="height:52px;background:#EFEDE7;display:flex;align-items:flex-end;padding:0 18px"><div style="height:42px;background:#FFFFFF;border-radius:10px 10px 0 0;padding:0 22px;display:flex;align-items:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330">notebook.ipynb</p></div></div><div style="height:96px;display:flex;flex-direction:row;align-items:center;padding:0 34px;gap:66px"><p id="bt-code" style="font-size:32px;color:#1D2330;white-space:nowrap;">+ Code</p><p id="bt-md" style="font-size:32px;color:#1D2330;white-space:nowrap;">+ Markdown</p><p id="bt-run" style="font-size:32px;color:#1D2330;white-space:nowrap;">▷ Run All</p><p id="bt-restart" style="font-size:32px;color:#1D2330;white-space:nowrap;"><svg viewBox="0 0 24 24" style="width:.8em;height:.8em;vertical-align:-.08em;overflow:visible" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"></path><path d="M20 3.5v5h-5"></path></svg> Restart</p><p id="bt-int" style="font-size:32px;color:#1D2330;white-space:nowrap;border:2px dashed #B9BEC8;border-radius:10px;padding:4px 12px;color:#6A7180">□ Interrupt</p><p id="bt-clear" style="font-size:32px;color:#1D2330;white-space:nowrap;">Clear All Outputs</p><p id="bt-vars" style="font-size:32px;color:#1D2330;white-space:nowrap;">Variables</p></div></div>
-<svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M620,372 L620,502" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-<div data-build-in="fade order 1" style="position:absolute;left:614px;top:366px;width:12px;height:12px;border-radius:50%;background:#1D2330"></div>
-<p data-build-in="fade order 1" style="position:absolute;left:440px;text-align:center;top:516px;width:360px;white-space:normal;font-size:28px;font-weight:700;line-height:1.35;color:#1D2330">맨 위부터 끝까지 실행<br><span style="font-size:24px;font-weight:400;color:#4A5262">노트북을 처음 열었을 때,<br>Restart 뒤</span></p>
-<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M826,372 L826,772" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-<div data-build-in="fade order 2" style="position:absolute;left:820px;top:366px;width:12px;height:12px;border-radius:50%;background:#1D2330"></div>
-<p data-build-in="fade order 2" style="position:absolute;left:646px;text-align:center;top:786px;width:360px;white-space:normal;font-size:28px;font-weight:700;line-height:1.35;color:#1D2330">커널이 기억한 값 지우기<br><span style="font-size:24px;font-weight:400;color:#4A5262">결과가 이상하거나<br>번호가 꼬였을 때</span></p>
-<svg data-build-in="draw order 3" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1062,378 L1062,502" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-<div data-build-in="fade order 3" style="position:absolute;left:1056px;top:372px;width:12px;height:12px;border-radius:50%;background:#1D2330"></div>
-<p data-build-in="fade order 3" style="position:absolute;left:882px;text-align:center;top:516px;width:360px;white-space:normal;font-size:28px;font-weight:700;line-height:1.35;color:#1D2330">실행 중인 셀 멈추기<br><span style="font-size:24px;font-weight:400;color:#4A5262">셀이 안 끝날 때.<br>실행 중에만 보여요</span></p>
-<svg data-build-in="draw order 4" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1353,372 L1353,772" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-<div data-build-in="fade order 4" style="position:absolute;left:1347px;top:366px;width:12px;height:12px;border-radius:50%;background:#1D2330"></div>
-<p data-build-in="fade order 4" style="position:absolute;left:1173px;text-align:center;top:786px;width:360px;white-space:normal;font-size:28px;font-weight:700;line-height:1.35;color:#1D2330">출력만 지우기<br><span style="font-size:24px;font-weight:400;color:#4A5262">커널이 기억한 값은 그대로예요</span></p>
-<svg data-build-in="draw order 5" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1612,372 L1612,502" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-<div data-build-in="fade order 5" style="position:absolute;left:1606px;top:366px;width:12px;height:12px;border-radius:50%;background:#1D2330"></div>
-<p data-build-in="fade order 5" style="position:absolute;left:1432px;text-align:center;top:516px;width:360px;white-space:normal;font-size:28px;font-weight:700;line-height:1.35;color:#1D2330">기억한 값을 표로 보기<br><span style="font-size:24px;font-weight:400;color:#4A5262">아래쪽에 표가 열려요</span></p>
+<svg data-build-in="draw order 1" data-dimgroup="btn" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M620,372 L620,502" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<div data-build-in="fade order 1" data-dimgroup="btn" style="position:absolute;left:614px;top:366px;width:12px;height:12px;border-radius:50%;background:#1D2330"></div>
+<p data-build-in="fade order 1" data-dimgroup="btn" style="position:absolute;left:440px;text-align:center;top:516px;width:360px;white-space:normal;font-size:28px;font-weight:700;line-height:1.35;color:#1D2330">맨 위부터 끝까지 실행<br><span style="font-size:24px;font-weight:400;color:#4A5262">노트북을 처음 열었을 때,<br>Restart 뒤</span></p>
+<svg data-build-in="draw order 2" data-dimgroup="btn" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M826,372 L826,772" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<div data-build-in="fade order 2" data-dimgroup="btn" style="position:absolute;left:820px;top:366px;width:12px;height:12px;border-radius:50%;background:#1D2330"></div>
+<p data-build-in="fade order 2" data-dimgroup="btn" style="position:absolute;left:646px;text-align:center;top:786px;width:360px;white-space:normal;font-size:28px;font-weight:700;line-height:1.35;color:#1D2330">커널이 기억한 값 지우기<br><span style="font-size:24px;font-weight:400;color:#4A5262">결과가 이상하거나<br>번호가 꼬였을 때</span></p>
+<svg data-build-in="draw order 3" data-dimgroup="btn" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1062,378 L1062,502" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<div data-build-in="fade order 3" data-dimgroup="btn" style="position:absolute;left:1056px;top:372px;width:12px;height:12px;border-radius:50%;background:#1D2330"></div>
+<p data-build-in="fade order 3" data-dimgroup="btn" style="position:absolute;left:882px;text-align:center;top:516px;width:360px;white-space:normal;font-size:28px;font-weight:700;line-height:1.35;color:#1D2330">실행 중인 셀 멈추기<br><span style="font-size:24px;font-weight:400;color:#4A5262">셀이 안 끝날 때.<br>실행 중에만 보여요</span></p>
+<svg data-build-in="draw order 4" data-dimgroup="btn" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1353,372 L1353,772" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<div data-build-in="fade order 4" data-dimgroup="btn" style="position:absolute;left:1347px;top:366px;width:12px;height:12px;border-radius:50%;background:#1D2330"></div>
+<p data-build-in="fade order 4" data-dimgroup="btn" style="position:absolute;left:1173px;text-align:center;top:786px;width:360px;white-space:normal;font-size:28px;font-weight:700;line-height:1.35;color:#1D2330">출력만 지우기<br><span style="font-size:24px;font-weight:400;color:#4A5262">커널이 기억한 값은 그대로예요</span></p>
+<svg data-build-in="draw order 5" data-dimgroup="btn" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><path d="M1612,372 L1612,502" fill="none" stroke="#9AA0AA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<div data-build-in="fade order 5" data-dimgroup="btn" style="position:absolute;left:1606px;top:366px;width:12px;height:12px;border-radius:50%;background:#1D2330"></div>
+<p data-build-in="fade order 5" data-dimgroup="btn" style="position:absolute;left:1432px;text-align:center;top:516px;width:360px;white-space:normal;font-size:28px;font-weight:700;line-height:1.35;color:#1D2330">기억한 값을 표로 보기<br><span style="font-size:24px;font-weight:400;color:#4A5262">아래쪽에 표가 열려요</span></p>
 <p id="caption" style="position:absolute;left:96px;top:960px;width:1728px;font-size:26px;font-weight:700;line-height:1.45;color:#4A5262">+ Code와 + Markdown은 셀을 더하는 버튼이에요. 화면이 좁으면 몇 개는 ··· 메뉴 안에 들어가요.</p>
 <aside>맨 위 줄 버튼은 노트북 전체를 한 번에 다뤄요. Run All은 맨 위 셀부터 끝까지 실행해요. 노트북을 새로 열었을 때도 커널은 아무것도 기억하지 않아서 Run All부터 눌러요. Restart는 앞 장에서 본 대로 기억을 지워요. Interrupt는 셀이 실행되는 동안에만 보이는 버튼이에요. 끝나지 않는 셀을 멈춰요. Clear All Outputs는 화면의 출력만 지우고 커널의 값은 남겨요. Variables는 커널이 기억하는 값을 표로 보여 줘요.</aside>
 </section>
@@ -719,6 +746,8 @@ return { step: at };
 </div>
 <div id="f-sel" style="position:absolute;left:28px;top:88px;width:7px;height:82px;border-radius:4px;background:#2F7DE1;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease"></div>
 </div>
+<p data-build-in="fade order 1" style="position:absolute;left:96px;top:790px;font-size:22px;font-weight:700;color:#6A7180">지금 누른 키</p>
+<div data-build-in="stagger order 1" data-gap="160" style="position:absolute;left:96px;top:836px;display:flex;flex-direction:row;align-items:center;gap:12px"><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:700;line-height:1.2;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:6px;border-radius:12px;padding:8px 18px">Esc</span></div>
 <div id="flow-steps" style="position:absolute;left:96px;top:300px;width:560px;display:flex;flex-direction:column"><div style="height:124px;display:flex;flex-direction:row;align-items:center;gap:20px;opacity:1"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#5A3BB8"></div><div style="width:236px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Esc</p></div></div><div style="display:flex;flex-direction:column"><p style="font-size:26px;font-weight:700;color:#1D2330;white-space:nowrap">명령 모드로</p><p data-build-in="fade order 1" style="font-size:24px;font-weight:400;line-height:1.35;color:#5A3BB8;width:270px;white-space:normal;margin-top:4px">커서와 테두리가 빠졌어요</p></div></div><div style="height:92px;display:flex;flex-direction:row;align-items:center;gap:20px;opacity:0.55"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#D6D9E0"></div><div style="width:236px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">B</p></div></div><div style="display:flex;flex-direction:column"><p style="font-size:26px;font-weight:400;color:#6A7180;white-space:nowrap">아래에 셀 추가</p></div></div><div style="height:92px;display:flex;flex-direction:row;align-items:center;gap:20px;opacity:0.55"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#D6D9E0"></div><div style="width:236px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:14px"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">M</p></div><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Enter</p></div></div></div><div style="display:flex;flex-direction:column"><p style="font-size:26px;font-weight:400;color:#6A7180;white-space:nowrap">마크다운, 글 적기</p></div></div><div style="height:92px;display:flex;flex-direction:row;align-items:center;gap:20px;opacity:0.55"><div style="width:34px;height:34px;flex:none;border-radius:50%;background:#D6D9E0"></div><div style="width:236px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Shift</p><p style="font-size:21px;font-weight:700;color:#6A7180">+</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Enter</p></div></div><div style="display:flex;flex-direction:column"><p style="font-size:26px;font-weight:400;color:#6A7180;white-space:nowrap">실행하고 다음 셀로</p></div></div></div>
 <aside>마우스 없이 셀을 만드는 흐름을 네 장에 걸쳐 봐요. 1번 셀에 x = 10을 적고 실행한 뒤, 셀 안을 다시 클릭해 편집 모드인 상태에서 시작해요. Esc를 치면 커서가 빠지고 명령 모드가 돼요. 지금부터 치는 글자는 셀에 들어가지 않고 명령으로 읽혀요.</aside>
 </section>
@@ -739,6 +768,8 @@ return { step: at };
 </div>
 <div id="f-sel" style="position:absolute;left:28px;top:192px;width:7px;height:82px;border-radius:4px;background:#2F7DE1;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease"></div>
 </div>
+<p data-build-in="fade order 1" style="position:absolute;left:96px;top:790px;font-size:22px;font-weight:700;color:#6A7180">지금 누른 키</p>
+<div data-build-in="stagger order 1" data-gap="160" style="position:absolute;left:96px;top:836px;display:flex;flex-direction:row;align-items:center;gap:12px"><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:700;line-height:1.2;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:6px;border-radius:12px;padding:8px 18px">B</span></div>
 <div id="flow-steps" style="position:absolute;left:96px;top:300px;width:560px;display:flex;flex-direction:column"><div style="height:92px;display:flex;flex-direction:row;align-items:center;gap:20px;opacity:1"><x-icon name="CheckCircle" style="width:34px;height:34px;color:#1F8A4C"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <circle cx="12" cy="12" r="10"></circle>
   <path d="m9 12 2 2 4-4"></path>
@@ -762,6 +793,9 @@ return { step: at };
 <div id="f-sel" style="position:absolute;left:28px;top:192px;width:7px;height:82px;border-radius:4px;background:#2F7DE1;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease"></div>
 </div>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#5A3BB8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="1617" y="570" width="160" height="46" rx="8"></rect></g></svg>
+<p data-build-in="fade order 1" style="position:absolute;left:96px;top:790px;font-size:22px;font-weight:700;color:#6A7180">지금 누른 키</p>
+<div data-build-in="stagger order 1" data-gap="160" style="position:absolute;left:96px;top:836px;display:flex;flex-direction:row;align-items:center;gap:12px"><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:700;line-height:1.2;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:6px;border-radius:12px;padding:8px 18px">M</span></div>
+<div data-build-in="stagger order 1" data-gap="160" style="position:absolute;left:186px;top:836px;display:flex;flex-direction:row;align-items:center;gap:12px"><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:700;line-height:1.2;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:6px;border-radius:12px;padding:8px 18px">Enter</span></div>
 <div id="flow-steps" style="position:absolute;left:96px;top:300px;width:560px;display:flex;flex-direction:column"><div style="height:92px;display:flex;flex-direction:row;align-items:center;gap:20px;opacity:1"><x-icon name="CheckCircle" style="width:34px;height:34px;color:#1F8A4C"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <circle cx="12" cy="12" r="10"></circle>
   <path d="m9 12 2 2 4-4"></path>
@@ -791,6 +825,8 @@ return { step: at };
 </div>
 <div id="f-sel" style="position:absolute;left:28px;top:303px;width:7px;height:82px;border-radius:4px;background:#2F7DE1;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease"></div>
 </div>
+<p data-build-in="fade order 1" style="position:absolute;left:96px;top:790px;font-size:22px;font-weight:700;color:#6A7180">지금 누른 키</p>
+<div data-build-in="stagger order 1" data-gap="160" style="position:absolute;left:96px;top:836px;display:flex;flex-direction:row;align-items:center;gap:12px"><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:700;line-height:1.2;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:6px;border-radius:12px;padding:8px 18px">Shift</span><span style="font-size:27px;font-weight:700;color:#6A7180">+</span><span style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:700;line-height:1.2;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:6px;border-radius:12px;padding:8px 18px">Enter</span></div>
 <div id="flow-steps" style="position:absolute;left:96px;top:300px;width:560px;display:flex;flex-direction:column"><div style="height:92px;display:flex;flex-direction:row;align-items:center;gap:20px;opacity:1"><x-icon name="CheckCircle" style="width:34px;height:34px;color:#1F8A4C"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <circle cx="12" cy="12" r="10"></circle>
   <path d="m9 12 2 2 4-4"></path>
@@ -806,6 +842,7 @@ return { step: at };
 <section id="cmdkeys" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
 <p id="eyebrow" style="position:absolute;left:96px;top:52px;width:1728px;font-size:24px;font-weight:700;color:#5A3BB8">3. 명령 모드와 편집 모드</p>
 <h2 id="title" style="position:absolute;left:96px;top:88px;width:1728px;font-size:52px;font-weight:700;line-height:1.25;color:#1D2330">명령 모드에서 쓰는 글자 키</h2>
+<div data-build-in="stagger order 1" data-gap="90" style="position:absolute;left:0;top:0;width:1920px;height:1080px">
 <div style="position:absolute;left:96px;top:236px;width:848px;height:150px;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:190px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:40px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">A</p></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">위에 셀 추가</p><p style="font-size:24px;color:#6A7180">Above</p></div></div>
 <div style="position:absolute;left:96px;top:386px;width:848px;height:150px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:190px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:40px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">B</p></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">아래에 셀 추가</p><p style="font-size:24px;color:#6A7180">Below</p></div></div>
 <div style="position:absolute;left:96px;top:536px;width:848px;height:150px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:190px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:40px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">D</p><p style="font-size:32px;font-weight:700;color:#6A7180">+</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:40px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">D</p></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">셀 지우기</p><p style="font-size:24px;color:#6A7180">D를 두 번</p></div></div>
@@ -814,6 +851,7 @@ return { step: at };
 <div style="position:absolute;left:976px;top:386px;width:848px;height:150px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:190px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:40px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Y</p></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">코드 셀로</p><p style="font-size:24px;color:#6A7180">다시 코드로</p></div></div>
 <div style="position:absolute;left:976px;top:536px;width:848px;height:150px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:190px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:40px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">L</p></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">줄 번호 켜고 끄기</p><p style="font-size:24px;color:#6A7180">오류 줄 찾을 때</p></div></div>
 <div style="position:absolute;left:976px;top:686px;width:848px;height:150px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:190px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:40px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Enter</p></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">편집 모드로</p><p style="font-size:24px;color:#6A7180">셀 안으로 들어가기</p></div></div>
+</div>
 <p id="caption" style="position:absolute;left:96px;top:880px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#4A5262">Windows와 Mac이 같아요. Shift 없이 그냥 누르고, 글자가 셀에 들어가면 Esc부터 쳐요.</p>
 <aside>명령 모드에서만 동작하는 글자 키예요. 대문자로 적었지만 Shift 없이 그냥 눌러요. D는 한 번이 아니라 두 번 연달아 눌러야 지워요. 실수로 지웠으면 바로 Z로 되살려요. L은 셀 하나의 줄 번호를 켜요. 오류 메시지에 line 3처럼 줄 번호가 나올 때 써요. 한글 입력 상태에서는 글자 키가 먹지 않을 수 있어요. 한/영 키로 영문으로 바꿔요.</aside>
 </section>
@@ -850,6 +888,7 @@ return { step: at };
 <div id="sel" style="position:absolute;left:28px;top:192px;width:7px;height:142px;border-radius:4px;background:#2F7DE1;transition:top .6s cubic-bezier(.45,0,.1,1),height .6s cubic-bezier(.45,0,.1,1),opacity .4s ease"></div>
 </div>
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#A33131" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M943,630 C1070,597 1623,599 1751,657 C1760,706 1411,728 1155,721 C879,712 866,651 1028,613"></path></g></svg>
+<div data-build-in="shake order 1" data-target="o-syn" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <p id="caption" data-build-in="fade order 1" style="position:absolute;left:96px;top:300px;width:540px;font-size:28px;font-weight:700;line-height:1.45;color:#A33131">파이썬 코드로 읽어서 나는 오류예요.<br>오른쪽 아래가 Python이에요.</p>
 <div data-build-in="rise order 2" style="position:absolute;left:96px;top:620px;width:760px;background:#FFFFFF;border-radius:20px;box-shadow:0 1px 2px rgba(29,35,48,.08), 0 12px 28px rgba(29,35,48,.16);padding:26px 32px;display:flex;flex-direction:column;gap:18px">
 <div style="display:flex;flex-direction:row;align-items:center;gap:14px"><p style="font-size:26px;font-weight:700;color:#1F8A4C">이렇게 고쳐요</p><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Esc</p></div><p style="font-size:26px;color:#6A7180">다음</p><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">M</p></div></div>
@@ -862,12 +901,14 @@ return { step: at };
 <p id="eyebrow" style="position:absolute;left:96px;top:52px;width:1728px;font-size:24px;font-weight:700;color:#0F7C86">4. 파일 실행과 비교하고 막힐 때 보기</p>
 <h2 id="title" style="position:absolute;left:96px;top:88px;width:1728px;font-size:52px;font-weight:700;line-height:1.25;color:#1D2330">노트북에서 막히면 여기부터 봐요</h2>
 <div style="position:absolute;left:96px;top:226px;width:1728px;height:60px;display:flex;flex-direction:row;align-items:center;gap:28px"><p style="width:760px;flex:none;font-size:24px;font-weight:700;color:#6A7180">이럴 때</p><p style="width:520px;flex:none;font-size:24px;font-weight:700;color:#6A7180">이유</p><p style="flex:1;font-size:24px;font-weight:700;color:#6A7180">이렇게</p></div>
+<div data-build-in="stagger order 1" data-gap="90" style="position:absolute;left:0;top:0;width:1920px;height:1080px">
 <div style="position:absolute;left:96px;top:286px;width:1728px;height:112px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><p style="width:760px;flex:none;font-size:29px;color:#1D2330;font-weight:700">글자를 쳤는데 셀이 생기거나 지워져요</p><p style="width:520px;flex:none;font-size:26px;color:#4A5262">명령 모드였어요</p><p style="flex:1;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">셀 안 클릭, Enter</p></div>
 <div style="position:absolute;left:96px;top:398px;width:1728px;height:112px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><p style="width:760px;flex:none;font-size:29px;color:#1D2330;font-weight:700">A, B, M을 눌러도 아무 일이 없어요</p><p style="width:520px;flex:none;font-size:26px;color:#4A5262">편집 모드거나 한글 입력 상태예요</p><p style="flex:1;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">Esc, 한/영 키</p></div>
 <div style="position:absolute;left:96px;top:510px;width:1728px;height:112px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><p style="width:760px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;color:#A33131;font-weight:700">NameError: name 'x' is not defined</p><p style="width:520px;flex:none;font-size:26px;color:#4A5262">앞 셀을 안 돌렸거나 Restart 뒤예요</p><p style="flex:1;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">▷ Run All</p></div>
 <div style="position:absolute;left:96px;top:622px;width:1728px;height:112px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><p style="width:760px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;color:#A33131;font-weight:700">SyntaxError: invalid syntax</p><p style="width:520px;flex:none;font-size:26px;color:#4A5262">설명 글을 코드 셀에 적었어요</p><p style="flex:1;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">Esc 다음 M</p></div>
 <div style="position:absolute;left:96px;top:734px;width:1728px;height:112px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><p style="width:760px;flex:none;font-size:29px;color:#1D2330;font-weight:700">셀이 끝나지 않고 계속 돌아요</p><p style="width:520px;flex:none;font-size:26px;color:#4A5262">오래 걸리거나 끝나지 않는 코드예요</p><p style="flex:1;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">□ Interrupt</p></div>
 <div style="position:absolute;left:96px;top:846px;width:1728px;height:112px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><p style="width:760px;flex:none;font-size:29px;color:#1D2330;font-weight:700">Mac에서 Cmd+Enter로 실행이 안 돼요</p><p style="width:520px;flex:none;font-size:26px;color:#4A5262">Mac 실행 키는 control이에요</p><p style="flex:1;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">control+Enter</p></div>
+</div>
 <aside>첫 두 줄은 모드를 헷갈려서 나요. 셀 테두리와 커서로 지금 모드를 봐요. 한글 입력 상태에서는 명령 모드 글자 키가 먹지 않을 수 있어서 한/영 키로 영문으로 바꿔요. NameError는 Restart 장에서, SyntaxError는 바로 앞 장에서 본 오류예요. 셀이 끝나지 않으면 셀 왼쪽에 도는 표시가 계속 보여요. Mac 실행 키는 다른 프로그램의 Jupyter와 VS Code 기본 설정이 다른 곳이에요. 커널이 .venv가 아니라서 나는 ModuleNotFoundError는 09의 31쪽을 봐요.</aside>
 </section>
 <section id="md-rules" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
@@ -1067,12 +1108,14 @@ return { step: at };
 </section>
 <section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
 <h2 style="position:absolute;left:96px;top:72px;font-size:60px;font-weight:700;line-height:1.15;color:#1D2330">한 장 요약</h2>
+<div data-build-in="stagger order 1" data-gap="90" style="position:absolute;left:0;top:0;width:1920px;height:1080px">
 <div style="position:absolute;left:96px;top:210px;width:848px;height:140px;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:350px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Shift</p><p style="font-size:29px;font-weight:700;color:#6A7180">+</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Enter</p></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">실행하고 다음 셀로</p></div></div>
 <div style="position:absolute;left:976px;top:210px;width:848px;height:140px;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:350px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Ctrl</p><p style="font-size:29px;font-weight:700;color:#6A7180">+</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Enter</p></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">실행하고 머물기</p><p style="font-size:22px;color:#6A7180">Mac은 control+Enter</p></div></div>
 <div style="position:absolute;left:96px;top:350px;width:848px;height:140px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:350px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Esc</p></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">명령 모드로</p></div></div>
 <div style="position:absolute;left:976px;top:350px;width:848px;height:140px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:350px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Enter</p></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">편집 모드로</p></div></div>
 <div style="position:absolute;left:96px;top:490px;width:848px;height:140px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:350px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:14px"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">A</p></div><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">B</p></div></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">위, 아래에 셀 추가</p><p style="font-size:22px;color:#6A7180">명령 모드에서</p></div></div>
 <div style="position:absolute;left:976px;top:490px;width:848px;height:140px;border-top:1.5px solid #DDD9CF;display:flex;flex-direction:row;align-items:center;gap:28px"><div style="width:350px;flex:none"><div style="display:flex;flex-direction:row;align-items:center;gap:14px"><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">M</p></div><div style="display:flex;flex-direction:row;align-items:center;gap:8px;width:fit-content"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:36px;font-weight:700;line-height:1.2;white-space:nowrap;color:#1D2330;background:#FFFFFF;border:2px solid #C9CED8;border-bottom-width:5px;border-radius:10px;padding:6px 14px">Y</p></div></div></div><div style="display:flex;flex-direction:column;gap:4px"><p style="font-size:32px;font-weight:700;color:#1D2330">마크다운, 코드 셀로</p><p style="font-size:22px;color:#6A7180">명령 모드에서</p></div></div>
+</div>
 <div style="position:absolute;left:96px;top:660px;width:1728px;border-top:3px solid #1D2330;padding-top:26px;display:flex;flex-direction:column;gap:14px"><p style="font-size:30px;font-weight:400;line-height:1.4;color:#1D2330"><b>[숫자]는 실행한 순서예요.</b> <span style="font-weight:400;color:#4A5262">화면 위아래 순서가 아니에요.</span></p><p style="font-size:30px;font-weight:400;line-height:1.4;color:#1D2330"><b>꼬이면 <span style="color:#B8560F"><svg viewBox="0 0 24 24" style="width:.8em;height:.8em;vertical-align:-.08em;overflow:visible" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"></path><path d="M20 3.5v5h-5"></path></svg> Restart</span> 뒤 <span style="color:#1F8A4C">▷ Run All</span></b></p><p style="font-size:30px;font-weight:400;line-height:1.4;color:#1D2330"><b>패키지는 터미널에서 <span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;color:#0F7C86">uv add 패키지</span></b> <span style="font-weight:400;color:#4A5262">알림의 Install 버튼은 쓰지 않아요.</span></p></div>
 <p style="position:absolute;left:96px;top:880px;width:1728px;font-size:26px;color:#4A5262">다음 11에서는 터미널에서 GitHub을 다루는 gh를 배워요. 파이썬 기초는 12부터 이 노트북에서 실습해요.</p>
 <aside>노트북에서 매일 쓰는 키는 이 여섯 개예요. 실행은 Shift+Enter 하나로 시작해도 충분해요. 결과가 이상하면 Restart 뒤 Run All로 위에서부터 다시 실행해요. 노트북에서 쓸 패키지도 09에서 배운 대로 터미널에서 uv add로 넣어요. VS Code 알림의 Install 버튼은 pip로 넣어서 쓰지 않아요.</aside>
@@ -1089,7 +1132,7 @@ const stage=document.getElementById('pl-stage');
 const slides=[...stage.children];
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
-const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off'];
+const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off','wipe','slam','slide','stagger','count','mark','path','morph','lspot','lspot-off','run','run-off','zoom','zoom-off','blur','blur-off','text','pan','kenburns','pulse','grow','shine','shake'];
 const steps=slides.map(s=>{
   const els=[...s.querySelectorAll('[data-build-in]')];
   const groups=[];let auto=0;
@@ -1100,6 +1143,7 @@ const steps=slides.map(s=>{
     (groups[k]=groups[k]||[]).push(el);
     const kind=spec.trim().split(/\s+/)[0];
     el.dataset.fx=HL_KINDS.includes(kind)?kind:/rise/.test(spec)?'rise':/pop/.test(spec)?'pop':/fly/.test(spec)?'fly':'fade';
+    if(kind==='slide'){el.style.setProperty('--dx',(el.dataset.dx||0)+'px');el.style.setProperty('--dy',(el.dataset.dy||60)+'px');}
     if(kind==='draw')[el,...el.querySelectorAll('path,rect,circle,ellipse,line,polyline,polygon')].forEach(x=>x.setAttribute('pathLength','1'));
   }
   return groups.filter(Boolean);
@@ -1117,9 +1161,11 @@ function setBuild(i,n,animate){
     el.classList.toggle('pending',gi>=n);el.classList.toggle(el.dataset.fx,gi>=n);
     if(fly)flyIn(el,slides[i].querySelector('#'+el.dataset.from));
     if(!animate||fly){void el.offsetWidth;el.style.transition='';}
-    if(el.dataset.fx==='type'){if(animate&&was&&gi<n)typeIn(el);else typeDone(el);}
+    entryFx(el,animate&&was&&gi<n,gi<n,i);
+    if(el.dataset.delay)el.style.transitionDelay=animate&&was&&gi<n?el.dataset.delay+'ms':'';
   }));
   hlState(i,n,animate);
+  fxState(i,n,animate);
   const fx=slides[i]._fx;if(fx&&fx.step)try{fx.step(n,animate);}catch(e){console.error(e);}
 }
 // moves el from the centre of src to its own place, so a value looks like it travels there
@@ -1132,13 +1178,6 @@ function flyIn(el,src){
 }
 // ---- highlights: typing, spotlight hole, mouse pointer (tools/HIGHLIGHT.md) ----
 function textNodes(el){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),a=[];while(w.nextNode())a.push(w.currentNode);return a;}
-function typeDone(el){if(el._tt){clearInterval(el._tt);el._tt=null;}if(el._orig)textNodes(el).forEach((t,k)=>t.nodeValue=el._orig[k]);}
-function typeIn(el){
-  typeDone(el);const ns=textNodes(el);el._orig=ns.map(t=>t.nodeValue);
-  const total=el._orig.join('').length,ms=Math.max(12,Math.min(45,1100/Math.max(1,total)));
-  ns.forEach(t=>t.nodeValue='');let k=0,j=0;
-  el._tt=setInterval(()=>{while(k<ns.length&&j>=el._orig[k].length){k++;j=0;}if(k>=ns.length){typeDone(el);return;}j++;ns[k].nodeValue=el._orig[k].slice(0,j);},ms);
-}
 const CUR_SVG='<svg viewBox="0 0 22 30" width="40" height="56"><path d="M2,2 L2,24 L8,18 L12,28 L16,26 L12,16 L20,16 Z" fill="#1D2330" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
 function hlParts(s){
   if(!s._spot){
@@ -1177,6 +1216,114 @@ function hlState(i,n,animate){
     if(!animate)free(cu);
     if(animate&&curNew&&cur.dataset.fx==='click'){clearTimeout(s._ripT);s._ripT=setTimeout(()=>{const rp=s._rip;rp.style.left=x+'px';rp.style.top=y+'px';rp.classList.remove('go');void rp.offsetWidth;rp.classList.add('go');},820);}
   }else{if(!animate)still(cu);cu.classList.remove('on');if(!animate)free(cu);}
+}
+// ---- more highlights (tools/HIGHLIGHT.md): entry kinds that need script, then marker states ----
+function entryFx(el,fresh,shown,i){
+  const f=el.dataset.fx,s=slides[i];
+  if(f==='stagger'){const gap=+(el.dataset.gap||70);[...el.children].forEach((c,k)=>{if(fresh){c.style.transitionDelay=(k*gap)+'ms';}else{c.style.transition='none';c.style.transitionDelay='';void c.offsetWidth;c.style.transition='';}});}
+  else if(f==='count'){countFx(el,fresh,shown);}
+  else if(f==='path'&&fresh){const p=s.querySelector('#'+el.dataset.path);if(p)pathFx(el,p);}
+  else if(f==='morph'){const a=s.querySelector('#'+el.dataset.from);if(a){if(fresh)morphFx(a,el);a.style.visibility=shown?'hidden':'';}}
+}
+function countFx(el,fresh,shown){
+  if(el._cnt===undefined){const tn=textNodes(el).find(t=>/\d/.test(t.nodeValue));el._cntNode=tn;el._cnt=tn?tn.nodeValue:'';}
+  const tn=el._cntNode;if(!tn)return;cancelAnimationFrame(el._raf);
+  if(!fresh){tn.nodeValue=el._cnt;return;}
+  const m=el._cnt.match(/[\d,]*\d(\.\d+)?/);if(!m){tn.nodeValue=el._cnt;return;}
+  const to=parseFloat(m[0].replace(/,/g,'')),dec=(m[1]||'').length-1>0?(m[1].length-1):0,comma=m[0].includes(','),t0=performance.now(),ms=+(el.dataset.ms||1200);
+  const fmt=v=>{let t=v.toFixed(dec);if(comma)t=Number(t).toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});return el._cnt.slice(0,m.index)+t+el._cnt.slice(m.index+m[0].length);};
+  const tick=now=>{const k=Math.min(1,(now-t0)/ms);tn.nodeValue=fmt(to*(1-Math.pow(1-k,3)));if(k<1)el._raf=requestAnimationFrame(tick);else tn.nodeValue=el._cnt;};
+  tn.nodeValue=fmt(0);el._raf=requestAnimationFrame(tick);
+}
+function pathFx(el,p){
+  const b=rectIn(el),cx=b.x+b.w/2,cy=b.y+b.h/2,L=p.getTotalLength(),S=stage.getBoundingClientRect(),k=stage._s,M=p.getScreenCTM(),fr=[];
+  for(let j=0;j<=24;j++){const q=p.getPointAtLength(L*j/24),x=((M.a*q.x+M.c*q.y+M.e)-S.left)/k,y=((M.b*q.x+M.d*q.y+M.f)-S.top)/k;fr.push({transform:'translate('+(x-cx)+'px,'+(y-cy)+'px)',opacity:j?1:0});}
+  fr[fr.length-1].transform='none';
+  el.animate(fr,{duration:+(el.dataset.ms||1400),easing:'cubic-bezier(.45,0,.25,1)'});
+}
+function morphFx(a,b){
+  [a,b].forEach(x=>x.querySelectorAll('[data-m]').forEach(t=>{if(getComputedStyle(t).display==='inline')t.style.display='inline-block';}));
+  const from={};a.querySelectorAll('[data-m]').forEach(t=>from[t.dataset.m]=rectIn(t));
+  a.style.visibility='hidden';
+  b.style.transition='none';b.classList.remove('pending','morph');void b.offsetWidth;b.style.transition='';
+  b.querySelectorAll('[data-m]').forEach(t=>{const p=from[t.dataset.m],q=rectIn(t);
+    if(p)t.animate([{transform:'translate('+(p.x-q.x)+'px,'+(p.y-q.y)+'px)'},{transform:'none'}],{duration:850,easing:'cubic-bezier(.65,0,.35,1)'});
+    else t.animate([{opacity:0},{opacity:0,offset:.55},{opacity:1}],{duration:850,easing:'ease'});});
+  const g=a.cloneNode(true);g.removeAttribute('id');g.style.visibility='inherit';g.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
+  g.querySelectorAll('[data-m]').forEach(t=>{if(b.querySelector('[data-m="'+t.dataset.m+'"]'))t.style.visibility='hidden';});
+  a.parentNode.insertBefore(g,a);g.animate([{opacity:1},{opacity:0}],{duration:450,easing:'ease'}).onfinish=()=>g.remove();
+}
+function fxParts(s){
+  if(!s._veil){
+    s._veil=[0,1].map(()=>{const d=document.createElement('div');d.className='pl-veil pl-off';return d;});
+    s._lbar=document.createElement('div');s._lbar.className='pl-lbar pl-off';
+    s._run=document.createElement('div');s._run.className='pl-run pl-off';
+    s.append(s._run,...s._veil,s._lbar);
+  }
+  return s;
+}
+function mbox(el){return{x:parseFloat(el.style.left)||0,y:parseFloat(el.style.top)||0,w:parseFloat(el.style.width)||0,h:parseFloat(el.style.height)||0};}
+function fxState(i,n,animate){
+  const s=slides[i];let ls=null,rn=null,zm=null,bl=null,last=null;const txt=new Map(),pan=new Map(),kb=new Map(),dims={};
+  steps[i].forEach((g,gi)=>g.forEach(el=>{const f=el.dataset.fx,shown=gi<n;
+    if(el.dataset.dimgroup&&shown){const d=dims[el.dataset.dimgroup]=dims[el.dataset.dimgroup]||{max:-1,els:[]};d.max=Math.max(d.max,gi);d.els.push([el,gi]);}
+    if(el.dataset.dimgroup&&!shown)el.classList.remove('pl-dim');
+    if(!shown)return;
+    if(f==='lspot')ls=el;else if(f==='lspot-off')ls=null;
+    else if(f==='run')rn=el;else if(f==='run-off')rn=null;
+    else if(f==='zoom')zm=el;else if(f==='zoom-off')zm=null;
+    else if(f==='blur')bl=el;else if(f==='blur-off')bl=null;
+    else if(f==='text')txt.set(el.dataset.target,el);
+    else if(f==='pan')pan.set(el.dataset.target,el);
+    else if(f==='kenburns')kb.set(el.dataset.target,el);
+    if(animate&&gi===n-1&&/^(pulse|grow|shine|shake|text)$/.test(f))(last=last||[]).push(el);
+  }));
+  Object.values(dims).forEach(d=>d.els.forEach(([el,gi])=>el.classList.toggle('pl-dim',gi<d.max)));
+  const instant=(el,fn)=>{if(!animate){el.style.transition='none';fn();void el.offsetWidth;el.style.transition='';}else fn();};
+  const any=ls||rn||s._veil;
+  if(any){fxParts(s);
+    if(ls){const b=mbox(ls),ly=+ls.dataset.ly,lh=+ls.dataset.lh,bg=ls.dataset.bg||'#FFFFFF',[v1,v2]=s._veil,wasOn=!v1.classList.contains('pl-off');
+      const put=()=>{Object.assign(v1.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:Math.max(0,ly-b.y)+'px',background:bg});
+        Object.assign(v2.style,{left:b.x+'px',top:(ly+lh)+'px',width:b.w+'px',height:Math.max(0,b.y+b.h-ly-lh)+'px',background:bg});
+        Object.assign(s._lbar.style,{left:(b.x+8)+'px',top:(ly+6)+'px',height:Math.max(0,lh-12)+'px',background:ls.dataset.bar||'#2459C9'});};
+      [v1,v2,s._lbar].forEach(x=>instant(x,()=>{}));
+      if(!animate||!wasOn){[v1,v2,s._lbar].forEach(x=>{x.style.transition='none';});put();[v1,v2,s._lbar].forEach(x=>{void x.offsetWidth;x.style.transition='';});}else put();
+      [v1,v2,s._lbar].forEach(x=>instant(x,()=>x.classList.remove('pl-off')));
+    }else [...s._veil,s._lbar].forEach(x=>instant(x,()=>x.classList.add('pl-off')));
+    if(rn){const b=mbox(rn),wasOn=!s._run.classList.contains('pl-off');
+      const put=()=>Object.assign(s._run.style,{left:b.x+'px',top:b.y+'px',width:b.w+'px',height:b.h+'px'});
+      if(!animate||!wasOn){s._run.style.transition='none';put();void s._run.offsetWidth;s._run.style.transition='';}else put();
+      instant(s._run,()=>s._run.classList.remove('pl-off'));
+    }else instant(s._run,()=>s._run.classList.add('pl-off'));
+  }
+  // blur everything on the slide except the part that holds the target
+  if(bl||s.classList.contains('pl-blurs')){s.classList.add('pl-blurs');
+    const t=bl&&s.querySelector('#'+bl.dataset.target);
+    [...s.children].forEach(c=>{if(c.tagName==='ASIDE'||/^pl-/.test(c.className)||c.hasAttribute('data-build-in')&&/^(lspot|run|zoom|blur|text|pan|kenburns|pulse|grow|shine|shake|spot|cursor|click)/.test(c.getAttribute('data-build-in')))return;
+      instant(c,()=>c.classList.toggle('pl-bl',!!t&&!c.contains(t)&&c!==t));});
+    if(!bl&&!animate)s.classList.remove('pl-blurs');
+  }
+  // text values: the element keeps its last text in the HTML (for the PDF); data-start is what shows before any text step
+  s.querySelectorAll('[data-start]').forEach(t=>{if(t._final===undefined)t._final=t.textContent;const m=txt.get(t.id);t.textContent=m?m.dataset.text:t.dataset.start;});
+  pan.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t){t.style.transition=animate?'transform '+(m.dataset.ms||2000)+'ms cubic-bezier(.65,0,.35,1)':'none';t.style.transform='translateY('+(m.dataset.y||0)+'px)';}});
+  s.querySelectorAll('[data-panned]').forEach(t=>{if(!pan.has(t.id)){t.style.transition='none';t.style.transform='';}});
+  pan.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t)t.dataset.panned=1;});
+  kb.forEach((m,id)=>{const t=s.querySelector('#'+id);if(t){t.style.transformOrigin=m.dataset.origin||'50% 50%';t.style.transition=animate?'transform '+(m.dataset.ms||6000)+'ms linear':'none';t.style.transform='scale('+(m.dataset.scale||1.12)+')';t.dataset.kb=1;}});
+  s.querySelectorAll('[data-kb]').forEach(t=>{if(!kb.has(t.id)){t.style.transition='none';t.style.transform='';}});
+  // camera: zoom the whole slide into the marker's box
+  if(zm){const b=mbox(zm),pad=+(zm.dataset.pad||40),k=Math.min(1920/(b.w+2*pad),1080/(b.h+2*pad),+(zm.dataset.max||3));
+    s.style.transformOrigin='0 0';s.style.transition=animate?'transform .9s cubic-bezier(.65,0,.35,1)':'none';
+    s.style.transform='translate('+(960-(b.x+b.w/2)*k)+'px,'+(540-(b.y+b.h/2)*k)+'px) scale('+k+')';}
+  else if(s.style.transform){s.style.transition=animate?'transform .9s cubic-bezier(.65,0,.35,1)':'none';s.style.transform='';}
+  (last||[]).forEach(m=>{const t=s.querySelector('#'+m.dataset.target);if(!t)return;const f=m.dataset.fx;
+    if(f==='pulse')t.animate([{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'},{transform:'scale(1.07)'},{transform:'scale(1)'}],{duration:900,easing:'ease-in-out'});
+    else if(f==='grow')t.animate([{transform:'scale(1)'},{transform:'scale(1.2)',offset:.4},{transform:'scale(1)'}],{duration:800,easing:'cubic-bezier(.2,.7,.2,1)'});
+    else if(f==='shake')t.animate([0,-14,14,-10,10,-5,0].map(x=>({transform:'translateX('+x+'px)'})),{duration:480,easing:'ease-out'});
+    else if(f==='text')t.animate([{backgroundColor:'rgba(255,214,64,.6)'},{backgroundColor:'rgba(255,214,64,0)'}],{duration:900,easing:'ease-out'});
+    else if(f==='shine'){const r=rectIn(t),g=document.createElement('div');Object.assign(g.style,{position:'absolute',left:r.x+'px',top:r.y+'px',width:r.w+'px',height:r.h+'px',overflow:'hidden',pointerEvents:'none',zIndex:35,borderRadius:getComputedStyle(t).borderRadius});
+      g.innerHTML='<div style="position:absolute;top:0;left:-40%;width:30%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg)"></div>';s.appendChild(g);
+      g.firstChild.animate([{left:'-40%'},{left:'120%'}],{duration:800,easing:'ease-in-out'}).onfinish=()=>g.remove();}
+  });
 }
 function rectIn(el){const r=el.getBoundingClientRect(),S=stage.getBoundingClientRect(),k=stage._s;return{x:(r.left-S.left)/k,y:(r.top-S.top)/k,w:r.width/k,h:r.height/k};}
 function topIds(sec){return [...sec.querySelectorAll('[id]')].filter(el=>!el.parentElement.closest('section [id]'));}
