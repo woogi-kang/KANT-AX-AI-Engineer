@@ -20,8 +20,9 @@ git init -q; t
 printf "# 로그인\n아이디\n비밀번호\n" > login.md
 git add login.md; git commit -q -m "feat: 로그인 화면 추가"
 
-step "1 고친 뒤 git diff"
+step "1 고친 뒤 git status, git diff"
 printf "# 로그인\n아이디\n비밀번호 (8자 이상)\n로그인 버튼\n" > login.md
+r git status
 r git diff
 step "2 add 뒤 git diff"
 r git add login.md; r git diff
@@ -81,3 +82,15 @@ r 'echo "error" >> app.log'
 r git status
 r git rm --cached app.log
 r git status
+r git add .gitignore
+t; r git commit -m '"chore: 로그 파일을 기록에서 빼기"'
+
+step "15 커밋 전에 빠진 파일 찾기"
+r 'echo "회원가입 링크" >> login.md'
+r 'echo "# 회원가입" > signup.md'
+r git add login.md
+r git diff --staged --stat
+r git status
+r git add signup.md
+r git diff --staged --stat
+t; r git commit -m '"feat: 회원가입 화면과 링크 추가"'
