@@ -376,7 +376,7 @@ o.append(f'<p{bi("rise", 2)} style="position:absolute;left:{SLX}px;top:490px;wid
 o.append(tag(SLX + SLW + 24, 545, "menu 안에 없어요", RED, 2))
 o += rule_rows(1100, 680, 724, [[("in", "code", T1), ("들어 있으면 True", "sans", INK)], [("not in", "code", T1), ("없으면 True", "sans", INK)]], [190, 480], rh=96, fs=36, orders=[5, 5])
 F[0] = 30
-W("in-list", o, "in은 왼쪽 값이 오른쪽 리스트 안에 들어 있는지 물어요. 답은 12에서 본 비교처럼 True나 False예요. latte는 menu에 있어서 True, juice는 없어서 False예요. not in은 반대로 없는지 물어요. 그래서 juice not in menu는 True, latte not in menu는 False예요. 13의 for 장에서 95 in scores를 잠깐 봤는데, 여기서 in과 not in을 한곳에 모아 정리해요." + REAL)
+W("in-list", o, "in은 왼쪽 값이 오른쪽 리스트 안에 들어 있는지 물어요. 답은 12에서 본 비교처럼 True나 False예요. latte는 menu에 있어서 True, juice는 없어서 False예요. not in은 반대로 없는지 물어요. 그래서 juice not in menu는 True, latte not in menu는 False예요. 13의 찾기 장(count, index)에서 95 in scores를 잠깐 봤는데, 여기서 in과 not in을 한곳에 모아 정리해요." + REAL)
 
 o = [sec("in-tuple-str")] + head(EB1, "튜플과 문자열에도 in을 써요", T1)
 TA, TB, Wd = 236, 556, 1000
@@ -497,7 +497,7 @@ o.append(tag(TXo, oy(T, 6, 1), "len(scores): 바깥 리스트에 든 행 수", T
 o.append(hl(96, T, Wd, 5, 1, "mark", 4))
 o.append(tag(TXo, oy(T, 6, 2), "len(scores[0]): 0행 안의 칸 수가 열 수", BL, 4))
 o.append(caption("대괄호가 닫히기 전에는 줄을 바꿔 적어도 돼요. 그래서 표처럼 적어요.", 5))
-W("m-make", o, "13의 리스트 모양 장에서 리스트 안에 리스트를 넣으면 표 모양이 된다고 했어요. scores는 학생 세 명의 국어, 영어, 수학 점수예요. 안쪽 리스트 하나가 학생 한 명, 표의 가로 한 줄이에요. 가로 줄을 행, 세로 줄을 열이라고 불러요. len(scores)는 바깥 리스트에 든 개수라서 행 수예요. len(scores[0])은 0행 안에 든 개수라서 열 수예요. 대괄호가 닫히기 전에는 줄을 바꿔도 되니까 표처럼 줄을 맞춰 적으면 읽기 쉬워요." + REAL)
+W("m-make", o, "13에서 리스트 안의 리스트를 table[1][2]처럼 번호 두 번으로 꺼냈어요. 이번에는 그 모양을 표로 써요. scores는 학생 세 명의 국어, 영어, 수학 점수예요. 안쪽 리스트 하나가 학생 한 명, 표의 가로 한 줄이에요. 가로 줄을 행, 세로 줄을 열이라고 불러요. len(scores)는 바깥 리스트에 든 개수라서 행 수예요. len(scores[0])은 0행 안에 든 개수라서 열 수예요. 대괄호가 닫히기 전에는 줄을 바꿔도 되니까 표처럼 줄을 맞춰 적으면 읽기 쉬워요." + REAL)
 
 o = [sec("m-index")] + head(EB2, "[행][열] 순서로 칸 하나를 꺼내요", T6)
 F[0] = 38
@@ -699,7 +699,7 @@ o.append(share_pic(TA + 60, [("[9, 0, 0]", True)], RED, bi("rise", 1)))
 o.append(p(f"position:absolute;left:1120px;top:{TB + 4}px;font-size:28px;font-weight:700;color:{GR}", "행이 세 개 따로 있어요", bi("fade", 2)))
 o.append(share_pic(TB + 70, [("[9, 0, 0]", True), ("[0, 0, 0]", False), ("[0, 0, 0]", False)], GR, bi("rise", 2)))
 o.append(caption("빈 표는 행을 하나씩 직접 적어서 만들어요.", 3))
-W("m-trap", o, "13에서 리스트에 * 3을 하면 값이 세 번 되풀이된다고 했어요. 그래서 [[0] * 3] * 3으로 0이 가득 찬 3행 3열 표를 만들고 싶어져요. 그런데 이렇게 만들면 행 리스트 하나를 세 번 담은 거라서, 세 행이 사실 같은 리스트예요. 0행 0열만 9로 바꿨는데 모든 행이 바뀌어요. 오류는 안 나지만 결과가 틀려요. 빈 표는 행을 하나씩 직접 적어서 만들면 행마다 따로 있어서 괜찮아요." + REAL)
+W("m-trap", o, "13에서 a * 2처럼 리스트에 곱하기를 하면 값이 되풀이된다고 했어요. 그래서 [[0] * 3] * 3으로 0이 가득 찬 3행 3열 표를 만들고 싶어져요. 그런데 이렇게 만들면 행 리스트 하나를 세 번 담은 거라서, 세 행이 사실 같은 리스트예요. 0행 0열만 9로 바꿨는데 모든 행이 바뀌어요. 오류는 안 나지만 결과가 틀려요. 빈 표는 행을 하나씩 직접 적어서 만들면 행마다 따로 있어서 괜찮아요." + REAL)
 
 o = [sec("m-err")] + head(EB2, "번호가 넘치면 IndexError, 개수가 다르면 ValueError예요", T6)
 errs = [("scores[5][0]", "IndexError: list index out of range", "행은 0~3번, 네 개뿐이에요", 13, "out of range"),
