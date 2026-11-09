@@ -34,6 +34,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [24 · 클래스 1 (붕어빵 틀과 붕어빵)](./24-python-class) | 파&#8288;이&#8288;썬 | class로 틀을 만들고 __init__과 self로 붕어빵마다 값을 담아요 | `class Bread:` `__init__` `self.flavor` `def intro(self):` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/24-python-class/python-class-slides.html) |
 | [25 · 클래스 2 (`__str__`과 `__repr__`)](./25-python-str-repr) | 파&#8288;이&#8288;썬 | print와 리스트에서 붕어빵이 알아보기 쉽게 보이게 만들어요 | `__str__` `__repr__` `str()` `repr()` `sorted(key=lambda b: b.price)` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/25-python-str-repr/python-str-repr-slides.html) |
 | [26 · 클래스 3 (상속과 클래스 변수)](./26-python-inheritance) | 파&#8288;이&#8288;썬 | 틀을 물려받아 다른 점만 적고, 모두 같이 쓰는 값은 틀에 둬요 | `Bread.shop` `class Dog(Animal):` `super().__init__()` `isinstance()` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/26-python-inheritance/python-inheritance-slides.html) |
+| [27 · 클래스 4 (캡슐화)](./27-python-encapsulation) | 파&#8288;이&#8288;썬 | 칸은 안에 감추고, 메서드와 property라는 문으로만 꺼내고 바꾸게 해요 | `self._stamps` `self.__password` `get_password()` `@property` `@password.setter` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/27-python-encapsulation/python-encapsulation-slides.html) |
 
 <!-- /curriculum:chapters -->
 
@@ -123,7 +124,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 제어문 | `if`, `elif`, `else`는 17, `range()`, `enumerate()`, `while`, `break`, `continue`는 18에서 배워요. 그 앞 자료는 `if`가 들어간 코드를 "참고, 읽기만"으로만 보여 줘요 |
 | 함수 | `def`, 매개변수와 인자, `return`, `None`은 19, 기본값, 키워드 인자, 지역 변수와 전역 변수, `global`은 20에서 배워요. 바깥 값을 바꿀 땐 `global`보다 인자로 넣고 `return`으로 돌려받는 쪽을 권해요 |
 | 함수 넘기기, 정렬, 컴프리헨션 | `lambda`, `map`, `filter`는 21, `sorted`·`max`·`min`의 `key=`와 `default=`는 22, 리스트·딕셔너리·집합 컴프리헨션은 23에서 배워요. `reduce`, `zip()`, `*args`는 다루지 않아요 |
-| 클래스 | `class`, `__init__`, `self`, 메서드는 24, `__str__`, `__repr__`은 25, 클래스 변수, 상속, `super()`, `isinstance()`는 26에서 붕어빵 틀과 붕어빵으로 배워요. `@property`, `classmethod`, 다중 상속, `dataclass`는 다루지 않아요 |
+| 클래스 | `class`, `__init__`, `self`, 메서드는 24, `__str__`, `__repr__`은 25, 클래스 변수, 상속, `super()`, `isinstance()`는 26, `_`, `__`, getter와 setter, `@property`는 27에서 붕어빵 틀과 붕어빵으로 배워요. `classmethod`, 다중 상속, `dataclass`는 다루지 않아요 |
 | 브랜치 이름 | `feature/login`, `fix/12-login-error`, `docs/login-guide`처럼 `타입/하는-일` |
 
 ## 저장소 구조

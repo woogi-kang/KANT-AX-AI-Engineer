@@ -1,0 +1,64 @@
+<section id="d-lab" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
+<style>#d-lab button{font-family:"JetBrains Mono", "Noto Sans KR", monospace;font-size:26px;font-weight:700;border-radius:14px;padding:10px 20px;cursor:pointer;border:3px solid #C9CED8;background:#FFFFFF;color:#1D2330;text-align:left}#d-lab button:disabled{opacity:.5;cursor:default}#d-lab button.ln-on{border-color:#0F7C86;background:#E2F2F3}#d-lab #ln-go{font-family:"Noto Sans KR", Arial, sans-serif;background:#0F7C86;border-color:#0F7C86;color:#FFFFFF;text-align:center}#d-lab .ln-box{transition:box-shadow .35s,background .35s}#d-lab .ln-box.ln-show{box-shadow:0 0 0 8px rgba(15,124,134,.25)}#d-lab .ln-box.ln-ok{background:#E6F4EC}#d-lab .ln-box.ln-bad{background:#F8E6E6}#d-lab .ln-box.ln-bad p{color:#A33131!important}</style>
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#0F7C86">3. 밑줄 두 개 __</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">눌러 보기: 어떤 이름으로 저장되고, 어떤 이름으로 찾힐까요</h2>
+<p style="position:absolute;left:96px;top:206px;font-size:28px;font-weight:700;color:#4A5262">① 클래스 안에 적을 이름</p>
+<div id="ln-in" style="position:absolute;left:96px;top:256px;width:820px;display:flex;flex-direction:row;gap:14px"><button data-n="password">self.password</button><button data-n="_password">self._password</button><button data-n="__password" id="ln-b-in">self.__password</button></div>
+<p style="position:absolute;left:96px;top:356px;font-size:28px;font-weight:700;color:#4A5262">② 밖에서 꺼낼 이름</p>
+<div id="ln-out" style="position:absolute;left:96px;top:406px;width:820px;display:flex;flex-direction:row;flex-wrap:wrap;gap:14px"><button data-n="password">mypass.password</button><button data-n="_password">mypass._password</button><button data-n="__password">mypass.__password</button><button data-n="_Secret__password" id="ln-b-out">mypass._Secret__password</button></div>
+<button id="ln-go" style="position:absolute;left:96px;top:600px;width:300px">③ 실행 ▶</button>
+<div style="position:absolute;left:980px;top:206px;width:844px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:20px;padding:22px 30px;display:flex;flex-direction:column"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.5;white-space:pre;color:#1D2330">class Secret:</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.5;white-space:pre;color:#1D2330">    def __init__(self):</p><p id="ln-code-in" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.5;white-space:pre;color:#1D2330">        self.__password = 1234</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.5;white-space:pre;color:#1D2330">&#160;</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.5;white-space:pre;color:#1D2330">mypass = Secret()</p><p id="ln-code-out" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;line-height:1.5;white-space:pre;color:#1D2330">print(mypass.__password)</p></div>
+<div id="ln-dict-box" class="ln-box" style="position:absolute;left:980px;top:540px;width:844px;height:120px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #0F7C86;border-radius:20px;padding:14px 28px;display:flex;flex-direction:column;gap:6px"><p style="font-size:24px;font-weight:700;color:#0F7C86">저장된 이름 (mypass.__dict__)</p><p id="ln-dict" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:pre">실행을 누르면 나와요</p></div>
+<div id="ln-res-box" class="ln-box" style="position:absolute;left:980px;top:684px;width:844px;height:150px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #B8560F;border-radius:20px;padding:14px 28px;display:flex;flex-direction:column;gap:6px"><p style="font-size:24px;font-weight:700;color:#B8560F">출력</p><p id="ln-res" style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre-wrap">실행을 누르면 나와요</p></div>
+<div style="position:absolute;left:96px;top:870px;width:1728px;height:120px;background:#FFFFFF;border:2px solid #E1DED6;border-left:10px solid #0F7C86;border-radius:18px;padding:0 30px;display:flex;align-items:center"><p id="ln-msg" style="font-size:30px;font-weight:500;line-height:1.4;color:#1D2330">안에 적을 이름과 밖에서 꺼낼 이름을 고르고 실행을 눌러요. 브라우저로 슬라이드를 열면 눌러져요.</p></div>
+<div data-build-in="click order 1" data-target="ln-b-in" style="position:absolute;left:-1px;top:-1px;width:2px;height:2px"></div>
+<div data-build-in="click order 2" data-target="ln-b-out" style="position:absolute;left:-1px;top:-1px;width:2px;height:2px"></div>
+<div data-build-in="click order 3" data-target="ln-go" style="position:absolute;left:-1px;top:-1px;width:2px;height:2px"></div>
+<div data-build-in="cursor-off order 4" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<script type="text/slide-js">
+// 이름 바꾸기 (27): pick the name written inside the class and the name used outside, then run.
+// The slide shows the name Python stores (__dict__) and what print prints. Runs inside the slide player as function(sec, api).
+// Every output is one the real kernel printed in tools/demo.sh (the 눌러 보기 runs in tools/run_nb.py).
+const $ = id => sec.querySelector('#' + id);
+const STORED = { password: 'password', _password: '_password', __password: '_Secret__password' };
+const MSG = {
+  password: '밑줄 없는 이름은 그대로 저장돼요.',
+  _password: '밑줄 하나는 이름이 그대로예요. 표시만 붙은 거예요.',
+  __password: '밑줄 두 개는 앞에 _Secret이 붙어서 저장돼요.',
+};
+let inside = '__password', outside = '__password', timers = [], busy = false;
+const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+function pick() {
+  for (const b of sec.querySelectorAll('#ln-in button')) b.classList.toggle('ln-on', b.dataset.n === inside);
+  for (const b of sec.querySelectorAll('#ln-out button')) b.classList.toggle('ln-on', b.dataset.n === outside);
+  $('ln-code-in').textContent = `        self.${inside} = 1234`;
+  $('ln-code-out').textContent = `print(mypass.${outside})`;
+}
+function clear() {
+  $('ln-dict').textContent = '';
+  $('ln-res').textContent = '';
+  $('ln-dict-box').classList.remove('ln-show');
+  $('ln-res-box').classList.remove('ln-show', 'ln-ok', 'ln-bad');
+}
+function lock(on) { busy = on; for (const b of sec.querySelectorAll('button')) b.disabled = on; }
+function run() {
+  if (busy) return;
+  clear(); lock(true);
+  const st = STORED[inside], ok = st === outside;
+  later(200, () => { $('ln-dict').textContent = `{'${st}': 1234}`; $('ln-dict-box').classList.add('ln-show'); $('ln-msg').textContent = MSG[inside]; });
+  later(1100, () => {
+    $('ln-res').textContent = ok ? '1234' : `AttributeError: 'Secret' object has no attribute '${outside}'`;
+    $('ln-res-box').classList.add('ln-show', ok ? 'ln-ok' : 'ln-bad');
+    $('ln-msg').textContent = MSG[inside] + (ok ? ' 저장된 이름과 똑같이 적어서 찾았어요.' : ` 저장된 이름은 ${st}라서 ${outside}로는 못 찾아요.`);
+    lock(false);
+  });
+}
+function stop() { timers.forEach(clearTimeout); timers = []; lock(false); }
+for (const b of sec.querySelectorAll('#ln-in button')) b.onclick = () => { inside = b.dataset.n; pick(); clear(); };
+for (const b of sec.querySelectorAll('#ln-out button')) b.onclick = () => { outside = b.dataset.n; pick(); clear(); };
+$('ln-go').onclick = run;
+pick();
+return { leave: stop };
+</script>
+<aside>이름이 어떻게 저장되는지 직접 눌러 보는 장이에요. 브라우저로 슬라이드를 열면 버튼이 눌러져요. 위에서 클래스 안에 적을 이름을, 아래에서 밖에서 꺼낼 이름을 고르고 실행을 눌러요. 밑줄이 없거나 하나면 적은 이름 그대로 저장되고, 밑줄 두 개면 앞에 _Secret이 붙어요. 밖에서 꺼낼 이름이 저장된 이름과 똑같아야 1234가 나와요. 처음 세 번 넘기면 커서가 누를 곳을 짚어 줘요. 누르기 전에 결과가 어떻게 나올지 수강생에게 먼저 물어보세요. 출력은 tools/demo.sh로 실제로 실행한 결과예요.</aside>
+</section>

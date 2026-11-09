@@ -1,12 +1,12 @@
 # 26 · 클래스 3 (상속과 클래스 변수)
 
-> 클래스 마지막 챕터예요. 붕어빵마다 따로 들지 않고 틀에 새겨서 모두 같이 쓰는 값(클래스 변수)과, 동물(`Animal`) 클래스를 물려받아 개(`Dog`)와 고양이(`Cat`) 클래스를 만드는 상속을 배워요. 같은 코드를 복사하지 않고 다른 점만 적는 방법이에요. 클래스 변수는 24의 `Bread` 틀로, 상속은 `Animal`, `Dog`, `Cat`으로 봐요.
+> 클래스 세 번째 챕터예요. 붕어빵마다 따로 들지 않고 틀에 새겨서 모두 같이 쓰는 값(클래스 변수)과, 동물(`Animal`) 클래스를 물려받아 개(`Dog`)와 고양이(`Cat`) 클래스를 만드는 상속을 배워요. 같은 코드를 복사하지 않고 다른 점만 적는 방법이에요. 클래스 변수는 24의 `Bread` 틀로, 상속은 `Animal`, `Dog`, `Cat`으로 봐요.
 
 <!-- curriculum:top -->
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/26-python-inheritance/python-inheritance-slides.html) | [25 · 클래스 2 (`__str__`과 `__repr__`)](../25-python-str-repr) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/26-python-inheritance/python-inheritance-slides.html) | [25 · 클래스 2 (`__str__`과 `__repr__`)](../25-python-str-repr) | [27 · 클래스 4 (캡슐화)](../27-python-encapsulation) |
 
 <!-- /curriculum:top -->
 
@@ -279,7 +279,7 @@ node ../tools/export.js slides python-inheritance-slides.pdf
 
 눌러 보기 장은 장 안의 `<script type="text/slide-js">`를 `build_player.js`가 실행해서 움직여요. 그래서 버튼은 배포용 HTML에서만 눌러지고, PDF에는 처음 화면이 들어가요. 눌러 보기에 나오는 출력도 `tools/run_nb.py`로 실제로 실행한 결과예요.
 
-범위: 클래스 변수, 상속, `super()`, 덮어쓰기, `isinstance`를 처음 다뤄요. 다중 상속, `classmethod`, `staticmethod`, `@property`, 추상 클래스, `_`로 숨기기는 다루지 않아요.
+범위: 클래스 변수, 상속, `super()`, 덮어쓰기, `isinstance`를 처음 다뤄요. 다중 상속, `classmethod`, `staticmethod`, 추상 클래스는 다루지 않아요. `_`로 숨기기와 `@property`는 27에서 다뤄요.
 
 </details>
 
@@ -287,6 +287,6 @@ node ../tools/export.js slides python-inheritance-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 25 · 클래스 2 (`__str__`과 `__repr__`)](../25-python-str-repr) · [커리큘럼](../README.md)
+[← 이전: 25 · 클래스 2 (`__str__`과 `__repr__`)](../25-python-str-repr) · [커리큘럼](../README.md) · [다음: 27 · 클래스 4 (캡슐화) →](../27-python-encapsulation)
 
 <!-- /curriculum:nav -->

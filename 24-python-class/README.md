@@ -270,7 +270,7 @@ node ../tools/export.js slides python-class-slides.pdf
 
 눌러 보기 장은 장 안의 `<script type="text/slide-js">`를 `build_player.js`가 실행해서 움직여요. 그래서 버튼은 배포용 HTML에서만 눌러지고, PDF에는 처음 화면이 들어가요. 눌러 보기에 나오는 출력도 `tools/run_nb.py`로 실제로 실행한 결과예요.
 
-범위: `pass`와 클래스, `__init__`, `self`, 메서드를 처음 다뤄요. `__str__`, `__repr__`은 25, 클래스 변수와 상속은 26에서 다뤄요. `@property`, `classmethod`, `staticmethod`, `_`로 숨기기, `dataclass`, 타입 힌트는 다루지 않아요. VS Code 디버거로 `self`가 생기는 과정을 따라가는 자료는 번외로 따로 만들 예정이에요.
+범위: `pass`와 클래스, `__init__`, `self`, 메서드를 처음 다뤄요. `__str__`, `__repr__`은 25, 클래스 변수와 상속은 26, `_`로 숨기기와 `@property`는 27에서 다뤄요. `classmethod`, `staticmethod`, `dataclass`, 타입 힌트는 다루지 않아요. VS Code 디버거로 `self`가 생기는 과정을 따라가는 자료는 번외로 따로 만들 예정이에요.
 
 </details>
 
