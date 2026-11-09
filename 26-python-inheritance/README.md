@@ -259,7 +259,9 @@ node ../tools/build_player.js slides python-inheritance-slides.html
 node ../tools/export.js slides python-inheritance-slides.pdf
 ```
 
-셀 출력은 `tools/demo.sh`가 hello-uv(Python 3.14.6)를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 차례로 실행해서 셀 번호가 파트마다 [1]부터 시작해요. 4파트는 셀 없이 그림과 표만 있어요. 4쪽은 한 셀을 두 칸으로 나눠 보여 줘요. 오류는 Traceback 마지막 줄만 옮겼어요.
+셀 출력은 `tools/demo.sh`가 hello-uv(Python 3.14.6)를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 차례로 실행해서 셀 번호가 파트마다 [1]부터 시작해요. 4파트는 셀 없이 그림과 표만 있어요. 오류는 Traceback 마지막 줄만 옮겼어요.
+
+장마다 강조는 `tools/HIGHLIGHT.md`에서 골랐어요. 9쪽 표와 25, 27쪽 코드는 스포트라이트로 한 줄씩 비추고, 17쪽은 커서가 누를 곳을 짚어요. 7쪽 바뀐 값과 23쪽 `a.shop` 칸은 코드 줄에서 날아오고, 8쪽 개수는 숫자가 올라가요. 오류 장은 틀린 줄에 줄을 긋고 고친 줄을 옆에 둬요.
 
 눌러 보기 장은 장 안의 `<script type="text/slide-js">`를 `build_player.js`가 실행해서 움직여요. 그래서 버튼은 배포용 HTML에서만 눌러지고, PDF에는 처음 화면이 들어가요. 눌러 보기에 나오는 출력도 `tools/run_nb.py`로 실제로 실행한 결과예요.
 

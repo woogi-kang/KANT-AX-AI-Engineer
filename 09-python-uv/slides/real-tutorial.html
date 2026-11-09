@@ -1,0 +1,37 @@
+<section id="real-tutorial" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1F8A4C">10. 실제 상황 예제</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">튜토리얼에 pip install이 나오면 uv add로 바꿔요</h2>
+<div style="position:absolute;left:96px;top:220px;width:720px;height:452px;background:#FFFDF6;border:2px solid #E1DED6;border-radius:16px"></div>
+<p style="position:absolute;left:132px;top:244px;width:640px;font-size:26px;font-weight:700;line-height:1.45;text-align:left;color:#6A7180">인터넷 튜토리얼</p>
+<p style="position:absolute;left:132px;top:288px;width:650px;font-size:28px;font-weight:400;line-height:1.45;text-align:left;color:#1D2330">카페 주문 프로그램을 만들어 봅시다. 먼저 가상환경을 만들고 requests를 설치하세요.</p>
+<p id="tu0" style="position:absolute;left:132px;top:410px;width:640px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;line-height:44px;color:#8A6A33">python3 -m venv .venv</p>
+<p id="tu1" style="position:absolute;left:132px;top:470px;width:640px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;line-height:44px;color:#8A6A33">source .venv/bin/activate</p>
+<p id="tu2" style="position:absolute;left:132px;top:530px;width:640px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;line-height:44px;color:#8A6A33">pip install requests</p>
+<p id="tu3" style="position:absolute;left:132px;top:590px;width:640px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;line-height:44px;color:#8A6A33">python main.py</p>
+<div data-build-in="fade order 1" style="position:absolute;left:128px;top:432px;width:348px;height:3px;background:#6A7180"></div>
+<div data-build-in="fade order 1" style="position:absolute;left:128px;top:492px;width:413px;height:3px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:583.2px;top:422px;width:260px;font-size:22px;font-weight:700;line-height:1.45;text-align:left;color:#6A7180">uv init과 uv run이 대신해요</p>
+<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#B26A00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="122" y="528" width="344.0" height="48" rx="8"/></g></svg>
+<div id="term" style="position:absolute;left:860px;top:220px;width:964px;height:604px;background:#1B2029;border-radius:20px;padding:26px 36px;display:flex;flex-direction:column;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-variant-ligatures:none">
+<p data-build-in="fade order 1" style="font-size:24px;line-height:46px;height:46px;white-space:pre;font-weight:700;color:#F2C46D">$ uv init cafe-order</p>
+<p data-build-in="fade order 1" style="font-size:24px;line-height:46px;height:46px;white-space:pre;color:#D8DEE9">Initialized project `cafe-order` at `/home/kim/cafe-order`</p>
+<p data-build-in="fade order 1" style="font-size:24px;line-height:46px;height:46px;white-space:pre;font-weight:700;color:#F2C46D">$ cd cafe-order</p>
+<p data-build-in="fade order 2" style="font-size:24px;line-height:46px;height:46px;white-space:pre;font-weight:700;color:#F2C46D">$ uv add requests</p>
+<p data-build-in="fade order 2" style="font-size:24px;line-height:46px;height:46px;white-space:pre;color:#D8DEE9">Using CPython 3.14.6</p>
+<p data-build-in="fade order 2" style="font-size:24px;line-height:46px;height:46px;white-space:pre;color:#D8DEE9">Creating virtual environment at: .venv</p>
+<p data-build-in="fade order 2" style="font-size:24px;line-height:46px;height:46px;white-space:pre;color:#D8DEE9">Resolved 6 packages in 223ms</p>
+<p data-build-in="fade order 2" style="font-size:24px;line-height:46px;height:46px;white-space:pre;color:#D8DEE9">Prepared 4 packages in 309ms</p>
+<p data-build-in="fade order 2" style="font-size:24px;line-height:46px;height:46px;white-space:pre;font-weight:700;color:#FFE7A8;background:rgba(242,196,109,.2);border-radius:6px;margin:0 -10px;padding:0 10px">Installed 5 packages in 4ms</p>
+<p data-build-in="fade order 2" style="font-size:24px;line-height:46px;height:46px;white-space:pre;color:#7FD18B">&#160;+ requests==2.34.2  + urllib3==2.8.0  …</p>
+<p data-build-in="fade order 3" style="font-size:24px;line-height:46px;height:46px;white-space:pre;font-weight:700;color:#F2C46D">$ uv run main.py</p>
+<p data-build-in="fade order 3" style="font-size:24px;line-height:46px;height:46px;white-space:pre;font-weight:700;color:#FFE7A8;background:rgba(242,196,109,.2);border-radius:6px;margin:0 -10px;padding:0 10px">requests 버전: 2.34.2</p>
+</div>
+<div id="c-cafe" data-build-in="fade order 3" style="position:absolute;left:96px;top:704px;width:720px;height:192px;background:#FFFFFF;border:2px solid #E1DED6;border-radius:18px;padding:18px 30px 0;display:flex;flex-direction:column">
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:44px;height:44px;color:#2459C9">main.py</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;line-height:36px;height:36px;white-space:pre;color:#1D2330">import requests</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;line-height:36px;height:36px;white-space:pre;color:#1D2330">&#160;</p>
+<p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;line-height:36px;height:36px;white-space:pre;color:#1D2330">print("requests 버전:", requests.__version__)</p>
+</div>
+<p data-build-in="fade order 4" style="position:absolute;left:96px;top:920px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">이렇게 넣으면 pyproject.toml에 requests가 적혀서 팀원도 uv sync로 받아요.</p>
+<aside>인터넷 튜토리얼에 pip install 패키지가 나오면 우리 프로젝트에서는 uv add 패키지로 바꿔 쳐요. 튜토리얼의 네 줄 가운데 가상환경 만들기와 켜기는 uv init과 uv run이 대신해요. pip install requests는 uv add requests로 바꿔요. requests는 인터넷에서 데이터를 받아 오는 패키지이고, 함께 따라온 4개까지 5개가 들어왔어요. python main.py는 uv run main.py로 실행해요. 이렇게 넣으면 pyproject.toml에 requests가 적혀서 팀원도 uv sync로 받을 수 있어요. 출력은 tools/demo.sh로 실제로 실행한 결과이고, 설치 목록 5줄은 한 줄로 줄였어요.</aside>
+</section>

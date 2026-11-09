@@ -144,11 +144,13 @@ slides/
   deck.json        슬라이드 순서와 파트 구분
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장 생성 (탐색기, 터미널, 폴더 지도 장면)
+  gen.py           모든 장 생성 (탐색기와 터미널 장면, 폴더 지도, 지시선)
   demo.sh          슬라이드에 넣은 출력을 실제로 실행 (/home/kim을 만들어서 root로 실행)
 terminal-path-help-slides.html  배포용 HTML
 terminal-path-help-slides.pdf   강사용 PDF
 ```
+
+장 배치는 Stageshow 원칙을 따라요. 장마다 주인공(터미널, 탐색기, 그림) 하나를 크게 두고, 설명은 카드 대신 지시선과 밑줄로 그 위에 붙여요. 강조는 `tools/highlight.py`의 커서, 스포트라이트, 펜 동그라미, 밑줄과 날아오기를 장에 맞게 골라 써요.
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 

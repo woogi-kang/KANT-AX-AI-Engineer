@@ -14,6 +14,14 @@ run uv --version
 run uv init hello-uv
 run cd hello-uv
 run uv add --dev ipykernel
+# why slide: a .py file runs from the top every time
+printf 'x = 10\nprint(x * 2)\n' > main.py
+run cat main.py
+run uv run main.py
+printf 'x = 10\nprint(x * 2)\nx = x + 1\nprint(x)\n' > main.py
+run cat main.py
+run uv run main.py
+git checkout -q -- main.py 2>/dev/null || printf 'def main():\n    print("Hello from hello-uv!")\n\n\nif __name__ == "__main__":\n    main()\n' > main.py
 # nbclient stands in for VS Code. It goes into a copy so hello-uv stays as students have it.
 cp -r "$ROOT/hello-uv" "$ROOT/nb-check"
 (cd "$ROOT/nb-check" && uv sync -q && uv pip install -q nbclient nbformat && echo && .venv/bin/python "$TOOLS/run_nb.py" 2>/dev/null)
