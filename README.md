@@ -152,6 +152,6 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 
 - 슬라이드를 고치면 챕터 폴더에서 HTML과 PDF를 다시 만들어요. 명령은 챕터 README의 강사용 절에 있어요.
 - 커리큘럼 표, 번외 표, 챕터 README 맨 위 표와 맨 아래 이동 링크는 `curriculum.json`에서 만들어요. 목록을 고친 뒤 `python3 tools/build_readme.py`를 쳐요. 표를 README에서 직접 고치면 다음에 다시 만들 때 사라져요.
-- 새 챕터는 맨 뒤 번호로 만들고 `templates/chapter-README.md`를 복사해서 시작해요. 덱은 [CLAUDE.md](./CLAUDE.md)의 "챕터 설계 틀" 순서(왜 필요한가부터 실제 상황 예제까지)로 짜요. 이미 올린 챕터의 번호와 폴더 이름은 바꾸지 않아요.
+- 새 챕터는 맨 뒤 번호로 만들고 `templates/chapter-README.md`를 복사해서 시작해요. 덱은 [CLAUDE.md](./CLAUDE.md)의 "덱 만들기 흐름" 다섯 단계(준비, 내용 틀, 덱 만들기, 배포 전 점검, 배포)를 차례대로 따라요. 장 순서는 그 안의 "챕터 설계 틀"(왜 필요한가부터 실제 상황 예제까지)이에요. 이미 올린 챕터의 번호와 폴더 이름은 바꾸지 않아요.
 - 번외는 `extras/주제` 폴더에 번호 없이 만들고 `curriculum.json`의 `extras`에 한 줄 더해요.
 - 글쓰기와 폴더 규칙은 [CLAUDE.md](./CLAUDE.md)를 따라요.
