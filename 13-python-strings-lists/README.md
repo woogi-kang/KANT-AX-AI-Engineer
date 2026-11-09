@@ -40,10 +40,11 @@
 
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
-| 들어가기 | 1–3 | 표지, 오늘의 순서, 12에서 쓰던 `basics.ipynb` 다시 열기 |
-| 1. 문자열과 출력 | 4–18 | 따옴표와 `len()`, 인덱스와 `IndexError`, 슬라이싱, `print()`의 `sep` `end`, `\n` `\t`, 끼워 넣는 세 방식, `%s` `%d`와 f-string, `format()`의 `{0}` `{1}` `{2}`, 같은 주문내역을 세 방식으로, 칸 수 `%5d` `{42:5d}`, 소수점 `%0.2f` `{pi:.2f}`, 천 단위 콤마 `{price:,}`, `format()`의 모양, 표처럼 맞추기, 포맷팅 오류 |
-| 2. 리스트와 튜플 | 19–43 | `[ ]`로 담기와 `len()`, 꺼내기와 자르기, 값 바꾸기와 `append`, `sum` `max` `min`, 넣고 빼는 메서드(`append` `insert` `remove` `pop`), 찾고 세고 정렬하는 메서드(`count` `index` `in` `sort`), 메서드와 함수 한눈에, `[시작:끝:간격]` 자르기, 안쪽 리스트와 글자 꺼내기, `+` `*` `extend` `sorted` `reverse` `copy` `clear`, `split`과 `join`, 바꿀 수 없는 튜플, 튜플의 `count` `index`와 꺼내 담기, `a, b = b, a`, `list()` `tuple()`, 튜플 자르기와 잇기, 주문 데이터 `orders`, 번호 두 개로 꺼내기, 한 번에 꺼내 담기, 주문 줄 맞추기, 한글 머리글이 두 칸인 이유, 메뉴표 영수증, `for`로 하나씩 꺼내 되풀이하기, `for`로 합계 쌓기, 가게 이름과 날짜가 들어간 영수증 한 장, 콜론과 들여쓰기 오류, 여러 모양의 리스트, `IndexError` |
-| 정리 | 44–45 | 막힐 때, 한 장 요약 |
+| 들어가기 | 1–4 | 표지, 오늘의 순서와 준비, 12에서 배운 것만으로 찍은 주문 세 줄, 이번 챕터의 큰 그림 |
+| 1. 문자열과 출력 | 5–17 | 따옴표와 `len()`, 인덱스와 `IndexError`, 슬라이싱, `print()`의 `sep` `end`와 `\n` `\t`, 끼워 넣는 세 방식, `%s` `%d`와 f-string, `format()`의 `{0}` `{1}` `{2}`, 칸 수, 소수점, 천 단위 콤마, 표처럼 맞추기, 세 방식 한눈에, 포맷팅 오류 |
+| 2. 리스트, 튜플, for | 18–35 | `[ ]`로 담기, 꺼내기와 자르기, 값 바꾸기와 `sum` `max` `min`, 넣고 빼는 메서드, 찾고 세고 정렬하는 메서드, `[시작:끝:간격]`, 안쪽 리스트, `+` `*` `extend` `sorted` `reverse` `copy` `clear`, `split`과 `join`, 문자열과 리스트 비교, 튜플, 주문 데이터 `orders`, 꺼내 담기와 `a, b = b, a`, `for`로 하나씩 꺼내기, `for`로 합계 쌓기, 리스트 오류, 콜론과 들여쓰기 오류 |
+| 3. 영수증 만들기 | 36–38 | 주문 한 줄 칸 맞추기와 한글 머리글, `for`로 영수증 한 장, 주문 메모 정리하기 |
+| 정리 | 39–40 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -121,6 +122,8 @@ f-string에서 글자는 기본이 왼쪽 맞춤이에요. `f"[{'kim':5}]"`는 `
 | `"a,b".split(",")` | 글자를 잘라 리스트로 `['a', 'b']` |
 | `" / ".join(words)` | 리스트를 사이에 글자를 넣어 하나로 |
 
+문자열도 번호로 꺼내고 자르는 법은 리스트와 같지만, `word[0] = "P"`처럼 글자 하나를 바꾸면 `TypeError`가 나요.
+
 튜플은 바꾸는 메서드가 없고 `count`, `index`만 있어요. `year, month, day = (2026, 11, 2)`처럼 한 번에 꺼내 담고, `a, b = b, a`로 두 값을 맞바꿔요. 고쳐야 하면 `list(튜플)`로 바꿔서 고쳐요.
 
 주문 여러 건은 튜플을 리스트에 담아요. `orders = [("coffee", 4500, 2), ("latte", 5000, 1), ("cake", 6500, 3)]`에서 앞 번호는 몇째 주문, 뒤 번호는 그 안의 몇째 값이에요. `orders[1][0]`은 `'latte'`, `orders[2][1] * orders[2][2]`는 `19500`이에요. `menu, price, qty = orders[2]`처럼 쓰면 튜플 값이 순서대로 하나씩 들어가요.
@@ -177,7 +180,7 @@ fee = 35000
 print(f"[{fee:8,}]")      # [  35,000]
 ```
 
-### 2. 리스트와 튜플
+### 2. 리스트, 튜플, for
 
 ```python
 cart = ["coffee", "latte"]
@@ -216,19 +219,39 @@ menu, price, qty = orders[2]
 print(f"{menu} {qty}개, {price * qty:,}원")   # cake 3개, 19,500원
 ```
 
+주문을 하나씩 꺼내 합계를 쌓아요. `total = 0`은 for 앞에 한 번만 적어요.
+
 ```python
-total = orders[0][1] * orders[0][2]
-total += orders[1][1] * orders[1][2]
-total += orders[2][1] * orders[2][2]
+total = 0
+for menu, price, qty in orders:
+    total += price * qty
+    print(menu, total)
+print("합계:", total)
+# coffee 9000
+# latte 14000
+# cake 33500
+# 합계: 33500
+```
+
+### 3. 영수증 만들기
+
+주문 줄은 for 두 줄로 찍어요. 주문이 몇 건이든 셀은 그대로예요.
+
+```python
+print("=" * 33)
+print(f"{'KANT 카페':^31}")
 print("=" * 33)
 print(f"{'메뉴명':<7}{'단가':>6}{'수량':>3}{'금액':>8}")
 print("-" * 33)
-print(f"{orders[0][0]:<10}{orders[0][1]:>8,}{orders[0][2]:>5}{orders[0][1] * orders[0][2]:>10,}")
-print(f"{orders[1][0]:<10}{orders[1][1]:>8,}{orders[1][2]:>5}{orders[1][1] * orders[1][2]:>10,}")
-print(f"{orders[2][0]:<10}{orders[2][1]:>8,}{orders[2][2]:>5}{orders[2][1] * orders[2][2]:>10,}")
+total = 0
+for menu, price, qty in orders:
+    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")
+    total += price * qty
 print("-" * 33)
 print(f"{'합계':<6}{total:>25,}")
 print("=" * 33)
+# =================================
+#             KANT 카페
 # =================================
 # 메뉴명        단가 수량      금액
 # ---------------------------------
@@ -240,40 +263,16 @@ print("=" * 33)
 # =================================
 ```
 
-같은 주문을 for로 찍어 영수증 한 장을 완성해요. 주문 줄 세 줄이 for 두 줄로 줄어요.
+쉼표로 이어 적은 주문 메모를 리스트로 바꿔 고친 뒤 다시 글자로 합쳐요.
 
 ```python
-print("=" * 33)
-print(f"{'KANT 카페':^31}")
-print(f"{'2026-11-02  14:30':^33}")
-print("=" * 33)
-print(f"{'메뉴명':<7}{'단가':>6}{'수량':>3}{'금액':>8}")
-print("-" * 33)
-total = 0
-count = 0
-for menu, price, qty in orders:
-    print(f"{menu:<10}{price:>8,}{qty:>5}{price * qty:>10,}")
-    total += price * qty
-    count += qty
-print("-" * 33)
-print(f"{'수량':<6}{count:>15}")
-print(f"{'합계':<6}{total:>25,}")
-print("=" * 33)
-print(f"{'감사합니다':^28}")
-# =================================
-#             KANT 카페
-#         2026-11-02  14:30
-# =================================
-# 메뉴명        단가 수량      금액
-# ---------------------------------
-# coffee       4,500    2     9,000
-# latte        5,000    1     5,000
-# cake         6,500    3    19,500
-# ---------------------------------
-# 수량                  6
-# 합계                       33,500
-# =================================
-#            감사합니다
+memo = "latte,cake,latte,coffee,latte"
+items = memo.split(",")
+items.remove("coffee")
+items.append("tea")
+print(f"주문 {len(items)}건, latte {items.count('latte')}잔")   # 주문 5건, latte 3잔
+items.sort()
+print(" / ".join(items))   # cake / latte / latte / latte / tea
 ```
 
 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
@@ -282,13 +281,13 @@ print(f"{'감사합니다':^28}")
 
 | 증상 | 원인과 해결 |
 | --- | --- |
-| --- | --- |
 | `IndexError: string index out of range` | 없는 번호예요. 번호는 0부터 `len(값) - 1`까지예요 |
 | `TypeError: not enough arguments for format string` | `%` 자리 수와 값 수가 달라요. f-string으로 쓰면 이름을 바로 적어서 덜 틀려요 |
 | `ValueError: unsupported format character ','` | `%`에는 콤마 옵션이 없어요. `f"{price:,}"`로 써요 |
 | `ValueError: list.remove(x): x not in list` | 리스트에 없는 값을 지우려 했어요. `값 in 리스트`로 먼저 확인해요 |
 | `IndexError: list index out of range` | 리스트에 없는 번호예요. 값이 세 개면 마지막 번호는 2 |
 | `TypeError: 'tuple' object does not support item assignment` | 튜플은 바꿀 수 없어요. 바꿀 값은 리스트에 담아요 |
+| `TypeError: 'str' object does not support item assignment` | 문자열도 글자 하나를 바꿀 수 없어요. 새 문자열을 만들어 담아요 |
 | `SyntaxError: expected ':'` | `for` 줄 끝에 콜론을 빠뜨렸어요 |
 | `IndentationError: expected an indented block after 'for' statement on line 1` | 되풀이할 줄을 네 칸 들여 써요 |
 | 합계가 쌓이지 않아요 | `total = 0`을 for 안에 넣었어요. for 앞으로 옮겨요 |
@@ -305,16 +304,18 @@ slides/
   deck.json        슬라이드 순서와 파트 구분 (gen.py가 만들어요)
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장과 deck.json 생성 (노트북 셀, 글자 칸, % 와 f-string 나란히, 리스트 칸, 영수증)
-  demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
-  run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
+  cells.py         슬라이드에 나오는 노트북 셀 전부 (파트마다 한 목록)
+  run_nb.py        cells.py의 셀을 파트마다 새 커널로 실행하고 outputs.json에 저장
+  outputs.json     실제 실행 결과 (gen.py가 읽어요)
+  demo.sh          hello-uv를 새로 만들고 run_nb.py로 셀을 실행
+  gen.py           모든 장과 deck.json 생성 (노트북 셀, 강조, 글자 칸, 리스트 칸, 영수증)
 python-strings-lists-slides.html  배포용 HTML
 python-strings-lists-slides.pdf   강사용 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
-슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
+슬라이드 HTML을 직접 고치지 말고 셀은 `cells.py`, 장은 `gen.py`를 고친 뒤 다시 만들어요. 셀을 고쳤으면 `demo.sh`부터 다시 돌려 `outputs.json`을 새로 만들어요.
 
 ```bash
 bash tools/demo.sh /tmp/strings-lists-demo > /tmp/strings-lists-demo.log 2>&1
@@ -324,7 +325,9 @@ node ../tools/build_player.js slides python-strings-lists-slides.html
 node ../tools/export.js slides python-strings-lists-slides.pdf
 ```
 
-셀 출력은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 위에서부터 차례로 실행해서, 슬라이드의 셀 번호가 파트마다 [1]부터 시작해요. 오류는 Traceback 위쪽 줄을 빼고 마지막 줄만 옮겼어요. 12에서 나눈 챕터라 12와 같은 도구로 만들어요. demo.sh 환경의 커널은 Python 3.13이었고, 이 챕터의 출력과 메시지는 3.14와 같아요. f-string은 이 챕터 1파트에서 처음 배워요. `input()`은 아직 배우지 않아서 쓰지 않았어요. 2파트는 주문 줄을 먼저 한 줄씩 적어 보고, 그 뒤에 for로 같은 영수증을 다시 찍어요. `if`는 아직 쓰지 않았어요. 오류 메시지 뒤 괄호 안의 위치 표시는 빼고 옮겼어요. 영수증 출력의 한글은 슬라이드에서 영어 두 칸 너비로 그렸어요.
+셀 출력은 `tools/demo.sh`가 uv 0.11.32로 hello-uv를 만들고 `tools/run_nb.py`로 그 커널에서 실제로 실행한 결과예요. 파트마다 새 커널에서 위에서부터 차례로 실행해서, 슬라이드의 셀 번호가 파트마다 [1]부터 시작해요. 오류는 Traceback 위쪽 줄과 괄호 안의 위치 표시를 빼고 마지막 줄만 옮겼어요. demo.sh 환경의 커널은 Python 3.13이었어요. f-string은 이 챕터 1파트에서 처음 배우고, `for`는 2파트에서 처음 배워요. `input()`, `if`, `range()`는 아직 배우지 않아서 쓰지 않았어요. 영수증 출력의 한글은 슬라이드에서 영어 두 칸 너비로 그렸어요.
+
+2026-11-08에 덱을 다시 짰어요. 장 구성은 Stageshow 원칙(장마다 주인공 하나, 코드에 붙인 설명, 같은 색 짝, 값이 날아가는 움직임)을, 강조는 맨 위 `tools/HIGHLIGHT.md`를 따랐어요.
 
 </details>
 
