@@ -1,6 +1,6 @@
 # 12 · 파이썬 기초 1 (변수, 타입, 연산)
 
-> 10에서 노트북을 손에 익혔으니 이번에는 파이썬 코드를 직접 적어요. 값에 이름을 붙이는 변수 할당, 값의 종류인 변수 타입과 타입 바꾸기, 숫자를 계산하는 사칙연산, True와 False로 답하는 비교와 논리연산(`and`, `or`, `not`)을 차례로 봐요. 문자열과 리스트는 [13 · 파이썬 기초 2](../13-python-strings-lists)에서 이어서 봐요. 모든 예제는 Jupyter 노트북 셀에 적고 실행해요.
+> 10에서 노트북을 손에 익혔으니 이번에는 파이썬 코드를 직접 적어요. 값에 이름을 붙이는 변수 할당, 값의 종류인 변수 타입과 타입 바꾸기, 숫자를 계산하는 사칙연산, True와 False로 답하는 비교와 논리연산(`and`, `or`, `not`)을 차례로 봐요. 마지막에는 카페 주문 계산을 이 네 가지로 풀어요. 문자열과 리스트는 [13 · 파이썬 기초 2](../13-python-strings-lists)에서 이어서 봐요. 모든 예제는 Jupyter 노트북 셀에 적고 실행해요.
 
 <!-- curriculum:top -->
 
@@ -37,12 +37,13 @@
 
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
-| 들어가기 | 1–3 | 표지, 오늘의 순서, 10에서 이어서 새 노트북 `basics.ipynb` 만들기 |
-| 1. 변수에 값 넣기 | 4–9 | `=`로 넣기, 값 보는 두 가지 방법, 다시 넣기, `age = age + 1`, 마지막 줄만 보이는 이유, `NameError` |
-| 2. 변수 타입 | 10–14 | `int` `float` `str` `bool`과 `type()`, 타입은 값을 따라간다, `25`와 `"25"`, `int()` `float()` `str()`로 바꾸기, `ValueError` |
-| 3. 사칙연산 | 15–28 | `+` `-` `*` `/`, `/`의 결과는 실수, 몫 `//`·나머지 `%`·거듭제곱 `**`, 계산 순서 네 계단, `**`가 먼저(`-2 ** 2`), 같은 순위는 왼쪽부터, 섞인 식 한 계단씩 풀기, 괄호 있고 없고 비교 예제 여덟 쌍, 직접 풀어 보기 네 문제, 변수로 계산, `+=`, 글자의 `+`와 `*` |
-| 4. 비교와 논리연산 | 29–37 | 비교 연산자 여섯 가지, `=`와 `==`, 비교 결과를 변수에, `and` `or` `not` 표, 놀이기구 조건(`and`), 할인 조건(`or`), 푸는 순서 |
-| 정리 | 38–39 | 막힐 때, 한 장 요약 |
+| 들어가기 | 1–5 | 표지, 오늘의 순서, 숫자만 적은 카페 계산이 불편한 이유, 큰 그림(변수, 타입, 계산, 비교), 새 노트북 `basics.ipynb` 만들기 |
+| 1. 변수에 값 넣기 | 6–11 | `=`로 넣기, 값 보는 두 가지 방법, 다시 넣기, `age = age + 1`, 마지막 줄만 보이는 이유, `NameError` |
+| 2. 변수 타입 | 12–16 | `int` `float` `str` `bool`과 `type()`, 타입은 값을 따라간다, `25`와 `"25"`, `int()` `float()` `str()`로 바꾸기, `ValueError` |
+| 3. 사칙연산 | 17–27 | `+` `-` `*` `/`, `/`의 결과는 실수, 몫 `//`·나머지 `%`·거듭제곱 `**`, 계산 순서 네 계단, `**`가 먼저(`-2 ** 2`), 같은 순위는 왼쪽부터, 섞인 식 한 계단씩 풀기, 괄호 있고 없고 비교 예제 여덟 쌍, 직접 풀어 보기 네 문제, `+=`, 글자의 `+`와 `*` |
+| 4. 비교와 논리연산 | 28–35 | 비교 연산자 여섯 가지, `=`와 `==`, 비교 결과를 변수에, `and` `or` `not` 표, 놀이기구 조건(`and`), 푸는 순서 |
+| 5. 카페 주문으로 풀어 보기 | 36–38 | 가격 변수로 합계와 잔돈(가격이 오르면 한 줄만 고치기), 글자로 온 수량을 `int()`로 바꿔 나눠 내기(`//`, `%`), 사이즈 업과 할인 조건(`and`, `or`, `not`) |
+| 정리 | 39–40 | 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -209,6 +210,7 @@ print(7 + 3)    # 10
 print(7 - 3)    # 4
 print(7 * 3)    # 21
 print(7 / 3)    # 2.3333333333333335
+print(6 / 2)    # 3.0
 print(7 // 3)   # 2
 print(7 % 3)    # 1
 print(2 ** 3)   # 8
@@ -224,13 +226,6 @@ print(10 + 2 * 3)               # 16
 print((10 + 2) * 3)             # 36
 print(17 % 5 * 2)               # 4
 print(17 % (5 * 2))             # 7
-```
-
-```python
-total = 10000
-people = 3
-print("한 사람:", total // people)  # 한 사람: 3333
-print("남는 돈:", total % people)   # 남는 돈: 1
 ```
 
 ```python
@@ -250,19 +245,56 @@ print(type(is_adult))   # <class 'bool'>
 ```
 
 ```python
+print(not True)    # False
+print(not False)   # True
+```
+
+```python
 height = 130
 age = 9
 height >= 120 and age >= 7    # True
 ```
 
+### 5. 카페 주문으로 풀어 보기
+
+위에서부터 한 셀씩 실행해요.
+
 ```python
-is_member = False
-total = 60000
-is_member or total >= 50000   # True
+americano = 4500
+latte = 5000
+total = americano * 2 + latte
+paid = 20000
+print("합계:", total)          # 합계: 14000
+print("잔돈:", paid - total)   # 잔돈: 6000
 ```
 
 ```python
-not is_member                 # True
+americano = 4800
+total = americano * 2 + latte
+print("합계:", total)          # 합계: 14600
+print("잔돈:", paid - total)   # 잔돈: 5400
+```
+
+```python
+qty = "3"
+total = 4500 * int(qty) + 5000
+people = 3
+print("합계:", total)                # 합계: 18500
+print("한 사람:", total // people)   # 한 사람: 6166
+print("남는 돈:", total % people)    # 남는 돈: 2
+```
+
+`int(qty)` 없이 `print(5000 + qty)`를 실행해 `TypeError: unsupported operand type(s) for +: 'int' and 'str'`를 직접 봐요.
+
+```python
+is_member = False
+has_coupon = True
+total = 18500
+size_up = total >= 15000 and has_coupon
+discount = is_member or total >= 50000
+print("사이즈 업:", size_up)       # 사이즈 업: True
+print("할인:", discount)           # 할인: False
+print("비회원:", not is_member)    # 비회원: True
 ```
 
 다 했으면 `Ctrl+S`(Mac `Cmd+S`)로 저장해요.
@@ -290,7 +322,7 @@ slides/
   deck.json        슬라이드 순서와 파트 구분 (gen.py가 만들어요)
   *.html           한 장에 한 파일 (1920×1080, 발표자 노트는 <aside>)
 tools/
-  gen.py           모든 장과 deck.json 생성 (노트북 셀, 변수 상자, 타입 카드, 계산 계단, True·False 표)
+  gen.py           모든 장과 deck.json 생성 (노트북 셀, 줄 옆 라벨, 변수 상자, 계산 계단, True·False 표, 강조)
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
 python-basics-slides.html  배포용 HTML
@@ -299,7 +331,7 @@ python-basics-slides.pdf   강사용 PDF
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
-슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요.
+슬라이드 HTML을 직접 고치지 말고 스크립트를 고친 뒤 다시 만들어요. 장 배치는 Stageshow 원칙(장마다 주인공 하나, 카드 대신 코드 줄 옆 라벨, 테두리 없는 표)을, 강조는 `tools/HIGHLIGHT.md`를 따랐어요.
 
 ```bash
 bash tools/demo.sh /tmp/basics-demo > /tmp/basics-demo.log 2>&1

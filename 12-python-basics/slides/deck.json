@@ -9,6 +9,8 @@
   "order": [
     "cover",
     "toc",
+    "why",
+    "big",
     "ready",
     "assign",
     "show",
@@ -22,17 +24,14 @@
     "convert",
     "convert-err",
     "ops4",
-    "div",
     "ops3",
     "order",
     "order-ladder",
     "order-pow",
     "order-same",
     "order-mix",
-    "order-paren1",
-    "order-paren2",
+    "order-paren",
     "order-quiz",
-    "vars-calc",
     "plus-eq",
     "str-ops",
     "compare",
@@ -42,8 +41,10 @@
     "or",
     "not",
     "ride",
-    "discount",
     "logic-order",
+    "ex-order",
+    "ex-split",
+    "ex-discount",
     "trouble",
     "cheatsheet"
   ],
@@ -51,6 +52,10 @@
     "intro": {
       "description": "들어가기",
       "start": "cover"
+    },
+    "why": {
+      "description": "왜 필요한가",
+      "start": "why"
     },
     "var": {
       "description": "변수에 값 넣기",
@@ -67,6 +72,10 @@
     "logic": {
       "description": "비교와 논리연산",
       "start": "compare"
+    },
+    "cafe": {
+      "description": "카페 주문으로 풀어 보기",
+      "start": "ex-order"
     },
     "trouble": {
       "description": "정리",
