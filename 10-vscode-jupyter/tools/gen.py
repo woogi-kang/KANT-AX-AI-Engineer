@@ -670,7 +670,7 @@ def build():
                          p(f"width:760px;flex:none;{'font-family:' + MONO + ';font-size:24px;color:' + RED if mono else 'font-size:29px;color:' + INK};font-weight:700", e(q))
                          + p(f"width:520px;flex:none;font-size:26px;color:{SUB}", e(a_))
                          + p(f"flex:1;font-size:28px;font-weight:700;color:{INK};white-space:nowrap", e(cmd))))
-    W("trouble", o, "첫 두 줄은 모드를 헷갈려서 나요. 셀 테두리와 커서로 지금 모드를 봐요. 한글 입력 상태에서는 명령 모드 글자 키가 먹지 않을 수 있어서 한/영 키로 영문으로 바꿔요. NameError는 Restart 장에서, SyntaxError는 바로 앞 장에서 본 오류예요. 셀이 끝나지 않으면 셀 왼쪽에 도는 표시가 계속 보여요. Mac 실행 키는 다른 프로그램의 Jupyter와 VS Code 기본 설정이 다른 곳이에요. 커널이 .venv가 아니라서 나는 ModuleNotFoundError는 09의 29쪽을 봐요.")
+    W("trouble", o, "첫 두 줄은 모드를 헷갈려서 나요. 셀 테두리와 커서로 지금 모드를 봐요. 한글 입력 상태에서는 명령 모드 글자 키가 먹지 않을 수 있어서 한/영 키로 영문으로 바꿔요. NameError는 Restart 장에서, SyntaxError는 바로 앞 장에서 본 오류예요. 셀이 끝나지 않으면 셀 왼쪽에 도는 표시가 계속 보여요. Mac 실행 키는 다른 프로그램의 Jupyter와 VS Code 기본 설정이 다른 곳이에요. 커널이 .venv가 아니라서 나는 ModuleNotFoundError는 09의 31쪽을 봐요.")
 
     # ---------- part 5: real notes written in a notebook ----------
     EBM = "5. 노트북에 수업 내용 정리하기"
