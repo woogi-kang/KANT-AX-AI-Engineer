@@ -15,9 +15,9 @@ const W = 1600, H = 900;
 
 // [파일 이름, 덱 경로, 쪽 번호, 전 설명, 후 설명]
 const PAIRS = [
-  ['01-focus.png', '24-python-class/python-class-slides.html', 5, '설명 카드 네 개가 그림과 나란히 있었어요', '그림을 크게 두고 이름을 바로 옆에 붙였어요'],
-  ['02-code.png', '02-git-basics/git-basics-slides.html', 12, '터미널 글씨가 작았어요', '터미널을 넓히고 글씨를 키웠어요'],
-  ['03-title.png', '02-git-basics/git-basics-slides.html', 24, '제목이 명령어였어요', '제목만 읽어도 무슨 일인지 알아요'],
+  ['01-focus.png', '24-python-class/python-class-slides.html', 5, '설명 카드 네 개', '그림 옆에 이름'],
+  ['02-code.png', '02-git-basics/git-basics-slides.html', 12, '작은 터미널', '큰 터미널'],
+  ['03-title.png', '02-git-basics/git-basics-slides.html', 24, '명령어 제목', '하는 일 제목'],
 ];
 
 function before(rel) {
