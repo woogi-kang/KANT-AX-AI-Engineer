@@ -298,7 +298,7 @@ o.append(cursor(3, target="nb-kernel"))
 o.append(cursor(4, x=400, y=355))
 o.append(cursor_off(5))
 o.append(p(f"position:absolute;left:1200px;top:462px;font-size:28px;font-weight:700;color:{GRAY}", "기억이 안 나면", bi("fade", 5)))
-for i, (a_, b_) in enumerate([("커널 .venv 고르기", "09 · 25–27쪽"), ("변수 이름 규칙", "10 · 19–21쪽"), ("자료형과 type()", "10 · 22–23쪽")]):
+for i, (a_, b_) in enumerate([("커널 .venv 고르기", "09 · 25–27쪽"), ("변수 이름 규칙", "10 · 24–26쪽"), ("자료형과 type()", "10 · 27–28쪽")]):
     o.append(f'<div{bi("fade", 5)} style="position:absolute;left:1200px;top:{520 + i * 84}px;width:624px;height:76px;display:flex;flex-direction:row;align-items:center;gap:20px;border-bottom:2px solid {LINE}">'
              + p(f"flex:1;font-size:28px;color:{INK}", e(a_)) + p(f"font-size:26px;font-weight:700;color:{GRAY};white-space:nowrap", e(b_)) + '</div>')
 W("ready", o, "09에서 만든 hello-uv 폴더를 VS Code로 열고, 그 안에 basics.ipynb라는 새 노트북을 만들어요. 커널은 09에서 고른 .venv예요. 셀에 코드를 적고 Shift+Enter를 누르면 실행되고 다음 셀로 내려가요. 10에서 배운 변수 이름 규칙(스네이크 표기법)과 자료형을 그대로 써요. 기억이 안 나면 오른쪽에 적힌 쪽을 먼저 다시 봐요. 슬라이드의 셀 번호는 파트마다 [1]부터 다시 셌어요. 한 노트북에서 이어서 실행하면 번호가 계속 커져요.")
@@ -419,7 +419,7 @@ for i, (t, d, c) in enumerate(TYPES4):
     o.append(hl(96, T, 1100, i, 1, "mark", i + 1))
     o.append(tag(tx(96, LT), ly(T, i), d, c, i + 1))
 o.append(caption("타입은 값의 종류예요. 10에서 본 자료형과 같은 말이에요.", 5))
-W("types", o, "변수에 넣는 값에는 종류가 있고, 이 종류를 타입이라고 불러요. 10의 22, 23쪽에서는 자료형이라는 말로 다섯 가지를 type()으로 확인했어요. 이번 챕터에서 계산과 비교에 쓰는 네 가지를 다시 봐요. 정수 int, 실수 float, 문자열 str, 불리언 bool이에요. 리스트는 13에서 따로 배워요. 이 파트도 새 커널이라서 셀 번호가 [1]부터 시작해요. 출력은 hello-uv 커널에서 실제로 실행한 결과예요.", ("types", "변수 타입"))
+W("types", o, "변수에 넣는 값에는 종류가 있고, 이 종류를 타입이라고 불러요. 10의 27, 28쪽에서는 자료형이라는 말로 다섯 가지를 type()으로 확인했어요. 이번 챕터에서 계산과 비교에 쓰는 네 가지를 다시 봐요. 정수 int, 실수 float, 문자열 str, 불리언 bool이에요. 리스트는 13에서 따로 배워요. 이 파트도 새 커널이라서 셀 번호가 [1]부터 시작해요. 출력은 hello-uv 커널에서 실제로 실행한 결과예요.", ("types", "변수 타입"))
 
 o = [sec("type-follows")] + head(EBT, "타입은 이름이 아니라 값을 따라가요", TT)
 T = 340
