@@ -25,14 +25,15 @@
 
 | 파트 | 쪽 | 내용 |
 | --- | :---: | --- |
-| 들어가기 | 1–4 | 오늘의 순서, 예시 소개(A, B 뒤 브랜치에 D, E) |
-| 1. 갈라지지 않았을 때 | 5–6 | fast-forward, `--no-ff` |
-| 2. 갈라졌을 때 | 7–14 | main에 C, merge, rebase와 바뀌는 해시, squash와 `branch -D` |
-| 3. 한눈에 비교 | 15–16 | 네 가지 결과 그림, 비교 표 |
-| 4. git pull은 무엇을 하나 | 17–22 | 설정이 없을 때, `pull.rebase false`, `pull.rebase true`, `pull.ff only`, 수업이 false를 쓰는 이유 |
-| 5. GitHub PR의 Merge 버튼 | 23–25 | 버튼 세 개와 명령, 버튼별 기록 모양, 합친 뒤 브랜치 지우기 |
-| 6. 충돌과 주의 | 26–29 | 어느 방법이든 같은 줄이면 충돌, rebase 중 충돌, push한 브랜치는 rebase 금지, 언제 무엇을 |
-| 막힐 때와 요약 | 30–31 | 자주 나오는 메시지, 한 장 요약 |
+| 들어가기 | 1–6 | 오늘의 순서, 같은 브랜치를 합쳤는데 기록이 다른 장면, 합치기가 일어나는 세 곳, 예시 소개(A, B 뒤 브랜치에 D, E) |
+| 1. 갈라지지 않았을 때 | 7–8 | fast-forward, `--no-ff` |
+| 2. 갈라졌을 때 | 9–16 | main에 C, merge, rebase와 바뀌는 해시, squash와 `branch -D` |
+| 3. 한눈에 비교 | 17–18 | 네 가지 결과 그림, 비교 표 |
+| 4. git pull은 무엇을 하나 | 19–24 | 설정이 없을 때, `pull.rebase false`, `pull.rebase true`, `pull.ff only`, 수업이 false를 쓰는 이유 |
+| 5. GitHub PR의 Merge 버튼 | 25–26 | 버튼 세 개와 명령, 버튼별 기록 모양 |
+| 6. 충돌과 오류 | 27–30 | 어느 방법이든 같은 줄이면 충돌, rebase 중 충돌, push한 브랜치는 rebase 금지, 자주 나오는 메시지 |
+| 7. 실제 상황 예제 | 31–33 | PR 전에 main이 앞서 갔을 때, PR 뒤에 main이 또 앞서 갔을 때, Squash and merge로 합쳐진 뒤 |
+| 정리 | 34 | 언제 무엇으로 합치나요 |
 
 ## 핵심 개념
 
@@ -77,6 +78,14 @@ A ── B ── C             main
 어느 버튼을 쓸지는 팀이 정해요. Squash and merge나 Rebase and merge로 합친 뒤에는 내 컴퓨터의 브랜치가 `git branch -d`로 지워지지 않아요. PR이 Merged인 걸 확인한 뒤 `git branch -D 브랜치`로 지워요.
 
 > **주의** push한 브랜치와 main에서는 rebase하지 않아요. rebase는 커밋을 새로 만들어서 GitHub과 팀원이 가진 옛 커밋과 어긋나요. 이때 pull하면 같은 커밋이 기록에 두 번 들어가요. rebase는 push 전, 나만 가진 커밋에만 써요.
+
+### 실제 상황 예제: PR 하나가 합쳐질 때까지
+
+슬라이드 31–33쪽은 PR 하나를 올리고 합칠 때까지 이어지는 이야기예요.
+
+1. PR을 올리기 전에 lee가 main에 커밋을 올렸어요. 아직 push하지 않은 브랜치라서 main으로 가서 `git pull origin main`, 브랜치로 돌아와 `git rebase main` 뒤 `git push origin 브랜치`로 올려요.
+2. PR을 올린 뒤에 main이 또 앞서 갔어요. 이제 push한 브랜치라서 rebase하지 않고, 내 브랜치에서 `git pull origin main`으로 합친 뒤 push해요.
+3. 팀이 Squash and merge로 합쳤어요. main으로 가서 `git pull origin main`을 치고, PR이 Merged인 걸 확인한 뒤 `git branch -D 브랜치`로 지워요.
 
 ## 실습
 
@@ -218,7 +227,7 @@ node ../tools/build_player.js slides git-merge-ways-slides.html
 node ../tools/export.js slides git-merge-ways-slides.pdf
 ```
 
-터미널 출력은 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 방법마다 같은 출발점을 폴더째 복사해서 시작해요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/merge-lab.git`으로 보이게 했어요. 팀원 lee와 GitHub의 Squash and merge 버튼은 같은 저장소를 하나 더 clone해서 흉내 냈어요. 날짜를 고정해서 해시가 매번 같게 나와요. pull 합치기 커밋 메시지에 폴더 경로가 들어가서 `/tmp/merge-demo`에서 실행해야 be1e0e1이 나와요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요.
+터미널 출력은 `tools/demo.sh`로 git 2.43에서 실제로 실행해 옮겼어요. 방법마다 같은 출발점을 폴더째 복사해서 시작해요. GitHub 자리는 내 컴퓨터의 빈 저장소로 대신하고 주소만 `https://github.com/kim/merge-lab.git`으로 보이게 했어요. 팀원 lee와 GitHub의 Squash and merge 버튼은 같은 저장소를 하나 더 clone해서 흉내 냈어요. 날짜를 고정해서 해시가 매번 같게 나와요. 실제 상황 예제(31–33쪽)는 `demo.sh` 12단계에서 GitHub 자리 저장소를 하나 더 만들어 실행해요. pull 합치기 커밋 메시지에 폴더 경로가 들어가서 `/tmp/merge-demo`에서 실행해야 be1e0e1이 나와요. 화면 폭 때문에 뺀 줄은 발표자 노트에 적어 두었어요.
 
 </details>
 
