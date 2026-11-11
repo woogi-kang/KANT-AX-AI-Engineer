@@ -35,6 +35,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [25 · 클래스 2 (`__str__`과 `__repr__`)](./25-python-str-repr) | 파&#8288;이&#8288;썬 | print와 리스트에서 붕어빵이 알아보기 쉽게 보이게 만들어요 | `__str__` `__repr__` `str()` `repr()` `sorted(key=lambda b: b.price)` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/25-python-str-repr/python-str-repr-slides.html) |
 | [26 · 클래스 3 (상속과 클래스 변수)](./26-python-inheritance) | 파&#8288;이&#8288;썬 | 틀을 물려받아 다른 점만 적고, 모두 같이 쓰는 값은 틀에 둬요 | `Bread.shop` `class Dog(Animal):` `super().__init__()` `isinstance()` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/26-python-inheritance/python-inheritance-slides.html) |
 | [27 · 클래스 4 (캡슐화)](./27-python-encapsulation) | 파&#8288;이&#8288;썬 | 칸은 안에 감추고, 메서드와 property라는 문으로만 꺼내고 바꾸게 해요 | `self._stamps` `self.__password` `get_password()` `@property` `@password.setter` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/27-python-encapsulation/python-encapsulation-slides.html) |
+| [28 · 미니 프로젝트: 장바구니 (들여쓰기, items, 모듈)](./28-python-modules) | 파&#8288;이&#8288;썬 | 장바구니 프로젝트로 들여쓰기 상자, items() 꺼내 담기, 파일을 나누는 import를 읽고 써요 | `for p, q in d.items():` `import product` `from product import Product` `import coupon as cp` `if __name__ == "__main__":` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/28-python-modules/python-modules-slides.html) |
 
 <!-- /curriculum:chapters -->
 
