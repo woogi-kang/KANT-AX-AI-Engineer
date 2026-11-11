@@ -329,7 +329,7 @@ def cover(lines, h1, sub, note, accent="#F2B27A", h1size=92):
            f'<p style="font-size:28px;font-weight:700;color:{accent};letter-spacing:2px">KANT AX/AI 엔지니어 트랙 · 보충 학습 자료</p>',
            f'<h1{SLAM(1)} style="font-size:{h1size}px;font-weight:900;line-height:1.1;color:#F6F5F1">{h1}</h1>',
            f'<p style="font-size:40px;line-height:1.4;color:#BFC6D4">{sub}</p>']
-    cov.append('<div id="cov-code" style="position:absolute;left:880px;top:290px;width:920px;height:500px;background:#252B36;border-radius:24px;padding:44px 52px;display:flex;flex-direction:column;justify-content:center;gap:16px">')
+    cov.append('<div id="cov-code" style="position:absolute;left:880px;top:250px;width:920px;height:580px;background:#252B36;border-radius:24px;padding:44px 52px;display:flex;flex-direction:column;justify-content:center;gap:4px">')
     for line, c in lines:
         cov.append(p(f"font-family:{MONO};font-size:32px;font-weight:700;line-height:1.45;color:{c};white-space:pre", e(line) if line else "&#160;"))
     cov.append('</div>')
@@ -590,8 +590,12 @@ QS = [(WL.index(rng(CL, 13, 13)[0]), "이 return은 어느 줄 소속일까요?"
 for k, (i, q, part, col, src_, a_, b_) in enumerate(QS):
     i0 = WL.index(src_[0])
     n = len(src_)
-    o.append(box(k + 1, g["tx"] - 12, int(gtop(g, i0) - 4), int(max(etw(s, 25) for s in src_)) + 24, int(n * g["lh"] + 8), col))
-    yq = gly(g, i0 + (n - 1) / 2)
+    ind = min(len(s_) - len(s_.lstrip()) for s_ in src_)
+    bx0 = g["tx"] + etw(" " * ind, 25) - 12
+    bw = int(max(etw(s_, 25) for s_ in src_) - etw(" " * ind, 25)) + 24
+    o.append(box(k + 1, int(bx0), int(gtop(g, i0) + 1), bw, int(n * g["lh"] - 2), col))
+    o.append(p(f"position:absolute;left:{bx0 + bw + 14:.0f}px;top:{gly(g, i0 + (n - 1) / 2) - 20:.0f}px;width:40px;height:40px;border-radius:50%;background:{col};color:#FFFFFF;font-size:24px;font-weight:900;line-height:40px;text-align:center", str(k + 1), at(k + 1, "fade")))
+    yq = T + 110 + k * 190
     o.append(f'<div{at(k + 1, "fade")}{DIM("wq")} style="position:absolute;left:{QX}px;top:{yq - 60:.0f}px;width:564px;height:120px;display:flex;flex-direction:row;align-items:center;gap:20px">'
              + qnum(k + 1, col, 40) + '<div style="display:flex;flex-direction:column;gap:4px">' + p(f"font-size:30px;font-weight:700;line-height:1.35;color:{INK}", e(q)) + p(f"font-size:24px;font-weight:700;color:{col}", e(part)) + '</div></div>')
 o.append(caption("파트마다 한 곳씩 풀어요.", 972, 4))
@@ -684,7 +688,11 @@ o.append(lband(3, g, 6, 10, "skip"))
 o.append(tag(gend(g, [RL[6]], 30), gly(g, 6), "여기까지 못 와요", GRAY, 3, size=26))
 tt, tg = term("ir-t", [(cmd("ret-out"), out("ret-out"))], 1196, T, 628, fs=20, attrs=at(3))
 o.append(tt)
-o.append(fixv(1196, 620, 628, "····return", "········return", 4, size=28, label="if 안으로 4칸 더 (· 하나가 빈칸 하나)"))
+FXL = ded(rng(CL, 11, 13), 4)
+o.append(p(f"position:absolute;left:1196px;top:{int(tg['top'] + tg['h'] + 60)}px;font-size:28px;font-weight:700;color:{GR}", "고치기: return을 if 안으로 4칸 더", at(4, "fade")))
+ed2, g2 = editor("ir-ed2", "cart.py  add()", FXL, 1196, int(tg['top'] + tg['h'] + 110), 628, fs=24, start=11, color=CC, attrs=at(4))
+o.append(ed2)
+o.append(ibox(4, g2, 8, 1, 2, GR))
 W("i-return", o, "add()의 return을 한 칸 단계 밖으로 꺼낸 코드예요. 이제 return은 if 상자 밖, add 상자 바로 안에 있어요. 텀블러는 품절이 아니라서 if 안의 print는 건너뛰어요. 그런데 return은 if와 상관없이 언제나 실행돼서 add()가 바로 끝나요. 그 아래 담는 코드까지 가지 못하니 장바구니가 비어 있다고 나와요. return을 if 안으로 4칸 넣으면, 품절일 때만 멈춰요. 19에서 return을 만나면 함수가 바로 끝난다고 배웠던 그 규칙이에요." + REAL)
 
 o = [sec("i-oneline")] + head(EB2, "콜론 뒤를 한 줄에 붙인 if도 같은 상자예요", K2)
@@ -705,7 +713,7 @@ W("i-oneline", o, "cart.py 51번 줄의 if self.is_empty(): return 0은 두 줄 
 o = [sec("i-error")] + head(EB2, "칸이 안 맞으면 IndentationError가 나요", K2)
 for k, (sc, lnum, why, fixs, col) in enumerate([("err-noindent", "43", "42번 줄 def 다음 줄이 안으로 안 들어갔어요", "43번 줄 앞에 4칸 더 넣어요", RED),
                                               ("err-unindent", "39", "39번 줄만 10칸이라 맞는 상자가 없어요", "위 줄과 같은 12칸으로 맞춰요", RED)]):
-    y0 = T + k * 360
+    y0 = T + k * 330
     tt, tg = term(f"ie-t{k}", [(cmd(sc), out(sc))], 96, y0, 1160, fs=22, attrs=at(1 + 2 * k) if k else "")
     o.append(tt)
     last = out(sc)[-1]
@@ -777,13 +785,10 @@ PX = 1080
 
 def tuple_row(y, vals, pre, order, names, col):
     """( v1 , v2 ) drawn big, then two boxes below that the values fly into."""
-    parts, x = [], PX
-    pieces = ["("] + sum([[v, ","] for v in vals], [])[:-1] + [")"]
-    for piece in pieces:
-        w = etw(piece, 44) + 8
-        sid = f' id="{pre}{vals.index(piece)}"' if piece in vals else ""
-        parts.append(p(f"position:absolute;left:{x:.0f}px;top:{y}px;font-family:{MONO};font-size:44px;font-weight:700;line-height:60px;color:{SUB if piece in '(,)' else INK};white-space:pre", e(piece), sid))
-        x += w + (6 if piece != "(" else 0)
+    parts = []
+    gray = lambda t: f'<span style="color:{SUB}">{t}</span>'
+    body = gray("(") + gray(", ").join(f'<span id="{pre}{k}" style="display:inline-block;color:{INK}">{e(v)}</span>' for k, v in enumerate(vals)) + gray(")")
+    parts.append(p(f"position:absolute;left:{PX}px;top:{y}px;font-family:{MONO};font-size:44px;font-weight:700;line-height:60px;white-space:pre", body))
     for k, (nm, v) in enumerate(zip(names, vals)):
         bx = PX + k * 370
         parts.append(slot(f"{pre}s{k}", nm, v, bx, y + 150, 320, col, vattrs=f' data-build-in="fly order {order}" data-from="{pre}{k}"'))
@@ -836,9 +841,9 @@ o.append(pulse(1, "uf-p0"))
 o.append(pulse(3, "uf-p1"))
 o.append(slot("uf-n", "name", '"무선 이어폰"', PX2, T + 330, 520, K3, vattrs=' data-start=" "'))
 o.append(slot("uf-q", "qty", "2", PX2, T + 520, 520, K3, vattrs=' data-start=" "'))
-o.append(text(1, "uf-n", '"텀블러"'))
+o.append(text(1, "uf-n", '&quot;텀블러&quot;'))
 o.append(text(1, "uf-q", "1"))
-o.append(text(3, "uf-n", '"무선 이어폰"'))
+o.append(text(3, "uf-n", '&quot;무선 이어폰&quot;'))
 o.append(text(3, "uf-q", "2"))
 o.append(tag(PX2, T + 700, "쌍이 두 개라 두 번 돌아요", INK, 5, lead=False, size=30))
 W("u-for", o, "for name, qty in cart_items.items():는 앞 장의 쌍을 하나씩 꺼내서, 꺼낸 쌍을 name과 qty 두 칸에 나눠 담아요. 첫 바퀴에는 ('텀블러', 1)이 와서 name은 텀블러, qty는 1이 돼요. print가 한 줄을 찍고, 두 번째 바퀴에는 ('무선 이어폰', 2)가 와요. 쌍이 두 개라 두 번 돌고 끝나요. 매 바퀴마다 a, b = 튜플을 한 번씩 하는 것과 같아요." + REAL)
@@ -848,13 +853,13 @@ QL = f"font-family:{MONO};font-size:38px;font-weight:700;line-height:1.5;white-s
 LX, LY = 96, T + 40
 o.append(p(f"position:absolute;left:{LX}px;top:{LY - 50}px;font-size:28px;font-weight:700;color:{SUB}", "긴 방법"))
 o.append(p(f"position:absolute;left:{LX}px;top:{LY}px;{QL}",
-           tok("f", "for ") + tok("pair", "pair") + tok("in", " in cart_items.items():") + "\n" + tok("n", "    name = ", "") + f'<span{MARK(1)} style="color:{BL}">pair[0]</span>' + "\n" + tok("q", "    qty = ") + f'<span{MARK(1)} style="color:{OR}">pair[1]</span>' + "\n" + tok("pr", "    print(name, qty)"),
-           ' id="ul-a"' + MORPH_FROM()))
-o.append(p(f"position:absolute;left:{LX}px;top:{LY}px;{QL}",
-           tok("f", "for ") + tok("nq", f'<span style="color:{BL}">name</span>, <span style="color:{OR}">qty</span>') + tok("in", " in cart_items.items():") + "\n" + tok("pr", "    print(name, qty)"),
-           MORPH(2, "ul-a")))
-o.append(tag(LX, LY + 360, "한 쌍을 pair 하나로 받고, 번호로 꺼내요", SUB, 1, lead=False, size=30))
-o.append(tag(LX, LY + 420, "for에서 바로 두 칸에 나눠 담아요. 수업 코드는 이 모양이에요", K3, 2, lead=False, size=30))
+           "for pair in cart_items.items():\n    name = " + f'<span{MARK(1)} style="color:{BL}">pair[0]</span>' + "\n    qty = " + f'<span{MARK(1)} style="color:{OR}">pair[1]</span>' + "\n    print(name, qty)"))
+o.append(tag(LX, LY + 270, "한 쌍을 pair 하나로 받고, 번호로 꺼내요", SUB, 1, lead=False, size=28))
+SY = LY + 380
+o.append(p(f"position:absolute;left:{LX}px;top:{SY - 50}px;font-size:28px;font-weight:700;color:{K3}", "짧은 방법", at(2, "fade")))
+o.append(p(f"position:absolute;left:{LX}px;top:{SY}px;{QL}",
+           "for " + f'<span style="color:{BL}">name</span>, <span style="color:{OR}">qty</span>' + " in cart_items.items():\n    print(name, qty)", at(2)))
+o.append(tag(LX, SY + 156, "for에서 바로 두 칸에 나눠 담아요. 수업 코드는 이 모양이에요", K3, 2, lead=False, size=28))
 RX3 = 1250
 for k, (sc, nm, order) in enumerate([("long", "긴 방법", None), ("for", "짧은 방법", 2)]):
     y = T + k * 330
@@ -911,7 +916,7 @@ W("u-sum", o, "장바구니 합계를 세 가지로 구해 봤어요. 첫째는 
 
 o = [sec("u-error")] + head(EB3, ".items()를 빠뜨리면 키만 나와서 둘로 못 나눠요", K3)
 for k, (sc, why, fixs, y0) in enumerate([("err-noitems", "cart.items를 돌면 키인 Product 하나씩 나와요. 하나를 둘로 못 나눠요", "for p, q in cart.items.items():", T),
-                                         ("err-str", "키 \"텀블러\"는 글자 셋으로 쪼개져서 두 칸에 안 맞아요", "for name, qty in cart_items.items():", T + 380)]):
+                                         ("err-str", "글자 키 \"텀블러\"가 세 글자로 쪼개져요.", "for name, qty in cart_items.items():", T + 380)]):
     tt, tg = term(f"ue-t{k}", [(cmd(sc), out(sc))], 96, y0, 1060, fs=22, attrs=at(1 + 2 * k) if k else "")
     o.append(tt)
     last = out(sc)[-1]
@@ -935,6 +940,11 @@ def modbox(mid, name, x, y, w, h, col, bg, attrs="", nid=None):
     nattr = f' id="{nid}"' if nid else ""
     return (f'<div id="{mid}"{attrs} style="position:absolute;left:{x}px;top:{y}px;width:{w}px;height:{h}px;background:{bg};border:4px dashed {col};border-radius:24px"></div>'
             + p(f"position:absolute;left:{x + 24}px;top:{y - 22}px;font-family:{MONO};font-size:28px;font-weight:700;color:#FFFFFF;background:{col};border-radius:10px;padding:2px 16px", e(name), nattr + attrs))
+
+
+def paint(g_, i, pre, word, color, order, bg=None):
+    b = f"background:{bg};" if bg else ""
+    return p(f"position:absolute;left:{gx(g_, pre):.1f}px;top:{gtop(g_, i):.1f}px;font-family:{MONO};font-size:{g_['fs']}px;line-height:{g_['lh']:.2f}px;white-space:pre;color:{color};{b}", e(word), MARK(order))
 
 
 o = [sec("m-why")] + head(EB4, "파일을 나누면 찾기, 같이 쓰기, 나눠 일하기가 쉬워요", K4)
@@ -973,21 +983,22 @@ o.append(p(f"position:absolute;left:96px;top:{T + 520}px;font-family:{MONO};font
 o.append(tag(520, T + 548, "uv add로 받아 온 남의 모듈", GRAY, 3, size=28))
 o.append(f'<div{at(4)} style="position:absolute;left:1240px;top:{T + 20}px;width:584px;display:flex;flex-direction:column;gap:18px;border-left:4px solid {K4};padding-left:30px">'
          + p(f"font-size:32px;font-weight:700;color:{INK}", "모듈 이름 짓기")
-         + p(f"font-size:28px;line-height:1.5;color:{INK}", "영문 소문자로 지어요. 두 단어면 밑줄로 이어요.")
+         + p(f"font-size:28px;line-height:1.5;color:{INK}", "영문 소문자와 밑줄(_)로 지어요.")
          + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{GR}", "shop_cart.py")
-         + p(f"font-size:28px;line-height:1.5;color:{INK}", "띄어쓰기와 -는 import 뒤에 적을 수 없어요.")
+         + p(f"font-size:28px;line-height:1.5;color:{INK}", "띄어쓰기와 -는 쓸 수 없어요.")
          + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{RED};text-decoration:line-through", "shop-cart.py") + '</div>')
 o.append(caption("실행한 파일과 같은 폴더에 있는 모듈은 이름만 적으면 찾아요.", 950, 5))
 W("m-file", o, "파이썬 파일 하나를 모듈이라고 불러요. 모듈 이름은 파일 이름에서 .py를 뺀 부분이에요. product.py는 product 모듈이라서 import product로 불러요. 09에서 uv add fastapi 뒤에 import fastapi를 쳤던 것도 같은 문법이에요. 그때는 남이 만든 모듈을 받아 왔고, 오늘은 내가 만든 파일을 불러요. import 뒤에는 변수 이름처럼 적어야 해서, 파일 이름은 영문 소문자와 밑줄로 지어요. 띄어쓰기나 -가 들어간 파일은 import할 수 없어요.")
 
 o = [sec("m-import")] + head(EB4, "import product는 모듈을 통째로 불러와요", K4)
 MI = code_lines("import", "main.py")
-ed, g = editor("mi-ed", "main.py", MI, 96, T, 980, fs=32, color=CM)
+ed, g = editor("mi-ed", "main.py", MI, 96, T, 980, fs=30, color=CM)
 o.append(ed)
-o.append(p(f"position:absolute;left:{gx(g, 'tumbler = '):.1f}px;top:{gtop(g, 2):.1f}px;font-family:{MONO};font-size:32px;line-height:{g['lh']:.2f}px;white-space:pre;color:{CP};background:{CPBG}", "product.", MARK(2)))
+o.append(p(f"position:absolute;left:{gx(g, 'tumbler = '):.1f}px;top:{gtop(g, 2):.1f}px;font-family:{MONO};font-size:30px;line-height:{g['lh']:.2f}px;white-space:pre;color:{CP};background:{CPBG}", "product.", MARK(2)))
 tt, tg = term("mi-t", [(cmd("import"), out("import"))], 96, int(T + g["h"] + 30), 980, fs=30, attrs=at(3))
 o.append(tt)
-o.append(link(3, gend(g, [MI[3]], 10), gly(g, 3), gend(tg, [out("import")[0]], 10), gly(tg, 1), CM))
+o.append(tint(3, g, 3, 1, CM))
+o.append(tint(3, tg, 1, 1, CM, dark=True))
 o.append(modbox("mi-mod", "product", 1200, T + 40, 624, 300, CP, CPBG, attrs=at(1)))
 o.append(fchip("mi-cls", "Product", 1250, T + 110, 300, CP, CARD, attrs=at(1), sub="상품 틀", h=100))
 o.append(p(f"position:absolute;left:1250px;top:{T + 240}px;font-size:26px;color:{SUB}", "product.py 안의 모든 이름", at(1, "fade")))
@@ -999,7 +1010,7 @@ W("m-import", o, "import product는 product.py를 통째로 불러와서 product
 
 o = [sec("m-from")] + head(EB4, "from product import Product는 하나만 꺼내 와요", K4)
 MF = code_lines("from", "main.py")
-ed, g = editor("mf-ed", "main.py", MF, 96, T, 980, fs=32, color=CM)
+ed, g = editor("mf-ed", "main.py", MF, 96, T, 980, fs=30, color=CM)
 o.append(ed)
 tt, tg = term("mf-t", [(cmd("from"), out("from"))], 96, int(T + g["h"] + 30), 980, fs=30)
 o.append(tt)
@@ -1011,7 +1022,8 @@ o.append(f'<div data-build-in="fly order 1" data-from="mf-src" style="position:a
          + p(f"font-family:{MONO};font-size:30px;font-weight:700;color:{CP}", "Product") + p(f"font-size:24px;color:{SUB}", "이름만 써요") + '</div>')
 o.append(lband(1, g, 0, 1, "mark"))
 o.append(lband(2, g, 2, 1, "mark"))
-o.append(tag(gend(g, [MF[2]], 20), gly(g, 2), "product. 없이", CM, 2, size=28))
+o.append(tag(gend(g, [MF[0]], 24), gly(g, 0), "Product 하나만 꺼내요", CM, 1, size=28))
+o.append(paint(g, 2, "tumbler = ", "Product", CP, 2, CPBG))
 o.append(caption("수업 코드 cart.py 1번 줄이 바로 이 모양이에요.", 950, 3))
 W("m-from", o, "from product import Product는 product 모듈에서 Product 하나만 꺼내 와서 main.py에 놓아 둬요. 그래서 product.를 붙이지 않고 Product라고만 써요. 출력은 앞 장과 똑같아요. 수업 코드 cart.py 1번 줄이 바로 이 모양이에요. cart.py는 Product를 여러 번 쓰니까 짧게 부를 수 있는 쪽을 골랐어요." + REAL)
 
@@ -1023,10 +1035,6 @@ MM = code_lines("from-many", "main.py")
 ed2, g2 = editor("mm-ed2", "main.py", MM, 96, int(T + g["h"] + 26), 900, fs=26, color=CM)
 o.append(ed2)
 
-
-def paint(g_, i, pre, word, color, order, bg=None):
-    b = f"background:{bg};" if bg else ""
-    return p(f"position:absolute;left:{gx(g_, pre):.1f}px;top:{gtop(g_, i):.1f}px;font-family:{MONO};font-size:{g_['fs']}px;line-height:{g_['lh']:.2f}px;white-space:pre;color:{color};{b}", e(word), MARK(order))
 
 
 o.append(paint(g, 0, "", "COUPONS", CU, 1, CUBG))
@@ -1122,7 +1130,7 @@ vis = (TH - 44 - 28) / tg["lh"]
 shift = int((len(LO) + 1 - vis) * tg["lh"]) + 8
 o.append(f'<div{at(2, "fade")} style="position:absolute;left:908px;top:{gtop(tg, 1):.0f}px;width:908px;height:{(len(LO) - 1) * tg["lh"]:.0f}px;background:{RED}30;border-radius:8px"></div>' if False else "")
 o.append(pan(3, "nl-in", -shift))
-o.append(p(f"position:absolute;left:1440px;top:{T + TH - 80}px;font-size:26px;font-weight:700;color:#FFFFFF;background:{GR};border-radius:10px;padding:6px 16px", "main.py 시작은 맨 끝", at(3, "fade") + DELAY(1800)))
+o.append(p(f"position:absolute;left:1120px;top:{T + TH - 64}px;font-size:26px;font-weight:700;color:#FFFFFF;background:{GR};border-radius:10px;padding:4px 16px", "← main.py의 첫 출력은 맨 끝", at(3, "fade") + DELAY(1800)))
 W("n-leak", o, "main.py에서 from cart import Cart 한 줄만 적고 실행했어요. 그런데 cart.py 맨 아래의 테스트 코드가 먼저 실행돼서 장바구니 출력이 줄줄이 나와요. import는 그 파일을 위에서부터 한 번 실행해서 이름을 만들어요. 그래서 파일 맨 아래에 그냥 적어 둔 코드도 같이 실행돼요. main.py의 첫 출력은 터미널 맨 끝에 가서야 보여요. 다음 장에서 파이썬이 '직접 실행'과 'import'를 어떻게 구별하는지 봐요." + REAL, ("p5", '__name__ == "__main__"'))
 
 o = [sec("n-name")] + head(EB5, "직접 실행한 파일만 __name__이 \"__main__\"이에요", K5)
