@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/27-python-encapsulation/python-encapsulation-slides.html) | [26 · 클래스 3 (상속과 클래스 변수)](../26-python-inheritance) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/27-python-encapsulation/python-encapsulation-slides.html) | [26 · 클래스 3 (상속과 클래스 변수)](../26-python-inheritance) | [28 · 미니 프로젝트: 장바구니 (들여쓰기, items, 모듈)](../28-python-modules) |
 
 <!-- /curriculum:top -->
 
@@ -310,6 +310,6 @@ node ../tools/export.js slides python-encapsulation-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 26 · 클래스 3 (상속과 클래스 변수)](../26-python-inheritance) · [커리큘럼](../README.md)
+[← 이전: 26 · 클래스 3 (상속과 클래스 변수)](../26-python-inheritance) · [커리큘럼](../README.md) · [다음: 28 · 미니 프로젝트: 장바구니 (들여쓰기, items, 모듈) →](../28-python-modules)
 
 <!-- /curriculum:nav -->
