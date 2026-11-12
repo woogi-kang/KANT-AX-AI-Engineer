@@ -1,26 +1,26 @@
 <section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
 <p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">한 장 요약</h2>
-<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#2459C9">안에 들어가기, 남기기</p>
+<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#2459C9">안에 들어가기</p>
 <div style="position:absolute;left:96px;top:270px;width:540px;height:3px;background:#2459C9"></div>
 <p style="position:absolute;left:96px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">docker exec -it 이름 bash</p>
 <p style="position:absolute;left:96px;top:338px;width:540px;font-size:23px;color:#4A5262">실행 중인 컨테이너 안으로</p>
-<p style="position:absolute;left:96px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">-v 볼륨이름:경로</p>
-<p style="position:absolute;left:96px;top:458px;width:540px;font-size:23px;color:#4A5262">지워도 남는 보관함</p>
-<p style="position:absolute;left:96px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">-v ./폴더:경로</p>
-<p style="position:absolute;left:96px;top:578px;width:540px;font-size:23px;color:#4A5262">내 폴더 연결</p>
-<p style="position:absolute;left:96px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">docker volume ls / rm</p>
-<p style="position:absolute;left:96px;top:698px;width:540px;font-size:23px;color:#4A5262">볼륨 보기, 지우기</p>
-<p style="position:absolute;left:696px;top:220px;font-size:30px;font-weight:700;color:#0F7C86">이미지 만들기</p>
-<div style="position:absolute;left:696px;top:270px;width:540px;height:3px;background:#0F7C86"></div>
-<p style="position:absolute;left:696px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">FROM WORKDIR COPY RUN CMD</p>
-<p style="position:absolute;left:696px;top:338px;width:540px;font-size:23px;color:#4A5262">Dockerfile 다섯 줄</p>
-<p style="position:absolute;left:696px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">docker build -t 이름 .</p>
-<p style="position:absolute;left:696px;top:458px;width:540px;font-size:23px;color:#4A5262">틀 굽기 (코드 고치면 다시)</p>
-<p style="position:absolute;left:696px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">docker run --rm 이름</p>
-<p style="position:absolute;left:696px;top:578px;width:540px;font-size:23px;color:#4A5262">찍고 끝나면 지우기</p>
-<p style="position:absolute;left:696px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">.dockerignore</p>
-<p style="position:absolute;left:696px;top:698px;width:540px;font-size:23px;color:#4A5262">.venv  __pycache__  .git</p>
+<p style="position:absolute;left:96px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">exit</p>
+<p style="position:absolute;left:96px;top:458px;width:540px;font-size:23px;color:#4A5262">나와도 컨테이너는 계속 돌아요</p>
+<p style="position:absolute;left:96px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">docker start 이름</p>
+<p style="position:absolute;left:96px;top:578px;width:540px;font-size:23px;color:#4A5262">멈춰 있으면 켜고 들어가요</p>
+<p style="position:absolute;left:96px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">export MSYS_NO_PATHCONV=1</p>
+<p style="position:absolute;left:96px;top:698px;width:540px;font-size:23px;color:#4A5262">Git Bash에서 먼저 치기</p>
+<p style="position:absolute;left:696px;top:220px;font-size:30px;font-weight:700;color:#1F8A4C">지워도 남기기</p>
+<div style="position:absolute;left:696px;top:270px;width:540px;height:3px;background:#1F8A4C"></div>
+<p style="position:absolute;left:696px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">-v 볼륨이름:경로</p>
+<p style="position:absolute;left:696px;top:338px;width:540px;font-size:23px;color:#4A5262">지워도 남는 보관함</p>
+<p style="position:absolute;left:696px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">-v ./폴더:경로</p>
+<p style="position:absolute;left:696px;top:458px;width:540px;font-size:23px;color:#4A5262">내 폴더 연결</p>
+<p style="position:absolute;left:696px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">docker volume ls</p>
+<p style="position:absolute;left:696px;top:578px;width:540px;font-size:23px;color:#4A5262">볼륨 보기</p>
+<p style="position:absolute;left:696px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">docker volume rm 이름</p>
+<p style="position:absolute;left:696px;top:698px;width:540px;font-size:23px;color:#4A5262">볼륨 지우기 (되돌릴 수 없어요)</p>
 <p style="position:absolute;left:1296px;top:220px;font-size:30px;font-weight:700;color:#A23B72">compose</p>
 <div style="position:absolute;left:1296px;top:270px;width:540px;height:3px;background:#A23B72"></div>
 <p style="position:absolute;left:1296px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">compose.yaml</p>
@@ -32,6 +32,6 @@
 <p style="position:absolute;left:1296px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">docker compose down</p>
 <p style="position:absolute;left:1296px;top:698px;width:540px;font-size:23px;color:#4A5262">끄고 지우기</p>
 <p style="position:absolute;left:96px;top:820px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">이미지는 틀, 컨테이너는 붕어빵, 볼륨은 붕어빵 밖 보관함이에요.</p>
-<p style="position:absolute;left:96px;top:880px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#4A5262">오늘 만든 cart 이미지를 친구 컴퓨터에서도 돌려 봐요.</p>
-<aside>오늘 쓴 명령을 세 묶음으로 모았어요. 실행 중인 컨테이너에는 exec로 들어가고, 지워도 남길 것은 볼륨에, 고치면서 볼 파일은 폴더 연결로 둬요. 내 프로그램은 Dockerfile 다섯 줄과 docker build로 이미지를 만들고, 코드를 고치면 build부터 다시 해요. 긴 run 명령은 compose.yaml에 적어 두고 up과 down으로 켜고 꺼요. 오늘 만든 cart 이미지를 친구 컴퓨터에서도 돌려 보세요.</aside>
+<p style="position:absolute;left:96px;top:880px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#4A5262">다음 31에서는 같은 ~/cafe 폴더와 compose로 nginx를 더 깊이 써요.</p>
+<aside>오늘 쓴 명령을 세 묶음으로 모았어요. 실행 중인 컨테이너에는 exec로 들어가고, exit로 나와도 컨테이너는 계속 돌아요. 지워도 남길 것은 볼륨에, 고치면서 볼 파일은 폴더 연결로 둬요. 긴 run 명령은 compose.yaml에 적어 두고 up과 down으로 켜고 꺼요. 이미지는 오늘처럼 Docker Hub의 공식 이미지를 받아서 써요. 31에서는 같은 ~/cafe 폴더에서 nginx 설정을 바꿔 봐요.</aside>
 </section>

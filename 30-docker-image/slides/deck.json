@@ -5,7 +5,7 @@
     "at": "2026-11-12T00:00:00Z"
   },
   "lists": "css",
-  "title": "Docker 2 (내 프로그램을 이미지로 만들기)",
+  "title": "Docker 2 (컨테이너 안에 들어가기, 볼륨, compose)",
   "order": [
     "cover",
     "toc",
@@ -21,19 +21,8 @@
     "v-ls",
     "v-bind",
     "v-cmp",
-    "d-why",
-    "d-file",
-    "d-from",
-    "d-copy",
-    "d-runcmd",
-    "d-build",
-    "d-run",
-    "d-stale",
-    "d-rm",
-    "d-ignore",
     "c-why",
     "c-up",
-    "x-build",
     "x-run",
     "x-vol",
     "r-menu",
@@ -56,18 +45,14 @@
       "start": "v-what"
     },
     "p3": {
-      "description": "Dockerfile로 이미지 만들기",
-      "start": "d-why"
-    },
-    "p4": {
       "description": "docker compose 맛보기",
       "start": "c-why"
     },
-    "p5": {
+    "p4": {
       "description": "자주 나는 오류",
-      "start": "x-build"
+      "start": "x-run"
     },
-    "p6": {
+    "p5": {
       "description": "실제 상황 예제",
       "start": "r-menu"
     },

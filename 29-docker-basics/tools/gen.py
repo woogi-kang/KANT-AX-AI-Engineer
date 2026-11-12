@@ -1067,8 +1067,8 @@ o.append(p(f"position:absolute;left:984px;top:{214 + t2.h + 18}px;font-size:26px
 yb = 214 + max(t1.h, t2.h) + 110
 o.append(f'<div{bi("rise", 2)} style="position:absolute;left:96px;top:{yb}px;width:1728px;height:230px;background:#F0EBFD;border-radius:24px;padding:34px 44px">'
          + p(f"font-size:32px;font-weight:700;color:{PUR}", "다음 챕터 30에서")
-         + p(f"font-size:28px;line-height:1.6;color:{INK};margin-top:12px", "볼륨으로 컨테이너 밖에 데이터를 남기고,<br>내 파이썬 프로그램을 이미지로 만들어요.") + '</div>')
-W("x-lost", o, "logs 장에서 web에는 localhost:8080에 들어온 기록이 쌓여 있었어요. web을 stop, rm으로 지우고 같은 명령으로 새로 켠 뒤 logs를 보면 켜질 때 준비 과정만 있고 GET 줄이 없어요. 컨테이너 안에 쌓인 것은 컨테이너를 지우면 같이 사라져요. 로그뿐 아니라 컨테이너 안에서 만든 파일도 같아요. 그래서 데이터베이스처럼 남겨야 하는 데이터는 컨테이너 밖에 둬요. 그 방법인 볼륨과, 내 프로그램을 이미지로 만드는 Dockerfile을 30에서 배워요. 출력은 화면에 맞게 줄 뒤쪽을 …로 줄였어요. " + MADE)
+         + p(f"font-size:28px;line-height:1.6;color:{INK};margin-top:12px", "켜 둔 컨테이너 안에 들어가 보고,<br>볼륨으로 컨테이너 밖에 데이터를 남겨요.") + '</div>')
+W("x-lost", o, "logs 장에서 web에는 localhost:8080에 들어온 기록이 쌓여 있었어요. web을 stop, rm으로 지우고 같은 명령으로 새로 켠 뒤 logs를 보면 켜질 때 준비 과정만 있고 GET 줄이 없어요. 컨테이너 안에 쌓인 것은 컨테이너를 지우면 같이 사라져요. 로그뿐 아니라 컨테이너 안에서 만든 파일도 같아요. 그래서 데이터베이스처럼 남겨야 하는 데이터는 컨테이너 밖에 둬요. 그 방법인 볼륨을 30에서 배워요. 출력은 화면에 맞게 줄 뒤쪽을 …로 줄였어요. " + MADE)
 
 # ---------- summary ----------
 o = frame("cheatsheet", "정리", "한 장 요약", INK)
@@ -1088,7 +1088,7 @@ for (t_, c, rows), x, y0 in zip(groups, xs, ys):
         o.append(p(f"position:absolute;left:{x}px;top:{y}px;width:{w_}px;font-family:{MONO};font-size:{24 if len(k) > 34 else 27}px;font-weight:700;color:{INK};white-space:nowrap", e(k)))
         o.append(p(f"position:absolute;left:{x}px;top:{y + 42}px;width:{w_}px;font-size:23px;color:{SUB}", e(d)))
 o.append(caption("이미지는 Docker Official Image 마크부터 골라요. 명령은 터미널, 확인은 Docker Desktop이에요.", 920, None, size=28))
-W("cheatsheet", o, "오늘 쓴 명령을 세 묶음으로 모았어요. 설치 확인 두 개, 이미지 세 개, 컨테이너 일곱 줄이에요. 이미지는 Docker Hub에서 Docker Official Image 마크가 붙은 것부터 골라요. 명령은 터미널에서 치고, 결과는 Docker Desktop 화면으로 확인해요. 실습이 끝나면 docker ps -a와 docker images로 남은 것을 확인하고 rm, rmi로 정리해요. 다음 챕터 30에서는 볼륨과 Dockerfile을 배워요.", ("trouble", "정리"))
+W("cheatsheet", o, "오늘 쓴 명령을 세 묶음으로 모았어요. 설치 확인 두 개, 이미지 세 개, 컨테이너 일곱 줄이에요. 이미지는 Docker Hub에서 Docker Official Image 마크가 붙은 것부터 골라요. 명령은 터미널에서 치고, 결과는 Docker Desktop 화면으로 확인해요. 실습이 끝나면 docker ps -a와 docker images로 남은 것을 확인하고 rm, rmi로 정리해요. 다음 챕터 30에서는 켜 둔 컨테이너에 들어가는 exec와 볼륨, compose를 배워요.", ("trouble", "정리"))
 
 # ---------- toc ----------
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
