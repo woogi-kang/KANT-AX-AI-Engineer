@@ -457,13 +457,13 @@ o.append(f'<div style="position:absolute;left:96px;top:592px;width:1728px;height
 o.append(p(f"position:absolute;left:96px;top:636px;font-size:30px;font-weight:900;color:{TEAL}", "2", bi("fade", 2)))
 o.append(p(f"position:absolute;left:140px;top:632px;font-size:34px;font-weight:700;color:{INK}", "29의 이미지는 모두 남이 만든 것이었어요", bi("fade", 2)))
 o.append(p(f"position:absolute;left:140px;top:686px;font-size:26px;color:{SUB}", "28의 장바구니도 이미지로 만들 수 있을까요?", bi("fade", 2)))
-chips = [("nginx", DK), ("hello-world", DK), ("python:3.12-slim", DK)]
+chips = [("nginx", DK), ("hello-world", DK), ("python:3.12", DK)]
 o.append(f'<div{STAGGER(2, 90)} style="position:absolute;left:140px;top:760px;display:flex;flex-direction:row;gap:18px;align-items:center">'
          + "".join(file_chip(n, c, "#E8EFFD", size=26) for n, c in chips)
          + p(f"font-size:26px;font-weight:700;color:{GRAY};padding:0 14px", "다음은") + file_chip("cart", MD, MDBG, size=26, fid="why-cart") + '</div>')
-o.append(ring(3, 140 + tw("nginx", 26) + tw("hello-world", 26) + tw("python:3.12-slim", 26) + 3 * 28 + 3 * 18 + tw("다음은", 26, False) + 28 + 18 + 4, 760, tw("cart", 26) + 28, 48, TEAL))
+o.append(ring(3, 140 + tw("nginx", 26) + tw("hello-world", 26) + tw("python:3.12", 26) + 3 * 28 + 3 * 18 + tw("다음은", 26, False) + 28 + 18 + 4, 760, tw("cart", 26) + 28, 48, TEAL))
 o.append(caption("두 질문의 답이 볼륨과 Dockerfile이에요.", 900, 3, size=32))
-W("why", o, "29 마지막 장면을 떠올려 봐요. 컨테이너 안의 페이지를 바꾼 뒤 컨테이너를 지우고 다시 만들면 처음 모습으로 돌아왔어요. 바꾼 것을 남기는 방법이 첫 번째 질문이에요. 두 번째 질문은 이미지예요. 29에서 쓴 nginx, hello-world, python 이미지는 모두 Docker Hub에서 받은 남의 이미지였어요. 오늘은 28에서 만든 장바구니를 cart라는 내 이미지로 만들어요. 1, 2파트가 첫 질문, 3파트가 두 번째 질문의 답이에요.")
+W("why", o, "29 마지막 실습을 떠올려 봐요. web을 지우고 다시 켜면 쌓여 있던 기록(logs)이 사라졌어요. 컨테이너 안에서 고친 파일도 똑같이 사라져요. 그림은 1파트에서 직접 해 볼 장면이에요. 바꾼 것을 남기는 방법이 첫 번째 질문이에요. 두 번째 질문은 이미지예요. 29에서 쓴 nginx, hello-world, python 이미지는 모두 Docker Hub에서 받은 남의 이미지였어요. 오늘은 28에서 만든 장바구니를 cart라는 내 이미지로 만들어요. 1, 2파트가 첫 질문, 3파트가 두 번째 질문의 답이에요.")
 
 # =====================================================================
 # big picture
@@ -490,7 +490,7 @@ for k in range(3):
 o.append(p(f"position:absolute;left:1250px;top:{Y0 + 210}px;width:576px;text-align:center;font-size:24px;font-weight:700;color:{BR}", "붕어빵 (몇 개든 찍어요)", bi("fade", 2)))
 # volume under the container
 o.append(volume_box(1286, Y0 + 400, 504, 150, "볼륨", p(f"font-size:22px;color:{SUB}", "컨테이너 밖 보관함"), bid="big-vol", attrs=bi("rise", 3)))
-o.append(svg(arrow_path(f"M1740,{Y0 + 196} L1740,{Y0 + 394}", GR, 5, dash="2 12"), 3))
+o.append(svg(arrow_path(f"M1740,{Y0 + 196} L1740,{Y0 + 394}", GR, 5, dash="2 12"), 3, kind="fade"))
 o.append(p(f"position:absolute;left:1756px;top:{Y0 + 280}px;font-family:{MONO};font-size:24px;font-weight:700;color:{GR}", "-v", bi("fade", 3)))
 # compose bracket
 o.append(f'<div{bi("fade", 4)} style="position:absolute;left:1230px;top:{Y0 - 46}px;width:594px;height:{620}px;border:3px dashed {MAG};border-radius:26px"></div>')
@@ -510,7 +510,7 @@ o.append(t.html())
 o += tag(t, 2, "1, 2, 4파트", BL, 1)
 o += tag(t, 4, "3파트: 28의 장바구니", TEAL, 2)
 tree = [("~/", INK, 0), ("cafe/", BL, 1), ("site/", BL, 2), ("shopping-cart/", TEAL, 1), ("main.py  cart.py  product.py", GRAY, 2), ("pyproject.toml  uv.lock", GRAY, 2)]
-o.append(f'<div{STAGGER(2, 80)} style="position:absolute;left:1240px;top:214px;width:584px;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:26px 30px;display:flex;flex-direction:column;gap:10px">'
+o.append(f'<div{bi("rise", 2)} style="position:absolute;left:1240px;top:214px;width:584px;background:{CARD};border:2px solid {LINE};border-radius:18px;padding:26px 30px;display:flex;flex-direction:column;gap:10px">'
          + "".join(p(f"margin-left:{d * 34}px;font-family:{MONO};font-size:26px;font-weight:700;line-height:1.5;color:{c};white-space:nowrap", e(n)) for n, c, d in tree) + '</div>')
 o.append(f'<div style="position:absolute;left:96px;top:{t.y + t.h + 50}px;width:1728px;height:1px;background:{LINE}"></div>')
 o.append(p(f"position:absolute;left:96px;top:{t.y + t.h + 80}px;font-size:28px;font-weight:700;color:{INK}", "Windows Git Bash는 새 창을 열 때마다 이 줄을 먼저 쳐요.", bi("fade", 3)))
@@ -528,13 +528,13 @@ t = Term(lines, 96, 214, size=22, w=1120, lh=1.5)
 t.band(1, order=1)
 t.band(len(lines) - 1, order=2, color="rgba(127,209,139,.16)")
 o.append(t.html())
-o += tag(t, 1, "29 끝에서 지워서 다시 받아요", BL, 1)
+o += tag(t, 1, "이미지가 없으면 Hub에서 받아요", BL, 1)
 o.append(pill(t.tx, t.y + t.h + 18, "컨테이너 ID", GR, 2))
 o.append(underline(2, round(t.tx), round(t.tx + t.sw(WEB_ID[:12])), round(t.top(len(lines) - 1) + t.lp - 4), GR))
 o.append(browser(1260, 360, 564, 440, "localhost:8080", page_nginx(0.78), "br-run", attrs=SLIDE(3, 300, 0)))
 o.append(cursor(3, target="br-run"))
 o.append(cursor_off(4))
-W("e-run", o, "29에서 친 명령 그대로 nginx 컨테이너를 web이라는 이름으로 띄워요. 29 마지막에 nginx 이미지를 지웠으니 Unable to find image가 나오고 Docker Hub에서 다시 받아요. 받는 줄의 숫자와 글자는 받는 날마다 달라요. 마지막 줄의 긴 글자는 컨테이너 ID예요. 앞 12글자를 기억해 두세요. 다음 장에서 다시 나와요. 브라우저로 localhost:8080을 열면 nginx 환영 페이지가 보여요. 브라우저 화면은 단순하게 그린 그림이에요." + REAL, ("p1", "컨테이너 안에 들어가기"))
+W("e-run", o, "29에서 친 명령 그대로 nginx 컨테이너를 web이라는 이름으로 띄워요. 29 실습 뒤 nginx 이미지를 지웠다면 Unable to find image가 나오고 Docker Hub에서 다시 받아요. 이미지가 남아 있으면 이 줄 없이 바로 켜져요. 받는 줄의 숫자와 글자는 받는 날마다 달라요. 마지막 줄의 긴 글자는 컨테이너 ID예요. 앞 12글자를 기억해 두세요. 다음 장에서 다시 나와요. 브라우저로 localhost:8080을 열면 nginx 환영 페이지가 보여요. 브라우저 화면은 단순하게 그린 그림이에요." + REAL, ("p1", "컨테이너 안에 들어가기"))
 
 o = frame("e-exec", EB1, "docker exec -it로 실행 중인 컨테이너 안에 들어가요", BL)
 o += parts(96, 230, [("docker", INK, None, None), ("exec", BL, "실행 중인<br>컨테이너에서", None), ("-it", OR, "키보드로<br>주고받기", None),
@@ -667,7 +667,7 @@ for i, r in enumerate(rows):
         o.append(p(f"position:absolute;left:{xs[k]}px;top:{y + 46}px;width:{wd[k]}px;{'font-family:' + MONO + ';' if mono else ''}font-size:30px;font-weight:{700 if k == 0 or mono else 500};color:{INK if k else SUB};white-space:nowrap",
                    e(c_), bi("rise", 1) + DELAY(i * 90) if k else ""))
 o.append(f'<div style="position:absolute;left:96px;top:{290 + 4 * 140}px;width:1728px;height:2px;background:{LINE}"></div>')
-o.append(pen_box(2, xs[2] + round(tw("-v ", 30)) - 8, 290 + 38, round(tw("./", 30)) + 12, 58, BL))
+o.append(pen_box(2, xs[2] + round(tw("-v ", 30)) - 7, 290 + 38, round(tw("./", 30)) + 6, 58, BL))
 o.append(caption("4파트 compose와 6파트 예제에서는 폴더 연결을 써요.", 900, 2, size=30, color=SUB))
 W("v-cmp", o, "두 가지 -v를 나란히 놓았어요. 볼륨 이름을 적으면 Docker가 알아서 정한 곳에 저장해요. 지워지면 안 되는 데이터를 남길 때 써요. 데이터베이스처럼 컨테이너가 계속 쓰는 파일이 그런 예예요. 폴더 연결은 내 컴퓨터의 폴더를 그대로 보여 줘서 VS Code로 고치고 바로 확인할 때 좋아요. 둘을 가르는 건 이름 앞의 ./ 하나예요. 이후 compose와 실습 예제에서는 폴더 연결을 써요.")
 
@@ -717,13 +717,13 @@ hub = (f'<div{bi("rise", 3)} style="position:absolute;left:96px;top:660px;width:
        + p(f"font-size:22px;font-weight:700;color:{GRAY}", "Docker Hub")
        + p(f"font-family:{MONO};font-size:34px;font-weight:700;color:{INK}", "astral/uv")
        + p(f"font-size:24px;line-height:1.4;color:{SUB}", "The official Docker image for uv, the Python package manager.")
-       + p(f"font-size:26px;font-weight:700;line-height:1.45;color:{OR}", "인증 마크는 없어요. uv를 만든 회사 Astral이 올렸고<br>uv 공식 문서가 이 이미지를 안내해요.") + '</div>')
+       + p(f"font-size:26px;font-weight:700;line-height:1.45;color:{OR}", "Docker Official Image 마크는 없어요. uv를 만든<br>회사 Astral이 올렸고 uv 공식 문서가 안내해요.") + '</div>')
 o.append(hub)
 ed, g = editor("pv-ed", ".python-version", ["3.14"], 1100, 660, 724, fs=34, color=OR, attrs=bi("rise", 4))
 o.append(ed)
 o.append(p(f"position:absolute;left:1100px;top:{g['top'] + g['h'] + 24:.0f}px;width:724px;font-size:26px;line-height:1.5;color:{SUB}", "28 프로젝트의 버전과 FROM의<br>python 숫자를 맞춰요.", bi("rise", 4)))
 o.append(link(4, 1300, 650, 96 + tw("FROM astral/uv:python3.1", 54), 420, OR))
-W("d-from", o, "FROM 뒤에는 시작할 이미지를 적어요. 29에서 본 이름:태그 모양 그대로예요. astral/uv는 uv를 만든 회사 Astral이 Docker Hub에 올린 이미지예요. 29에서 Docker Official Image 인증 마크를 먼저 보라고 했는데, 이 이미지에는 마크가 없어요. 대신 uv를 만든 회사가 직접 올렸고 uv 공식 문서도 이 이미지를 쓰라고 안내해요. 마크가 없는 이미지는 이렇게 누가 올렸는지 확인하고 써요. 태그의 python3.14는 이미지에 든 파이썬 버전, bookworm-slim은 리눅스 종류예요. 28 프로젝트의 .python-version 숫자와 맞춰요. 내 파일이 3.13이면 python3.13으로 바꿔요.")
+W("d-from", o, "FROM 뒤에는 시작할 이미지를 적어요. 29에서 본 이름:태그 모양 그대로예요. astral/uv는 uv를 만든 회사 Astral이 Docker Hub에 올린 이미지예요. 29에서 Docker Official Image 마크를 먼저 보라고 했는데, 이 이미지에는 마크가 없어요. 대신 uv를 만든 회사가 직접 올렸고 uv 공식 문서도 이 이미지를 쓰라고 안내해요. 마크가 없는 이미지는 이렇게 누가 올렸는지 확인하고 써요. 태그의 python3.14는 이미지에 든 파이썬 버전, bookworm-slim은 리눅스 종류예요. 28 프로젝트의 .python-version 숫자와 맞춰요. 내 파일이 3.13이면 python3.13으로 바꿔요.")
 
 o = frame("d-copy", EB3, "WORKDIR과 COPY: 내 파일을 이미지 안 /app에 넣어요", TEAL)
 o.append(p(f"position:absolute;left:96px;top:222px;font-family:{MONO};font-size:40px;font-weight:700;color:{INK};white-space:pre", f'WORKDIR <span style="color:{TEAL}">/app</span>'))
@@ -951,7 +951,7 @@ t = Term([("$", P_CAFE, bt[0]["cmd"], {" site:": "xv-site"}), ("d", bt[0]["out"]
 t.band(len(t.rows) - 1, order=2, color="rgba(240,122,114,.16)")
 o.append(t.html())
 sx_ = t.sx(0, " site:") + t.sw(" ")
-o.append(pen_box(1, round(sx_ - 8), round(t.top(0) - 2), round(t.sw("site:") + 16), round(t.lp + 4), RED))
+o.append(pen_box(1, round(sx_ - 6), round(t.top(0) - 2), round(t.sw("site:") + 9), round(t.lp + 4), RED))
 o += tag(t, len(t.rows) - 1, "site라는 볼륨이 생겼어요", RED, 2)
 o.append(browser(96, t.y + t.h + 40, 760, 1000 - (t.y + t.h + 40), "localhost:8080", page_nginx(0.8), "br-xv", attrs=bi("rise", 3)))
 o.append(p(f"position:absolute;left:940px;top:{t.y + t.h + 60}px;width:884px;font-size:30px;font-weight:700;line-height:1.5;color:{INK}", "메뉴 대신 nginx 환영 페이지가 나와요.", bi("fade", 3)))

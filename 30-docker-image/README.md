@@ -96,7 +96,7 @@ CMD ["uv", "run", "main.py"]
 | `RUN uv sync` | 패키지를 맞춰서 결과를 틀 안에 구워요 | build할 때 한 번 |
 | `CMD [...]` | 컨테이너를 켜면 칠 명령을 적어 둬요 | run할 때마다 |
 
-`astral/uv`는 uv를 만든 회사 Astral이 올린 이미지예요. Docker Hub의 공식 인증 마크는 없지만 uv 공식 문서가 이 이미지를 안내해요. `python3.14`는 프로젝트의 `.python-version`과 맞춰요.
+`astral/uv`는 uv를 만든 회사 Astral이 올린 이미지예요. Docker Hub의 Docker Official Image 마크는 없지만 uv 공식 문서가 이 이미지를 안내해요. `python3.14`는 프로젝트의 `.python-version`과 맞춰요.
 
 ### .dockerignore
 
