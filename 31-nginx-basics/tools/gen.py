@@ -573,7 +573,7 @@ t = Term([("$", P_CAFE, wr[0]["cmd"]), ("d", wr[0]["out"][0][:12] + "…"), ("o"
 t.band(4, 7, order=2, color="rgba(127,209,139,.16)")
 o.append(t.html())
 o += tag(t, 3, "주소의 내용을 받아 화면에 찍어요", NG, 1, at=t.x + 700)
-o.append(browser(1200, 640, 624, 380, "localhost:8080", page_home(0.95), "br-wr", attrs=SLIDE(3, 300, 0)))
+o.append(browser(1200, 640, 624, 330, "localhost:8080", page_home(0.95), "br-wr", attrs=SLIDE(3, 300, 0)))
 o.append(p(f"position:absolute;left:96px;top:{t.y + t.h + 40}px;width:1040px;font-size:28px;line-height:1.6;color:{SUB}", "브라우저도 똑같은 글자를 받아요.<br>다만 HTML을 읽어서 제목과 링크로 그려 줘요.", bi("fade", 3)))
 o.append(p(f"position:absolute;left:96px;top:{t.y + t.h + 170}px;width:1040px;font-size:24px;line-height:1.55;color:{GRAY}", "curl은 Mac 터미널과 Windows Git Bash에 들어 있어요.", bi("fade", 3)))
 W("w-run", o, "curl로 브라우저가 받는 글자를 터미널에서 봐요. 30에서 배운 명령으로 nginx를 띄워요. ./site 폴더를 nginx가 파일을 찾는 폴더에 연결했어요. 이번에는 브라우저 대신 curl로 열어 봐요. curl 뒤에 주소를 적으면 그 주소에서 받은 내용을 터미널에 그대로 찍어요. 나온 글자는 site/index.html과 똑같아요. 브라우저도 이 글자를 받는데, HTML을 읽어서 제목과 링크로 그려 줄 뿐이에요. curl은 Mac 터미널과 Windows Git Bash에 이미 들어 있어요. 화면을 바꾸지 않고 결과를 보기 좋아서 오늘은 curl을 자주 써요." + REAL, ("p1", "nginx로 파일 내주기"))
@@ -811,17 +811,17 @@ rows = [("손님이 아는 주소", "localhost:8001, :8002 …", "localhost/menu
         ("파일 주기", "앱이 직접", "nginx가 바로")]
 X = [96, 560, 1200]
 Wd = [440, 620, 624]
-o.append(f'<div style="position:absolute;left:{X[2] - 16}px;top:214px;width:{Wd[2] + 16}px;height:{80 + len(rows) * 120}px;background:{NGBG};border-radius:18px"{bi("fade", 1)}></div>')
+o.append(f'<div style="position:absolute;left:{X[2] - 16}px;top:214px;width:{Wd[2] + 16}px;height:{86 + len(rows) * 108}px;background:{NGBG};border-radius:18px"{bi("fade", 1)}></div>')
 for j, h_ in enumerate(hdr):
     o.append(p(f"position:absolute;left:{X[j]}px;top:234px;width:{Wd[j]}px;font-size:30px;font-weight:700;color:{[INK, GRAY, NG][j]};white-space:nowrap", e(h_)))
 for i, r in enumerate(rows):
-    y = 300 + i * 120
+    y = 300 + i * 108
     o.append(f'<div style="position:absolute;left:96px;top:{y}px;width:1728px;height:1px;background:{LINE}"></div>')
     for j, c_ in enumerate(r):
         mono = c_.isascii() or "localhost" in c_
-        o.append(p(f"position:absolute;left:{X[j]}px;top:{y + 36}px;width:{Wd[j]}px;{'font-family:' + MONO + ';font-size:26px;' if mono and j else 'font-size:28px;'}font-weight:{700 if j != 1 else 400};color:{[INK, SUB, INK][j]};white-space:nowrap", e(c_), (bi("rise", 1) + DELAY(i * 80)) if j == 2 else ""))
-o.append(f'<div style="position:absolute;left:96px;top:{300 + len(rows) * 120}px;width:1728px;height:1px;background:{LINE}"></div>')
-o.append(caption("-p는 그대로 써요. nginx 컨테이너 하나에만 쓰는 게 달라요.", 960, 2, size=30))
+        o.append(p(f"position:absolute;left:{X[j]}px;top:{y + 32}px;width:{Wd[j]}px;{'font-family:' + MONO + ';font-size:26px;' if mono and j else 'font-size:28px;'}font-weight:{700 if j != 1 else 400};color:{[INK, SUB, INK][j]};white-space:nowrap", e(c_), (bi("rise", 1) + DELAY(i * 80)) if j == 2 else ""))
+o.append(f'<div style="position:absolute;left:96px;top:{300 + len(rows) * 108}px;width:1728px;height:1px;background:{LINE}"></div>')
+o.append(caption("-p는 그대로 써요. nginx 컨테이너 하나에만 쓰는 게 달라요.", 900, 2, size=30))
 W("cmp", o, "29, 30에서 배운 -p와 비교해 정리해요. 컨테이너마다 -p로 문을 열면 손님이 포트 번호를 알아야 하고, 앱을 늘릴 때마다 새 포트를 열어야 해요. nginx를 앞에 두면 밖으로 여는 문은 80번 하나예요. 앱을 늘릴 때는 location 상자 하나를 더 써요. 요청 기록도 nginx 한 곳에 모이고, 홈페이지 같은 파일은 nginx가 바로 줘요. -p를 버리는 게 아니라 nginx 컨테이너 하나에만 쓴다는 점이 달라요.")
 
 # =====================================================================
@@ -876,7 +876,7 @@ t2 = Term([("$", P_CAFE, "docker exec cafe-web-1 nginx -t")] + [("e", l) for l i
 o.append(t2.html())
 o.append(pen_box(4, round(t2.sx(1, "host not found") - 8), round(t2.top(1) + 1), round(t2.sw('host not found in upstream "menuu"') + 16), round(t2.lp - 2), RED))
 o.append(p(f"position:absolute;left:96px;top:{t2.y + t2.h + 24}px;width:1728px;font-size:28px;line-height:1.55;color:{SUB}", "compose.yaml의 서비스 이름과 똑같이 적어요. test failed가 나오면 reload하지 말고 먼저 고쳐요.", bi("fade", 4)))
-W("x-test", o, "설정 파일을 고친 뒤 reload 전에 nginx -t를 치는 이유예요. 첫 번째는 proxy_pass 줄 끝의 세미콜론을 빼먹었을 때예요. 오류는 11번 줄의 닫는 중괄호에서 났다고 나와요. 10번 줄이 끝나지 않은 채로 다음 줄까지 읽었기 때문이에요. 알려 준 줄과 바로 윗줄을 같이 봐요. 두 번째는 서비스 이름을 menuu로 잘못 적었을 때예요. host not found in upstream은 그런 이름의 서비스를 못 찾았다는 뜻이에요. compose.yaml의 서비스 이름과 똑같이 적어요. test failed가 나오면 reload하지 말고 먼저 고쳐요. 틀린 설정으로 nginx를 새로 켜면 nginx가 켜지지 않아요. 첫 줄의 시각이 찍힌 줄은 같은 내용이라 뺐어요." + REAL)
+W("x-test", o, "설정 파일을 고친 뒤 reload 전에 nginx -t를 치는 이유예요. 첫 번째는 proxy_pass 줄 끝의 세미콜론을 빼먹었을 때예요. 오류는 11번 줄의 닫는 중괄호에서 났다고 나와요. 10번 줄이 끝나지 않은 채로 다음 줄까지 읽었기 때문이에요. 알려 준 줄과 바로 윗줄을 같이 봐요. 두 번째는 서비스 이름을 menuu로 잘못 적었을 때예요. host not found in upstream은 그런 이름의 서비스를 못 찾았다는 뜻이에요. compose.yaml의 서비스 이름과 똑같이 적어요. test failed가 나오면 reload하지 말고 먼저 고쳐요. 틀린 설정으로 nginx를 새로 켜면 nginx가 켜지지 않아요. 시각이 찍힌 첫 줄은 아래 줄과 내용이 같아서 뺐어요." + REAL)
 
 o = frame("x-slash", EB3, "proxy_pass 끝의 / 하나로 앱이 받는 경로가 달라져요", C3)
 for k, (conf, sc, label, col) in enumerate([("proxy_pass http://menu;", "x-slash", "/ 없음: 경로를 그대로 넘겨요", RED), ("proxy_pass http://menu/;", "x-slash-ok", "/ 있음: /menu/를 떼고 넘겨요", NG)]):
