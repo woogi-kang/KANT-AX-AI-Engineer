@@ -4,7 +4,7 @@ Story: lists and dicts vanish when the program ends, so data goes to a database 
 same family of relational DBMS). Part 1 is the vocabulary (table, row, column, type, primary key, server > database
 > table). Part 2 is four SQL statements (CREATE DATABASE, CREATE TABLE, INSERT, SELECT) run the same way in both,
 side by side, then how SQL compares with 15's dict list and how the two servers differ. Part 3 is the errors,
-part 4 two cafe tasks. Students do not open a client yet: starting the servers and typing is chapter 33.
+part 4 two cafe tasks. Students do not open a client yet: starting the servers and typing is chapters 33 (MySQL) and 34 (PostgreSQL).
 
 Every mysql> and cafe=# screen comes from tools/demo.py (real MySQL 8.4 and PostgreSQL 18, saved in tools/out.json).
 Usage (in 32-database-basics): python3 tools/gen.py slides
@@ -576,7 +576,7 @@ cov = [f'<section id="cover" data-transition="fade" style="background:{INK};colo
 t1 = DT("my", Q("select", "my"), 1060, 150, size=26, w=736, tid="cov-my")
 t2 = DT("pg", Q("select", "pg"), 1060, t1.y + t1.h + 30, size=26, w=736, tid="cov-pg")
 cov += [t1.html(), t2.html(), shine(2, "cov-my")]
-W("cover", cov, "32 챕터는 데이터베이스 기초예요. 지금까지 주문은 파이썬 리스트와 딕셔너리에 담았어요. 프로그램을 끄면 그 값은 사라져요. 오늘은 데이터를 오래 담아 두는 데이터베이스가 무엇인지 보고, 표, 행, 열, 타입, 기본 키 같은 낱말을 익혀요. 그리고 SQL 네 문장으로 표를 만들고 넣고 꺼내는 화면을 읽어요. 오른쪽처럼 MySQL과 PostgreSQL 두 서버에 같은 문장을 보내면 같은 표가 나와요. 직접 서버를 켜고 쳐 보는 건 33에서 해요." + REAL, ("intro", "들어가기"))
+W("cover", cov, "32 챕터는 데이터베이스 기초예요. 지금까지 주문은 파이썬 리스트와 딕셔너리에 담았어요. 프로그램을 끄면 그 값은 사라져요. 오늘은 데이터를 오래 담아 두는 데이터베이스가 무엇인지 보고, 표, 행, 열, 타입, 기본 키 같은 낱말을 익혀요. 그리고 SQL 네 문장으로 표를 만들고 넣고 꺼내는 화면을 읽어요. 오른쪽처럼 MySQL과 PostgreSQL 두 서버에 같은 문장을 보내면 같은 표가 나와요. 직접 서버를 켜고 쳐 보는 건 33(MySQL)과 34(PostgreSQL)에서 해요." + REAL, ("intro", "들어가기"))
 
 ORDER.append("toc")   # written last, after page numbers are known
 
@@ -622,7 +622,7 @@ o.append(node(776, 580, 480, 200, "PostgreSQL 서버", "기본 포트 5432", PG,
 o.append(line_arrow(1310, 530, 1430, 530, VO, 3))
 o.append(cyl(1446, 400, 378, 260, "데이터 파일", "디스크에 남아요", VO, VOBG, "bg-d", attrs=bi("rise", 3)))
 o.append(caption("프로그램은 데이터 파일을 직접 만지지 않아요. 서버가 부탁을 차례대로 받아 대신 읽고 써요.", 880, 4, size=30))
-W("big", o, "프로그램은 데이터베이스 서버에 SQL로 부탁해요. 왼쪽은 데이터를 쓰고 싶은 프로그램들이에요. 터미널의 mysql, psql 프로그램, 주문을 받는 파이썬 앱, 매장의 키오스크예요. 가운데가 데이터베이스 서버예요. 데이터베이스를 관리해 주는 프로그램이라서 DBMS, 데이터베이스 관리 시스템이라고 불러요. MySQL과 PostgreSQL이 가장 많이 쓰는 두 가지예요. 수업에서는 둘을 번갈아 써도 오늘 배우는 내용은 같아요. 프로그램이 SQL이라는 말로 부탁하면, 서버가 부탁을 차례대로 받아서 디스크의 데이터 파일을 대신 읽고 써요. 여럿이 동시에 써도 데이터가 꼬이지 않는 이유예요.")
+W("big", o, "프로그램은 데이터베이스 서버에 SQL로 부탁해요. 왼쪽은 데이터를 쓰고 싶은 프로그램들이에요. 터미널의 mysql, psql 프로그램, 주문을 받는 파이썬 앱, 매장의 키오스크예요. 가운데가 데이터베이스 서버예요. 데이터베이스를 관리해 주는 프로그램이라서 DBMS, 데이터베이스 관리 시스템이라고 불러요. MySQL과 PostgreSQL이 많이 쓰는 두 가지예요. 수업에서는 둘을 번갈아 써도 오늘 배우는 내용은 같아요. 프로그램이 SQL이라는 말로 부탁하면, 서버가 부탁을 차례대로 받아서 디스크의 데이터 파일을 대신 읽고 써요. 여럿이 동시에 써도 데이터가 꼬이지 않는 이유예요.")
 
 # =====================================================================
 # smallest example
@@ -783,8 +783,8 @@ o.append(f'<div{bi("rise", 5)} style="position:absolute;left:1180px;top:226px;wi
          + p(f"font-size:29px;line-height:1.55;color:{INK}", f'문장은 <b style="font-family:{MONO};color:{OR}">;</b>로 끝나요.<br>;가 나와야 서버가 실행해요.')
          + p(f"font-size:29px;line-height:1.55;color:{INK}", "SQL 낱말은 대문자로 쓰는 게 약속이에요.<br>소문자로 써도 돌아가요.")
          + p(f"font-size:29px;line-height:1.55;color:{INK}", f'글자 값은 <b style="font-family:{MONO};color:{MAG}">\'latte\'</b>처럼<br>작은따옴표로 감싸요.')
-         + p(f"margin-top:auto;padding-top:26px;border-top:2px solid {LINE};font-size:26px;line-height:1.55;color:{SUB}", "이 챕터에서는 화면을 읽기만 해요.<br>서버를 켜고 직접 치는 건 33에서 해요.") + '</div>')
-W("s-intro", o, "SQL은 서버에 보내는 부탁 문장이에요. 오늘은 네 문장만 봐요. CREATE DATABASE로 데이터베이스를 만들고, CREATE TABLE로 표를 만들어요. INSERT로 표에 행을 넣고, SELECT로 꺼내요. 이 네 문장은 MySQL과 PostgreSQL에서 글자 하나 안 바꾸고 똑같이 돌아요. 읽을 때 알아 둘 것이 세 가지 있어요. 문장은 세미콜론으로 끝나요. SQL 낱말은 대문자로 쓰는 게 약속이지만 소문자로 써도 돼요. 글자 값은 작은따옴표로 감싸요. 이 챕터에서는 실제로 실행한 화면을 읽기만 하고, 서버를 켜고 직접 치는 건 33에서 해요.", ("p2", "SQL 네 문장 맛보기"))
+         + p(f"margin-top:auto;padding-top:26px;border-top:2px solid {LINE};font-size:26px;line-height:1.55;color:{SUB}", "이 챕터에서는 화면을 읽기만 해요.<br>서버를 켜고 직접 치는 건 33, 34에서 해요.") + '</div>')
+W("s-intro", o, "SQL은 서버에 보내는 부탁 문장이에요. 오늘은 네 문장만 봐요. CREATE DATABASE로 데이터베이스를 만들고, CREATE TABLE로 표를 만들어요. INSERT로 표에 행을 넣고, SELECT로 꺼내요. 이 네 문장은 MySQL과 PostgreSQL에서 글자 하나 안 바꾸고 똑같이 돌아요. 읽을 때 알아 둘 것이 세 가지 있어요. 문장은 세미콜론으로 끝나요. SQL 낱말은 대문자로 쓰는 게 약속이지만 소문자로 써도 돼요. 글자 값은 작은따옴표로 감싸요. 이 챕터에서는 실제로 실행한 화면을 읽기만 하고, 서버를 켜고 직접 치는 건 33, 34에서 해요.", ("p2", "SQL 네 문장 맛보기"))
 
 # --- CREATE DATABASE
 o = frame("s-db", EB2, "CREATE DATABASE로 cafe를 만들고, 그 안으로 들어가요", C2)
@@ -830,7 +830,7 @@ t2 = DT("pg", lp, 980, 214, size=26, w=844, tid="in-pg")
 t1.band(1, order=2, color="rgba(127,209,139,.16)")
 t2.band(1, order=2, color="rgba(127,209,139,.16)")
 o += [t1.html(), t2.html()]
-o += tag(t1, 1, "1행이 들어갔어요", GR, 2, gap=30)
+o += tag(t1, 1, "한 행이 들어갔어요", GR, 2, gap=30)
 o += tag(t2, 1, "뒤의 1이 넣은 행 수", GR, 2, at=t2.x + 250, gap=30)
 SY0 = t1.y + t1.h + 100
 html_, g = sheet(96, SY0, COLS, [], "in-tab", [200, 420, 240], size=48, rh=120, name="orders", pk=True, hcols=[VO, MAG, TEAL])
@@ -929,7 +929,7 @@ o.append(spot(3, 96, TY + 54 + 4 * 74, 1728, 66, pad=6, r=10, dim=0.5))
 o.append(p(f"position:absolute;left:96px;top:{TY + 50 + 6 * 74 + 26}px;width:1728px;font-size:27px;line-height:1.6;color:{SUB}", "자동 번호는 1, 2, 3을 서버가 붙여 주는 기능이에요. 이 챕터에서는 번호를 직접 넣어요.", bi("fade", 3)))
 o.append(spot_off(4))
 o.append(p(f"position:absolute;left:96px;top:{TY + 50 + 6 * 74 + 74}px;width:1728px;font-size:27px;line-height:1.6;color:{SUB}", f'<span style="font-family:{MONO};font-weight:700;color:{INK}">\\c</span>, <span style="font-family:{MONO};font-weight:700;color:{INK}">\\l</span>처럼 역슬래시로 시작하는 것은 SQL이 아니라 psql 프로그램의 명령이에요.', bi("fade", 4)))
-W("s-two", o, "MySQL과 PostgreSQL은 SQL이 같고, 프로그램 명령 몇 개가 달라요. 오늘 본 네 문장과 WHERE, 열 타입 INT와 VARCHAR, PRIMARY KEY는 두 서버에서 그대로 같아요. 다른 것은 아래 표예요. 프롬프트 모양이 다르고, 데이터베이스를 고르는 명령과 목록을 보는 명령이 달라요. 결과 끝 줄의 모양도 조금 달라요. 번호를 자동으로 붙이는 방법도 달라요. MySQL은 AUTO_INCREMENT, PostgreSQL은 SERIAL이라고 적어요. 이 챕터에서는 번호를 직접 넣으니 이름만 알아 두면 돼요. 서버가 기다리는 기본 포트는 3306과 5432예요. 33에서 컨테이너로 켤 때 다시 봐요. 수업에서 강사님이 두 서버를 오가도 SQL 부분은 그대로 따라가면 돼요.")
+W("s-two", o, "MySQL과 PostgreSQL은 SQL이 같고, 프로그램 명령 몇 개가 달라요. 오늘 본 네 문장과 WHERE, 열 타입 INT와 VARCHAR, PRIMARY KEY는 두 서버에서 그대로 같아요. 다른 것은 아래 표예요. 프롬프트 모양이 다르고, 데이터베이스를 고르는 명령과 목록을 보는 명령이 달라요. 결과 끝 줄의 모양도 조금 달라요. 번호를 자동으로 붙이는 방법도 달라요. MySQL은 AUTO_INCREMENT, PostgreSQL은 SERIAL이라고 적어요. 이 챕터에서는 번호를 직접 넣으니 이름만 알아 두면 돼요. 서버가 기다리는 기본 포트는 3306과 5432예요. 33, 34에서 컨테이너로 켤 때 다시 봐요. 수업에서 강사님이 두 서버를 오가도 SQL 부분은 그대로 따라가면 돼요.")
 
 # =====================================================================
 # part 3: errors
@@ -1056,7 +1056,7 @@ allrows = [("1", "latte", "2"), ("2", "americano", "1"), ("3", "cake", "1"), ("4
 lat = {(i, j): f' style="color:{OR};font-weight:700"' + MARK(2) for i in (0, 3) for j in range(3)}
 html_, g = sheet(96, 660, COLS, allrows, "rd-tab", [110, 250, 160], size=22, rh=46, name="orders 지금 모습", pk=True, cell_attrs=lat)
 o.append(html_)
-W("r-day", o, "오늘 들어온 주문서 두 장을 표에 넣고, 라테 주문만 골라 봐요. 진동벨 번호를 id로 쓰면 기본 키가 겹치지 않아요. INSERT 한 문장에 괄호 묶음 두 개를 이어 적어서 4번, 5번 주문을 한 번에 넣었어요. 그다음 WHERE menu = latte로 메뉴가 라테인 행만 골랐어요. 글자 값이라 작은따옴표로 감쌌어요. 아침에 넣은 1번과 지금 넣은 4번이 나와요. 왼쪽 아래는 PostgreSQL에 같은 두 문장을 보낸 결과에서 SELECT 부분만 옮긴 거예요. 결과가 같아요." + REAL, ("p4", "실제 상황 예제"))
+W("r-day", o, "오늘 들어온 주문서 두 장을 표에 넣고, 라테 주문만 골라 봐요. 진동벨 번호를 id로 쓰면 기본 키가 겹치지 않아요. INSERT 한 문장에 괄호 묶음 두 개를 이어 적어서 4번, 5번 주문을 한 번에 넣었어요. 그다음 WHERE menu = latte로 메뉴가 라테인 행만 골랐어요. 글자 값이라 작은따옴표로 감쌌어요. 아침에 넣은 1번과 지금 넣은 4번이 나와요. 오른쪽 아래는 PostgreSQL에 같은 두 문장을 보낸 결과에서 SELECT 부분만 옮긴 거예요. 결과가 같아요." + REAL, ("p4", "실제 상황 예제"))
 
 o = frame("r-menu", EB4, "예제 2 · 메뉴판을 보고 menu 표를 설계해요", C4)
 o.append(f'<div id="rm-board" style="position:absolute;left:96px;top:214px;width:480px;height:330px;box-sizing:border-box;background:#2B3A33;border:10px solid #7A5A3A;border-radius:16px;padding:28px 36px;display:flex;flex-direction:column;gap:18px">'
@@ -1099,7 +1099,7 @@ for i, (a_, b_, c_, d_) in enumerate(tr):
     o.append(p(f"position:absolute;left:1240px;top:{y + 18}px;width:584px;font-size:25px;color:{SUB};white-space:nowrap", e(c_), ra_))
     o.append(p(f"position:absolute;left:1240px;top:{y + 62}px;width:584px;font-size:26px;font-weight:700;color:{INK};white-space:nowrap", e(d_), ra_))
 o.append(f'<div style="position:absolute;left:96px;top:{262 + 6 * 118}px;width:1728px;height:1px;background:{LINE}"></div>')
-W("trouble", o, "오늘 본 오류를 모았어요. 왼쪽 위가 MySQL, 오른쪽 아래가 PostgreSQL의 문구예요. 문구는 달라도 까닭과 해결은 같아요. 겹친 기본 키, 타입에 안 맞는 값, 너무 긴 글자는 서버가 표의 규칙을 지켜 준 거예요. 따옴표가 없거나 데이터베이스를 안 고른 것은 문장을 고쳐서 다시 보내요. 프롬프트가 화살표나 cafe 빼기 샵이면 오류가 아니라 세미콜론을 기다리는 중이에요.", ("trouble", "정리"))
+W("trouble", o, "오늘 본 오류를 모았어요. 칸마다 왼쪽 위가 MySQL, 오른쪽 아래가 PostgreSQL의 문구예요. 문구는 달라도 까닭과 해결은 같아요. 겹친 기본 키, 타입에 안 맞는 값, 너무 긴 글자는 서버가 표의 규칙을 지켜 준 거예요. 따옴표가 없거나 데이터베이스를 안 고른 것은 문장을 고쳐서 다시 보내요. 프롬프트가 화살표나 cafe 빼기 샵이면 오류가 아니라 세미콜론을 기다리는 중이에요.", ("trouble", "정리"))
 
 o = frame("cheatsheet", "정리", "한 장 요약", INK)
 groups = [("낱말", C1, [("표 (테이블)", "엑셀 시트 한 장"), ("행 (row)", "주문 하나"), ("열 (column)", "항목 하나, 타입이 있어요"), ("기본 키", "행마다 다른 번호")]),
@@ -1115,8 +1115,8 @@ for i, (t_, c, rows_) in enumerate(groups):
         o.append(p(f"position:absolute;left:{x}px;top:{y}px;width:560px;{'font-family:' + MONO + ';font-size:23px;' if mono else 'font-size:27px;'}font-weight:700;color:{INK};white-space:pre", e(k)))
         o.append(p(f"position:absolute;left:{x}px;top:{y + 42}px;width:540px;font-size:23px;color:{SUB}", e(d_)))
 o.append(caption("MySQL과 PostgreSQL은 같은 SQL을 알아들어요. 다른 건 프로그램 명령 몇 개예요.", 820, None, size=32))
-o.append(caption("33에서 Docker로 두 서버를 직접 켜고, 오늘 읽은 문장을 쳐 봐요.", 880, None, size=28, color=SUB))
-W("cheatsheet", o, "오늘 쓴 것을 세 묶음으로 모았어요. 데이터베이스는 표에 데이터를 담아요. 행은 주문 하나, 열은 항목 하나이고, 열마다 타입이 있어요. 기본 키는 행마다 다른 번호예요. SQL 네 문장으로 데이터베이스와 표를 만들고, 행을 넣고 꺼내요. MySQL과 PostgreSQL은 이 SQL이 같고, 데이터베이스를 고르는 명령과 프롬프트, 자동 번호, 기본 포트가 달라요. 다음 33에서는 Docker로 두 서버를 직접 켜고 오늘 읽은 문장을 쳐 봐요.")
+o.append(caption("33에서 MySQL을, 34에서 PostgreSQL을 Docker로 켜고 오늘 읽은 문장을 쳐 봐요.", 880, None, size=28, color=SUB))
+W("cheatsheet", o, "오늘 쓴 것을 세 묶음으로 모았어요. 데이터베이스는 표에 데이터를 담아요. 행은 주문 하나, 열은 항목 하나이고, 열마다 타입이 있어요. 기본 키는 행마다 다른 번호예요. SQL 네 문장으로 데이터베이스와 표를 만들고, 행을 넣고 꺼내요. MySQL과 PostgreSQL은 이 SQL이 같고, 데이터베이스를 고르는 명령과 프롬프트, 자동 번호, 기본 포트가 달라요. 다음 33에서는 MySQL을, 34에서는 PostgreSQL을 Docker로 켜고 오늘 읽은 문장을 쳐 봐요.")
 
 # =====================================================================
 # toc

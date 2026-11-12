@@ -1,6 +1,6 @@
 # 32 · 데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)
 
-> 지금까지 주문은 파이썬 리스트와 딕셔너리에 담았어요. 프로그램을 끄면 그 값도 같이 사라져요. 이번에는 데이터를 오래 담아 두는 데이터베이스를 보고, 표, 행, 열, 타입, 기본 키 같은 낱말을 익혀요. 그다음 SQL 네 문장으로 표를 만들고 넣고 꺼내는 화면을 MySQL과 PostgreSQL에서 나란히 읽어요. 서버를 직접 켜고 쳐 보는 건 33에서 해요.
+> 지금까지 주문은 파이썬 리스트와 딕셔너리에 담았어요. 프로그램을 끄면 그 값도 같이 사라져요. 이번에는 데이터를 오래 담아 두는 데이터베이스를 보고, 표, 행, 열, 타입, 기본 키 같은 낱말을 익혀요. 그다음 SQL 네 문장으로 표를 만들고 넣고 꺼내는 화면을 MySQL과 PostgreSQL에서 나란히 읽어요. 서버를 직접 켜고 쳐 보는 건 33(MySQL)과 34(PostgreSQL)에서 해요.
 
 <!-- curriculum:top -->
 
@@ -134,7 +134,7 @@ SELECT * FROM orders WHERE id = 2;
 
 ## 실습
 
-이 챕터는 종이와 연필로 해요. 서버를 켜고 직접 치는 실습은 33에서 해요.
+이 챕터는 종이와 연필로 해요. 서버를 켜고 직접 치는 실습은 33(MySQL)과 34(PostgreSQL)에서 해요.
 
 1. 카페 회원을 담을 `members` 표를 설계해요. 회원 번호, 이름, 적립 도장 수를 담아요. 열 이름, 타입, 기본 키를 정해서 아래 빈칸을 채워요.
 
@@ -233,7 +233,7 @@ node ../tools/export.js slides database-basics-slides.pdf
 
 출력은 Docker 29.9.2에서 `mysql:8.4`(MySQL 8.4.13)와 `postgres:18`(PostgreSQL 18.6) 이미지로 실행한 결과예요. 실행 시간(`0.01 sec`)은 수강생 화면과 조금 다를 수 있어요. 3쪽의 `uv run main.py` 출력도 실제로 두 번 실행해서 옮겼어요.
 
-범위: 데이터베이스와 DBMS, 관계형과 표, 행과 열, `INT`와 `VARCHAR`, 기본 키, 서버 안의 데이터베이스와 표, SQL 네 문장(`CREATE DATABASE`, `CREATE TABLE`, `INSERT`, `SELECT`)과 `WHERE`, MySQL과 PostgreSQL의 차이를 다뤄요. 화면은 읽기만 하고, 서버 켜기와 접속은 33에서 해요. `JOIN`, 인덱스, 트랜잭션, `UPDATE`와 `DELETE`, `AUTO_INCREMENT`와 `SERIAL` 실습, 날짜와 소수 타입, 파이썬에서 데이터베이스 연결하기는 다루지 않아요.
+범위: 데이터베이스와 DBMS, 관계형과 표, 행과 열, `INT`와 `VARCHAR`, 기본 키, 서버 안의 데이터베이스와 표, SQL 네 문장(`CREATE DATABASE`, `CREATE TABLE`, `INSERT`, `SELECT`)과 `WHERE`, MySQL과 PostgreSQL의 차이를 다뤄요. 화면은 읽기만 하고, 서버 켜기와 접속은 33(MySQL), 34(PostgreSQL)에서 해요. `JOIN`, 인덱스, 트랜잭션, `UPDATE`와 `DELETE`, `AUTO_INCREMENT`와 `SERIAL` 실습, 날짜와 소수 타입, 파이썬에서 데이터베이스 연결하기는 다루지 않아요.
 
 </details>
 
