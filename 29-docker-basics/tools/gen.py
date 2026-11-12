@@ -824,7 +824,7 @@ o.append(pen_box(3, round(sx_st - 8), round(t.top(7) - 2), round(t.sw("Up Less t
 sx_cr = t.sx(6, "CREATED")
 o.append(underline(4, sx_cr, sx_cr + t.sw("21 seconds ago"), t.top(7) + t.lp - 2, OR))
 o.append(caption("STATUS는 처음부터 다시 세고, CREATED는 그대로예요. 새 컨테이너가 아니라 같은 컨테이너를 다시 켠 거예요.", t.y + t.h + 40, 4, size=30))
-W("restart", o, "서버가 이상하게 굴거나 설정을 바꿨을 때는 껐다가 다시 켜요. docker stop과 docker start를 차례로 쳐도 되지만, docker restart 한 번이면 둘을 이어서 해 줘요. 다시 켠 뒤 docker ps를 보면 STATUS는 Up Less than a second로 처음부터 다시 세요. CREATED는 그대로예요. 컨테이너를 새로 만든 게 아니라 같은 컨테이너를 다시 켠 거라서 이름도, 남긴 기록도 그대로 있어요. Docker Desktop 앱 자체를 다시 켜는 건 위쪽 고래 아이콘 메뉴의 Restart예요. 이 장은 컨테이너를 다시 켜는 이야기예요. " + MADE)
+W("restart", o, "서버가 이상하게 굴거나 설정을 바꿨을 때는 껐다가 다시 켜요. docker stop과 docker start를 차례로 쳐도 되지만, docker restart 한 번이면 둘을 이어서 해 줘요. 다시 켠 뒤 docker ps를 보면 STATUS는 Up Less than a second로 처음부터 다시 세요. CREATED는 그대로예요. 컨테이너를 새로 만든 게 아니라 같은 컨테이너를 다시 켠 거라서 이름도, 남긴 기록도 그대로 있어요. Docker Desktop 앱 자체를 다시 켜는 건 위쪽 고래 아이콘 메뉴의 Restart예요. 이 장은 컨테이너를 다시 켜는 이야기예요. 이 출력은 따로 실행해서 컨테이너 ID가 앞 장과 달라요. " + MADE)
 
 o = frame("life", EB4, "컨테이너는 켜짐과 꺼짐을 오가다가 rm으로 사라져요", GR)
 nodes = [("n-img", "이미지 nginx", OR, "#FFF4E2", 96, 420), ("n-up", "켜짐 Up", GR, "#E8F4EC", 620, 420), ("n-ex", "꺼짐 Exited", GRAY, "#EDEBE6", 1160, 420), ("n-gone", "없어짐", RED, "#FBECEC", 1160, 760)]
@@ -841,6 +841,27 @@ for d, c, lab, lx, ly, od in arrows:
 o.append(p(f"position:absolute;left:96px;top:260px;width:900px;font-size:28px;line-height:1.5;color:{SUB}", "run은 새 컨테이너를 만들어서 켜요.<br>start는 꺼 둔 컨테이너를 다시 켜요."))
 o.append(p(f"position:absolute;left:96px;top:760px;width:960px;font-size:28px;line-height:1.5;color:{SUB}", "rm은 꺼진 컨테이너만 지워요.<br>이미지를 지우는 명령은 docker rmi예요.", bi("fade", 4)))
 W("life", o, "지금까지 본 명령을 한 그림에 모았어요. docker run은 이미지로 새 컨테이너를 만들어서 켜요. docker stop은 끄고, docker start는 꺼 둔 같은 컨테이너를 다시 켜요. docker rm은 꺼진 컨테이너를 지워요. 켜진 컨테이너는 바로 못 지우고 먼저 stop해야 해요. 5파트 오류에서 다시 봐요. 이미지는 컨테이너와 따로 남아 있고, 이미지까지 지울 때는 docker rmi를 써요. rmi의 i는 image예요.")
+
+o = frame("localhost", EB4, "localhost는 내 컴퓨터, 8080은 그 안의 문 번호예요", GR)
+o += parts(96, 214, [("http://", GRAY, "웹 주소 약속", None), ("localhost", BL, "내 컴퓨터", None), (":8080", OR, "문 번호 (포트)", None)], size=64, order=1, lab=28, drop=30, stagger=True, sep=0)
+o.append(window(96, 540, 360, 240, "브라우저", p(f"position:absolute;left:24px;top:40px;width:310px;height:56px;background:#FFFFFF;border:2px solid #D2CEC4;border-radius:12px;font-family:{MONO};font-size:22px;line-height:52px;text-align:center;color:{INK}", "localhost:8080"), "lh-br", attrs=bi("rise", 4)))
+doors = [("80", "http 기본 문", "번호를 안 적으면 여기로 가요"), ("443", "https 기본 문", "자물쇠가 붙은 주소가 쓰는 문"), ("8080", "연습용으로 자주 쓰는 문", "오늘 nginx를 이을 문")]
+box = (f'<div style="position:absolute;left:600px;top:460px;width:1224px;height:430px;background:#FFFFFF;border:3px solid #9AA3B5;border-radius:26px">'
+       + p(f"position:absolute;left:36px;top:26px;font-size:30px;font-weight:700;color:{BL}", "내 컴퓨터 = localhost = 127.0.0.1"))
+for k, (num, name, desc) in enumerate(doors):
+    dx = 50 + k * 386
+    hi = num == "8080"
+    box += (f'<div id="door-{num}" style="position:absolute;left:{dx}px;top:110px;width:350px;height:224px;background:{"#FFF4E0" if hi else "#F3F1EC"};border:3px solid {OR if hi else "#C9C4B8"};border-radius:18px">'
+            + p(f"position:absolute;left:0;top:22px;width:350px;text-align:center;font-family:{MONO};font-size:48px;font-weight:700;color:{OR if hi else GRAY}", num)
+            + p(f"position:absolute;left:0;top:98px;width:350px;text-align:center;font-size:25px;font-weight:700;color:{INK}", name)
+            + p(f"position:absolute;left:20px;top:140px;width:310px;text-align:center;font-size:21px;line-height:1.4;color:{SUB}", desc) + '</div>')
+box += '</div>'
+o.append(box)
+o.append(svg('<path id="p-lh" d="M456,660 L540,660 L540,856 L1617,856 L1617,798" fill="none" stroke="none"/>' + arrow_path("M456,660 L540,660 L540,856 L1617,856 L1617,802", OR, 5) + head_at(1617, 798, -90, OR), 5))
+o.append(f'<div{PATH(5, "p-lh")} style="position:absolute;left:438px;top:642px;width:36px;height:36px;border-radius:18px;background:{OR};border:4px solid #FFFFFF;box-shadow:0 2px 6px rgba(0,0,0,.18)"></div>')
+o.append(pulse(5, "door-8080"))
+o.append(caption("한 컴퓨터에서 여러 프로그램이 요청을 기다려서, 문 번호로 어느 프로그램에 갈지 정해요.", 924, 6, size=30))
+W("localhost", o, "localhost는 지금 앞에 있는 내 컴퓨터를 부르는 이름이에요. naver.com 같은 인터넷 주소 대신, 내 컴퓨터 안에서 켜 둔 프로그램에 들어갈 때 써요. 숫자로 적으면 127.0.0.1이고 뜻은 같아요. 한 컴퓨터 안에서 여러 프로그램이 동시에 요청을 기다릴 수 있어서, 주소 뒤의 :8080 같은 문 번호로 어느 프로그램에 갈지 정해요. 이 문 번호를 포트라고 불러요. 80은 http, 443은 https가 기본으로 쓰는 문이라 주소에 번호를 안 적어도 돼요. 8080은 연습할 때 80과 겹치지 않게 자주 고르는 번호예요. 다음 장에서 nginx에 localhost:8080으로 들어가 봐요. 그림은 단순하게 그렸어요.")
 
 o = frame("port-why", EB4, "켜져 있는 nginx에 브라우저로 들어가면 안 열려요", GR)
 err = ('<div style="display:flex;flex-direction:column;align-items:flex-start;gap:18px;padding:70px 90px">'
@@ -879,7 +900,7 @@ ps_ = OUTP("port", "docker ps")
 cut = ps_[0].index("PORTS")
 tp = Term([("o", "PORTS                  NAMES"), ("g", ps_[1][cut:])], 96, 790, size=24, w=700, tid="t-ports", bar=False, attrs=bi("rise", 4))
 o.append(tp.html())
-W("port", o, "-p는 publish, 문을 연다는 옵션이에요. 콜론 왼쪽이 내 컴퓨터의 문 번호, 오른쪽이 컨테이너 안의 문 번호예요. nginx는 컨테이너 안에서 80번 문으로 기다려요. -p 8080:80을 붙여 켜면 내 컴퓨터 8080번으로 들어온 요청이 컨테이너 80번으로 넘어가요. 그래서 브라우저에서 localhost:8080을 열면 Welcome to nginx! 화면이 나와요. docker ps의 PORTS 칸에도 0.0.0.0:8080->80/tcp가 생겼어요. 이 문 번호를 포트라고 불러요. 앞 장에서 만든 web은 지우고 새로 켰어요. 지우는 과정은 5파트에서 봐요. 브라우저 안 화면은 실제로 localhost:8080을 연 결과예요. docker ps 출력은 PORTS와 NAMES 칸만 남겼어요.")
+W("port", o, "-p는 publish, 문을 연다는 옵션이에요. 콜론 왼쪽이 내 컴퓨터의 문 번호, 오른쪽이 컨테이너 안의 문 번호예요. nginx는 컨테이너 안에서 80번 문으로 기다려요. -p 8080:80을 붙여 켜면 내 컴퓨터 8080번으로 들어온 요청이 컨테이너 80번으로 넘어가요. 그래서 브라우저에서 localhost:8080을 열면 Welcome to nginx! 화면이 나와요. docker ps의 PORTS 칸에도 0.0.0.0:8080->80/tcp가 생겼어요. 앞에서 -p 없이 만든 web은 지우고 새로 켰어요. 지우는 과정은 5파트에서 봐요. 브라우저 안 화면은 실제로 localhost:8080을 연 결과예요. docker ps 출력은 PORTS와 NAMES 칸만 남겼어요.")
 
 o = frame("port-two", EB4, "같은 이미지로 두 개를 켤 때는 이름과 내 컴퓨터 문을 다르게 줘요", GR)
 lines = [("$", P, "docker run -d --name web2 -p 8081:80 nginx")] + [("o", l) for l in OUTP("two", "docker run")] + [("$", P, "docker ps")] + [("o", l) for l in OUTP("two", "docker ps")]
