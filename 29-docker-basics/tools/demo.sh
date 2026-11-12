@@ -7,7 +7,7 @@ set -u
 run() { echo "\$ $*"; "$@" 2>&1; echo "[exit $?]"; echo; }
 step() { echo "### $1"; }
 
-if [ "${1:-}" != it ]; then   # `bash tools/demo.sh it` runs only the -it part at the end
+if [ "${1:-}" != extra ]; then   # `bash tools/demo.sh extra` runs only the part at the end
 docker rm -f $(docker ps -aq) >/dev/null 2>&1
 docker rmi -f $(docker images -q) >/dev/null 2>&1
 
@@ -94,7 +94,7 @@ fi
 
 # -it needs a real terminal, so these run inside `script`. Escape codes, layer progress lines and the
 # typed-ahead echo before the first prompt are removed. Run only this part again with:
-#   bash tools/demo.sh it >> tools/demo-output.txt 2>&1   (after removing the old ### ubuntu block)
+#   bash tools/demo.sh extra >> tools/demo-output.txt 2>&1   (after removing the old blocks from ### ubuntu on)
 tty_run() {
   local c=$1; shift; echo "\$ $c"
   { [ $# -gt 0 ] && printf '%s\n' "$@"; } | script -qc "$c; echo \"[exit \$?]\"" /dev/null 2>&1 \
@@ -103,11 +103,16 @@ tty_run() {
         /^[0-9a-f]{12}: /{next} /^$/&&!p{next} /root@/{p=1} p||!($0 in skip){print}'
   echo
 }
-if [ "${1:-}" = it ]; then
+if [ "${1:-}" = extra ]; then
   docker rm -f my-server >/dev/null 2>&1; docker rmi ubuntu:24.04 >/dev/null 2>&1
   step ubuntu
   tty_run 'docker run -it --name my-server ubuntu:24.04 bash' 'cat /etc/os-release | head -2' 'whoami' 'ls' 'exit'
   run docker ps -a --filter name=my-server
-  step error-it-name
-  tty_run 'docker run -it my-server ubuntu:24.04 bash'
+  step restart   # restart = stop + start in one command; CREATED stays, STATUS starts again
+  docker rm -f web >/dev/null 2>&1; docker pull -q nginx >/dev/null 2>&1
+  run docker run -d --name web nginx
+  sleep 20
+  run docker ps
+  run docker restart web
+  run docker ps
 fi

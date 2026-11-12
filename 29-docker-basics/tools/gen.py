@@ -810,6 +810,22 @@ o += tag(t, 13, "다시 켜졌어요", GR, 2, at=t.end(13) + 10)
 o.append(caption("stop은 끄기만 해요. 컨테이너는 목록에 남아서 start로 다시 켤 수 있어요.", t.y + t.h + 36, 3, size=28))
 W("stop-start", o, "docker stop web은 web 컨테이너를 꺼요. 성공하면 이름을 한 번 찍어요. docker ps에는 아무것도 없고, docker ps -a에는 web이 Exited로 남아 있어요. 끄기만 하고 지우지는 않았으니까요. docker start web으로 같은 컨테이너를 다시 켜요. 새로 만드는 게 아니라 꺼 둔 것을 다시 켜는 거라 컨테이너 ID가 그대로예요. " + MADE)
 
+o = frame("restart", EB4, "docker restart는 끄고 켜기를 한 번에 해요", GR)
+o += parts(96, 226, [("docker restart web", GR, None, None), ("=", GRAY, None, None), ("docker stop web", INK, None, None), ("+", GRAY, None, None), ("docker start web", INK, None, None)], size=44)
+lines = [("$", P, "docker ps")] + [("o", l) for l in OUTN("restart", "docker ps", 0)] + [("$", P, "docker restart web")] + [("o", l) for l in OUTP("restart", "docker restart web")] \
+    + [("$", P, "docker ps")] + [("o", l) for l in OUTN("restart", "docker ps", 1)]
+t = Term(lines, 96, 360, size=24, w=1728, lh=1.7)
+t.band(7, order=2, color="rgba(127,209,139,.14)")
+o.append(t.html())
+sx_st = t.sx(1, "STATUS")
+o.append(underline(1, sx_st, sx_st + t.sw("Up 20 seconds"), t.top(2) + t.lp - 2, GRAY))
+o += tag(t, 4, "끄고 다시 켰어요", GR, 2)
+o.append(pen_box(3, round(sx_st - 8), round(t.top(7) - 2), round(t.sw("Up Less than a second") + 16), round(t.lp + 4), GR))
+sx_cr = t.sx(6, "CREATED")
+o.append(underline(4, sx_cr, sx_cr + t.sw("21 seconds ago"), t.top(7) + t.lp - 2, OR))
+o.append(caption("STATUS는 처음부터 다시 세고, CREATED는 그대로예요. 새 컨테이너가 아니라 같은 컨테이너를 다시 켠 거예요.", t.y + t.h + 40, 4, size=30))
+W("restart", o, "서버가 이상하게 굴거나 설정을 바꿨을 때는 껐다가 다시 켜요. docker stop과 docker start를 차례로 쳐도 되지만, docker restart 한 번이면 둘을 이어서 해 줘요. 다시 켠 뒤 docker ps를 보면 STATUS는 Up Less than a second로 처음부터 다시 세요. CREATED는 그대로예요. 컨테이너를 새로 만든 게 아니라 같은 컨테이너를 다시 켠 거라서 이름도, 남긴 기록도 그대로 있어요. Docker Desktop 앱 자체를 다시 켜는 건 위쪽 고래 아이콘 메뉴의 Restart예요. 이 장은 컨테이너를 다시 켜는 이야기예요. " + MADE)
+
 o = frame("life", EB4, "컨테이너는 켜짐과 꺼짐을 오가다가 rm으로 사라져요", GR)
 nodes = [("n-img", "이미지 nginx", OR, "#FFF4E2", 96, 420), ("n-up", "켜짐 Up", GR, "#E8F4EC", 620, 420), ("n-ex", "꺼짐 Exited", GRAY, "#EDEBE6", 1160, 420), ("n-gone", "없어짐", RED, "#FBECEC", 1160, 760)]
 for nid, n, c, bg, x, y in nodes:
@@ -996,14 +1012,6 @@ err_slide("err-rmi", "이미지를 쓰는 컨테이너가 남아 있으면 rmi�
           "4파트 처음에 Ctrl+C로 멈춘 nginx 컨테이너가 남아 있었어요.",
           "web과 web2를 다 지웠는데도 docker rmi nginx가 안 돼요. 메시지를 보면 a669a15ddb87 컨테이너가 이 이미지를 쓰고 있대요. 4파트 처음에 Ctrl+C로 멈춘 nginx 컨테이너가 꺼진 채로 남아 있었어요. 틀로 찍은 붕어빵이 하나라도 남아 있으면 틀을 버릴 수 없는 셈이에요. docker ps -a로 이름을 찾아 docker rm으로 지운 뒤 rmi를 다시 쳐요. 메시지의 must be forced는 -f로 강제로 지우는 방법인데 수업에서는 쓰지 않아요. 컨테이너 이름은 실행할 때마다 달라요. " + MADE)
 
-ie = OUTP("error-it-name", "docker run -it my-server")
-err_slide("err-it", "pull access denied가 나오면 이미지 이름 자리를 봐요",
-          "docker run -it my-server ubuntu:24.04 bash", [l for x in ie[:2] for l in wrap(x, 100)], "pull access denied for my-server",
-          "--name을 빼서 Docker가 my-server를 이미지 이름으로 읽었어요.",
-          [("$", P, "docker run -it --name my-server ubuntu:24.04 bash")],
-          "옵션 다음 첫 단어가 이미지 이름이에요. 이미지 이름 오타도 같은 오류가 나요.",
-          "docker run은 옵션 다음에 나오는 첫 단어를 이미지 이름으로 읽어요. --name을 빼먹으면 my-server가 이미지 이름이 돼요. Docker는 내 컴퓨터에서 my-server 이미지를 못 찾고 Docker Hub에서 받으려다가, 그런 저장소가 없다고 pull access denied를 내요. 뒤의 ubuntu:24.04는 컨테이너 안에서 켤 명령으로 넘어가요. --name my-server처럼 옵션 이름을 붙여서 다시 쳐요. ngnix처럼 이미지 이름에 오타가 나도 같은 오류가 나요. 메시지의 docker login은 비공개 이미지를 받을 때 쓰는 로그인인데, 공식 이미지에는 필요 없어요. " + MADE)
-
 # ---------- part 6: practice ----------
 EB6 = "6. 실습"
 o = frame("x-python", EB6, "파이썬을 설치하지 않고 3.11과 3.12를 바로 비교해요", PUR)
@@ -1045,7 +1053,7 @@ W("x-lost", o, "logs 장에서 web에는 localhost:8080에 들어온 기록이 �
 o = frame("cheatsheet", "정리", "한 장 요약", INK)
 groups = [("확인", TEAL, [("docker --version", "설치된 버전"), ("docker run hello-world", "설치 확인")]),
           ("이미지 (틀)", OR, [("docker pull 이름:태그", "Hub에서 받기"), ("docker images", "받은 이미지 목록"), ("docker rmi 이름", "이미지 지우기")]),
-          ("컨테이너 (붕어빵)", GR, [("docker run -d --name 이름 -p 8080:80 이미지", "새로 만들어 뒤에서 켜기"), ("docker ps / docker ps -a", "켜진 것 / 전부"), ("docker stop 이름 / docker start 이름", "끄기 / 다시 켜기"),
+          ("컨테이너 (붕어빵)", GR, [("docker run -d --name 이름 -p 8080:80 이미지", "새로 만들어 뒤에서 켜기"), ("docker ps / docker ps -a", "켜진 것 / 전부"), ("docker stop 이름 / docker start 이름", "끄기 / 다시 켜기"), ("docker restart 이름", "껐다가 다시 켜기"),
                                   ("docker rm 이름", "지우기 (끈 다음에)"), ("docker logs 이름", "남긴 기록 보기"),
                                   ("docker run -it --name 이름 이미지 bash", "안에 들어가기 (exit로 나오기)")])]
 xs = [96, 96, 900]
@@ -1055,19 +1063,19 @@ for (t_, c, rows), x, y0 in zip(groups, xs, ys):
     o.append(p(f"position:absolute;left:{x}px;top:{y0}px;font-size:30px;font-weight:700;color:{c}", e(t_)))
     o.append(f'<div style="position:absolute;left:{x}px;top:{y0 + 50}px;width:{w_}px;height:3px;background:{c}"></div>')
     for j, (k, d) in enumerate(rows):
-        y = y0 + 76 + j * 100
+        y = y0 + 76 + j * (100 if len(rows) <= 6 else 88)
         o.append(p(f"position:absolute;left:{x}px;top:{y}px;width:{w_}px;font-family:{MONO};font-size:{24 if len(k) > 34 else 27}px;font-weight:700;color:{INK};white-space:nowrap", e(k)))
         o.append(p(f"position:absolute;left:{x}px;top:{y + 42}px;width:{w_}px;font-size:23px;color:{SUB}", e(d)))
 o.append(caption("이미지는 Docker Official Image 마크부터 골라요. 명령은 터미널, 확인은 Docker Desktop이에요.", 920, None, size=28))
-W("cheatsheet", o, "오늘 쓴 명령을 세 묶음으로 모았어요. 설치 확인 두 개, 이미지 세 개, 컨테이너 여섯 줄이에요. 이미지는 Docker Hub에서 Docker Official Image 마크가 붙은 것부터 골라요. 명령은 터미널에서 치고, 결과는 Docker Desktop 화면으로 확인해요. 실습이 끝나면 docker ps -a와 docker images로 남은 것을 확인하고 rm, rmi로 정리해요. 다음 챕터 30에서는 볼륨과 Dockerfile을 배워요.", ("trouble", "정리"))
+W("cheatsheet", o, "오늘 쓴 명령을 세 묶음으로 모았어요. 설치 확인 두 개, 이미지 세 개, 컨테이너 일곱 줄이에요. 이미지는 Docker Hub에서 Docker Official Image 마크가 붙은 것부터 골라요. 명령은 터미널에서 치고, 결과는 Docker Desktop 화면으로 확인해요. 실습이 끝나면 docker ps -a와 docker images로 남은 것을 확인하고 rm, rmi로 정리해요. 다음 챕터 30에서는 볼륨과 Dockerfile을 배워요.", ("trouble", "정리"))
 
 # ---------- toc ----------
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 plist = [(BL, "Docker가 뭔가요", "컨테이너, 이미지와 컨테이너, 가상 머신과 비교", "why", "vm"),
          (TEAL, "설치하기", "Windows WSL 2, Mac 칩 고르기, hello-world", "win-check", "check"),
          (DK, "Docker Desktop과 Docker Hub", "화면 둘러보기, 공식 마크, 태그, docker pull", "desk-tour", "pull"),
-         (GR, "컨테이너 켜고 끄기", "run, ps, stop, start, rm, -p 8080:80, logs, -it", "run-fg", "run-it"),
-         (RED, "자주 나는 오류", "엔진 꺼짐, 켜진 채 rm, 이름, 포트, rmi, 이미지 이름", "err-daemon", "err-it"),
+         (GR, "컨테이너 켜고 끄기", "run, ps, stop, start, restart, rm, -p 8080:80, logs, -it", "run-fg", "run-it"),
+         (RED, "자주 나는 오류", "엔진 꺼짐, 켜진 채 rm, 이름, 포트, rmi", "err-daemon", "err-rmi"),
          (PUR, "실습", "파이썬 버전 비교, 지우면 사라지는 기록", "x-python", "x-lost")]
 o = frame("toc", "", "오늘의 순서", INK)
 for i, (c, h, s_, a, b) in enumerate(plist):
@@ -1081,7 +1089,7 @@ o.append(f'<div style="position:absolute;left:96px;top:{210 + 6 * 120}px;width:1
 o.append(p(f"position:absolute;left:96px;top:{210 + 6 * 120 + 36}px;font-size:26px;color:{SUB}", f"{page['cheatsheet']}쪽은 한 장 요약이에요."))
 o = [x for x in o if 'id="eyebrow"' not in x]
 with open(os.path.join(OUT, "toc.html"), "w") as f:
-    f.write("\n".join(o) + f"\n<aside>{e('여섯 파트로 나눴어요. 1파트에서 Docker가 무엇인지 그림으로 보고, 2파트에서 Windows와 Mac에 설치해요. 3파트에서 Docker Desktop 화면과 Docker Hub에서 이미지 고르는 법을 보고, 4파트에서 nginx 컨테이너를 켜고 끄고 브라우저로 열고, 우분투 컨테이너 안에 들어가 봐요. 5파트는 자주 나는 오류 여섯 가지, 6파트는 실습이에요.')}</aside>\n</section>\n")
+    f.write("\n".join(o) + f"\n<aside>{e('여섯 파트로 나눴어요. 1파트에서 Docker가 무엇인지 그림으로 보고, 2파트에서 Windows와 Mac에 설치해요. 3파트에서 Docker Desktop 화면과 Docker Hub에서 이미지 고르는 법을 보고, 4파트에서 nginx 컨테이너를 켜고 끄고 브라우저로 열고, 우분투 컨테이너 안에 들어가 봐요. 5파트는 자주 나는 오류 다섯 가지, 6파트는 실습이에요.')}</aside>\n</section>\n")
 
 deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-11-12T01:00:00Z"}, "lists": "css", "title": "Docker 1 (컨테이너 실행하기)", "order": ORDER,
         "sections": SECTIONS,

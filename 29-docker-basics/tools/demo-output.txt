@@ -447,27 +447,39 @@ $ docker run -it --name my-server ubuntu:24.04 bash
 Unable to find image 'ubuntu:24.04' locally
 24.04: Pulling from library/ubuntu
 Status: Downloaded newer image for ubuntu:24.04
-root@ab7c906af182:/# cat /etc/os-release | head -2
+root@01040a1eda9b:/# cat /etc/os-release | head -2
 PRETTY_NAME="Ubuntu 24.04.5 LTS"
 NAME="Ubuntu"
-root@ab7c906af182:/# whoami
+root@01040a1eda9b:/# whoami
 root
-root@ab7c906af182:/# ls
+root@01040a1eda9b:/# ls
 bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
 boot  etc  lib   media  opt  root  sbin  sys  usr
-root@ab7c906af182:/# exit
+root@01040a1eda9b:/# exit
 exit
 [exit 0]
 
 $ docker ps -a --filter name=my-server
 CONTAINER ID   IMAGE          COMMAND   CREATED                  STATUS                              PORTS     NAMES
-ab7c906af182   ubuntu:24.04   "bash"    Less than a second ago   Exited (0) Less than a second ago             my-server
+01040a1eda9b   ubuntu:24.04   "bash"    Less than a second ago   Exited (0) Less than a second ago             my-server
 [exit 0]
 
-### error-it-name
-$ docker run -it my-server ubuntu:24.04 bash
-Unable to find image 'my-server:latest' locally
-docker: Error response from daemon: pull access denied for my-server, repository does not exist or may require 'docker login'
-Run 'docker run --help' for more information
-[exit 125]
+### restart
+$ docker run -d --name web nginx
+315ddf61831a100d65fa7fb730cb08567ea40ddab4e3da28a40e2ae08622dac1
+[exit 0]
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS     NAMES
+315ddf61831a   nginx     "/docker-entrypoint.…"   20 seconds ago   Up 20 seconds   80/tcp    web
+[exit 0]
+
+$ docker restart web
+web
+[exit 0]
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                  PORTS     NAMES
+315ddf61831a   nginx     "/docker-entrypoint.…"   21 seconds ago   Up Less than a second   80/tcp    web
+[exit 0]
 

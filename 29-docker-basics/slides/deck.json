@@ -31,6 +31,7 @@
     "ps-a",
     "run-d",
     "stop-start",
+    "restart",
     "life",
     "port-why",
     "port",
@@ -42,7 +43,6 @@
     "err-name",
     "err-port",
     "err-rmi",
-    "err-it",
     "x-python",
     "x-lost",
     "cheatsheet"

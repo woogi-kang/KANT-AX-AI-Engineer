@@ -19,10 +19,10 @@
 - Windows에서 가상화와 WSL 2를 확인하고 Docker Desktop을 설치해요.
 - Mac에서 칩 종류(Apple Silicon, Intel)를 보고 맞는 설치 파일을 골라요.
 - Docker Hub에서 Docker Official Image 마크를 보고 이미지를 골라 `docker pull`로 받아요.
-- `docker run`, `ps`, `stop`, `start`, `rm`, `rmi`로 컨테이너와 이미지를 다뤄요.
+- `docker run`, `ps`, `stop`, `start`, `restart`, `rm`, `rmi`로 컨테이너와 이미지를 다뤄요.
 - `-p 8080:80`으로 내 컴퓨터 문을 컨테이너 문에 이어서 브라우저로 열어요.
 - `-it`로 우분투 컨테이너 안에 들어가 리눅스 명령을 치고 `exit`로 나와요.
-- 자주 나는 오류 여섯 가지를 메시지로 알아보고 고쳐요.
+- 자주 나는 오류 다섯 가지를 메시지로 알아보고 고쳐요.
 
 ## 시작하기 전에
 
@@ -45,8 +45,8 @@
 | 1 · Docker가 뭔가요 | 3~7 | 내 컴퓨터에서만 되는 문제, 컨테이너 상자, 이미지와 컨테이너, 큰 그림, 가상 머신과 비교 |
 | 2 · 설치하기 | 8~14 | Windows 가상화 확인, WSL 2와 Hyper-V, Windows 설치, Mac 칩 고르기, Mac 설치, 처음 켜기, hello-world |
 | 3 · Docker Desktop과 Docker Hub | 15~20 | Desktop 화면 둘러보기, Containers 목록, Hub 검색, 공식 마크, 태그, `docker pull` |
-| 4 · 컨테이너 켜고 끄기 | 21~30 | `run`, `ps -a`, `-d --name`, `stop`과 `start`, 상태 그림, 포트가 필요한 이유, `-p 8080:80`, 두 개 켜기, `logs`, `-it`로 우분투 안에 들어가기 |
-| 5 · 자주 나는 오류 | 31~36 | 엔진 꺼짐, 켜진 채 `rm`, 이름 겹침, 포트 겹침, 남은 컨테이너 때문에 `rmi` 안 됨, `--name`을 빼서 `pull access denied` |
+| 4 · 컨테이너 켜고 끄기 | 21~31 | `run`, `ps -a`, `-d --name`, `stop`과 `start`, `restart`, 상태 그림, 포트가 필요한 이유, `-p 8080:80`, 두 개 켜기, `logs`, `-it`로 우분투 안에 들어가기 |
+| 5 · 자주 나는 오류 | 32~36 | 엔진 꺼짐, 켜진 채 `rm`, 이름 겹침, 포트 겹침, 남은 컨테이너 때문에 `rmi` 안 됨 |
 | 6 · 실습 | 37~38 | 파이썬 3.11과 3.12 비교, 컨테이너를 지우면 사라지는 기록 |
 | 정리 | 39 | 한 장 요약 |
 
@@ -74,7 +74,7 @@ Docker Hub (nginx, python …)
 
 | 상태 | 들어가는 명령 | `docker ps`에 보이나요 |
 | --- | --- | :---: |
-| 켜짐 `Up` | `docker run`, `docker start` | 예 |
+| 켜짐 `Up` | `docker run`, `docker start`, `docker restart` | 예 |
 | 꺼짐 `Exited` | `docker stop`, `Ctrl+C` | `-a`를 붙여야 보여요 |
 | 없어짐 | `docker rm` (꺼진 뒤에) | 아니요 |
 
@@ -146,9 +146,10 @@ docker ps
 docker stop web
 docker ps -a
 docker start web
+docker restart web
 ```
 
-`docker ps -a`에는 꺼진 컨테이너가 `Exited`로 남아요.
+`docker restart`는 stop과 start를 한 번에 해요. `docker ps -a`에는 꺼진 컨테이너가 `Exited`로 남아요.
 
 ```
 CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS                              PORTS     NAMES
@@ -241,6 +242,7 @@ docker rmi nginx ubuntu:24.04
 | `docker ps -a` | 꺼진 것까지 전부 |
 | `docker stop 이름` | 끄기 |
 | `docker start 이름` | 꺼 둔 컨테이너 다시 켜기 |
+| `docker restart 이름` | 켜진 컨테이너를 껐다가 다시 켜기 (stop + start) |
 | `docker rm 이름` | 꺼진 컨테이너 지우기 |
 | `docker rmi 이미지` | 이미지 지우기 (쓰는 컨테이너가 없어야 해요) |
 | `docker logs 이름` | 컨테이너가 남긴 기록 보기 |
@@ -256,7 +258,6 @@ docker rmi nginx ubuntu:24.04
 | `Conflict. The container name "/web" is already in use` | 같은 이름의 컨테이너가 이미 있어요(꺼져 있어도) | `docker ps -a`로 보고 지우거나, 다른 이름으로 켜요 |
 | `port is already allocated` | 내 컴퓨터의 그 문을 다른 컨테이너가 쓰고 있어요 | 실패한 컨테이너를 `docker rm` 하고 `-p 8081:80`처럼 다른 문으로 켜요 |
 | `conflict: unable to delete … container … is using its referenced image` | 그 이미지로 만든 컨테이너가 남아 있어요 | `docker ps -a`로 찾아 `docker rm` 한 뒤 `docker rmi` |
-| `pull access denied for my-server, repository does not exist` | `--name`을 빼서 `my-server`를 이미지 이름으로 읽었어요. 이미지 이름 오타도 같아요 | `docker run -it --name my-server ubuntu:24.04 bash`처럼 옵션 이름을 붙여요 |
 | 작업 관리자에 가상화: 사용 안 함 | BIOS(UEFI)에서 가상화가 꺼져 있어요 | 컴퓨터를 켤 때 BIOS 설정에서 가상화를 켜요. 메뉴가 회사마다 달라서 강사와 같이 해요 |
 | 브라우저에서 localhost:8080이 안 열려요 | `-p` 없이 켰어요 | 컨테이너를 지우고 `-p 8080:80`을 붙여 새로 켜요 |
 
@@ -280,10 +281,10 @@ docker-basics-slides.html   배포용 HTML
 docker-basics-slides.pdf    강사용 PDF
 ```
 
-- 터미널 출력은 리눅스 컨테이너의 Docker 29.9.2로 실제로 실행한 결과예요. 엔진 꺼짐 오류(31쪽)는 Mac 소켓 경로를 `DOCKER_HOST`로 넣어서 실제로 냈어요.
+- 터미널 출력은 리눅스 컨테이너의 Docker 29.9.2로 실제로 실행한 결과예요. 엔진 꺼짐 오류(32쪽)는 Mac 소켓 경로를 `DOCKER_HOST`로 넣어서 실제로 냈어요.
 - `winget`, `brew`, `wsl --install`은 이 환경에서 실행할 수 없어서 명령만 보여 줘요.
 - Docker Desktop 창, 작업 관리자, 이 Mac에 관하여, 약관 창은 캡처할 수 없어서 간단한 그림으로 그렸어요. 발표자 노트에 적어 두었어요.
-- `-it` 장(30, 36쪽)은 터미널이 있어야 해서 `script`로 감싸 실행했어요. 그 부분만 다시 돌릴 때는 `bash tools/demo.sh it`이에요. `demo.sh`는 시작할 때 그 컴퓨터의 컨테이너와 이미지를 모두 지워요. 연습용 컴퓨터에서만 돌려요.
+- `-it` 장(31쪽)은 터미널이 있어야 해서 `script`로 감싸 실행했어요. `restart` 장(25쪽)과 함께 그 부분만 다시 돌릴 때는 `bash tools/demo.sh extra`예요. `demo.sh`는 시작할 때 그 컴퓨터의 컨테이너와 이미지를 모두 지워요. 연습용 컴퓨터에서만 돌려요.
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
 
