@@ -127,7 +127,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 함수 | `def`, 매개변수와 인자, `return`, `None`은 19, 기본값, 키워드 인자, 지역 변수와 전역 변수, `global`은 20에서 배워요. 바깥 값을 바꿀 땐 `global`보다 인자로 넣고 `return`으로 돌려받는 쪽을 권해요 |
 | 함수 넘기기, 정렬, 컴프리헨션 | `lambda`, `map`, `filter`는 21, `sorted`·`max`·`min`의 `key=`와 `default=`는 22, 리스트·딕셔너리·집합 컴프리헨션은 23에서 배워요. `reduce`, `zip()`, `*args`는 다루지 않아요 |
 | 클래스 | `class`, `__init__`, `self`, 메서드는 24, `__str__`, `__repr__`은 25, 클래스 변수, 상속, `super()`, `isinstance()`는 26, `_`, `__`, getter와 setter, `@property`는 27에서 붕어빵 틀과 붕어빵으로 배워요. `classmethod`, 다중 상속, `dataclass`는 다루지 않아요 |
-| Docker | 29에서 Docker Desktop 설치, Docker Hub 공식 마크, `docker run`, `ps`, `stop`, `start`, `rm`, `rmi`, `logs`, `-p 8080:80`을 배워요. 이미지는 Docker Official Image 마크부터 골라요. 명령은 Windows Git Bash, Mac 터미널에서 쳐요 |
+| Docker | 29에서 Docker Desktop 설치, Docker Hub 공식 마크, `docker run`, `ps`, `stop`, `start`, `rm`, `rmi`, `logs`, `-p 8080:80`, `-it`로 우분투 컨테이너 안에 들어가기를 배워요. 이미지는 Docker Official Image 마크부터 골라요. 명령은 Windows Git Bash, Mac 터미널에서 쳐요 |
 | 브랜치 이름 | `feature/login`, `fix/12-login-error`, `docs/login-guide`처럼 `타입/하는-일` |
 
 ## 저장소 구조

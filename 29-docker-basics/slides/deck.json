@@ -36,11 +36,13 @@
     "port",
     "port-two",
     "logs",
+    "run-it",
     "err-daemon",
     "err-rm",
     "err-name",
     "err-port",
     "err-rmi",
+    "err-it",
     "x-python",
     "x-lost",
     "cheatsheet"

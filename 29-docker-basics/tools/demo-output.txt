@@ -442,3 +442,32 @@ python:3.11   731670a425de       1.62GB          428MB   U
 python:3.12   cad37dd20c7c       1.62GB          430MB   U    
 [exit 0]
 
+### ubuntu
+$ docker run -it --name my-server ubuntu:24.04 bash
+Unable to find image 'ubuntu:24.04' locally
+24.04: Pulling from library/ubuntu
+Status: Downloaded newer image for ubuntu:24.04
+root@ab7c906af182:/# cat /etc/os-release | head -2
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+NAME="Ubuntu"
+root@ab7c906af182:/# whoami
+root
+root@ab7c906af182:/# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+root@ab7c906af182:/# exit
+exit
+[exit 0]
+
+$ docker ps -a --filter name=my-server
+CONTAINER ID   IMAGE          COMMAND   CREATED                  STATUS                              PORTS     NAMES
+ab7c906af182   ubuntu:24.04   "bash"    Less than a second ago   Exited (0) Less than a second ago             my-server
+[exit 0]
+
+### error-it-name
+$ docker run -it my-server ubuntu:24.04 bash
+Unable to find image 'my-server:latest' locally
+docker: Error response from daemon: pull access denied for my-server, repository does not exist or may require 'docker login'
+Run 'docker run --help' for more information
+[exit 125]
+

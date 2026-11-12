@@ -127,6 +127,9 @@ class Term:
         if kind == "$":
             path, c = l[1], l[2]
             return kind, f"{path} $ {c}", f'<span style="color:#8FB3FF">{e(path)} $</span> ' + mark(c, marks), "#F2C46D"
+        if kind == "#":   # a prompt inside a container: root@id:/# command
+            pr, c = l[1], l[2]
+            return kind, f"{pr} {c}", f'<span style="color:#7FD18B">{e(pr)}</span> ' + mark(c, marks), "#F2C46D"
         t = l[1].replace("\t", "    ")
         return kind, t, mark(t, marks), TCOL[kind]
 
@@ -891,6 +894,34 @@ o.append(f'<div{bi("rise", 1)} style="position:absolute;left:96px;top:{t.y + t.h
          + p(f"font-size:26px;line-height:1.5;color:{SUB};margin-top:8px", "GET /는 첫 화면을 달라는 요청, 200은 잘 보냈다는 뜻이에요. Docker Desktop에서 컨테이너 이름을 누르면 같은 기록이 보여요.") + '</div>')
 W("logs", o, "컨테이너는 뒤에서 켜져 있어서 무슨 일이 있었는지 안 보여요. docker logs web은 web 컨테이너가 지금까지 찍은 글을 보여 줘요. 위쪽은 켜질 때 준비 과정이고, 아래 파란 줄은 localhost:8080에 들어올 때마다 nginx가 남긴 기록이에요. GET /는 첫 화면을 달라는 요청, 200은 잘 보냈다는 뜻이에요. 서버가 이상하면 제일 먼저 logs를 봐요. 앞쪽 172.17.0.1은 Docker 안에서 본 내 컴퓨터 주소예요. 출력은 가운데를 …로 줄였어요. 이 출력은 curl로 들어갔을 때라 끝에 curl이 보여요. 브라우저로 들어가면 그 자리에 브라우저 이름이 나와요. " + MADE)
 
+o = frame("run-it", EB4, "-it로 우분투 컨테이너 안에 들어가서 명령을 쳐요", GR)
+o += parts(96, 226, [("docker run", INK, None, None), ("-it", GR, "키보드로 치고 화면으로 보기", None), ("--name my-server", BL, "이름 붙이기", None),
+                     ("ubuntu:24.04", OR, "이미지:태그", None), ("bash", PUR, "안에서 켤 프로그램", None)], size=46, order=1, lab=26, drop=28, stagger=True)
+ub = OUTP("ubuntu", "docker run -it --name my-server")
+sess = ub[ub.index(next(l for l in ub if l.startswith("Status:"))) + 1:]
+lines = [("$", P, "docker run -it --name my-server ubuntu:24.04 bash"), ("o", ub[0]), ("d", "…")]
+skip_ls = False
+for l in sess:
+    if l.startswith("root@"):
+        pr, c = l.split("# ", 1)
+        skip_ls = c == "ls"
+        if not skip_ls:
+            lines.append(("#", pr + "#", c))
+    elif l and not skip_ls and not l.startswith("[exit"):
+        lines.append(("o", l))
+t = Term(lines, 96, 470, size=24, w=1728, lh=1.5)
+o.append(t.html())
+prompt = lines[3][1]
+o.append(underline(6, t.tx, t.tx + t.sw(prompt), t.top(3) + t.lp - 2, GR))
+o += tag(t, 3, "root@로 바뀌면 컨테이너 안이에요", GR, 6)
+vi = next(i for i, l in enumerate(lines) if l[0] == "o" and l[1].startswith("PRETTY_NAME"))
+vx = t.sx(vi, '"Ubuntu')
+o.append(pen_box(7, round(vx - 4), round(t.top(vi) - 2), round(t.sw('"Ubuntu 24.04.5 LTS"') + 8), round(t.lp + 4), OR))
+ei = next(i for i, l in enumerate(lines) if l[0] == "#" and l[2] == "exit")
+o += tag(t, ei, "exit로 나오면 컨테이너도 꺼져요", GRAY, 8)
+o.append(caption("내 컴퓨터가 Windows나 Mac이어도 01에서 배운 리눅스 명령을 바로 쳐 볼 수 있어요.", t.y + t.h + 36, 8, size=30))
+W("run-it", o, "nginx는 뒤에서 켜 두는 서버였어요. 이번에는 컨테이너 안에 들어가서 직접 명령을 쳐 봐요. -it는 -i와 -t를 합친 옵션이에요. -i는 내 키보드 입력을 컨테이너에 보내고, -t는 터미널 화면을 붙여 줘요. --name my-server로 이름을 붙이고, 이미지 ubuntu:24.04 뒤에 안에서 켤 프로그램 bash를 적어요. 순서는 옵션, 이미지, 안에서 켤 프로그램이에요. 프롬프트가 root@ID:/#로 바뀌면 컨테이너 안이에요. 여기는 작은 우분투 리눅스라서 01에서 배운 ls, cd, cat을 그대로 쓸 수 있어요. exit로 나오면 bash가 끝나면서 컨테이너도 꺼져요. docker ps -a에 Exited로 남아요. 켜 둔 컨테이너에 다시 들어가는 docker exec는 다음 챕터 30에서 배워요. 가운데 받는 줄과 ls 출력은 줄였어요. 프롬프트의 ID는 컨테이너마다 달라요. " + MADE)
+
 # ---------- part 5: common errors ----------
 EB5 = "5. 자주 나는 오류"
 
@@ -965,6 +996,14 @@ err_slide("err-rmi", "이미지를 쓰는 컨테이너가 남아 있으면 rmi�
           "4파트 처음에 Ctrl+C로 멈춘 nginx 컨테이너가 남아 있었어요.",
           "web과 web2를 다 지웠는데도 docker rmi nginx가 안 돼요. 메시지를 보면 a669a15ddb87 컨테이너가 이 이미지를 쓰고 있대요. 4파트 처음에 Ctrl+C로 멈춘 nginx 컨테이너가 꺼진 채로 남아 있었어요. 틀로 찍은 붕어빵이 하나라도 남아 있으면 틀을 버릴 수 없는 셈이에요. docker ps -a로 이름을 찾아 docker rm으로 지운 뒤 rmi를 다시 쳐요. 메시지의 must be forced는 -f로 강제로 지우는 방법인데 수업에서는 쓰지 않아요. 컨테이너 이름은 실행할 때마다 달라요. " + MADE)
 
+ie = OUTP("error-it-name", "docker run -it my-server")
+err_slide("err-it", "pull access denied가 나오면 이미지 이름 자리를 봐요",
+          "docker run -it my-server ubuntu:24.04 bash", [l for x in ie[:2] for l in wrap(x, 100)], "pull access denied for my-server",
+          "--name을 빼서 Docker가 my-server를 이미지 이름으로 읽었어요.",
+          [("$", P, "docker run -it --name my-server ubuntu:24.04 bash")],
+          "옵션 다음 첫 단어가 이미지 이름이에요. 이미지 이름 오타도 같은 오류가 나요.",
+          "docker run은 옵션 다음에 나오는 첫 단어를 이미지 이름으로 읽어요. --name을 빼먹으면 my-server가 이미지 이름이 돼요. Docker는 내 컴퓨터에서 my-server 이미지를 못 찾고 Docker Hub에서 받으려다가, 그런 저장소가 없다고 pull access denied를 내요. 뒤의 ubuntu:24.04는 컨테이너 안에서 켤 명령으로 넘어가요. --name my-server처럼 옵션 이름을 붙여서 다시 쳐요. ngnix처럼 이미지 이름에 오타가 나도 같은 오류가 나요. 메시지의 docker login은 비공개 이미지를 받을 때 쓰는 로그인인데, 공식 이미지에는 필요 없어요. " + MADE)
+
 # ---------- part 6: practice ----------
 EB6 = "6. 실습"
 o = frame("x-python", EB6, "파이썬을 설치하지 않고 3.11과 3.12를 바로 비교해요", PUR)
@@ -1007,7 +1046,8 @@ o = frame("cheatsheet", "정리", "한 장 요약", INK)
 groups = [("확인", TEAL, [("docker --version", "설치된 버전"), ("docker run hello-world", "설치 확인")]),
           ("이미지 (틀)", OR, [("docker pull 이름:태그", "Hub에서 받기"), ("docker images", "받은 이미지 목록"), ("docker rmi 이름", "이미지 지우기")]),
           ("컨테이너 (붕어빵)", GR, [("docker run -d --name 이름 -p 8080:80 이미지", "새로 만들어 뒤에서 켜기"), ("docker ps / docker ps -a", "켜진 것 / 전부"), ("docker stop 이름 / docker start 이름", "끄기 / 다시 켜기"),
-                                  ("docker rm 이름", "지우기 (끈 다음에)"), ("docker logs 이름", "남긴 기록 보기")])]
+                                  ("docker rm 이름", "지우기 (끈 다음에)"), ("docker logs 이름", "남긴 기록 보기"),
+                                  ("docker run -it --name 이름 이미지 bash", "안에 들어가기 (exit로 나오기)")])]
 xs = [96, 96, 900]
 ys = [220, 520, 220]
 for (t_, c, rows), x, y0 in zip(groups, xs, ys):
@@ -1019,15 +1059,15 @@ for (t_, c, rows), x, y0 in zip(groups, xs, ys):
         o.append(p(f"position:absolute;left:{x}px;top:{y}px;width:{w_}px;font-family:{MONO};font-size:{24 if len(k) > 34 else 27}px;font-weight:700;color:{INK};white-space:nowrap", e(k)))
         o.append(p(f"position:absolute;left:{x}px;top:{y + 42}px;width:{w_}px;font-size:23px;color:{SUB}", e(d)))
 o.append(caption("이미지는 Docker Official Image 마크부터 골라요. 명령은 터미널, 확인은 Docker Desktop이에요.", 920, None, size=28))
-W("cheatsheet", o, "오늘 쓴 명령을 세 묶음으로 모았어요. 설치 확인 두 개, 이미지 세 개, 컨테이너 다섯 줄이에요. 이미지는 Docker Hub에서 Docker Official Image 마크가 붙은 것부터 골라요. 명령은 터미널에서 치고, 결과는 Docker Desktop 화면으로 확인해요. 실습이 끝나면 docker ps -a와 docker images로 남은 것을 확인하고 rm, rmi로 정리해요. 다음 챕터 30에서는 볼륨과 Dockerfile을 배워요.", ("trouble", "정리"))
+W("cheatsheet", o, "오늘 쓴 명령을 세 묶음으로 모았어요. 설치 확인 두 개, 이미지 세 개, 컨테이너 여섯 줄이에요. 이미지는 Docker Hub에서 Docker Official Image 마크가 붙은 것부터 골라요. 명령은 터미널에서 치고, 결과는 Docker Desktop 화면으로 확인해요. 실습이 끝나면 docker ps -a와 docker images로 남은 것을 확인하고 rm, rmi로 정리해요. 다음 챕터 30에서는 볼륨과 Dockerfile을 배워요.", ("trouble", "정리"))
 
 # ---------- toc ----------
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 plist = [(BL, "Docker가 뭔가요", "컨테이너, 이미지와 컨테이너, 가상 머신과 비교", "why", "vm"),
          (TEAL, "설치하기", "Windows WSL 2, Mac 칩 고르기, hello-world", "win-check", "check"),
          (DK, "Docker Desktop과 Docker Hub", "화면 둘러보기, 공식 마크, 태그, docker pull", "desk-tour", "pull"),
-         (GR, "컨테이너 켜고 끄기", "run, ps, stop, start, rm, -p 8080:80, logs", "run-fg", "logs"),
-         (RED, "자주 나는 오류", "엔진 꺼짐, 켜진 채 rm, 이름, 포트, rmi", "err-daemon", "err-rmi"),
+         (GR, "컨테이너 켜고 끄기", "run, ps, stop, start, rm, -p 8080:80, logs, -it", "run-fg", "run-it"),
+         (RED, "자주 나는 오류", "엔진 꺼짐, 켜진 채 rm, 이름, 포트, rmi, 이미지 이름", "err-daemon", "err-it"),
          (PUR, "실습", "파이썬 버전 비교, 지우면 사라지는 기록", "x-python", "x-lost")]
 o = frame("toc", "", "오늘의 순서", INK)
 for i, (c, h, s_, a, b) in enumerate(plist):
@@ -1041,7 +1081,7 @@ o.append(f'<div style="position:absolute;left:96px;top:{210 + 6 * 120}px;width:1
 o.append(p(f"position:absolute;left:96px;top:{210 + 6 * 120 + 36}px;font-size:26px;color:{SUB}", f"{page['cheatsheet']}쪽은 한 장 요약이에요."))
 o = [x for x in o if 'id="eyebrow"' not in x]
 with open(os.path.join(OUT, "toc.html"), "w") as f:
-    f.write("\n".join(o) + f"\n<aside>{e('여섯 파트로 나눴어요. 1파트에서 Docker가 무엇인지 그림으로 보고, 2파트에서 Windows와 Mac에 설치해요. 3파트에서 Docker Desktop 화면과 Docker Hub에서 이미지 고르는 법을 보고, 4파트에서 nginx 컨테이너를 켜고 끄고 브라우저로 열어요. 5파트는 자주 나는 오류 다섯 가지, 6파트는 실습이에요.')}</aside>\n</section>\n")
+    f.write("\n".join(o) + f"\n<aside>{e('여섯 파트로 나눴어요. 1파트에서 Docker가 무엇인지 그림으로 보고, 2파트에서 Windows와 Mac에 설치해요. 3파트에서 Docker Desktop 화면과 Docker Hub에서 이미지 고르는 법을 보고, 4파트에서 nginx 컨테이너를 켜고 끄고 브라우저로 열고, 우분투 컨테이너 안에 들어가 봐요. 5파트는 자주 나는 오류 여섯 가지, 6파트는 실습이에요.')}</aside>\n</section>\n")
 
 deck = {"v": 4, "createdOnFiles": {"v": 1, "at": "2026-11-12T01:00:00Z"}, "lists": "css", "title": "Docker 1 (컨테이너 실행하기)", "order": ORDER,
         "sections": SECTIONS,
