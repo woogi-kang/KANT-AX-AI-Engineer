@@ -33,6 +33,7 @@
     "stop-start",
     "restart",
     "life",
+    "localhost",
     "port-why",
     "port",
     "port-two",
