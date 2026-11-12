@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/28-python-modules/python-modules-slides.html) | [27 · 클래스 4 (캡슐화)](../27-python-encapsulation) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/28-python-modules/python-modules-slides.html) | [27 · 클래스 4 (캡슐화)](../27-python-encapsulation) | [30 · Docker 2 (내 프로그램을 이미지로 만들기)](../30-docker-image) |
 
 <!-- /curriculum:top -->
 
@@ -277,6 +277,6 @@ node ../tools/export.js slides python-modules-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 27 · 클래스 4 (캡슐화)](../27-python-encapsulation) · [커리큘럼](../README.md)
+[← 이전: 27 · 클래스 4 (캡슐화)](../27-python-encapsulation) · [커리큘럼](../README.md) · [다음: 30 · Docker 2 (내 프로그램을 이미지로 만들기) →](../30-docker-image)
 
 <!-- /curriculum:nav -->
