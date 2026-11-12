@@ -1,0 +1,34 @@
+<section id="s-py" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">2. SQL 네 문장 맛보기</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">파이썬 리스트로 하던 일을 SQL로 하면 이렇게 돼요</h2>
+<p style="position:absolute;left:96px;top:226px;width:250px;font-size:26px;font-weight:700;color:#5B6270">하는 일</p>
+<p style="position:absolute;left:360px;top:226px;font-size:26px;font-weight:700;color:#2459C9">파이썬 (15, 23)</p>
+<p style="position:absolute;left:1180px;top:226px;font-size:26px;font-weight:700;color:#2459C9">SQL</p>
+<div style="position:absolute;left:96px;top:276px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:304px;width:250px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">담을 곳 만들기</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:360px;top:304px;width:780px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">orders = []</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:1180px;top:304px;width:644px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">CREATE TABLE orders (…);</p>
+<div style="position:absolute;left:96px;top:376px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="120" style="position:absolute;left:96px;top:404px;width:250px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">하나 넣기</p>
+<p data-build-in="rise order 1" data-delay="120" style="position:absolute;left:360px;top:404px;width:780px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">orders.append({"id": 1, …})</p>
+<p data-build-in="rise order 1" data-delay="120" style="position:absolute;left:1180px;top:404px;width:644px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">INSERT INTO orders VALUES (1, …);</p>
+<div style="position:absolute;left:96px;top:476px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" data-delay="0" style="position:absolute;left:96px;top:504px;width:250px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">모두 보기</p>
+<p data-build-in="rise order 2" data-delay="0" style="position:absolute;left:360px;top:504px;width:780px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">print(orders)</p>
+<p data-build-in="rise order 2" data-delay="0" style="position:absolute;left:1180px;top:504px;width:644px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">SELECT * FROM orders;</p>
+<div style="position:absolute;left:96px;top:576px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" data-delay="120" style="position:absolute;left:96px;top:604px;width:250px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">골라 보기</p>
+<p data-build-in="rise order 2" data-delay="120" style="position:absolute;left:360px;top:604px;width:780px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">[o for o in orders if o["id"] == 2]</p>
+<p data-build-in="rise order 2" data-delay="120" style="position:absolute;left:1180px;top:604px;width:644px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">SELECT * FROM orders WHERE id = 2;</p>
+<div style="position:absolute;left:96px;top:676px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" data-delay="0" style="position:absolute;left:96px;top:704px;width:250px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">넣는 값</p>
+<p data-build-in="rise order 3" data-delay="0" style="position:absolute;left:360px;top:704px;width:780px;font-size:28px;color:#2459C9;white-space:nowrap">아무 값이나 들어가요</p>
+<p data-build-in="rise order 3" data-delay="0" style="position:absolute;left:1180px;top:704px;width:644px;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">열 타입에 맞는 값만 들어가요</p>
+<div style="position:absolute;left:96px;top:776px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" data-delay="120" style="position:absolute;left:96px;top:804px;width:250px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">프로그램을 끄면</p>
+<p data-build-in="rise order 3" data-delay="120" style="position:absolute;left:360px;top:804px;width:780px;font-size:28px;color:#2459C9;white-space:nowrap">사라져요</p>
+<p data-build-in="rise order 3" data-delay="120" style="position:absolute;left:1180px;top:804px;width:644px;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">서버에 남아요</p>
+<div style="position:absolute;left:96px;top:876px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 4" style="position:absolute;left:96px;top:912px;width:1728px;font-size:30px;font-weight:700;line-height:1.45;color:#1D2330">넣고 꺼내는 일은 같고, 담는 곳이 메모리에서 서버로 바뀌어요.</p>
+<aside>파이썬 리스트로 하던 일을 SQL로 하면 이렇게 돼요. 담을 곳을 만드는 일은 빈 리스트 대신 CREATE TABLE이에요. 하나 넣기는 append 대신 INSERT, 모두 보기는 print 대신 SELECT 별표예요. 23에서 배운 리스트 컴프리헨션으로 id가 2인 주문을 고르던 일은 WHERE 한 줄이면 돼요. 다른 점도 두 가지예요. 리스트에는 아무 값이나 들어가지만 표의 열은 정한 타입만 받아요. 그리고 리스트는 프로그램을 끄면 사라지지만 표는 서버에 남아요.</aside>
+</section>
