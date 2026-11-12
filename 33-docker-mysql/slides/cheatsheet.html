@@ -33,5 +33,5 @@
 <p style="position:absolute;left:1296px;top:698px;width:540px;font-size:23px;color:#4A5262">볼륨까지 지워요 · 연습할 때만</p>
 <p style="position:absolute;left:96px;top:820px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">데이터베이스는 이미지 하나, 환경 변수 몇 개, 볼륨 하나로 켜고 지켜요.</p>
 <p style="position:absolute;left:96px;top:880px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#4A5262">34에서는 같은 순서로 PostgreSQL을 켜고 둘을 비교해요.</p>
-<aside>오늘 쓴 것을 세 묶음으로 모았어요. MySQL 컨테이너는 -e로 비밀번호와 데이터베이스 이름을 건네서 켜고, logs에서 port: 3306을 확인한 뒤 exec로 들어가요. SQL은 데이터베이스를 만들고 들어가는 CREATE DATABASE와 USE, 표를 만들고 확인하는 CREATE TABLE, SHOW TABLES, DESCRIBE, 넣고 꺼내는 INSERT와 SELECT, 지우는 DROP을 쳐 봤어요. 앱에는 MYSQL_USER로 만든 계정을 줘요. 데이터를 남기려면 /var/lib/mysql에 이름 있는 볼륨을 붙이고, compose.yaml에 적어 두면 껐다 켜도 이어져요. 34에서는 같은 순서로 PostgreSQL을 켜 봐요.</aside>
+<aside>오늘 쓴 것을 세 묶음으로 모았어요. MySQL 컨테이너는 -e로 비밀번호와 데이터베이스 이름을 건네서 켜고, logs에서 port: 3306을 확인한 뒤 exec로 들어가요. SQL은 CREATE DATABASE와 USE로 데이터베이스를 만들고 들어갔어요. CREATE TABLE로 표를 만들고 SHOW TABLES와 DESCRIBE로 확인했어요. INSERT로 넣고 SELECT로 꺼내고, DROP으로 지웠어요. 앱에는 MYSQL_USER로 만든 계정을 줘요. 데이터를 남기려면 /var/lib/mysql에 이름 있는 볼륨을 붙이고, compose.yaml에 적어 두면 껐다 켜도 이어져요. 34에서는 같은 순서로 PostgreSQL을 켜 봐요.</aside>
 </section>

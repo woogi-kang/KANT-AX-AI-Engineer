@@ -10,5 +10,5 @@
 <div data-build-in="fade order 3" style="position:absolute;left:407px;top:754px;width:2px;height:34px;background:#00758F"></div>
 <p data-build-in="pop order 3" style="position:absolute;left:394px;top:796px;font-size:24px;font-weight:700;line-height:1.35;color:#00758F;white-space:nowrap">컨테이너 안 MySQL은 그대로</p>
 <p data-build-in="fade order 3" style="position:absolute;left:1000px;top:692px;width:824px;font-size:28px;line-height:1.6;color:#4A5262">먼저 docker ps로 3306번을 쓰는 컨테이너가 있는지 보고, 안 쓰는 것이면 꺼요.</p>
-<aside>29에서 본 포트 겹침이 3306번에서도 나요. 앞의 db가 3306번을 쓰는 중에 db2를 같은 포트로 켜려고 하니 port is already allocated가 나왔어요. 이미 MySQL을 컴퓨터에 직접 설치해 둔 사람도 같은 오류를 만나요. 설치한 MySQL이 3306번을 쓰고 있어서예요. 먼저 docker ps로 3306번을 쓰는 컨테이너가 있는지 보고 안 쓰는 것이면 꺼요. 둘 다 써야 하면 -p 3307:3306처럼 앞쪽, 내 컴퓨터 쪽 번호만 바꿔요. 컨테이너 안의 MySQL은 그대로 3306에서 기다려요. 긴 오류 줄은 화면 폭에 맞춰 줄만 바꿨어요. 터미널 출력은 tools/demo.py로 실제 Docker와 MySQL을 실행한 결과예요.</aside>
+<aside>29에서 본 포트 겹침이 3306번에서도 나요. 앞의 db가 3306번을 쓰는 중에 db2를 같은 포트로 켜려고 하니 port is already allocated가 나왔어요. 이미 MySQL을 컴퓨터에 직접 설치해 둔 사람도 같은 오류를 만나요. 설치한 MySQL이 3306번을 쓰고 있어서예요. 먼저 docker ps로 3306번을 쓰는 컨테이너가 있는지 보고 안 쓰는 것이면 꺼요. 둘 다 써야 하면 -p 3307:3306처럼 앞쪽, 내 컴퓨터 쪽 번호만 바꿔요. 컨테이너 안의 MySQL은 그대로 3306에서 기다려요. 긴 오류 줄은 화면 폭에 맞춰 줄만 바꿨어요. 터미널 출력은 tools의 demo 스크립트로 실제 Docker와 MySQL을 실행한 결과예요.</aside>
 </section>

@@ -378,7 +378,7 @@ node ../tools/export.js slides docker-mysql-slides.pdf
 
 출력은 Docker 29.9.2, Compose v5.6.1, MySQL 8.4.13에서 `/home/kim`을 두고 실행한 결과예요.
 
-범위: `mysql:8.4`, `-e` 환경 변수 네 개, 처음 준비와 `port: 3306`, `docker exec -it db mysql -u root -p`와 bash, `-e "SQL"`, `-p비밀번호` 경고, root와 앱 계정, `SHOW DATABASES` `CREATE DATABASE` `USE` `SHOW TABLES` `CREATE TABLE` `DESCRIBE` `INSERT` `SELECT` `DROP TABLE` `DROP DATABASE`, `/var/lib/mysql`과 이름 있는 볼륨, 이름 없는 볼륨, `compose.yaml`의 `environment`와 맨 아래 `volumes:`, `docker compose exec`, `down -v`, `/docker-entrypoint-initdb.d`를 다뤄요. `WHERE`, `UPDATE`, `DELETE`, JOIN, 인덱스, 트랜잭션, `CREATE USER`와 `GRANT`, `mysqldump` 백업, 파이썬에서 접속하기, GUI 도구는 다루지 않아요. PostgreSQL은 34에서 다뤄요.
+범위: `mysql:8.4`, `-e` 환경 변수 네 개, 처음 준비와 `port: 3306`, `docker exec -it db mysql -u root -p`와 bash, `-e "SQL"`, `-p비밀번호` 경고, root와 앱 계정, `SHOW DATABASES` `CREATE DATABASE` `USE` `SHOW TABLES` `CREATE TABLE` `DESCRIBE` `INSERT` `SELECT` `DROP TABLE` `DROP DATABASE`, `/var/lib/mysql`과 이름 있는 볼륨, 이름 없는 볼륨, `compose.yaml`의 `environment`와 맨 아래 `volumes:`, `docker compose exec`, `down -v`, `/docker-entrypoint-initdb.d`를 다뤄요. `WHERE`는 32에서 읽은 것으로 두고, `UPDATE`, `DELETE`, JOIN, 인덱스, 트랜잭션, `CREATE USER`와 `GRANT`, `mysqldump` 백업, 파이썬에서 접속하기, GUI 도구는 다루지 않아요. PostgreSQL은 34에서 다뤄요.
 
 </details>
 

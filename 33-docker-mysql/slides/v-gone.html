@@ -9,5 +9,5 @@
 <div data-build-in="shake order 3" data-target="t-gone" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <p data-build-in="fade order 3" style="position:absolute;left:96px;top:766px;width:1728px;font-size:32px;font-weight:700;line-height:1.5;color:#1D2330">orders 표가 없대요. 표 안의 주문도 같이 사라졌어요.</p>
 <p data-build-in="fade order 3" style="position:absolute;left:96px;top:832px;width:1728px;font-size:28px;line-height:1.6;color:#4A5262">cafe 데이터베이스는 -e로 다시 만들어졌지만, 그 안은 텅 비어 있어요.</p>
-<aside>볼륨 없이 켠 컨테이너를 지우면 표도 같이 사라져요. orders 표를 만들어 둔 db를 docker stop, docker rm으로 지웠어요. 그리고 똑같은 docker run 명령으로 다시 켰어요. 들어가서 SELECT를 치면 ERROR 1146, orders 표가 없다는 오류가 나요. 표 안의 주문도 같이 없어졌어요. cafe 데이터베이스는 -e MYSQL_DATABASE 덕분에 새로 만들어졌지만 그 안은 비어 있어요. 실제 카페라면 하루 주문이 다 날아간 거예요. 왜 그런지 다음 장에서 그림으로 봐요. 터미널 출력은 tools/demo.py로 실제 Docker와 MySQL을 실행한 결과예요.</aside>
+<aside>볼륨 없이 켠 컨테이너를 지우면 표도 같이 사라져요. orders 표를 만들어 둔 db를 docker stop, docker rm으로 지웠어요. 그리고 똑같은 docker run 명령으로 다시 켰어요. 들어가서 SELECT를 치면 ERROR 1146, orders 표가 없다는 오류가 나요. 표 안의 주문도 같이 없어졌어요. cafe 데이터베이스는 -e MYSQL_DATABASE 덕분에 새로 만들어졌지만 그 안은 비어 있어요. 실제 카페라면 하루 주문이 다 날아간 거예요. 왜 그런지 다음 장에서 그림으로 봐요. 터미널 출력은 tools의 demo 스크립트로 실제 Docker와 MySQL을 실행한 결과예요.</aside>
 </section>

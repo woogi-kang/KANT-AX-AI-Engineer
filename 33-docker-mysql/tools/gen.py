@@ -38,7 +38,7 @@ T_BG = "#1B2029"
 TCOL = {"o": "#D8DEE9", "e": "#FF9C94", "g": "#7FD18B", "d": "#7D8696", "y": "#F2C46D", "c": "#7D8696"}
 SHADOW = "0 18px 40px rgba(29,35,48,.16), 0 2px 6px rgba(29,35,48,.08)"
 WARN = []
-REAL = " 터미널 출력은 tools/demo.py로 실제 Docker와 MySQL을 실행한 결과예요."
+REAL = " 터미널 출력은 tools의 demo 스크립트로 실제 Docker와 MySQL을 실행한 결과예요."
 
 
 def e(s):
@@ -681,7 +681,7 @@ for k, (pc, lab, col, pid) in enumerate(pieces):
     o.append(p(f"position:absolute;left:96px;top:{y}px;font-family:{MONO};font-size:36px;font-weight:700;line-height:1.4;color:{col};white-space:nowrap", e(pc), i_ + bi("rise", 1 if k == 0 or k > 2 else 2) + DELAY(k * 80)))
     o += leader(96 + tw(pc, 36) + 24, y + 25, 1020, col, 1 if k == 0 or k > 2 else 2, e(lab), size=28)
 o.append(caption("-e 두 개만 새로 나왔어요. 다음 장에서 봐요.", y0 + 5 * 92 + 20, 3, size=30, color=MAG))
-W("r-run", o, "docker run 한 줄로 MySQL 서버를 켜요. 길어 보이지만 대부분 29에서 배운 옵션이에요. -d로 뒤에서 켜고, --name으로 이름을 db로 붙이고, -p로 포트를 열어요. MySQL은 3306번 포트에서 접속을 기다려서 3306:3306으로 열어요. 앱이 쓸 계정을 만드는 -e 두 개는 3파트에서 더해요. 오늘은 컨테이너 안에서 접속해서 -p가 없어도 되지만, 나중에 내 컴퓨터의 파이썬 앱이 붙을 때 필요해서 미리 열어 둬요. 새로 나온 건 -e 두 개예요. MYSQL_ROOT_PASSWORD는 관리자 root의 비밀번호, MYSQL_DATABASE는 처음 켤 때 만들 데이터베이스 이름이에요. 터미널에는 긴 컨테이너 ID 한 줄만 나와요." + REAL)
+W("r-run", o, "docker run 한 줄로 MySQL 서버를 켜요. 길어 보이지만 대부분 29에서 배운 옵션이에요. -d로 뒤에서 켜고, --name으로 이름을 db로 붙이고, -p로 포트를 열어요. MySQL은 3306번 포트에서 접속을 기다려서 3306:3306으로 열어요. 오늘은 컨테이너 안에서 접속해서 -p가 없어도 되지만, 나중에 내 컴퓨터의 파이썬 앱이 붙을 때 필요해서 미리 열어 둬요. 새로 나온 건 -e 두 개예요. MYSQL_ROOT_PASSWORD는 관리자 root의 비밀번호, MYSQL_DATABASE는 처음 켤 때 만들 데이터베이스 이름이에요. 앱이 쓸 계정을 만드는 -e 두 개는 3파트에서 더해요. 터미널에는 긴 컨테이너 ID 한 줄만 나와요." + REAL)
 
 o = frame("r-env", EB2, "-e로 컨테이너에 설정값(환경 변수)을 건네요", C2)
 ev = RA("env")
@@ -696,7 +696,7 @@ o.append(p(f"position:absolute;left:{RX}px;top:360px;width:764px;font-size:28px;
 o.append(f'<div{bi("rise", 3)} style="position:absolute;left:{RX}px;top:640px;width:764px;box-sizing:border-box;padding:24px 30px;background:#FBE9E7;border-left:8px solid {RED};border-radius:14px">'
          + p(f"font-size:27px;font-weight:700;line-height:1.5;color:{RED}", "cafe1234는 연습용이에요")
          + p(f"margin-top:8px;font-size:25px;line-height:1.6;color:{INK}", "실제 서비스는 긴 비밀번호를 쓰고, 비밀번호를 적은 파일은 GitHub에 올리지 않아요.") + '</div>')
-W("r-env", o, "-e로 컨테이너에 설정값을 건네요. 이런 값을 환경 변수라고 불러요. 프로그램이 켜질 때 읽는 이름=값 쪽지라고 생각하면 돼요. 31에서 배운 docker exec 이름 명령으로 env를 실행하면 컨테이너 안의 환경 변수가 나와요. 우리가 -e로 건넨 두 줄이 그대로 들어 있어요. MySQL 이미지는 처음 켜질 때 이 값을 읽고 root 비밀번호를 정하고 cafe 데이터베이스를 만들어요. 어떤 이름을 쓸 수 있는지는 Docker Hub의 mysql 설명 페이지에 나와 있어요. cafe1234는 연습용이에요. 실제 서비스에서는 긴 비밀번호를 쓰고, 비밀번호를 적은 파일은 GitHub에 올리지 않아요." + REAL)
+W("r-env", o, "-e로 컨테이너에 설정값을 건네요. 이런 값을 환경 변수라고 불러요. 프로그램이 켜질 때 읽는 이름=값 쪽지라고 생각하면 돼요. 31에서 배운 docker exec 이름 명령으로 env를 실행하면 컨테이너 안의 환경 변수가 나와요. -e로 건넨 두 줄이 그대로 들어 있어요. MySQL 이미지는 처음 켜질 때 이 값을 읽고 root 비밀번호를 정하고 cafe 데이터베이스를 만들어요. 어떤 이름을 쓸 수 있는지는 Docker Hub의 mysql 설명 페이지에 나와 있어요. cafe1234는 연습용이에요. 실제 서비스에서는 긴 비밀번호를 쓰고, 비밀번호를 적은 파일은 GitHub에 올리지 않아요." + REAL)
 
 o = frame("r-logs", EB2, "logs에 port: 3306이 찍히면 다 켜진 거예요", C2)
 lg = RA("logs")
@@ -804,7 +804,7 @@ for k, (nm, sub, c, bg, od) in enumerate([("cafe", "orders 표를 만들 곳", I
              + p(f"position:absolute;left:28px;top:84px;font-size:25px;color:{SUB}", e(sub)) + '</div>')
 o.append(pill(RX + RW - 340, 300 + 200 + 24, "USE shop · 지금 여기", MAG, order=3))
 o.append(p(f"position:absolute;left:{RX}px;top:750px;width:{RW}px;font-size:27px;line-height:1.6;color:{SUB}", "mysql, sys처럼 MySQL이 스스로 쓰는 데이터베이스는 그림에서 뺐어요.", bi("fade", 4)))
-W("s-db", o, "CREATE DATABASE로 데이터베이스를 새로 만들어요. 32에서 본 것처럼 서버 안에 데이터베이스가 여러 개 들어가요. root로 들어가서 CREATE DATABASE shop;을 치면 shop이 생겨요. SHOW DATABASES로 다시 보면 목록에 shop이 더해져 있어요. USE shop;은 이제부터 shop 안에서 일하겠다는 뜻이에요. Database changed가 나오면 들어간 거예요. SHOW TABLES;는 지금 데이터베이스 안의 표 목록이에요. 방금 만든 shop은 비어 있어서 Empty set이 나와요. shop은 연습용이라 2파트 끝에서 지워요." + REAL)
+W("s-db", o, "32에서 읽은 CREATE DATABASE와 USE를 직접 쳐요. 32에서 본 것처럼 서버 안에 데이터베이스가 여러 개 들어가요. root로 들어가서 CREATE DATABASE shop;을 치면 shop이 생겨요. SHOW DATABASES로 다시 보면 목록에 shop이 더해져 있어요. USE shop;은 이제부터 shop 안에서 일하겠다는 뜻이에요. Database changed가 나오면 들어간 거예요. SHOW TABLES;는 지금 데이터베이스 안의 표 목록이에요. 방금 만든 shop은 비어 있어서 Empty set이 나와요. shop은 연습용이라 2파트 끝에서 지워요." + REAL)
 
 o = frame("s-create", EB3, "CREATE TABLE로 빈 표를 만들어요", C3)
 sq = session("sql")
@@ -892,8 +892,8 @@ o.append(spot_off(3))
 o.append(underline(4, round(t2.sx(0, "menu, qty")), round(t2.sx(0, "menu, qty") + t2.sw("menu, qty")), round(t2.top(0) + t2.lp - 4), MAG))
 o.append(pill(t2.x, t2.y + t2.h + 30, "적은 열만 꺼내요", MAG, order=4, size=26))
 o.append(f'<div style="position:absolute;left:96px;top:{t.y + t.h + 130}px;width:1728px;height:1px;background:{LINE}"></div>')
-o.append(p(f"position:absolute;left:96px;top:{t.y + t.h + 160}px;width:1728px;font-size:30px;line-height:1.6;color:{INK}", "FROM 뒤에 어느 표에서 꺼낼지 적어요. 조건으로 고르는 WHERE, 고치는 UPDATE, 지우는 DELETE는 다음에 배워요.", bi("fade", 5)))
-W("s-select", o, "SELECT로 표를 꺼내 봐요. 왼쪽 SELECT * FROM orders;의 별표는 모든 열이라는 뜻이에요. FROM 뒤에 어느 표에서 꺼낼지 적어요. 넣은 두 행이 표 모양으로 나와요. 아래 줄은 행이 몇 개인지와 걸린 시간이에요. 오른쪽처럼 별표 대신 menu, qty처럼 열 이름을 쉼표로 적으면 그 열만 꺼내요. 조건을 붙여서 원하는 행만 고르는 WHERE, 고치는 UPDATE, 행을 지우는 DELETE는 다음에 배워요." + REAL)
+o.append(p(f"position:absolute;left:96px;top:{t.y + t.h + 160}px;width:1728px;font-size:30px;line-height:1.6;color:{INK}", "FROM 뒤에 어느 표에서 꺼낼지 적어요. 32에서 읽은 WHERE도 같은 모양으로 붙여요. 고치는 UPDATE와 지우는 DELETE는 다음에 배워요.", bi("fade", 5)))
+W("s-select", o, "SELECT로 표를 꺼내 봐요. 왼쪽 SELECT * FROM orders;의 별표는 모든 열이라는 뜻이에요. FROM 뒤에 어느 표에서 꺼낼지 적어요. 넣은 두 행이 표 모양으로 나와요. 아래 줄은 행이 몇 개인지와 걸린 시간이에요. 오른쪽처럼 별표 대신 menu, qty처럼 열 이름을 쉼표로 적으면 그 열만 꺼내요. 32에서 읽은 WHERE도 FROM 뒤에 붙이면 그대로 돼요. 행을 고치는 UPDATE와 지우는 DELETE는 다음에 배워요." + REAL)
 
 o = frame("s-drop", EB3, "DROP으로 표와 데이터베이스를 지워요", C3)
 qd = session("q-drop")
@@ -1001,7 +1001,7 @@ for k, (h, pr, c, bg, od) in enumerate(lay):
 o.append(pill(RX + RW - 104, 236 + 150 + 22, "exit", GRAY, order=4, size=22))
 o.append(pill(RX + RW - 104, 236 + 380 + 22, "exit", GRAY, order=4, size=22))
 o.append(caption("컨테이너 안의 파일도 같이 볼 때 써요. 나올 때는 exit를 두 번 쳐요.", t.y + t.h + 36, 5, size=28, width=1000))
-W("u-bash", o, "접속하는 방법이 하나 더 있어요. 30에서 배운 docker exec -it db bash로 컨테이너 안에 먼저 들어가요. 표시가 bash-5.1#로 바뀌어요. 그 안에서 mysql -u root -p cafe를 치면 앞에서처럼 mysql>이 나와요. 이 이미지의 bash는 표시가 bash-5.1#처럼 버전으로 나와요. 오른쪽 그림처럼 상자 안에 상자로 들어간 거예요. 그래서 나올 때도 두 번이에요. mysql에서 exit를 치면 bash로, bash에서 exit를 한 번 더 치면 내 터미널로 돌아와요. 컨테이너 안의 파일이나 로그를 같이 살펴볼 때 이 방법을 써요." + REAL)
+W("u-bash", o, "접속하는 방법이 하나 더 있어요. 30에서 배운 docker exec -it db bash로 컨테이너 안에 먼저 들어가요. 표시가 bash-5.1#로 바뀌어요. 그 안에서 mysql -u root -p cafe를 치면 앞에서처럼 mysql>이 나와요. 오른쪽 그림처럼 상자 안에 상자로 들어간 거예요. 그래서 나올 때도 두 번이에요. mysql에서 exit를 치면 bash로, bash에서 exit를 한 번 더 치면 내 터미널로 돌아와요. 컨테이너 안의 파일이나 로그를 같이 살펴볼 때 이 방법을 써요." + REAL)
 
 o = frame("u-one", EBU, "-e로 SQL 한 문장만 실행하고 바로 나와요", CU)
 one = RA("u-one")
@@ -1027,7 +1027,7 @@ o.append(p(f"position:absolute;left:{RX}px;top:214px;font-size:28px;font-weight:
 o.append(f'<div{STAGGER(4)} style="position:absolute;left:{RX}px;top:276px;width:{RW}px;display:flex;flex-direction:column;gap:20px">'
          + "".join(f'<div style="box-sizing:border-box;padding:20px 24px;background:{CARD};border:2px solid {LINE};border-left:8px solid {c};border-radius:14px"><div style="font-family:{MONO};font-size:19px;font-weight:700;color:{INK};white-space:nowrap">{e(k)}</div><div style="margin-top:8px;font-size:23px;line-height:1.5;color:{SUB}">{e(v)}</div></div>' for k, v, c in ways)
          + '</div>')
-W("u-one", o, "SQL 한 문장만 확인하고 싶을 때는 들어가지 않고 바로 실행해요. mysql 뒤에 -e와 따옴표로 감싼 SQL을 적으면, 그 문장만 실행하고 결과를 찍고 끝나요. 결과는 표 테두리 없이 줄만 나와요. 받기만 하니 키보드로 칠 일이 없어서 -it를 뺐어요. 31에서 배운 docker exec 이름 명령과 같은 모양이에요. 이번에는 -p 바로 뒤에 비밀번호를 붙여 썼어요. 그러면 비밀번호를 묻지 않아요. 아래처럼 -it로 들어갈 때도 똑같아요. 띄어 쓰면 비밀번호가 아니라 데이터베이스 이름으로 읽혀요. 비밀번호가 명령 기록에 남아서 Warning이 나와요. 그래서 연습할 때만 쓰고, 평소에는 -p만 적고 물어볼 때 쳐요. 오른쪽은 지금까지 본 세 가지 접속 방법이에요." + REAL)
+W("u-one", o, "SQL 한 문장만 확인하고 싶을 때는 들어가지 않고 바로 실행해요. mysql 뒤에 -e와 따옴표로 감싼 SQL을 적으면, 그 문장만 실행하고 결과를 찍고 끝나요. 결과는 표 테두리 없이 줄만 나와요. 받기만 하니 키보드로 칠 일이 없어서 -it를 뺐어요. 31에서 배운 docker exec 이름 명령과 같은 모양이에요. 이번에는 -p 바로 뒤에 비밀번호를 붙여 썼어요. 그러면 비밀번호를 묻지 않아요. 띄어 쓰면 비밀번호가 아니라 데이터베이스 이름으로 읽혀요. 아래처럼 -it로 들어갈 때도 똑같아요. 비밀번호가 명령 기록에 남아서 Warning이 나와요. 그래서 연습할 때만 쓰고, 평소에는 -p만 적고 물어볼 때 쳐요. 오른쪽은 지금까지 본 세 가지 접속 방법이에요." + REAL)
 
 # =====================================================================
 # part 4: volume and compose
@@ -1064,7 +1064,7 @@ for k, (head, col) in enumerate([("볼륨 없이", RED), ("볼륨을 붙이면",
                  + p(f"font-family:{MONO};font-size:24px;font-weight:700;color:{VO}", "/var/lib/mysql") + p(f"margin-top:14px;font-size:24px;line-height:1.5;color:{INK}", "cafe 데이터베이스<br>orders 표와 주문") + '</div>')
         o.append(f'<div{bi("fade", 2)} style="position:absolute;left:{x}px;top:280px;width:420px;height:340px;border-radius:20px;background:rgba(246,245,241,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">'
                  + p(f"font-family:{MONO};font-size:34px;font-weight:700;color:{RED}", "docker rm db") + p(f"font-size:26px;color:{SUB}", "폴더째 같이 지워져요") + '</div>')
-        o.append(p(f"position:absolute;left:{x}px;top:660px;width:820px;font-size:28px;line-height:1.6;color:{INK}", "30에서 본 것처럼, 컨테이너 안에서 만든 파일은 컨테이너와 운명을 같이해요.", bi("fade", 2)))
+        o.append(p(f"position:absolute;left:{x}px;top:660px;width:820px;font-size:28px;line-height:1.6;color:{INK}", "30에서 본 것처럼, 컨테이너 안에서 만든 파일은 컨테이너를 지울 때 같이 지워져요.", bi("fade", 2)))
     else:
         o.append(f'<div{bi("rise", od)} style="position:absolute;left:{x + 26}px;top:370px;width:368px;height:220px;box-sizing:border-box;border:3px dashed {VO};border-radius:14px;padding:20px 22px">'
                  + p(f"font-family:{MONO};font-size:24px;font-weight:700;color:{VO}", "/var/lib/mysql") + p(f"margin-top:14px;font-size:24px;line-height:1.5;color:{SUB}", "밖의 보관함과<br>연결된 자리") + '</div>')
@@ -1113,9 +1113,8 @@ flags = [("-e MYSQL_ROOT_PASSWORD=cafe1234", MAG, 4), ("-e MYSQL_DATABASE=cafe",
 for k, (f_, c_, li) in enumerate(flags):
     y = gcy(g, li)
     o.append(p(f"position:absolute;left:96px;top:{y - 22:.0f}px;font-family:{MONO};font-size:28px;font-weight:700;line-height:1.5;color:{c_};white-space:nowrap", e(f_), bi("rise", k + 1)))
-    o.append(link(k + 1, 96 + tw(f_, 28) + 16, y, g["tx"] - 30, y, c_, 3))
+    o.append(link(k + 1, 96 + tw(f_, 28) + 16, y, 890, y, c_, 3))
 o.append(lband(5, g, 11, 2, VO))
-o += leader(g["left"] + g["w"] - 400, gcy(g, 12), g["left"] + g["w"] - 360, VO, 5) if False else []
 o.append(p(f"position:absolute;left:96px;top:{gtop(g, 11):.0f}px;width:760px;font-size:28px;font-weight:700;line-height:1.5;color:{VO}", "맨 아래 volumes:는 이 파일에서 쓸<br>이름 있는 볼륨을 적는 칸이에요.", bi("fade", 5)))
 o.append(p(f"position:absolute;left:96px;top:{gtop(g, 1):.0f}px;width:760px;font-size:28px;line-height:1.6;color:{SUB}", "30에서 쓴 ports, volumes에 <b style=\"color:" + MAG + "\">environment</b>가 하나 더 생겼어요. -e 자리예요.", bi("fade", 1)))
 W("c-yaml", o, "길어진 docker run을 compose.yaml에 옮겨 적어요. 30에서 배운 compose 그대로예요. 새 폴더 ~/cafe-db를 만들고 그 안에 compose.yaml을 둬요. 서비스 이름은 db, 이미지는 mysql:8.4예요. -e 두 개는 environment 아래에 이름: 값 모양으로 적어요. -p는 ports, -v는 volumes 자리예요. 30과 다른 점은 맨 아래 volumes: 칸이에요. 이름 있는 볼륨을 compose에서 쓰려면 이 칸에 이름을 한 번 적어 둬야 해요. 들여쓰기는 30처럼 2칸씩이에요.")
@@ -1169,7 +1168,7 @@ xi = [i for i, r in enumerate(t.rows) if "Exited (1)" in r[1]][0]
 o.append(underline(1, round(t.sx(xi, "Exited")), round(t.sx(xi, "Exited") + t.sw("Exited (1) 3 seconds ago")), round(t.top(xi) + t.lp - 4), RED))
 mi = [i for i, r in enumerate(t.rows) if "MYSQL_ROOT_PASSWORD" in r[1]][0]
 t2 = None
-o.append(pen_box(2, round(t.tx - 8), round(t.top(mi - 1) - 2), round(t.sw("You need to specify one of the following as an environment variable:") + 24), round(t.lp * 2 + 4), RED))
+o.append(pen_box(2, round(t.tx - 8), round(t.top(mi - 1) - 2), round(t.sw("    You need to specify one of the following as an environment variable:") + 28), round(t.lp * 2 + 4), RED))
 yb = t.y + t.h + 44
 o.append(p(f"position:absolute;left:96px;top:{yb}px;width:1728px;font-size:30px;font-weight:700;line-height:1.5;color:{INK}", "<span style=\"font-family:" + MONO + "\">docker rm db</span>로 꺼진 컨테이너를 지우고, -e MYSQL_ROOT_PASSWORD를 붙여 다시 켜요.", bi("fade", 3)))
 W("x-nopw", o, "비밀번호 -e를 빠뜨리면 켜지자마자 꺼져요. docker run은 컨테이너 ID를 찍고 끝나서 잘 켜진 것처럼 보여요. 그런데 docker ps -a로 보면 STATUS가 Exited (1)이에요. 몇 초 만에 꺼진 거예요. docker logs db로 이유를 보면, 데이터베이스를 처음 만드는데 비밀번호 옵션이 없다고 나와요. 아래 세 이름 중 하나를 환경 변수로 달라는 뜻이에요. 우리는 MYSQL_ROOT_PASSWORD를 써요. 꺼진 컨테이너도 이름 db를 차지하고 있어서, 29에서 배운 대로 docker rm db로 먼저 지우고 다시 켜요." + REAL, ("p5", "자주 나는 오류"))
@@ -1237,7 +1236,7 @@ ty = sess_rows("typo")
 tb = Term(ty[:1] + [("e", l) for l in rewrap([r[1] for r in ty[1:] if r[0] == "e"], 52)], 980, 290, size=26, w=844, lh=1.6, tid="t-typo", attrs=bi("rise", 2))
 o.append(p(f"position:absolute;left:980px;top:226px;font-size:30px;font-weight:700;color:{RED}", "2  표 이름을 잘못 썼어요", bi("rise", 2)))
 o.append(tb.html())
-W("x-sql", o, "SQL을 칠 때 자주 하는 실수 두 가지예요. 첫째, 끝의 세미콜론을 빠뜨리면 Enter를 쳐도 실행되지 않고 화살표 표시가 나와요. 아직 문장이 안 끝났으니 더 치라는 뜻이에요. 세미콜론만 치고 Enter를 누르면 실행돼요. 둘째, 표 이름 orders를 order로 잘못 쓰면 ERROR 1064가 나와요. order는 SQL에서 정렬할 때 쓰는 낱말이라 문법이 틀렸다고 해요. near 뒤에 적힌 곳 근처를 보면 돼요. 32에서 본 같은 id 넣기, 수량에 글자 넣기도 이렇게 ERROR 번호와 이유가 나와요." + REAL)
+W("x-sql", o, "SQL을 직접 칠 때 자주 하는 실수 두 가지예요. 첫째, 32에서 읽은 것처럼 끝의 세미콜론을 빠뜨리면 Enter를 쳐도 실행되지 않고 화살표 표시가 나와요. 아직 문장이 안 끝났으니 더 치라는 뜻이에요. 세미콜론만 치고 Enter를 누르면 실행돼요. 둘째, 표 이름 orders를 order로 잘못 쓰면 ERROR 1064가 나와요. order는 SQL에서 정렬할 때 쓰는 낱말이라 문법이 틀렸다고 해요. near 뒤에 적힌 곳 근처를 보면 돼요. 32에서 본 같은 id 넣기, 수량에 글자 넣기도 이렇게 ERROR 번호와 이유가 나와요." + REAL)
 
 o = frame("x-trap", EB5, "볼륨이 남아 있으면 바꾼 비밀번호가 적용되지 않아요", C5)
 rows = [("$", P_HOME, C("trap-run"), {"new5678": f'style="color:{OR}"'}), short_id("trap-run"), ("$", P_HOME, "docker exec -it db mysql -u root -p"), ("o", "Enter password:")] + [("e", l) for l in RA("trap", wrap=True) if l.startswith("ERROR")]
@@ -1344,7 +1343,7 @@ for i, (t_, c, rows) in enumerate(groups):
         o.append(p(f"position:absolute;left:{x}px;top:{y + 42}px;width:540px;font-size:23px;color:{SUB}", e(d_)))
 o.append(caption("데이터베이스는 이미지 하나, 환경 변수 몇 개, 볼륨 하나로 켜고 지켜요.", 820, None, size=32))
 o.append(caption("34에서는 같은 순서로 PostgreSQL을 켜고 둘을 비교해요.", 880, None, size=28, color=SUB))
-W("cheatsheet", o, "오늘 쓴 것을 세 묶음으로 모았어요. MySQL 컨테이너는 -e로 비밀번호와 데이터베이스 이름을 건네서 켜고, logs에서 port: 3306을 확인한 뒤 exec로 들어가요. SQL은 데이터베이스를 만들고 들어가는 CREATE DATABASE와 USE, 표를 만들고 확인하는 CREATE TABLE, SHOW TABLES, DESCRIBE, 넣고 꺼내는 INSERT와 SELECT, 지우는 DROP을 쳐 봤어요. 앱에는 MYSQL_USER로 만든 계정을 줘요. 데이터를 남기려면 /var/lib/mysql에 이름 있는 볼륨을 붙이고, compose.yaml에 적어 두면 껐다 켜도 이어져요. 34에서는 같은 순서로 PostgreSQL을 켜 봐요.")
+W("cheatsheet", o, "오늘 쓴 것을 세 묶음으로 모았어요. MySQL 컨테이너는 -e로 비밀번호와 데이터베이스 이름을 건네서 켜고, logs에서 port: 3306을 확인한 뒤 exec로 들어가요. SQL은 CREATE DATABASE와 USE로 데이터베이스를 만들고 들어갔어요. CREATE TABLE로 표를 만들고 SHOW TABLES와 DESCRIBE로 확인했어요. INSERT로 넣고 SELECT로 꺼내고, DROP으로 지웠어요. 앱에는 MYSQL_USER로 만든 계정을 줘요. 데이터를 남기려면 /var/lib/mysql에 이름 있는 볼륨을 붙이고, compose.yaml에 적어 두면 껐다 켜도 이어져요. 34에서는 같은 순서로 PostgreSQL을 켜 봐요.")
 
 # =====================================================================
 # toc
