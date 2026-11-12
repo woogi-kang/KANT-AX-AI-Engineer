@@ -842,6 +842,27 @@ o.append(p(f"position:absolute;left:96px;top:260px;width:900px;font-size:28px;li
 o.append(p(f"position:absolute;left:96px;top:760px;width:960px;font-size:28px;line-height:1.5;color:{SUB}", "rm은 꺼진 컨테이너만 지워요.<br>이미지를 지우는 명령은 docker rmi예요.", bi("fade", 4)))
 W("life", o, "지금까지 본 명령을 한 그림에 모았어요. docker run은 이미지로 새 컨테이너를 만들어서 켜요. docker stop은 끄고, docker start는 꺼 둔 같은 컨테이너를 다시 켜요. docker rm은 꺼진 컨테이너를 지워요. 켜진 컨테이너는 바로 못 지우고 먼저 stop해야 해요. 5파트 오류에서 다시 봐요. 이미지는 컨테이너와 따로 남아 있고, 이미지까지 지울 때는 docker rmi를 써요. rmi의 i는 image예요.")
 
+o = frame("localhost", EB4, "localhost는 내 컴퓨터, 8080은 그 안의 문 번호예요", GR)
+o += parts(96, 214, [("http://", GRAY, "웹 주소 약속", None), ("localhost", BL, "내 컴퓨터", None), (":8080", OR, "문 번호 (포트)", None)], size=64, order=1, lab=28, drop=30, stagger=True, sep=0)
+o.append(window(96, 540, 360, 240, "브라우저", p(f"position:absolute;left:24px;top:40px;width:310px;height:56px;background:#FFFFFF;border:2px solid #D2CEC4;border-radius:12px;font-family:{MONO};font-size:22px;line-height:52px;text-align:center;color:{INK}", "localhost:8080"), "lh-br", attrs=bi("rise", 4)))
+doors = [("80", "http 기본 문", "번호를 안 적으면 여기로 가요"), ("443", "https 기본 문", "자물쇠가 붙은 주소가 쓰는 문"), ("8080", "연습용으로 자주 쓰는 문", "오늘 nginx를 이을 문")]
+box = (f'<div style="position:absolute;left:600px;top:460px;width:1224px;height:430px;background:#FFFFFF;border:3px solid #9AA3B5;border-radius:26px">'
+       + p(f"position:absolute;left:36px;top:26px;font-size:30px;font-weight:700;color:{BL}", "내 컴퓨터 = localhost = 127.0.0.1"))
+for k, (num, name, desc) in enumerate(doors):
+    dx = 50 + k * 386
+    hi = num == "8080"
+    box += (f'<div id="door-{num}" style="position:absolute;left:{dx}px;top:110px;width:350px;height:224px;background:{"#FFF4E0" if hi else "#F3F1EC"};border:3px solid {OR if hi else "#C9C4B8"};border-radius:18px">'
+            + p(f"position:absolute;left:0;top:22px;width:350px;text-align:center;font-family:{MONO};font-size:48px;font-weight:700;color:{OR if hi else GRAY}", num)
+            + p(f"position:absolute;left:0;top:98px;width:350px;text-align:center;font-size:25px;font-weight:700;color:{INK}", name)
+            + p(f"position:absolute;left:20px;top:140px;width:310px;text-align:center;font-size:21px;line-height:1.4;color:{SUB}", desc) + '</div>')
+box += '</div>'
+o.append(box)
+o.append(svg('<path id="p-lh" d="M456,660 L540,660 L540,856 L1617,856 L1617,798" fill="none" stroke="none"/>' + arrow_path("M456,660 L540,660 L540,856 L1617,856 L1617,802", OR, 5) + head_at(1617, 798, -90, OR), 5))
+o.append(f'<div{PATH(5, "p-lh")} style="position:absolute;left:438px;top:642px;width:36px;height:36px;border-radius:18px;background:{OR};border:4px solid #FFFFFF;box-shadow:0 2px 6px rgba(0,0,0,.18)"></div>')
+o.append(pulse(5, "door-8080"))
+o.append(caption("한 컴퓨터에서 여러 프로그램이 요청을 기다려서, 문 번호로 어느 프로그램에 갈지 정해요.", 924, 6, size=30))
+W("localhost", o, "localhost는 지금 앞에 있는 내 컴퓨터를 부르는 이름이에요. naver.com 같은 인터넷 주소 대신, 내 컴퓨터 안에서 켜 둔 프로그램에 들어갈 때 써요. 숫자로 적으면 127.0.0.1이고 뜻은 같아요. 한 컴퓨터 안에서 여러 프로그램이 동시에 요청을 기다릴 수 있어서, 주소 뒤의 :8080 같은 문 번호로 어느 프로그램에 갈지 정해요. 이 문 번호를 포트라고 불러요. 80은 http, 443은 https가 기본으로 쓰는 문이라 주소에 번호를 안 적어도 돼요. 8080은 연습할 때 80과 겹치지 않게 자주 고르는 번호예요. 다음 장에서 nginx에 localhost:8080으로 들어가 봐요. 그림은 단순하게 그렸어요.")
+
 o = frame("port-why", EB4, "켜져 있는 nginx에 브라우저로 들어가면 안 열려요", GR)
 err = ('<div style="display:flex;flex-direction:column;align-items:flex-start;gap:18px;padding:70px 90px">'
        + p(f"font-size:40px;font-weight:700;color:{INK}", "사이트에 연결할 수 없음") + p(f"font-size:26px;color:{SUB}", "localhost에서 연결을 거부했습니다.")
