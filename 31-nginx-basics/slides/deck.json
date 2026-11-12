@@ -1,0 +1,77 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-12T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "nginx 기초 (웹 서버와 리버스 프록시)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "roles",
+    "ready",
+    "w-run",
+    "w-path",
+    "w-logs",
+    "w-conf",
+    "w-read",
+    "w-mine",
+    "p-what",
+    "p-whoami",
+    "p-conf",
+    "p-compose",
+    "p-up",
+    "p-reload",
+    "p-closed",
+    "p-one80",
+    "cmp",
+    "x-gw",
+    "x-test",
+    "x-slash",
+    "x-port",
+    "r-site",
+    "r-add",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "nginx로 파일 내주기",
+      "start": "w-run"
+    },
+    "p2": {
+      "description": "리버스 프록시",
+      "start": "p-what"
+    },
+    "p3": {
+      "description": "자주 나는 오류",
+      "start": "x-gw"
+    },
+    "p4": {
+      "description": "실제 상황 예제",
+      "start": "r-site"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

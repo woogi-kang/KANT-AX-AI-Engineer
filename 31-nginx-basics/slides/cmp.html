@@ -1,0 +1,31 @@
+<section id="cmp" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A23B72">2. 리버스 프록시</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">29, 30의 -p와 무엇이 달라졌는지 봐요</h2>
+<div style="position:absolute;left:1184px;top:214px;width:640px;height:680px;background:#E4F3EA;border-radius:18px" data-build-in="fade order 1"></div>
+<p style="position:absolute;left:96px;top:234px;width:440px;font-size:30px;font-weight:700;color:#1D2330;white-space:nowrap"></p>
+<p style="position:absolute;left:560px;top:234px;width:620px;font-size:30px;font-weight:700;color:#5B6270;white-space:nowrap">컨테이너마다 -p</p>
+<p style="position:absolute;left:1200px;top:234px;width:624px;font-size:30px;font-weight:700;color:#1F8A4C;white-space:nowrap">nginx 앞에 두기</p>
+<div style="position:absolute;left:96px;top:300px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:336px;width:440px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">손님이 아는 주소</p>
+<p style="position:absolute;left:560px;top:336px;width:620px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:400;color:#4A5262;white-space:nowrap">localhost:8001, :8002 …</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:1200px;top:336px;width:624px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;color:#1D2330;white-space:nowrap">localhost/menu/, /order/</p>
+<div style="position:absolute;left:96px;top:420px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:456px;width:440px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">밖으로 연 포트</p>
+<p style="position:absolute;left:560px;top:456px;width:620px;font-size:28px;font-weight:400;color:#4A5262;white-space:nowrap">앱 수만큼</p>
+<p data-build-in="rise order 1" data-delay="80" style="position:absolute;left:1200px;top:456px;width:624px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">80번 하나</p>
+<div style="position:absolute;left:96px;top:540px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:576px;width:440px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">앱을 늘리면</p>
+<p style="position:absolute;left:560px;top:576px;width:620px;font-size:28px;font-weight:400;color:#4A5262;white-space:nowrap">새 포트를 열고 주소를 알려요</p>
+<p data-build-in="rise order 1" data-delay="160" style="position:absolute;left:1200px;top:576px;width:624px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">location 상자 하나 더</p>
+<div style="position:absolute;left:96px;top:660px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:696px;width:440px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">요청 기록</p>
+<p style="position:absolute;left:560px;top:696px;width:620px;font-size:28px;font-weight:400;color:#4A5262;white-space:nowrap">앱마다 따로</p>
+<p data-build-in="rise order 1" data-delay="240" style="position:absolute;left:1200px;top:696px;width:624px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">nginx 기록 한 곳</p>
+<div style="position:absolute;left:96px;top:780px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:816px;width:440px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">파일 주기</p>
+<p style="position:absolute;left:560px;top:816px;width:620px;font-size:28px;font-weight:400;color:#4A5262;white-space:nowrap">앱이 직접</p>
+<p data-build-in="rise order 1" data-delay="320" style="position:absolute;left:1200px;top:816px;width:624px;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">nginx가 바로</p>
+<div style="position:absolute;left:96px;top:900px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" style="position:absolute;left:96px;top:960px;width:1728px;font-size:30px;font-weight:700;line-height:1.45;color:#1D2330">-p는 그대로 써요. nginx 컨테이너 하나에만 쓰는 게 달라요.</p>
+<aside>29, 30에서 배운 -p와 비교해 정리해요. 컨테이너마다 -p로 문을 열면 손님이 포트 번호를 알아야 하고, 앱을 늘릴 때마다 새 포트를 열어야 해요. nginx를 앞에 두면 밖으로 여는 문은 80번 하나예요. 앱을 늘릴 때는 location 상자 하나를 더 써요. 요청 기록도 nginx 한 곳에 모이고, 홈페이지 같은 파일은 nginx가 바로 줘요. -p를 버리는 게 아니라 nginx 컨테이너 하나에만 쓴다는 점이 달라요.</aside>
+</section>
