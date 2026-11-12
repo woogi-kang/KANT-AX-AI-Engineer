@@ -93,7 +93,10 @@
      "commands": "`docker exec -it web bash` `-v ./site:/usr/share/nginx/html` `docker build -t cart .` `.dockerignore` `docker compose up -d`", "slides": "docker-image-slides.html"},
     {"dir": "31-nginx-basics", "title": "nginx 기초 (웹 서버와 리버스 프록시)", "track": "Docker",
      "goal": "nginx로 파일을 내주고, 리버스 프록시로 앱 여러 개를 80번 포트 하나로 묶어요",
-     "commands": "`curl localhost/menu/` `location / { root ...; }` `proxy_pass http://menu/;` `docker exec cafe-web-1 nginx -t` `docker exec cafe-web-1 nginx -s reload`", "slides": "nginx-basics-slides.html"}
+     "commands": "`curl localhost/menu/` `location / { root ...; }` `proxy_pass http://menu/;` `docker exec cafe-web-1 nginx -t` `docker exec cafe-web-1 nginx -s reload`", "slides": "nginx-basics-slides.html"},
+    {"dir": "33-docker-mysql", "title": "Docker 3 (MySQL 컨테이너)", "track": "Docker",
+     "goal": "MySQL을 컨테이너로 켜고 데이터베이스와 표를 만들어, 컨테이너를 지워도 볼륨에 남게 해요",
+     "commands": "`docker run -e MYSQL_ROOT_PASSWORD=… mysql:8.4` `docker exec -it db mysql -u root -p` `CREATE DATABASE` `CREATE TABLE` `-v cafe-data:/var/lib/mysql`", "slides": "docker-mysql-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
