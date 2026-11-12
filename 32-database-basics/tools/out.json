@@ -1,0 +1,314 @@
+{
+ "versions": {
+  "my": "8.4.13",
+  "pg": "18.6 (Debian 18.6-1.pgdg13+2)"
+ },
+ "show": {
+  "my": [
+   "mysql> SHOW DATABASES;",
+   "+--------------------+",
+   "| Database           |",
+   "+--------------------+",
+   "| information_schema |",
+   "| mysql              |",
+   "| performance_schema |",
+   "| sys                |",
+   "+--------------------+",
+   "4 rows in set (0.01 sec)"
+  ],
+  "pg": [
+   "postgres=# \\l",
+   "                                                    List of databases",
+   "   Name    |  Owner   | Encoding | Locale Provider |  Collate   |   Ctype    | Locale | ICU Rules |   Access privileges",
+   "",
+   "-----------+----------+----------+-----------------+------------+------------+--------+-----------+---------------------",
+   "--",
+   " postgres  | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           |",
+   " template0 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/postgres",
+   " +",
+   "           |          |          |                 |            |            |        |           | postgres=CTc/postgre",
+   "s",
+   " template1 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/postgres",
+   " +",
+   "           |          |          |                 |            |            |        |           | postgres=CTc/postgre",
+   "s",
+   "(3 rows)"
+  ]
+ },
+ "db": {
+  "my": [
+   "mysql> CREATE DATABASE cafe;",
+   "Query OK, 1 row affected (0.00 sec)",
+   "",
+   "mysql> USE cafe;",
+   "Database changed"
+  ],
+  "pg": [
+   "postgres=# CREATE DATABASE cafe;",
+   "CREATE DATABASE",
+   "postgres=# \\c cafe",
+   "You are now connected to database \"cafe\" as user \"postgres\"."
+  ]
+ },
+ "table": {
+  "my": [
+   "mysql> CREATE TABLE orders (",
+   "    ->   id INT PRIMARY KEY,",
+   "    ->   menu VARCHAR(20),",
+   "    ->   qty INT",
+   "    -> );",
+   "Query OK, 0 rows affected (0.01 sec)"
+  ],
+  "pg": [
+   "cafe=# CREATE TABLE orders (",
+   "cafe(#   id INT PRIMARY KEY,",
+   "cafe(#   menu VARCHAR(20),",
+   "cafe(#   qty INT",
+   "cafe(# );",
+   "CREATE TABLE"
+  ]
+ },
+ "insert": {
+  "my": [
+   "mysql> INSERT INTO orders VALUES (1, 'latte', 2);",
+   "Query OK, 1 row affected (0.01 sec)"
+  ],
+  "pg": [
+   "cafe=# INSERT INTO orders VALUES (1, 'latte', 2);",
+   "INSERT 0 1"
+  ]
+ },
+ "insert2": {
+  "my": [
+   "mysql> INSERT INTO orders (id, menu, qty) VALUES (2, 'americano', 1), (3, 'cake', 1);",
+   "Query OK, 2 rows affected (0.01 sec)",
+   "Records: 2  Duplicates: 0  Warnings: 0"
+  ],
+  "pg": [
+   "cafe=# INSERT INTO orders (id, menu, qty) VALUES (2, 'americano', 1), (3, 'cake', 1);",
+   "INSERT 0 2"
+  ]
+ },
+ "select": {
+  "my": [
+   "mysql> SELECT * FROM orders;",
+   "+----+-----------+------+",
+   "| id | menu      | qty  |",
+   "+----+-----------+------+",
+   "|  1 | latte     |    2 |",
+   "|  2 | americano |    1 |",
+   "|  3 | cake      |    1 |",
+   "+----+-----------+------+",
+   "3 rows in set (0.00 sec)"
+  ],
+  "pg": [
+   "cafe=# SELECT * FROM orders;",
+   " id |   menu    | qty",
+   "----+-----------+-----",
+   "  1 | latte     |   2",
+   "  2 | americano |   1",
+   "  3 | cake      |   1",
+   "(3 rows)"
+  ]
+ },
+ "select2": {
+  "my": [
+   "mysql> SELECT menu, qty FROM orders;",
+   "+-----------+------+",
+   "| menu      | qty  |",
+   "+-----------+------+",
+   "| latte     |    2 |",
+   "| americano |    1 |",
+   "| cake      |    1 |",
+   "+-----------+------+",
+   "3 rows in set (0.00 sec)",
+   "",
+   "mysql> SELECT * FROM orders WHERE id = 2;",
+   "+----+-----------+------+",
+   "| id | menu      | qty  |",
+   "+----+-----------+------+",
+   "|  2 | americano |    1 |",
+   "+----+-----------+------+",
+   "1 row in set (0.00 sec)"
+  ],
+  "pg": [
+   "cafe=# SELECT menu, qty FROM orders;",
+   "   menu    | qty",
+   "-----------+-----",
+   " latte     |   2",
+   " americano |   1",
+   " cake      |   1",
+   "(3 rows)",
+   "",
+   "cafe=# SELECT * FROM orders WHERE id = 2;",
+   " id |   menu    | qty",
+   "----+-----------+-----",
+   "  2 | americano |   1",
+   "(1 row)"
+  ]
+ },
+ "x-dup": {
+  "my": [
+   "mysql> INSERT INTO orders VALUES (1, 'tea', 1);",
+   "ERROR 1062 (23000): Duplicate entry '1' for key 'orders.PRIMARY'"
+  ],
+  "pg": [
+   "cafe=# INSERT INTO orders VALUES (1, 'tea', 1);",
+   "ERROR:  duplicate key value violates unique constraint \"orders_pkey\"",
+   "DETAIL:  Key (id)=(1) already exists."
+  ]
+ },
+ "x-type": {
+  "my": [
+   "mysql> INSERT INTO orders VALUES (4, 'tea', 'many');",
+   "ERROR 1366 (HY000): Incorrect integer value: 'many' for column 'qty' at row 1"
+  ],
+  "pg": [
+   "cafe=# INSERT INTO orders VALUES (4, 'tea', 'many');",
+   "ERROR:  invalid input syntax for type integer: \"many\"",
+   "LINE 1: INSERT INTO orders VALUES (4, 'tea', 'many');",
+   "                                             ^"
+  ]
+ },
+ "x-long": {
+  "my": [
+   "mysql> INSERT INTO orders VALUES (4, 'vanilla caramel macchiato', 1);",
+   "ERROR 1406 (22001): Data too long for column 'menu' at row 1"
+  ],
+  "pg": [
+   "cafe=# INSERT INTO orders VALUES (4, 'vanilla caramel macchiato', 1);",
+   "ERROR:  value too long for type character varying(20)"
+  ]
+ },
+ "x-semi": {
+  "my": [
+   "mysql> SELECT * FROM orders",
+   "    -> ;",
+   "+----+-----------+------+",
+   "| id | menu      | qty  |",
+   "+----+-----------+------+",
+   "|  1 | latte     |    2 |",
+   "|  2 | americano |    1 |",
+   "|  3 | cake      |    1 |",
+   "+----+-----------+------+",
+   "3 rows in set (0.00 sec)"
+  ],
+  "pg": [
+   "cafe=# SELECT * FROM orders",
+   "cafe-# ;",
+   " id |   menu    | qty",
+   "----+-----------+-----",
+   "  1 | latte     |   2",
+   "  2 | americano |   1",
+   "  3 | cake      |   1",
+   "(3 rows)"
+  ]
+ },
+ "x-quote": {
+  "my": [
+   "mysql> INSERT INTO orders VALUES (4, latte, 1);",
+   "ERROR 1054 (42S22): Unknown column 'latte' in 'field list'"
+  ],
+  "pg": [
+   "cafe=# INSERT INTO orders VALUES (4, latte, 1);",
+   "ERROR:  column \"latte\" does not exist",
+   "LINE 1: INSERT INTO orders VALUES (4, latte, 1);",
+   "                                      ^"
+  ]
+ },
+ "x-nodb": {
+  "my": [
+   "mysql> SELECT * FROM orders;",
+   "ERROR 1046 (3D000): No database selected"
+  ],
+  "pg": [
+   "postgres=# SELECT * FROM orders;",
+   "ERROR:  relation \"orders\" does not exist",
+   "LINE 1: SELECT * FROM orders;",
+   "                      ^"
+  ]
+ },
+ "r-day": {
+  "my": [
+   "mysql> INSERT INTO orders VALUES (4, 'latte', 1), (5, 'tea', 2);",
+   "Query OK, 2 rows affected (0.00 sec)",
+   "Records: 2  Duplicates: 0  Warnings: 0",
+   "",
+   "mysql> SELECT * FROM orders WHERE menu = 'latte';",
+   "+----+-------+------+",
+   "| id | menu  | qty  |",
+   "+----+-------+------+",
+   "|  1 | latte |    2 |",
+   "|  4 | latte |    1 |",
+   "+----+-------+------+",
+   "2 rows in set (0.00 sec)"
+  ],
+  "pg": [
+   "cafe=# INSERT INTO orders VALUES (4, 'latte', 1), (5, 'tea', 2);",
+   "INSERT 0 2",
+   "cafe=# SELECT * FROM orders WHERE menu = 'latte';",
+   " id | menu  | qty",
+   "----+-------+-----",
+   "  1 | latte |   2",
+   "  4 | latte |   1",
+   "(2 rows)"
+  ]
+ },
+ "r-menu": {
+  "my": [
+   "mysql> CREATE TABLE menu (id INT PRIMARY KEY, name VARCHAR(20), price INT);",
+   "Query OK, 0 rows affected (0.01 sec)",
+   "",
+   "mysql> INSERT INTO menu VALUES (1, 'americano', 4000), (2, 'latte', 4500), (3, 'cake', 5500);",
+   "Query OK, 3 rows affected (0.00 sec)",
+   "Records: 3  Duplicates: 0  Warnings: 0",
+   "",
+   "mysql> SELECT name, price FROM menu WHERE price < 5000;",
+   "+-----------+-------+",
+   "| name      | price |",
+   "+-----------+-------+",
+   "| americano |  4000 |",
+   "| latte     |  4500 |",
+   "+-----------+-------+",
+   "2 rows in set (0.00 sec)"
+  ],
+  "pg": [
+   "cafe=# CREATE TABLE menu (id INT PRIMARY KEY, name VARCHAR(20), price INT);",
+   "CREATE TABLE",
+   "cafe=# INSERT INTO menu VALUES (1, 'americano', 4000), (2, 'latte', 4500), (3, 'cake', 5500);",
+   "INSERT 0 3",
+   "cafe=# SELECT name, price FROM menu WHERE price < 5000;",
+   "   name    | price",
+   "-----------+-------",
+   " americano |  4000",
+   " latte     |  4500",
+   "(2 rows)"
+  ]
+ },
+ "smallest": {
+  "my": [
+   "mysql> SELECT * FROM orders;",
+   "+----+-----------+------+",
+   "| id | menu      | qty  |",
+   "+----+-----------+------+",
+   "|  1 | latte     |    2 |",
+   "|  2 | americano |    1 |",
+   "|  3 | cake      |    1 |",
+   "|  4 | latte     |    1 |",
+   "|  5 | tea       |    2 |",
+   "+----+-----------+------+",
+   "5 rows in set (0.00 sec)"
+  ],
+  "pg": [
+   "cafe=# SELECT * FROM orders;",
+   " id |   menu    | qty",
+   "----+-----------+-----",
+   "  1 | latte     |   2",
+   "  2 | americano |   1",
+   "  3 | cake      |   1",
+   "  4 | latte     |   1",
+   "  5 | tea       |   2",
+   "(5 rows)"
+  ]
+ }
+}

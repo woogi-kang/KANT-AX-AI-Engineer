@@ -93,7 +93,10 @@
      "commands": "`docker exec -it web bash` `-v ./site:/usr/share/nginx/html` `docker build -t cart .` `.dockerignore` `docker compose up -d`", "slides": "docker-image-slides.html"},
     {"dir": "31-nginx-basics", "title": "nginx 기초 (웹 서버와 리버스 프록시)", "track": "Docker",
      "goal": "nginx로 파일을 내주고, 리버스 프록시로 앱 여러 개를 80번 포트 하나로 묶어요",
-     "commands": "`curl localhost/menu/` `location / { root ...; }` `proxy_pass http://menu/;` `docker exec cafe-web-1 nginx -t` `docker exec cafe-web-1 nginx -s reload`", "slides": "nginx-basics-slides.html"}
+     "commands": "`curl localhost/menu/` `location / { root ...; }` `proxy_pass http://menu/;` `docker exec cafe-web-1 nginx -t` `docker exec cafe-web-1 nginx -s reload`", "slides": "nginx-basics-slides.html"},
+    {"dir": "32-database-basics", "title": "데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)", "track": "데이터베이스",
+     "goal": "표, 행, 열, 타입, 기본 키를 익히고 SQL 네 문장을 MySQL과 PostgreSQL에서 나란히 읽어요",
+     "commands": "`CREATE DATABASE cafe;` `CREATE TABLE orders (...);` `INSERT INTO orders VALUES (...);` `SELECT * FROM orders WHERE id = 2;` `USE cafe;` / `\\c cafe`", "slides": "database-basics-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
