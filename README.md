@@ -36,6 +36,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [26 · 클래스 3 (상속과 클래스 변수)](./26-python-inheritance) | 파&#8288;이&#8288;썬 | 틀을 물려받아 다른 점만 적고, 모두 같이 쓰는 값은 틀에 둬요 | `Bread.shop` `class Dog(Animal):` `super().__init__()` `isinstance()` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/26-python-inheritance/python-inheritance-slides.html) |
 | [27 · 클래스 4 (캡슐화)](./27-python-encapsulation) | 파&#8288;이&#8288;썬 | 칸은 안에 감추고, 메서드와 property라는 문으로만 꺼내고 바꾸게 해요 | `self._stamps` `self.__password` `get_password()` `@property` `@password.setter` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/27-python-encapsulation/python-encapsulation-slides.html) |
 | [28 · 미니 프로젝트: 장바구니 (들여쓰기, items, 모듈)](./28-python-modules) | 파&#8288;이&#8288;썬 | 장바구니 프로젝트로 들여쓰기 상자, items() 꺼내 담기, 파일을 나누는 import를 읽고 써요 | `for p, q in d.items():` `import product` `from product import Product` `import coupon as cp` `if __name__ == "__main__":` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/28-python-modules/python-modules-slides.html) |
+| [29 · Docker 1 (컨테이너 실행하기)](./29-docker-basics) | D&#8288;o&#8288;c&#8288;k&#8288;e&#8288;r | Docker Desktop을 설치하고 Docker Hub의 공식 이미지를 받아서 컨테이너를 켜고 끄고 지워요 | `docker pull nginx` `docker run -d --name web -p 8080:80 nginx` `docker ps -a` `docker stop web` `docker rm web` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/29-docker-basics/docker-basics-slides.html) |
 
 <!-- /curriculum:chapters -->
 
@@ -126,6 +127,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 함수 | `def`, 매개변수와 인자, `return`, `None`은 19, 기본값, 키워드 인자, 지역 변수와 전역 변수, `global`은 20에서 배워요. 바깥 값을 바꿀 땐 `global`보다 인자로 넣고 `return`으로 돌려받는 쪽을 권해요 |
 | 함수 넘기기, 정렬, 컴프리헨션 | `lambda`, `map`, `filter`는 21, `sorted`·`max`·`min`의 `key=`와 `default=`는 22, 리스트·딕셔너리·집합 컴프리헨션은 23에서 배워요. `reduce`, `zip()`, `*args`는 다루지 않아요 |
 | 클래스 | `class`, `__init__`, `self`, 메서드는 24, `__str__`, `__repr__`은 25, 클래스 변수, 상속, `super()`, `isinstance()`는 26, `_`, `__`, getter와 setter, `@property`는 27에서 붕어빵 틀과 붕어빵으로 배워요. `classmethod`, 다중 상속, `dataclass`는 다루지 않아요 |
+| Docker | 29에서 Docker Desktop 설치, Docker Hub 공식 마크, `docker run`, `ps`, `stop`, `start`, `rm`, `rmi`, `logs`, `-p 8080:80`을 배워요. 이미지는 Docker Official Image 마크부터 골라요. 명령은 Windows Git Bash, Mac 터미널에서 쳐요 |
 | 브랜치 이름 | `feature/login`, `fix/12-login-error`, `docs/login-guide`처럼 `타입/하는-일` |
 
 ## 저장소 구조

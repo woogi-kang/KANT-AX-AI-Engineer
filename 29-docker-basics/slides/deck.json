@@ -1,0 +1,89 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-12T01:00:00Z"
+  },
+  "lists": "css",
+  "title": "Docker 1 (컨테이너 실행하기)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "box",
+    "mold",
+    "big",
+    "vm",
+    "win-check",
+    "win-wsl",
+    "win-install",
+    "mac-chip",
+    "mac-install",
+    "first-run",
+    "check",
+    "desk-tour",
+    "desk-list",
+    "hub-search",
+    "hub-badge",
+    "hub-tags",
+    "pull",
+    "run-fg",
+    "ps-a",
+    "run-d",
+    "stop-start",
+    "life",
+    "port-why",
+    "port",
+    "port-two",
+    "logs",
+    "err-daemon",
+    "err-rm",
+    "err-name",
+    "err-port",
+    "err-rmi",
+    "x-python",
+    "x-lost",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "Docker가 뭔가요",
+      "start": "why"
+    },
+    "p2": {
+      "description": "설치하기",
+      "start": "win-check"
+    },
+    "p4": {
+      "description": "컨테이너 켜고 끄기",
+      "start": "run-fg"
+    },
+    "p5": {
+      "description": "자주 나는 오류",
+      "start": "err-daemon"
+    },
+    "p6": {
+      "description": "실습",
+      "start": "x-python"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "cheatsheet"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

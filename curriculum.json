@@ -84,7 +84,10 @@
      "commands": "`self._stamps` `self.__password` `get_password()` `@property` `@password.setter`", "slides": "python-encapsulation-slides.html"},
     {"dir": "28-python-modules", "title": "미니 프로젝트: 장바구니 (들여쓰기, items, 모듈)", "track": "파이썬",
      "goal": "장바구니 프로젝트로 들여쓰기 상자, items() 꺼내 담기, 파일을 나누는 import를 읽고 써요",
-     "commands": "`for p, q in d.items():` `import product` `from product import Product` `import coupon as cp` `if __name__ == \"__main__\":`", "slides": "python-modules-slides.html"}
+     "commands": "`for p, q in d.items():` `import product` `from product import Product` `import coupon as cp` `if __name__ == \"__main__\":`", "slides": "python-modules-slides.html"},
+    {"dir": "29-docker-basics", "title": "Docker 1 (컨테이너 실행하기)", "track": "Docker",
+     "goal": "Docker Desktop을 설치하고 Docker Hub의 공식 이미지를 받아서 컨테이너를 켜고 끄고 지워요",
+     "commands": "`docker pull nginx` `docker run -d --name web -p 8080:80 nginx` `docker ps -a` `docker stop web` `docker rm web`", "slides": "docker-basics-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
