@@ -1,0 +1,485 @@
+### daemon-off
+$ docker ps
+failed to connect to the docker API at unix:///Users/kim/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/kim/.docker/run/docker.sock: connect: no such file or directory
+[exit 1]
+
+### check
+$ docker --version
+Docker version 29.9.2, build a82e528
+[exit 0]
+
+$ docker run hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+Digest: sha256:c567b231f65614688711a75f31518a064258a51d442117a3e771a3a8fdba78ef
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+[exit 0]
+
+### pull
+$ docker pull nginx
+Using default tag: latest
+latest: Pulling from library/nginx
+6d2e43921e9e: Pulling fs layer
+1724c05f72c6: Pulling fs layer
+37fb86c2a767: Pulling fs layer
+512ac5e7ce8e: Pulling fs layer
+1962e1ff75b4: Pulling fs layer
+bbb080c71d50: Pulling fs layer
+7cb4701ce7cd: Pulling fs layer
+1724c05f72c6: Download complete
+7cb4701ce7cd: Download complete
+1962e1ff75b4: Download complete
+6d2e43921e9e: Download complete
+bbb080c71d50: Download complete
+512ac5e7ce8e: Download complete
+4582dace95e2: Download complete
+d2c7e31f04a3: Download complete
+37fb86c2a767: Download complete
+37fb86c2a767: Pull complete
+1724c05f72c6: Pull complete
+7cb4701ce7cd: Pull complete
+1962e1ff75b4: Pull complete
+6d2e43921e9e: Pull complete
+bbb080c71d50: Pull complete
+512ac5e7ce8e: Pull complete
+Digest: sha256:165ddde8751e75a1c907d24ef10d9f6deb08b57e0fe56caf67512486aff76d82
+Status: Downloaded newer image for nginx:latest
+docker.io/library/nginx:latest
+[exit 0]
+
+$ docker images
+IMAGE                ID             DISK USAGE   CONTENT SIZE   EXTRA
+hello-world:latest   c567b231f656       25.9kB         9.49kB   U    
+nginx:latest         165ddde8751e        243MB         66.8MB        
+[exit 0]
+
+### foreground
+$ docker run nginx   (3초 뒤 Ctrl+C)
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: ipv6 not available
+/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+2026/11/12 00:33:29 [notice] 1#1: using the "epoll" event method
+2026/11/12 00:33:29 [notice] 1#1: nginx/1.31.8
+2026/11/12 00:33:29 [notice] 1#1: built by gcc 14.2.0 (Debian 14.2.0-19) 
+2026/11/12 00:33:29 [notice] 1#1: OS: Linux 6.18.44-fc-v378
+2026/11/12 00:33:29 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1024:20000
+2026/11/12 00:33:29 [notice] 1#1: start worker processes
+2026/11/12 00:33:29 [notice] 1#1: start worker process 20
+2026/11/12 00:33:29 [notice] 1#1: start worker process 21
+2026/11/12 00:33:29 [notice] 1#1: start worker process 22
+2026/11/12 00:33:29 [notice] 1#1: start worker process 23
+2026/11/12 00:33:32 [notice] 1#1: signal 2 (SIGINT) received, exiting
+2026/11/12 00:33:32 [notice] 20#20: exiting
+2026/11/12 00:33:32 [notice] 21#21: exiting
+2026/11/12 00:33:32 [notice] 20#20: exit
+2026/11/12 00:33:32 [notice] 21#21: exit
+2026/11/12 00:33:32 [notice] 23#23: exiting
+2026/11/12 00:33:32 [notice] 23#23: exit
+2026/11/12 00:33:32 [notice] 22#22: exiting
+2026/11/12 00:33:32 [notice] 22#22: exit
+2026/11/12 00:33:32 [notice] 1#1: signal 17 (SIGCHLD) received from 21
+2026/11/12 00:33:32 [notice] 1#1: worker process 21 exited with code 0
+2026/11/12 00:33:32 [notice] 1#1: signal 29 (SIGIO) received
+2026/11/12 00:33:32 [notice] 1#1: signal 17 (SIGCHLD) received from 20
+2026/11/12 00:33:32 [notice] 1#1: worker process 20 exited with code 0
+2026/11/12 00:33:32 [notice] 1#1: worker process 23 exited with code 0
+2026/11/12 00:33:32 [notice] 1#1: signal 29 (SIGIO) received
+2026/11/12 00:33:32 [notice] 1#1: signal 17 (SIGCHLD) received from 22
+2026/11/12 00:33:32 [notice] 1#1: worker process 22 exited with code 0
+2026/11/12 00:33:32 [notice] 1#1: exit
+[exit 124]
+
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS                              PORTS     NAMES
+a669a15ddb87   nginx         "/docker-entrypoint.…"   3 seconds ago   Exited (0) Less than a second ago             exciting_mendeleev
+ae0d403e2768   hello-world   "/hello"                 6 seconds ago   Exited (0) 6 seconds ago                      flamboyant_thompson
+[exit 0]
+
+### run-d
+$ docker run -d --name web nginx
+b4a5370848e46a4d81e6fee1eab39198bc963385635943397347efcf4d87cd13
+[exit 0]
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED                  STATUS                  PORTS     NAMES
+b4a5370848e4   nginx     "/docker-entrypoint.…"   Less than a second ago   Up Less than a second   80/tcp    web
+[exit 0]
+
+$ docker logs web
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: ipv6 not available
+/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+2026/11/12 00:33:32 [notice] 1#1: using the "epoll" event method
+2026/11/12 00:33:32 [notice] 1#1: nginx/1.31.8
+2026/11/12 00:33:32 [notice] 1#1: built by gcc 14.2.0 (Debian 14.2.0-19) 
+2026/11/12 00:33:32 [notice] 1#1: OS: Linux 6.18.44-fc-v378
+2026/11/12 00:33:32 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1024:20000
+2026/11/12 00:33:32 [notice] 1#1: start worker processes
+2026/11/12 00:33:32 [notice] 1#1: start worker process 20
+2026/11/12 00:33:32 [notice] 1#1: start worker process 21
+2026/11/12 00:33:32 [notice] 1#1: start worker process 22
+2026/11/12 00:33:32 [notice] 1#1: start worker process 23
+[exit 0]
+
+### stop
+$ docker stop web
+web
+[exit 0]
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[exit 0]
+
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS                              PORTS     NAMES
+b4a5370848e4   nginx         "/docker-entrypoint.…"   1 second ago    Exited (0) Less than a second ago             web
+a669a15ddb87   nginx         "/docker-entrypoint.…"   4 seconds ago   Exited (0) Less than a second ago             exciting_mendeleev
+ae0d403e2768   hello-world   "/hello"                 7 seconds ago   Exited (0) 6 seconds ago                      flamboyant_thompson
+[exit 0]
+
+$ docker start web
+web
+[exit 0]
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED        STATUS                  PORTS     NAMES
+b4a5370848e4   nginx     "/docker-entrypoint.…"   1 second ago   Up Less than a second   80/tcp    web
+[exit 0]
+
+### port-why
+$ curl -sS --max-time 3 http://localhost:8080
+curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+[exit 7]
+
+### error-rm-running
+$ docker rm web
+Error response from daemon: cannot remove container "web": container is running: stop the container before removing or force remove
+[exit 1]
+
+$ docker stop web
+web
+[exit 0]
+
+$ docker rm web
+web
+[exit 0]
+
+### port
+$ docker run -d --name web -p 8080:80 nginx
+ba5cd077165e1aac0f8ca6822ed77da447719a626a1aca498dbb8fa2cec90ae5
+[exit 0]
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED                  STATUS                  PORTS                  NAMES
+ba5cd077165e   nginx     "/docker-entrypoint.…"   Less than a second ago   Up Less than a second   0.0.0.0:8080->80/tcp   web
+[exit 0]
+
+$ curl -sS http://localhost:8080
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy, 
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional 
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+[exit 0]
+
+### error-name
+$ docker run -d --name web -p 8080:80 nginx
+docker: Error response from daemon: Conflict. The container name "/web" is already in use by container "ba5cd077165e1aac0f8ca6822ed77da447719a626a1aca498dbb8fa2cec90ae5". You have to remove (or rename) that container to be able to reuse that name.
+
+Run 'docker run --help' for more information
+[exit 125]
+
+### error-port
+$ docker run -d --name web2 -p 8080:80 nginx
+f637c2dda017f745292be9af113c3e567b511e214ff9de54e4fb5e2bfae5515c
+docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint web2 (60b6f6d0dcc37d67c621705ad7a0fcfbcf22df285eee9b407bbc13b7cbab6784): Bind for 0.0.0.0:8080 failed: port is already allocated
+
+Run 'docker run --help' for more information
+[exit 125]
+
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS                     PORTS                  NAMES
+f637c2dda017   nginx         "/docker-entrypoint.…"   1 second ago    Created                                           web2
+ba5cd077165e   nginx         "/docker-entrypoint.…"   2 seconds ago   Up 1 second                0.0.0.0:8080->80/tcp   web
+a669a15ddb87   nginx         "/docker-entrypoint.…"   6 seconds ago   Exited (0) 2 seconds ago                          exciting_mendeleev
+ae0d403e2768   hello-world   "/hello"                 9 seconds ago   Exited (0) 8 seconds ago                          flamboyant_thompson
+[exit 0]
+
+$ docker rm web2
+web2
+[exit 0]
+
+### two
+$ docker run -d --name web2 -p 8081:80 nginx
+ddfc59cdbbe5515a3982b4c87392750a464955f6942d5960a48bd9fa2ff20c08
+[exit 0]
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED                  STATUS                  PORTS                  NAMES
+ddfc59cdbbe5   nginx     "/docker-entrypoint.…"   Less than a second ago   Up Less than a second   0.0.0.0:8081->80/tcp   web2
+ba5cd077165e   nginx     "/docker-entrypoint.…"   2 seconds ago            Up 1 second             0.0.0.0:8080->80/tcp   web
+[exit 0]
+
+### logs
+$ docker logs web
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: ipv6 not available
+/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+2026/11/12 00:33:33 [notice] 1#1: using the "epoll" event method
+2026/11/12 00:33:33 [notice] 1#1: nginx/1.31.8
+2026/11/12 00:33:33 [notice] 1#1: built by gcc 14.2.0 (Debian 14.2.0-19) 
+2026/11/12 00:33:33 [notice] 1#1: OS: Linux 6.18.44-fc-v378
+2026/11/12 00:33:33 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1024:20000
+2026/11/12 00:33:33 [notice] 1#1: start worker processes
+2026/11/12 00:33:33 [notice] 1#1: start worker process 20
+2026/11/12 00:33:33 [notice] 1#1: start worker process 21
+2026/11/12 00:33:33 [notice] 1#1: start worker process 22
+2026/11/12 00:33:33 [notice] 1#1: start worker process 23
+172.17.0.1 - - [12/Nov/2026:00:33:34 +0000] "GET / HTTP/1.1" 200 896 "-" "curl/8.5.0" "-"
+172.17.0.1 - - [12/Nov/2026:00:33:35 +0000] "GET / HTTP/1.1" 200 896 "-" "curl/8.5.0" "-"
+172.17.0.1 - - [12/Nov/2026:00:33:35 +0000] "GET / HTTP/1.1" 200 896 "-" "curl/8.5.0" "-"
+172.17.0.1 - - [12/Nov/2026:00:33:35 +0000] "GET / HTTP/1.1" 200 896 "-" "curl/8.5.0" "-"
+[exit 0]
+
+### lost
+$ docker stop web
+web
+[exit 0]
+
+$ docker rm web
+web
+[exit 0]
+
+$ docker run -d --name web -p 8080:80 nginx
+f2eb4804cc4ecdcc9281dd76a0a6045d4151e31b0ddcca85be6b0b9a74f202c0
+[exit 0]
+
+$ docker logs web
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: ipv6 not available
+/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+2026/11/12 00:33:35 [notice] 1#1: using the "epoll" event method
+2026/11/12 00:33:35 [notice] 1#1: nginx/1.31.8
+2026/11/12 00:33:35 [notice] 1#1: built by gcc 14.2.0 (Debian 14.2.0-19) 
+2026/11/12 00:33:35 [notice] 1#1: OS: Linux 6.18.44-fc-v378
+2026/11/12 00:33:35 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1024:20000
+2026/11/12 00:33:35 [notice] 1#1: start worker processes
+2026/11/12 00:33:35 [notice] 1#1: start worker process 20
+2026/11/12 00:33:35 [notice] 1#1: start worker process 21
+2026/11/12 00:33:35 [notice] 1#1: start worker process 22
+2026/11/12 00:33:35 [notice] 1#1: start worker process 23
+[exit 0]
+
+### error-rmi
+$ docker stop web web2
+web
+web2
+[exit 0]
+
+$ docker rm web web2
+web
+web2
+[exit 0]
+
+$ docker rmi nginx
+Error response from daemon: conflict: unable to delete nginx:latest (must be forced) - container a669a15ddb87 is using its referenced image 165ddde8751e
+[exit 1]
+
+$ docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS                      PORTS     NAMES
+a669a15ddb87   nginx         "/docker-entrypoint.…"   8 seconds ago    Exited (0) 4 seconds ago              exciting_mendeleev
+ae0d403e2768   hello-world   "/hello"                 11 seconds ago   Exited (0) 10 seconds ago             flamboyant_thompson
+[exit 0]
+
+$ docker rm exciting_mendeleev
+exciting_mendeleev
+[exit 0]
+
+$ docker rm flamboyant_thompson
+flamboyant_thompson
+[exit 0]
+
+$ docker rmi nginx hello-world
+Untagged: nginx:latest
+Deleted: sha256:165ddde8751e75a1c907d24ef10d9f6deb08b57e0fe56caf67512486aff76d82
+Untagged: hello-world:latest
+Deleted: sha256:c567b231f65614688711a75f31518a064258a51d442117a3e771a3a8fdba78ef
+[exit 0]
+
+$ docker images
+IMAGE   ID             DISK USAGE   CONTENT SIZE   EXTRA
+[exit 0]
+
+### python
+$ docker run python:3.11 python -c menu = {"latte": 4500}; print(f"라떼: {menu["latte"]}원")
+Unable to find image 'python:3.11' locally
+3.11: Pulling from library/python
+7e3c990f222e: Pulling fs layer
+e8a88afca2bd: Pulling fs layer
+a6dd1c05fbba: Pulling fs layer
+696c1fe91c64: Pulling fs layer
+411d2dc8717d: Pulling fs layer
+80dff79a3522: Pulling fs layer
+ee2c0c3df49b: Pulling fs layer
+7e3c990f222e: Download complete
+ee2c0c3df49b: Download complete
+e8a88afca2bd: Download complete
+a6dd1c05fbba: Download complete
+80dff79a3522: Download complete
+411d2dc8717d: Download complete
+f243b930becb: Download complete
+b30a51f1b9e1: Download complete
+696c1fe91c64: Download complete
+a6dd1c05fbba: Pull complete
+e8a88afca2bd: Pull complete
+411d2dc8717d: Pull complete
+696c1fe91c64: Pull complete
+ee2c0c3df49b: Pull complete
+80dff79a3522: Pull complete
+7e3c990f222e: Pull complete
+Digest: sha256:731670a425deabbc48d39f0ee3115cfa665b2a4002c19939ad3e88b2832b4549
+Status: Downloaded newer image for python:3.11
+  File "<string>", line 1
+    menu = {"latte": 4500}; print(f"라떼: {menu["latte"]}원")
+                                               ^^^^^
+SyntaxError: f-string: unmatched '['
+[exit 1]
+
+$ docker run python:3.12 python -c menu = {"latte": 4500}; print(f"라떼: {menu["latte"]}원")
+Unable to find image 'python:3.12' locally
+3.12: Pulling from library/python
+685e2037ccfc: Pulling fs layer
+a6dd1c05fbba: Pulling fs layer
+e8a88afca2bd: Pulling fs layer
+411d2dc8717d: Pulling fs layer
+696c1fe91c64: Pulling fs layer
+5ac0faf5954b: Pulling fs layer
+4ed680595f4b: Pulling fs layer
+a6dd1c05fbba: Already exists
+e8a88afca2bd: Already exists
+411d2dc8717d: Already exists
+696c1fe91c64: Already exists
+685e2037ccfc: Download complete
+1e2db93f55da: Download complete
+5ac0faf5954b: Download complete
+4ed680595f4b: Download complete
+aa85f988f708: Download complete
+5ac0faf5954b: Pull complete
+685e2037ccfc: Pull complete
+4ed680595f4b: Pull complete
+Digest: sha256:cad37dd20c7cac861af9003af8796d03ea7a998ec1e3a664429740fc9d7d2691
+Status: Downloaded newer image for python:3.12
+라떼: 4500원
+[exit 0]
+
+$ docker images
+IMAGE         ID             DISK USAGE   CONTENT SIZE   EXTRA
+python:3.11   731670a425de       1.62GB          428MB   U    
+python:3.12   cad37dd20c7c       1.62GB          430MB   U    
+[exit 0]
+
+### ubuntu
+$ docker run -it --name my-server ubuntu:24.04 bash
+Unable to find image 'ubuntu:24.04' locally
+24.04: Pulling from library/ubuntu
+Status: Downloaded newer image for ubuntu:24.04
+root@01040a1eda9b:/# cat /etc/os-release | head -2
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+NAME="Ubuntu"
+root@01040a1eda9b:/# whoami
+root
+root@01040a1eda9b:/# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+root@01040a1eda9b:/# exit
+exit
+[exit 0]
+
+$ docker ps -a --filter name=my-server
+CONTAINER ID   IMAGE          COMMAND   CREATED                  STATUS                              PORTS     NAMES
+01040a1eda9b   ubuntu:24.04   "bash"    Less than a second ago   Exited (0) Less than a second ago             my-server
+[exit 0]
+
+### restart
+$ docker run -d --name web nginx
+315ddf61831a100d65fa7fb730cb08567ea40ddab4e3da28a40e2ae08622dac1
+[exit 0]
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS     NAMES
+315ddf61831a   nginx     "/docker-entrypoint.…"   20 seconds ago   Up 20 seconds   80/tcp    web
+[exit 0]
+
+$ docker restart web
+web
+[exit 0]
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                  PORTS     NAMES
+315ddf61831a   nginx     "/docker-entrypoint.…"   21 seconds ago   Up Less than a second   80/tcp    web
+[exit 0]
+

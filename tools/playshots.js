@@ -14,8 +14,8 @@ fs.mkdirSync(outDir, { recursive: true });
   await page.evaluate(() => document.fonts.ready);
   await page.waitForTimeout(1000);
   const n = await page.evaluate(() => document.querySelectorAll('section').length);
-  // read the player's own counter: slide text such as [1/4] or (9/9) must not be taken for the page number
-  const pageNo = async () => page.evaluate(() => +((document.getElementById('pl-count') || document.body).textContent.match(/(\d+)\s*\/\s*\d+/) || [])[1]);
+  // read the player's page counter, not the slide text (a slide may show dates such as 2026/11/12)
+  const pageNo = async () => page.evaluate(() => { const c = document.getElementById('pl-count'); const m = ((c ? c.textContent : document.body.innerText).match(/(\d+)\s*\/\s*\d+/) || [])[1]; return +m; });
   for (let i = 1; i <= n; i++) {
     await page.keyboard.type(String(i)); await page.keyboard.press('Enter'); await page.waitForTimeout(400);
     for (let k = 0; k < 30; k++) {           // play every build on this slide, stop before the next slide
