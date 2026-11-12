@@ -99,7 +99,10 @@
      "commands": "`CREATE DATABASE cafe;` `CREATE TABLE orders (...);` `INSERT INTO orders VALUES (...);` `SELECT * FROM orders WHERE id = 2;` `USE cafe;` / `\\c cafe`", "slides": "database-basics-slides.html"},
     {"dir": "33-docker-mysql", "title": "Docker 3 (MySQL 컨테이너)", "track": "Docker",
      "goal": "MySQL을 컨테이너로 켜고 데이터베이스와 표를 만들어, 컨테이너를 지워도 볼륨에 남게 해요",
-     "commands": "`docker run -e MYSQL_ROOT_PASSWORD=… mysql:8.4` `docker exec -it db mysql -u root -p` `CREATE DATABASE` `CREATE TABLE` `-v cafe-data:/var/lib/mysql`", "slides": "docker-mysql-slides.html"}
+     "commands": "`docker run -e MYSQL_ROOT_PASSWORD=… mysql:8.4` `docker exec -it db mysql -u root -p` `CREATE DATABASE` `CREATE TABLE` `-v cafe-data:/var/lib/mysql`", "slides": "docker-mysql-slides.html"},
+    {"dir": "34-docker-postgres", "title": "Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기)", "track": "Docker",
+     "goal": "PostgreSQL을 컨테이너로 켜고 psql로 데이터베이스와 표를 만든 뒤, 볼륨으로 데이터를 지켜요",
+     "commands": "`docker run -e POSTGRES_PASSWORD=... postgres:18` `docker exec -it pg psql -U postgres` `\\l` `\\c` `\\dt` `-v pg-data:/var/lib/postgresql`", "slides": "docker-postgres-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
