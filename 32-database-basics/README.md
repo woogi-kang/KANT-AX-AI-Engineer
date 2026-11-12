@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/32-database-basics/database-basics-slides.html) | [31 · nginx 기초 (웹 서버와 리버스 프록시)](../31-nginx-basics) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/32-database-basics/database-basics-slides.html) | [31 · nginx 기초 (웹 서버와 리버스 프록시)](../31-nginx-basics) | [33 · Docker 3 (MySQL 컨테이너)](../33-docker-mysql) |
 
 <!-- /curriculum:top -->
 
@@ -241,6 +241,6 @@ node ../tools/export.js slides database-basics-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 31 · nginx 기초 (웹 서버와 리버스 프록시)](../31-nginx-basics) · [커리큘럼](../README.md)
+[← 이전: 31 · nginx 기초 (웹 서버와 리버스 프록시)](../31-nginx-basics) · [커리큘럼](../README.md) · [다음: 33 · Docker 3 (MySQL 컨테이너) →](../33-docker-mysql)
 
 <!-- /curriculum:nav -->
