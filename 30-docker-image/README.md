@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/30-docker-image/docker-image-slides.html) | [29 · Docker 1 (컨테이너 실행하기)](../29-docker-basics) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/30-docker-image/docker-image-slides.html) | [29 · Docker 1 (컨테이너 실행하기)](../29-docker-basics) | [31 · nginx 기초 (웹 서버와 리버스 프록시)](../31-nginx-basics) |
 
 <!-- /curriculum:top -->
 
@@ -340,6 +340,6 @@ node ../tools/export.js slides docker-image-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 29 · Docker 1 (컨테이너 실행하기)](../29-docker-basics) · [커리큘럼](../README.md)
+[← 이전: 29 · Docker 1 (컨테이너 실행하기)](../29-docker-basics) · [커리큘럼](../README.md) · [다음: 31 · nginx 기초 (웹 서버와 리버스 프록시) →](../31-nginx-basics)
 
 <!-- /curriculum:nav -->

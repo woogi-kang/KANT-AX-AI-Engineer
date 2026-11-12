@@ -1,0 +1,37 @@
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">한 장 요약</h2>
+<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#1F8A4C">파일 내주기</p>
+<div style="position:absolute;left:96px;top:270px;width:540px;height:3px;background:#1F8A4C"></div>
+<p style="position:absolute;left:96px;top:296px;width:560px;font-size:26px;font-weight:700;color:#1D2330;white-space:nowrap">curl 주소</p>
+<p style="position:absolute;left:96px;top:338px;width:540px;font-size:23px;color:#4A5262">받은 내용을 터미널에 찍기</p>
+<p style="position:absolute;left:96px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">location / { root …; }</p>
+<p style="position:absolute;left:96px;top:458px;width:540px;font-size:23px;color:#4A5262">경로를 폴더 속 파일로</p>
+<p style="position:absolute;left:96px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">-v ./conf:/etc/nginx/conf.d</p>
+<p style="position:absolute;left:96px;top:578px;width:540px;font-size:23px;color:#4A5262">내 설정 파일 연결</p>
+<p style="position:absolute;left:96px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">docker logs web</p>
+<p style="position:absolute;left:96px;top:698px;width:540px;font-size:23px;color:#4A5262">받은 요청 기록</p>
+<p style="position:absolute;left:696px;top:220px;font-size:30px;font-weight:700;color:#A23B72">리버스 프록시</p>
+<div style="position:absolute;left:696px;top:270px;width:540px;height:3px;background:#A23B72"></div>
+<p style="position:absolute;left:696px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">proxy_pass http://menu/;</p>
+<p style="position:absolute;left:696px;top:338px;width:540px;font-size:23px;color:#4A5262">서비스 이름으로 넘기기</p>
+<p style="position:absolute;left:696px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">ports는 web 하나만</p>
+<p style="position:absolute;left:696px;top:458px;width:540px;font-size:23px;color:#4A5262">앱은 nginx 뒤에</p>
+<p style="position:absolute;left:696px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">depends_on</p>
+<p style="position:absolute;left:696px;top:578px;width:540px;font-size:23px;color:#4A5262">앱 먼저, nginx 나중</p>
+<p style="position:absolute;left:696px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">localhost = :80</p>
+<p style="position:absolute;left:696px;top:698px;width:540px;font-size:23px;color:#4A5262">포트 없이 경로로 고르기</p>
+<p style="position:absolute;left:1296px;top:220px;font-size:30px;font-weight:700;color:#B26A00">고친 뒤</p>
+<div style="position:absolute;left:1296px;top:270px;width:540px;height:3px;background:#B26A00"></div>
+<p style="position:absolute;left:1296px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">docker exec cafe-web-1 nginx -t</p>
+<p style="position:absolute;left:1296px;top:338px;width:540px;font-size:23px;color:#4A5262">설정 검사</p>
+<p style="position:absolute;left:1296px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">… nginx -s reload</p>
+<p style="position:absolute;left:1296px;top:458px;width:540px;font-size:23px;color:#4A5262">끄지 않고 다시 읽기</p>
+<p style="position:absolute;left:1296px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">docker compose logs web</p>
+<p style="position:absolute;left:1296px;top:578px;width:540px;font-size:23px;color:#4A5262">502, 504 원인 보기</p>
+<p style="position:absolute;left:1296px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">docker compose down</p>
+<p style="position:absolute;left:1296px;top:698px;width:540px;font-size:23px;color:#4A5262">다 쓰면 지우기</p>
+<p style="position:absolute;left:96px;top:820px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">nginx는 카운터, 앱 서버는 주방이에요. 손님은 카운터 하나만 알면 돼요.</p>
+<p style="position:absolute;left:96px;top:880px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#4A5262">FastAPI 서버를 띄우는 법을 배우면, whoami 자리에 내 앱을 넣어요.</p>
+<aside>오늘 쓴 것을 세 묶음으로 모았어요. nginx는 location과 root로 폴더 속 파일을 바로 줘요. proxy_pass로 요청을 뒤의 앱에 넘기면 리버스 프록시가 돼요. 밖으로 여는 문은 nginx 하나만 두고 앱은 그 뒤에 둬요. 설정을 고치면 nginx -t로 검사하고 reload로 다시 읽혀요. 나중에 FastAPI 서버를 띄우는 법을 배우면, 오늘 whoami가 있던 자리에 내 앱 이미지를 넣으면 돼요.</aside>
+</section>
