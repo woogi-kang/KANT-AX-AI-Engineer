@@ -1,0 +1,90 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-12T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "Docker 2 (내 프로그램을 이미지로 만들기)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "ready",
+    "e-run",
+    "e-exec",
+    "e-inside",
+    "e-gone",
+    "v-what",
+    "v-named",
+    "v-ls",
+    "v-bind",
+    "v-cmp",
+    "d-why",
+    "d-file",
+    "d-from",
+    "d-copy",
+    "d-runcmd",
+    "d-build",
+    "d-run",
+    "d-stale",
+    "d-rm",
+    "d-ignore",
+    "c-why",
+    "c-up",
+    "x-build",
+    "x-run",
+    "x-vol",
+    "r-menu",
+    "r-friend",
+    "r-clean",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "컨테이너 안에 들어가기",
+      "start": "e-run"
+    },
+    "p2": {
+      "description": "볼륨으로 남기기",
+      "start": "v-what"
+    },
+    "p3": {
+      "description": "Dockerfile로 이미지 만들기",
+      "start": "d-why"
+    },
+    "p4": {
+      "description": "docker compose 맛보기",
+      "start": "c-why"
+    },
+    "p5": {
+      "description": "자주 나는 오류",
+      "start": "x-build"
+    },
+    "p6": {
+      "description": "실제 상황 예제",
+      "start": "r-menu"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

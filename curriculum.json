@@ -87,7 +87,10 @@
      "commands": "`for p, q in d.items():` `import product` `from product import Product` `import coupon as cp` `if __name__ == \"__main__\":`", "slides": "python-modules-slides.html"},
     {"dir": "29-docker-basics", "title": "Docker 1 (컨테이너 실행하기)", "track": "Docker",
      "goal": "Docker Desktop을 설치하고 Docker Hub의 공식 이미지를 받아서 컨테이너를 켜고 끄고 지워요",
-     "commands": "`docker pull nginx` `docker run -d --name web -p 8080:80 nginx` `docker ps -a` `docker stop web` `docker rm web`", "slides": "docker-basics-slides.html"}
+     "commands": "`docker pull nginx` `docker run -d --name web -p 8080:80 nginx` `docker ps -a` `docker stop web` `docker rm web`", "slides": "docker-basics-slides.html"},
+    {"dir": "30-docker-image", "title": "Docker 2 (내 프로그램을 이미지로 만들기)", "track": "Docker",
+     "goal": "장바구니를 Dockerfile로 내 이미지로 만들고, 볼륨과 compose로 컨테이너를 실행해요",
+     "commands": "`docker exec -it web bash` `-v ./site:/usr/share/nginx/html` `docker build -t cart .` `.dockerignore` `docker compose up -d`", "slides": "docker-image-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

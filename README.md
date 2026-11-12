@@ -37,6 +37,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [27 · 클래스 4 (캡슐화)](./27-python-encapsulation) | 파&#8288;이&#8288;썬 | 칸은 안에 감추고, 메서드와 property라는 문으로만 꺼내고 바꾸게 해요 | `self._stamps` `self.__password` `get_password()` `@property` `@password.setter` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/27-python-encapsulation/python-encapsulation-slides.html) |
 | [28 · 미니 프로젝트: 장바구니 (들여쓰기, items, 모듈)](./28-python-modules) | 파&#8288;이&#8288;썬 | 장바구니 프로젝트로 들여쓰기 상자, items() 꺼내 담기, 파일을 나누는 import를 읽고 써요 | `for p, q in d.items():` `import product` `from product import Product` `import coupon as cp` `if __name__ == "__main__":` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/28-python-modules/python-modules-slides.html) |
 | [29 · Docker 1 (컨테이너 실행하기)](./29-docker-basics) | D&#8288;o&#8288;c&#8288;k&#8288;e&#8288;r | Docker Desktop을 설치하고 Docker Hub의 공식 이미지를 받아서 컨테이너를 켜고 끄고 지워요 | `docker pull nginx` `docker run -d --name web -p 8080:80 nginx` `docker ps -a` `docker stop web` `docker rm web` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/29-docker-basics/docker-basics-slides.html) |
+| [30 · Docker 2 (내 프로그램을 이미지로 만들기)](./30-docker-image) | D&#8288;o&#8288;c&#8288;k&#8288;e&#8288;r | 장바구니를 Dockerfile로 내 이미지로 만들고, 볼륨과 compose로 컨테이너를 실행해요 | `docker exec -it web bash` `-v ./site:/usr/share/nginx/html` `docker build -t cart .` `.dockerignore` `docker compose up -d` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/30-docker-image/docker-image-slides.html) |
 
 <!-- /curriculum:chapters -->
 
