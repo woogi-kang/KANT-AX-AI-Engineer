@@ -1,0 +1,36 @@
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">한 장 요약</h2>
+<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#0F7C86">확인</p>
+<div style="position:absolute;left:96px;top:270px;width:740px;height:3px;background:#0F7C86"></div>
+<p style="position:absolute;left:96px;top:296px;width:740px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker --version</p>
+<p style="position:absolute;left:96px;top:338px;width:740px;font-size:23px;color:#4A5262">설치된 버전</p>
+<p style="position:absolute;left:96px;top:396px;width:740px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker run hello-world</p>
+<p style="position:absolute;left:96px;top:438px;width:740px;font-size:23px;color:#4A5262">설치 확인</p>
+<p style="position:absolute;left:96px;top:520px;font-size:30px;font-weight:700;color:#B26A00">이미지 (틀)</p>
+<div style="position:absolute;left:96px;top:570px;width:740px;height:3px;background:#B26A00"></div>
+<p style="position:absolute;left:96px;top:596px;width:740px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker pull 이름:태그</p>
+<p style="position:absolute;left:96px;top:638px;width:740px;font-size:23px;color:#4A5262">Hub에서 받기</p>
+<p style="position:absolute;left:96px;top:696px;width:740px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker images</p>
+<p style="position:absolute;left:96px;top:738px;width:740px;font-size:23px;color:#4A5262">받은 이미지 목록</p>
+<p style="position:absolute;left:96px;top:796px;width:740px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker rmi 이름</p>
+<p style="position:absolute;left:96px;top:838px;width:740px;font-size:23px;color:#4A5262">이미지 지우기</p>
+<p style="position:absolute;left:900px;top:220px;font-size:30px;font-weight:700;color:#1F8A4C">컨테이너 (붕어빵)</p>
+<div style="position:absolute;left:900px;top:270px;width:924px;height:3px;background:#1F8A4C"></div>
+<p style="position:absolute;left:900px;top:296px;width:924px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#1D2330;white-space:nowrap">docker run -d --name 이름 -p 8080:80 이미지</p>
+<p style="position:absolute;left:900px;top:338px;width:924px;font-size:23px;color:#4A5262">새로 만들어 뒤에서 켜기</p>
+<p style="position:absolute;left:900px;top:384px;width:924px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker ps / docker ps -a</p>
+<p style="position:absolute;left:900px;top:426px;width:924px;font-size:23px;color:#4A5262">켜진 것 / 전부</p>
+<p style="position:absolute;left:900px;top:472px;width:924px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker stop 이름 / docker start 이름</p>
+<p style="position:absolute;left:900px;top:514px;width:924px;font-size:23px;color:#4A5262">끄기 / 다시 켜기</p>
+<p style="position:absolute;left:900px;top:560px;width:924px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker restart 이름</p>
+<p style="position:absolute;left:900px;top:602px;width:924px;font-size:23px;color:#4A5262">껐다가 다시 켜기</p>
+<p style="position:absolute;left:900px;top:648px;width:924px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker rm 이름</p>
+<p style="position:absolute;left:900px;top:690px;width:924px;font-size:23px;color:#4A5262">지우기 (끈 다음에)</p>
+<p style="position:absolute;left:900px;top:736px;width:924px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker logs 이름</p>
+<p style="position:absolute;left:900px;top:778px;width:924px;font-size:23px;color:#4A5262">남긴 기록 보기</p>
+<p style="position:absolute;left:900px;top:824px;width:924px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">docker run -it --name 이름 이미지 bash</p>
+<p style="position:absolute;left:900px;top:866px;width:924px;font-size:23px;color:#4A5262">안에 들어가기 (exit로 나오기)</p>
+<p style="position:absolute;left:96px;top:920px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">이미지는 Docker Official Image 마크부터 골라요. 명령은 터미널, 확인은 Docker Desktop이에요.</p>
+<aside>오늘 쓴 명령을 세 묶음으로 모았어요. 설치 확인 두 개, 이미지 세 개, 컨테이너 일곱 줄이에요. 이미지는 Docker Hub에서 Docker Official Image 마크가 붙은 것부터 골라요. 명령은 터미널에서 치고, 결과는 Docker Desktop 화면으로 확인해요. 실습이 끝나면 docker ps -a와 docker images로 남은 것을 확인하고 rm, rmi로 정리해요. 다음 챕터 30에서는 볼륨과 Dockerfile을 배워요.</aside>
+</section>
