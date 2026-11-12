@@ -1,0 +1,26 @@
+<section id="v-cmp" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1F8A4C">2. 볼륨으로 남기기</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">남길 때는 볼륨, 고치면서 볼 때는 폴더 연결을 써요</h2>
+<p style="position:absolute;left:480px;top:222px;font-size:30px;font-weight:700;color:#1F8A4C">볼륨 이름</p>
+<p style="position:absolute;left:1160px;top:222px;font-size:30px;font-weight:700;color:#2459C9">내 폴더 연결</p>
+<div style="position:absolute;left:96px;top:290px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:336px;width:380px;font-size:30px;font-weight:700;color:#4A5262;white-space:nowrap">쓰는 모양</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:480px;top:336px;width:660px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:nowrap">-v cafe-html:경로</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:1160px;top:336px;width:664px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:nowrap">-v ./site:경로</p>
+<div style="position:absolute;left:96px;top:430px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:476px;width:380px;font-size:30px;font-weight:700;color:#4A5262;white-space:nowrap">파일이 있는 곳</p>
+<p data-build-in="rise order 1" data-delay="90" style="position:absolute;left:480px;top:476px;width:660px;font-size:30px;font-weight:500;color:#1D2330;white-space:nowrap">Docker가 관리하는 곳</p>
+<p data-build-in="rise order 1" data-delay="90" style="position:absolute;left:1160px;top:476px;width:664px;font-size:30px;font-weight:500;color:#1D2330;white-space:nowrap">내 폴더 (VS Code로 열려요)</p>
+<div style="position:absolute;left:96px;top:570px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:616px;width:380px;font-size:30px;font-weight:700;color:#4A5262;white-space:nowrap">목록 보기</p>
+<p data-build-in="rise order 1" data-delay="180" style="position:absolute;left:480px;top:616px;width:660px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:nowrap">docker volume ls</p>
+<p data-build-in="rise order 1" data-delay="180" style="position:absolute;left:1160px;top:616px;width:664px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1D2330;white-space:nowrap">ls site</p>
+<div style="position:absolute;left:96px;top:710px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:756px;width:380px;font-size:30px;font-weight:700;color:#4A5262;white-space:nowrap">고르는 때</p>
+<p data-build-in="rise order 1" data-delay="270" style="position:absolute;left:480px;top:756px;width:660px;font-size:30px;font-weight:500;color:#1D2330;white-space:nowrap">컨테이너가 만든 데이터를 남길 때</p>
+<p data-build-in="rise order 1" data-delay="270" style="position:absolute;left:1160px;top:756px;width:664px;font-size:30px;font-weight:500;color:#1D2330;white-space:nowrap">내가 고친 파일을 바로 보고 싶을 때</p>
+<div style="position:absolute;left:96px;top:850px;width:1728px;height:2px;background:#DCD8CE"></div>
+<svg data-build-in="draw order 2" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#2459C9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><rect x="1207" y="328" width="42" height="58" rx="8"/></g></svg>
+<p data-build-in="rise order 2" style="position:absolute;left:96px;top:900px;width:1728px;font-size:30px;font-weight:700;line-height:1.45;color:#4A5262">4파트 compose와 6파트 예제에서는 폴더 연결을 써요.</p>
+<aside>두 가지 -v를 나란히 놓았어요. 볼륨 이름을 적으면 Docker가 알아서 정한 곳에 저장해요. 지워지면 안 되는 데이터를 남길 때 써요. 데이터베이스처럼 컨테이너가 계속 쓰는 파일이 그런 예예요. 폴더 연결은 내 컴퓨터의 폴더를 그대로 보여 줘서 VS Code로 고치고 바로 확인할 때 좋아요. 둘을 가르는 건 이름 앞의 ./ 하나예요. 이후 compose와 실습 예제에서는 폴더 연결을 써요.</aside>
+</section>
