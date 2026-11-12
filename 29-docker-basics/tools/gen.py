@@ -824,7 +824,7 @@ o.append(pen_box(3, round(sx_st - 8), round(t.top(7) - 2), round(t.sw("Up Less t
 sx_cr = t.sx(6, "CREATED")
 o.append(underline(4, sx_cr, sx_cr + t.sw("21 seconds ago"), t.top(7) + t.lp - 2, OR))
 o.append(caption("STATUS는 처음부터 다시 세고, CREATED는 그대로예요. 새 컨테이너가 아니라 같은 컨테이너를 다시 켠 거예요.", t.y + t.h + 40, 4, size=30))
-W("restart", o, "서버가 이상하게 굴거나 설정을 바꿨을 때는 껐다가 다시 켜요. docker stop과 docker start를 차례로 쳐도 되지만, docker restart 한 번이면 둘을 이어서 해 줘요. 다시 켠 뒤 docker ps를 보면 STATUS는 Up Less than a second로 처음부터 다시 세요. CREATED는 그대로예요. 컨테이너를 새로 만든 게 아니라 같은 컨테이너를 다시 켠 거라서 이름도, 남긴 기록도 그대로 있어요. Docker Desktop 앱 자체를 다시 켜는 건 위쪽 고래 아이콘 메뉴의 Restart예요. 이 장은 컨테이너를 다시 켜는 이야기예요. " + MADE)
+W("restart", o, "서버가 이상하게 굴거나 설정을 바꿨을 때는 껐다가 다시 켜요. docker stop과 docker start를 차례로 쳐도 되지만, docker restart 한 번이면 둘을 이어서 해 줘요. 다시 켠 뒤 docker ps를 보면 STATUS는 Up Less than a second로 처음부터 다시 세요. CREATED는 그대로예요. 컨테이너를 새로 만든 게 아니라 같은 컨테이너를 다시 켠 거라서 이름도, 남긴 기록도 그대로 있어요. Docker Desktop 앱 자체를 다시 켜는 건 위쪽 고래 아이콘 메뉴의 Restart예요. 이 장은 컨테이너를 다시 켜는 이야기예요. 이 출력은 따로 실행해서 컨테이너 ID가 앞 장과 달라요. " + MADE)
 
 o = frame("life", EB4, "컨테이너는 켜짐과 꺼짐을 오가다가 rm으로 사라져요", GR)
 nodes = [("n-img", "이미지 nginx", OR, "#FFF4E2", 96, 420), ("n-up", "켜짐 Up", GR, "#E8F4EC", 620, 420), ("n-ex", "꺼짐 Exited", GRAY, "#EDEBE6", 1160, 420), ("n-gone", "없어짐", RED, "#FBECEC", 1160, 760)]
@@ -900,7 +900,7 @@ ps_ = OUTP("port", "docker ps")
 cut = ps_[0].index("PORTS")
 tp = Term([("o", "PORTS                  NAMES"), ("g", ps_[1][cut:])], 96, 790, size=24, w=700, tid="t-ports", bar=False, attrs=bi("rise", 4))
 o.append(tp.html())
-W("port", o, "-p는 publish, 문을 연다는 옵션이에요. 콜론 왼쪽이 내 컴퓨터의 문 번호, 오른쪽이 컨테이너 안의 문 번호예요. nginx는 컨테이너 안에서 80번 문으로 기다려요. -p 8080:80을 붙여 켜면 내 컴퓨터 8080번으로 들어온 요청이 컨테이너 80번으로 넘어가요. 그래서 브라우저에서 localhost:8080을 열면 Welcome to nginx! 화면이 나와요. docker ps의 PORTS 칸에도 0.0.0.0:8080->80/tcp가 생겼어요. 이 문 번호를 포트라고 불러요. 앞 장에서 만든 web은 지우고 새로 켰어요. 지우는 과정은 5파트에서 봐요. 브라우저 안 화면은 실제로 localhost:8080을 연 결과예요. docker ps 출력은 PORTS와 NAMES 칸만 남겼어요.")
+W("port", o, "-p는 publish, 문을 연다는 옵션이에요. 콜론 왼쪽이 내 컴퓨터의 문 번호, 오른쪽이 컨테이너 안의 문 번호예요. nginx는 컨테이너 안에서 80번 문으로 기다려요. -p 8080:80을 붙여 켜면 내 컴퓨터 8080번으로 들어온 요청이 컨테이너 80번으로 넘어가요. 그래서 브라우저에서 localhost:8080을 열면 Welcome to nginx! 화면이 나와요. docker ps의 PORTS 칸에도 0.0.0.0:8080->80/tcp가 생겼어요. 앞에서 -p 없이 만든 web은 지우고 새로 켰어요. 지우는 과정은 5파트에서 봐요. 브라우저 안 화면은 실제로 localhost:8080을 연 결과예요. docker ps 출력은 PORTS와 NAMES 칸만 남겼어요.")
 
 o = frame("port-two", EB4, "같은 이미지로 두 개를 켤 때는 이름과 내 컴퓨터 문을 다르게 줘요", GR)
 lines = [("$", P, "docker run -d --name web2 -p 8081:80 nginx")] + [("o", l) for l in OUTP("two", "docker run")] + [("$", P, "docker ps")] + [("o", l) for l in OUTP("two", "docker ps")]
