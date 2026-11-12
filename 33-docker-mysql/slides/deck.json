@@ -1,0 +1,91 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-12T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "Docker 3 (MySQL 컨테이너)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "r-pull",
+    "r-run",
+    "r-env",
+    "r-logs",
+    "r-enter",
+    "s-show",
+    "s-db",
+    "s-create",
+    "s-desc",
+    "s-insert",
+    "s-select",
+    "s-drop",
+    "u-user",
+    "u-bash",
+    "u-one",
+    "v-gone",
+    "v-why",
+    "v-keep",
+    "c-yaml",
+    "c-up",
+    "cmp",
+    "x-nopw",
+    "x-early",
+    "x-auth",
+    "x-port",
+    "x-sql",
+    "x-trap",
+    "e-day",
+    "e-init",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p2": {
+      "description": "MySQL 컨테이너 켜기",
+      "start": "r-pull"
+    },
+    "p3": {
+      "description": "데이터베이스와 표 만들기",
+      "start": "s-show"
+    },
+    "pu": {
+      "description": "계정과 접속 방법",
+      "start": "u-user"
+    },
+    "p4": {
+      "description": "볼륨과 compose",
+      "start": "v-gone"
+    },
+    "p5": {
+      "description": "자주 나는 오류",
+      "start": "x-nopw"
+    },
+    "p6": {
+      "description": "실제 상황 예제",
+      "start": "e-day"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

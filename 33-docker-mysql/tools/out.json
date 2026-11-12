@@ -1,0 +1,1307 @@
+{
+ "pull": [
+  {
+   "cmd": "docker pull mysql:8.4",
+   "cwd": "~",
+   "out": [
+    "8.4: Pulling from library/mysql",
+    "Digest: sha256:a81d043930e51745522bd5c430961cf8286f0a23f0a9a2a6e0108f7ea71b0902",
+    "Status: Image is up to date for mysql:8.4",
+    "docker.io/library/mysql:8.4"
+   ]
+  }
+ ],
+ "images": [
+  {
+   "cmd": "docker images mysql",
+   "cwd": "~",
+   "out": [
+    "IMAGE       ID             DISK USAGE   CONTENT SIZE   EXTRA",
+    "mysql:8.4   a81d043930e5       1.12GB          254MB        "
+   ]
+  }
+ ],
+ "run": [
+  {
+   "cmd": "docker run -d --name db -e MYSQL_ROOT_PASSWORD=cafe1234 -e MYSQL_DATABASE=cafe -p 3306:3306 mysql:8.4",
+   "cwd": "~",
+   "out": [
+    "f761cbba159d1df5c6e0c13464ab95cc921d9df21a59c3756b5b7aa86d2d60e1"
+   ]
+  }
+ ],
+ "early": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run",
+    "/mysqld/mysqld.sock' (2)"
+   ]
+  }
+ ],
+ "ps": [
+  {
+   "cmd": "docker ps",
+   "cwd": "~",
+   "out": [
+    "CONTAINER ID   IMAGE       COMMAND                  CREATED         STATUS         PORTS                               NAMES",
+    "f761cbba159d   mysql:8.4   \"docker-entrypoint.s…\"   3 seconds ago   Up 2 seconds   0.0.0.0:3306->3306/tcp, 33060/tcp   db"
+   ]
+  }
+ ],
+ "logs": [
+  {
+   "cmd": "docker logs db",
+   "cwd": "~",
+   "out": [
+    "2026-11-12 04:38:03+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.13-1.el9 started.",
+    "2026-11-12 04:38:03+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'",
+    "2026-11-12 04:38:03+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.13-1.el9 started.",
+    "2026-11-12 04:38:03+00:00 [Note] [Entrypoint]: Initializing database files",
+    "2026-11-12 04:38:05+00:00 [Note] [Entrypoint]: Database files initialized",
+    "2026-11-12 04:38:05+00:00 [Note] [Entrypoint]: Starting temporary server",
+    "2026-11-12 04:38:06+00:00 [Note] [Entrypoint]: Temporary server started.",
+    "'/var/lib/mysql/mysql.sock' -> '/var/run/mysqld/mysqld.sock'",
+    "2026-11-12 04:38:08+00:00 [Note] [Entrypoint]: Creating database cafe",
+    "",
+    "2026-11-12 04:38:08+00:00 [Note] [Entrypoint]: Stopping temporary server",
+    "2026-11-12 04:38:09+00:00 [Note] [Entrypoint]: Temporary server stopped",
+    "",
+    "2026-11-12 04:38:09+00:00 [Note] [Entrypoint]: MySQL init process done. Ready for start up.",
+    "",
+    "2026-11-12T04:38:03.748852Z 0 [System] [MY-015017] [Server] MySQL Server Initialization - start.",
+    "2026-11-12T04:38:03.749909Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 8.4.13) initializing of server in progress as process 80",
+    "2026-11-12T04:38:03.749911Z 0 [System] [MY-015150] [Server] Server version with update: '8.4.13.0'",
+    "2026-11-12T04:38:03.753815Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.",
+    "2026-11-12T04:38:03.974705Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.",
+    "2026-11-12T04:38:04.503586Z 6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.",
+    "2026-11-12T04:38:05.939641Z 0 [System] [MY-015018] [Server] MySQL Server Initialization - end.",
+    "2026-11-12T04:38:05.993968Z 0 [System] [MY-015015] [Server] MySQL Server - start.",
+    "2026-11-12T04:38:06.253610Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.4.13) starting as process 127",
+    "2026-11-12T04:38:06.253616Z 0 [System] [MY-015150] [Server] Server version with update: '8.4.13.0'",
+    "2026-11-12T04:38:06.272049Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.",
+    "2026-11-12T04:38:06.455385Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.",
+    "2026-11-12T04:38:06.668283Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.",
+    "2026-11-12T04:38:06.668324Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.",
+    "2026-11-12T04:38:06.669680Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.",
+    "2026-11-12T04:38:06.684358Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: /var/run/mysqld/mysqlx.sock",
+    "2026-11-12T04:38:06.684403Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.4.13'  socket: '/var/run/mysqld/mysqld.sock'  port: 0  MySQL Community Server - GPL.",
+    "2026-11-12T04:38:08.195397Z 11 [System] [MY-013172] [Server] Received SHUTDOWN from user root. Shutting down mysqld (Version: 8.4.13).",
+    "2026-11-12T04:38:09.079614Z 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.4.13)  MySQL Community Server - GPL.",
+    "2026-11-12T04:38:09.079642Z 0 [System] [MY-015016] [Server] MySQL Server - end.",
+    "2026-11-12T04:38:09.216293Z 0 [System] [MY-015015] [Server] MySQL Server - start.",
+    "2026-11-12T04:38:09.470819Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.4.13) starting as process 1",
+    "2026-11-12T04:38:09.470827Z 0 [System] [MY-015150] [Server] Server version with update: '8.4.13.0'",
+    "2026-11-12T04:38:09.476952Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.",
+    "2026-11-12T04:38:09.655443Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.",
+    "2026-11-12T04:38:09.851231Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.",
+    "2026-11-12T04:38:09.851292Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.",
+    "2026-11-12T04:38:09.853337Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.",
+    "2026-11-12T04:38:09.878399Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '0.0.0.0' port: 33060, socket: /var/run/mysqld/mysqlx.sock",
+    "2026-11-12T04:38:09.878529Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.4.13'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL."
+   ]
+  }
+ ],
+ "enter": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 8",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "env": [
+  {
+   "cmd": "docker exec db env",
+   "cwd": "~",
+   "out": [
+    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "HOSTNAME=f761cbba159d",
+    "MYSQL_DATABASE=cafe",
+    "MYSQL_ROOT_PASSWORD=cafe1234",
+    "GOSU_VERSION=1.19",
+    "MYSQL_MAJOR=8.4",
+    "MYSQL_VERSION=8.4.13-1.el9",
+    "MYSQL_SHELL_VERSION=8.4.10-1.el9",
+    "HOME=/root"
+   ]
+  }
+ ],
+ "show": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 9",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> SHOW DATABASES;",
+    "+--------------------+",
+    "| Database           |",
+    "+--------------------+",
+    "| cafe               |",
+    "| information_schema |",
+    "| mysql              |",
+    "| performance_schema |",
+    "| sys                |",
+    "+--------------------+",
+    "5 rows in set (0.01 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "sql": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p cafe",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 10",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> CREATE TABLE orders (id INT PRIMARY KEY, menu VARCHAR(20), qty INT);",
+    "Query OK, 0 rows affected (0.01 sec)",
+    "",
+    "mysql> INSERT INTO orders VALUES (1, 'latte', 2);",
+    "Query OK, 1 row affected (0.01 sec)",
+    "",
+    "mysql> INSERT INTO orders VALUES (2, 'americano', 1);",
+    "Query OK, 1 row affected (0.00 sec)",
+    "",
+    "mysql> SELECT * FROM orders;",
+    "+----+-----------+------+",
+    "| id | menu      | qty  |",
+    "+----+-----------+------+",
+    "|  1 | latte     |    2 |",
+    "|  2 | americano |    1 |",
+    "+----+-----------+------+",
+    "2 rows in set (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "semi": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p cafe",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Reading table information for completion of table and column names",
+    "You can turn off this feature to get a quicker startup with -A",
+    "",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 11",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> SELECT * FROM orders",
+    "    -> ;",
+    "+----+-----------+------+",
+    "| id | menu      | qty  |",
+    "+----+-----------+------+",
+    "|  1 | latte     |    2 |",
+    "|  2 | americano |    1 |",
+    "+----+-----------+------+",
+    "2 rows in set (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "typo": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p cafe",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Reading table information for completion of table and column names",
+    "You can turn off this feature to get a quicker startup with -A",
+    "",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 12",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> SELECT * FROM order;",
+    "ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that",
+    "corresponds to your MySQL server version for the right syntax to use near 'order",
+    "' at line 1",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "dup": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p cafe",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Reading table information for completion of table and column names",
+    "You can turn off this feature to get a quicker startup with -A",
+    "",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 13",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> INSERT INTO orders VALUES (2, 'cake', 1);",
+    "ERROR 1062 (23000): Duplicate entry '2' for key 'orders.PRIMARY'",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "type": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p cafe",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Reading table information for completion of table and column names",
+    "You can turn off this feature to get a quicker startup with -A",
+    "",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 14",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> INSERT INTO orders VALUES (3, 'cake', 'many');",
+    "ERROR 1366 (HY000): Incorrect integer value: 'many' for column 'qty' at row 1",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "rm": [
+  {
+   "cmd": "docker stop db",
+   "cwd": "~",
+   "out": [
+    "db"
+   ]
+  },
+  {
+   "cmd": "docker rm db",
+   "cwd": "~",
+   "out": [
+    "db"
+   ]
+  }
+ ],
+ "rerun": [
+  {
+   "cmd": "docker run -d --name db -e MYSQL_ROOT_PASSWORD=cafe1234 -e MYSQL_DATABASE=cafe -p 3306:3306 mysql:8.4",
+   "cwd": "~",
+   "out": [
+    "c7cd14188b949a1f3f397d1b57f81197a88a0d19f4efa9a881ebe80310deba93"
+   ]
+  }
+ ],
+ "gone": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p cafe",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 8",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> SELECT * FROM orders;",
+    "ERROR 1146 (42S02): Table 'cafe.orders' doesn't exist",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "vrun": [
+  {
+   "cmd": "docker run -d --name db -e MYSQL_ROOT_PASSWORD=cafe1234 -e MYSQL_DATABASE=cafe -p 3306:3306 -v cafe-data:/var/lib/mysql mysql:8.4",
+   "cwd": "~",
+   "out": [
+    "13cac4776b85c4736d202caf7b7b49a35b7f51c8171543830aa7e84b4e918de8"
+   ]
+  }
+ ],
+ "vsql": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p cafe",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 8",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> CREATE TABLE orders (id INT PRIMARY KEY, menu VARCHAR(20), qty INT);",
+    "Query OK, 0 rows affected (0.01 sec)",
+    "",
+    "mysql> INSERT INTO orders VALUES (1, 'latte', 2);",
+    "Query OK, 1 row affected (0.01 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "vrm": [
+  {
+   "cmd": "docker stop db",
+   "cwd": "~",
+   "out": [
+    "db"
+   ]
+  },
+  {
+   "cmd": "docker rm db",
+   "cwd": "~",
+   "out": [
+    "db"
+   ]
+  }
+ ],
+ "vls": [
+  {
+   "cmd": "docker volume ls",
+   "cwd": "~",
+   "out": [
+    "DRIVER    VOLUME NAME",
+    "local     92628abe6013a6625188bddb8a2fc5912a8d5b14d0e818eea83a71d84142cecb",
+    "local     332072dcbc8da0c324da55f8d40acdae2b5fc620b481a400e4fc13ce17b79fa6",
+    "local     cafe-data"
+   ]
+  }
+ ],
+ "vrun2": [
+  {
+   "cmd": "docker run -d --name db -e MYSQL_ROOT_PASSWORD=cafe1234 -e MYSQL_DATABASE=cafe -p 3306:3306 -v cafe-data:/var/lib/mysql mysql:8.4",
+   "cwd": "~",
+   "out": [
+    "501e0baabb2384c9c95462c925453c96128f10c6d886cf7362b810f6a0a83344"
+   ]
+  }
+ ],
+ "vlogs": [
+  {
+   "cmd": "docker logs db",
+   "cwd": "~",
+   "out": [
+    "2026-11-12 04:38:58+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.13-1.el9 started.",
+    "2026-11-12 04:38:58+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'",
+    "2026-11-12 04:38:58+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.13-1.el9 started.",
+    "'/var/lib/mysql/mysql.sock' -> '/var/run/mysqld/mysqld.sock'",
+    "2026-11-12T04:38:58.868442Z 0 [System] [MY-015015] [Server] MySQL Server - start.",
+    "2026-11-12T04:38:59.119386Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.4.13) starting as process 1",
+    "2026-11-12T04:38:59.119394Z 0 [System] [MY-015150] [Server] Server version with update: '8.4.13.0'",
+    "2026-11-12T04:38:59.124793Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.",
+    "2026-11-12T04:38:59.305671Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.",
+    "2026-11-12T04:38:59.455794Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.",
+    "2026-11-12T04:38:59.455837Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.",
+    "2026-11-12T04:38:59.457089Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.",
+    "2026-11-12T04:38:59.472760Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '0.0.0.0' port: 33060, socket: /var/run/mysqld/mysqlx.sock",
+    "2026-11-12T04:38:59.472793Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.4.13'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL."
+   ]
+  }
+ ],
+ "kept": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p cafe",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Reading table information for completion of table and column names",
+    "You can turn off this feature to get a quicker startup with -A",
+    "",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 8",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> SELECT * FROM orders;",
+    "+----+-------+------+",
+    "| id | menu  | qty  |",
+    "+----+-------+------+",
+    "|  1 | latte |    2 |",
+    "+----+-------+------+",
+    "1 row in set (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "nopw": [
+  {
+   "cmd": "docker run -d --name db mysql:8.4",
+   "cwd": "~",
+   "out": [
+    "f0cee30f63a84855c9c5660390b5e786f5baf5a82b54b2411182a5d40b0194f2"
+   ]
+  }
+ ],
+ "nopw-ps": [
+  {
+   "cmd": "docker ps -a",
+   "cwd": "~",
+   "out": [
+    "CONTAINER ID   IMAGE       COMMAND                  CREATED         STATUS                     PORTS     NAMES",
+    "f0cee30f63a8   mysql:8.4   \"docker-entrypoint.s…\"   4 seconds ago   Exited (1) 3 seconds ago             db"
+   ]
+  }
+ ],
+ "nopw-logs": [
+  {
+   "cmd": "docker logs db",
+   "cwd": "~",
+   "out": [
+    "2026-11-12 04:39:03+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.13-1.el9 started.",
+    "2026-11-12 04:39:03+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'",
+    "2026-11-12 04:39:03+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.13-1.el9 started.",
+    "2026-11-12 04:39:04+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified",
+    "    You need to specify one of the following as an environment variable:",
+    "    - MYSQL_ROOT_PASSWORD",
+    "    - MYSQL_ALLOW_EMPTY_PASSWORD",
+    "    - MYSQL_RANDOM_ROOT_PASSWORD"
+   ]
+  }
+ ],
+ "nopw-fix": [
+  {
+   "cmd": "docker rm db",
+   "cwd": "~",
+   "out": [
+    "db"
+   ]
+  }
+ ],
+ "vrun3": [
+  {
+   "cmd": "docker run -d --name db -e MYSQL_ROOT_PASSWORD=cafe1234 -e MYSQL_DATABASE=cafe -p 3306:3306 -v cafe-data:/var/lib/mysql mysql:8.4",
+   "cwd": "~",
+   "out": [
+    "f8ee4e6075976789cbc05ef20fc34f808033929a762598345ff3a486dc9d5c14"
+   ]
+  }
+ ],
+ "wrongpw": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: Y",
+    "ES)"
+   ]
+  }
+ ],
+ "port": [
+  {
+   "cmd": "docker run -d --name db2 -e MYSQL_ROOT_PASSWORD=x -p 3306:3306 mysql:8.4",
+   "cwd": "~",
+   "out": [
+    "dd81d7a75daafa42dd5a3510f000873f04ce51e574ba75bb7220f54edaf0f3f0",
+    "docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint db2 (f15e51cca32ad170b0b5c5b5d23b9d21891b4817dc2933f0308ddc8af4289260): Bind for 0.0.0.0:3306 failed: port is already allocated",
+    "",
+    "Run 'docker run --help' for more information"
+   ]
+  }
+ ],
+ "trap-run": [
+  {
+   "cmd": "docker run -d --name db -e MYSQL_ROOT_PASSWORD=new5678 -e MYSQL_DATABASE=cafe -p 3306:3306 -v cafe-data:/var/lib/mysql mysql:8.4",
+   "cwd": "~",
+   "out": [
+    "c28ab4e5f1d5baa172e37d705a3e8ff12433156e63a4534205f48160664d324d"
+   ]
+  }
+ ],
+ "trap": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: Y",
+    "ES)"
+   ]
+  }
+ ],
+ "trap-logs": [
+  {
+   "cmd": "docker logs db",
+   "cwd": "~",
+   "out": [
+    "2026-11-12 04:39:12+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.13-1.el9 started.",
+    "2026-11-12 04:39:12+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'",
+    "2026-11-12 04:39:12+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.13-1.el9 started.",
+    "'/var/lib/mysql/mysql.sock' -> '/var/run/mysqld/mysqld.sock'",
+    "2026-11-12T04:39:12.476462Z 0 [System] [MY-015015] [Server] MySQL Server - start.",
+    "2026-11-12T04:39:12.725561Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.4.13) starting as process 1",
+    "2026-11-12T04:39:12.725568Z 0 [System] [MY-015150] [Server] Server version with update: '8.4.13.0'",
+    "2026-11-12T04:39:12.731539Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.",
+    "2026-11-12T04:39:13.056483Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.",
+    "2026-11-12T04:39:13.141603Z 0 [System] [MY-010229] [Server] Starting XA crash recovery...",
+    "2026-11-12T04:39:13.149873Z 0 [System] [MY-010232] [Server] XA crash recovery finished.",
+    "2026-11-12T04:39:13.216559Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.",
+    "2026-11-12T04:39:13.216608Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.",
+    "2026-11-12T04:39:13.218386Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.",
+    "2026-11-12T04:39:13.241564Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '0.0.0.0' port: 33060, socket: /var/run/mysqld/mysqlx.sock",
+    "2026-11-12T04:39:13.241689Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.4.13'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL."
+   ]
+  }
+ ],
+ "trap-fix": [
+  {
+   "cmd": "docker volume rm cafe-data",
+   "cwd": "~",
+   "out": [
+    "cafe-data"
+   ]
+  }
+ ],
+ "c-ls": [
+  {
+   "cmd": "ls",
+   "cwd": "~/cafe-db",
+   "out": [
+    "compose.yaml"
+   ]
+  }
+ ],
+ "c-up": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/cafe-db",
+   "out": [
+    "[+] up 3/3",
+    " ✔ Network cafe-db_default  Created                                         0.0s",
+    " ✔ Volume cafe-db_cafe-data Created                                         0.0s",
+    " ✔ Container cafe-db-db-1   Started                                         0.1s"
+   ]
+  }
+ ],
+ "c-ps": [
+  {
+   "cmd": "docker compose ps",
+   "cwd": "~/cafe-db",
+   "out": [
+    "NAME           IMAGE       COMMAND                  SERVICE   CREATED          STATUS         PORTS",
+    "cafe-db-db-1   mysql:8.4   \"docker-entrypoint.s…\"   db        10 seconds ago   Up 9 seconds   0.0.0.0:3306->3306/tcp, 33060/tcp"
+   ]
+  }
+ ],
+ "c-vls": [
+  {
+   "cmd": "docker volume ls",
+   "cwd": "~/cafe-db",
+   "out": [
+    "DRIVER    VOLUME NAME",
+    "local     6f905fce70f28f0e0dfef399f47c89cc13d3bf8b8cf8e54412862b62c4bb98e9",
+    "local     92628abe6013a6625188bddb8a2fc5912a8d5b14d0e818eea83a71d84142cecb",
+    "local     332072dcbc8da0c324da55f8d40acdae2b5fc620b481a400e4fc13ce17b79fa6",
+    "local     ace0f11ddc32746a9d435f83aa69c7221090384c5256ee9f1b79f0e4f67f2886",
+    "local     cafe-db_cafe-data"
+   ]
+  }
+ ],
+ "c-sql": [
+  {
+   "cmd": "docker compose exec db mysql -u root -p cafe",
+   "cwd": "~/cafe-db",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 8",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> CREATE TABLE orders (id INT PRIMARY KEY, menu VARCHAR(20), qty INT);",
+    "Query OK, 0 rows affected (0.01 sec)",
+    "",
+    "mysql> INSERT INTO orders VALUES (1, 'latte', 2);",
+    "Query OK, 1 row affected (0.01 sec)",
+    "",
+    "mysql> INSERT INTO orders VALUES (2, 'cake', 1);",
+    "Query OK, 1 row affected (0.00 sec)",
+    "",
+    "mysql> SELECT * FROM orders;",
+    "+----+-------+------+",
+    "| id | menu  | qty  |",
+    "+----+-------+------+",
+    "|  1 | latte |    2 |",
+    "|  2 | cake  |    1 |",
+    "+----+-------+------+",
+    "2 rows in set (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "c-down": [
+  {
+   "cmd": "docker compose down",
+   "cwd": "~/cafe-db",
+   "out": [
+    "[+] down 2/2",
+    " ✔ Container cafe-db-db-1  Removed                                          1.6s",
+    " ✔ Network cafe-db_default Removed                                          0.2s"
+   ]
+  }
+ ],
+ "c-vls2": [
+  {
+   "cmd": "docker volume ls",
+   "cwd": "~/cafe-db",
+   "out": [
+    "DRIVER    VOLUME NAME",
+    "local     6f905fce70f28f0e0dfef399f47c89cc13d3bf8b8cf8e54412862b62c4bb98e9",
+    "local     92628abe6013a6625188bddb8a2fc5912a8d5b14d0e818eea83a71d84142cecb",
+    "local     332072dcbc8da0c324da55f8d40acdae2b5fc620b481a400e4fc13ce17b79fa6",
+    "local     ace0f11ddc32746a9d435f83aa69c7221090384c5256ee9f1b79f0e4f67f2886",
+    "local     cafe-db_cafe-data"
+   ]
+  }
+ ],
+ "c-up2": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/cafe-db",
+   "out": [
+    "[+] up 2/2",
+    " ✔ Network cafe-db_default Created                                          0.0s",
+    " ✔ Container cafe-db-db-1  Started                                          0.2s"
+   ]
+  }
+ ],
+ "c-kept": [
+  {
+   "cmd": "docker compose exec db mysql -u root -p cafe",
+   "cwd": "~/cafe-db",
+   "out": [
+    "Enter password:",
+    "Reading table information for completion of table and column names",
+    "You can turn off this feature to get a quicker startup with -A",
+    "",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 8",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> INSERT INTO orders VALUES (3, 'americano', 3);",
+    "Query OK, 1 row affected (0.00 sec)",
+    "",
+    "mysql> SELECT * FROM orders;",
+    "+----+-----------+------+",
+    "| id | menu      | qty  |",
+    "+----+-----------+------+",
+    "|  1 | latte     |    2 |",
+    "|  2 | cake      |    1 |",
+    "|  3 | americano |    3 |",
+    "+----+-----------+------+",
+    "3 rows in set (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "c-down2": [
+  {
+   "cmd": "docker compose down",
+   "cwd": "~/cafe-db",
+   "out": [
+    "[+] down 2/2",
+    " ✔ Container cafe-db-db-1  Removed                                          1.0s",
+    " ✔ Network cafe-db_default Removed                                          0.2s"
+   ]
+  }
+ ],
+ "i-skip": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/cafe-db",
+   "out": [
+    "[+] up 2/2",
+    " ✔ Network cafe-db_default Created                                          0.0s",
+    " ✔ Container cafe-db-db-1  Started                                          0.2s"
+   ]
+  }
+ ],
+ "i-skip-sql": [
+  {
+   "cmd": "docker compose exec db mysql -u root -p cafe",
+   "cwd": "~/cafe-db",
+   "out": [
+    "Enter password:",
+    "Reading table information for completion of table and column names",
+    "You can turn off this feature to get a quicker startup with -A",
+    "",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 8",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> SHOW TABLES;",
+    "+----------------+",
+    "| Tables_in_cafe |",
+    "+----------------+",
+    "| orders         |",
+    "+----------------+",
+    "1 row in set (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "i-down": [
+  {
+   "cmd": "docker compose down -v",
+   "cwd": "~/cafe-db",
+   "out": [
+    "[+] down 3/3",
+    " ✔ Container cafe-db-db-1   Removed                                         1.2s",
+    " ✔ Volume cafe-db_cafe-data Removed                                         0.1s",
+    " ✔ Network cafe-db_default  Removed                                         0.2s"
+   ]
+  }
+ ],
+ "i-up": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/cafe-db",
+   "out": [
+    "[+] up 3/3",
+    " ✔ Network cafe-db_default  Created                                         0.0s",
+    " ✔ Volume cafe-db_cafe-data Created                                         0.0s",
+    " ✔ Container cafe-db-db-1   Started                                         0.2s"
+   ]
+  }
+ ],
+ "i-logs": [
+  {
+   "cmd": "docker compose logs db",
+   "cwd": "~/cafe-db",
+   "out": [
+    "db-1  | 2026-11-12 04:39:46+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.13-1.el9 started.",
+    "db-1  | 2026-11-12 04:39:46+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'",
+    "db-1  | 2026-11-12 04:39:46+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.4.13-1.el9 started.",
+    "db-1  | 2026-11-12 04:39:46+00:00 [Note] [Entrypoint]: Initializing database files",
+    "db-1  | 2026-11-12T04:39:46.849667Z 0 [System] [MY-015017] [Server] MySQL Server Initialization - start.",
+    "db-1  | 2026-11-12T04:39:46.850939Z 0 [System] [MY-013169] [Server] /usr/sbin/mysqld (mysqld 8.4.13) initializing of server in progress as process 80",
+    "db-1  | 2026-11-12T04:39:46.850941Z 0 [System] [MY-015150] [Server] Server version with update: '8.4.13.0'",
+    "db-1  | 2026-11-12T04:39:46.855083Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.",
+    "db-1  | 2026-11-12T04:39:47.086124Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.",
+    "db-1  | 2026-11-12T04:39:47.712022Z 6 [Warning] [MY-010453] [Server] root@localhost is created with an empty password ! Please consider switching off the --initialize-insecure option.",
+    "db-1  | 2026-11-12T04:39:49.768659Z 0 [System] [MY-015018] [Server] MySQL Server Initialization - end.",
+    "db-1  | 2026-11-12 04:39:49+00:00 [Note] [Entrypoint]: Database files initialized",
+    "db-1  | 2026-11-12 04:39:49+00:00 [Note] [Entrypoint]: Starting temporary server",
+    "db-1  | 2026-11-12T04:39:49.835857Z 0 [System] [MY-015015] [Server] MySQL Server - start.",
+    "db-1  | 2026-11-12T04:39:50.081051Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.4.13) starting as process 121",
+    "db-1  | 2026-11-12T04:39:50.081059Z 0 [System] [MY-015150] [Server] Server version with update: '8.4.13.0'",
+    "db-1  | 2026-11-12T04:39:50.099273Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.",
+    "db-1  | 2026-11-12T04:39:50.271328Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.",
+    "db-1  | 2026-11-12T04:39:50.459995Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.",
+    "db-1  | 2026-11-12T04:39:50.460062Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.",
+    "db-1  | 2026-11-12T04:39:50.462209Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.",
+    "db-1  | 2026-11-12T04:39:50.483621Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: /var/run/mysqld/mysqlx.sock",
+    "db-1  | 2026-11-12T04:39:50.483669Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.4.13'  socket: '/var/run/mysqld/mysqld.sock'  port: 0  MySQL Community Server - GPL.",
+    "db-1  | 2026-11-12 04:39:50+00:00 [Note] [Entrypoint]: Temporary server started.",
+    "db-1  | '/var/lib/mysql/mysql.sock' -> '/var/run/mysqld/mysqld.sock'",
+    "db-1  | 2026-11-12 04:39:52+00:00 [Note] [Entrypoint]: Creating database cafe",
+    "db-1  | ",
+    "db-1  | 2026-11-12 04:39:52+00:00 [Note] [Entrypoint]: /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/menu.sql",
+    "db-1  | ",
+    "db-1  | ",
+    "db-1  | 2026-11-12 04:39:52+00:00 [Note] [Entrypoint]: Stopping temporary server",
+    "db-1  | 2026-11-12T04:39:52.108407Z 12 [System] [MY-013172] [Server] Received SHUTDOWN from user root. Shutting down mysqld (Version: 8.4.13).",
+    "db-1  | 2026-11-12T04:39:52.900917Z 0 [System] [MY-010910] [Server] /usr/sbin/mysqld: Shutdown complete (mysqld 8.4.13)  MySQL Community Server - GPL.",
+    "db-1  | 2026-11-12T04:39:52.900973Z 0 [System] [MY-015016] [Server] MySQL Server - end.",
+    "db-1  | 2026-11-12 04:39:53+00:00 [Note] [Entrypoint]: Temporary server stopped",
+    "db-1  | ",
+    "db-1  | 2026-11-12 04:39:53+00:00 [Note] [Entrypoint]: MySQL init process done. Ready for start up.",
+    "db-1  | ",
+    "db-1  | 2026-11-12T04:39:53.124784Z 0 [System] [MY-015015] [Server] MySQL Server - start.",
+    "db-1  | 2026-11-12T04:39:53.359499Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.4.13) starting as process 1",
+    "db-1  | 2026-11-12T04:39:53.359506Z 0 [System] [MY-015150] [Server] Server version with update: '8.4.13.0'",
+    "db-1  | 2026-11-12T04:39:53.364042Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.",
+    "db-1  | 2026-11-12T04:39:53.523023Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.",
+    "db-1  | 2026-11-12T04:39:53.711028Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.",
+    "db-1  | 2026-11-12T04:39:53.711070Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.",
+    "db-1  | 2026-11-12T04:39:53.712518Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.",
+    "db-1  | 2026-11-12T04:39:53.727072Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '0.0.0.0' port: 33060, socket: /var/run/mysqld/mysqlx.sock",
+    "db-1  | 2026-11-12T04:39:53.727170Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.4.13'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL."
+   ]
+  }
+ ],
+ "i-sql": [
+  {
+   "cmd": "docker compose exec db mysql -u root -p cafe",
+   "cwd": "~/cafe-db",
+   "out": [
+    "Enter password:",
+    "Reading table information for completion of table and column names",
+    "You can turn off this feature to get a quicker startup with -A",
+    "",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 8",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> SELECT * FROM menu;",
+    "+----+-----------+-------+",
+    "| id | name      | price |",
+    "+----+-----------+-------+",
+    "|  1 | americano |  4000 |",
+    "|  2 | latte     |  4500 |",
+    "|  3 | cake      |  5000 |",
+    "+----+-----------+-------+",
+    "3 rows in set (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "i-down2": [
+  {
+   "cmd": "docker compose down",
+   "cwd": "~/cafe-db",
+   "out": [
+    "[+] down 2/2",
+    " ✔ Container cafe-db-db-1  Removed                                          0.9s",
+    " ✔ Network cafe-db_default Removed                                          0.2s"
+   ]
+  }
+ ],
+ "u-run": [
+  {
+   "cmd": "docker run -d --name db -e MYSQL_ROOT_PASSWORD=cafe1234 -e MYSQL_DATABASE=cafe -e MYSQL_USER=cafe -e MYSQL_PASSWORD=cafe5678 -p 3306:3306 mysql:8.4",
+   "cwd": "~",
+   "out": [
+    "53a99a77882c5163143a97f19431922f74b9953cdc03e229467b2e852b5f5d92"
+   ]
+  }
+ ],
+ "u-app": [
+  {
+   "cmd": "docker exec -it db mysql -u cafe -p cafe",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 8",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> SHOW DATABASES;",
+    "+--------------------+",
+    "| Database           |",
+    "+--------------------+",
+    "| cafe               |",
+    "| information_schema |",
+    "| performance_schema |",
+    "+--------------------+",
+    "3 rows in set (0.00 sec)",
+    "",
+    "mysql> CREATE TABLE orders (id INT PRIMARY KEY, menu VARCHAR(20), qty INT);",
+    "Query OK, 0 rows affected (0.01 sec)",
+    "",
+    "mysql> CREATE DATABASE shop;",
+    "ERROR 1044 (42000): Access denied for user 'cafe'@'%' to database 'shop'",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "u-root": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 9",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> CREATE DATABASE shop;",
+    "Query OK, 1 row affected (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "u-bash": [
+  {
+   "cmd": "docker exec -it db bash",
+   "cwd": "~",
+   "out": [
+    "bash-5.1# mysql -u root -p cafe",
+    "Enter password:",
+    "Reading table information for completion of table and column names",
+    "You can turn off this feature to get a quicker startup with -A",
+    "",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 10",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> SHOW TABLES;",
+    "+----------------+",
+    "| Tables_in_cafe |",
+    "+----------------+",
+    "| orders         |",
+    "+----------------+",
+    "1 row in set (0.01 sec)",
+    "",
+    "mysql> exit",
+    "Bye",
+    "bash-5.1# exit",
+    "exit"
+   ]
+  }
+ ],
+ "u-one": [
+  {
+   "cmd": "docker exec db mysql -u root -pcafe1234 cafe -e \"SHOW TABLES;\"",
+   "cwd": "~",
+   "out": [
+    "Tables_in_cafe",
+    "orders",
+    "mysql: [Warning] Using a password on the command line interface can be insecure."
+   ]
+  }
+ ],
+ "u-inline": [
+  {
+   "cmd": "docker exec -it db mysql -u root -pcafe1234 cafe",
+   "cwd": "~",
+   "out": [
+    "mysql: [Warning] Using a password on the command line interface can be insecure.",
+    "Reading table information for completion of table and column names",
+    "You can turn off this feature to get a quicker startup with -A",
+    "",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 12",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "q-db": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 8",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> CREATE DATABASE shop;",
+    "Query OK, 1 row affected (0.00 sec)",
+    "",
+    "mysql> SHOW DATABASES;",
+    "+--------------------+",
+    "| Database           |",
+    "+--------------------+",
+    "| cafe               |",
+    "| information_schema |",
+    "| mysql              |",
+    "| performance_schema |",
+    "| shop               |",
+    "| sys                |",
+    "+--------------------+",
+    "6 rows in set (0.00 sec)",
+    "",
+    "mysql> USE shop;",
+    "Database changed",
+    "mysql> SHOW TABLES;",
+    "Empty set (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "q-tables": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p cafe",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 9",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> SHOW TABLES;",
+    "Empty set (0.00 sec)",
+    "",
+    "mysql> CREATE TABLE orders (id INT PRIMARY KEY, menu VARCHAR(20), qty INT);",
+    "Query OK, 0 rows affected (0.01 sec)",
+    "",
+    "mysql> SHOW TABLES;",
+    "+----------------+",
+    "| Tables_in_cafe |",
+    "+----------------+",
+    "| orders         |",
+    "+----------------+",
+    "1 row in set (0.00 sec)",
+    "",
+    "mysql> DESCRIBE orders;",
+    "+-------+-------------+------+-----+---------+-------+",
+    "| Field | Type        | Null | Key | Default | Extra |",
+    "+-------+-------------+------+-----+---------+-------+",
+    "| id    | int         | NO   | PRI | NULL    |       |",
+    "| menu  | varchar(20) | YES  |     | NULL    |       |",
+    "| qty   | int         | YES  |     | NULL    |       |",
+    "+-------+-------------+------+-----+---------+-------+",
+    "3 rows in set (0.01 sec)",
+    "",
+    "mysql> INSERT INTO orders VALUES (1, 'latte', 2);",
+    "Query OK, 1 row affected (0.00 sec)",
+    "",
+    "mysql> INSERT INTO orders VALUES (2, 'americano', 1);",
+    "Query OK, 1 row affected (0.00 sec)",
+    "",
+    "mysql> SELECT menu, qty FROM orders;",
+    "+-----------+------+",
+    "| menu      | qty  |",
+    "+-----------+------+",
+    "| latte     |    2 |",
+    "| americano |    1 |",
+    "+-----------+------+",
+    "2 rows in set (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ],
+ "q-drop": [
+  {
+   "cmd": "docker exec -it db mysql -u root -p shop",
+   "cwd": "~",
+   "out": [
+    "Enter password:",
+    "Welcome to the MySQL monitor.  Commands end with ; or \\g.",
+    "Your MySQL connection id is 10",
+    "Server version: 8.4.13 MySQL Community Server - GPL",
+    "",
+    "Copyright (c) 2000, 2026, Oracle and/or its affiliates.",
+    "",
+    "Oracle is a registered trademark of Oracle Corporation and/or its",
+    "affiliates. Other names may be trademarks of their respective",
+    "owners.",
+    "",
+    "Type 'help;' or '\\h' for help. Type '\\c' to clear the current input statement.",
+    "",
+    "mysql> CREATE TABLE test (id INT);",
+    "Query OK, 0 rows affected (0.00 sec)",
+    "",
+    "mysql> SHOW TABLES;",
+    "+----------------+",
+    "| Tables_in_shop |",
+    "+----------------+",
+    "| test           |",
+    "+----------------+",
+    "1 row in set (0.01 sec)",
+    "",
+    "mysql> DROP TABLE test;",
+    "Query OK, 0 rows affected (0.01 sec)",
+    "",
+    "mysql> SHOW TABLES;",
+    "Empty set (0.00 sec)",
+    "",
+    "mysql> DROP DATABASE shop;",
+    "Query OK, 0 rows affected (0.00 sec)",
+    "",
+    "mysql> SHOW DATABASES;",
+    "+--------------------+",
+    "| Database           |",
+    "+--------------------+",
+    "| cafe               |",
+    "| information_schema |",
+    "| mysql              |",
+    "| performance_schema |",
+    "| sys                |",
+    "+--------------------+",
+    "5 rows in set (0.00 sec)",
+    "",
+    "mysql> exit",
+    "Bye"
+   ]
+  }
+ ]
+}

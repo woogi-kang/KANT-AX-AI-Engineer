@@ -1,0 +1,37 @@
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">한 장 요약</h2>
+<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#1D63ED">켜고 들어가기</p>
+<div style="position:absolute;left:96px;top:270px;width:540px;height:3px;background:#1D63ED"></div>
+<p style="position:absolute;left:96px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">-e MYSQL_ROOT_PASSWORD=…</p>
+<p style="position:absolute;left:96px;top:338px;width:540px;font-size:23px;color:#4A5262">비밀번호 · 꼭</p>
+<p style="position:absolute;left:96px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">-e MYSQL_DATABASE=cafe</p>
+<p style="position:absolute;left:96px;top:458px;width:540px;font-size:23px;color:#4A5262">처음 만들 데이터베이스</p>
+<p style="position:absolute;left:96px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">docker logs db</p>
+<p style="position:absolute;left:96px;top:578px;width:540px;font-size:23px;color:#4A5262">port: 3306이면 준비 끝</p>
+<p style="position:absolute;left:96px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">docker exec -it db mysql -u root -p cafe</p>
+<p style="position:absolute;left:96px;top:698px;width:540px;font-size:23px;color:#4A5262">접속, 나올 땐 exit</p>
+<p style="position:absolute;left:696px;top:220px;font-size:30px;font-weight:700;color:#A23B72">SQL</p>
+<div style="position:absolute;left:696px;top:270px;width:540px;height:3px;background:#A23B72"></div>
+<p style="position:absolute;left:696px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">CREATE DATABASE shop; · USE shop;</p>
+<p style="position:absolute;left:696px;top:338px;width:540px;font-size:23px;color:#4A5262">데이터베이스 만들고 들어가기</p>
+<p style="position:absolute;left:696px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">CREATE TABLE 표 (열 타입, …);</p>
+<p style="position:absolute;left:696px;top:458px;width:540px;font-size:23px;color:#4A5262">빈 표 · SHOW TABLES, DESCRIBE로 확인</p>
+<p style="position:absolute;left:696px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">INSERT INTO 표 VALUES (…);</p>
+<p style="position:absolute;left:696px;top:578px;width:540px;font-size:23px;color:#4A5262">행 넣기 · SELECT로 꺼내기</p>
+<p style="position:absolute;left:696px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">DROP TABLE 표; · DROP DATABASE 이름;</p>
+<p style="position:absolute;left:696px;top:698px;width:540px;font-size:23px;color:#4A5262">지우기 · 되돌릴 수 없어요</p>
+<p style="position:absolute;left:1296px;top:220px;font-size:30px;font-weight:700;color:#1F8A4C">남기기</p>
+<div style="position:absolute;left:1296px;top:270px;width:540px;height:3px;background:#1F8A4C"></div>
+<p style="position:absolute;left:1296px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">-v cafe-data:/var/lib/mysql</p>
+<p style="position:absolute;left:1296px;top:338px;width:540px;font-size:23px;color:#4A5262">지워도 남는 표</p>
+<p style="position:absolute;left:1296px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">compose.yaml environment</p>
+<p style="position:absolute;left:1296px;top:458px;width:540px;font-size:23px;color:#4A5262">-e 자리</p>
+<p style="position:absolute;left:1296px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">docker compose down</p>
+<p style="position:absolute;left:1296px;top:578px;width:540px;font-size:23px;color:#4A5262">볼륨은 남겨요</p>
+<p style="position:absolute;left:1296px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">docker compose down -v</p>
+<p style="position:absolute;left:1296px;top:698px;width:540px;font-size:23px;color:#4A5262">볼륨까지 지워요 · 연습할 때만</p>
+<p style="position:absolute;left:96px;top:820px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">데이터베이스는 이미지 하나, 환경 변수 몇 개, 볼륨 하나로 켜고 지켜요.</p>
+<p style="position:absolute;left:96px;top:880px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#4A5262">34에서는 같은 순서로 PostgreSQL을 켜고 둘을 비교해요.</p>
+<aside>오늘 쓴 것을 세 묶음으로 모았어요. MySQL 컨테이너는 -e로 비밀번호와 데이터베이스 이름을 건네서 켜고, logs에서 port: 3306을 확인한 뒤 exec로 들어가요. SQL은 CREATE DATABASE와 USE로 데이터베이스를 만들고 들어갔어요. CREATE TABLE로 표를 만들고 SHOW TABLES와 DESCRIBE로 확인했어요. INSERT로 넣고 SELECT로 꺼내고, DROP으로 지웠어요. 앱에는 MYSQL_USER로 만든 계정을 줘요. 데이터를 남기려면 /var/lib/mysql에 이름 있는 볼륨을 붙이고, compose.yaml에 적어 두면 껐다 켜도 이어져요. 34에서는 같은 순서로 PostgreSQL을 켜 봐요.</aside>
+</section>

@@ -94,6 +94,12 @@
     {"dir": "31-nginx-basics", "title": "nginx 기초 (웹 서버와 리버스 프록시)", "track": "Docker",
      "goal": "nginx로 파일을 내주고, 리버스 프록시로 앱 여러 개를 80번 포트 하나로 묶어요",
      "commands": "`curl localhost/menu/` `location / { root ...; }` `proxy_pass http://menu/;` `docker exec cafe-web-1 nginx -t` `docker exec cafe-web-1 nginx -s reload`", "slides": "nginx-basics-slides.html"},
+    {"dir": "32-database-basics", "title": "데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)", "track": "데이터베이스",
+     "goal": "표, 행, 열, 타입, 기본 키를 익히고 SQL 네 문장을 MySQL과 PostgreSQL에서 나란히 읽어요",
+     "commands": "`CREATE DATABASE cafe;` `CREATE TABLE orders (...);` `INSERT INTO orders VALUES (...);` `SELECT * FROM orders WHERE id = 2;` `USE cafe;` / `\\c cafe`", "slides": "database-basics-slides.html"},
+    {"dir": "33-docker-mysql", "title": "Docker 3 (MySQL 컨테이너)", "track": "Docker",
+     "goal": "MySQL을 컨테이너로 켜고 데이터베이스와 표를 만들어, 컨테이너를 지워도 볼륨에 남게 해요",
+     "commands": "`docker run -e MYSQL_ROOT_PASSWORD=… mysql:8.4` `docker exec -it db mysql -u root -p` `CREATE DATABASE` `CREATE TABLE` `-v cafe-data:/var/lib/mysql`", "slides": "docker-mysql-slides.html"},
     {"dir": "34-docker-postgres", "title": "Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기)", "track": "Docker",
      "goal": "PostgreSQL을 컨테이너로 켜고 psql로 데이터베이스와 표를 만든 뒤, 볼륨으로 데이터를 지켜요",
      "commands": "`docker run -e POSTGRES_PASSWORD=... postgres:18` `docker exec -it pg psql -U postgres` `\\l` `\\c` `\\dt` `-v pg-data:/var/lib/postgresql`", "slides": "docker-postgres-slides.html"}

@@ -1,0 +1,30 @@
+<section id="cmp" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1F8A4C">4. 볼륨과 compose</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">30, 31에서 쓴 컨테이너와 무엇이 같고 다를까요</h2>
+<p style="position:absolute;left:96px;top:230px;width:360px;font-size:28px;font-weight:700;color:#5B6270;white-space:nowrap"></p>
+<p style="position:absolute;left:470px;top:230px;width:620px;font-size:28px;font-weight:700;color:#1F8A4C;white-space:nowrap">30, 31 · nginx</p>
+<p style="position:absolute;left:1110px;top:230px;width:714px;font-size:28px;font-weight:700;color:#00758F;white-space:nowrap">33 · MySQL</p>
+<div style="position:absolute;left:96px;top:290px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:328px;width:360px;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">설정 건네기</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:470px;top:328px;width:620px;font-size:27px;font-weight:400;color:#4A5262;white-space:nowrap">설정 파일을 -v ./conf로</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:1110px;top:328px;width:714px;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">-e 환경 변수로</p>
+<div style="position:absolute;left:96px;top:416px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="80" style="position:absolute;left:96px;top:454px;width:360px;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">볼륨에 담는 것</p>
+<p data-build-in="rise order 1" data-delay="80" style="position:absolute;left:470px;top:454px;width:620px;font-size:27px;font-weight:400;color:#4A5262;white-space:nowrap">./site의 html 파일 (내가 고쳐요)</p>
+<p data-build-in="rise order 1" data-delay="80" style="position:absolute;left:1110px;top:454px;width:714px;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">/var/lib/mysql 표 파일 (MySQL만 고쳐요)</p>
+<div style="position:absolute;left:96px;top:542px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="160" style="position:absolute;left:96px;top:580px;width:360px;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">들어가기</p>
+<p data-build-in="rise order 1" data-delay="160" style="position:absolute;left:470px;top:580px;width:620px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:400;color:#4A5262;white-space:nowrap">docker exec -it web bash</p>
+<p data-build-in="rise order 1" data-delay="160" style="position:absolute;left:1110px;top:580px;width:714px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">docker exec -it db mysql -u root -p</p>
+<div style="position:absolute;left:96px;top:668px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="240" style="position:absolute;left:96px;top:706px;width:360px;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">켜졌는지 보기</p>
+<p data-build-in="rise order 1" data-delay="240" style="position:absolute;left:470px;top:706px;width:620px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:400;color:#4A5262;white-space:nowrap">curl localhost</p>
+<p data-build-in="rise order 1" data-delay="240" style="position:absolute;left:1110px;top:706px;width:714px;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">logs의 port: 3306, SHOW DATABASES;</p>
+<div style="position:absolute;left:96px;top:794px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="320" style="position:absolute;left:96px;top:832px;width:360px;font-size:27px;font-weight:700;color:#1D2330;white-space:nowrap">기다리는 포트</p>
+<p data-build-in="rise order 1" data-delay="320" style="position:absolute;left:470px;top:832px;width:620px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:400;color:#4A5262;white-space:nowrap">80</p>
+<p data-build-in="rise order 1" data-delay="320" style="position:absolute;left:1110px;top:832px;width:714px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">3306</p>
+<div style="position:absolute;left:96px;top:920px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" style="position:absolute;left:96px;top:950px;width:1728px;font-size:30px;font-weight:700;line-height:1.45;color:#1D2330">run, ps, logs, stop, rm, exec, compose는 그대로예요. 이미지에 따라 옵션만 달라져요.</p>
+<aside>30, 31에서 쓴 nginx 컨테이너와 비교해 봐요. nginx는 설정 파일을 -v로 연결해서 건넸고, MySQL은 -e 환경 변수로 건네요. 볼륨에 담는 것도 달라요. nginx의 site 폴더는 내가 VS Code로 고치는 파일이었지만, /var/lib/mysql의 표 파일은 MySQL만 고쳐요. 그래서 내 폴더 대신 이름 있는 볼륨을 붙이고 손대지 않아요. 들어갈 때는 bash 대신 mysql을 열고, 켜졌는지는 curl 대신 logs와 SHOW DATABASES로 봐요. 포트는 80 대신 3306이에요. run, ps, logs, stop, rm, exec, compose는 다 그대로예요. 이미지가 달라지면 옵션만 달라져요.</aside>
+</section>
