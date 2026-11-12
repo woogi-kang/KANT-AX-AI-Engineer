@@ -1,0 +1,37 @@
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">한 장 요약</h2>
+<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#336791">켜고 들어가기</p>
+<div style="position:absolute;left:96px;top:270px;width:640px;height:3px;background:#336791"></div>
+<p style="position:absolute;left:96px;top:296px;width:640px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:17px;font-weight:700;color:#1D2330;white-space:nowrap">docker run -d --name pg -e POSTGRES_PASSWORD=… -p 5432:5432</p>
+<p style="position:absolute;left:96px;top:338px;width:640px;font-size:23px;color:#4A5262">관리자 비밀번호를 주고 켜기</p>
+<p style="position:absolute;left:96px;top:416px;width:640px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">docker logs pg</p>
+<p style="position:absolute;left:96px;top:458px;width:640px;font-size:23px;color:#4A5262">ready 두 번 보기</p>
+<p style="position:absolute;left:96px;top:536px;width:640px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">docker exec -it pg psql -U postgres</p>
+<p style="position:absolute;left:96px;top:578px;width:640px;font-size:23px;color:#4A5262">관리자로 들어가기</p>
+<p style="position:absolute;left:96px;top:656px;width:640px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">-d shop / -c "…"</p>
+<p style="position:absolute;left:96px;top:698px;width:640px;font-size:23px;color:#4A5262">데이터베이스 고르기 / 한 문장만</p>
+<p style="position:absolute;left:786px;top:220px;font-size:30px;font-weight:700;color:#1F8A4C">psql 안에서</p>
+<div style="position:absolute;left:786px;top:270px;width:460px;height:3px;background:#1F8A4C"></div>
+<p style="position:absolute;left:786px;top:296px;width:460px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">\l  \c shop</p>
+<p style="position:absolute;left:786px;top:338px;width:460px;font-size:23px;color:#4A5262">목록 보기 / 옮기기</p>
+<p style="position:absolute;left:786px;top:416px;width:460px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">\dt  \d orders</p>
+<p style="position:absolute;left:786px;top:458px;width:460px;font-size:23px;color:#4A5262">표 목록 / 표 모양</p>
+<p style="position:absolute;left:786px;top:536px;width:460px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">\du</p>
+<p style="position:absolute;left:786px;top:578px;width:460px;font-size:23px;color:#4A5262">계정 목록</p>
+<p style="position:absolute;left:786px;top:656px;width:460px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">\q</p>
+<p style="position:absolute;left:786px;top:698px;width:460px;font-size:23px;color:#4A5262">나가기</p>
+<p style="position:absolute;left:1296px;top:220px;font-size:30px;font-weight:700;color:#B26A00">데이터 지키기</p>
+<div style="position:absolute;left:1296px;top:270px;width:540px;height:3px;background:#B26A00"></div>
+<p style="position:absolute;left:1296px;top:296px;width:540px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">-v pg-data:/var/lib/postgresql</p>
+<p style="position:absolute;left:1296px;top:338px;width:540px;font-size:23px;color:#4A5262">18부터 이 자리</p>
+<p style="position:absolute;left:1296px;top:416px;width:540px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">docker compose up -d / down</p>
+<p style="position:absolute;left:1296px;top:458px;width:540px;font-size:23px;color:#4A5262">볼륨은 남아요</p>
+<p style="position:absolute;left:1296px;top:536px;width:540px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">docker compose down -v</p>
+<p style="position:absolute;left:1296px;top:578px;width:540px;font-size:23px;color:#4A5262">볼륨까지 지우기</p>
+<p style="position:absolute;left:1296px;top:656px;width:540px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">./init:/docker-entrypoint-initdb.d</p>
+<p style="position:absolute;left:1296px;top:698px;width:540px;font-size:23px;color:#4A5262">처음 켤 때 SQL 실행</p>
+<p style="position:absolute;left:96px;top:820px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">SQL은 MySQL과 같아요. 목록 명령과 계정, 데이터 자리만 챙기면 돼요.</p>
+<p style="position:absolute;left:96px;top:880px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#4A5262">나중에는 파이썬 코드에서 이 데이터베이스에 붙어 주문을 넣고 꺼내 봐요.</p>
+<aside>오늘 쓴 것을 세 묶음으로 모았어요. 왼쪽은 켜고 들어가기예요. docker run에 POSTGRES_PASSWORD를 꼭 주고, logs에서 ready를 본 뒤 docker exec -it pg psql -U postgres로 들어가요. 가운데는 psql 안에서 쓰는 백슬래시 명령이에요. 오른쪽은 데이터를 지키는 방법이에요. 18부터는 볼륨을 /var/lib/postgresql에 붙여요. compose down으로는 볼륨이 남고, down -v를 쳐야 볼륨까지 지워져요. init 폴더의 SQL 파일은 처음 켤 때 한 번 실행돼요. SQL 문장은 33 MySQL과 같으니, 목록 명령과 계정, 데이터 자리만 챙기면 돼요. 나중에는 파이썬 코드에서 이 데이터베이스에 붙어 볼 거예요.</aside>
+</section>

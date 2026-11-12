@@ -1,0 +1,45 @@
+<section id="m-cmp" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">33 MySQL과 컨테이너 쪽에서 다른 점이에요</h2>
+<p style="position:absolute;left:420px;top:210px;font-size:28px;font-weight:700;color:#00758F">33 MySQL</p>
+<p style="position:absolute;left:1140px;top:210px;font-size:28px;font-weight:700;color:#336791">34 PostgreSQL</p>
+<div style="position:absolute;left:96px;top:262px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:282px;width:310px;font-size:25px;font-weight:700;color:#4A5262">이미지</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:420px;top:282px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">mysql:8.4</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:1140px;top:282px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">postgres:18</p>
+<div style="position:absolute;left:96px;top:340px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:96px;top:360px;width:310px;font-size:25px;font-weight:700;color:#4A5262">관리자</p>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:420px;top:360px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">root</p>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:1140px;top:360px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">postgres</p>
+<div style="position:absolute;left:96px;top:418px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:96px;top:438px;width:310px;font-size:25px;font-weight:700;color:#4A5262">관리자 비밀번호</p>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:420px;top:438px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">MYSQL_ROOT_PASSWORD</p>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:1140px;top:438px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">POSTGRES_PASSWORD</p>
+<div style="position:absolute;left:96px;top:496px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:96px;top:516px;width:310px;font-size:25px;font-weight:700;color:#4A5262">처음 만들 DB</p>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:420px;top:516px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">MYSQL_DATABASE</p>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:1140px;top:516px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">POSTGRES_DB</p>
+<div style="position:absolute;left:96px;top:574px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" data-delay="0" style="position:absolute;left:96px;top:594px;width:310px;font-size:25px;font-weight:700;color:#4A5262">앱 계정 -e</p>
+<p data-build-in="rise order 2" data-delay="0" style="position:absolute;left:420px;top:594px;width:680px;font-weight:700;color:#1D2330;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700">MYSQL_USER</span> <span style="font-size:24px;color:#4A5262">일반 계정을 하나 더</span></p>
+<p data-build-in="rise order 2" data-delay="0" style="position:absolute;left:1140px;top:594px;width:680px;font-weight:700;color:#A33131;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700">POSTGRES_USER</span> <span style="font-size:24px;color:#4A5262">관리자 이름이 바뀌어요</span></p>
+<div style="position:absolute;left:96px;top:652px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" data-delay="70" style="position:absolute;left:96px;top:672px;width:310px;font-size:25px;font-weight:700;color:#4A5262">포트</p>
+<p data-build-in="rise order 3" data-delay="70" style="position:absolute;left:420px;top:672px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">3306</p>
+<p data-build-in="rise order 3" data-delay="70" style="position:absolute;left:1140px;top:672px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">5432</p>
+<div style="position:absolute;left:96px;top:730px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" data-delay="140" style="position:absolute;left:96px;top:750px;width:310px;font-size:25px;font-weight:700;color:#4A5262">데이터 자리</p>
+<p data-build-in="rise order 3" data-delay="140" style="position:absolute;left:420px;top:750px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">/var/lib/mysql</p>
+<p data-build-in="rise order 3" data-delay="140" style="position:absolute;left:1140px;top:750px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">/var/lib/postgresql</p>
+<div style="position:absolute;left:96px;top:808px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" data-delay="210" style="position:absolute;left:96px;top:828px;width:310px;font-size:25px;font-weight:700;color:#4A5262">들어가기</p>
+<p data-build-in="rise order 3" data-delay="210" style="position:absolute;left:420px;top:828px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">docker exec -it db mysql -u root -p</p>
+<p data-build-in="rise order 3" data-delay="210" style="position:absolute;left:1140px;top:828px;width:680px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#1D2330;white-space:nowrap">docker exec -it pg psql -U postgres</p>
+<div style="position:absolute;left:96px;top:886px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" data-delay="0" style="position:absolute;left:96px;top:906px;width:310px;font-size:25px;font-weight:700;color:#4A5262">안에서 비밀번호</p>
+<p data-build-in="rise order 3" data-delay="0" style="position:absolute;left:420px;top:906px;width:680px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">물어요</p>
+<p data-build-in="rise order 3" data-delay="0" style="position:absolute;left:1140px;top:906px;width:680px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">안 물어요</p>
+<div style="position:absolute;left:96px;top:964px;width:1728px;height:1px;background:#DCD8CE"></div>
+<div data-build-in="fade order 2" style="position:absolute;left:88px;top:578px;width:1744px;height:70px;border-radius:10px;background:#A3313112"></div>
+<aside>33 MySQL과 컨테이너 쪽에서 다른 점이에요. 이미지와 관리자 이름이 달라요. MySQL은 root, PostgreSQL은 postgres예요. 관리자 비밀번호와 처음 만들 데이터베이스는 -e 이름만 다르고 하는 일은 같아요. 가장 헷갈리는 줄이 앱 계정이에요. MYSQL_USER는 관리자 root 옆에 일반 계정을 하나 더 만들어요. POSTGRES_USER는 관리자 이름 자체를 바꿔서, 그 계정이 관리자가 되고 postgres 계정은 생기지 않아요. 포트는 3306과 5432, 데이터 자리는 /var/lib/mysql과 /var/lib/postgresql이에요. 들어갈 때는 mysql 대신 psql을 쓰고, -u 대신 대문자 -U를 써요. MySQL은 컨테이너 안에서도 비밀번호를 물었지만 PostgreSQL 공식 이미지는 안에서 오는 접속을 묻지 않고 들여보내요. 밖에서 붙을 때는 둘 다 비밀번호가 필요해요.</aside>
+</section>

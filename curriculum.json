@@ -93,7 +93,10 @@
      "commands": "`docker exec -it web bash` `-v ./site:/usr/share/nginx/html` `docker build -t cart .` `.dockerignore` `docker compose up -d`", "slides": "docker-image-slides.html"},
     {"dir": "31-nginx-basics", "title": "nginx 기초 (웹 서버와 리버스 프록시)", "track": "Docker",
      "goal": "nginx로 파일을 내주고, 리버스 프록시로 앱 여러 개를 80번 포트 하나로 묶어요",
-     "commands": "`curl localhost/menu/` `location / { root ...; }` `proxy_pass http://menu/;` `docker exec cafe-web-1 nginx -t` `docker exec cafe-web-1 nginx -s reload`", "slides": "nginx-basics-slides.html"}
+     "commands": "`curl localhost/menu/` `location / { root ...; }` `proxy_pass http://menu/;` `docker exec cafe-web-1 nginx -t` `docker exec cafe-web-1 nginx -s reload`", "slides": "nginx-basics-slides.html"},
+    {"dir": "34-docker-postgres", "title": "Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기)", "track": "Docker",
+     "goal": "PostgreSQL을 컨테이너로 켜고 psql로 데이터베이스와 표를 만든 뒤, 볼륨으로 데이터를 지켜요",
+     "commands": "`docker run -e POSTGRES_PASSWORD=... postgres:18` `docker exec -it pg psql -U postgres` `\\l` `\\c` `\\dt` `-v pg-data:/var/lib/postgresql`", "slides": "docker-postgres-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

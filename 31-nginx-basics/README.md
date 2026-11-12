@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/31-nginx-basics/nginx-basics-slides.html) | [30 · Docker 2 (내 프로그램을 이미지로 만들기)](../30-docker-image) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/31-nginx-basics/nginx-basics-slides.html) | [30 · Docker 2 (내 프로그램을 이미지로 만들기)](../30-docker-image) | [34 · Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기)](../34-docker-postgres) |
 
 <!-- /curriculum:top -->
 
@@ -395,6 +395,6 @@ node ../tools/export.js slides nginx-basics-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 30 · Docker 2 (내 프로그램을 이미지로 만들기)](../30-docker-image) · [커리큘럼](../README.md)
+[← 이전: 30 · Docker 2 (내 프로그램을 이미지로 만들기)](../30-docker-image) · [커리큘럼](../README.md) · [다음: 34 · Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기) →](../34-docker-postgres)
 
 <!-- /curriculum:nav -->
