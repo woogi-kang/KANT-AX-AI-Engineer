@@ -1,0 +1,39 @@
+<section id="m-cmd" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">SQL은 같고, 목록을 보는 명령만 달라요</h2>
+<div id="mc-same" style="position:absolute;left:96px;top:214px;width:560px;height:560px;border-radius:20px;background:#FFFFFF;box-shadow:0 18px 40px rgba(29,35,48,.16), 0 2px 6px rgba(29,35,48,.08);padding:30px 34px"><p style="font-size:28px;font-weight:700;color:#1F8A4C;margin-bottom:22px">둘 다 똑같이 쳐요</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:2.2;color:#1D2330;white-space:nowrap">CREATE DATABASE shop;</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:2.2;color:#1D2330;white-space:nowrap">CREATE TABLE orders (…);</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:2.2;color:#1D2330;white-space:nowrap">INSERT INTO orders VALUES (…);</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:2.2;color:#1D2330;white-space:nowrap">SELECT * FROM orders;</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:2.2;color:#1D2330;white-space:nowrap">DROP TABLE orders;</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;line-height:2.2;color:#1D2330;white-space:nowrap">DROP DATABASE shop;</p><p style="font-size:23px;line-height:1.5;color:#4A5262;margin-top:26px">문장 끝 ;도 같아요.</p></div>
+<p style="position:absolute;left:1060px;top:214px;font-size:26px;font-weight:700;color:#00758F">MySQL</p>
+<p style="position:absolute;left:1480px;top:214px;font-size:26px;font-weight:700;color:#336791">PostgreSQL</p>
+<div style="position:absolute;left:720px;top:264px;width:1104px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:720px;top:290px;width:330px;font-size:24px;font-weight:700;color:#4A5262">데이터베이스 목록</p>
+<p style="position:absolute;left:1060px;top:288px;width:400px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">SHOW DATABASES;</p>
+<p data-build-in="pop order 2" data-delay="0" style="position:absolute;left:1480px;top:288px;width:344px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#336791;white-space:nowrap">\l</p>
+<div style="position:absolute;left:720px;top:348px;width:1104px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:720px;top:374px;width:330px;font-size:24px;font-weight:700;color:#4A5262">다른 데이터베이스로</p>
+<p style="position:absolute;left:1060px;top:372px;width:400px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">USE shop;</p>
+<p data-build-in="pop order 2" data-delay="90" style="position:absolute;left:1480px;top:372px;width:344px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#336791;white-space:nowrap">\c shop</p>
+<div style="position:absolute;left:720px;top:432px;width:1104px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:720px;top:458px;width:330px;font-size:24px;font-weight:700;color:#4A5262">표 목록</p>
+<p style="position:absolute;left:1060px;top:456px;width:400px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">SHOW TABLES;</p>
+<p data-build-in="pop order 2" data-delay="180" style="position:absolute;left:1480px;top:456px;width:344px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#336791;white-space:nowrap">\dt</p>
+<div style="position:absolute;left:720px;top:516px;width:1104px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:720px;top:542px;width:330px;font-size:24px;font-weight:700;color:#4A5262">표 모양</p>
+<p style="position:absolute;left:1060px;top:540px;width:400px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">DESCRIBE orders;</p>
+<p data-build-in="pop order 2" data-delay="270" style="position:absolute;left:1480px;top:540px;width:344px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#336791;white-space:nowrap">\d orders</p>
+<div style="position:absolute;left:720px;top:600px;width:1104px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:720px;top:626px;width:330px;font-size:24px;font-weight:700;color:#4A5262">나가기</p>
+<p style="position:absolute;left:1060px;top:624px;width:400px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">exit</p>
+<p data-build-in="pop order 2" data-delay="360" style="position:absolute;left:1480px;top:624px;width:344px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#336791;white-space:nowrap">\q</p>
+<div style="position:absolute;left:720px;top:684px;width:1104px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:720px;top:710px;width:330px;font-size:24px;font-weight:700;color:#4A5262">한 문장만 실행</p>
+<p style="position:absolute;left:1060px;top:708px;width:400px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">mysql … -e "…"</p>
+<p data-build-in="pop order 2" data-delay="450" style="position:absolute;left:1480px;top:708px;width:344px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#336791;white-space:nowrap">psql … -c "…"</p>
+<div style="position:absolute;left:720px;top:768px;width:1104px;height:1px;background:#DCD8CE"></div>
+<p style="position:absolute;left:720px;top:794px;width:330px;font-size:24px;font-weight:700;color:#4A5262">덜 끝난 문장 표시</p>
+<p style="position:absolute;left:1060px;top:792px;width:400px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">-&gt;</p>
+<p data-build-in="pop order 2" data-delay="540" style="position:absolute;left:1480px;top:792px;width:344px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:25px;font-weight:700;color:#336791;white-space:nowrap">-#</p>
+<div style="position:absolute;left:720px;top:852px;width:1104px;height:1px;background:#DCD8CE"></div>
+<div data-build-in="pulse order 1" data-target="mc-same" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
+<p data-build-in="rise order 3" style="position:absolute;left:720px;top:888px;width:1104px;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">PostgreSQL의 목록 명령은 \로 시작하고 ;가 없어요.</p>
+<aside>SQL은 같고, 목록을 보는 명령만 달라요. 왼쪽 문장들은 33과 34에서 글자 하나 다르지 않게 쳤어요. CREATE DATABASE, CREATE TABLE, INSERT, SELECT, DROP은 SQL이라는 같은 언어라서 그래요. 끝에 세미콜론을 붙이는 것도 같아요. 다른 건 오른쪽 표예요. MySQL은 SHOW DATABASES, USE처럼 SQL 모양의 명령을 쓰고, PostgreSQL의 psql은 백슬래시 l, 백슬래시 c처럼 백슬래시로 시작하는 짧은 명령을 써요. 백슬래시 명령은 psql이 직접 처리해서 세미콜론이 없어요. 한 문장만 실행할 때 MySQL은 -e, psql은 -c예요. 문장이 덜 끝났을 때 MySQL은 화살표, psql은 -#를 보여 줘요. 두 데이터베이스를 오갈 때 이 표만 기억하면 돼요.</aside>
+</section>

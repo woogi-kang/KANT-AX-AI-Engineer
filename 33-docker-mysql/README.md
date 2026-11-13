@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/33-docker-mysql/docker-mysql-slides.html) | [32 · 데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)](../32-database-basics) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/33-docker-mysql/docker-mysql-slides.html) | [32 · 데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)](../32-database-basics) | [34 · Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기)](../34-docker-postgres) |
 
 <!-- /curriculum:top -->
 
@@ -386,6 +386,6 @@ node ../tools/export.js slides docker-mysql-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 32 · 데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)](../32-database-basics) · [커리큘럼](../README.md)
+[← 이전: 32 · 데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)](../32-database-basics) · [커리큘럼](../README.md) · [다음: 34 · Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기) →](../34-docker-postgres)
 
 <!-- /curriculum:nav -->
