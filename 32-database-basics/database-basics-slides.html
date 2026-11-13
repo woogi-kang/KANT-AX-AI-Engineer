@@ -27,8 +27,14 @@ html,body{margin:0;height:100%;background:#0E1117;overflow:hidden;font-family:'N
 #pl-hr{right:20px}
 body:hover .hint{opacity:.7}
 body:hover .hint:hover{opacity:1;background:rgba(14,17,23,.85)}
-#pl-copy{position:fixed;display:none;transform:translateX(-100%);padding:6px 12px;border:1px solid #C9CED8;border-radius:8px;background:#FFFFFF;color:#1D2330;font:500 14px 'Noto Sans KR',Arial,sans-serif;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+#pl-copy{position:fixed;display:none;width:34px;height:34px;padding:0;align-items:center;justify-content:center;border:1px solid #C9CED8;border-radius:8px;background:rgba(255,255,255,.94);color:#4A5263;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:background .15s,color .15s,border-color .15s}
+#pl-copy:hover{background:#FFFFFF;color:#1D2330;border-color:#8C94A4}
+#pl-copy svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#pl-copy .ok{display:none}
 #pl-copy.done{background:#1F8A4C;border-color:#1F8A4C;color:#FFFFFF}
+#pl-copy.done .cp{display:none}
+#pl-copy.done .ok{display:block}
+#pl-copy[data-tip]:hover::after{content:attr(data-tip);position:absolute;right:0;top:calc(100% + 8px);white-space:nowrap;padding:6px 10px;border-radius:8px;background:#FFFFFF;color:#1D2330;font:500 14px 'Noto Sans KR',Arial,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none}
 #pl-toast{position:fixed;left:50%;top:24px;transform:translateX(-50%);padding:10px 20px;border-radius:10px;background:rgba(14,17,23,.9);color:#FFFFFF;font-size:18px;opacity:0;transition:opacity .2s;pointer-events:none}
 #pl-toast.show{opacity:1}
 #pl-bar{position:fixed;z-index:100;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px;border-radius:14px;color:#E6E9EF;font-size:15px;background:rgba(14,17,23,.88);box-shadow:0 4px 18px rgba(0,0,0,.25);opacity:0;transition:opacity .2s}
@@ -714,7 +720,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </section>
 </div>
 <button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
-<button id="pl-copy"></button>
+<button id="pl-copy" data-tip="복사" aria-label="복사"><svg class="cp" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg><svg class="ok" viewBox="0 0 24 24"><polyline points="5,12.5 10,17.5 19,7"/></svg></button>
 <div id="pl-toast"></div>
 <div id="pl-notes"><div class="nin"></div><i class="rz" data-d="n"></i><i class="rz" data-d="s"></i><i class="rz" data-d="e"></i><i class="rz" data-d="w"></i><i class="rz" data-d="nw"></i><i class="rz" data-d="ne"></i><i class="rz" data-d="sw"></i><i class="rz" data-d="se"></i></div>
 <div id="pl-bar"><button id="pl-prev" data-tip="이전 (←)" aria-label="이전"><svg viewBox="0 0 24 24"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-count" data-tip="눌러서 쪽 번호로 가기" aria-label="쪽 번호로 가기"></button><input id="pl-go" inputmode="numeric" placeholder="쪽" aria-label="쪽 번호"><button id="pl-next" data-tip="다음 (→)" aria-label="다음"><svg viewBox="0 0 24 24"><polyline points="9,5 16,12 9,19"/></svg></button><span class="sep"></span><button id="pl-replay" data-tip="다시 보기 (R)" aria-label="다시 보기"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><polyline points="3.5,3.5 3.5,8.5 8.5,8.5"/></svg></button><button id="pl-anim" data-tip="애니메이션 끄기 (A)" aria-label="애니메이션 끄기"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1-5.1-1.9 5.1-1.9z"/><path d="M18.5 16v4M16.5 18h4"/><line class="slash" x1="4" y1="4" x2="20" y2="20"/></svg></button><button id="pl-nb" data-tip="발표자 노트 (N)" aria-label="발표자 노트"><svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M9 8.5h6M9 12h6M9 15.5h4"/></svg></button><button id="pl-fs" data-tip="전체 화면 (F)" aria-label="전체 화면"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="pl-help-btn" data-tip="단축키 (?)" aria-label="단축키"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4"/><line x1="12" y1="17" x2="12" y2="17.1"/></svg></button></div>
@@ -1100,19 +1106,45 @@ function codeText(el){
   const cmds=ls.map(l=>l.match(/^\s*(?:\S*\s)?\$\s+(.+)$/)).filter(Boolean).map(m=>m[1]);
   return cmds.length?{text:cmds.join('\n'),label:'명령 복사'}:{text:ls.join('\n').replace(/^\n+|\n+$/g,''),label:'복사'};
 }
-let hovered=null;
+let hovered=null,copyT=0;
 const copyBtn=$('pl-copy');
+function setCopyTip(t){copyBtn.dataset.tip=t;copyBtn.setAttribute('aria-label',t);}
 function hideCopy(){hovered=null;copyBtn.style.display='none';}
+// The button goes in the box's top-right corner. If text of the slide sits there (a short one-line box,
+// a small label such as "Python"), it tries the bottom-right corner, then just outside the box or on its corner.
+function textRects(){
+  const out=[],w=document.createTreeWalker(slides[cur],NodeFilter.SHOW_TEXT);
+  while(w.nextNode()){const t=w.currentNode;if(!t.nodeValue.trim()||t.parentElement.closest('aside,.pending'))continue;
+    const rg=document.createRange();rg.selectNodeContents(t);for(const c of rg.getClientRects())if(c.width&&c.height)out.push(c);}
+  return out;
+}
+function placeCopy(r){
+  const w=34,h=34,g=8,txt=textRects();
+  const spots=[[r.right-g-w,r.top+g],[r.right-g-w,r.bottom-g-h],[r.right+g,r.top],[r.right-w/2,r.top-h/2],[r.right-w,r.top-g-h],[r.right-w,r.bottom+g],[r.right-w/2,r.bottom-h/2]];
+  const inView=([x,y])=>x>=4&&y>=4&&x+w<=innerWidth-4&&y+h<=innerHeight-4;
+  const hits=([x,y])=>txt.filter(c=>c.right>x-3&&c.left<x+w+3&&c.bottom>y-3&&c.top<y+h+3).length;
+  const ok=spots.filter(inView);
+  return ok.find(s=>!hits(s))||ok.sort((a,b)=>hits(a)-hits(b))[0]||spots[0];
+}
 function showCopy(el){
   if(hovered===el)return;
-  hovered=el;const r=el.getBoundingClientRect();
-  copyBtn.textContent=codeText(el).label;copyBtn.classList.remove('done');
-  copyBtn.style.left=(r.right-8)+'px';copyBtn.style.top=(r.top+8)+'px';copyBtn.style.display='block';
+  hovered=el;const q=el.getBoundingClientRect();
+  // a cover box may run off the edge of the screen: use the part that is on screen
+  const r={left:Math.max(q.left,0),top:Math.max(q.top,0),right:Math.min(q.right,innerWidth),bottom:Math.min(q.bottom,innerHeight)};
+  const [x,y]=placeCopy(r);
+  setCopyTip(codeText(el).label);clearTimeout(copyT);copyBtn.classList.remove('done');
+  copyBtn.style.left=x+'px';copyBtn.style.top=y+'px';copyBtn.style.display='flex';
+}
+// while the mouse travels from the box to a button placed outside it, keep the button
+function nearCopy(x,y){
+  if(!hovered||copyBtn.style.display==='none')return false;
+  const a=hovered.getBoundingClientRect(),b=copyBtn.getBoundingClientRect();
+  return x>=Math.min(a.left,b.left)&&x<=Math.max(a.right,b.right)&&y>=Math.min(a.top,b.top)&&y<=Math.max(a.bottom,b.bottom)&&(x>=b.left-12&&x<=b.right+12||y>=b.top-12&&y<=b.bottom+12);
 }
 addEventListener('mousemove',e=>{
   const t=e.target;
   const onUi=t.closest&&t.closest('#pl-bar,#pl-notes,#pl-help,#pl-copy,.hint');
-  if(t===copyBtn)return;
+  if(t===copyBtn||copyBtn.contains(t)||nearCopy(e.clientX,e.clientY))return;
   // find the box by position, because drawings placed over a box can be the event target
   let c=null,area=Infinity;
   if(!onUi)for(const el of slides[cur].querySelectorAll('[data-code]')){
@@ -1131,7 +1163,11 @@ async function writeClip(text){
 copyBtn.onclick=async()=>{
   if(!hovered)return;
   const ok=await writeClip(codeText(hovered).text);
-  copyBtn.textContent=ok?'복사했어요':'복사가 안 돼요. 끌어서 골라 주세요';copyBtn.classList.toggle('done',ok);
+  clearTimeout(copyT);
+  if(!ok){toast('복사가 안 돼요. 드래그해서 선택해 주세요',2600);return;}
+  const label=codeText(hovered).label;
+  copyBtn.classList.add('done');setCopyTip('복사했어요');
+  copyT=setTimeout(()=>{copyBtn.classList.remove('done');setCopyTip(label);},1500);
 };
 $('pl-prev').onclick=prev;$('pl-next').onclick=next;
 // a clicked button keeps focus, and Space or Enter would press it again on top of the key's own action
