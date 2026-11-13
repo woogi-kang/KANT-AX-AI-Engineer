@@ -1,0 +1,988 @@
+{
+ "pull": [
+  {
+   "cmd": "docker pull postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "18: Pulling from library/postgres",
+    "c522c10deb9e: Pull complete",
+    "0f4e9e89c4f1: Pull complete",
+    "a0801e4a92e2: Pull complete",
+    "c7260c2ff2f1: Pull complete",
+    "37fb86c2a767: Pull complete",
+    "40460eaf9c40: Pull complete",
+    "da492ba3da26: Pull complete",
+    "203041b645ed: Pull complete",
+    "54d27a158f33: Pull complete",
+    "dc561e7040ab: Pull complete",
+    "886ba731412b: Pull complete",
+    "a2377f1d223b: Pull complete",
+    "d7059c4e68bc: Pull complete",
+    "74d8c6acba64: Download complete",
+    "734401bb022b: Download complete",
+    "Digest: sha256:b9f6b8ff03b62f3cfd9d9ba3fe56226a9991c79d3fb46fd46536263bf02be553",
+    "Status: Downloaded newer image for postgres:18",
+    "docker.io/library/postgres:18"
+   ]
+  }
+ ],
+ "images": [
+  {
+   "cmd": "docker images",
+   "cwd": "~/kant-shop",
+   "out": [
+    "IMAGE         ID             DISK USAGE   CONTENT SIZE   EXTRA",
+    "postgres:18   b9f6b8ff03b6        676MB          175MB        "
+   ]
+  }
+ ],
+ "image-ls": [
+  {
+   "cmd": "docker image ls",
+   "cwd": "~/kant-shop",
+   "out": [
+    "IMAGE         ID             DISK USAGE   CONTENT SIZE   EXTRA",
+    "postgres:18   b9f6b8ff03b6        676MB          175MB        "
+   ]
+  }
+ ],
+ "run": [
+  {
+   "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "b64cc6816076fd241aa3b34121f80f477313a530b3931baf5b0b2e622c154793"
+   ]
+  }
+ ],
+ "ps": [
+  {
+   "cmd": "docker ps",
+   "cwd": "~/kant-shop",
+   "out": [
+    "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS         PORTS                    NAMES",
+    "b64cc6816076   postgres:18   \"docker-entrypoint.s…\"   2 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   my-pg"
+   ]
+  }
+ ],
+ "container-ls": [
+  {
+   "cmd": "docker container ls",
+   "cwd": "~/kant-shop",
+   "out": [
+    "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS         PORTS                    NAMES",
+    "b64cc6816076   postgres:18   \"docker-entrypoint.s…\"   2 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   my-pg"
+   ]
+  }
+ ],
+ "conflict": [
+  {
+   "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "docker: Error response from daemon: Conflict. The container name \"/my-pg\" is already in use by container \"b64cc6816076fd241aa3b34121f80f477313a530b3931baf5b0b2e622c154793\". You have to remove (or rename) that container to be able to reuse that name.",
+    "",
+    "Run 'docker run --help' for more information"
+   ]
+  }
+ ],
+ "port": [
+  {
+   "cmd": "docker run -d --name my-pg2 -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "95d0c81b1e272c702e0552b467408f765a832b09c6be1e4bb9f7d5352caa5e4f",
+    "docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint my-pg2 (69a5eed875b9764de8e888ea637de7f78d40c0eeb8746e9fee371bae9d174007): Bind for 0.0.0.0:5432 failed: port is already allocated",
+    "",
+    "Run 'docker run --help' for more information"
+   ]
+  }
+ ],
+ "port-ps": [
+  {
+   "cmd": "docker ps -a",
+   "cwd": "~/kant-shop",
+   "out": [
+    "CONTAINER ID   IMAGE         COMMAND                  CREATED                  STATUS         PORTS                    NAMES",
+    "95d0c81b1e27   postgres:18   \"docker-entrypoint.s…\"   Less than a second ago   Created                                 my-pg2",
+    "b64cc6816076   postgres:18   \"docker-entrypoint.s…\"   3 seconds ago            Up 2 seconds   0.0.0.0:5432->5432/tcp   my-pg"
+   ]
+  }
+ ],
+ "stop": [
+  {
+   "cmd": "docker stop my-pg",
+   "cwd": "~/kant-shop",
+   "out": [
+    "my-pg"
+   ]
+  }
+ ],
+ "psa-stop": [
+  {
+   "cmd": "docker ps -a",
+   "cwd": "~/kant-shop",
+   "out": [
+    "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS                              PORTS     NAMES",
+    "b64cc6816076   postgres:18   \"docker-entrypoint.s…\"   3 seconds ago   Exited (0) Less than a second ago             my-pg"
+   ]
+  }
+ ],
+ "start": [
+  {
+   "cmd": "docker start my-pg",
+   "cwd": "~/kant-shop",
+   "out": [
+    "my-pg"
+   ]
+  }
+ ],
+ "restart": [
+  {
+   "cmd": "docker restart my-pg",
+   "cwd": "~/kant-shop",
+   "out": [
+    "my-pg"
+   ]
+  }
+ ],
+ "psa-up": [
+  {
+   "cmd": "docker ps -a",
+   "cwd": "~/kant-shop",
+   "out": [
+    "CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS                  PORTS                    NAMES",
+    "b64cc6816076   postgres:18   \"docker-entrypoint.s…\"   14 seconds ago   Up Less than a second   0.0.0.0:5432->5432/tcp   my-pg"
+   ]
+  }
+ ],
+ "logs-tail": [
+  {
+   "cmd": "docker logs --tail 3 my-pg",
+   "cwd": "~/kant-shop",
+   "out": [
+    "2026-11-13 04:44:40.135 UTC [30] LOG:  checkpoint starting: end-of-recovery immediate wait",
+    "2026-11-13 04:44:40.137 UTC [30] LOG:  checkpoint complete: wrote 0 buffers (0.0%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1774018, redo lsn=0/1774018",
+    "2026-11-13 04:44:40.139 UTC [1] LOG:  database system is ready to accept connections"
+   ]
+  }
+ ],
+ "logs-f": [
+  {
+   "cmd": "docker logs -f --tail 1 my-pg",
+   "cwd": "~/kant-shop",
+   "out": [
+    "2026-11-13 04:44:40.139 UTC [1] LOG:  database system is ready to accept connections",
+    "^C"
+   ]
+  }
+ ],
+ "rm-up": [
+  {
+   "cmd": "docker rm my-pg",
+   "cwd": "~/kant-shop",
+   "out": [
+    "Error response from daemon: cannot remove container \"my-pg\": container is running: stop the container before removing or force remove"
+   ]
+  }
+ ],
+ "rmi-used": [
+  {
+   "cmd": "docker rmi postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "Error response from daemon: conflict: unable to delete postgres:18 (must be forced) - container b64cc6816076 is using its referenced image b9f6b8ff03b6"
+   ]
+  }
+ ],
+ "stop2": [
+  {
+   "cmd": "docker stop my-pg",
+   "cwd": "~/kant-shop",
+   "out": [
+    "my-pg"
+   ]
+  }
+ ],
+ "rm": [
+  {
+   "cmd": "docker rm my-pg",
+   "cwd": "~/kant-shop",
+   "out": [
+    "my-pg"
+   ]
+  }
+ ],
+ "run3": [
+  {
+   "cmd": "docker run -d --name my-pg \\\n-e POSTGRES_PASSWORD=admin1234 \\\n-p 5432:5432 postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "48d1c194469c97d81d48c27d4b50f3a34ea926ed98d99eb8c4245d057a0dc59f"
+   ]
+  }
+ ],
+ "runsp": [
+  {
+   "cmd": "docker run -d --name my-pg \\ \n-e POSTGRES_PASSWORD=admin1234 \\\n-p 5432:5432 postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "docker: invalid reference format",
+    "",
+    "Run 'docker run --help' for more information",
+    "bash: line 2: -e: command not found"
+   ]
+  }
+ ],
+ "run-again": [
+  {
+   "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "0f29903380a9023e9b3b3d56997b80edc59464e073b6c482741e268a7f96f5c6"
+   ]
+  }
+ ],
+ "ls-before": [
+  {
+   "cmd": "docker exec my-pg ls /tmp",
+   "cwd": "~/kant-shop",
+   "out": []
+  }
+ ],
+ "cp": [
+  {
+   "cmd": "docker cp kant_shop.sql my-pg:/tmp/kant_shop.sql",
+   "cwd": "~/kant-shop",
+   "out": [
+    "Successfully copied 610B (transferred 2.56kB) to my-pg:/tmp/kant_shop.sql"
+   ]
+  }
+ ],
+ "ls-after": [
+  {
+   "cmd": "docker exec my-pg ls /tmp",
+   "cwd": "~/kant-shop",
+   "out": [
+    "kant_shop.sql"
+   ]
+  }
+ ],
+ "cp-typo": [
+  {
+   "cmd": "docker cp kant_shop.sq my-pg:/tmp/kant_shop.sql",
+   "cwd": "~/kant-shop",
+   "out": [
+    "lstat /home/kim/kant-shop/kant_shop.sq: no such file or directory"
+   ]
+  }
+ ],
+ "cp-out": [
+  {
+   "cmd": "docker cp my-pg:/tmp/kant_shop.sql ./copy.sql",
+   "cwd": "~/kant-shop",
+   "out": [
+    "Successfully copied 610B (transferred 2.56kB) to /home/kim/kant-shop/copy.sql"
+   ]
+  }
+ ],
+ "cp-out-ls": [
+  {
+   "cmd": "ls",
+   "cwd": "~/kant-shop",
+   "out": [
+    "copy.sql  kant_shop.sql"
+   ]
+  }
+ ],
+ "f": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -f /tmp/kant_shop.sql",
+   "cwd": "~/kant-shop",
+   "out": [
+    "psql:/tmp/kant_shop.sql:2: NOTICE:  database \"kant_shop\" does not exist, skipping",
+    "DROP DATABASE",
+    "CREATE DATABASE",
+    "You are now connected to database \"kant_shop\" as user \"postgres\".",
+    "CREATE TABLE",
+    "INSERT 0 5"
+   ]
+  }
+ ],
+ "it-redirect": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres < kant_shop.sql",
+   "cwd": "~/kant-shop",
+   "out": [
+    "cannot attach stdin to a TTY-enabled container because stdin is not a terminal"
+   ]
+  }
+ ],
+ "i-redirect": [
+  {
+   "cmd": "docker exec -i my-pg psql -U postgres < kant_shop.sql",
+   "cwd": "~/kant-shop",
+   "out": [
+    "DROP DATABASE",
+    "CREATE DATABASE",
+    "You are now connected to database \"kant_shop\" as user \"postgres\".",
+    "CREATE TABLE",
+    "INSERT 0 5"
+   ]
+  }
+ ],
+ "sel": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop -c \"SELECT * FROM product\"",
+   "cwd": "~/kant-shop",
+   "out": [
+    " id |     name      | price  | stock",
+    "----+---------------+--------+-------",
+    "  1 | 무선 이어폰   |  35000 |   100",
+    "  2 | 게이밍 마우스 |  28000 |    85",
+    "  3 | 27인치 모니터 | 259000 |    15",
+    "  4 | USB-C 허브    |  19900 |   200",
+    "  5 | 노트북 거치대 |  24000 |     7",
+    "(5 rows)"
+   ]
+  }
+ ],
+ "enter": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~/kant-shop",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# \\dt",
+    "           List of tables",
+    " Schema |  Name   | Type  |  Owner",
+    "--------+---------+-------+----------",
+    " public | product | table | postgres",
+    "(1 row)",
+    "",
+    "kant_shop=# \\d product",
+    "                                    Table \"public.product\"",
+    " Column |          Type          | Collation | Nullable |               Default",
+    "--------+------------------------+-----------+----------+-------------------------------------",
+    " id     | integer                |           | not null | nextval('product_id_seq'::regclass)",
+    " name   | character varying(100) |           | not null |",
+    " price  | integer                |           | not null |",
+    " stock  | integer                |           | not null |",
+    "Indexes:",
+    "    \"product_pkey\" PRIMARY KEY, btree (id)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "bash": [
+  {
+   "cmd": "docker exec -it my-pg bash",
+   "cwd": "~/kant-shop",
+   "out": [
+    "root@0f29903380a9:/# ls /tmp",
+    "kant_shop.sql",
+    "root@0f29903380a9:/# exit",
+    "exit"
+   ]
+  }
+ ],
+ "help": [
+  {
+   "cmd": "docker cp --help",
+   "cwd": "~/kant-shop",
+   "out": [
+    "Usage:  docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-",
+    "\tdocker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH",
+    "",
+    "Copy files/folders between a container and the local filesystem",
+    "",
+    "Use '-' as the source to read a tar archive from stdin",
+    "and extract it to a directory destination in a container.",
+    "Use '-' as the destination to stream a tar archive of a",
+    "container source to stdout.",
+    "",
+    "Aliases:",
+    "  docker container cp, docker cp",
+    "",
+    "Options:",
+    "  -a, --archive       Archive mode (copy all uid/gid information)",
+    "  -L, --follow-link   Always follow symlinks in SRC_PATH",
+    "  -q, --quiet         Suppress progress output during copy. Progress",
+    "                      output is automatically suppressed if no terminal",
+    "                      is attached"
+   ]
+  }
+ ],
+ "v-create": [
+  {
+   "cmd": "docker volume create pgdata",
+   "cwd": "~/kant-shop",
+   "out": [
+    "pgdata"
+   ]
+  }
+ ],
+ "v-ls": [
+  {
+   "cmd": "docker volume ls",
+   "cwd": "~/kant-shop",
+   "out": [
+    "DRIVER    VOLUME NAME",
+    "local     pgdata"
+   ]
+  }
+ ],
+ "v-inspect": [
+  {
+   "cmd": "docker volume inspect pgdata",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[",
+    "    {",
+    "        \"CreatedAt\": \"2026-11-13T04:44:54Z\",",
+    "        \"Driver\": \"local\",",
+    "        \"Labels\": null,",
+    "        \"Mountpoint\": \"/var/lib/docker/volumes/pgdata/_data\",",
+    "        \"Name\": \"pgdata\",",
+    "        \"Options\": null,",
+    "        \"Scope\": \"local\"",
+    "    }",
+    "]"
+   ]
+  }
+ ],
+ "v-run": [
+  {
+   "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 -v pgdata:/var/lib/postgresql postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "1bb2985a53570708f7efc19cf0f1bd50e022dc9153fc14ce194908bf1cde8b62"
+   ]
+  }
+ ],
+ "v-load": [
+  {
+   "cmd": "docker exec -i my-pg psql -U postgres < kant_shop.sql",
+   "cwd": "~/kant-shop",
+   "out": [
+    "DROP DATABASE",
+    "NOTICE:  database \"kant_shop\" does not exist, skipping",
+    "CREATE DATABASE",
+    "You are now connected to database \"kant_shop\" as user \"postgres\".",
+    "CREATE TABLE",
+    "INSERT 0 5"
+   ]
+  }
+ ],
+ "v-rm-used": [
+  {
+   "cmd": "docker volume rm pgdata",
+   "cwd": "~/kant-shop",
+   "out": [
+    "Error response from daemon: remove pgdata: volume is in use - [1bb2985a53570708f7efc19cf0f1bd50e022dc9153fc14ce194908bf1cde8b62]"
+   ]
+  }
+ ],
+ "v-gone": [
+  {
+   "cmd": "docker stop my-pg",
+   "cwd": "~/kant-shop",
+   "out": [
+    "my-pg"
+   ]
+  },
+  {
+   "cmd": "docker rm my-pg",
+   "cwd": "~/kant-shop",
+   "out": [
+    "my-pg"
+   ]
+  }
+ ],
+ "v-rerun": [
+  {
+   "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 -v pgdata:/var/lib/postgresql postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "715280d2bf1fb5ddcdd27f164e05901cabe17fc40b4f325114d1f335767480ec"
+   ]
+  }
+ ],
+ "v-kept": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop -c \"SELECT * FROM product\"",
+   "cwd": "~/kant-shop",
+   "out": [
+    " id |     name      | price  | stock",
+    "----+---------------+--------+-------",
+    "  1 | 무선 이어폰   |  35000 |   100",
+    "  2 | 게이밍 마우스 |  28000 |    85",
+    "  3 | 27인치 모니터 | 259000 |    15",
+    "  4 | USB-C 허브    |  19900 |   200",
+    "  5 | 노트북 거치대 |  24000 |     7",
+    "(5 rows)"
+   ]
+  }
+ ],
+ "v-rm": [
+  {
+   "cmd": "docker volume rm pgdata",
+   "cwd": "~/kant-shop",
+   "out": [
+    "pgdata"
+   ]
+  }
+ ],
+ "v-ls2": [
+  {
+   "cmd": "docker volume ls",
+   "cwd": "~/kant-shop",
+   "out": [
+    "DRIVER    VOLUME NAME"
+   ]
+  }
+ ],
+ "c-config": [
+  {
+   "cmd": "docker compose config",
+   "cwd": "~/kant-shop",
+   "out": [
+    "name: kant-shop",
+    "services:",
+    "  db:",
+    "    container_name: my-pg",
+    "    environment:",
+    "      POSTGRES_PASSWORD: admin1234",
+    "    image: postgres:18",
+    "    networks:",
+    "      default: null",
+    "    volumes:",
+    "      - type: volume",
+    "        source: pgdata",
+    "        target: /var/lib/postgresql",
+    "        volume: {}",
+    "    ports:",
+    "      - mode: ingress",
+    "        target: 5432",
+    "        published: \"5432\"",
+    "        protocol: tcp",
+    "networks:",
+    "  default:",
+    "    name: kant-shop_default",
+    "volumes:",
+    "  pgdata:",
+    "    name: kant-shop_pgdata"
+   ]
+  }
+ ],
+ "c-up": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] up 3/3",
+    " ✔ Volume kant-shop_pgdata   Created                                        0.0s",
+    " ✔ Network kant-shop_default Created                                        0.0s",
+    " ✔ Container my-pg           Started                                        0.2s"
+   ]
+  }
+ ],
+ "c-ps": [
+  {
+   "cmd": "docker compose ps",
+   "cwd": "~/kant-shop",
+   "out": [
+    "NAME      IMAGE         COMMAND                  SERVICE   CREATED         STATUS         PORTS",
+    "my-pg     postgres:18   \"docker-entrypoint.s…\"   db        3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp"
+   ]
+  }
+ ],
+ "c-dps": [
+  {
+   "cmd": "docker ps",
+   "cwd": "~/kant-shop",
+   "out": [
+    "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS         PORTS                    NAMES",
+    "4bfbe86d72b7   postgres:18   \"docker-entrypoint.s…\"   3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   my-pg"
+   ]
+  }
+ ],
+ "c-load": [
+  {
+   "cmd": "docker exec -i my-pg psql -U postgres < kant_shop.sql",
+   "cwd": "~/kant-shop",
+   "out": [
+    "NOTICE:  database \"kant_shop\" does not exist, skipping",
+    "DROP DATABASE",
+    "CREATE DATABASE",
+    "You are now connected to database \"kant_shop\" as user \"postgres\".",
+    "CREATE TABLE",
+    "INSERT 0 5"
+   ]
+  }
+ ],
+ "c-exec": [
+  {
+   "cmd": "docker compose exec db psql -U postgres -d kant_shop -c \"SELECT * FROM product\"",
+   "cwd": "~/kant-shop",
+   "out": [
+    " id |     name      | price  | stock ",
+    "----+---------------+--------+-------",
+    "  1 | 무선 이어폰   |  35000 |   100",
+    "  2 | 게이밍 마우스 |  28000 |    85",
+    "  3 | 27인치 모니터 | 259000 |    15",
+    "  4 | USB-C 허브    |  19900 |   200",
+    "  5 | 노트북 거치대 |  24000 |     7",
+    "(5 rows)"
+   ]
+  }
+ ],
+ "c-logs": [
+  {
+   "cmd": "docker compose logs --tail 3",
+   "cwd": "~/kant-shop",
+   "out": [
+    "my-pg  | 2026-11-13 04:45:01.081 UTC [1] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"",
+    "my-pg  | 2026-11-13 04:45:01.084 UTC [73] LOG:  database system was shut down at 2026-11-13 04:45:00 UTC",
+    "my-pg  | 2026-11-13 04:45:01.086 UTC [1] LOG:  database system is ready to accept connections"
+   ]
+  }
+ ],
+ "c-logs-f": [
+  {
+   "cmd": "docker compose logs -f --tail 2",
+   "cwd": "~/kant-shop",
+   "out": [
+    "my-pg  | 2026-11-13 04:45:01.084 UTC [73] LOG:  database system was shut down at 2026-11-13 04:45:00 UTC",
+    "my-pg  | 2026-11-13 04:45:01.086 UTC [1] LOG:  database system is ready to accept connections",
+    "^C"
+   ]
+  }
+ ],
+ "c-stop": [
+  {
+   "cmd": "docker compose stop",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] stop 1/1",
+    " ✔ Container my-pg Stopped                                                  0.2s"
+   ]
+  }
+ ],
+ "c-ps-stop": [
+  {
+   "cmd": "docker compose ps -a",
+   "cwd": "~/kant-shop",
+   "out": [
+    "NAME      IMAGE         COMMAND                  SERVICE   CREATED         STATUS                              PORTS",
+    "my-pg     postgres:18   \"docker-entrypoint.s…\"   db        5 seconds ago   Exited (0) Less than a second ago   "
+   ]
+  }
+ ],
+ "c-start": [
+  {
+   "cmd": "docker compose start",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] start 1/1",
+    " ✔ Container my-pg Started                                                  0.1s"
+   ]
+  }
+ ],
+ "c-restart": [
+  {
+   "cmd": "docker compose restart",
+   "cwd": "~/kant-shop",
+   "out": [
+    " Container my-pg Restarting ",
+    " Container my-pg Started "
+   ]
+  }
+ ],
+ "c-ls": [
+  {
+   "cmd": "docker compose ls",
+   "cwd": "~/kant-shop",
+   "out": [
+    "NAME                STATUS              CONFIG FILES",
+    "kant-shop           running(1)          /home/kim/kant-shop/compose.yaml"
+   ]
+  }
+ ],
+ "c-pull": [
+  {
+   "cmd": "docker compose pull",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] pull 1/1",
+    " ✔ Image postgres:18 Pulled                                                 0.5s"
+   ]
+  }
+ ],
+ "c-down": [
+  {
+   "cmd": "docker compose down",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] down 2/2",
+    " ✔ Container my-pg           Removed                                        0.2s",
+    " ✔ Network kant-shop_default Removed                                        0.1s"
+   ]
+  }
+ ],
+ "c-vol": [
+  {
+   "cmd": "docker volume ls",
+   "cwd": "~/kant-shop",
+   "out": [
+    "DRIVER    VOLUME NAME",
+    "local     kant-shop_pgdata"
+   ]
+  }
+ ],
+ "c-up2": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] up 2/2",
+    " ✔ Network kant-shop_default Created                                        0.0s",
+    " ✔ Container my-pg           Started                                        0.2s"
+   ]
+  }
+ ],
+ "c-kept": [
+  {
+   "cmd": "docker compose exec db psql -U postgres -d kant_shop -c \"SELECT * FROM product\"",
+   "cwd": "~/kant-shop",
+   "out": [
+    " id |     name      | price  | stock ",
+    "----+---------------+--------+-------",
+    "  1 | 무선 이어폰   |  35000 |   100",
+    "  2 | 게이밍 마우스 |  28000 |    85",
+    "  3 | 27인치 모니터 | 259000 |    15",
+    "  4 | USB-C 허브    |  19900 |   200",
+    "  5 | 노트북 거치대 |  24000 |     7",
+    "(5 rows)"
+   ]
+  }
+ ],
+ "c-downv": [
+  {
+   "cmd": "docker compose down -v",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] down 3/3",
+    " ✔ Container my-pg           Removed                                        0.2s",
+    " ✔ Network kant-shop_default Removed                                        0.2s",
+    " ✔ Volume kant-shop_pgdata   Removed                                        0.1s"
+   ]
+  }
+ ],
+ "c-vol2": [
+  {
+   "cmd": "docker volume ls",
+   "cwd": "~/kant-shop",
+   "out": [
+    "DRIVER    VOLUME NAME"
+   ]
+  }
+ ],
+ "n-up": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] up 3/3",
+    " ✔ Network kant-shop_default Created                                        0.0s",
+    " ✔ Volume kant-shop_pgdata   Created                                        0.0s",
+    " ✔ Container kant-shop-db-1  Started                                        0.2s"
+   ]
+  }
+ ],
+ "n-ps": [
+  {
+   "cmd": "docker compose ps",
+   "cwd": "~/kant-shop",
+   "out": [
+    "NAME             IMAGE         COMMAND                  SERVICE   CREATED                  STATUS                  PORTS",
+    "kant-shop-db-1   postgres:18   \"docker-entrypoint.s…\"   db        Less than a second ago   Up Less than a second   0.0.0.0:5432->5432/tcp"
+   ]
+  }
+ ],
+ "n-exec": [
+  {
+   "cmd": "docker exec my-pg ls /tmp",
+   "cwd": "~/kant-shop",
+   "out": [
+    "Error response from daemon: No such container: my-pg"
+   ]
+  }
+ ],
+ "four-config": [
+  {
+   "cmd": "docker compose config",
+   "cwd": "~/kant-shop",
+   "out": [
+    "name: kant-shop",
+    "services:",
+    "  db:",
+    "    container_name: my-pg",
+    "    environment:",
+    "      POSTGRES_PASSWORD: admin1234",
+    "    image: postgres:18",
+    "    networks:",
+    "      default: null",
+    "    volumes:",
+    "      - type: volume",
+    "        source: pgdata",
+    "        target: /var/lib/postgresql",
+    "        volume: {}",
+    "    ports:",
+    "      - mode: ingress",
+    "        target: 5432",
+    "        published: \"5432\"",
+    "        protocol: tcp",
+    "networks:",
+    "  default:",
+    "    name: kant-shop_default",
+    "volumes:",
+    "  pgdata:",
+    "    name: kant-shop_pgdata"
+   ]
+  }
+ ],
+ "four-up": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] up 3/3",
+    " ✔ Network kant-shop_default Created                                        0.0s",
+    " ✔ Volume kant-shop_pgdata   Created                                        0.0s",
+    " ✔ Container my-pg           Started                                        0.2s"
+   ]
+  }
+ ],
+ "y-tab": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/kant-shop",
+   "out": [
+    "go-yaml load error in scanner (while scanning for the next token) at L3.C1: found character that cannot start any token"
+   ]
+  }
+ ],
+ "y-mix": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/kant-shop",
+   "out": [
+    "go-yaml load error in scanner at L5.C16: mapping values are not allowed in this context"
+   ]
+  }
+ ],
+ "y-colon": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/kant-shop",
+   "out": [
+    "go-yaml load error in scanner at L4.C19: mapping values are not allowed in this context"
+   ]
+  }
+ ],
+ "e-up": [
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] up 3/3",
+    " ✔ Network kant-shop_default Created                                        0.0s",
+    " ✔ Volume kant-shop_pgdata   Created                                        0.0s",
+    " ✔ Container my-pg           Started                                        0.2s"
+   ]
+  }
+ ],
+ "e-load": [
+  {
+   "cmd": "docker exec -i my-pg psql -U postgres < kant_shop.sql",
+   "cwd": "~/kant-shop",
+   "out": [
+    "DROP DATABASE",
+    "NOTICE:  database \"kant_shop\" does not exist, skipping",
+    "CREATE DATABASE",
+    "You are now connected to database \"kant_shop\" as user \"postgres\".",
+    "CREATE TABLE",
+    "INSERT 0 5"
+   ]
+  }
+ ],
+ "e-sel": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop -c \"SELECT * FROM product\"",
+   "cwd": "~/kant-shop",
+   "out": [
+    " id |     name      | price  | stock",
+    "----+---------------+--------+-------",
+    "  1 | 무선 이어폰   |  35000 |   100",
+    "  2 | 게이밍 마우스 |  28000 |    85",
+    "  3 | 27인치 모니터 | 259000 |    15",
+    "  4 | USB-C 허브    |  19900 |   200",
+    "  5 | 노트북 거치대 |  24000 |     7",
+    "(5 rows)"
+   ]
+  }
+ ],
+ "e-down": [
+  {
+   "cmd": "docker compose down -v",
+   "cwd": "~/kant-shop",
+   "out": [
+    "[+] down 3/3",
+    " ✔ Container my-pg           Removed                                        0.2s",
+    " ✔ Volume kant-shop_pgdata   Removed                                        0.1s",
+    " ✔ Network kant-shop_default Removed                                        0.2s"
+   ]
+  }
+ ],
+ "e-psa": [
+  {
+   "cmd": "docker ps -a",
+   "cwd": "~/kant-shop",
+   "out": [
+    "CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES"
+   ]
+  }
+ ],
+ "e-vol": [
+  {
+   "cmd": "docker volume ls",
+   "cwd": "~/kant-shop",
+   "out": [
+    "DRIVER    VOLUME NAME"
+   ]
+  }
+ ],
+ "e-rmi": [
+  {
+   "cmd": "docker rmi postgres:18",
+   "cwd": "~/kant-shop",
+   "out": [
+    "Untagged: postgres:18",
+    "Deleted: sha256:b9f6b8ff03b62f3cfd9d9ba3fe56226a9991c79d3fb46fd46536263bf02be553"
+   ]
+  }
+ ],
+ "e-images": [
+  {
+   "cmd": "docker images",
+   "cwd": "~/kant-shop",
+   "out": [
+    "IMAGE   ID             DISK USAGE   CONTENT SIZE   EXTRA"
+   ]
+  }
+ ]
+}

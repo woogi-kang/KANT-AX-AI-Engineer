@@ -1,0 +1,95 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-13T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "Docker 5 (명령어 한눈에 보기)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "r-shape",
+    "r-opts",
+    "r-split",
+    "i-pull",
+    "i-run",
+    "i-state",
+    "i-logs",
+    "i-rm",
+    "w-sql",
+    "w-cp",
+    "w-exec",
+    "w-f",
+    "w-redirect",
+    "w-trap",
+    "v-cmds",
+    "v-keep",
+    "v-rm",
+    "y-what",
+    "y-indent",
+    "y-24",
+    "y-err",
+    "c-map",
+    "c-config",
+    "c-run",
+    "c-life",
+    "c-down",
+    "c-name",
+    "x-errs",
+    "e-class",
+    "e-compose",
+    "e-clean",
+    "s-alias",
+    "s-help",
+    "cheat1",
+    "cheat2"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "명령 읽는 법",
+      "start": "r-shape"
+    },
+    "p2": {
+      "description": "이미지와 컨테이너",
+      "start": "i-pull"
+    },
+    "p3": {
+      "description": "컨테이너 안에서 작업하기",
+      "start": "w-sql"
+    },
+    "p4": {
+      "description": "볼륨",
+      "start": "v-cmds"
+    },
+    "p5": {
+      "description": "YAML과 compose",
+      "start": "y-what"
+    },
+    "p6": {
+      "description": "오류와 실제 상황",
+      "start": "x-errs"
+    },
+    "wrap": {
+      "description": "정리",
+      "start": "s-alias"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

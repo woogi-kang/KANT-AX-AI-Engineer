@@ -1,0 +1,47 @@
+<section id="y-err" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#5A3BB8">5. YAML과 compose</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">탭, 어긋난 칸, 쌍점 뒤 띄어쓰기에서 오류가 나요</h2>
+<div data-build-in="rise order 1" style="position:absolute;left:96px;top:214px;width:640px;height:236px;background:#FFFFFF;border:2px solid #DCD8CE;border-radius:16px"></div>
+<div data-build-in="rise order 1" style="position:absolute;left:98px;top:282px;width:636px;height:48px;background:#A3313118;border-left:6px solid #A33131"></div>
+<p data-build-in="rise order 1" style="position:absolute;left:150px;top:240px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">  db:</p>
+<p data-build-in="rise order 1" style="position:absolute;left:104px;top:244px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">2</p>
+<p data-build-in="rise order 1" style="position:absolute;left:150px;top:288px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330"><span style="color:#A33131">⇥   </span>image: postgres:18</p>
+<p data-build-in="rise order 1" style="position:absolute;left:104px;top:292px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">3</p>
+<p data-build-in="rise order 1" style="position:absolute;left:150px;top:336px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">    container_name: my-pg</p>
+<p data-build-in="rise order 1" style="position:absolute;left:104px;top:340px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">4</p>
+<p data-build-in="rise order 1" style="position:absolute;left:150px;top:384px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">    environment:</p>
+<p data-build-in="rise order 1" style="position:absolute;left:104px;top:388px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">5</p>
+<p data-build-in="rise order 1" style="position:absolute;left:780px;top:220px;font-size:28px;font-weight:700;color:#A33131">탭으로 들여썼어요</p>
+<p data-build-in="rise order 1" style="position:absolute;left:780px;top:272px;width:1044px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;line-height:1.5;color:#1D2330;white-space:pre">go-yaml load error in scanner (while scanning for the next
+token) at <span style="color:#A33131;font-weight:700">L3.C1</span>: found character that cannot start any token</p>
+<p data-build-in="rise order 1" style="position:absolute;left:780px;top:352px;font-size:24px;color:#4A5262">L3.C1 = 3번째 줄 1번째 칸에 탭</p>
+<div data-build-in="rise order 2" style="position:absolute;left:96px;top:482px;width:640px;height:236px;background:#FFFFFF;border:2px solid #DCD8CE;border-radius:16px"></div>
+<div data-build-in="rise order 2" style="position:absolute;left:98px;top:598px;width:636px;height:48px;background:#A3313118;border-left:6px solid #A33131"></div>
+<p data-build-in="rise order 2" style="position:absolute;left:150px;top:508px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">  db:</p>
+<p data-build-in="rise order 2" style="position:absolute;left:104px;top:512px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">2</p>
+<p data-build-in="rise order 2" style="position:absolute;left:150px;top:556px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">    image: postgres:18</p>
+<p data-build-in="rise order 2" style="position:absolute;left:104px;top:560px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">3</p>
+<p data-build-in="rise order 2" style="position:absolute;left:150px;top:604px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">  container_name: my-pg</p>
+<p data-build-in="rise order 2" style="position:absolute;left:104px;top:608px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">4</p>
+<p data-build-in="rise order 2" style="position:absolute;left:150px;top:652px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">    environment:</p>
+<p data-build-in="rise order 2" style="position:absolute;left:104px;top:656px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">5</p>
+<p data-build-in="rise order 2" style="position:absolute;left:780px;top:488px;font-size:28px;font-weight:700;color:#A33131">한 줄만 2칸이에요</p>
+<p data-build-in="rise order 2" style="position:absolute;left:780px;top:540px;width:1044px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;line-height:1.5;color:#1D2330;white-space:pre">go-yaml load error in scanner at <span style="color:#A33131;font-weight:700">L5.C16</span>: mapping values are
+not allowed in this context</p>
+<p data-build-in="rise order 2" style="position:absolute;left:780px;top:620px;font-size:24px;color:#4A5262">L5.C16 = 4번째 줄이 어긋나서 다음 줄에서 오류</p>
+<div data-build-in="rise order 3" style="position:absolute;left:96px;top:750px;width:640px;height:236px;background:#FFFFFF;border:2px solid #DCD8CE;border-radius:16px"></div>
+<div data-build-in="rise order 3" style="position:absolute;left:98px;top:818px;width:636px;height:48px;background:#A3313118;border-left:6px solid #A33131"></div>
+<p data-build-in="rise order 3" style="position:absolute;left:150px;top:776px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">  db:</p>
+<p data-build-in="rise order 3" style="position:absolute;left:104px;top:780px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">2</p>
+<p data-build-in="rise order 3" style="position:absolute;left:150px;top:824px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">    image:postgres:18</p>
+<p data-build-in="rise order 3" style="position:absolute;left:104px;top:828px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">3</p>
+<p data-build-in="rise order 3" style="position:absolute;left:150px;top:872px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">    container_name: my-pg</p>
+<p data-build-in="rise order 3" style="position:absolute;left:104px;top:876px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">4</p>
+<p data-build-in="rise order 3" style="position:absolute;left:150px;top:920px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;line-height:36px;white-space:pre;color:#1D2330">    environment:</p>
+<p data-build-in="rise order 3" style="position:absolute;left:104px;top:924px;width:34px;text-align:right;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;line-height:30px;color:#A3A9B4">5</p>
+<p data-build-in="rise order 3" style="position:absolute;left:780px;top:756px;font-size:28px;font-weight:700;color:#A33131">image: 뒤에 띄어쓰기가 없어요</p>
+<p data-build-in="rise order 3" style="position:absolute;left:780px;top:808px;width:1044px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;line-height:1.5;color:#1D2330;white-space:pre">go-yaml load error in scanner at <span style="color:#A33131;font-weight:700">L4.C19</span>: mapping values are
+not allowed in this context</p>
+<p data-build-in="rise order 3" style="position:absolute;left:780px;top:888px;font-size:24px;color:#4A5262">L4.C19 = 위 줄이 값 하나로 읽혀서 다음 줄에서 오류</p>
+<aside>YAML 오류는 세 가지가 가장 많아요. 첫 번째는 탭이에요. 화면에서는 탭 자리를 빨간 화살표로 보이게 그렸어요. 실제 편집기에서는 띄어쓰기와 똑같아 보여서 찾기 어려워요. 오류의 L3.C1은 3번째 줄 1번째 칸이라는 뜻이에요. VS Code는 YAML 파일에서 Tab 키를 누르면 띄어쓰기를 넣어 줘서, 다른 곳에서 복사해 온 탭이 문제가 돼요. 두 번째는 한 줄만 칸이 어긋난 경우예요. 4번째 줄을 2칸만 들여서 YAML이 5번째 줄에서 헷갈렸다고 알려 줘요. 세 번째는 쌍점 뒤에 띄어쓰기를 빠뜨린 경우예요. image:postgres:18 전체가 글자 하나로 읽혀서 다음 줄에서 오류가 나요. 두 번째와 세 번째처럼 오류 줄 번호는 실제로 틀린 줄의 다음 줄일 때가 많아요. 알려 준 줄과 그 바로 위 줄을 같이 봐요. 터미널 출력은 tools/demo.py로 실제 Docker와 postgres:18 이미지를 실행한 결과예요.</aside>
+</section>

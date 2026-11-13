@@ -1,0 +1,59 @@
+<section id="cheat1" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">치트시트</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">docker 명령 한 장</h2>
+<p style="position:absolute;left:96px;top:206px;font-size:28px;font-weight:700;color:#1D63ED">이미지</p>
+<div style="position:absolute;left:96px;top:252px;width:330px;height:3px;background:#1D63ED"></div>
+<p style="position:absolute;left:96px;top:272px;width:330px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker pull postgres:18</p>
+<p style="position:absolute;left:96px;top:304px;width:330px;font-size:19px;line-height:1.35;color:#4A5262">Docker Hub에서 받기</p>
+<p style="position:absolute;left:96px;top:351.65px;width:330px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker images</p>
+<p style="position:absolute;left:96px;top:384px;width:330px;font-size:19px;line-height:1.35;color:#4A5262">받은 이미지 목록</p>
+<p style="position:absolute;left:96px;top:431.29999999999995px;width:330px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker rmi postgres:18</p>
+<p style="position:absolute;left:96px;top:463px;width:330px;font-size:19px;line-height:1.35;color:#4A5262">지우기 (쓰는 컨테이너 먼저 지우기)</p>
+<p style="position:absolute;left:474px;top:206px;font-size:28px;font-weight:700;color:#1D63ED">컨테이너</p>
+<div style="position:absolute;left:474px;top:252px;width:450px;height:3px;background:#1D63ED"></div>
+<p style="position:absolute;left:474px;top:272px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:17px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker run -d --name my-pg \
+  -e POSTGRES_PASSWORD=admin1234 \
+  -p 5432:5432 postgres:18</p>
+<p style="position:absolute;left:474px;top:347px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">뒤에서 켜기, 이름, 환경 변수, 포트</p>
+<p style="position:absolute;left:474px;top:395.05px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker ps / docker ps -a</p>
+<p style="position:absolute;left:474px;top:427px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">켜진 것 / 꺼진 것까지</p>
+<p style="position:absolute;left:474px;top:474.70000000000005px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker stop my-pg</p>
+<p style="position:absolute;left:474px;top:507px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">끄기</p>
+<p style="position:absolute;left:474px;top:554.35px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker start my-pg</p>
+<p style="position:absolute;left:474px;top:586px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">다시 켜기</p>
+<p style="position:absolute;left:474px;top:634.0px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker restart my-pg</p>
+<p style="position:absolute;left:474px;top:666px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">껐다가 바로 켜기</p>
+<p style="position:absolute;left:474px;top:713.65px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker logs --tail 3 my-pg</p>
+<p style="position:absolute;left:474px;top:746px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">마지막 3줄 (-f는 계속, Ctrl+C)</p>
+<p style="position:absolute;left:474px;top:793.3px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker rm my-pg</p>
+<p style="position:absolute;left:474px;top:825px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">지우기 (끈 다음에)</p>
+<p style="position:absolute;left:972px;top:206px;font-size:28px;font-weight:700;color:#0F7C86">안에서 작업</p>
+<div style="position:absolute;left:972px;top:252px;width:450px;height:3px;background:#0F7C86"></div>
+<p style="position:absolute;left:972px;top:272px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker exec -it my-pg bash</p>
+<p style="position:absolute;left:972px;top:304px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">들어가기, exit로 나오기</p>
+<p style="position:absolute;left:972px;top:351.65px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker exec my-pg ls /tmp</p>
+<p style="position:absolute;left:972px;top:384px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">명령 하나만 실행</p>
+<p style="position:absolute;left:972px;top:431.29999999999995px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:17px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker exec -it my-pg \
+  psql -U postgres -d kant_shop</p>
+<p style="position:absolute;left:972px;top:483px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">psql 열기, \q로 나오기</p>
+<p style="position:absolute;left:972px;top:530.55px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:17px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker cp kant_shop.sql \
+  my-pg:/tmp/kant_shop.sql</p>
+<p style="position:absolute;left:972px;top:582px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">내 파일을 컨테이너로</p>
+<p style="position:absolute;left:972px;top:629.8px;width:450px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:17px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker exec -i my-pg \
+  psql -U postgres &lt; kant_shop.sql</p>
+<p style="position:absolute;left:972px;top:681px;width:450px;font-size:19px;line-height:1.35;color:#4A5262">파일 내용 넘기기 (-it 말고 -i)</p>
+<p style="position:absolute;left:1470px;top:206px;font-size:28px;font-weight:700;color:#B26A00">볼륨</p>
+<div style="position:absolute;left:1470px;top:252px;width:352px;height:3px;background:#B26A00"></div>
+<p style="position:absolute;left:1470px;top:272px;width:352px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker volume create pgdata</p>
+<p style="position:absolute;left:1470px;top:304px;width:352px;font-size:19px;line-height:1.35;color:#4A5262">만들기</p>
+<p style="position:absolute;left:1470px;top:351.65px;width:352px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker volume ls</p>
+<p style="position:absolute;left:1470px;top:384px;width:352px;font-size:19px;line-height:1.35;color:#4A5262">목록</p>
+<p style="position:absolute;left:1470px;top:431.29999999999995px;width:352px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker volume inspect pgdata</p>
+<p style="position:absolute;left:1470px;top:463px;width:352px;font-size:19px;line-height:1.35;color:#4A5262">자세히 보기</p>
+<p style="position:absolute;left:1470px;top:510.94999999999993px;width:352px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">-v pgdata:/var/lib/postgresql</p>
+<p style="position:absolute;left:1470px;top:543px;width:352px;font-size:19px;line-height:1.35;color:#4A5262">run에 붙여 연결</p>
+<p style="position:absolute;left:1470px;top:590.5999999999999px;width:352px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker volume rm pgdata</p>
+<p style="position:absolute;left:1470px;top:623px;width:352px;font-size:19px;line-height:1.35;color:#4A5262">지우기 (쓰는 컨테이너 먼저)</p>
+<p style="position:absolute;left:96px;top:950px;width:1728px;font-size:22px;font-weight:700;line-height:1.45;color:#4A5262">Windows Git Bash에서 docker cp, psql -f처럼 컨테이너 안 경로를 쓰기 전에 export MSYS_NO_PATHCONV=1을 먼저 쳐요.</p>
+<aside>docker 명령을 한 장에 모았어요. 왼쪽부터 이미지, 컨테이너, 컨테이너 안에서 작업하기, 볼륨이에요. 모든 예시는 오늘 수업 이름 그대로예요. 컨테이너는 my-pg, 비밀번호는 admin1234, 데이터베이스는 kant_shop, 볼륨은 pgdata예요. 긴 명령은 백슬래시로 줄을 나눠 적었으니 그대로 복사해도 돼요. 지우는 명령에는 무엇을 먼저 지워야 하는지 같이 적었어요. 실습할 때 이 장을 열어 두고 옆에서 봐요.</aside>
+</section>

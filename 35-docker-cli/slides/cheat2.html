@@ -1,0 +1,52 @@
+<section id="cheat2" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">치트시트</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">docker compose 명령 한 장</h2>
+<p style="position:absolute;left:96px;top:206px;font-size:28px;font-weight:700;color:#5A3BB8">compose.yaml</p>
+<div style="position:absolute;left:96px;top:252px;width:600px;height:3px;background:#5A3BB8"></div>
+<p style="position:absolute;left:744px;top:206px;font-size:28px;font-weight:700;color:#5A3BB8">켜고 보기</p>
+<div style="position:absolute;left:744px;top:252px;width:500px;height:3px;background:#5A3BB8"></div>
+<p style="position:absolute;left:744px;top:272px;width:500px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose config</p>
+<p style="position:absolute;left:744px;top:304px;width:500px;font-size:19px;line-height:1.35;color:#4A5262">파일을 읽은 그대로 보기, YAML 오류 확인</p>
+<p style="position:absolute;left:744px;top:351.65px;width:500px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose up -d</p>
+<p style="position:absolute;left:744px;top:384px;width:500px;font-size:19px;line-height:1.35;color:#4A5262">만들고 켜기 (뒤에서)</p>
+<p style="position:absolute;left:744px;top:431.29999999999995px;width:500px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose ps</p>
+<p style="position:absolute;left:744px;top:463px;width:500px;font-size:19px;line-height:1.35;color:#4A5262">이 폴더의 컨테이너</p>
+<p style="position:absolute;left:744px;top:510.94999999999993px;width:500px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose ps -a</p>
+<p style="position:absolute;left:744px;top:543px;width:500px;font-size:19px;line-height:1.35;color:#4A5262">꺼진 것까지</p>
+<p style="position:absolute;left:744px;top:590.5999999999999px;width:500px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose ls</p>
+<p style="position:absolute;left:744px;top:623px;width:500px;font-size:19px;line-height:1.35;color:#4A5262">compose 프로젝트 목록</p>
+<p style="position:absolute;left:744px;top:670.2499999999999px;width:500px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose pull</p>
+<p style="position:absolute;left:744px;top:702px;width:500px;font-size:19px;line-height:1.35;color:#4A5262">이미지 미리 받기</p>
+<p style="position:absolute;left:1292px;top:206px;font-size:28px;font-weight:700;color:#5A3BB8">다루고 끄기</p>
+<div style="position:absolute;left:1292px;top:252px;width:520px;height:3px;background:#5A3BB8"></div>
+<p style="position:absolute;left:1292px;top:272px;width:520px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:17px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose exec db \
+  psql -U postgres -d kant_shop</p>
+<p style="position:absolute;left:1292px;top:324px;width:520px;font-size:19px;line-height:1.35;color:#4A5262">서비스 이름 db로 들어가기</p>
+<p style="position:absolute;left:1292px;top:371.25px;width:520px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose logs --tail 3</p>
+<p style="position:absolute;left:1292px;top:403px;width:520px;font-size:19px;line-height:1.35;color:#4A5262">마지막 3줄 (-f는 계속)</p>
+<p style="position:absolute;left:1292px;top:450.9px;width:520px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose stop</p>
+<p style="position:absolute;left:1292px;top:483px;width:520px;font-size:19px;line-height:1.35;color:#4A5262">끄기 (지우지 않아요)</p>
+<p style="position:absolute;left:1292px;top:530.55px;width:520px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose start</p>
+<p style="position:absolute;left:1292px;top:563px;width:520px;font-size:19px;line-height:1.35;color:#4A5262">다시 켜기</p>
+<p style="position:absolute;left:1292px;top:610.1999999999999px;width:520px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose restart</p>
+<p style="position:absolute;left:1292px;top:642px;width:520px;font-size:19px;line-height:1.35;color:#4A5262">껐다가 바로 켜기</p>
+<p style="position:absolute;left:1292px;top:689.8499999999999px;width:520px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose down</p>
+<p style="position:absolute;left:1292px;top:722px;width:520px;font-size:19px;line-height:1.35;color:#4A5262">지우기, 볼륨은 남아요</p>
+<p style="position:absolute;left:1292px;top:769.4999999999999px;width:520px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;line-height:1.4;color:#1D2330;white-space:pre">docker compose down -v</p>
+<p style="position:absolute;left:1292px;top:801px;width:520px;font-size:19px;line-height:1.35;color:#4A5262">볼륨까지 지우기</p>
+<p style="position:absolute;left:96px;top:950px;width:1728px;font-size:22px;font-weight:700;line-height:1.45;color:#4A5262">모든 compose 명령은 compose.yaml이 있는 폴더(~/kant-shop)에서 쳐요.</p>
+<div style="position:absolute;left:96px;top:272px;width:600px;height:640px;background:#FFFFFF;border:2px solid #DCD8CE;border-radius:16px;padding:24px 28px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;line-height:1.55;white-space:pre;color:#1D2330"><span style="color:#1D2330;font-weight:700">services</span>:
+  <span style="color:#5A3BB8;font-weight:700">db</span>:
+    <span style="color:#0F7C86;font-weight:700">image</span>: postgres:18
+    <span style="color:#0F7C86;font-weight:700">container_name</span>: my-pg
+    <span style="color:#0F7C86;font-weight:700">environment</span>:
+      <span style="color:#B26A00;font-weight:700">POSTGRES_PASSWORD</span>: admin1234
+    <span style="color:#0F7C86;font-weight:700">ports</span>:
+      - "5432:5432"
+    <span style="color:#0F7C86;font-weight:700">volumes</span>:
+      - pgdata:/var/lib/postgresql
+
+<span style="color:#1D2330;font-weight:700">volumes</span>:
+  <span style="color:#5A3BB8;font-weight:700">pgdata</span>:</p><p style="margin-top:18px;font-size:20px;line-height:1.5;color:#4A5262">2칸 들여쓰기 · 쌍점 뒤 한 칸 · 탭 금지<br>container_name을 빼면 이름은 kant-shop-db-1</p></div>
+<aside>docker compose 명령을 한 장에 모았어요. 왼쪽은 수업에서 쓰는 compose.yaml 모양이에요. 2칸 들여쓰기, 쌍점 뒤 한 칸, 탭은 쓰지 않아요. 가운데는 켜고 보는 명령이에요. up 하기 전에 config로 파일을 먼저 확인하면 YAML 오류를 일찍 찾아요. 오른쪽은 다루고 끄는 명령이에요. compose exec 뒤에는 컨테이너 이름이 아니라 서비스 이름 db를 적어요. down은 볼륨을 남기고 down -v는 볼륨까지 지워요. 모든 compose 명령은 compose.yaml이 있는 폴더에서 쳐요.</aside>
+</section>

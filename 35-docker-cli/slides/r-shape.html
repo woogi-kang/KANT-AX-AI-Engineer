@@ -1,0 +1,38 @@
+<section id="r-shape" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#2459C9">1. 명령 읽는 법</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">docker 다음은 할 일, 그 뒤에 옵션과 이름이 와요</h2>
+<p style="position:absolute;left:96px;top:240px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:31px;font-weight:700;line-height:1.3;white-space:pre"><span style="color:#1D2330">docker</span> <span style="color:#1D63ED">run</span> <span style="color:#2459C9">-d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432</span> <span style="color:#B26A00">postgres:18</span></p>
+<div data-build-in="fade order 2" style="position:absolute;left:253px;top:284px;width:2px;height:34px;background:#1D63ED"></div>
+<p data-build-in="pop order 2" style="position:absolute;left:134px;top:324px;width:240px;text-align:center;font-size:26px;font-weight:700;line-height:1.35;color:#1D63ED">할 일</p>
+<div data-build-in="fade order 3" style="position:absolute;left:848px;top:284px;width:2px;height:34px;background:#2459C9"></div>
+<p data-build-in="pop order 3" style="position:absolute;left:729px;top:324px;width:240px;text-align:center;font-size:26px;font-weight:700;line-height:1.35;color:#2459C9">옵션 네 개</p>
+<div data-build-in="fade order 4" style="position:absolute;left:1518px;top:284px;width:2px;height:34px;background:#B26A00"></div>
+<p data-build-in="pop order 4" style="position:absolute;left:1399px;top:324px;width:240px;text-align:center;font-size:26px;font-weight:700;line-height:1.35;color:#B26A00">이미지 이름</p>
+<p style="position:absolute;left:96px;top:440px;font-size:26px;font-weight:700;color:#5B6270">다른 명령도 같은 모양이에요</p>
+<p style="position:absolute;left:96px;top:498px;font-size:24px;font-weight:700;color:#1D63ED">할 일</p>
+<p style="position:absolute;left:640px;top:498px;font-size:24px;font-weight:700;color:#2459C9">옵션</p>
+<p style="position:absolute;left:860px;top:498px;font-size:24px;font-weight:700;color:#B26A00">이름</p>
+<p style="position:absolute;left:1400px;top:498px;font-size:24px;font-weight:700;color:#5B6270">그 뒤에 붙는 것</p>
+<div style="position:absolute;left:96px;top:548px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" data-delay="0" style="position:absolute;left:96px;top:568px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D63ED;white-space:nowrap">docker volume create</p>
+<p data-build-in="rise order 2" data-delay="0" style="position:absolute;left:860px;top:568px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#B26A00;white-space:nowrap">pgdata</p>
+<div style="position:absolute;left:96px;top:626px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" data-delay="90" style="position:absolute;left:96px;top:646px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D63ED;white-space:nowrap">docker exec</p>
+<p data-build-in="rise order 2" data-delay="90" style="position:absolute;left:640px;top:646px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">-it</p>
+<p data-build-in="rise order 2" data-delay="90" style="position:absolute;left:860px;top:646px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#B26A00;white-space:nowrap">my-pg</p>
+<p data-build-in="rise order 2" data-delay="90" style="position:absolute;left:1400px;top:646px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">psql -U postgres</p>
+<div style="position:absolute;left:96px;top:704px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" data-delay="180" style="position:absolute;left:96px;top:724px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D63ED;white-space:nowrap">docker logs</p>
+<p data-build-in="rise order 2" data-delay="180" style="position:absolute;left:640px;top:724px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">--tail 3</p>
+<p data-build-in="rise order 2" data-delay="180" style="position:absolute;left:860px;top:724px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#B26A00;white-space:nowrap">my-pg</p>
+<div style="position:absolute;left:96px;top:782px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" data-delay="270" style="position:absolute;left:96px;top:802px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D63ED;white-space:nowrap">docker compose up</p>
+<p data-build-in="rise order 2" data-delay="270" style="position:absolute;left:640px;top:802px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#2459C9;white-space:nowrap">-d</p>
+<div style="position:absolute;left:96px;top:860px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" data-delay="360" style="position:absolute;left:96px;top:880px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D63ED;white-space:nowrap">docker cp</p>
+<p data-build-in="rise order 2" data-delay="360" style="position:absolute;left:860px;top:880px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#B26A00;white-space:nowrap">kant_shop.sql</p>
+<p data-build-in="rise order 2" data-delay="360" style="position:absolute;left:1400px;top:880px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:28px;font-weight:700;color:#1D2330;white-space:nowrap">my-pg:/tmp/kant_shop.sql</p>
+<div style="position:absolute;left:96px;top:938px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" style="position:absolute;left:96px;top:964px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">할 일이 두 단어일 때도 있어요. volume create, compose up처럼요.</p>
+<aside>docker 명령은 모양이 정해져 있어요. docker 다음에 할 일이 오고, 그 뒤에 옵션, 마지막에 이름이 와요. 위 줄은 수업에서 친 docker run이에요. run이 할 일이고, -d, --name, -e, -p는 옵션, 마지막 postgres:18은 이미지 이름이에요. 아래 표처럼 다른 명령도 같은 순서예요. docker exec는 이름 뒤에 컨테이너 안에서 실행할 명령이 하나 더 붙어요. docker cp는 이름 자리에 보낼 파일과 받을 곳 두 개가 와요. volume create, compose up처럼 할 일이 두 단어인 명령도 있어요. 처음 보는 명령도 이 순서로 끊어 읽으면 뜻이 보여요.</aside>
+</section>
