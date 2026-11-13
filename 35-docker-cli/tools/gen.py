@@ -27,7 +27,7 @@ for f in os.listdir(OUT):
 HERE = os.path.dirname(os.path.abspath(__file__))
 D = json.load(open(os.path.join(HERE, "out.json")))
 sys.path.insert(0, HERE)
-from files import SQL, COMPOSE, COMPOSE_NONAME, COMPOSE_FOUR, COMPOSE_TAB, COMPOSE_MIX, COMPOSE_COLON  # noqa: E402  (the files demo.py wrote)
+from files import SQL, COMPOSE, COMPOSE_NONAME, COMPOSE_TAB, COMPOSE_MIX, COMPOSE_COLON  # noqa: E402  (the files demo.py wrote)
 
 SANS = "'Noto Sans KR', Arial, sans-serif"
 MONO = "'JetBrains Mono', 'Noto Sans KR', monospace"
@@ -1095,35 +1095,8 @@ for k, (a_, b_) in enumerate(items):
         o.append(p(f"position:absolute;left:{BX + 380}px;top:{y + 12}px;height:40px;padding:0 14px;border-radius:9px;background:{VOBG};border:2px solid {VO};font-family:{MONO};font-size:21px;font-weight:700;line-height:36px;color:{VO};white-space:nowrap", e(b_), bi("rise", 3) + DELAY(k * 70 + 120)))
     else:
         o.append(p(f"position:absolute;left:{BX + 380}px;top:{y + 18}px;font-family:{MONO};font-size:22px;font-weight:700;color:{INK};white-space:nowrap", e(b_), bi("rise", 3) + DELAY(k * 70)))
-o.append(caption("같은 칸에서 시작하는 줄끼리 형제예요. 한 단계 더 들어가면 위 줄의 안쪽이에요.", BY + 650, 4, left=BX, width=864, size=27))
-W("y-indent", o, "들여쓰기가 누구 안에 있는지를 정해요. 28에서 파이썬 들여쓰기를 상자 안의 상자로 읽었어요. YAML도 똑같아요. services는 맨 바깥 상자예요. 두 칸 들어간 db는 services 안에 있어요. 네 칸 들어간 image부터 volumes까지는 db 안에 있는 형제예요. environment 아래 여섯 칸 들어간 POSTGRES_PASSWORD는 environment 안에 있어요. 왼쪽 코드의 세로줄이 오른쪽 상자와 같은 색이에요. 맨 아래 volumes는 다시 맨 앞에서 시작해서 services와 형제예요. 그래서 이 volumes는 db의 볼륨 연결이 아니라 파일 전체에서 쓸 볼륨을 적어 두는 곳이에요. YAML에는 괄호가 없어서 칸 수가 곧 구조예요.")
-
-o = frame("y-24", EB5, "2칸이든 4칸이든, 같은 단계끼리 칸이 맞으면 똑같이 읽혀요", C5)
-CB = f"position:absolute;left:96px;top:214px;width:770px;height:640px;background:{CARD};border:2px solid {LINE};border-radius:16px;padding:28px 34px;font-family:{MONO};font-size:27px;line-height:1.55;white-space:pre;color:{INK}"
-def tok_lines(lines):
-    out = []
-    for i, l in enumerate(lines):
-        n = len(l) - len(l.lstrip(" "))
-        out.append((" " * n) + (tok(f"y{i}", yaml_line(l.lstrip(' '))) if l.strip() else ""))
-    return "\n".join(out)
-o.append(p(CB, tok_lines(YL), ' id="y2"' + MORPH_FROM()))
-o.append(p(CB, tok_lines(COMPOSE_FOUR.rstrip("\n").split("\n")), ' id="y4"' + MORPH(1, "y2")))
-o.append(p(f"position:absolute;left:120px;top:870px;font-size:26px;font-weight:700;color:{CY}", "한 단계에 4칸으로 바꿨어요", bi("rise", 1)))
-rows = [("$", P_KS, C("four-up"))] + [("o", l) for l in RA("four-up")]
-t = Term(rows, 900, 214, size=17, w=924, lh=1.5, tid="t-four")
-o.append(f'<div{bi("rise", 2)}>' + t.html() + '</div>')
-o.append(p(f"position:absolute;left:900px;top:{t.y + t.h + 18}px;font-size:26px;font-weight:700;color:{GR}", "4칸 파일로도 그대로 켜져요", bi("rise", 2)))
-tb = [("", "YAML", "파이썬 (28)"), ("관례", "2칸", "4칸"), ("꼭 지킬 것", "같은 단계는 같은 칸", "같은 단계는 같은 칸")]
-for k, (a_, b_, c_) in enumerate(tb):
-    y = 520 + k * 80
-    o.append(f'<div{bi("fade", 3)} style="position:absolute;left:900px;top:{y}px;width:924px;height:1px;background:{LINE}"></div>')
-    st = "font-weight:700;color:" + (GRAY if k == 0 else INK)
-    o.append(p(f"position:absolute;left:900px;top:{y + 22}px;font-size:25px;font-weight:700;color:{GRAY};white-space:nowrap", e(a_), bi("rise", 3) + DELAY(k * 80)))
-    o.append(p(f"position:absolute;left:1130px;top:{y + 22}px;font-size:25px;{st if k else 'font-weight:700;color:' + CY};white-space:nowrap", e(b_), bi("rise", 3) + DELAY(k * 80)))
-    o.append(p(f"position:absolute;left:1470px;top:{y + 22}px;font-size:25px;{st};white-space:nowrap", e(c_), bi("rise", 3) + DELAY(k * 80)))
-o.append(f'<div{bi("fade", 3)} style="position:absolute;left:900px;top:{520 + 3 * 80}px;width:924px;height:1px;background:{LINE}"></div>')
-o.append(caption("compose.yaml은 2칸으로 적어요. Docker 공식 문서와 수업 자료가 2칸이에요.", 920, 4, size=28))
-W("y-24", o, "2칸이든 4칸이든, 같은 단계끼리 칸이 맞으면 똑같이 읽혀요. 왼쪽 파일을 한 단계에 네 칸씩 들어가게 바꿨어요. 이 파일로 docker compose up -d를 쳐도 아무 문제 없이 켜져요. YAML이 보는 건 칸 수 자체가 아니라, 어떤 줄이 위 줄보다 더 들어갔는지, 같은 칸에서 시작하는지예요. 파이썬은 28에서 4칸으로 배웠고, YAML은 보통 2칸으로 적어요. Docker 공식 문서와 수업 자료도 2칸이에요. 한 파일 안에서는 한 가지로 맞춰요. 들여쓰기가 틀렸을 때 나는 오류는 다음 장에서 봐요." + REAL)
+o.append(caption("한 단계 들어갈 때마다 띄어쓰기 2칸이에요. 같은 단계는 같은 칸에서 시작해요.", BY + 650, 4, left=BX, width=864, size=27))
+W("y-indent", o, "들여쓰기가 누구 안에 있는지를 정해요. 28에서 파이썬 들여쓰기를 상자 안의 상자로 읽었어요. YAML도 똑같아요. services는 맨 바깥 상자예요. 두 칸 들어간 db는 services 안에 있어요. 네 칸 들어간 image부터 volumes까지는 db 안에 있는 형제예요. environment 아래 여섯 칸 들어간 POSTGRES_PASSWORD는 environment 안에 있어요. 왼쪽 코드의 세로줄이 오른쪽 상자와 같은 색이에요. 맨 아래 volumes는 다시 맨 앞에서 시작해서 services와 형제예요. 그래서 이 volumes는 db의 볼륨 연결이 아니라 파일 전체에서 쓸 볼륨을 적어 두는 곳이에요. YAML에는 괄호가 없어서 칸 수가 곧 구조예요. compose.yaml은 한 단계 들어갈 때마다 띄어쓰기 2칸으로 적고, 같은 단계는 같은 칸에서 시작해요.")
 
 o = frame("y-err", EB5, "탭, 어긋난 칸, 쌍점 뒤 띄어쓰기에서 오류가 나요", C5)
 cases = [("tab", COMPOSE_TAB, 2, "탭으로 들여썼어요", "L3.C1", "3번째 줄 1번째 칸에 탭"),
@@ -1151,7 +1124,7 @@ pairs = [("--name my-pg", "container_name: my-pg", BL), ("-e POSTGRES_PASSWORD=a
 o.append(p(f"position:absolute;left:96px;top:222px;font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", "docker run -d"))
 o.append(p(f"position:absolute;left:1000px;top:222px;font-family:{MONO};font-size:28px;font-weight:700;color:{INK}", "services:  db:"))
 o.append(p(f"position:absolute;left:96px;top:270px;font-size:23px;color:{SUB}", "한 줄 명령"))
-o.append(p(f"position:absolute;left:1000px;top:270px;font-size:23px;color:{SUB}", "compose.yaml (db 안쪽, 4칸 들여쓰기는 줄였어요)"))
+o.append(p(f"position:absolute;left:1000px;top:270px;font-size:23px;color:{SUB}", "compose.yaml (db 안쪽만, 앞의 들여쓰기는 줄였어요)"))
 for k, (a_, b_, c) in enumerate(pairs):
     y = 330 + k * 128
     o.append(p(f"position:absolute;left:96px;top:{y}px;height:60px;padding:0 20px;border-radius:12px;background:{c}14;border:2px solid {c};font-family:{MONO};font-size:28px;font-weight:700;line-height:56px;color:{c};white-space:nowrap", e(a_), f' id="mp-a{k}"'))
@@ -1402,7 +1375,7 @@ PL = [(C1, EB1[3:], "docker 다음 할 일, 옵션, 이름 / 옵션 표 / \\로 
       (C2, EB2[3:], "pull, images, run, ps, stop, start, restart, logs --tail, -f, rm, rmi", "i-pull", "i-rm"),
       (C3, EB3[3:], "kant_shop.sql, docker cp, exec 세 가지, psql -f, exec -i < 파일, -it 함정", "w-sql", "w-trap"),
       (C4, EB4[3:], "volume create, ls, inspect, -v pgdata:…, volume rm", "v-cmds", "v-rm"),
-      (C5, EB5[3:], "YAML 모양, 들여쓰기, 2칸과 4칸, 탭 오류, run과 compose.yaml, config, up, logs, down, ls, pull", "y-what", "c-name"),
+      (C5, EB5[3:], "YAML 모양, 들여쓰기 2칸, 탭 오류, run과 compose.yaml, config, up, logs, down, ls, pull", "y-what", "c-name"),
       (C6, EB6[3:], "오류 모음, 수업 흐름 그대로, compose로 다시, 다 쓴 것 정리", "x-errs", "e-clean")]
 plist = [x for x in PL if x[3] in page and x[4] in page]
 o = frame("toc", "", "오늘의 순서", INK)

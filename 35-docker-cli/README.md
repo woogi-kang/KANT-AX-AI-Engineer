@@ -17,7 +17,7 @@
 - `docker logs --tail`로 마지막 몇 줄만, `-f`로 새 기록을 계속 보고 `Ctrl+C`로 멈춰요.
 - `docker cp`로 SQL 파일을 컨테이너에 넣고 `psql -f`로 실행해요. `docker exec -i ... < 파일`로 한 번에 넘기고, 이때 `-it`를 쓰면 왜 거절되는지 말해요.
 - `docker volume create`, `ls`, `inspect`, `rm`으로 볼륨을 다루고, 볼륨을 붙이면 컨테이너를 지워도 상품이 남는 것을 확인해요.
-- YAML이 무엇인지, 들여쓰기가 왜 구조를 정하는지, 2칸과 4칸의 차이를 말해요.
+- YAML이 무엇인지, 들여쓰기가 왜 구조를 정하는지 말하고 compose.yaml을 2칸 들여쓰기로 적어요.
 - `docker run`의 옵션을 `compose.yaml`의 칸으로 옮기고, compose 명령(`config`, `up -d`, `ps`, `exec`, `logs`, `stop`, `start`, `restart`, `down`, `down -v`, `ls`, `pull`)을 써요.
 
 ## 시작하기 전에
@@ -41,9 +41,9 @@ Docker Desktop을 켜 두고 따라 쳐요. 터미널은 macOS 터미널이나 W
 | 2. 이미지와 컨테이너 | 8–12 | `pull` `images`, `run` `ps`, `stop` `start` `restart`, `logs --tail` `-f`, 지우는 순서와 오류 |
 | 3. 컨테이너 안에서 작업하기 | 13–18 | `kant_shop.sql` 읽기, `docker cp`, `exec` 세 가지, `psql -f`, `exec -i < 파일`, `-it` 함정 |
 | 4. 볼륨 | 19–21 | `volume create` `ls` `inspect`, 지워도 남는 상품, `volume is in use` |
-| 5. YAML과 compose | 22–31 | YAML 모양, 들여쓰기, 2칸과 4칸, 탭과 YAML 오류, `run`과 `compose.yaml` 짝, `config`, `up` `ps` `exec`, `logs` `stop` `start` `restart`, `down` `down -v`, `container_name` |
-| 6. 오류와 실제 상황 | 32–35 | 오류 여덟 가지, 수업 흐름 그대로, compose로 다시, 다 쓴 것 지우기 |
-| 정리 | 36–39 | 긴 이름과 `--help`, docker 치트시트, compose 치트시트 |
+| 5. YAML과 compose | 22–30 | YAML 모양, 들여쓰기 2칸, YAML 오류, `run`과 `compose.yaml` 짝, `config`, `up` `ps` `exec`, `logs` `stop` `start` `restart`, `down` `down -v`, `container_name` |
+| 6. 오류와 실제 상황 | 31–34 | 오류 여덟 가지, 수업 흐름 그대로, compose로 다시, 다 쓴 것 지우기 |
+| 정리 | 35–38 | 긴 이름과 `--help`, docker 치트시트, compose 치트시트 |
 
 ## 핵심 개념
 
@@ -71,7 +71,7 @@ Docker Hub ── docker pull ──▶ 이미지 postgres:18 (붕어빵 틀)
 
 - `이름: 값`을 한 줄에 하나씩 적어요. 쌍점 뒤에는 한 칸 띄워요.
 - 더 들여 쓴 줄은 위 줄 안에 들어가요. 괄호가 없어서 칸 수가 곧 구조예요.
-- 2칸이든 4칸이든 같은 단계끼리 칸이 맞으면 똑같이 읽혀요. 보통 2칸으로 적고, 한 파일 안에서는 한 가지로 맞춰요.
+- compose.yaml은 한 단계 들어갈 때마다 띄어쓰기 2칸으로 적어요. 같은 단계는 같은 칸에서 시작해요.
 
 ### docker run 옵션과 compose.yaml 칸
 
