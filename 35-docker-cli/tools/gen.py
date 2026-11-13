@@ -1113,20 +1113,20 @@ rows = [("$", P_KS, C("four-up"))] + [("o", l) for l in RA("four-up")]
 t = Term(rows, 900, 214, size=17, w=924, lh=1.5, tid="t-four")
 o.append(f'<div{bi("rise", 2)}>' + t.html() + '</div>')
 o.append(p(f"position:absolute;left:900px;top:{t.y + t.h + 18}px;font-size:26px;font-weight:700;color:{GR}", "4칸 파일로도 그대로 켜져요", bi("rise", 2)))
-tb = [("", "YAML", "파이썬 (28)"), ("관례", "2칸", "4칸"), ("꼭 지킬 것", "같은 단계는 같은 칸", "같은 단계는 같은 칸"), ("탭", "못 써요 (오류)", "쓰지 않아요")]
+tb = [("", "YAML", "파이썬 (28)"), ("관례", "2칸", "4칸"), ("꼭 지킬 것", "같은 단계는 같은 칸", "같은 단계는 같은 칸"), ("Tab 키", "눌러도 돼요", "눌러도 돼요"), ("진짜 탭 문자", "오류가 나요", "섞으면 오류")]
 for k, (a_, b_, c_) in enumerate(tb):
-    y = 520 + k * 80
+    y = 520 + k * 70
     o.append(f'<div{bi("fade", 3)} style="position:absolute;left:900px;top:{y}px;width:924px;height:1px;background:{LINE}"></div>')
     st = "font-weight:700;color:" + (GRAY if k == 0 else INK)
-    o.append(p(f"position:absolute;left:900px;top:{y + 22}px;font-size:25px;font-weight:700;color:{GRAY};white-space:nowrap", e(a_), bi("rise", 3) + DELAY(k * 80)))
-    o.append(p(f"position:absolute;left:1130px;top:{y + 22}px;font-size:25px;{st if k else 'font-weight:700;color:' + CY};white-space:nowrap", e(b_), bi("rise", 3) + DELAY(k * 80)))
-    o.append(p(f"position:absolute;left:1470px;top:{y + 22}px;font-size:25px;{st};white-space:nowrap", e(c_), bi("rise", 3) + DELAY(k * 80)))
-o.append(f'<div{bi("fade", 3)} style="position:absolute;left:900px;top:{520 + 4 * 80}px;width:924px;height:1px;background:{LINE}"></div>')
-o.append(caption("compose.yaml은 2칸으로 적어요. Docker 공식 문서와 수업 자료가 2칸이에요.", 920, 4, size=28))
-W("y-24", o, "2칸이든 4칸이든, 같은 단계끼리 칸이 맞으면 똑같이 읽혀요. 왼쪽 파일을 한 단계에 네 칸씩 들어가게 바꿨어요. 이 파일로 docker compose up -d를 쳐도 아무 문제 없이 켜져요. YAML이 보는 건 칸 수 자체가 아니라, 어떤 줄이 위 줄보다 더 들어갔는지, 같은 칸에서 시작하는지예요. 파이썬은 28에서 4칸으로 배웠고, YAML은 보통 2칸으로 적어요. Docker 공식 문서와 수업 자료도 2칸이에요. 한 파일 안에서는 한 가지로 맞춰요. 그리고 YAML에서는 탭을 쓸 수 없어요. 다음 장에서 실제 오류를 봐요." + REAL)
+    o.append(p(f"position:absolute;left:900px;top:{y + 18}px;font-size:25px;font-weight:700;color:{GRAY};white-space:nowrap", e(a_), bi("rise", 3) + DELAY(k * 80)))
+    o.append(p(f"position:absolute;left:1130px;top:{y + 18}px;font-size:25px;{st if k else 'font-weight:700;color:' + CY};white-space:nowrap", e(b_), bi("rise", 3) + DELAY(k * 80)))
+    o.append(p(f"position:absolute;left:1470px;top:{y + 18}px;font-size:25px;{st};white-space:nowrap", e(c_), bi("rise", 3) + DELAY(k * 80)))
+o.append(f'<div{bi("fade", 3)} style="position:absolute;left:900px;top:{520 + 5 * 70}px;width:924px;height:1px;background:{LINE}"></div>')
+o.append(caption("compose.yaml은 2칸으로 적어요. VS Code에서는 Tab 키를 눌러도 띄어쓰기로 들어가요.", 920, 4, size=28))
+W("y-24", o, "2칸이든 4칸이든, 같은 단계끼리 칸이 맞으면 똑같이 읽혀요. 왼쪽 파일을 한 단계에 네 칸씩 들어가게 바꿨어요. 이 파일로 docker compose up -d를 쳐도 아무 문제 없이 켜져요. YAML이 보는 건 칸 수 자체가 아니라, 어떤 줄이 위 줄보다 더 들어갔는지, 같은 칸에서 시작하는지예요. 파이썬은 28에서 4칸으로 배웠고, YAML은 보통 2칸으로 적어요. Docker 공식 문서와 수업 자료도 2칸이에요. 한 파일 안에서는 한 가지로 맞춰요. Tab 키는 눌러도 괜찮아요. VS Code는 YAML 파일에서 Tab 키를 누르면 띄어쓰기 2칸을 넣어 줘요. 문제가 되는 건 파일 안에 들어간 진짜 탭 문자예요. 메모장처럼 탭 문자를 그대로 넣는 편집기나, 다른 곳에서 복사해 온 글에서 섞여 들어와요. 다음 장에서 실제 오류를 봐요." + REAL)
 
-o = frame("y-err", EB5, "탭, 어긋난 칸, 쌍점 뒤 띄어쓰기에서 오류가 나요", C5)
-cases = [("tab", COMPOSE_TAB, 2, "탭으로 들여썼어요", "L3.C1", "3번째 줄 1번째 칸에 탭"),
+o = frame("y-err", EB5, "탭 문자, 어긋난 칸, 쌍점 뒤 띄어쓰기에서 오류가 나요", C5)
+cases = [("tab", COMPOSE_TAB, 2, "탭 문자로 들여썼어요", "L3.C1", "3번째 줄 1번째 칸에 탭"),
          ("mix", COMPOSE_MIX, 3, "한 줄만 2칸이에요", "L5.C16", "4번째 줄이 어긋나서 다음 줄에서 오류"),
          ("colon", COMPOSE_COLON, 2, "image: 뒤에 띄어쓰기가 없어요", "L4.C19", "위 줄이 값 하나로 읽혀서 다음 줄에서 오류")]
 for k, (nm, txt, bad, what, pos, why_) in enumerate(cases):
@@ -1143,7 +1143,7 @@ for k, (nm, txt, bad, what, pos, why_) in enumerate(cases):
     mw = rewrap([msg], 60)
     o.append(p(f"position:absolute;left:780px;top:{y + 58}px;width:1044px;font-family:{MONO};font-size:22px;line-height:1.5;color:{INK};white-space:pre", e("\n".join(mw)).replace(pos, f'<span style="color:{RED};font-weight:700">{pos}</span>'), bi("rise", k + 1)))
     o.append(p(f"position:absolute;left:780px;top:{y + 58 + len(mw) * 33 + 14}px;font-size:24px;color:{SUB}", f'{pos} = {e(why_)}', bi("rise", k + 1)))
-W("y-err", o, "YAML 오류는 세 가지가 가장 많아요. 첫 번째는 탭이에요. 화면에서는 탭 자리를 빨간 화살표로 보이게 그렸어요. 실제 편집기에서는 띄어쓰기와 똑같아 보여서 찾기 어려워요. 오류의 L3.C1은 3번째 줄 1번째 칸이라는 뜻이에요. VS Code는 YAML 파일에서 Tab 키를 누르면 띄어쓰기를 넣어 줘서, 다른 곳에서 복사해 온 탭이 문제가 돼요. 두 번째는 한 줄만 칸이 어긋난 경우예요. 4번째 줄을 2칸만 들여서 YAML이 5번째 줄에서 헷갈렸다고 알려 줘요. 세 번째는 쌍점 뒤에 띄어쓰기를 빠뜨린 경우예요. image:postgres:18 전체가 글자 하나로 읽혀서 다음 줄에서 오류가 나요. 두 번째와 세 번째처럼 오류 줄 번호는 실제로 틀린 줄의 다음 줄일 때가 많아요. 알려 준 줄과 그 바로 위 줄을 같이 봐요." + REAL)
+W("y-err", o, "YAML 오류는 세 가지가 가장 많아요. 첫 번째는 탭 문자예요. 화면에서는 탭 자리를 빨간 화살표로 보이게 그렸어요. 실제 편집기에서는 띄어쓰기와 똑같아 보여서 찾기 어려워요. 오류의 L3.C1은 3번째 줄 1번째 칸이라는 뜻이에요. VS Code에서 Tab 키를 누르면 띄어쓰기가 들어가서 괜찮아요. 메모장에서 고쳤거나 다른 곳에서 복사해 온 탭 문자가 문제가 돼요. 두 번째는 한 줄만 칸이 어긋난 경우예요. 4번째 줄을 2칸만 들여서 YAML이 5번째 줄에서 헷갈렸다고 알려 줘요. 세 번째는 쌍점 뒤에 띄어쓰기를 빠뜨린 경우예요. image:postgres:18 전체가 글자 하나로 읽혀서 다음 줄에서 오류가 나요. 두 번째와 세 번째처럼 오류 줄 번호는 실제로 틀린 줄의 다음 줄일 때가 많아요. 알려 준 줄과 그 바로 위 줄을 같이 봐요." + REAL)
 
 o = frame("c-map", EB5, "docker run의 옵션이 compose.yaml의 칸으로 옮겨 가요", C5)
 pairs = [("--name my-pg", "container_name: my-pg", BL), ("-e POSTGRES_PASSWORD=admin1234", "environment:\n  POSTGRES_PASSWORD: admin1234", GR),
@@ -1248,7 +1248,7 @@ errs = [("Conflict. The container name \"/my-pg\" is already in use", "같은 �
         ("lstat …/kant_shop.sq: no such file or directory", "보낼 파일 이름이 틀렸거나 다른 폴더예요", "`ls`로 이름 확인"),
         ("No such container: my-pg", "container_name을 안 적어서 이름이 달라요", "`docker compose ps`로 이름 보기"),
         ("volume is in use", "그 볼륨을 쓰는 컨테이너가 있어요", "`stop`, `rm` 뒤 `volume rm`"),
-        ("go-yaml load error … at L3.C1", "YAML에 탭, 어긋난 칸, 쌍점 뒤 띄어쓰기", "`docker compose config`로 확인")]
+        ("go-yaml load error … at L3.C1", "YAML에 탭 문자, 어긋난 칸, 쌍점 뒤 띄어쓰기", "`docker compose config`로 확인")]
 o.append(p(f"position:absolute;left:96px;top:214px;font-size:24px;font-weight:700;color:{GRAY}", "이런 글이 보이면"))
 o.append(p(f"position:absolute;left:1340px;top:214px;font-size:24px;font-weight:700;color:{GRAY}", "이렇게 해요"))
 for i, (q, a_, c_) in enumerate(errs):
@@ -1381,14 +1381,14 @@ cheat("cheat2", "docker compose 명령 한 장", [
     ("켜고 보기", C5, [("docker compose config", "파일을 읽은 그대로 보기, YAML 오류 확인"), ("docker compose up -d", "만들고 켜기 (뒤에서)"), ("docker compose ps", "이 폴더의 컨테이너"), ("docker compose ps -a", "꺼진 것까지"), ("docker compose ls", "compose 프로젝트 목록"), ("docker compose pull", "이미지 미리 받기")]),
     ("다루고 끄기", C5, [("docker compose exec db \\\n  psql -U postgres -d kant_shop", "서비스 이름 db로 들어가기"), ("docker compose logs --tail 3", "마지막 3줄 (-f는 계속)"), ("docker compose stop", "끄기 (지우지 않아요)"), ("docker compose start", "다시 켜기"), ("docker compose restart", "껐다가 바로 켜기"), ("docker compose down", "지우기, 볼륨은 남아요"), ("docker compose down -v", "볼륨까지 지우기")])],
     [600, 500, 520],
-    "docker compose 명령을 한 장에 모았어요. 왼쪽은 수업에서 쓰는 compose.yaml 모양이에요. 2칸 들여쓰기, 쌍점 뒤 한 칸, 탭은 쓰지 않아요. 가운데는 켜고 보는 명령이에요. up 하기 전에 config로 파일을 먼저 확인하면 YAML 오류를 일찍 찾아요. 오른쪽은 다루고 끄는 명령이에요. compose exec 뒤에는 컨테이너 이름이 아니라 서비스 이름 db를 적어요. down은 볼륨을 남기고 down -v는 볼륨까지 지워요. 모든 compose 명령은 compose.yaml이 있는 폴더에서 쳐요.",
+    "docker compose 명령을 한 장에 모았어요. 왼쪽은 수업에서 쓰는 compose.yaml 모양이에요. 2칸 들여쓰기, 쌍점 뒤 한 칸이에요. VS Code에서는 Tab 키를 눌러도 띄어쓰기로 들어가요. 오류가 나는 건 진짜 탭 문자가 섞였을 때예요. 가운데는 켜고 보는 명령이에요. up 하기 전에 config로 파일을 먼저 확인하면 YAML 오류를 일찍 찾아요. 오른쪽은 다루고 끄는 명령이에요. compose exec 뒤에는 컨테이너 이름이 아니라 서비스 이름 db를 적어요. down은 볼륨을 남기고 down -v는 볼륨까지 지워요. 모든 compose 명령은 compose.yaml이 있는 폴더에서 쳐요.",
     "모든 compose 명령은 compose.yaml이 있는 폴더(~/kant-shop)에서 쳐요.")
 # the yaml card on cheat2
 _c2 = os.path.join(OUT, "cheat2.html")
 _h = open(_c2).read()
 _card = (f'<div style="position:absolute;left:96px;top:272px;width:600px;height:640px;background:{CARD};border:2px solid {LINE};border-radius:16px;padding:24px 28px">'
          + p(f"font-family:{MONO};font-size:22px;line-height:1.55;white-space:pre;color:{INK}", "\n".join(yaml_line(l) for l in YL))
-         + p(f"margin-top:18px;font-size:20px;line-height:1.5;color:{SUB}", "2칸 들여쓰기 · 쌍점 뒤 한 칸 · 탭 금지<br>container_name을 빼면 이름은 kant-shop-db-1")
+         + p(f"margin-top:18px;font-size:20px;line-height:1.5;color:{SUB}", "2칸 들여쓰기 · 쌍점 뒤 한 칸<br>Tab 키는 괜찮고, 진짜 탭 문자만 오류<br>container_name을 빼면 이름은 kant-shop-db-1")
          + '</div>')
 _h = _h.replace("\n<aside>", "\n" + _card + "\n<aside>", 1)
 open(_c2, "w").write(_h)

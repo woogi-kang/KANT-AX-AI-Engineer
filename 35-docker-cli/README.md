@@ -17,7 +17,7 @@
 - `docker logs --tail`로 마지막 몇 줄만, `-f`로 새 기록을 계속 보고 `Ctrl+C`로 멈춰요.
 - `docker cp`로 SQL 파일을 컨테이너에 넣고 `psql -f`로 실행해요. `docker exec -i ... < 파일`로 한 번에 넘기고, 이때 `-it`를 쓰면 왜 거절되는지 말해요.
 - `docker volume create`, `ls`, `inspect`, `rm`으로 볼륨을 다루고, 볼륨을 붙이면 컨테이너를 지워도 상품이 남는 것을 확인해요.
-- YAML이 무엇인지, 들여쓰기가 왜 구조를 정하는지, 2칸과 4칸과 탭의 차이를 말해요.
+- YAML이 무엇인지, 들여쓰기가 왜 구조를 정하는지, 2칸과 4칸의 차이, Tab 키와 진짜 탭 문자의 차이를 말해요.
 - `docker run`의 옵션을 `compose.yaml`의 칸으로 옮기고, compose 명령(`config`, `up -d`, `ps`, `exec`, `logs`, `stop`, `start`, `restart`, `down`, `down -v`, `ls`, `pull`)을 써요.
 
 ## 시작하기 전에
@@ -72,7 +72,8 @@ Docker Hub ── docker pull ──▶ 이미지 postgres:18 (붕어빵 틀)
 - `이름: 값`을 한 줄에 하나씩 적어요. 쌍점 뒤에는 한 칸 띄워요.
 - 더 들여 쓴 줄은 위 줄 안에 들어가요. 괄호가 없어서 칸 수가 곧 구조예요.
 - 2칸이든 4칸이든 같은 단계끼리 칸이 맞으면 똑같이 읽혀요. 보통 2칸으로 적고, 한 파일 안에서는 한 가지로 맞춰요.
-- 탭은 쓸 수 없어요. `found character that cannot start any token` 오류가 나요.
+- Tab 키는 눌러도 괜찮아요. VS Code는 YAML 파일에서 Tab 키를 누르면 띄어쓰기 2칸을 넣어 줘요.
+- 파일 안에 진짜 탭 문자가 들어가면 `found character that cannot start any token` 오류가 나요. 메모장처럼 탭 문자를 그대로 넣는 편집기나 복사해 온 글에서 섞여 들어와요.
 
 ### docker run 옵션과 compose.yaml 칸
 
@@ -168,7 +169,7 @@ docker volume rm pgdata
 
 ### 4. compose로 옮기기
 
-`~/kant-shop/compose.yaml`을 만들어요. 들여쓰기는 띄어쓰기 2칸이에요. 탭은 쓰지 않아요.
+`~/kant-shop/compose.yaml`을 만들어요. 들여쓰기는 띄어쓰기 2칸이에요. VS Code에서는 Tab 키를 눌러도 띄어쓰기로 들어가요.
 
 ```yaml
 services:
@@ -270,7 +271,7 @@ IMAGE   ID             DISK USAGE   CONTENT SIZE   EXTRA
 | `lstat ...: no such file or directory` | `docker cp`로 보낼 파일 이름이 틀렸거나 다른 폴더예요 | `ls`로 이름과 위치를 확인해요 |
 | `No such container: my-pg` | compose.yaml에 `container_name`이 없어 이름이 `kant-shop-db-1`이에요 | `docker compose ps`로 이름을 보거나 `docker compose exec db` |
 | `volume is in use` | 그 볼륨을 쓰는 컨테이너가 있어요 | 컨테이너를 `stop`, `rm` 한 뒤 `docker volume rm` |
-| `found character that cannot start any token` | compose.yaml에 탭이 있어요 | 탭을 띄어쓰기로 바꿔요 |
+| `found character that cannot start any token` | compose.yaml에 진짜 탭 문자가 들어 있어요 | 그 줄의 들여쓰기를 지우고 VS Code에서 다시 들여 써요 |
 | `mapping values are not allowed in this context` | 한 줄만 칸이 어긋났거나 쌍점 뒤 띄어쓰기가 빠졌어요 | 알려 준 줄과 바로 위 줄을 같이 보고 `docker compose config`로 다시 확인해요 |
 
 ## 강사용
