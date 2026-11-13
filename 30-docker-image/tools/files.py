@@ -13,13 +13,3 @@ COMPOSE = '''services:
     volumes:
       - ./site:/usr/share/nginx/html
 '''
-DOCKERFILE = '''FROM astral/uv:python3.14-bookworm-slim
-WORKDIR /app
-COPY . .
-RUN uv sync
-CMD ["uv", "run", "main.py"]
-'''
-DOCKERIGNORE = '''.venv
-__pycache__
-.git
-'''

@@ -2,25 +2,22 @@
 
 Needs a running Docker daemon (in the cloud container: sudo -n dockerd &) and uv. Run from 30-docker-image:
     uv run --with pyte python tools/demo.py
-The student's folders are /home/kim/cafe (nginx page) and /home/kim/shopping-cart (the 28 project), so prompts read ~/cafe.
-Commands that redraw the screen (pull, build, compose, exec -it) run in a real 80-column terminal (tools/ptyrun.py).
+The student's folder is /home/kim/cafe (nginx page), so prompts read ~/cafe. The friend in example 2 is /home/lee.
+Only official images from Docker Hub (nginx); the class does not make its own images.
+Commands that redraw the screen (pull, compose, exec -it) run in a real 80-column terminal (tools/ptyrun.py).
 """
 import json, os, re, shutil, subprocess, sys, time, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-sys.path.insert(0, os.path.join(HERE, "..", "..", "28-python-modules", "tools"))
 import ptyrun  # noqa: E402
-import scenes as cart28  # noqa: E402  (product.py, cart.py and main.py exactly as chapter 28 shows them)
 
 HOME = "/home/kim"
-CAFE, CART = f"{HOME}/cafe", f"{HOME}/shopping-cart"
+CAFE, LEE = f"{HOME}/cafe", "/home/lee"
 ENV = {"HOME": HOME, "NO_COLOR": "1"}
 OUT = {}
 
-from files import SITE1, SITE2, COMPOSE, DOCKERFILE, DOCKERIGNORE  # noqa: E402
-
-UV_IMAGE = "astral/uv:python3.14-bookworm-slim"
+from files import SITE1, SITE2, COMPOSE  # noqa: E402
 
 
 def sh(cmd, cwd=HOME, check=False):
@@ -37,7 +34,7 @@ def rec(scene, cmd, cwd, tty=False, inputs=()):
     else:
         r = sh(cmd, cwd)
         lines = (r.stdout + r.stderr).rstrip("\n").split("\n") if (r.stdout + r.stderr).strip() else []
-    OUT.setdefault(scene, []).append({"cmd": cmd, "cwd": cwd.replace(HOME, "~"), "out": lines})
+    OUT.setdefault(scene, []).append({"cmd": cmd, "cwd": cwd.replace(HOME, "~").replace(LEE, "~"), "out": lines})
     print(f"== {scene}: {cmd}")
     print("\n".join(lines))
     return lines
@@ -59,17 +56,11 @@ def web_gone():
 
 def fresh():
     sh("docker rm -f $(docker ps -aq) 2>/dev/null; docker volume rm $(docker volume ls -q) 2>/dev/null")
-    sh(f"docker rmi nginx cart {UV_IMAGE} 2>/dev/null; docker builder prune -af")
-    for d in (CAFE, CART):
+    sh("docker rmi nginx 2>/dev/null")
+    for d in (CAFE, LEE):
         shutil.rmtree(d, ignore_errors=True)
     os.makedirs(f"{CAFE}/site")
-    # chapter 28's shopping-cart project, made with uv init like the class
-    sh(f"uv init -q --python 3.14 {CART}", check=True)
-    os.remove(f"{CART}/README.md")
-    for name, text in (("product.py", cart28.PRODUCT), ("cart.py", cart28.CART_GUARDED), ("main.py", cart28.MAIN_SHOP)):
-        open(f"{CART}/{name}", "w").write(text)
-    sh("uv sync -q && uv run main.py >/dev/null", CART, check=True)
-    sh('git add . && git -c user.name=kim -c user.email=kim@example.com commit -qm "feat: 장바구니"', CART, check=True)
+    os.makedirs(LEE)
 
 
 fresh()
@@ -113,42 +104,7 @@ OUT["page-typo"] = page()
 rec("bind-typo", "docker volume ls", CAFE)
 web_gone()
 
-# ---------- 3. Dockerfile, build, run ----------
-rec("cart-ls", "ls -a", CART)
-rec("cart-ls2", "ls", CART, tty=True)
-open(f"{CART}/Dockerfile", "w").write(DOCKERFILE)
-rec("build", "docker build -t cart .", CART, tty=True)
-rec("images", "docker images", CART)
-rec("run-cart", "docker run cart", CART)
-
-main3 = cart28.MAIN_SHOP.replace("cart.add(tumbler, 2)", "cart.add(tumbler, 3)")
-assert main3 != cart28.MAIN_SHOP
-open(f"{CART}/main.py", "w").write(main3)
-rec("stale", "docker run cart", CART)
-rec("rebuild", "docker build -t cart .", CART, tty=True)
-rec("rebuild", "docker run cart", CART)
-rec("psa", "docker ps -a", CART)
-rec("rm-run", "docker run --rm cart", CART)
-rec("rm-run", "docker ps -a", CART)
-
-# ---------- .dockerignore: the build context before and after ----------
-sh("docker builder prune -af")
-rec("ctx-before", "docker build -t cart .", CART, tty=True)
-open(f"{CART}/.dockerignore", "w").write(DOCKERIGNORE)
-rec("ctx-after", "docker build -t cart .", CART, tty=True)
-
-# what COPY . . put in /app, with and without .dockerignore
-rec("app-ls", "docker run --rm cart ls -a", CART)
-os.rename(f"{CART}/.dockerignore", f"{CART}/.dockerignore.off")
-sh("docker build -q -t cart-all .", CART, check=True)
-rec("app-ls-all", "docker run --rm cart-all ls -a", CART)
-rv = sh("docker build --no-cache --progress=plain -t cart-all .", CART)
-OUT["venv-warning"] = [l for l in (rv.stdout + rv.stderr).split("\n") if "uv sync" in l or "virtual environment" in l.lower() or "Ignoring" in l]
-os.rename(f"{CART}/.dockerignore.off", f"{CART}/.dockerignore")
-sh("docker rmi cart-all; docker builder prune -af")
-sh("docker build -q -t cart .", CART, check=True)
-
-# ---------- 4. compose ----------
+# ---------- 3. compose ----------
 open(f"{CAFE}/site/index.html", "w").write(SITE1)
 open(f"{CAFE}/compose.yaml", "w").write(COMPOSE)
 rec("cafe-ls", "ls", CAFE)
@@ -160,25 +116,22 @@ sh("docker rm web")
 rec("compose-down", "docker compose down", CAFE, tty=True)
 rec("compose-none", "docker compose up -d", HOME, tty=True)
 
-# ---------- 5. errors ----------
-rec("err-nodot", "docker build -t cart", CART, tty=True)
-rec("err-nofile", "docker build -t cart .", HOME, tty=True)
-open(f"{CART}/Dockerfile", "w").write(DOCKERFILE.replace("bookworm", "bookwrom"))
-rec("err-from", "docker build -t cart .", CART, tty=True)
-open(f"{CART}/Dockerfile", "w").write(DOCKERFILE.replace('"main.py"', '"mian.py"'))
-sh("docker build -q -t cart-typo .", CART, check=True)
-rec("err-cmd", "docker run --rm cart-typo", CART)
-sh("docker rmi cart-typo")
-open(f"{CART}/Dockerfile", "w").write(DOCKERFILE)
+# ---------- 5. example 2: the friend gets the folder with git and runs one line ----------
+sh("git init -q -b main && git add compose.yaml site && git -c user.name=kim -c user.email=kim@example.com commit -qm 'feat: 카페 메뉴판'", CAFE, check=True)
+sh(f"git clone -q {CAFE} cafe", LEE, check=True)
+sh("docker rmi nginx")  # the friend's computer has no nginx image yet
+rec("friend", "ls", f"{LEE}/cafe")
+rec("friend", "docker compose up -d", f"{LEE}/cafe", tty=True)
+rec("friend", "docker compose ps", f"{LEE}/cafe")
+OUT["page-friend"] = page()
+rec("friend", "docker compose down", f"{LEE}/cafe", tty=True)
 
-# ---------- 6. clean up ----------
-rec("clean", "docker ps -a", CART)
-names = sh("docker ps -a --filter status=exited --format '{{.Names}}'").stdout.split()
-rec("clean", "docker rm " + " ".join(names), CART)
-rec("clean", "docker rmi cart", CART)
-rec("clean-vol", "docker volume ls", CART)
-rec("clean-vol", "docker volume rm cafe-html site", CART)
-rec("clean-img", "docker images", CART)
+# ---------- 5. example 3: clean up ----------
+rec("clean", "docker ps -a", CAFE)
+rec("clean", "docker volume ls", CAFE)
+rec("clean", "docker volume rm cafe-html site", CAFE)
+rec("clean", "docker volume ls", CAFE)
+rec("clean", "docker images", CAFE)
 
 json.dump(OUT, open(os.path.join(HERE, "out.json"), "w"), ensure_ascii=False, indent=1)
 print("wrote tools/out.json")

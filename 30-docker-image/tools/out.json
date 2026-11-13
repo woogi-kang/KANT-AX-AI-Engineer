@@ -7,17 +7,17 @@
     "Unable to find image 'nginx:latest' locally",
     "latest: Pulling from library/nginx",
     "6d2e43921e9e: Pull complete",
-    "37fb86c2a767: Pull complete",
-    "1962e1ff75b4: Pull complete",
-    "1724c05f72c6: Pull complete",
-    "bbb080c71d50: Pull complete",
     "512ac5e7ce8e: Pull complete",
+    "37fb86c2a767: Pull complete",
+    "bbb080c71d50: Pull complete",
+    "1724c05f72c6: Pull complete",
+    "1962e1ff75b4: Pull complete",
     "7cb4701ce7cd: Pull complete",
-    "d2c7e31f04a3: Download complete",
     "4582dace95e2: Download complete",
+    "d2c7e31f04a3: Download complete",
     "Digest: sha256:165ddde8751e75a1c907d24ef10d9f6deb08b57e0fe56caf67512486aff76d82",
     "Status: Downloaded newer image for nginx:latest",
-    "b0ed4b95660eb4401f07c7486ea8f1782f84812935ec4e68a1d4af3d622ce8ff"
+    "0828f05b4674b6a7e52e35a9383e86efb2ab65d31e1eba65aa420d58ab973f01"
    ]
   }
  ],
@@ -27,17 +27,17 @@
    "cmd": "docker exec -it web bash",
    "cwd": "~/cafe",
    "out": [
-    "root@b0ed4b95660e:/# ls",
+    "root@0828f05b4674:/# ls",
     "bin   docker-entrypoint.d   home   media  proc  sbin  tmp",
     "boot  docker-entrypoint.sh  lib    mnt    root  srv   usr",
     "dev   etc                   lib64  opt    run   sys   var",
-    "root@b0ed4b95660e:/# cd /usr/share/nginx/html",
-    "root@b0ed4b95660e:/usr/share/nginx/html# ls",
+    "root@0828f05b4674:/# cd /usr/share/nginx/html",
+    "root@0828f05b4674:/usr/share/nginx/html# ls",
     "50x.html  index.html",
-    "root@b0ed4b95660e:/usr/share/nginx/html# echo \"<h1>KANT Cafe</h1>\" > index.html",
-    "root@b0ed4b95660e:/usr/share/nginx/html# cat index.html",
+    "root@0828f05b4674:/usr/share/nginx/html# echo \"<h1>KANT Cafe</h1>\" > index.html",
+    "root@0828f05b4674:/usr/share/nginx/html# cat index.html",
     "<h1>KANT Cafe</h1>",
-    "root@b0ed4b95660e:/usr/share/nginx/html# exit",
+    "root@0828f05b4674:/usr/share/nginx/html# exit",
     "exit"
    ]
   }
@@ -62,7 +62,7 @@
    "cmd": "docker run -d --name web -p 8080:80 nginx",
    "cwd": "~/cafe",
    "out": [
-    "9a60b3514b1b48dcc5e687ef10df94b5ea449cc9c62e5fc723a5f912c234a7e2"
+    "f52feff89539cab9fd7733b5d12efee72401513a506e138f2336a44649f61dcc"
    ]
   }
  ],
@@ -79,8 +79,8 @@
    "cmd": "docker exec -it web bash",
    "cwd": "~/cafe",
    "out": [
-    "Error response from daemon: container 9a60b3514b1b48dcc5e687ef10df94b5ea449cc9c6",
-    "2e5fc723a5f912c234a7e2 is not running"
+    "Error response from daemon: container f52feff89539cab9fd7733b5d12efee72401513a50",
+    "6e138f2336a44649f61dcc is not running"
    ]
   }
  ],
@@ -89,16 +89,16 @@
    "cmd": "docker run -d --name web -p 8080:80 -v cafe-html:/usr/share/nginx/html nginx",
    "cwd": "~/cafe",
    "out": [
-    "fb5b80f6c2dfcb486c8f59b1377a99943655e3b5a8d06ab449cf09270c5c6b41"
+    "74a1a1c605522a5125ecb9c000c93abce7ecd116871300a6f052be67b636f9eb"
    ]
   },
   {
    "cmd": "docker exec -it web bash",
    "cwd": "~/cafe",
    "out": [
-    "root@fb5b80f6c2df:/# cd /usr/share/nginx/html",
-    "root@fb5b80f6c2df:/usr/share/nginx/html# echo \"<h1>KANT Cafe</h1>\" > index.html",
-    "root@fb5b80f6c2df:/usr/share/nginx/html# exit",
+    "root@74a1a1c60552:/# cd /usr/share/nginx/html",
+    "root@74a1a1c60552:/usr/share/nginx/html# echo \"<h1>KANT Cafe</h1>\" > index.html",
+    "root@74a1a1c60552:/usr/share/nginx/html# exit",
     "exit"
    ]
   },
@@ -120,7 +120,7 @@
    "cmd": "docker run -d --name web -p 8080:80 -v cafe-html:/usr/share/nginx/html nginx",
    "cwd": "~/cafe",
    "out": [
-    "de9fdf293a7ac7b319014832ee6126ca17aa4b653c79a2f1b55f6c917ce335f8"
+    "5eb2f44d2736ae268339144abfd81d70a8d89cb84c548a0888b383c318190bfc"
    ]
   }
  ],
@@ -147,7 +147,7 @@
    "cmd": "docker run -d --name web -p 8080:80 -v ./site:/usr/share/nginx/html nginx",
    "cwd": "~/cafe",
    "out": [
-    "58016e5276296af0e485dcccad977fb09d5f412a0d3b4338e3f1e7b809301d28"
+    "3e31b385089825bae2d34a89c113d60c2a71057ec671f857c20edceb507a7391"
    ]
   }
  ],
@@ -158,7 +158,7 @@
    "cmd": "docker run -d --name web -p 8080:80 -v site:/usr/share/nginx/html nginx",
    "cwd": "~/cafe",
    "out": [
-    "be746d49b581da410741a6df0a705cd8b444f02efc57dd21c95d3880ae69a578"
+    "960cc30556270fd3538cb66b68a080aec342867b29a94d79035d6595b911d61a"
    ]
   },
   {
@@ -172,337 +172,6 @@
   }
  ],
  "page-typo": "<!DOCTYPE html>\n<html>\n<head>\n<title>Welcome to nginx!</title>\n<style>\nhtml { color-scheme: light dark; }\nbody { width: 35em; margin: 0 auto;\nfont-family: Tahoma, Verdana, Arial, sans-serif; }\n</style>\n</head>\n<body>\n<h1>Welcome to nginx!</h1>\n<p>If you see this page, nginx is successfully installed and working.\nFurther configuration is required for the web server, reverse proxy, \nAPI gateway, load balancer, content cache, or other features.</p>\n\n<p>For online documentation and support please refer to\n<a href=\"https://nginx.org/\">nginx.org</a>.<br/>\nTo engage with the community please visit\n<a href=\"https://community.nginx.org/\">community.nginx.org</a>.<br/>\nFor enterprise grade support, professional services, additional \nsecurity features and capabilities please refer to\n<a href=\"https://f5.com/nginx\">f5.com/nginx</a>.</p>\n\n<p><em>Thank you for using nginx.</em></p>\n</body>\n</html>\n",
- "cart-ls": [
-  {
-   "cmd": "ls -a",
-   "cwd": "~/shopping-cart",
-   "out": [
-    ".",
-    "..",
-    ".git",
-    ".gitignore",
-    ".python-version",
-    ".venv",
-    "__pycache__",
-    "cart.py",
-    "main.py",
-    "product.py",
-    "pyproject.toml",
-    "uv.lock"
-   ]
-  }
- ],
- "cart-ls2": [
-  {
-   "cmd": "ls",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "__pycache__  cart.py  main.py  product.py  pyproject.toml  uv.lock"
-   ]
-  }
- ],
- "build": [
-  {
-   "cmd": "docker build -t cart .",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "",
-    "[+] Building 5.6s (9/9) FINISHED                                 docker:default",
-    " => [internal] load build definition from Dockerfile                       0.0s",
-    " => => transferring dockerfile: 140B                                       0.0s",
-    " => [internal] load metadata for docker.io/astral/uv:python3.14-bookworm-  0.9s",
-    " => [internal] load .dockerignore                                          0.0s",
-    " => => transferring context: 2B                                            0.0s",
-    " => [1/4] FROM docker.io/astral/uv:python3.14-bookworm-slim@sha256:7cf77f  2.0s",
-    " => => resolve docker.io/astral/uv:python3.14-bookworm-slim@sha256:7cf77f  0.0s",
-    " => => sha256:3d1c23c87c073cf7b6f48f6589616e715cb4d969ba08d21 251B / 251B  0.1s",
-    " => => sha256:47bb73f61dcfc364777f75e4be48afb29f5887eda 22.79MB / 22.79MB  0.2s",
-    " => => sha256:06de01a8f2d2fbe480ec8e2b100ce9275942d8cda 12.91MB / 12.91MB  0.3s",
-    " => => sha256:86233c87d5b9a04953805a777f8aaaaebbb77cc3113 3.52MB / 3.52MB  0.3s",
-    " => => sha256:4831516dd0cb86845f5f902cb9b9d25b5c853152c 28.23MB / 28.23MB  0.4s",
-    " => => extracting sha256:4831516dd0cb86845f5f902cb9b9d25b5c853152c337eb57  0.7s",
-    " => => extracting sha256:86233c87d5b9a04953805a777f8aaaaebbb77cc31139e580  0.1s",
-    " => => extracting sha256:06de01a8f2d2fbe480ec8e2b100ce9275942d8cda175fd9e  0.3s",
-    " => => extracting sha256:3d1c23c87c073cf7b6f48f6589616e715cb4d969ba08d215  0.0s",
-    " => => extracting sha256:47bb73f61dcfc364777f75e4be48afb29f5887eda9596866  0.4s",
-    " => [internal] load build context                                          0.0s",
-    " => => transferring context: 83.15kB                                       0.0s",
-    " => [2/4] WORKDIR /app                                                     0.2s",
-    " => [3/4] COPY . .                                                         0.0s",
-    " => [4/4] RUN uv sync                                                      0.7s",
-    " => exporting to image                                                     1.6s",
-    " => => exporting layers                                                    0.0s",
-    " => => exporting manifest sha256:7b4306683aa82d639dc448bbda8763659643209b  0.0s",
-    " => => exporting config sha256:4c6697ad657a71ca9cf33e8e5caf92f1631aaa5982  0.0s",
-    " => => exporting attestation manifest sha256:467eac9a26d8187ef198021dcfff  0.0s",
-    " => => exporting manifest list sha256:e89820ea2ada48f017c18b1487207500a39  0.0s",
-    " => => naming to docker.io/library/cart:latest                             0.0s",
-    " => => unpacking to docker.io/library/cart:latest                          1.5s"
-   ]
-  }
- ],
- "images": [
-  {
-   "cmd": "docker images",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "IMAGE          ID             DISK USAGE   CONTENT SIZE   EXTRA",
-    "cart:latest    e89820ea2ada        259MB         67.5MB        ",
-    "nginx:latest   165ddde8751e        243MB         66.8MB        "
-   ]
-  }
- ],
- "run-cart": [
-  {
-   "cmd": "docker run cart",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "텀블러 2개를 담았습니다.",
-    "무선 이어폰 1개를 담았습니다.",
-    "품절된 상품입니다.",
-    "----------------------------------------",
-    "텀블러        x 2   =       30,000원",
-    "무선 이어폰     x 1   =       89,000원",
-    "----------------------------------------",
-    "상품 합계              119,000원",
-    "배송비                      0원",
-    "결제 금액              119,000원",
-    "----------------------------------------",
-    "결제가 완료되었습니다. 감사합니다!",
-    "1: 텀블러          15,000 재고 8개",
-    "2: 무선 이어폰       89,000 재고 2개"
-   ]
-  }
- ],
- "stale": [
-  {
-   "cmd": "docker run cart",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "텀블러 2개를 담았습니다.",
-    "무선 이어폰 1개를 담았습니다.",
-    "품절된 상품입니다.",
-    "----------------------------------------",
-    "텀블러        x 2   =       30,000원",
-    "무선 이어폰     x 1   =       89,000원",
-    "----------------------------------------",
-    "상품 합계              119,000원",
-    "배송비                      0원",
-    "결제 금액              119,000원",
-    "----------------------------------------",
-    "결제가 완료되었습니다. 감사합니다!",
-    "1: 텀블러          15,000 재고 8개",
-    "2: 무선 이어폰       89,000 재고 2개"
-   ]
-  }
- ],
- "rebuild": [
-  {
-   "cmd": "docker build -t cart .",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "",
-    "[+] Building 0.8s (9/9) FINISHED                                 docker:default",
-    " => [internal] load build definition from Dockerfile                       0.0s",
-    " => => transferring dockerfile: 140B                                       0.0s",
-    " => [internal] load metadata for docker.io/astral/uv:python3.14-bookworm-  0.1s",
-    " => [internal] load .dockerignore                                          0.0s",
-    " => => transferring context: 2B                                            0.0s",
-    " => [1/4] FROM docker.io/astral/uv:python3.14-bookworm-slim@sha256:7cf77f  0.0s",
-    " => => resolve docker.io/astral/uv:python3.14-bookworm-slim@sha256:7cf77f  0.0s",
-    " => [internal] load build context                                          0.0s",
-    " => => transferring context: 4.37kB                                        0.0s",
-    " => CACHED [2/4] WORKDIR /app                                              0.0s",
-    " => [3/4] COPY . .                                                         0.0s",
-    " => [4/4] RUN uv sync                                                      0.4s",
-    " => exporting to image                                                     0.1s",
-    " => => exporting layers                                                    0.0s",
-    " => => exporting manifest sha256:37cb13029f7c765d31b2ca7bb62bb7c08dc58003  0.0s",
-    " => => exporting config sha256:aab21063aebc4e0056e319d24f9eda3dab9d37f991  0.0s",
-    " => => exporting attestation manifest sha256:0df09bfc72bfda3b7bf6dae45f51  0.0s",
-    " => => exporting manifest list sha256:8900ed2bf435fce161bd0a3897d49fdd32d  0.0s",
-    " => => naming to docker.io/library/cart:latest                             0.0s",
-    " => => unpacking to docker.io/library/cart:latest                          0.0s"
-   ]
-  },
-  {
-   "cmd": "docker run cart",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "텀블러 3개를 담았습니다.",
-    "무선 이어폰 1개를 담았습니다.",
-    "품절된 상품입니다.",
-    "----------------------------------------",
-    "텀블러        x 3   =       45,000원",
-    "무선 이어폰     x 1   =       89,000원",
-    "----------------------------------------",
-    "상품 합계              134,000원",
-    "배송비                      0원",
-    "결제 금액              134,000원",
-    "----------------------------------------",
-    "결제가 완료되었습니다. 감사합니다!",
-    "1: 텀블러          15,000 재고 7개",
-    "2: 무선 이어폰       89,000 재고 2개"
-   ]
-  }
- ],
- "psa": [
-  {
-   "cmd": "docker ps -a",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "CONTAINER ID   IMAGE          COMMAND            CREATED                  STATUS                              PORTS     NAMES",
-    "aea78cc5e078   cart           \"uv run main.py\"   Less than a second ago   Exited (0) Less than a second ago             loving_dewdney",
-    "7407a6f475c8   e89820ea2ada   \"uv run main.py\"   2 seconds ago            Exited (0) 1 second ago                       charming_aryabhata",
-    "81b56e0ac052   e89820ea2ada   \"uv run main.py\"   3 seconds ago            Exited (0) 2 seconds ago                      distracted_elbakyan"
-   ]
-  }
- ],
- "rm-run": [
-  {
-   "cmd": "docker run --rm cart",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "텀블러 3개를 담았습니다.",
-    "무선 이어폰 1개를 담았습니다.",
-    "품절된 상품입니다.",
-    "----------------------------------------",
-    "텀블러        x 3   =       45,000원",
-    "무선 이어폰     x 1   =       89,000원",
-    "----------------------------------------",
-    "상품 합계              134,000원",
-    "배송비                      0원",
-    "결제 금액              134,000원",
-    "----------------------------------------",
-    "결제가 완료되었습니다. 감사합니다!",
-    "1: 텀블러          15,000 재고 7개",
-    "2: 무선 이어폰       89,000 재고 2개"
-   ]
-  },
-  {
-   "cmd": "docker ps -a",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "CONTAINER ID   IMAGE          COMMAND            CREATED         STATUS                              PORTS     NAMES",
-    "aea78cc5e078   cart           \"uv run main.py\"   1 second ago    Exited (0) Less than a second ago             loving_dewdney",
-    "7407a6f475c8   e89820ea2ada   \"uv run main.py\"   3 seconds ago   Exited (0) 2 seconds ago                      charming_aryabhata",
-    "81b56e0ac052   e89820ea2ada   \"uv run main.py\"   4 seconds ago   Exited (0) 2 seconds ago                      distracted_elbakyan"
-   ]
-  }
- ],
- "ctx-before": [
-  {
-   "cmd": "docker build -t cart .",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "",
-    "[+] Building 2.8s (9/9) FINISHED                                 docker:default",
-    " => [internal] load build definition from Dockerfile                       0.0s",
-    " => => transferring dockerfile: 140B                                       0.0s",
-    " => [internal] load metadata for docker.io/astral/uv:python3.14-bookworm-  0.4s",
-    " => [internal] load .dockerignore                                          0.0s",
-    " => => transferring context: 2B                                            0.0s",
-    " => [1/4] FROM docker.io/astral/uv:python3.14-bookworm-slim@sha256:7cf77f  1.5s",
-    " => => resolve docker.io/astral/uv:python3.14-bookworm-slim@sha256:7cf77f  0.0s",
-    " => => extracting sha256:4831516dd0cb86845f5f902cb9b9d25b5c853152c337eb57  0.7s",
-    " => => extracting sha256:86233c87d5b9a04953805a777f8aaaaebbb77cc31139e580  0.1s",
-    " => => extracting sha256:06de01a8f2d2fbe480ec8e2b100ce9275942d8cda175fd9e  0.3s",
-    " => => extracting sha256:3d1c23c87c073cf7b6f48f6589616e715cb4d969ba08d215  0.0s",
-    " => => extracting sha256:47bb73f61dcfc364777f75e4be48afb29f5887eda9596866  0.4s",
-    " => [internal] load build context                                          0.0s",
-    " => => transferring context: 83.15kB                                       0.0s",
-    " => [2/4] WORKDIR /app                                                     0.2s",
-    " => [3/4] COPY . .                                                         0.0s",
-    " => [4/4] RUN uv sync                                                      0.4s",
-    " => exporting to image                                                     0.1s",
-    " => => exporting layers                                                    0.1s",
-    " => => exporting manifest sha256:457308a7d6befb4781dc60e772c2cb65ae46c4f1  0.0s",
-    " => => exporting config sha256:680058d90ea47d2b1cd35495cac3e3d1f7fec5d31b  0.0s",
-    " => => exporting attestation manifest sha256:858268cecb65860849a5ebad5acd  0.0s",
-    " => => exporting manifest list sha256:6f3ad0f90e497dc64d35b2b92a8e70a10b7  0.0s",
-    " => => naming to docker.io/library/cart:latest                             0.0s",
-    " => => unpacking to docker.io/library/cart:latest                          0.0s"
-   ]
-  }
- ],
- "ctx-after": [
-  {
-   "cmd": "docker build -t cart .",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "",
-    "[+] Building 0.7s (9/9) FINISHED                                 docker:default",
-    " => [internal] load build definition from Dockerfile                       0.0s",
-    " => => transferring dockerfile: 140B                                       0.0s",
-    " => [internal] load metadata for docker.io/astral/uv:python3.14-bookworm-  0.1s",
-    " => [internal] load .dockerignore                                          0.0s",
-    " => => transferring context: 63B                                           0.0s",
-    " => [1/4] FROM docker.io/astral/uv:python3.14-bookworm-slim@sha256:7cf77f  0.0s",
-    " => => resolve docker.io/astral/uv:python3.14-bookworm-slim@sha256:7cf77f  0.0s",
-    " => [internal] load build context                                          0.0s",
-    " => => transferring context: 300B                                          0.0s",
-    " => CACHED [2/4] WORKDIR /app                                              0.0s",
-    " => [3/4] COPY . .                                                         0.0s",
-    " => [4/4] RUN uv sync                                                      0.4s",
-    " => exporting to image                                                     0.1s",
-    " => => exporting layers                                                    0.0s",
-    " => => exporting manifest sha256:e60eee753a50d35dc89f1d7cb2017d3782cc2b7f  0.0s",
-    " => => exporting config sha256:0fc79e0cd28c2d747cb90d2364dfbbfd4ac7a265e5  0.0s",
-    " => => exporting attestation manifest sha256:3ba640a2f54d056cc1d84d2b8c19  0.0s",
-    " => => exporting manifest list sha256:f280ff95fd54a7c43b2323d1e8bed6f82c3  0.0s",
-    " => => naming to docker.io/library/cart:latest                             0.0s",
-    " => => unpacking to docker.io/library/cart:latest                          0.0s"
-   ]
-  }
- ],
- "app-ls": [
-  {
-   "cmd": "docker run --rm cart ls -a",
-   "cwd": "~/shopping-cart",
-   "out": [
-    ".",
-    "..",
-    ".dockerignore",
-    ".gitignore",
-    ".python-version",
-    ".venv",
-    "Dockerfile",
-    "cart.py",
-    "main.py",
-    "product.py",
-    "pyproject.toml",
-    "uv.lock"
-   ]
-  }
- ],
- "app-ls-all": [
-  {
-   "cmd": "docker run --rm cart-all ls -a",
-   "cwd": "~/shopping-cart",
-   "out": [
-    ".",
-    "..",
-    ".dockerignore.off",
-    ".git",
-    ".gitignore",
-    ".python-version",
-    ".venv",
-    "Dockerfile",
-    "__pycache__",
-    "cart.py",
-    "main.py",
-    "product.py",
-    "pyproject.toml",
-    "uv.lock"
-   ]
-  }
- ],
- "venv-warning": [
-  "#8 [4/4] RUN uv sync",
-  "#8 0.139 warning: Ignoring existing virtual environment linked to non-existent Python interpreter: .venv/bin/python3 -> python",
-  "#8 0.393 Removed virtual environment at: .venv",
-  "#8 0.393 Creating virtual environment at: .venv"
- ],
  "cafe-ls": [
   {
    "cmd": "ls",
@@ -529,8 +198,8 @@
    "cmd": "docker compose ps",
    "cwd": "~/cafe",
    "out": [
-    "NAME         IMAGE     COMMAND                  SERVICE   CREATED        STATUS                  PORTS",
-    "cafe-web-1   nginx     \"/docker-entrypoint.…\"   web       1 second ago   Up Less than a second   0.0.0.0:8080->80/tcp"
+    "NAME         IMAGE     COMMAND                  SERVICE   CREATED                  STATUS                  PORTS",
+    "cafe-web-1   nginx     \"/docker-entrypoint.…\"   web       Less than a second ago   Up Less than a second   0.0.0.0:8080->80/tcp"
    ]
   }
  ],
@@ -540,8 +209,8 @@
    "cmd": "docker run -d --name web -p 8080:80 nginx",
    "cwd": "~/cafe",
    "out": [
-    "a9c698e54e5cc523251ab365b10ab9869f21d7abf6ae6f7a71000a0cbd0015b7",
-    "docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint web (0e1e4e0b1065474b5dafc8a050531a337170cbb71d4c86d99de039f9e1775c1f): Bind for 0.0.0.0:8080 failed: port is already allocated",
+    "d9e7faca2fea3fce726d54b2d30b1f2b5ff28c607d1096311f1f79bd895ffd17",
+    "docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint web (1807d8fbf76a1f96cf9aa20f9b0b1d0e15fd8a274e059bb2c75f032b75b72e1b): Bind for 0.0.0.0:8080 failed: port is already allocated",
     "",
     "Run 'docker run --help' for more information"
    ]
@@ -567,101 +236,55 @@
    ]
   }
  ],
- "err-nodot": [
+ "friend": [
   {
-   "cmd": "docker build -t cart",
-   "cwd": "~/shopping-cart",
+   "cmd": "ls",
+   "cwd": "~/cafe",
    "out": [
-    "ERROR: docker: 'docker buildx build' requires 1 argument",
-    "",
-    "Usage:  docker buildx build [OPTIONS] PATH | URL | -",
-    "",
-    "Run 'docker buildx build --help' for more information"
+    "compose.yaml",
+    "site"
+   ]
+  },
+  {
+   "cmd": "docker compose up -d",
+   "cwd": "~/cafe",
+   "out": [
+    "[+] up 12/12",
+    " ✔ Image nginx          Pulled                                              2.7s",
+    " ✔ Network cafe_default Created                                             0.0s",
+    " ✔ Container cafe-web-1 Started                                             0.5s"
+   ]
+  },
+  {
+   "cmd": "docker compose ps",
+   "cwd": "~/cafe",
+   "out": [
+    "NAME         IMAGE     COMMAND                  SERVICE   CREATED        STATUS                  PORTS",
+    "cafe-web-1   nginx     \"/docker-entrypoint.…\"   web       1 second ago   Up Less than a second   0.0.0.0:8080->80/tcp"
+   ]
+  },
+  {
+   "cmd": "docker compose down",
+   "cwd": "~/cafe",
+   "out": [
+    "[+] down 2/2",
+    " ✔ Container cafe-web-1 Removed                                             0.2s",
+    " ✔ Network cafe_default Removed                                             0.2s"
    ]
   }
  ],
- "err-nofile": [
-  {
-   "cmd": "docker build -t cart .",
-   "cwd": "~",
-   "out": [
-    "",
-    "[+] Building 0.0s (1/1) FINISHED                                 docker:default",
-    " => [internal] load build definition from Dockerfile                       0.0s",
-    " => => transferring dockerfile: 2B                                         0.0s",
-    "ERROR: failed to build: failed to solve: failed to read dockerfile: open Dockerf",
-    "ile: no such file or directory"
-   ]
-  }
- ],
- "err-from": [
-  {
-   "cmd": "docker build -t cart .",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "",
-    "[+] Building 0.1s (2/2) FINISHED                                 docker:default",
-    " => [internal] load build definition from Dockerfile                       0.0s",
-    " => => transferring dockerfile: 140B                                       0.0s",
-    " => ERROR [internal] load metadata for docker.io/astral/uv:python3.14-boo  0.0s",
-    "------",
-    " > [internal] load metadata for docker.io/astral/uv:python3.14-bookwrom-slim:",
-    "------",
-    "Dockerfile:1",
-    "--------------------",
-    "   1 | >>> FROM astral/uv:python3.14-bookwrom-slim",
-    "   2 |     WORKDIR /app",
-    "   3 |     COPY . .",
-    "--------------------",
-    "ERROR: failed to build: failed to solve: astral/uv:python3.14-bookwrom-slim: fai",
-    "led to resolve source metadata for docker.io/astral/uv:python3.14-bookwrom-slim:",
-    " docker.io/astral/uv:python3.14-bookwrom-slim: not found"
-   ]
-  }
- ],
- "err-cmd": [
-  {
-   "cmd": "docker run --rm cart-typo",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "error: Failed to spawn: `mian.py`",
-    "  Caused by: No such file or directory (os error 2)"
-   ]
-  }
- ],
+ "page-friend": "<meta charset=\"utf-8\">\n<h1>KANT 카페 메뉴</h1>\n<p>아메리카노 4,500원</p>\n",
  "clean": [
   {
    "cmd": "docker ps -a",
-   "cwd": "~/shopping-cart",
+   "cwd": "~/cafe",
    "out": [
-    "CONTAINER ID   IMAGE          COMMAND            CREATED          STATUS                      PORTS     NAMES",
-    "aea78cc5e078   8900ed2bf435   \"uv run main.py\"   16 seconds ago   Exited (0) 15 seconds ago             loving_dewdney",
-    "7407a6f475c8   e89820ea2ada   \"uv run main.py\"   18 seconds ago   Exited (0) 17 seconds ago             charming_aryabhata",
-    "81b56e0ac052   e89820ea2ada   \"uv run main.py\"   19 seconds ago   Exited (0) 17 seconds ago             distracted_elbakyan"
+    "CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES"
    ]
   },
-  {
-   "cmd": "docker rm loving_dewdney charming_aryabhata distracted_elbakyan",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "loving_dewdney",
-    "charming_aryabhata",
-    "distracted_elbakyan"
-   ]
-  },
-  {
-   "cmd": "docker rmi cart",
-   "cwd": "~/shopping-cart",
-   "out": [
-    "Untagged: cart:latest",
-    "Deleted: sha256:16431c0b53eb814336670b8cd825087b0e9b9d3ec8837074879dc939291c642c"
-   ]
-  }
- ],
- "clean-vol": [
   {
    "cmd": "docker volume ls",
-   "cwd": "~/shopping-cart",
+   "cwd": "~/cafe",
    "out": [
     "DRIVER    VOLUME NAME",
     "local     cafe-html",
@@ -670,17 +293,22 @@
   },
   {
    "cmd": "docker volume rm cafe-html site",
-   "cwd": "~/shopping-cart",
+   "cwd": "~/cafe",
    "out": [
     "cafe-html",
     "site"
    ]
-  }
- ],
- "clean-img": [
+  },
+  {
+   "cmd": "docker volume ls",
+   "cwd": "~/cafe",
+   "out": [
+    "DRIVER    VOLUME NAME"
+   ]
+  },
   {
    "cmd": "docker images",
-   "cwd": "~/shopping-cart",
+   "cwd": "~/cafe",
    "out": [
     "IMAGE          ID             DISK USAGE   CONTENT SIZE   EXTRA",
     "nginx:latest   165ddde8751e        243MB         66.8MB        "
