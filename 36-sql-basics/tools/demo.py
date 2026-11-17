@@ -97,6 +97,10 @@ rec("t-dt", KS, ["\\dt"])
 rec("p-create", KS, TABLE + ["\\d product"])
 rec("p-insert", KS, ROWS + ["INSERT INTO product (id, name, category, stock) VALUES (9, '무선 충전기', 'acc', 40);",
                             "SELECT * FROM product;"])
+rec("a-alias", KS, ["SELECT name AS 상품명, price AS 가격 FROM product WHERE id <= 3;",
+                    "SELECT name, price, price * 3 FROM product WHERE id <= 3;",
+                    "SELECT name AS 상품명, price * 3 AS 3개가격 FROM product WHERE id <= 3;",
+                    "SELECT name AS 상품명, price * 3 AS \"3개 가격\" FROM product WHERE id <= 3;"])
 rec("w-cmp", KS, ["SELECT name, price FROM product WHERE price >= 50000;",
                   "SELECT name, category FROM product WHERE category <> 'acc';"])
 rec("w-andor", KS, ["SELECT name, price, stock FROM product WHERE category = 'audio' AND stock > 0;",
@@ -106,12 +110,13 @@ rec("w-in", KS, ["SELECT name, category FROM product WHERE category = 'audio' OR
                  "SELECT name, price FROM product WHERE price >= 20000 AND price <= 40000;",
                  "SELECT name, price FROM product WHERE price BETWEEN 20000 AND 40000;"])
 rec("w-like", KS, ["SELECT name FROM product WHERE name LIKE '%마우스%';",
+                   "SELECT name FROM product WHERE name LIKE '무선';",
                    "SELECT name FROM product WHERE name LIKE '무선%';",
                    "SELECT name FROM product WHERE name LIKE 'usb%';",
                    "SELECT name FROM product WHERE name ILIKE 'usb%';"])
 rec("w-null", KS, ["SELECT name, price FROM product WHERE price = NULL;",
                    "SELECT name, price FROM product WHERE price IS NULL;",
-                   "SELECT name, price FROM product WHERE price IS NOT NULL AND stock < 10;"])
+                   "SELECT COUNT(*) AS \"가격 미정\" FROM product WHERE price IS NULL;"])
 rec("o-order", KS, ["SELECT name, price FROM product ORDER BY price;",
                     "SELECT name, price FROM product ORDER BY price DESC;"])
 rec("o-two", KS, ["SELECT category, name, price FROM product ORDER BY category, price DESC;"])
@@ -151,6 +156,9 @@ rec("x-type", KS, ["UPDATE product SET price = '24,000' WHERE id = 5;",
 
 # ---------- part 6: member list ----------
 rec("m-make", KS, MEMBER + MEMBER_ROWS + ["SELECT * FROM member;"])
+rec("m-region", KS, ["SELECT region FROM member;",
+                     "SELECT DISTINCT region FROM member;",
+                     "SELECT DISTINCT region, grade FROM member;"])
 rec("m-find", KS, ["SELECT name, joined, phone FROM member WHERE joined BETWEEN '2026-10-01' AND '2026-10-31' AND phone IS NULL;",
                    "SELECT name, email FROM member WHERE email ILIKE '%@gmail.com' ORDER BY name;"])
 rec("m-grade", KS, ["SELECT name, grade, points FROM member WHERE points >= 30000 AND grade <> 'gold';",

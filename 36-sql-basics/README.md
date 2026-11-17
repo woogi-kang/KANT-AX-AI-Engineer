@@ -15,6 +15,8 @@
 - 글자(`CHAR`, `VARCHAR`, `TEXT`), 정수(`SMALLINT`, `INTEGER`, `BIGINT`), 소수(`NUMERIC`, `REAL`, `DOUBLE PRECISION`), `BOOLEAN`, 날짜와 시간 자료형의 차이를 말하고 열에 맞게 골라요.
 - `INSERT`로 여러 줄을 한 번에 넣고, 안 적은 열이 `NULL`(모름)로 비는 것을 봐요.
 - `WHERE`에 비교(`=`, `<>`, `>=`), `AND`, `OR`, `IN`, `BETWEEN`, `LIKE`, `ILIKE`, `IS NULL`을 써서 줄을 골라요.
+- `AS`로 결과 열에 새 이름을 붙이고, `price * 3`처럼 계산한 값을 열로 꺼내요.
+- `DISTINCT`로 겹치는 줄을 하나만 남기고, `COUNT(*)`로 맞는 줄이 몇 개인지 세요.
 - `ORDER BY`로 줄을 세우고 `LIMIT`, `OFFSET`으로 잘라요.
 - `UPDATE ... SET ... WHERE`로 값을 고치고 `DELETE FROM ... WHERE`로 줄을 지워요.
 - `RETURNING`으로 바뀐 줄을 바로 보고, `DROP ... IF EXISTS`로 오류 없이 지워요.
@@ -38,11 +40,11 @@ Docker Desktop을 켜 두고 macOS 터미널이나 Windows Git Bash에서 따라
 | 들어가기 | 1–4 | 표지, 오늘의 순서, 몇 줄만 골라 보고 고치는 장면, 네 문장 큰 그림 |
 | 1. kant_shop에 들어가기 | 5 | `my-pg`에 들어가 `kant_shop`을 새로 만들고 `\c`로 옮기기 |
 | 2. 자료형 고르기 | 6–12 | 자료형 지도, `CHAR` `VARCHAR` `TEXT`, 정수 세 가지와 범위 오류, 0.1 + 0.2, `NUMERIC(5, 2)`, `BOOLEAN`, 날짜와 시간대 |
-| 3. 넣고 골라 보기 | 13–22 | `product` 표, 여러 줄 `INSERT`와 `NULL`, `WHERE` 비교, `AND` `OR`, `IN` `BETWEEN`, `LIKE` `ILIKE`, `IS NULL`, `ORDER BY`, 두 기준, `LIMIT` `OFFSET` |
-| 4. 고치고 지우기 | 23–29 | `UPDATE`, 계산해서 고치기, `DELETE`, `RETURNING`, `WHERE`를 뺀 사고, `DROP ... IF EXISTS`, 파이썬과 비교 |
-| 5. 자주 나는 오류 | 30–32 | 큰따옴표와 닫지 않은 작은따옴표, 열 이름 오타와 빠진 쉼표, 형식이 다른 값 |
-| 6. 실제 상황 예제 | 33–35 | 회원 찾기, 등급 올리기, 탈퇴 처리 |
-| 정리 | 36–38 | 37에서 배울 것, 막힐 때, 한 장 요약 |
+| 3. 넣고 골라 보기 | 13–23 | `product` 표, 여러 줄 `INSERT`와 `NULL`, `AS`와 계산 열, `WHERE` 비교, `AND` `OR`, `IN` `BETWEEN`, `LIKE` `ILIKE`(`%` 있을 때와 없을 때), `IS NULL`과 `COUNT(*)`, `ORDER BY`, 두 기준, `LIMIT` `OFFSET` |
+| 4. 고치고 지우기 | 24–30 | `UPDATE`, 계산해서 고치기, `DELETE`, `RETURNING`, `WHERE`를 뺀 사고, `DROP ... IF EXISTS`, 파이썬과 비교 |
+| 5. 자주 나는 오류 | 31–33 | 큰따옴표와 닫지 않은 작은따옴표, 열 이름 오타와 빠진 쉼표, 형식이 다른 값 |
+| 6. 실제 상황 예제 | 34–37 | 회원 찾기, `DISTINCT`로 사는 구 보기, 등급 올리기, 탈퇴 처리 |
+| 정리 | 38–40 | 37에서 배울 것, 막힐 때, 한 장 요약 |
 
 ## 핵심 개념
 
@@ -167,6 +169,42 @@ SELECT name, price FROM product WHERE price IS NOT NULL ORDER BY price DESC LIMI
 
 `WHERE price = NULL`은 오류 없이 `(0 rows)`가 나와요. 빈칸은 늘 `IS NULL`로 찾아요.
 
+`AS`로 열 이름을 바꾸고, 계산한 값도 열로 꺼내 봐요.
+
+```sql
+SELECT name AS 상품명, price AS 가격 FROM product WHERE id <= 3;
+SELECT name, price, price * 3 FROM product WHERE id <= 3;
+SELECT name AS 상품명, price * 3 AS "3개 가격" FROM product WHERE id <= 3;
+```
+
+```
+    상품명     | 3개 가격
+---------------+----------
+ 무선 이어폰   |   105000
+ 게이밍 마우스 |    84000
+ 27인치 모니터 |   777000
+(3 rows)
+```
+
+이름을 안 붙인 계산 열은 `?column?`으로 나와요. 숫자로 시작하거나 띄어쓰기가 있는 이름은 큰따옴표로 감싸요. `AS 3개가격`처럼 그냥 적으면 `trailing junk after numeric literal` 오류가 나요.
+
+`LIKE`에 `%`를 빼면 `=`와 같아요. `name LIKE '무선'`은 이름이 딱 "무선"인 줄만 찾아서 `(0 rows)`예요.
+
+맞는 줄이 몇 개인지만 알고 싶으면 `COUNT(*)`를 써요.
+
+```sql
+SELECT COUNT(*) AS "가격 미정" FROM product WHERE price IS NULL;
+```
+
+```
+ 가격 미정
+-----------
+         1
+(1 row)
+```
+
+`COUNT(*)`는 여기서 줄 수 세기로만 써요. `SUM`, `AVG` 같은 다른 계산과 묶어 세기는 다음 SQL 챕터에서 배워요.
+
 ### 4. 고치고 지우기
 
 ```sql
@@ -191,7 +229,28 @@ UPDATE 1
 
 `ORDER BY` 없이 `SELECT`하면 고친 줄이 뒤로 가서 순서가 바뀌어 보일 수 있어요.
 
-### 5. 연습 표 지우기
+### 5. 겹치는 값 빼고 보기
+
+슬라이드 34쪽의 `member` 표(`tools/files.py`)를 만든 뒤 쳐요. 사는 구 `region`은 `VARCHAR(10)`이에요.
+
+```sql
+SELECT region FROM member;
+SELECT DISTINCT region FROM member;
+SELECT DISTINCT region, grade FROM member;
+```
+
+```
+ region
+--------
+ 송파구
+ 마포구
+ 강남구
+(3 rows)
+```
+
+`SELECT region`은 6줄, `DISTINCT region`은 3줄이에요. 열을 두 개 적으면 두 값의 짝이 겹칠 때만 하나로 합쳐요. `DISTINCT` 결과의 순서는 정해져 있지 않아서 수강생 화면과 다를 수 있어요. 순서가 필요하면 `ORDER BY region`을 붙여요.
+
+### 6. 연습 표 지우기
 
 ```sql
 DROP TABLE IF EXISTS type_text;
@@ -208,11 +267,17 @@ DROP TABLE IF EXISTS type_text;
 | `CREATE TABLE 표 (열 자료형, ...);` | 표 만들기 |
 | `INSERT INTO 표 (열, ...) VALUES (...), (...);` | 여러 줄 넣기 |
 | `SELECT 열 FROM 표 WHERE 조건;` | 조건에 맞는 줄만 보기 |
+| `SELECT name AS 상품명 FROM 표;` | 결과 열에 새 이름 붙이기 |
+| `SELECT price * 3 AS "3개 가격" FROM 표;` | 계산한 값을 열로, 숫자로 시작하거나 띄어 쓴 이름은 큰따옴표 |
+| `SELECT DISTINCT region FROM 표;` | 겹치는 값을 하나만 |
+| `SELECT DISTINCT region, grade FROM 표;` | 두 값의 짝이 겹칠 때만 하나로 |
+| `SELECT COUNT(*) FROM 표 WHERE 조건;` | 맞는 줄 수 세기 |
 | `WHERE a = 1 AND b <> 'x'` | 둘 다 맞는 줄 (`<>`는 같지 않음) |
 | `WHERE a = 1 OR a = 2` | 하나라도 맞는 줄 |
 | `WHERE category IN ('audio', 'input')` | 목록 중 하나 |
 | `WHERE price BETWEEN 20000 AND 40000` | 양 끝을 포함한 범위 |
 | `WHERE name LIKE '무선%'` | `%`는 아무 글자, 대소문자 구별 |
+| `WHERE name LIKE '무선'` | `%`가 없으면 `=`와 같아요 (딱 그 글자만) |
 | `WHERE name ILIKE 'usb%'` | 대소문자 구별 없이 |
 | `WHERE price IS NULL` | 빈칸 찾기 (`= NULL`은 안 돼요) |
 | `ORDER BY price DESC` | 큰 값부터 (기본은 `ASC`, 작은 값부터) |
@@ -241,6 +306,8 @@ DROP TABLE IF EXISTS type_text;
 | `date/time field value out of range` | 2월 30일처럼 없는 날짜 | `'2026-02-28'`처럼 있는 날짜로 적어요 |
 | `UPDATE 8`, `DELETE 8`처럼 숫자가 커요 | `WHERE`를 빼서 모든 줄이 바뀌었어요 | 되돌릴 수 없어요. 처음 `INSERT`부터 다시 넣고, 다음에는 `SELECT`로 먼저 확인해요 |
 | `table "type_text" does not exist` | 없는 표를 지우려고 했어요 | `DROP TABLE IF EXISTS`를 써요 |
+| `trailing junk after numeric literal at or near "3개가격"` | `AS` 뒤 이름이 숫자로 시작해요 | `AS "3개 가격"`처럼 큰따옴표로 감싸요 |
+| `LIKE '김'`이 `(0 rows)` | `%`가 없으면 딱 그 글자만 찾아요 | `LIKE '김%'`처럼 `%`를 붙여요 |
 | `WHERE price = NULL`이 `(0 rows)` | `NULL`은 `=`로 비교하지 않아요 | `IS NULL`, `IS NOT NULL`을 써요 |
 
 ## 강사용

@@ -28,15 +28,16 @@ MEMBER = ["CREATE TABLE member (",
           "    grade VARCHAR(10),",
           "    points INTEGER,",
           "    joined DATE,",
-          "    phone VARCHAR(13)",
+          "    phone VARCHAR(13),",
+          "    region VARCHAR(10)",
           ");"]
 
-MEMBERS = [(1, "김하늘", "kim@gmail.com", "silver", 42000, "2026-09-03", "010-1234-5678"),
-           (2, "이도윤", "lee@naver.com", "basic", 8000, "2026-10-05", None),
-           (3, "박서연", "park@gmail.com", "basic", 31500, "2026-10-12", "010-2222-3333"),
-           (4, "최지우", "choi@naver.com", "basic", 0, "2026-10-20", None),
-           (5, "정우진", "jung@Gmail.com", "gold", 57000, "2026-08-14", "010-9876-5432"),
-           (6, "강민서", "kang@daum.net", "basic", 12000, "2026-11-02", None)]
+MEMBERS = [(1, "김하늘", "kim@gmail.com", "silver", 42000, "2026-09-03", "010-1234-5678", "마포구"),
+           (2, "이도윤", "lee@naver.com", "basic", 8000, "2026-10-05", None, "강남구"),
+           (3, "박서연", "park@gmail.com", "basic", 31500, "2026-10-12", "010-2222-3333", "마포구"),
+           (4, "최지우", "choi@naver.com", "basic", 0, "2026-10-20", None, "송파구"),
+           (5, "정우진", "jung@Gmail.com", "gold", 57000, "2026-08-14", "010-9876-5432", "강남구"),
+           (6, "강민서", "kang@daum.net", "basic", 12000, "2026-11-02", None, "마포구")]
 
 
 def _v(x):

@@ -4,9 +4,9 @@ Story: 34 ran PostgreSQL in a container and typed CREATE TABLE, INSERT and SELEC
 table: only the products low in stock, the three most expensive, change a price, take a product off. Part 1 enters
 kant_shop (35's class names). Part 2 is data types (CHAR/VARCHAR/TEXT, SMALLINT/INTEGER/BIGINT, NUMERIC vs
 REAL/DOUBLE, BOOLEAN, DATE/TIME/TIMESTAMP/TIMESTAMPTZ). Part 3 builds product and reads it with WHERE, IN, BETWEEN,
-LIKE, ILIKE, IS NULL, ORDER BY, LIMIT, OFFSET. Part 4 changes it with UPDATE, DELETE, RETURNING and DROP ... IF EXISTS,
+LIKE, ILIKE, IS NULL, AS, computed columns, COUNT(*) (row count only), ORDER BY, LIMIT, OFFSET. Part 4 changes it with UPDATE, DELETE, RETURNING and DROP ... IF EXISTS,
 then SQL is set beside the Python of 15, 22 and 23. Part 5 errors, part 6 a member list, then what 37 adds.
-Constraints (NOT NULL, UNIQUE, CHECK, DEFAULT, SERIAL, FOREIGN KEY), JOIN, GROUP BY and aggregates stay out.
+Part 6 also shows DISTINCT. Constraints, JOIN, GROUP BY and aggregates other than COUNT(*) stay out.
 
 Every terminal line comes from tools/demo.py (real Docker and postgres:18 = PostgreSQL 18.7, in tools/out.json).
 Usage (in 36-sql-basics): python3 tools/gen.py slides
@@ -958,6 +958,35 @@ o.append(note(RX, 260, 1824 - RX, "괄호 묶음을 쉼표로 잇고 맨 끝에�
 o.append(note(RX, 560, 1824 - RX, "price를 적지 않아서 NULL이 들어갔어요. 값이 아직 없다, 모른다는 뜻이고 psql은 빈칸으로 보여 줘요.", INK, 26, 2))
 W("p-insert", o, "여러 줄을 한 번에 넣고, 안 적은 열은 NULL로 비워 둬요. INSERT INTO 뒤에 열 이름을 괄호로 적고, VALUES 뒤에 한 줄씩 괄호로 묶어 쉼표로 이어요. 마지막 줄 끝에만 세미콜론을 붙여요. 실제로는 여덟 줄을 다 쳤는데, 화면에서는 가운데를 …로 줄였어요. INSERT 0 8은 여덟 줄이 들어갔다는 뜻이에요. 무선 충전기는 가격이 아직 정해지지 않아서 열 이름에서 price를 뺐어요. 그러면 price 칸에 NULL이 들어가요. NULL은 0도 아니고 빈 글자도 아닌, 값을 모른다는 표시예요. 15의 파이썬 None과 비슷해요. psql은 NULL을 빈칸으로 보여 줘요." + REAL)
 
+# ---- AS and calculated columns
+o = frame("a-alias", EB3, "AS로 결과 열에 새 이름을 붙이고, 계산한 값도 열로 꺼내요", C3)
+al = Q("a-alias")
+t = term_q(al, 96, 206, size=19, tid="t-alias", lh=1.38)
+o.append(t.html())
+o.append(hbox(t, 0, "name AS 상품명", GR, 1))
+o.append(hbox(t, 0, "price AS 가격", GR, 1))
+i_h0 = at(al, "상품명     |")
+o.append(hbox(t, i_h0, "상품명", GR, 1, which="box", pad=6))
+i_c = at(al, "?column?")
+o.append(hbox(t, i_c - 1, "price * 3", OR, 2))
+o.append(hbox(t, i_c, "?column?", OR, 2, which="box", pad=6))
+i_e = at(al, "trailing junk")
+o.append(hbox(t, i_e, "trailing junk after numeric literal", RED, 3))
+o.append(hbox(t, i_e - 1, "AS 3개가격", RED, 3))
+i_q = at(al, 'AS "3개 가격"')
+o.append(hbox(t, i_q, 'AS "3개 가격"', GR, 4))
+o.append(hbox(t, i_q + 1, "3개 가격", GR, 4, which="box", pad=6))
+RX = t.x + t.w + 60
+rules_ = [("AS 상품명", "한글 이름도 그냥 써요", GR, 1),
+          ("price * 3", "+ - * / 로 계산한 값을 열로", OR, 2),
+          ('AS "3개 가격"', "숫자로 시작하거나 띄어 쓰면 큰따옴표", GR, 4)]
+for k, (cd, ds, col, od) in enumerate(rules_):
+    y = 240 + k * 150
+    o.append(mono(RX, y, cd, col, 26, od))
+    o.append(p(f"position:absolute;left:{RX}px;top:{y + 46}px;width:{1824 - RX}px;font-size:23px;line-height:1.4;color:{SUB}", e(ds), bi("rise", od)))
+o.append(note(RX, 720, 1824 - RX, "글자 값은 작은따옴표, 열 이름은 큰따옴표예요. 5파트에서 다시 봐요.", INK, 24, 4))
+W("a-alias", o, "AS로 결과 열에 새 이름을 붙이고, 계산한 값도 열로 꺼내요. 첫 문장은 name을 상품명, price를 가격이라는 이름으로 보여 줘요. 표의 열 이름이 바뀌는 게 아니라 이번 결과에서만 바뀌어요. 한글 이름은 따옴표 없이 써도 돼요. 두 번째 문장처럼 price 곱하기 3을 적으면 세 개 살 때 가격을 계산해서 보여 줘요. 계산한 열은 이름이 없어서 psql이 물음표 column 물음표로 보여 줘요. 이름을 3개가격처럼 숫자로 시작하게 적으면 trailing junk 오류가 나요. 숫자 뒤에 쓸데없는 글자가 붙었다고 읽기 때문이에요. 숫자로 시작하거나 띄어쓰기가 있는 이름은 큰따옴표로 감싸요. WHERE id <= 3은 id가 3 이하인 줄만 고른다는 뜻이고, 다음 장에서 자세히 봐요." + REAL)
+
 # ---- comparison operators
 o = frame("w-cmp", EB3, "WHERE 뒤에 조건을 적으면 맞는 줄만 나와요", C3)
 ops = [("=", "같다"), ("<>", "다르다"), ("<", "작다"), (">", "크다"), ("<=", "작거나 같다"), (">=", "크거나 같다")]
@@ -1036,19 +1065,22 @@ W("w-in", o, "IN과 BETWEEN은 긴 조건을 짧게 줄여 써요. 분류가 aud
 
 # ---- LIKE / ILIKE
 o = frame("w-like", EB3, "LIKE는 % 자리에 아무 글자나 와도 맞아요. ILIKE는 대소문자를 안 가려요", C3)
-lk = Q("w-like")
-t = term_q(lk, 96, 206, size=21, tid="t-like", lh=1.4)
-i_u0 = at(lk, "(0 rows)")
+lk = [l for l in Q("w-like") if l.strip()]
+t = term_q(lk, 96, 206, size=19, tid="t-like", lh=1.42)
+i_w0 = at(lk, "(0 rows)")
+t.band(i_w0, order=1, color="rgba(255,156,148,.18)")
+i_u0 = at(lk, "(0 rows)", i_w0 + 1)
 t.band(i_u0, order=2, color="rgba(255,156,148,.18)")
 i_u1 = at(lk, "USB-C 허브")
 t.band(i_u1, order=3, color="rgba(127,209,139,.20)")
 o.append(t.html())
+o.append(hbox(t, at(lk, "LIKE '무선';"), "LIKE '무선'", RED, 1))
 o.append(hbox(t, at(lk, "LIKE 'usb%'"), "LIKE 'usb%'", RED, 2))
 o.append(hbox(t, at(lk, "ILIKE 'usb%'"), "ILIKE 'usb%'", GR, 3))
 RX = t.x + t.w + 70
-pats = [("'%마우스%'", "마우스가 어디든 들어 있으면", ["…", "마우스", "…"]), ("'무선%'", "무선으로 시작하면", ["무선", "…"])]
+pats = [("'%마우스%'", "마우스가 어디든 들어 있으면", ["…", "마우스", "…"]), ("'무선%'", "무선으로 시작하면", ["무선", "…"]), ("'무선'", "딱 무선일 때만 (= 와 같아요)", ["무선"])]
 for k, (pt, ds, parts_) in enumerate(pats):
-    y = 230 + k * 210
+    y = 220 + k * 190
     ra = bi("rise", 1) + DELAY(k * 150)
     o.append(mono(RX, y, pt, C3, 32, None, ra))
     xx = RX
@@ -1057,8 +1089,8 @@ for k, (pt, ds, parts_) in enumerate(pats):
         o.append(p(f"position:absolute;left:{xx}px;top:{y + 60}px;width:{wc:.0f}px;height:56px;border-radius:12px;background:{'#EEF0F3' if pc == '…' else '#FFFFFF'};border:2px {'dashed' if pc == '…' else 'solid'} {GRAY if pc == '…' else C3};font-size:28px;font-weight:700;line-height:52px;text-align:center;color:{GRAY if pc == '…' else INK}", "%" if pc == "…" else e(pc), ra))
         xx += wc + 10
     o.append(p(f"position:absolute;left:{RX}px;top:{y + 132}px;font-size:24px;color:{SUB};white-space:nowrap", e(ds), ra))
-o.append(note(RX, 680, 1824 - RX, "% 대신 _를 쓰면 딱 한 글자 자리예요.", SUB, 25, 3))
-W("w-like", o, "LIKE는 퍼센트 자리에 아무 글자나 와도 맞아요. 이름에 마우스가 들어 있는 상품을 찾을 때 등호를 쓰면 이름 전체가 같아야 해서 못 찾아요. LIKE 뒤에 퍼센트 마우스 퍼센트를 적으면 앞뒤에 무엇이 있어도 마우스만 들어 있으면 골라요. 무선 퍼센트는 무선으로 시작하는 이름이에요. 그런데 소문자로 usb 퍼센트를 찾으면 0줄이에요. LIKE는 대문자와 소문자를 다르게 보기 때문이에요. ILIKE를 쓰면 대소문자를 가리지 않아서 USB-C 허브가 나와요. 퍼센트 대신 밑줄을 쓰면 딱 한 글자 자리라는 뜻이에요." + REAL)
+o.append(note(RX, 820, 1824 - RX, "% 대신 _를 쓰면 딱 한 글자 자리예요.", SUB, 25, 3))
+W("w-like", o, "LIKE는 퍼센트 자리에 아무 글자나 와도 맞아요. 이름에 마우스가 들어 있는 상품을 찾을 때 등호를 쓰면 이름 전체가 같아야 해서 못 찾아요. LIKE 뒤에 퍼센트 마우스 퍼센트를 적으면 앞뒤에 무엇이 있어도 마우스만 들어 있으면 골라요. 무선 퍼센트는 무선으로 시작하는 이름이에요. 퍼센트를 빼고 LIKE 무선만 적으면 0줄이에요. 퍼센트가 없으면 이름 전체가 딱 무선이어야 해서 등호와 같아요. 김씨 회원을 찾을 때도 김이 아니라 김 퍼센트로 적어요. 그런데 소문자로 usb 퍼센트를 찾으면 0줄이에요. LIKE는 대문자와 소문자를 다르게 보기 때문이에요. ILIKE를 쓰면 대소문자를 가리지 않아서 USB-C 허브가 나와요. 퍼센트 대신 밑줄을 쓰면 딱 한 글자 자리라는 뜻이에요." + REAL)
 
 # ---- NULL
 o = frame("w-null", EB3, "비어 있는 값(NULL)은 = 대신 IS NULL로 찾아요", C3)
@@ -1072,13 +1104,16 @@ i_z = at(nl_, "(0 rows)")
 o.append(hbox(t, i_z, "(0 rows)", RED, 1, which="box", pad=8))
 o += tag(t, i_z, "오류도 없이 0줄", RED, 1)
 o.append(hbox(t, at(nl_, "IS NULL;"), "price IS NULL", GR, 2))
-o.append(hbox(t, at(nl_, "IS NOT NULL"), "price IS NOT NULL", GR, 3))
+i_cnt = at(nl_, "COUNT(*)")
+o.append(hbox(t, i_cnt, "COUNT(*)", GR, 3))
+o.append(hbox(t, i_cnt + 3, "1", GR, 3, which="box", pad=8))
+o += tag(t, i_cnt + 3, "맞는 줄이 몇 개인지만", GR, 3)
 RX = t.x + t.w + 70
 o.append(f'<div{bi("pop", 1)} style="position:absolute;left:{RX}px;top:240px;width:150px;height:150px;border-radius:24px;background:{NLBG};border:3px dashed {NL};font-family:{MONO};font-size:64px;font-weight:700;line-height:144px;text-align:center;color:{NL}">?</div>')
 o.append(note(RX + 180, 250, 1824 - RX - 180, "NULL은 모르는 값이에요. 모르는 값과 같은지 물으면 답도 모름이라 어떤 줄도 안 골라요.", INK, 25, 1))
 o.append(note(RX, 470, 1824 - RX, "그래서 비어 있는지는 IS NULL, 값이 있는지는 IS NOT NULL로 물어요.", INK, 26, 2))
-o.append(note(RX, 640, 1824 - RX, "파이썬에서 None을 is None으로 확인한 것과 같아요.", SUB, 25, 3))
-W("w-null", o, "비어 있는 값은 등호 대신 IS NULL로 찾아요. 가격이 없는 상품을 찾으려고 price = NULL을 치면 오류도 안 나고 0줄이 나와요. 이게 함정이에요. NULL은 모르는 값이라서, 모르는 값과 같은지 물으면 답도 모름이 되고 어떤 줄도 골라지지 않아요. 비어 있는지 물을 때는 IS NULL을 써요. 그러면 무선 충전기가 나와요. 반대로 값이 있는 줄만 고를 때는 IS NOT NULL이에요. 마지막 문장은 가격이 있고 재고가 10개 안 남은 상품이에요. AND로 두 조건을 이었어요. 파이썬에서 None을 is None으로 확인한 것과 같아요." + REAL)
+o.append(note(RX, 640, 1824 - RX, "COUNT(*)는 줄 수를 세는 함수예요. 합계와 평균 같은 다른 함수는 다음 SQL 챕터에서 배워요.", SUB, 25, 3))
+W("w-null", o, "비어 있는 값은 등호 대신 IS NULL로 찾아요. 가격이 없는 상품을 찾으려고 price = NULL을 치면 오류도 안 나고 0줄이 나와요. 이게 함정이에요. NULL은 모르는 값이라서, 모르는 값과 같은지 물으면 답도 모름이 되고 어떤 줄도 골라지지 않아요. 비어 있는지 물을 때는 IS NULL을 써요. 그러면 무선 충전기가 나와요. 반대로 값이 있는 줄만 고를 때는 IS NOT NULL이에요. 파이썬에서 None을 is None으로 확인한 것과 같아요. 마지막 문장은 줄을 보여 주지 않고 몇 줄인지만 세요. COUNT 괄호 별표는 맞는 줄의 개수를 돌려줘요. 앞 장에서 배운 AS로 가격 미정이라는 이름을 붙였어요. 띄어쓰기가 있어서 큰따옴표로 감쌌어요. 오늘은 줄 수 세기만 보고, 합계나 평균은 다음 SQL 챕터에서 배워요." + REAL)
 
 # ---- ORDER BY
 o = frame("o-order", EB3, "ORDER BY로 줄을 세워요. DESC를 붙이면 큰 것부터예요", C3)
@@ -1358,8 +1393,29 @@ for nm in ("이도윤", "최지우"):
 o.append(t.html())
 o.append(hbox(t, i_f, "joined BETWEEN '2026-10-01' AND '2026-10-31'", C6, 1))
 o.append(hbox(t, i_f, "phone IS NULL", NL, 1))
-o.append(note(96, t.y + t.h + 34, 1728, "회원 표 member는 36에서 배운 자료형으로 만들었어요. 가입일 joined는 DATE, 포인트 points는 INTEGER, 이메일 email은 TEXT예요.", SUB, 25, 3))
-W("e-find", o, "10월에 가입했는데 전화번호가 없는 회원을 찾아요. 이제 실제 상황 예제예요. 회원 여섯 명이 든 member 표를 만들었어요. 가입일 joined는 DATE, 포인트는 INTEGER, 이메일은 TEXT, 전화번호는 VARCHAR 13이에요. 전화번호를 안 남긴 회원은 NULL이라 빈칸이에요. 10월 가입은 날짜도 BETWEEN으로 고를 수 있어요. 날짜는 작은따옴표로 감싸요. 전화번호가 없는 건 IS NULL이에요. 두 조건을 AND로 이으면 이도윤과 최지우 두 명이 나와요. 이 회원들에게 전화번호를 남겨 달라고 알림을 보낼 수 있어요." + REAL, ("p6", "실제 상황 예제"))
+o.append(note(96, t.y + t.h + 34, 1728, "회원 표 member는 36에서 배운 자료형으로 만들었어요. 가입일 joined는 DATE, 포인트 points는 INTEGER, 이메일 email은 TEXT, 사는 구 region은 VARCHAR(10)이에요.", SUB, 25, 3))
+W("e-find", o, "10월에 가입했는데 전화번호가 없는 회원을 찾아요. 이제 실제 상황 예제예요. 회원 여섯 명이 든 member 표를 만들었어요. 가입일 joined는 DATE, 포인트는 INTEGER, 이메일은 TEXT, 전화번호는 VARCHAR 13, 사는 구는 VARCHAR 10이에요. 전화번호를 안 남긴 회원은 NULL이라 빈칸이에요. 10월 가입은 날짜도 BETWEEN으로 고를 수 있어요. 날짜는 작은따옴표로 감싸요. 전화번호가 없는 건 IS NULL이에요. 두 조건을 AND로 이으면 이도윤과 최지우 두 명이 나와요. 이 회원들에게 전화번호를 남겨 달라고 알림을 보낼 수 있어요." + REAL, ("p6", "실제 상황 예제"))
+
+o = frame("e-region", EB6, "DISTINCT를 붙이면 겹치는 줄을 하나만 남겨요", C6)
+rg = Q("m-region")
+i2 = at(rg, "SELECT DISTINCT region, grade")
+left_, right_ = rg[:i2], rg[i2:]
+t1 = term_q(left_, 96, 206, size=21, tid="t-reg1", lh=1.42)
+t2 = term_q(right_, 96 + t1.w + 44, 206, size=21, tid="t-reg2", lh=1.42)
+i_d = at(left_, "SELECT DISTINCT region")
+for k, nm in enumerate(left_[:i_d]):
+    if nm.strip() == "마포구":
+        t1.band(k, order=1, color="rgba(224,127,176,.16)")
+o.append(t1.html())
+o.append(t2.html())
+o.append(hbox(t1, i_d, "DISTINCT", C6, 2))
+o.append(hbox(t2, 0, "DISTINCT region, grade", C6, 3))
+i_mb = at(right_, "마포구 | basic")
+o.append(hbox(t2, i_mb, "마포구 | basic", C6, 3, which="box", pad=6))
+o += tag(t2, i_mb, "박서연, 강민서 두 줄이 하나로", C6, 3)
+NY = max(t1.y + t1.h, t2.y + t2.h) + 36
+o.append(note(96, NY, 1728, "열을 두 개 적으면 두 값의 짝이 겹칠 때만 하나로 합쳐요. 순서는 정해져 있지 않으니 줄을 세우려면 ORDER BY를 붙여요.", INK, 25, 4))
+W("e-region", o, "DISTINCT를 붙이면 겹치는 줄을 하나만 남겨요. 회원 표에 사는 구 region 열을 더했어요. 그냥 SELECT하면 여섯 줄에 마포구가 세 번 나와요. SELECT 바로 뒤에 DISTINCT를 붙이면 겹치는 값을 하나만 남겨서 세 줄이 돼요. 이벤트를 어느 구에서 열지 정할 때처럼 어떤 값들이 있는지만 볼 때 써요. 열을 두 개 적으면 구와 등급의 짝이 같을 때만 합쳐요. 마포구 basic은 박서연과 강민서 두 명이라 한 줄이 됐고, 마포구 silver는 따로 남아서 다섯 줄이에요. DISTINCT 결과의 순서는 정해져 있지 않아요. 순서가 필요하면 ORDER BY를 붙여요." + REAL)
 
 o = frame("e-grade", EB6, "포인트 3만 이상 회원의 등급을 gold로 올려요. SELECT로 먼저 봐요", C6)
 mg = Q("m-grade")
@@ -1405,8 +1461,8 @@ for k, (a_, b_) in enumerate(today):
     o.append(p(f"position:absolute;left:96px;top:{y + 24}px;font-size:27px;color:{INK};white-space:nowrap", e(a_), bi("rise", 1) + DELAY(k * 70)))
     o.append(mono(1000, y + 24, b_, C3, 27, None, bi("pop", 2) + DELAY(k * 70)))
 o.append(rule(96, 262 + 6 * 86, 1728))
-o.append(note(96, 262 + 6 * 86 + 34, 1728, "그다음에는 표 두 개를 잇는 JOIN, 줄을 묶어 세는 GROUP BY와 COUNT, SUM을 배워요. 오늘은 이름만 알아 둬요.", SUB, 26, 3))
-W("n-next", o, "37에서는 잘못된 값이 아예 못 들어오게 표를 설계해요. 오늘 왼쪽 같은 빈틈을 봤어요. 가격이 NULL인 상품이 들어갔고, 같은 이메일로 회원이 두 번 가입해도 막을 방법이 없었어요. 가격에 음수를 넣어도 들어가고, 가입일과 id를 매번 손으로 적었어요. 37에서는 표를 만들 때 NOT NULL, UNIQUE, CHECK 같은 제약 조건을 붙여서 이런 값이 들어오면 오류가 나게 해요. 번호를 자동으로 매기는 SERIAL과 IDENTITY, 표끼리 잇는 FOREIGN KEY도 배워요. 그다음에는 두 표를 합쳐 보는 JOIN과, 줄을 묶어 세는 GROUP BY, COUNT, SUM을 배워요.", ("outro", "정리"))
+o.append(note(96, 262 + 6 * 86 + 34, 1728, "그다음에는 표 두 개를 잇는 JOIN, 줄을 묶어 세는 GROUP BY와 SUM, AVG를 배워요. 오늘은 이름만 알아 둬요.", SUB, 26, 3))
+W("n-next", o, "37에서는 잘못된 값이 아예 못 들어오게 표를 설계해요. 오늘 왼쪽 같은 빈틈을 봤어요. 가격이 NULL인 상품이 들어갔고, 같은 이메일로 회원이 두 번 가입해도 막을 방법이 없었어요. 가격에 음수를 넣어도 들어가고, 가입일과 id를 매번 손으로 적었어요. 37에서는 표를 만들 때 NOT NULL, UNIQUE, CHECK 같은 제약 조건을 붙여서 이런 값이 들어오면 오류가 나게 해요. 번호를 자동으로 매기는 SERIAL과 IDENTITY, 표끼리 잇는 FOREIGN KEY도 배워요. 그다음에는 두 표를 합쳐 보는 JOIN과, 줄을 묶어 세는 GROUP BY와 SUM, AVG를 배워요.", ("outro", "정리"))
 
 o = frame("trouble", "정리", "막히면 이렇게 풀어요", RED)
 tr = [('column "웹캠" does not exist', "글자 값을 큰따옴표로 감쌌어요", "작은따옴표로 '웹캠'"),
@@ -1432,7 +1488,7 @@ W("trouble", o, "막히면 이렇게 풀어요. 열이 없다는 오류인데 �
 
 o = frame("cheatsheet", "정리", "한 장 요약", INK)
 groups = [("자료형 고르기", C2, [("VARCHAR(n) · TEXT", "글자, 길이를 막을 때만 n"), ("INTEGER (SMALLINT · BIGINT)", "정수, 21억까지"), ("NUMERIC(p, s)", "돈처럼 정확해야 하는 소수"), ("BOOLEAN · DATE · TIMESTAMPTZ", "참거짓, 날짜, 시간대 있는 시각")]),
-          ("골라 보기", C3, [("WHERE = <> < >= AND OR", "조건에 맞는 줄"), ("IN (...) · BETWEEN a AND b", "긴 조건 줄이기"), ("LIKE '%글자%' · ILIKE · IS NULL", "글자 찾기, 빈 값"), ("ORDER BY 열 DESC LIMIT 3 OFFSET 3", "줄 세우고 자르기")]),
+          ("골라 보기", C3, [("WHERE = <> < >= AND OR", "조건에 맞는 줄"), ("IN (...) · BETWEEN a AND b", "긴 조건 줄이기"), ("LIKE '%글자%' · ILIKE · IS NULL", "글자 찾기, 빈 값"), ("ORDER BY 열 DESC LIMIT 3 OFFSET 3", "줄 세우고 자르기"), ("AS 새이름 · DISTINCT · COUNT(*)", "열 이름 붙이기, 겹침 빼기, 줄 수 세기")]),
           ("고치고 지우기", C4, [("UPDATE 표 SET 열 = 값 WHERE ...", "값 바꾸기"), ("DELETE FROM 표 WHERE ...", "줄 지우기"), ("... RETURNING *", "바뀐 줄 바로 보기"), ("DROP TABLE IF EXISTS 표", "없어도 오류 없이")])]
 GW = [560, 560, 560]
 gx_ = [96, 96 + 560 + 24, 96 + 2 * (560 + 24)]
@@ -1441,13 +1497,13 @@ for i, (t_, c, rows) in enumerate(groups):
     o.append(p(f"position:absolute;left:{x}px;top:220px;font-size:30px;font-weight:700;color:{c}", e(t_)))
     o.append(f'<div style="position:absolute;left:{x}px;top:270px;width:{GW[i]}px;height:3px;background:{c}"></div>')
     for j, (k, d_) in enumerate(rows):
-        y = 296 + j * 120
+        y = 296 + j * 100
         fs = 21 if tw(k, 21) < GW[i] - 10 else 18
         o.append(p(f"position:absolute;left:{x}px;top:{y}px;width:{GW[i]}px;font-family:{MONO};font-size:{fs}px;font-weight:700;color:{INK};white-space:nowrap", e(k)))
         o.append(p(f"position:absolute;left:{x}px;top:{y + 42}px;width:{GW[i]}px;font-size:23px;color:{SUB}", e(d_)))
 o.append(caption("UPDATE와 DELETE 전에는 같은 WHERE로 SELECT부터 쳐요.", 820, None, size=32))
 o.append(caption("37에서는 제약 조건으로 잘못된 값이 못 들어오게 표를 설계해요.", 880, None, size=28, color=SUB))
-W("cheatsheet", o, "오늘 쓴 것을 세 묶음으로 모았어요. 왼쪽은 자료형이에요. 글자는 VARCHAR나 TEXT, 정수는 INTEGER, 돈처럼 정확해야 하는 소수는 NUMERIC, 시각은 TIMESTAMPTZ예요. 가운데는 골라 보기예요. WHERE에 비교 기호와 AND, OR를 쓰고, IN과 BETWEEN으로 줄여 쓰고, LIKE와 ILIKE로 글자를 찾고, 빈 값은 IS NULL로 찾아요. ORDER BY로 세우고 LIMIT과 OFFSET으로 잘라요. 오른쪽은 고치고 지우기예요. UPDATE와 DELETE에는 꼭 WHERE를 붙이고, RETURNING으로 바뀐 줄을 바로 봐요. 가장 중요한 습관은 바꾸기 전에 같은 WHERE로 SELECT부터 치는 거예요. 다음 37에서는 제약 조건을 배워요.")
+W("cheatsheet", o, "오늘 쓴 것을 세 묶음으로 모았어요. 왼쪽은 자료형이에요. 글자는 VARCHAR나 TEXT, 정수는 INTEGER, 돈처럼 정확해야 하는 소수는 NUMERIC, 시각은 TIMESTAMPTZ예요. 가운데는 골라 보기예요. WHERE에 비교 기호와 AND, OR를 쓰고, IN과 BETWEEN으로 줄여 쓰고, LIKE와 ILIKE로 글자를 찾고, 빈 값은 IS NULL로 찾아요. ORDER BY로 세우고 LIMIT과 OFFSET으로 잘라요. AS로 결과 열에 이름을 붙이고, DISTINCT로 겹치는 줄을 빼고, COUNT 별표로 줄 수를 세요. 오른쪽은 고치고 지우기예요. UPDATE와 DELETE에는 꼭 WHERE를 붙이고, RETURNING으로 바뀐 줄을 바로 봐요. 가장 중요한 습관은 바꾸기 전에 같은 WHERE로 SELECT부터 치는 거예요. 다음 37에서는 제약 조건을 배워요.")
 
 # =====================================================================
 # toc
@@ -1455,10 +1511,10 @@ W("cheatsheet", o, "오늘 쓴 것을 세 묶음으로 모았어요. 왼쪽은 �
 page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 PL = [(C1, EB1[3:], "my-pg, DROP DATABASE IF EXISTS, CREATE DATABASE, \\c, -d", "s-enter", "s-enter"),
       (C2, EB2[3:], "CHAR·VARCHAR·TEXT, SMALLINT·INTEGER·BIGINT, NUMERIC·REAL·DOUBLE, BOOLEAN, DATE·TIMESTAMPTZ", "t-map", "t-time"),
-      (C3, EB3[3:], "CREATE TABLE, INSERT 여러 줄, WHERE, AND·OR, IN, BETWEEN, LIKE, IS NULL, ORDER BY, LIMIT", "p-create", "o-limit"),
+      (C3, EB3[3:], "CREATE TABLE, INSERT, AS·계산 열, WHERE, AND·OR, IN, BETWEEN, LIKE, IS NULL, COUNT(*), ORDER BY, LIMIT", "p-create", "o-limit"),
       (C4, EB4[3:], "UPDATE, DELETE, RETURNING, WHERE를 뺀 사고, DROP ... IF EXISTS, 파이썬과 비교", "u-one", "c-python"),
       (C5, EB5[3:], "큰따옴표와 닫지 않은 따옴표, 열 이름 오타와 빠진 쉼표, 자료형이 안 맞는 값", "x-quote", "x-type"),
-      (C6, EB6[3:], "회원 표에서 찾기, 등급 올리기, 메일 보낼 회원과 탈퇴", "e-find", "e-leave")]
+      (C6, EB6[3:], "회원 표에서 찾기, DISTINCT로 사는 구 보기, 등급 올리기, 메일 보낼 회원과 탈퇴", "e-find", "e-leave")]
 plist = [x for x in PL if x[3] in page and x[4] in page]
 o = frame("toc", "", "오늘의 순서", INK)
 for i, (c, h, s_, a, b) in enumerate(plist):
