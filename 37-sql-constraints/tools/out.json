@@ -945,5 +945,90 @@
     "kant_shop=# \\q"
    ]
   }
+ ],
+ "tc-reset": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# DELETE FROM member;",
+    "DELETE 2",
+    "kant_shop=# INSERT INTO member (name) VALUES ('park');",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "  3 | park",
+    "(1 row)",
+    "",
+    "kant_shop=# TRUNCATE member;",
+    "TRUNCATE TABLE",
+    "kant_shop=# INSERT INTO member (name) VALUES ('choi');",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "  4 | choi",
+    "(1 row)",
+    "",
+    "kant_shop=# TRUNCATE member RESTART IDENTITY;",
+    "TRUNCATE TABLE",
+    "kant_shop=# INSERT INTO member (name) VALUES ('choi');",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "  1 | choi",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "tc-fk": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# TRUNCATE member RESTART IDENTITY;",
+    "ERROR:  cannot truncate a table referenced in a foreign key constraint",
+    "DETAIL:  Table \"orders\" references \"member\".",
+    "HINT:  Truncate table \"orders\" at the same time, or use TRUNCATE ... CASCADE.",
+    "kant_shop=# TRUNCATE orders, member RESTART IDENTITY;",
+    "TRUNCATE TABLE",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "(0 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "tc-cascade": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# TRUNCATE member RESTART IDENTITY CASCADE;",
+    "NOTICE:  truncate cascades to table \"orders\"",
+    "TRUNCATE TABLE",
+    "kant_shop=# SELECT * FROM orders;",
+    " id | member_id | total",
+    "----+-----------+-------",
+    "(0 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
  ]
 }

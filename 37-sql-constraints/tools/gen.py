@@ -1146,6 +1146,42 @@ o += tag(t2, li(t2, "DROP TABLE orders"), "자식부터 지우면", OKC, 3, gap=
 o += tag(t2, len(L2) - 1, "부모도 지워져요", OKC, 3, gap=40)
 W("f-ord", o, "표를 만들고 지우는 순서도 외래 키가 정해요. 위는 member가 없는 데이터베이스에서 orders부터 만든 화면이에요. 가리킬 member 표가 없다고 ERROR가 나요. 그래서 부모 member를 먼저 만들어요. 아래는 orders가 남아 있는데 member부터 지우려고 한 화면이에요. orders_member_id_fkey가 member에 기대고 있어서 못 지운다고 나와요. HINT의 DROP ... CASCADE는 기대는 규칙까지 같이 지우는 방법인데, 무엇이 지워지는지 헷갈려서 수업에서는 쓰지 않아요. 자식 orders를 먼저 지우면 member도 지워져요." + REAL)
 
+o = frame("f-tr", EB4, "TRUNCATE로 비우고 RESTART IDENTITY로 번호를 1부터 세요", C4)
+L = P("tc-reset")
+t = PT(L, 96, 214, size=26, w=1180, lh=1.36, tid="t-tr", maxb=1000)
+o.append(t.html())
+r1, r2, r3 = li(t, "3 | park"), li(t, "4 | choi"), li(t, "1 | choi")
+o.append(rring(t, r1, "3", 1, C3))
+o += tag(t, r1, "DELETE 뒤에도 3번부터", C3, 1, gap=40)
+o.append(rring(t, r2, "4", 2, C3))
+o += tag(t, r2, "TRUNCATE만으로는 4번", C3, 2, gap=40)
+o.append(rring(t, r3, "1", 3, OKC))
+o += tag(t, r3, "RESTART IDENTITY면 1번", OKC, 3, gap=40)
+o += side(1330, 230, 494, kw("DELETE FROM 표;", C4), "행을 하나씩 지워요. WHERE로 골라 지울 수 있어요. 번호는 이어서 써요.", C4, 1, hsize=26, bsize=24)
+o += side(1330, 450, 494, kw("TRUNCATE 표;", C4), "WHERE 없이 표를 통째로 비워요. 표 모양과 규칙은 남아요.", C4, 2, hsize=26, bsize=24)
+o += side(1330, 650, 494, kw("TRUNCATE 표", OKC) + "<br>" + kw("RESTART IDENTITY;", OKC), "비우면서 자동 번호도 1로 돌려요. 연습 데이터를 처음부터 다시 넣을 때 써요.", OKC, 3, hsize=26, bsize=24)
+W("f-tr", o, "표의 행을 모두 지우는 방법은 두 가지예요. 36에서 배운 DELETE는 행을 하나씩 지우고, WHERE로 고를 수도 있어요. DELETE로 다 지운 뒤 새로 넣으면 번호는 3번이에요. 번호표 기계는 지운 번호를 다시 주지 않아요. TRUNCATE는 WHERE 없이 표를 통째로 비워요. 결과도 DELETE 2가 아니라 TRUNCATE TABLE로 나와요. TRUNCATE만 쓰면 번호는 여전히 이어져서 4번이에요. 뒤에 RESTART IDENTITY를 붙이면 번호도 1부터 다시 세요. 실습 데이터를 깨끗이 지우고 다시 넣을 때 이 모양을 써요. 표 자체와 규칙은 남아요. 표까지 없애는 건 DROP TABLE이에요." + REAL)
+
+o = frame("f-trfk", EB4, "외래 키로 이어진 표는 한 줄에 같이 적어서 비워요", C4)
+L1 = P("tc-fk")
+L2 = P("tc-cascade")
+t1 = PT(L1, 96, 214, size=26, w=1728, lh=1.42, tid="t-tf1", maxb=560)
+t2 = PT(L2, 96, t1.y + t1.h + 24, size=26, w=1728, lh=1.42, tid="t-tf2", maxb=850)
+o.append(t1.html())
+e1 = li(t1, "ERROR")
+o.append(under(t1, e1, "cannot truncate a table referenced in a foreign key constraint", 1, RED))
+o.append(under(t1, e1 + 2, 'Truncate table "orders" at the same time', 2, OR))
+ok = li(t1, "TRUNCATE orders, member")
+o.append(rring(t1, ok, "orders, member", 3, OKC))
+o += tag(t1, ok, "자식 표와 같이 적으면 돼요", OKC, 3, gap=40)
+o.append(f'<div{bi("rise", 4)}>' + t2.html() + '</div>')
+o.append(under(t2, li(t2, "NOTICE"), 'truncate cascades to table "orders"', 4, OR))
+o += tag(t2, li(t2, "NOTICE"), "CASCADE는 이어진 표도 비워요", C4, 4, gap=40)
+cy = t2.y + t2.h + 24
+o.append(p(f"position:absolute;left:96px;top:{cy}px;font-size:24px;font-weight:700;color:{GRAY}", "수업 예시: 표 여섯 개를 한 줄로 비우고 번호도 1부터", bi("rise", 5)))
+o.append(p(f"position:absolute;left:96px;top:{cy + 40}px;width:1728px;padding:12px 22px;box-sizing:border-box;border-radius:12px;background:{CARD};border:2px solid #CFCAC0;font-family:{MONO};font-size:24px;font-weight:700;line-height:1.4;color:{INK};white-space:nowrap", "TRUNCATE enrollments, lockers, courses, instructors, sports, members RESTART IDENTITY;", bi("rise", 5)))
+W("f-trfk", o, "외래 키로 이어진 표는 부모만 따로 비울 수 없어요. member만 TRUNCATE하면 orders가 member를 가리킨다고 ERROR가 나요. HINT는 orders도 같이 비우거나 CASCADE를 쓰라고 해요. 쉼표로 표 이름을 이어 적으면 한 번에 비워져요. 같이 비우니 적는 순서는 상관없어요. member, orders 순서로 적어도 돼요. CASCADE를 붙이면 이어진 자식 표까지 알아서 비우고, NOTICE로 어느 표를 비웠는지 알려 줘요. 어디까지 지워질지 헷갈리면 CASCADE 대신 표 이름을 다 적어요. 수업에서 쓴 줄도 같은 모양이에요. 연결된 표 여섯 개를 한 줄에 적고 RESTART IDENTITY로 번호까지 1부터 다시 세요." + REAL)
+
 # =====================================================================
 # part 5: ALTER TABLE
 # =====================================================================
@@ -1342,7 +1378,7 @@ CL = ["CREATE TABLE member (",
       "  points INTEGER NOT NULL DEFAULT 0 CHECK (points >= 0),",
       "  joined_at TIMESTAMPTZ DEFAULT now()",
       ");",
-      "-- product는 33쪽과 같아요",
+      f"-- product는 {ORDER.index('e-make') + 1}쪽과 같아요",
       "CREATE TABLE cart_item (",
       "  member_id INTEGER REFERENCES member (id) ON DELETE CASCADE,",
       "  product_id INTEGER REFERENCES product (id),",
@@ -1356,6 +1392,7 @@ AL = [("ALTER TABLE member\n  ADD CONSTRAINT 이름 UNIQUE (email);", "규칙 �
       ("ALTER TABLE member\n  DROP CONSTRAINT 이름;", "규칙 지우기"),
       ("ALTER TABLE member ALTER COLUMN\n  name SET NOT NULL;", "NOT NULL 붙이기 (DROP으로 빼기)"),
       ("ALTER TABLE member ALTER COLUMN\n  points SET DEFAULT 100;", "기본값 바꾸기"),
+      ("TRUNCATE cart_item, member\n  RESTART IDENTITY;", "같이 비우고 번호는 1부터"),
       ("\\d member", "붙은 규칙 보기")]
 y = 206
 for k_, d_ in AL:
@@ -1373,7 +1410,7 @@ page = {sid: i + 1 for i, sid in enumerate(ORDER)}
 PL = [(C1, EB1[3:], "NOT NULL, DEFAULT와 now(), \\d로 규칙 보기", "n-nn", "n-d"),
       (C2, EB2[3:], "UNIQUE, CHECK, CONSTRAINT 이름 붙이기, 자동 이름 읽기", "u-uq", "k-rule"),
       (C3, EB3[3:], "PRIMARY KEY, SERIAL과 함정, GENERATED ALWAYS AS IDENTITY, 복합 기본 키와 복합 UNIQUE", "p-pk", "p-cu"),
-      (C4, EB4[3:], "FOREIGN KEY, 부모 행 지우기, ON DELETE CASCADE, RESTRICT, SET NULL, 만들고 지우는 순서", "f-pic", "f-ord"),
+      (C4, EB4[3:], "FOREIGN KEY, 부모 행 지우기, ON DELETE CASCADE, RESTRICT, SET NULL, 만들고 지우는 순서, TRUNCATE", "f-pic", "f-trfk"),
       (C5, EB5[3:], "ALTER TABLE ADD CONSTRAINT, ALTER COLUMN, DROP CONSTRAINT", "a-add", "a-drop"),
       (C6, EB6[3:], "오류 읽기, NULL 함정, 28 장바구니를 member, product, cart_item으로", "x-read", "e-leave")]
 o = frame("toc", "", "오늘의 순서", INK)

@@ -1,6 +1,7 @@
 """Runs every psql session of the SQL 2 deck (37) for real and saves what the student would see in tools/out.json.
     sudo -n dockerd &        (once, in the cloud container)
-    uv run --with pyte python tools/demo.py
+    uv run --with pyte python tools/demo.py              (all scenes)
+    uv run --with pyte python tools/demo.py tc-reset     (only these scenes, merged into out.json)
 Real Docker and the official postgres:18 image, with the names of 35 (the class repo): container my-pg,
 password admin1234, database kant_shop. Each scene starts from an empty kant_shop. Statements a scene needs but
 does not show run first without being recorded (setup). psql runs in a pseudo-terminal 160 columns wide, and the
@@ -31,7 +32,12 @@ def fresh(setup=()):
             raise SystemExit(r.stderr)
 
 
+ONLY = set(sys.argv[1:])
+
+
 def scene(name, inputs, setup=(), keep=False):
+    if ONLY and name not in ONLY:
+        return
     if not keep:
         fresh(setup)
     lines = ptyrun.run(PSQL, HOME, inputs=list(inputs) + ["\\q"], env=ENV, prompt=PROMPT, cols=160)
@@ -231,6 +237,23 @@ scene("fk-setnull", ["CREATE TABLE orders (",
                      "SELECT * FROM orders;"],
       setup=FK_SETUP + ["INSERT INTO member (name) VALUES ('kim'), ('lee');"])
 
+# ---------- part 4: TRUNCATE ----------
+TC_SETUP = FK_SETUP + ["INSERT INTO member (name) VALUES ('kim'), ('lee');"]
+scene("tc-reset", ["DELETE FROM member;",
+                   "INSERT INTO member (name) VALUES ('park');",
+                   "SELECT * FROM member;",
+                   "TRUNCATE member;",
+                   "INSERT INTO member (name) VALUES ('choi');",
+                   "SELECT * FROM member;",
+                   "TRUNCATE member RESTART IDENTITY;",
+                   "INSERT INTO member (name) VALUES ('choi');",
+                   "SELECT * FROM member;"], setup=TC_SETUP)
+scene("tc-fk", ["TRUNCATE member RESTART IDENTITY;",
+                "TRUNCATE orders, member RESTART IDENTITY;",
+                "SELECT * FROM member;"], setup=FK_DATA)
+scene("tc-cascade", ["TRUNCATE member RESTART IDENTITY CASCADE;",
+                     "SELECT * FROM orders;"], setup=FK_DATA)
+
 # ---------- part 5: ALTER TABLE ----------
 ALT_SETUP = [MEMBER0.replace(", age INTEGER", ""),
              "INSERT INTO member VALUES (1, 'kim', 'kim@mail.com'), (2, 'lee', 'kim@mail.com'), (3, NULL, 'park@mail.com');"]
@@ -306,6 +329,8 @@ scene("ex-leave", ["DELETE FROM product WHERE id = 2;",
                    "INSERT INTO member (name, email) VALUES ('park', 'lee@mail.com');",
                    "UPDATE product SET stock = -1 WHERE id = 3;"], setup=SHOP_SQL + DATA + CART)
 
+if ONLY:  # merge the scenes named on the command line into the saved outputs
+    OUT = {**json.load(open(os.path.join(HERE, "out.json"))), **{k: v for k, v in OUT.items() if k in ONLY}}
 json.dump(OUT, open(os.path.join(HERE, "out.json"), "w"), ensure_ascii=False, indent=1)
 sh("docker rm -f my-pg")
 print("scenes:", len(OUT))

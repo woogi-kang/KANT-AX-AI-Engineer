@@ -18,6 +18,7 @@
 - 번호를 자동으로 채우는 `SERIAL`과 `GENERATED ALWAYS AS IDENTITY`를 비교하고, 새 표는 `IDENTITY`로 만들어요.
 - 열 두 개로 기본 키를 만들고(`PRIMARY KEY (a, b)`), 복합 `UNIQUE`와 다른 점을 말해요.
 - `REFERENCES`로 표 두 개를 잇고, 부모 행을 지울 때 `RESTRICT`, `CASCADE`, `SET NULL` 중 하나를 골라요.
+- `TRUNCATE 표 RESTART IDENTITY`로 표를 비우고 번호를 1부터 다시 세요. 외래 키로 이어진 표는 한 줄에 같이 적어요.
 - `ALTER TABLE`로 만든 표에 규칙을 더하고 지워요.
 
 ## 시작하기 전에
@@ -48,10 +49,10 @@ docker exec -it my-pg psql -U postgres -d kant_shop
 | 1. 빈칸과 기본값 | 6–8 | `NOT NULL`, `DEFAULT`와 `now()`, `\d`의 Nullable과 Default 칸 |
 | 2. 겹침과 범위 | 9–12 | `UNIQUE`, `CHECK`, `CONSTRAINT 이름`, 자동으로 짓는 이름 |
 | 3. 기본 키와 자동 번호 | 13–19 | `PRIMARY KEY`, `SERIAL`과 번호표 기계, 직접 넣은 번호의 함정, `GENERATED ALWAYS AS IDENTITY`, 세 방법 비교, 복합 기본 키, 복합 `UNIQUE` |
-| 4. 표끼리 잇기 | 20–25 | 부모 표와 자식 표, `REFERENCES`, 부모 행 지우기, `ON DELETE CASCADE`, `RESTRICT`와 `SET NULL`, 만들고 지우는 순서 |
-| 5. 나중에 규칙 바꾸기 | 26–28 | `ADD CONSTRAINT`, `ALTER COLUMN ... SET NOT NULL`, `ADD PRIMARY KEY`, `DROP CONSTRAINT` |
-| 6. 오류와 실제 상황 | 29–35 | 오류 읽기 표, NULL이 지나가는 함정과 막는 법, 28 장바구니를 표 세 개로 |
-| 정리 | 36–37 | 규칙별로 언제 쓰는지, 치트시트 |
+| 4. 표끼리 잇기 | 20–27 | 부모 표와 자식 표, `REFERENCES`, 부모 행 지우기, `ON DELETE CASCADE`, `RESTRICT`와 `SET NULL`, 만들고 지우는 순서, `TRUNCATE ... RESTART IDENTITY`, 이어진 표 같이 비우기 |
+| 5. 나중에 규칙 바꾸기 | 28–30 | `ADD CONSTRAINT`, `ALTER COLUMN ... SET NOT NULL`, `ADD PRIMARY KEY`, `DROP CONSTRAINT` |
+| 6. 오류와 실제 상황 | 31–37 | 오류 읽기 표, NULL이 지나가는 함정과 막는 법, 28 장바구니를 표 세 개로 |
+| 정리 | 38–39 | 규칙별로 언제 쓰는지, 치트시트 |
 
 ## 핵심 개념
 
@@ -108,6 +109,16 @@ docker exec -it my-pg psql -U postgres -d kant_shop
 | `ON DELETE SET NULL` | 자식의 외래 키 칸을 NULL로 바꿔요 |
 
 표는 부모부터 만들고, 자식부터 지워요.
+
+### 행을 모두 지우는 두 가지
+
+| 명령 | 지우는 것 | 다음 번호 |
+| --- | --- | --- |
+| `DELETE FROM 표;` | 행을 하나씩(`WHERE`로 고를 수 있어요) | 이어서 |
+| `TRUNCATE 표;` | 표를 통째로 | 이어서 |
+| `TRUNCATE 표 RESTART IDENTITY;` | 표를 통째로 | 1부터 |
+
+외래 키로 이어진 표는 `TRUNCATE 자식, 부모`처럼 한 줄에 같이 적어요. 적는 순서는 상관없어요.
 
 ## 실습
 
@@ -237,6 +248,23 @@ ERROR:  update or delete on table "member" violates foreign key constraint "orde
 DETAIL:  Key (id)=(1) is still referenced from table "orders".
 ```
 
+표를 비우고 번호를 1부터 다시 세려면 `TRUNCATE ... RESTART IDENTITY`를 써요. `member`만 적으면 막히고, `orders`와 같이 적으면 비워져요.
+
+```sql
+TRUNCATE member RESTART IDENTITY;
+TRUNCATE orders, member RESTART IDENTITY;
+INSERT INTO member (name) VALUES ('park');
+SELECT * FROM member;
+```
+
+```
+ERROR:  cannot truncate a table referenced in a foreign key constraint
+DETAIL:  Table "orders" references "member".
+HINT:  Truncate table "orders" at the same time, or use TRUNCATE ... CASCADE.
+```
+
+같이 비운 뒤 넣은 `park`는 1번이에요. 수업에서 쓴 `TRUNCATE enrollments, lockers, courses, instructors, sports, members RESTART IDENTITY;`도 이어진 표를 한 줄에 다 적은 모양이에요.
+
 자식 표 `orders`부터 지워야 `member`도 지워져요.
 
 ```sql
@@ -321,6 +349,8 @@ SELECT * FROM cart_item;
 | `ALTER TABLE 표 DROP CONSTRAINT 이름;` | 규칙을 지워요 |
 | `ALTER TABLE 표 ALTER COLUMN 열 SET NOT NULL;` | NOT NULL 붙이기(`DROP NOT NULL`로 빼기) |
 | `ALTER TABLE 표 ALTER COLUMN 열 SET DEFAULT 값;` | 기본값 바꾸기 |
+| `TRUNCATE 표;` | 표를 통째로 비워요(번호는 이어서) |
+| `TRUNCATE 표1, 표2 RESTART IDENTITY;` | 여러 표를 한 번에 비우고 번호를 1부터 |
 | `\d 표` | 붙은 규칙 보기 |
 
 ## 문제 해결
@@ -336,6 +366,7 @@ SELECT * FROM cart_item;
 | `update or delete on table ... violates foreign key constraint` | 자식이 쓰는 부모 행을 지웠어요 | 자식 행부터 지우거나 `ON DELETE`를 정해요 |
 | `relation "member" does not exist` | 부모 표보다 자식 표를 먼저 만들었어요 | 부모 표부터 만들어요 |
 | `cannot drop table member because other objects depend on it` | 자식 표가 남아 있어요 | 자식 표부터 지워요 |
+| `cannot truncate a table referenced in a foreign key constraint` | 자식 표가 가리키는 부모 표만 비웠어요 | `TRUNCATE 자식, 부모`처럼 같이 적어요 |
 | `could not create unique index` | 이미 겹친 값이 있어서 `UNIQUE`를 못 붙여요 | `UPDATE`로 고친 뒤 다시 |
 | `column "name" ... contains null values` | 비어 있는 행이 있어서 `NOT NULL`을 못 붙여요 | 빈칸부터 채워요 |
 | NULL이 두 번 들어가요 | `UNIQUE`와 `CHECK`는 NULL을 막지 않아요 | `NOT NULL`을 같이 붙여요 |

@@ -32,6 +32,8 @@
     "f-cas",
     "f-cmp",
     "f-ord",
+    "f-tr",
+    "f-trfk",
     "a-add",
     "a-col",
     "a-drop",
