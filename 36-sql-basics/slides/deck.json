@@ -1,0 +1,94 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-17T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "SQL 1 (PostgreSQL에서 골라 보고 고치기)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "s-enter",
+    "t-map",
+    "t-text",
+    "t-int",
+    "t-float",
+    "t-numps",
+    "t-bool",
+    "t-time",
+    "p-create",
+    "p-insert",
+    "w-cmp",
+    "w-andor",
+    "w-in",
+    "w-like",
+    "w-null",
+    "o-order",
+    "o-two",
+    "o-limit",
+    "u-one",
+    "u-calc",
+    "d-one",
+    "r-ret",
+    "u-oops",
+    "d-drop",
+    "c-python",
+    "x-quote",
+    "x-typo",
+    "x-type",
+    "e-find",
+    "e-grade",
+    "e-leave",
+    "n-next",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "kant_shop에 들어가기",
+      "start": "s-enter"
+    },
+    "p2": {
+      "description": "자료형 고르기",
+      "start": "t-map"
+    },
+    "p3": {
+      "description": "넣고 골라 보기",
+      "start": "p-create"
+    },
+    "p4": {
+      "description": "고치고 지우기",
+      "start": "u-one"
+    },
+    "p5": {
+      "description": "자주 나는 오류",
+      "start": "x-quote"
+    },
+    "p6": {
+      "description": "실제 상황 예제",
+      "start": "e-find"
+    },
+    "outro": {
+      "description": "정리",
+      "start": "n-next"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

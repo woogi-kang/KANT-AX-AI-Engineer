@@ -1,0 +1,37 @@
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">한 장 요약</h2>
+<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#0F7C86">자료형 고르기</p>
+<div style="position:absolute;left:96px;top:270px;width:560px;height:3px;background:#0F7C86"></div>
+<p style="position:absolute;left:96px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">VARCHAR(n) · TEXT</p>
+<p style="position:absolute;left:96px;top:338px;width:560px;font-size:23px;color:#4A5262">글자, 길이를 막을 때만 n</p>
+<p style="position:absolute;left:96px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">INTEGER (SMALLINT · BIGINT)</p>
+<p style="position:absolute;left:96px;top:458px;width:560px;font-size:23px;color:#4A5262">정수, 21억까지</p>
+<p style="position:absolute;left:96px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">NUMERIC(p, s)</p>
+<p style="position:absolute;left:96px;top:578px;width:560px;font-size:23px;color:#4A5262">돈처럼 정확해야 하는 소수</p>
+<p style="position:absolute;left:96px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">BOOLEAN · DATE · TIMESTAMPTZ</p>
+<p style="position:absolute;left:96px;top:698px;width:560px;font-size:23px;color:#4A5262">참거짓, 날짜, 시간대 있는 시각</p>
+<p style="position:absolute;left:680px;top:220px;font-size:30px;font-weight:700;color:#1F8A4C">골라 보기</p>
+<div style="position:absolute;left:680px;top:270px;width:560px;height:3px;background:#1F8A4C"></div>
+<p style="position:absolute;left:680px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">WHERE = &lt;&gt; &lt; &gt;= AND OR</p>
+<p style="position:absolute;left:680px;top:338px;width:560px;font-size:23px;color:#4A5262">조건에 맞는 줄</p>
+<p style="position:absolute;left:680px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">IN (...) · BETWEEN a AND b</p>
+<p style="position:absolute;left:680px;top:458px;width:560px;font-size:23px;color:#4A5262">긴 조건 줄이기</p>
+<p style="position:absolute;left:680px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">LIKE '%글자%' · ILIKE · IS NULL</p>
+<p style="position:absolute;left:680px;top:578px;width:560px;font-size:23px;color:#4A5262">글자 찾기, 빈 값</p>
+<p style="position:absolute;left:680px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">ORDER BY 열 DESC LIMIT 3 OFFSET 3</p>
+<p style="position:absolute;left:680px;top:698px;width:560px;font-size:23px;color:#4A5262">줄 세우고 자르기</p>
+<p style="position:absolute;left:1264px;top:220px;font-size:30px;font-weight:700;color:#B26A00">고치고 지우기</p>
+<div style="position:absolute;left:1264px;top:270px;width:560px;height:3px;background:#B26A00"></div>
+<p style="position:absolute;left:1264px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">UPDATE 표 SET 열 = 값 WHERE ...</p>
+<p style="position:absolute;left:1264px;top:338px;width:560px;font-size:23px;color:#4A5262">값 바꾸기</p>
+<p style="position:absolute;left:1264px;top:416px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">DELETE FROM 표 WHERE ...</p>
+<p style="position:absolute;left:1264px;top:458px;width:560px;font-size:23px;color:#4A5262">줄 지우기</p>
+<p style="position:absolute;left:1264px;top:536px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">... RETURNING *</p>
+<p style="position:absolute;left:1264px;top:578px;width:560px;font-size:23px;color:#4A5262">바뀐 줄 바로 보기</p>
+<p style="position:absolute;left:1264px;top:656px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#1D2330;white-space:nowrap">DROP TABLE IF EXISTS 표</p>
+<p style="position:absolute;left:1264px;top:698px;width:560px;font-size:23px;color:#4A5262">없어도 오류 없이</p>
+<p style="position:absolute;left:96px;top:820px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">UPDATE와 DELETE 전에는 같은 WHERE로 SELECT부터 쳐요.</p>
+<p style="position:absolute;left:96px;top:880px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#4A5262">37에서는 제약 조건으로 잘못된 값이 못 들어오게 표를 설계해요.</p>
+<aside>오늘 쓴 것을 세 묶음으로 모았어요. 왼쪽은 자료형이에요. 글자는 VARCHAR나 TEXT, 정수는 INTEGER, 돈처럼 정확해야 하는 소수는 NUMERIC, 시각은 TIMESTAMPTZ예요. 가운데는 골라 보기예요. WHERE에 비교 기호와 AND, OR를 쓰고, IN과 BETWEEN으로 줄여 쓰고, LIKE와 ILIKE로 글자를 찾고, 빈 값은 IS NULL로 찾아요. ORDER BY로 세우고 LIMIT과 OFFSET으로 잘라요. 오른쪽은 고치고 지우기예요. UPDATE와 DELETE에는 꼭 WHERE를 붙이고, RETURNING으로 바뀐 줄을 바로 봐요. 가장 중요한 습관은 바꾸기 전에 같은 WHERE로 SELECT부터 치는 거예요. 다음 37에서는 제약 조건을 배워요.</aside>
+</section>
