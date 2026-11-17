@@ -1,0 +1,89 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-17T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "SQL 2 (제약 조건으로 표 설계하기)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "min",
+    "n-nn",
+    "n-df",
+    "n-d",
+    "u-uq",
+    "c-ck",
+    "k-nm",
+    "k-rule",
+    "p-pk",
+    "p-sr",
+    "p-trap",
+    "p-id",
+    "p-cmp",
+    "p-cp",
+    "p-cu",
+    "f-pic",
+    "f-fk",
+    "f-del",
+    "f-cas",
+    "f-cmp",
+    "f-ord",
+    "a-add",
+    "a-col",
+    "a-drop",
+    "x-read",
+    "x-trap",
+    "x-fix",
+    "e-map",
+    "e-make",
+    "e-cart",
+    "e-leave",
+    "sum",
+    "cheat"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "빈칸과 기본값",
+      "start": "n-nn"
+    },
+    "p2": {
+      "description": "겹침과 범위",
+      "start": "u-uq"
+    },
+    "p3": {
+      "description": "기본 키와 자동 번호",
+      "start": "p-pk"
+    },
+    "p4": {
+      "description": "표끼리 잇기",
+      "start": "f-pic"
+    },
+    "p5": {
+      "description": "나중에 규칙 바꾸기",
+      "start": "a-add"
+    },
+    "end": {
+      "description": "정리",
+      "start": "sum"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
