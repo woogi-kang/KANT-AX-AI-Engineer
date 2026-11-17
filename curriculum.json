@@ -106,6 +106,9 @@
     {"dir": "35-docker-cli", "title": "Docker 5 (명령어 한눈에 보기)", "track": "Docker",
      "goal": "흩어진 docker 명령과 compose 명령을 수업 예제로 다시 실행해 보고 치트시트 두 장으로 모아요",
      "commands": "`docker cp kant_shop.sql my-pg:/tmp/` `docker exec -i my-pg psql -U postgres < kant_shop.sql` `docker logs -f --tail 3 my-pg` `docker volume inspect pgdata` `docker compose config`", "slides": "docker-cli-slides.html"},
+    {"dir": "36-sql-basics", "title": "SQL 1 (골라 보기, 고치기, 자료형)", "track": "데이터베이스",
+     "goal": "열마다 자료형을 고르고, 표에서 필요한 줄만 골라 보고 고치고 지워요",
+     "commands": "`WHERE price >= 50000` `ORDER BY price DESC LIMIT 3` `UPDATE product SET price = 32000 WHERE id = 9` `DELETE FROM product WHERE id = 8` `RETURNING *`", "slides": "sql-basics-slides.html"},
     {"dir": "37-sql-constraints", "title": "SQL 2 (제약 조건으로 표 설계하기)", "track": "데이터베이스",
      "goal": "표에 NOT NULL, UNIQUE, CHECK, 기본 키, 외래 키를 붙여 잘못된 행이 들어오는 순간 PostgreSQL이 막게 해요",
      "commands": "`NOT NULL` `CHECK (price > 0)` `GENERATED ALWAYS AS IDENTITY` `REFERENCES member (id) ON DELETE CASCADE` `ALTER TABLE ... ADD CONSTRAINT`", "slides": "sql-constraints-slides.html"}

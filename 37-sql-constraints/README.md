@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/37-sql-constraints/sql-constraints-slides.html) | [35 · Docker 5 (명령어 한눈에 보기)](../35-docker-cli) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/37-sql-constraints/sql-constraints-slides.html) | [36 · SQL 1 (골라 보기, 고치기, 자료형)](../36-sql-basics) | 준비 중 |
 
 <!-- /curriculum:top -->
 
@@ -410,6 +410,6 @@ node ../tools/export.js slides sql-constraints-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 35 · Docker 5 (명령어 한눈에 보기)](../35-docker-cli) · [커리큘럼](../README.md)
+[← 이전: 36 · SQL 1 (골라 보기, 고치기, 자료형)](../36-sql-basics) · [커리큘럼](../README.md)
 
 <!-- /curriculum:nav -->
