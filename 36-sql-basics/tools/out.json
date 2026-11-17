@@ -1,0 +1,1225 @@
+{
+ "run": [
+  {
+   "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 -v pgdata:/var/lib/postgresql postgres:18",
+   "cwd": "~",
+   "out": [
+    "0dfca92765f9595f40f3729285cd82b063384dd051613df6b66a6958d78c01c1"
+   ]
+  }
+ ],
+ "enter": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "postgres=# DROP DATABASE IF EXISTS kant_shop;",
+    "NOTICE:  database \"kant_shop\" does not exist, skipping",
+    "DROP DATABASE",
+    "postgres=# CREATE DATABASE kant_shop;",
+    "CREATE DATABASE",
+    "postgres=# \\c kant_shop",
+    "You are now connected to database \"kant_shop\" as user \"postgres\".",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "enter2": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# \\conninfo",
+    "           Connection Information",
+    "      Parameter       |        Value",
+    "----------------------+---------------------",
+    " Database             | kant_shop",
+    " Client User          | postgres",
+    " Socket Directory     | /var/run/postgresql",
+    " Server Port          | 5432",
+    " Options              |",
+    " Protocol Version     | 3.0",
+    " Password Used        | false",
+    " GSSAPI Authenticated | false",
+    " Backend PID          | 92",
+    " SSL Connection       | false",
+    " Superuser            | on",
+    " Hot Standby          | off",
+    "(12 rows)",
+    "",
+    "kant_shop=# \\dt",
+    "Did not find any tables.",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "t-text": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE type_text (code CHAR(5), name VARCHAR(5), memo TEXT);",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO type_text VALUES ('A1', 'mouse', 'wireless mouse, 2 colors');",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM type_text;",
+    " code  | name  |           memo",
+    "-------+-------+--------------------------",
+    " A1    | mouse | wireless mouse, 2 colors",
+    "(1 row)",
+    "",
+    "kant_shop=# INSERT INTO type_text VALUES ('A2', 'keyboard', 'mechanical');",
+    "ERROR:  value too long for type character varying(5)",
+    "kant_shop=# INSERT INTO type_text VALUES ('A123456', 'mouse', 'too long code');",
+    "ERROR:  value too long for type character(5)",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "t-int": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE type_int (s SMALLINT, i INTEGER, b BIGINT);",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO type_int VALUES (32767, 2147483647, 9223372036854775807);",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO type_int VALUES (32768, 1, 1);",
+    "ERROR:  smallint out of range",
+    "kant_shop=# INSERT INTO type_int VALUES (1, 2147483648, 1);",
+    "ERROR:  integer out of range",
+    "kant_shop=# SELECT * FROM type_int;",
+    "   s   |     i      |          b",
+    "-------+------------+---------------------",
+    " 32767 | 2147483647 | 9223372036854775807",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "t-float": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE type_num (fa DOUBLE PRECISION, fb DOUBLE PRECISION, na NUMERIC(10, 2), nb NUMERIC(10, 2));",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO type_num VALUES (0.1, 0.2, 0.1, 0.2);",
+    "INSERT 0 1",
+    "kant_shop=# SELECT fa + fb, na + nb FROM type_num;",
+    "      ?column?       | ?column?",
+    "---------------------+----------",
+    " 0.30000000000000004 |     0.30",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "t-real": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE type_real (r REAL, d DOUBLE PRECISION);",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO type_real VALUES (3.14159265358979, 3.14159265358979);",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM type_real;",
+    "     r     |        d",
+    "-----------+------------------",
+    " 3.1415927 | 3.14159265358979",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "t-numps": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE type_rate (rate NUMERIC(5, 2));",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO type_rate VALUES (3.14159);",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO type_rate VALUES (999.99);",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO type_rate VALUES (1234.5);",
+    "ERROR:  numeric field overflow",
+    "DETAIL:  A field with precision 5, scale 2 must round to an absolute value less than 10^3.",
+    "kant_shop=# SELECT * FROM type_rate;",
+    "  rate",
+    "--------",
+    "   3.14",
+    " 999.99",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "t-bool": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE type_bool (name VARCHAR(20), on_sale BOOLEAN);",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO type_bool VALUES ('mouse', true), ('keyboard', false);",
+    "INSERT 0 2",
+    "kant_shop=# SELECT * FROM type_bool;",
+    "   name   | on_sale",
+    "----------+---------",
+    " mouse    | t",
+    " keyboard | f",
+    "(2 rows)",
+    "",
+    "kant_shop=# SELECT * FROM type_bool WHERE on_sale = true;",
+    " name  | on_sale",
+    "-------+---------",
+    " mouse | t",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "t-time": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SHOW TIME ZONE;",
+    " TimeZone",
+    "----------",
+    " Etc/UTC",
+    "(1 row)",
+    "",
+    "kant_shop=# CREATE TABLE type_time (d DATE, t TIME, ts TIMESTAMP, tz TIMESTAMPTZ);",
+    "CREATE TABLE",
+    "kant_shop=# SET TIME ZONE 'Asia/Seoul';",
+    "SET",
+    "kant_shop=# INSERT INTO type_time VALUES ('2026-11-17', '09:30', '2026-11-17 09:30', '2026-11-17 09:30');",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM type_time;",
+    "     d      |    t     |         ts          |           tz",
+    "------------+----------+---------------------+------------------------",
+    " 2026-11-17 | 09:30:00 | 2026-11-17 09:30:00 | 2026-11-17 09:30:00+09",
+    "(1 row)",
+    "",
+    "kant_shop=# SET TIME ZONE 'UTC';",
+    "SET",
+    "kant_shop=# SELECT * FROM type_time;",
+    "     d      |    t     |         ts          |           tz",
+    "------------+----------+---------------------+------------------------",
+    " 2026-11-17 | 09:30:00 | 2026-11-17 09:30:00 | 2026-11-17 00:30:00+00",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "t-date-bad": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO type_time (d) VALUES ('2026-02-30');",
+    "ERROR:  date/time field value out of range: \"2026-02-30\"",
+    "LINE 1: INSERT INTO type_time (d) VALUES ('2026-02-30');",
+    "                                          ^",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "t-now": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT now();",
+    "              now",
+    "-------------------------------",
+    " 2026-11-17 05:30:37.775783+00",
+    "(1 row)",
+    "",
+    "kant_shop=# SET TIME ZONE 'Asia/Seoul';",
+    "SET",
+    "kant_shop=# SELECT now();",
+    "             now",
+    "-----------------------------",
+    " 2026-11-17 14:30:39.3843+09",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "t-dt": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# \\dt",
+    "            List of tables",
+    " Schema |   Name    | Type  |  Owner",
+    "--------+-----------+-------+----------",
+    " public | type_bool | table | postgres",
+    " public | type_int  | table | postgres",
+    " public | type_num  | table | postgres",
+    " public | type_rate | table | postgres",
+    " public | type_real | table | postgres",
+    " public | type_text | table | postgres",
+    " public | type_time | table | postgres",
+    "(7 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "p-create": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE product (",
+    "kant_shop(#     id INTEGER PRIMARY KEY,",
+    "kant_shop(#     name VARCHAR(100),",
+    "kant_shop(#     category VARCHAR(20),",
+    "kant_shop(#     price INTEGER,",
+    "kant_shop(#     stock INTEGER",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# \\d product",
+    "                       Table \"public.product\"",
+    "  Column  |          Type          | Collation | Nullable | Default",
+    "----------+------------------------+-----------+----------+---------",
+    " id       | integer                |           | not null |",
+    " name     | character varying(100) |           |          |",
+    " category | character varying(20)  |           |          |",
+    " price    | integer                |           |          |",
+    " stock    | integer                |           |          |",
+    "Indexes:",
+    "    \"product_pkey\" PRIMARY KEY, btree (id)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "p-insert": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO product (id, name, category, price, stock) VALUES",
+    "kant_shop-# (1, '무선 이어폰', 'audio', 35000, 100),",
+    "kant_shop-# (2, '게이밍 마우스', 'input', 28000, 85),",
+    "kant_shop-# (3, '27인치 모니터', 'display', 259000, 15),",
+    "kant_shop-# (4, 'USB-C 허브', 'acc', 19900, 200),",
+    "kant_shop-# (5, '노트북 거치대', 'acc', 24000, 7),",
+    "kant_shop-# (6, '기계식 키보드', 'input', 89000, 30),",
+    "kant_shop-# (7, '블루투스 스피커', 'audio', 45000, 0),",
+    "kant_shop-# (8, '웹캠', 'display', 52000, 12);",
+    "INSERT 0 8",
+    "kant_shop=# INSERT INTO product (id, name, category, stock) VALUES (9, '무선 충전기', 'acc', 40);",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM product;",
+    " id |      name       | category | price  | stock",
+    "----+-----------------+----------+--------+-------",
+    "  1 | 무선 이어폰     | audio    |  35000 |   100",
+    "  2 | 게이밍 마우스   | input    |  28000 |    85",
+    "  3 | 27인치 모니터   | display  | 259000 |    15",
+    "  4 | USB-C 허브      | acc      |  19900 |   200",
+    "  5 | 노트북 거치대   | acc      |  24000 |     7",
+    "  6 | 기계식 키보드   | input    |  89000 |    30",
+    "  7 | 블루투스 스피커 | audio    |  45000 |     0",
+    "  8 | 웹캠            | display  |  52000 |    12",
+    "  9 | 무선 충전기     | acc      |        |    40",
+    "(9 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "a-alias": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name AS 상품명, price AS 가격 FROM product WHERE id <= 3;",
+    "    상품명     |  가격",
+    "---------------+--------",
+    " 무선 이어폰   |  35000",
+    " 게이밍 마우스 |  28000",
+    " 27인치 모니터 | 259000",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT name, price, price * 3 FROM product WHERE id <= 3;",
+    "     name      | price  | ?column?",
+    "---------------+--------+----------",
+    " 무선 이어폰   |  35000 |   105000",
+    " 게이밍 마우스 |  28000 |    84000",
+    " 27인치 모니터 | 259000 |   777000",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT name AS 상품명, price * 3 AS 3개가격 FROM product WHERE id <= 3;",
+    "ERROR:  trailing junk after numeric literal at or near \"3개가격\"",
+    "LINE 1: SELECT name AS 상품명, price * 3 AS 3개가격 FROM product WHE...",
+    "                                            ^",
+    "kant_shop=# SELECT name AS 상품명, price * 3 AS \"3개 가격\" FROM product WHERE id <= 3;",
+    "    상품명     | 3개 가격",
+    "---------------+----------",
+    " 무선 이어폰   |   105000",
+    " 게이밍 마우스 |    84000",
+    " 27인치 모니터 |   777000",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "w-cmp": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name, price FROM product WHERE price >= 50000;",
+    "     name      | price",
+    "---------------+--------",
+    " 27인치 모니터 | 259000",
+    " 기계식 키보드 |  89000",
+    " 웹캠          |  52000",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT name, category FROM product WHERE category <> 'acc';",
+    "      name       | category",
+    "-----------------+----------",
+    " 무선 이어폰     | audio",
+    " 게이밍 마우스   | input",
+    " 27인치 모니터   | display",
+    " 기계식 키보드   | input",
+    " 블루투스 스피커 | audio",
+    " 웹캠            | display",
+    "(6 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "w-andor": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name, price, stock FROM product WHERE category = 'audio' AND stock > 0;",
+    "    name     | price | stock",
+    "-------------+-------+-------",
+    " 무선 이어폰 | 35000 |   100",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT name, price FROM product WHERE price < 25000 OR price > 100000;",
+    "     name      | price",
+    "---------------+--------",
+    " 27인치 모니터 | 259000",
+    " USB-C 허브    |  19900",
+    " 노트북 거치대 |  24000",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "w-in": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name, category FROM product WHERE category = 'audio' OR category = 'input';",
+    "      name       | category",
+    "-----------------+----------",
+    " 무선 이어폰     | audio",
+    " 게이밍 마우스   | input",
+    " 기계식 키보드   | input",
+    " 블루투스 스피커 | audio",
+    "(4 rows)",
+    "",
+    "kant_shop=# SELECT name, category FROM product WHERE category IN ('audio', 'input');",
+    "      name       | category",
+    "-----------------+----------",
+    " 무선 이어폰     | audio",
+    " 게이밍 마우스   | input",
+    " 기계식 키보드   | input",
+    " 블루투스 스피커 | audio",
+    "(4 rows)",
+    "",
+    "kant_shop=# SELECT name, price FROM product WHERE price >= 20000 AND price <= 40000;",
+    "     name      | price",
+    "---------------+-------",
+    " 무선 이어폰   | 35000",
+    " 게이밍 마우스 | 28000",
+    " 노트북 거치대 | 24000",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT name, price FROM product WHERE price BETWEEN 20000 AND 40000;",
+    "     name      | price",
+    "---------------+-------",
+    " 무선 이어폰   | 35000",
+    " 게이밍 마우스 | 28000",
+    " 노트북 거치대 | 24000",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "w-like": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name FROM product WHERE name LIKE '%마우스%';",
+    "     name",
+    "---------------",
+    " 게이밍 마우스",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT name FROM product WHERE name LIKE '무선';",
+    " name",
+    "------",
+    "(0 rows)",
+    "",
+    "kant_shop=# SELECT name FROM product WHERE name LIKE '무선%';",
+    "    name",
+    "-------------",
+    " 무선 이어폰",
+    " 무선 충전기",
+    "(2 rows)",
+    "",
+    "kant_shop=# SELECT name FROM product WHERE name LIKE 'usb%';",
+    " name",
+    "------",
+    "(0 rows)",
+    "",
+    "kant_shop=# SELECT name FROM product WHERE name ILIKE 'usb%';",
+    "    name",
+    "------------",
+    " USB-C 허브",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "w-null": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name, price FROM product WHERE price = NULL;",
+    " name | price",
+    "------+-------",
+    "(0 rows)",
+    "",
+    "kant_shop=# SELECT name, price FROM product WHERE price IS NULL;",
+    "    name     | price",
+    "-------------+-------",
+    " 무선 충전기 |",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT COUNT(*) AS \"가격 미정\" FROM product WHERE price IS NULL;",
+    " 가격 미정",
+    "-----------",
+    "         1",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "o-order": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name, price FROM product ORDER BY price;",
+    "      name       | price",
+    "-----------------+--------",
+    " USB-C 허브      |  19900",
+    " 노트북 거치대   |  24000",
+    " 게이밍 마우스   |  28000",
+    " 무선 이어폰     |  35000",
+    " 블루투스 스피커 |  45000",
+    " 웹캠            |  52000",
+    " 기계식 키보드   |  89000",
+    " 27인치 모니터   | 259000",
+    " 무선 충전기     |",
+    "(9 rows)",
+    "",
+    "kant_shop=# SELECT name, price FROM product ORDER BY price DESC;",
+    "      name       | price",
+    "-----------------+--------",
+    " 무선 충전기     |",
+    " 27인치 모니터   | 259000",
+    " 기계식 키보드   |  89000",
+    " 웹캠            |  52000",
+    " 블루투스 스피커 |  45000",
+    " 무선 이어폰     |  35000",
+    " 게이밍 마우스   |  28000",
+    " 노트북 거치대   |  24000",
+    " USB-C 허브      |  19900",
+    "(9 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "o-two": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT category, name, price FROM product ORDER BY category, price DESC;",
+    " category |      name       | price",
+    "----------+-----------------+--------",
+    " acc      | 무선 충전기     |",
+    " acc      | 노트북 거치대   |  24000",
+    " acc      | USB-C 허브      |  19900",
+    " audio    | 블루투스 스피커 |  45000",
+    " audio    | 무선 이어폰     |  35000",
+    " display  | 27인치 모니터   | 259000",
+    " display  | 웹캠            |  52000",
+    " input    | 기계식 키보드   |  89000",
+    " input    | 게이밍 마우스   |  28000",
+    "(9 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "o-limit": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name, price FROM product WHERE price IS NOT NULL ORDER BY price DESC LIMIT 3;",
+    "     name      | price",
+    "---------------+--------",
+    " 27인치 모니터 | 259000",
+    " 기계식 키보드 |  89000",
+    " 웹캠          |  52000",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT id, name FROM product ORDER BY id LIMIT 3;",
+    " id |     name",
+    "----+---------------",
+    "  1 | 무선 이어폰",
+    "  2 | 게이밍 마우스",
+    "  3 | 27인치 모니터",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT id, name FROM product ORDER BY id LIMIT 3 OFFSET 3;",
+    " id |     name",
+    "----+---------------",
+    "  4 | USB-C 허브",
+    "  5 | 노트북 거치대",
+    "  6 | 기계식 키보드",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "u-one": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT id, name, price FROM product WHERE id = 9;",
+    " id |    name     | price",
+    "----+-------------+-------",
+    "  9 | 무선 충전기 |",
+    "(1 row)",
+    "",
+    "kant_shop=# UPDATE product SET price = 32000 WHERE id = 9;",
+    "UPDATE 1",
+    "kant_shop=# SELECT id, name, price FROM product WHERE id = 9;",
+    " id |    name     | price",
+    "----+-------------+-------",
+    "  9 | 무선 충전기 | 32000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "u-calc": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# UPDATE product SET price = price - 5000, stock = stock + 10 WHERE category = 'audio';",
+    "UPDATE 2",
+    "kant_shop=# SELECT name, price, stock FROM product WHERE category = 'audio';",
+    "      name       | price | stock",
+    "-----------------+-------+-------",
+    " 무선 이어폰     | 30000 |   110",
+    " 블루투스 스피커 | 40000 |    10",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "d-one": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# DELETE FROM product WHERE id = 8;",
+    "DELETE 1",
+    "kant_shop=# SELECT id, name FROM product;",
+    " id |      name",
+    "----+-----------------",
+    "  2 | 게이밍 마우스",
+    "  3 | 27인치 모니터",
+    "  4 | USB-C 허브",
+    "  5 | 노트북 거치대",
+    "  6 | 기계식 키보드",
+    "  9 | 무선 충전기",
+    "  1 | 무선 이어폰",
+    "  7 | 블루투스 스피커",
+    "(8 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "r-ret": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# UPDATE product SET stock = 0 WHERE id = 5 RETURNING *;",
+    " id |     name      | category | price | stock",
+    "----+---------------+----------+-------+-------",
+    "  5 | 노트북 거치대 | acc      | 24000 |     0",
+    "(1 row)",
+    "",
+    "UPDATE 1",
+    "kant_shop=# DELETE FROM product WHERE stock = 0 RETURNING id, name;",
+    " id |     name",
+    "----+---------------",
+    "  5 | 노트북 거치대",
+    "(1 row)",
+    "",
+    "DELETE 1",
+    "kant_shop=# INSERT INTO product VALUES (10, '노트북 파우치', 'acc', 15000, 50) RETURNING *;",
+    " id |     name      | category | price | stock",
+    "----+---------------+----------+-------+-------",
+    " 10 | 노트북 파우치 | acc      | 15000 |    50",
+    "(1 row)",
+    "",
+    "INSERT 0 1",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "u-oops": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT id, name, price FROM product WHERE id = 3;",
+    " id |     name      | price",
+    "----+---------------+--------",
+    "  3 | 27인치 모니터 | 259000",
+    "(1 row)",
+    "",
+    "kant_shop=# UPDATE product SET price = 0;",
+    "UPDATE 8",
+    "kant_shop=# SELECT id, name, price FROM product;",
+    " id |      name       | price",
+    "----+-----------------+-------",
+    "  2 | 게이밍 마우스   |     0",
+    "  3 | 27인치 모니터   |     0",
+    "  4 | USB-C 허브      |     0",
+    "  6 | 기계식 키보드   |     0",
+    "  9 | 무선 충전기     |     0",
+    "  1 | 무선 이어폰     |     0",
+    "  7 | 블루투스 스피커 |     0",
+    " 10 | 노트북 파우치   |     0",
+    "(8 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "d-oops": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# DELETE FROM product;",
+    "DELETE 8",
+    "kant_shop=# SELECT * FROM product;",
+    " id | name | category | price | stock",
+    "----+------+----------+-------+-------",
+    "(0 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "d-drop": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# \\dt",
+    "            List of tables",
+    " Schema |   Name    | Type  |  Owner",
+    "--------+-----------+-------+----------",
+    " public | product   | table | postgres",
+    " public | type_bool | table | postgres",
+    " public | type_int  | table | postgres",
+    " public | type_num  | table | postgres",
+    " public | type_rate | table | postgres",
+    " public | type_real | table | postgres",
+    " public | type_text | table | postgres",
+    " public | type_time | table | postgres",
+    "(8 rows)",
+    "",
+    "kant_shop=# DROP TABLE type_text;",
+    "DROP TABLE",
+    "kant_shop=# DROP TABLE type_text;",
+    "ERROR:  table \"type_text\" does not exist",
+    "kant_shop=# DROP TABLE IF EXISTS type_text;",
+    "NOTICE:  table \"type_text\" does not exist, skipping",
+    "DROP TABLE",
+    "kant_shop=# DROP TABLE type_int, type_num, type_real, type_rate, type_bool, type_time;",
+    "DROP TABLE",
+    "kant_shop=# \\dt",
+    "           List of tables",
+    " Schema |  Name   | Type  |  Owner",
+    "--------+---------+-------+----------",
+    " public | product | table | postgres",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "d-dropdb": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "postgres=# DROP DATABASE IF EXISTS test;",
+    "NOTICE:  database \"test\" does not exist, skipping",
+    "DROP DATABASE",
+    "postgres=# DROP DATABASE test;",
+    "ERROR:  database \"test\" does not exist",
+    "postgres=# \\q"
+   ]
+  }
+ ],
+ "p-reload": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO product (id, name, category, price, stock) VALUES",
+    "kant_shop-# (1, '무선 이어폰', 'audio', 35000, 100),",
+    "kant_shop-# (2, '게이밍 마우스', 'input', 28000, 85),",
+    "kant_shop-# (3, '27인치 모니터', 'display', 259000, 15),",
+    "kant_shop-# (4, 'USB-C 허브', 'acc', 19900, 200),",
+    "kant_shop-# (5, '노트북 거치대', 'acc', 24000, 7),",
+    "kant_shop-# (6, '기계식 키보드', 'input', 89000, 30),",
+    "kant_shop-# (7, '블루투스 스피커', 'audio', 45000, 0),",
+    "kant_shop-# (8, '웹캠', 'display', 52000, 12);",
+    "INSERT 0 8",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-quote": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT * FROM product WHERE name = \"웹캠\";",
+    "ERROR:  column \"웹캠\" does not exist",
+    "LINE 1: SELECT * FROM product WHERE name = \"웹캠\";",
+    "                                           ^",
+    "HINT:  Perhaps you meant to reference the column \"product.id\".",
+    "kant_shop=# SELECT * FROM product WHERE name = '웹캠';",
+    " id | name | category | price | stock",
+    "----+------+----------+-------+-------",
+    "  8 | 웹캠 | display  | 52000 |    12",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-open": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT * FROM product WHERE name = '웹캠;",
+    "kant_shop'# ;",
+    "kant_shop'# ';",
+    " id | name | category | price | stock",
+    "----+------+----------+-------+-------",
+    "(0 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-ctrlc": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT * FROM product WHERE name = '웹캠;",
+    "kant_shop'# ^C",
+    "kant_shop=#",
+    "kant_shop=# SELECT * FROM product WHERE name = '웹캠';",
+    " id | name | category | price | stock",
+    "----+------+----------+-------+-------",
+    "  8 | 웹캠 | display  | 52000 |    12",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-typo": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT nmae, price FROM product;",
+    "ERROR:  column \"nmae\" does not exist",
+    "LINE 1: SELECT nmae, price FROM product;",
+    "               ^",
+    "HINT:  Perhaps you meant to reference the column \"product.name\".",
+    "kant_shop=# SELECT name price FROM product WHERE id < 4;",
+    "     price",
+    "---------------",
+    " 무선 이어폰",
+    " 게이밍 마우스",
+    " 27인치 모니터",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-type": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# UPDATE product SET price = '24,000' WHERE id = 5;",
+    "ERROR:  invalid input syntax for type integer: \"24,000\"",
+    "LINE 1: UPDATE product SET price = '24,000' WHERE id = 5;",
+    "                                   ^",
+    "kant_shop=# SELECT name FROM product WHERE price = '비쌈';",
+    "ERROR:  invalid input syntax for type integer: \"비쌈\"",
+    "LINE 1: SELECT name FROM product WHERE price = '비쌈';",
+    "                                               ^",
+    "kant_shop=# UPDATE product SET price = '24000' WHERE id = 5;",
+    "UPDATE 1",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "m-make": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE member (",
+    "kant_shop(#     id INTEGER PRIMARY KEY,",
+    "kant_shop(#     name VARCHAR(20),",
+    "kant_shop(#     email TEXT,",
+    "kant_shop(#     grade VARCHAR(10),",
+    "kant_shop(#     points INTEGER,",
+    "kant_shop(#     joined DATE,",
+    "kant_shop(#     phone VARCHAR(13),",
+    "kant_shop(#     region VARCHAR(10)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO member VALUES",
+    "kant_shop-# (1, '김하늘', 'kim@gmail.com', 'silver', 42000, '2026-09-03', '010-1234-5678', '마포구'),",
+    "kant_shop-# (2, '이도윤', 'lee@naver.com', 'basic', 8000, '2026-10-05', NULL, '강남구'),",
+    "kant_shop-# (3, '박서연', 'park@gmail.com', 'basic', 31500, '2026-10-12', '010-2222-3333', '마포구'),",
+    "kant_shop-# (4, '최지우', 'choi@naver.com', 'basic', 0, '2026-10-20', NULL, '송파구'),",
+    "kant_shop-# (5, '정우진', 'jung@Gmail.com', 'gold', 57000, '2026-08-14', '010-9876-5432', '강남구'),",
+    "kant_shop-# (6, '강민서', 'kang@daum.net', 'basic', 12000, '2026-11-02', NULL, '마포구');",
+    "INSERT 0 6",
+    "kant_shop=# SELECT * FROM member;",
+    " id |  name  |     email      | grade  | points |   joined   |     phone     | region",
+    "----+--------+----------------+--------+--------+------------+---------------+--------",
+    "  1 | 김하늘 | kim@gmail.com  | silver |  42000 | 2026-09-03 | 010-1234-5678 | 마포구",
+    "  2 | 이도윤 | lee@naver.com  | basic  |   8000 | 2026-10-05 |               | 강남구",
+    "  3 | 박서연 | park@gmail.com | basic  |  31500 | 2026-10-12 | 010-2222-3333 | 마포구",
+    "  4 | 최지우 | choi@naver.com | basic  |      0 | 2026-10-20 |               | 송파구",
+    "  5 | 정우진 | jung@Gmail.com | gold   |  57000 | 2026-08-14 | 010-9876-5432 | 강남구",
+    "  6 | 강민서 | kang@daum.net  | basic  |  12000 | 2026-11-02 |               | 마포구",
+    "(6 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "m-region": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT region FROM member;",
+    " region",
+    "--------",
+    " 마포구",
+    " 강남구",
+    " 마포구",
+    " 송파구",
+    " 강남구",
+    " 마포구",
+    "(6 rows)",
+    "",
+    "kant_shop=# SELECT DISTINCT region FROM member;",
+    " region",
+    "--------",
+    " 송파구",
+    " 마포구",
+    " 강남구",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT DISTINCT region, grade FROM member;",
+    " region | grade",
+    "--------+--------",
+    " 송파구 | basic",
+    " 강남구 | gold",
+    " 마포구 | silver",
+    " 마포구 | basic",
+    " 강남구 | basic",
+    "(5 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "m-find": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name, joined, phone FROM member WHERE joined BETWEEN '2026-10-01' AND '2026-10-31' AND phone IS NULL;",
+    "  name  |   joined   | phone",
+    "--------+------------+-------",
+    " 이도윤 | 2026-10-05 |",
+    " 최지우 | 2026-10-20 |",
+    "(2 rows)",
+    "",
+    "kant_shop=# SELECT name, email FROM member WHERE email ILIKE '%@gmail.com' ORDER BY name;",
+    "  name  |     email",
+    "--------+----------------",
+    " 김하늘 | kim@gmail.com",
+    " 박서연 | park@gmail.com",
+    " 정우진 | jung@Gmail.com",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "m-grade": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name, grade, points FROM member WHERE points >= 30000 AND grade <> 'gold';",
+    "  name  | grade  | points",
+    "--------+--------+--------",
+    " 김하늘 | silver |  42000",
+    " 박서연 | basic  |  31500",
+    "(2 rows)",
+    "",
+    "kant_shop=# UPDATE member SET grade = 'gold' WHERE points >= 30000 AND grade <> 'gold' RETURNING name, grade, points;",
+    "  name  | grade | points",
+    "--------+-------+--------",
+    " 김하늘 | gold  |  42000",
+    " 박서연 | gold  |  31500",
+    "(2 rows)",
+    "",
+    "UPDATE 2",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "m-leave": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT id, name, email FROM member WHERE email = 'choi@naver.com';",
+    " id |  name  |     email",
+    "----+--------+----------------",
+    "  4 | 최지우 | choi@naver.com",
+    "(1 row)",
+    "",
+    "kant_shop=# DELETE FROM member WHERE id = 4 RETURNING *;",
+    " id |  name  |     email      | grade | points |   joined   | phone | region",
+    "----+--------+----------------+-------+--------+------------+-------+--------",
+    "  4 | 최지우 | choi@naver.com | basic |      0 | 2026-10-20 |       | 송파구",
+    "(1 row)",
+    "",
+    "DELETE 1",
+    "kant_shop=# SELECT name, joined FROM member ORDER BY joined DESC LIMIT 3;",
+    "  name  |   joined",
+    "--------+------------",
+    " 강민서 | 2026-11-02",
+    " 박서연 | 2026-10-12",
+    " 이도윤 | 2026-10-05",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ]
+}

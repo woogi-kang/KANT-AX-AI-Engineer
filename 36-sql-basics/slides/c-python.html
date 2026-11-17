@@ -1,0 +1,37 @@
+<section id="c-python" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#B26A00">4. 고치고 지우기 · 비교</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">15, 22, 23에서 파이썬으로 하던 일을 SQL 한 문장으로 해요</h2>
+<p style="position:absolute;left:330px;top:214px;font-size:24px;font-weight:700;line-height:1.35;color:#5B6270;white-space:nowrap">파이썬 (딕셔너리 리스트 products)</p>
+<p style="position:absolute;left:1100px;top:214px;font-size:24px;font-weight:700;line-height:1.35;color:#5B6270;white-space:nowrap">SQL (표 product)</p>
+<div style="position:absolute;left:96px;top:262px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:288px;font-size:26px;font-weight:700;color:#4A5262;white-space:nowrap">넣기</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:330px;top:290px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;line-height:1.35;color:#2459C9;white-space:nowrap">products.append({"id": 10, ...})</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:1100px;top:290px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;line-height:1.35;color:#1F8A4C;white-space:nowrap">INSERT INTO product VALUES (10, ...);</p>
+<div style="position:absolute;left:96px;top:350px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:96px;top:376px;font-size:26px;font-weight:700;color:#4A5262;white-space:nowrap">고르기</p>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:330px;top:378px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;line-height:1.35;color:#2459C9;white-space:nowrap">[p for p in products if p["price"] &gt;= 50000]</p>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:1100px;top:378px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;line-height:1.35;color:#1F8A4C;white-space:nowrap">SELECT * FROM product WHERE price &gt;= 50000;</p>
+<div style="position:absolute;left:96px;top:438px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:96px;top:464px;font-size:26px;font-weight:700;color:#4A5262;white-space:nowrap">줄 세우기</p>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:330px;top:466px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;line-height:1.35;color:#2459C9;white-space:nowrap">sorted(products, key=lambda p: p["price"], reverse=True)</p>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:1100px;top:466px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;line-height:1.35;color:#1F8A4C;white-space:nowrap">ORDER BY price DESC</p>
+<div style="position:absolute;left:96px;top:526px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:96px;top:552px;font-size:26px;font-weight:700;color:#4A5262;white-space:nowrap">앞에서 3개</p>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:330px;top:554px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;line-height:1.35;color:#2459C9;white-space:nowrap">결과[:3]</p>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:1100px;top:554px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;line-height:1.35;color:#1F8A4C;white-space:nowrap">LIMIT 3</p>
+<div style="position:absolute;left:96px;top:614px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="280" style="position:absolute;left:96px;top:640px;font-size:26px;font-weight:700;color:#4A5262;white-space:nowrap">고치기</p>
+<p data-build-in="rise order 1" data-delay="280" style="position:absolute;left:330px;top:642px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;line-height:1.35;color:#2459C9;white-space:nowrap">p["price"] = 32000</p>
+<p data-build-in="rise order 1" data-delay="280" style="position:absolute;left:1100px;top:642px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;line-height:1.35;color:#B26A00;white-space:nowrap">UPDATE product SET price = 32000 WHERE id = 9;</p>
+<div style="position:absolute;left:96px;top:702px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="350" style="position:absolute;left:96px;top:728px;font-size:26px;font-weight:700;color:#4A5262;white-space:nowrap">지우기</p>
+<p data-build-in="rise order 1" data-delay="350" style="position:absolute;left:330px;top:730px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;line-height:1.35;color:#2459C9;white-space:nowrap">products.remove(p)</p>
+<p data-build-in="rise order 1" data-delay="350" style="position:absolute;left:1100px;top:730px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;line-height:1.35;color:#B26A00;white-space:nowrap">DELETE FROM product WHERE id = 8;</p>
+<div style="position:absolute;left:96px;top:790px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="420" style="position:absolute;left:96px;top:816px;font-size:26px;font-weight:700;color:#4A5262;white-space:nowrap">비어 있음</p>
+<p data-build-in="rise order 1" data-delay="420" style="position:absolute;left:330px;top:818px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;line-height:1.35;color:#2459C9;white-space:nowrap">None, is None</p>
+<p data-build-in="rise order 1" data-delay="420" style="position:absolute;left:1100px;top:818px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;line-height:1.35;color:#A23B72;white-space:nowrap">NULL, IS NULL</p>
+<div style="position:absolute;left:96px;top:878px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" style="position:absolute;left:96px;top:914px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#1D2330">파이썬 리스트는 프로그램이 끝나면 사라지지만, 표는 볼륨에 남아서 다음 날에도 그대로예요.</p>
+<aside>15, 22, 23에서 파이썬으로 하던 일을 SQL 한 문장으로 해요. 왼쪽은 상품을 딕셔너리 리스트로 담았을 때 쓰던 코드예요. 넣기는 append, 고르기는 23의 컴프리헨션에 if, 줄 세우기는 22의 sorted와 key, reverse예요. 앞에서 세 개는 슬라이싱이에요. 고치기는 딕셔너리 칸에 새 값을 넣었고, 지우기는 remove였어요. 비어 있음은 None이었어요. SQL에서는 같은 일을 표 이름과 조건만 적어서 해요. 가장 큰 차이는 남느냐예요. 파이썬 리스트는 프로그램이 끝나면 사라지지만, 표는 34에서 붙인 볼륨에 남아서 다음 날에도 그대로예요.</aside>
+</section>
