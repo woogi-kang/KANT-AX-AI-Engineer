@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/40-sql-union-join/sql-union-join-slides.html) | [37 · SQL 2 (제약 조건으로 표 설계하기)](../37-sql-constraints) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/40-sql-union-join/sql-union-join-slides.html) | [39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) | 준비 중 |
 
 <!-- /curriculum:top -->
 
@@ -293,6 +293,6 @@ node ../tools/export.js slides sql-union-join-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 37 · SQL 2 (제약 조건으로 표 설계하기)](../37-sql-constraints) · [커리큘럼](../README.md)
+[← 이전: 39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) · [커리큘럼](../README.md)
 
 <!-- /curriculum:nav -->
