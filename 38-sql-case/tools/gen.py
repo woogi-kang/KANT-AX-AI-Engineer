@@ -753,15 +753,15 @@ big_sql = ["SELECT name, birth_year,",
            "WHERE (birth_year <= 1960 OR birth_year >= 2000)",
            "  AND phone IS NOT NULL",
            "ORDER BY birth_year DESC, name;"]
-h_, g = sqlcard("big-sql", 96, 214, 1040, big_sql, size=27)
+h_, g = sqlcard("big-sql", 96, 214, 1000, big_sql, size=28, lh=1.75)
 o.append(h_)
 bands = [(4, 5, C1, "1파트 · 조건 섞기", "AND, OR, 괄호, NOT"), (1, 2, C2, "2파트 · CASE", "조건에 따라 값을 붙인 새 열"), (6, 6, C3, "3파트 · 줄 세우기", "기준 여러 개, NULL 자리")]
 for k, (i, j, col, lab, sub) in enumerate(bands):
     od = k + 1
     o.append(cband(g, i, j, od, col, DIM("bigb")))
     ym = (g["top"](i) + g["top"](j) + g["lp"]) / 2
-    o += leader(g["x"] + g["w"] + 8, ym, 1200, col, od, f'<span>{e(lab)}</span>', None, 28, e(sub))
-FY = 710
+    o += leader(g["x"] + g["w"] + 8, ym, 1150, col, od, f'<span>{e(lab)}</span> <span style="font-weight:400;color:{SUB};font-size:23px;margin-left:10px">{e(sub)}</span>', None, 27)
+FY = 750
 o.append(hd(96, FY, "PostgreSQL은 이 순서로 처리해요", GRAY, 26, 4))
 steps = [("FROM", "표 고르기"), ("WHERE", "줄 거르기"), ("SELECT", "열 만들기 (CASE)"), ("ORDER BY", "줄 세우기")]
 SX, SW, SG = 96, 380, 69
@@ -782,17 +782,19 @@ o = frame("s-load", "들어가기", "수업 예제 표 다섯 개를 kant_shop�
 ld = ["$ " + D["load"][0]["cmd"]] + R("load", 0) + ["$ " + D["load"][1]["cmd"]] + R("load", 1)
 t = term_q(ld, 96, 214, size=20, tid="t-load", lh=1.5)
 o.append(t.html())
-o += tag(t, 1, "35에서 배운 docker cp", GRAY, 1)
+o += tag(t, 0, "35에서 배운 docker cp", GRAY, 1)
 o.append(hbox(t, 2, "-f /tmp/sports.sql", PG, 1))
 i_n = at(ld, "NOTICE")
-o += tag(t, i_n, "처음이라 지울 표가 없다는 알림", GRAY, 2, at=t.sx(i_n, "NOTICE") + t.sw("NOTICE:  table \"enrollments\" does not exist, skipping"))
+o += tag(t, i_n + 5, "위 NOTICE는 지울 표가 없다는 알림", GRAY, 2)
+i_c = at(ld, "INSERT 0 14")
+o += tag(t, i_c, "courses 14줄, 다음 줄 members 40줄", C1, 3)
 RX = t.x + t.w + 56
 tabs = [("sports", "종목", "5", GRAY), ("instructors", "강사", "8", GRAY), ("courses", "강좌", "14", C1), ("members", "회원", "40", C2), ("enrollments", "수강 신청", "187", GRAY)]
 o.append(hd(RX, 214, "들어간 표", GRAY, 24, 3))
 for k, (nm, ko, n, col) in enumerate(tabs):
     y = 262 + k * 112
     main_ = col != GRAY
-    o.append(f'<div{bi("rise", 3)}{DELAY(k * 80)} style="position:absolute;left:{RX}px;top:{y}px;width:{1824 - RX}px;height:92px;background:{CARD};border:{3 if main_ else 2}px solid {col if main_ else LINE};border-radius:16px">'
+    o.append(f'<div{bi("rise", 3)}{DELAY(k * 80)} style="position:absolute;left:{RX}px;top:{y}px;width:{1824 - RX}px;height:98px;background:{CARD};border:{3 if main_ else 2}px solid {col if main_ else LINE};border-radius:16px">'
              + p(f"position:absolute;left:24px;top:12px;font-family:{MONO};font-size:27px;font-weight:700;color:{col if main_ else INK}", nm)
              + p(f"position:absolute;left:24px;top:52px;font-size:22px;color:{SUB};white-space:nowrap", f"{ko} {n}줄" + (" · 오늘 써요" if main_ else ""))
              + '</div>')
@@ -951,6 +953,12 @@ for k, (sq, n, col, lab) in enumerate(bars):
     bx = 1180
     o.append(f'<div{WIPE(3)}{DELAY(k * 160)} style="position:absolute;left:{bx}px;top:{y}px;width:{n * 76}px;height:44px;border-radius:10px;background:{col}"></div>')
     o.append(p(f"position:absolute;left:{bx + n * 76 + 16}px;top:{y + 2}px;font-size:28px;font-weight:900;color:{col};white-space:nowrap", f"{n}줄", bi("rise", 3) + DELAY(k * 160 + 200)))
+RX = t.x + t.w + 60
+o.append(f'<div{bi("rise", 4)} style="position:absolute;left:{RX}px;top:{t.y}px;width:{1824 - RX}px;height:{t.h}px;box-sizing:border-box;background:{CARD};border:2px solid {LINE};border-radius:16px;padding:32px 40px;display:flex;flex-direction:column;justify-content:center">'
+         + p(f"font-size:27px;font-weight:700;color:{C2};margin-bottom:18px", "AND끼리만 이을 때")
+         + p(f"font-size:25px;line-height:1.55;color:{INK};margin-bottom:22px", "괄호가 있어도 없어도 결과가 같아요.")
+         + p(f"font-size:27px;font-weight:700;color:{RED};margin-bottom:18px", "OR가 하나라도 섞이면")
+         + p(f"font-size:25px;line-height:1.55;color:{INK}", "어느 쪽을 먼저 묶을지 괄호로 적어요.") + '</div>')
 W("a-and", o, "괄호 안을 AND로 바꾸면 둘 다 맞는 1줄만 남아요. 이번에는 초급이면서 9시 전인 수영 강좌를 찾았어요. 수영 초급 아침반 하나만 나와요. 아래는 지금까지 친 세 문장을 나란히 놓은 거예요. 괄호가 없으면 7줄, OR를 괄호로 묶으면 4줄, AND를 괄호로 묶으면 1줄이에요. 글자 몇 개 차이로 결과가 크게 달라져요. OR는 고를 줄을 늘리고, AND는 줄여요. 사실 AND끼리만 이을 때는 괄호가 없어도 결과가 같아요. 그래도 OR가 하나라도 섞이면 괄호부터 쳐요." + REAL)
 
 # =====================================================================
@@ -978,12 +986,22 @@ W("a-not", o, "NOT은 조건을 뒤집어요. 36에서 배운 IN, LIKE 앞에 NO
 # =====================================================================
 o = frame("c-two", EB2, "CASE는 줄마다 조건을 따져서 값 하나를 새 열로 붙여요", C2, )
 c2 = Q("case2")
-t = term_q(c2, 96, 214, size=22, tid="t-case2", lh=1.6)
+t = term_q(c2, 96, 214, size=22, tid="t-case2", lh=1.6)  # right: question flow
 hi = at(c2, "| 가격대")
 o.append(t.html())
 o.append(hbox(t, at(c2, "CASE WHEN"), "CASE WHEN fee >= 100000 THEN '고가' ELSE '일반' END AS 가격대", C2, 1, which="box"))
 o += tag(t, hi, "새로 생긴 열", C2, 2, at=t.sx(hi, "가격대") + t.sw("가격대"))
 o.append(hbox(t, at(c2, "테니스 입문"), "일반", OR, 2, which="box", pad=6))
+RX = t.x + t.w + 60
+RW = 1824 - RX
+o.append(hd(RX, t.y + 8, "줄마다 이렇게 물어요", GRAY, 24, 3))
+o.append(chip(RX, t.y + 62, "fee >= 100000 ?", OR, 3, 26, mono_=True, w=RW - 36, bg="#FFF6E8"))
+for k, (ans, val, col) in enumerate([("예", "'고가'", GR), ("아니요", "'일반'", SUB)]):
+    y = t.y + 170 + k * 96
+    o.append(p(f"position:absolute;left:{RX}px;top:{y + 6}px;width:110px;font-size:25px;font-weight:700;color:{col};white-space:nowrap", ans, bi("rise", 4) + DELAY(k * 120)))
+    o.append(harrow(RX + 110, RX + 210, y + 24, col, 4, 4))
+    o.append(chip(RX + 228, y, val, col, 4, 26, mono_=True, attrs=DELAY(k * 120 + 80)))
+o.append(note(RX, t.y + 390, RW, "다섯 줄 모두 이 질문을 거쳐서 가격대 칸이 채워져요.", SUB, 23, 5))
 PY = t.y + t.h + 44
 o.append(hd(96, PY, "17의 한 줄 if와 같은 모양이에요", GRAY, 24, 3))
 py_ = (f'<span style="color:{GRAY}">label = </span><span {MARK(3)} style="color:{GR}">"고가"</span> if <span {MARK(3)} style="color:{OR}">fee &gt;= 100000</span> else <span {MARK(3)} style="color:{SUB}">"일반"</span>')
@@ -1098,7 +1116,7 @@ W("c-wrong", o, "넓은 조건을 먼저 쓰면 뒤의 WHEN까지 오지 않아�
 # =====================================================================
 o = frame("c-noelse", EB2, "ELSE를 빼면 어느 WHEN에도 안 맞는 줄은 빈칸(NULL)이에요", C2)
 ce = Q("case-noelse")
-t = term_q(ce, 96, 206, size=19, tid="t-noelse", lh=1.5)
+t = term_q(ce, 96, 206, size=20, tid="t-noelse", lh=1.6)
 i0 = rowi(ce, "최지아")
 t.band(i0, i0 + 5, order=2, color="rgba(224,127,176,.18)")
 o.append(t.html())
@@ -1108,7 +1126,11 @@ o += tag(t, i0 + 2, "빈칸 = NULL", NL, 2, at=t.sx(i0 + 2, "|") + t.sw("|      
 RX = t.x + t.w + 60
 o.append(f'<div{bi("pop", 2)} style="position:absolute;left:{RX}px;top:240px;width:150px;height:150px;border-radius:24px;background:{NLBG};border:3px dashed {NL};font-family:{MONO};font-size:64px;font-weight:700;line-height:144px;text-align:center;color:{NL}">?</div>')
 o.append(note(RX + 180, 250, 1824 - RX - 180, "36에서 본 NULL(모름)이에요. 오류 없이 칸만 비어요.", INK, 25, 2))
-o.append(note(RX, 470, 1824 - RX, "빈칸이 생기면 안 되는 열이면 ELSE를 꼭 적어요.", INK, 26, 3))
+o.append(note(RX, 460, 1824 - RX, "빈칸이 생기면 안 되는 열이면 ELSE를 꼭 적어요.", INK, 26, 3))
+h_, g_ = sqlcard("noelse-fix", RX, 530, 1824 - RX, ["       WHEN birth_year >= 2000 THEN '청소년'", "       ELSE '일반'", "  END AS 요금"], size=24, attrs=bi("rise", 3))
+o.append(h_)
+o.append(cband(g_, 1, 1, 3, GR, DIM("noelse")))
+o.append(note(RX, 530 + g_["h"] + 24, 1824 - RX, "이 한 줄이 있으면 여섯 명 모두 일반이 돼요.", SUB, 24, 3))
 W("c-noelse", o, "ELSE를 빼면 어느 WHEN에도 안 맞는 줄은 빈칸이에요. 앞 장의 요금 CASE에서 ELSE 줄만 지웠어요. 할인과 청소년은 그대로 나오지만, 1975년생부터 1998년생까지 여섯 명은 요금 칸이 비었어요. 이 빈칸이 36에서 본 NULL이에요. PostgreSQL은 ELSE가 없으면 ELSE NULL로 읽어요. 오류가 나지 않아서 놓치기 쉬워요. 빈칸이 생기면 안 되는 열이면 ELSE를 꼭 적어요." + REAL)
 
 # =====================================================================
@@ -1224,11 +1246,11 @@ for k, (g_k, ix) in enumerate(grp_.items()):
 o.append(t.html())
 o.append(hbox(t, 0, "ORDER BY level, fee DESC", C3, 1))
 PY_ = t.y + t.h + 50
-segs = [("ORDER BY", PG, None), ("level,", C3, "작은 것부터 (ASC를 안 적었어요)"), ("fee DESC", OR, "큰 것부터")]
+segs = [("ORDER BY", PG, None), ("level,", C3, "작은 것부터"), ("fee DESC", OR, "큰 것부터")]
 o += parts(96, PY_, [(s_, c_, l_, None) for s_, c_, l_ in segs], size=40, order=2, lab=26, drop=30, lw=520)
 RX = 1150
 o.append(note(RX, PY_ - 4, 1824 - RX, "글자 기준은 가나다 순이라 고급, 중급, 초급(ㄱ, ㅈ, ㅊ) 순서로 서요.", INK, 26, 3))
-o.append(note(RX, PY_ + 120, 1824 - RX, "초급끼리는 수강료가 큰 것부터 섰어요.", SUB, 25, 3))
+o.append(note(RX, PY_ + 100, 1824 - RX, "초급끼리는 수강료가 큰 것부터 섰어요. 방향을 안 적은 level은 ASC예요.", SUB, 25, 3))
 W("o-dir", o, "DESC는 바로 앞 기준 하나에만 붙어요. ORDER BY level, fee DESC는 level을 작은 것부터, fee를 큰 것부터 세워요. level 뒤에 아무것도 안 적으면 ASC로 읽어요. 그래서 level이 먼저 세워지고, 같은 level 안에서 fee가 큰 것부터 서요. 초급 세 줄이 7만, 7만, 6만 원 순서예요. 그런데 level이 고급, 중급, 초급 순서로 섰어요. 글자는 가나다 순으로 세우니까 고급의 ㄱ, 중급의 ㅈ, 초급의 ㅊ 순서예요. 난이도 순서로 세우려면 다음 장의 방법을 써요." + REAL)
 
 # =====================================================================
@@ -1332,7 +1354,7 @@ o.append(hbox(t, i_e, "THEN '고가' ELSE 0", RED, 1, which="box"))
 o.append(hbox(t, at(xt, "ERROR"), "invalid input syntax for type integer: \"고가\"", RED, 2))
 i_f = at(xt, "ELSE '-'")
 o.append(hbox(t, i_f, "ELSE '-'", GR, 3, which="box"))
-o += tag(t, i_f, "둘 다 글자로", GR, 3)
+o += tag(t, at(xt, "헬스 PT 입문"), "THEN, ELSE 둘 다 글자라 통과", GR, 3)
 o.append(caption("한 열에는 한 자료형만 담겨요. 숫자 0을 '0'처럼 작은따옴표로 감싸도 돼요.", t.y + t.h + 40, 3, size=28))
 W("x-type", o, "THEN과 ELSE 값은 같은 자료형이어야 해요. 고가 아니면 0을 적었더니 오류가 났어요. 결과는 열 하나라서 한 가지 자료형만 담을 수 있어요. PostgreSQL은 숫자 0을 보고 이 열을 정수 열로 정한 뒤, 고가라는 글자를 정수로 바꾸려다 실패했어요. 그래서 integer에 고가를 넣을 수 없다는 오류예요. 36에서 본 invalid input syntax와 같은 오류예요. ELSE에도 글자를 적으면 돼요. 숫자를 보여 주고 싶으면 '0'처럼 작은따옴표로 감싸요." + REAL)
 
@@ -1370,8 +1392,8 @@ tb.band(i9b, i9b + 1, order=2, color=ROW_OK)
 o += [ta.html(), tb.html()]
 o += tag(ta, i9a, "테니스가 수영보다 먼저", RED, 1, at=ta.sx(i9a, "90000") + ta.sw("90000"))
 o += tag(tb, i9b, "가나다 순", GR, 2, at=tb.sx(i9b, "90000") + tb.sw("90000"))
-o.append(caption("kant_shop의 기본 정렬 규칙(en_US.utf8)은 글자 수가 다르거나 띄어 쓴 한글을 가나다 순으로 세우지 않을 때가 있어요. 가나다 순이 꼭 필요하면 그 기준 뒤에 COLLATE \"C\"를 붙여요.", ta.y + ta.h + 36, 3, size=26))
-W("x-collate", o, "한글 이름은 가나다 순으로 안 설 때가 있어요. 수업 코드 그대로 수강료가 8만 원 이상인 강좌를 비싼 것부터, 같으면 이름순으로 세웠어요. 그런데 9만 원인 두 강좌에서 테니스 입문이 수영 고급반보다 먼저 나왔어요. ㅅ이 ㅌ보다 앞이니 수영이 먼저여야 해요. 데이터베이스를 만들 때 정해진 기본 정렬 규칙이 en_US.utf8인데, 이 규칙은 글자 수가 다르거나 띄어 쓴 한글을 가나다 순으로 세우지 않을 때가 있어요. 세 글자 회원 이름처럼 길이가 같으면 대체로 맞아요. 가나다 순이 꼭 필요하면 오른쪽처럼 그 기준 뒤에 COLLATE C를 붙여요. 글자 번호 순서로 세우는데, 한글 글자 번호는 가나다 순서로 매겨져 있어요." + REAL)
+o.append(caption("kant_shop의 기본 정렬 규칙(en_US.utf8)은 한글을 가나다 순으로 세우지 않을 때가 있어요. 가나다 순이 꼭 필요하면 그 기준 뒤에 COLLATE \"C\"를 붙여요.", ta.y + ta.h + 36, 3, size=26))
+W("x-collate", o, "한글 이름은 가나다 순으로 안 설 때가 있어요. 수업 코드 그대로 수강료가 8만 원 이상인 강좌를 비싼 것부터, 같으면 이름순으로 세웠어요. 그런데 9만 원인 두 강좌에서 테니스 입문이 수영 고급반보다 먼저 나왔어요. ㅅ이 ㅌ보다 앞이니 수영이 먼저여야 해요. 데이터베이스를 만들 때 정해진 기본 정렬 규칙이 en_US.utf8인데, 이 규칙은 한글을 가나다 순으로 세우지 않을 때가 있어요. 가나다 순이 꼭 필요하면 오른쪽처럼 그 기준 뒤에 COLLATE C를 붙여요. 글자 번호 순서로 세우는데, 한글 글자 번호는 가나다 순서로 매겨져 있어요." + REAL)
 
 # =====================================================================
 # part 5: real situations
@@ -1414,7 +1436,7 @@ for hh in (6, 9, 12, 15, 18, 21):
     o.append(p(f"position:absolute;left:{X(hh) - 40:.0f}px;top:{AY + 100}px;width:80px;text-align:center;font-family:{MONO};font-size:20px;color:{GRAY}", f"{hh:02d}:00", bi("rise", 2)))
 starts = []
 for l in out_rows(et):
-    m = re.search(r"\| (\d\d):(\d\d):00 \| (\S+)", l)
+    m = re.search(r"\| (\d\d):(\d\d):00\s+\| (\S+)", l)
     if m:
         starts.append((int(m.group(1)) + int(m.group(2)) / 60, m.group(3)))
 seen = {}
@@ -1435,7 +1457,6 @@ o.append(hbox(t, at(es, "WHERE (birth"), "(birth_year <= 1960 OR birth_year >= 2
 o.append(hbox(t, at(es, "phone IS NOT NULL"), "phone IS NOT NULL", C2, 2))
 o.append(hbox(t, at(es, "ORDER BY birth_year DESC, name"), "birth_year DESC, name", C3, 3))
 i_k = rowi(es, "강시우")
-t2_ = Term(psql_rows(es), t.x, t.y, size=19, w=t.w, lh=1.48)
 o.append(f'<div{bi("fade", 3)} style="position:absolute;left:{t.x + 22}px;top:{t.top(i_k):.0f}px;width:{t.w - 44}px;height:{2 * t.lp:.0f}px;border-radius:8px;background:rgba(127,209,139,.20)"></div>')
 RX = t.x + t.w + 56
 notes_ = [("1", "괄호로 OR를 먼저 묶어서 할인이나 청소년 중에서 골라요.", OR, 1),
@@ -1487,7 +1508,7 @@ o.append(caption("한글 열 정렬이 이상하면 COLLATE \"C\"를 붙여 봐�
 W("trouble", o, "막히면 이렇게 풀어요. 결과에 엉뚱한 줄이 섞여 나오면 AND와 OR를 괄호 없이 섞었는지 봐요. AS 근처 syntax error는 대부분 END를 빠뜨린 거예요. integer에 글자를 넣을 수 없다는 오류는 THEN과 ELSE 값의 자료형이 다를 때 나요. AS로 붙인 이름이 없다고 하면 WHERE에서 그 이름을 쓴 거예요. CASE 결과가 다 같은 값이면 넓은 조건을 위에 적었는지, 빈칸이 생기면 ELSE를 빠뜨렸는지 봐요. DESC로 세웠는데 빈칸이 맨 앞이면 NULLS LAST를 붙여요. 한글 이름 순서가 이상하면 COLLATE C를 붙여요.")
 
 o = frame("cheatsheet", "정리", "한 장 요약", INK)
-groups = [("조건 섞기", C1, [("a AND (b OR c)", "OR가 섞이면 괄호부터"), ("AND가 OR보다 먼저", "곱셈이 덧셈보다 먼저처럼"), ("NOT IN · NOT LIKE · NOT BETWEEN", "반대로 고르기"), ("NOT (조건)", "괄호 안이 맞는 줄을 빼고")]),
+groups = [("조건 섞기", C1, [("a AND (b OR c)", "OR가 섞이면 괄호부터"), ("AND가 OR보다 먼저", "곱셈이 덧셈보다 먼저처럼"), ("NOT IN · NOT LIKE", "반대로 고르기"), ("NOT (조건)", "괄호 안이 맞는 줄을 빼고")]),
           ("CASE로 값 붙이기", C2, [("CASE WHEN 조건 THEN 값", "처음 맞는 WHEN 하나만"), ("ELSE 값 END AS 이름", "ELSE가 없으면 NULL"), ("좁은 조건부터", "넓은 WHEN이 위면 아래는 안 봐요"), ("THEN 값끼리 같은 자료형", "글자면 모두 글자")]),
           ("줄 세우기", C3, [("ORDER BY a DESC, b", "DESC는 바로 앞 기준에만"), ("ORDER BY CASE ... END", "원하는 순서로 번호 매기기"), ("NULLS LAST · NULLS FIRST", "빈칸 자리 정하기"), ("COLLATE \"C\"", "한글 가나다 순")])]
 GW = [560, 560, 560]

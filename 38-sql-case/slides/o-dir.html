@@ -5,10 +5,10 @@
 <svg data-build-in="draw order 1" viewBox="0 0 1920 1080" style="position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;overflow:visible"><g fill="none" stroke="#1F8A4C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M1210.0,309 L1268,312 1325,307 1383,312 1440,307 1498,312 1556,307"/></g></svg>
 <p style="position:absolute;left:96px;top:690px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:40px;font-weight:700;line-height:1.3;white-space:pre"><span style="color:#336791">ORDER BY</span> <span style="color:#1F8A4C">level,</span> <span style="color:#B26A00">fee DESC</span></p>
 <div data-build-in="fade order 2" style="position:absolute;left:383px;top:746px;width:2px;height:30px;background:#1F8A4C"></div>
-<p data-build-in="pop order 2" style="position:absolute;left:124px;top:782px;width:520px;text-align:center;font-size:26px;font-weight:700;line-height:1.35;color:#1F8A4C">작은 것부터 (ASC를 안 적었어요)</p>
+<p data-build-in="pop order 2" style="position:absolute;left:124px;top:782px;width:520px;text-align:center;font-size:26px;font-weight:700;line-height:1.35;color:#1F8A4C">작은 것부터</p>
 <div data-build-in="fade order 2" style="position:absolute;left:575px;top:746px;width:2px;height:30px;background:#B26A00"></div>
 <p data-build-in="pop order 2" style="position:absolute;left:316px;top:782px;width:520px;text-align:center;font-size:26px;font-weight:700;line-height:1.35;color:#B26A00">큰 것부터</p>
 <p data-build-in="rise order 3" style="position:absolute;left:1150px;top:686px;width:674px;font-size:26px;line-height:1.5;color:#1D2330">글자 기준은 가나다 순이라 고급, 중급, 초급(ㄱ, ㅈ, ㅊ) 순서로 서요.</p>
-<p data-build-in="rise order 3" style="position:absolute;left:1150px;top:810px;width:674px;font-size:25px;line-height:1.5;color:#4A5262">초급끼리는 수강료가 큰 것부터 섰어요.</p>
+<p data-build-in="rise order 3" style="position:absolute;left:1150px;top:790px;width:674px;font-size:25px;line-height:1.5;color:#4A5262">초급끼리는 수강료가 큰 것부터 섰어요. 방향을 안 적은 level은 ASC예요.</p>
 <aside>DESC는 바로 앞 기준 하나에만 붙어요. ORDER BY level, fee DESC는 level을 작은 것부터, fee를 큰 것부터 세워요. level 뒤에 아무것도 안 적으면 ASC로 읽어요. 그래서 level이 먼저 세워지고, 같은 level 안에서 fee가 큰 것부터 서요. 초급 세 줄이 7만, 7만, 6만 원 순서예요. 그런데 level이 고급, 중급, 초급 순서로 섰어요. 글자는 가나다 순으로 세우니까 고급의 ㄱ, 중급의 ㅈ, 초급의 ㅊ 순서예요. 난이도 순서로 세우려면 다음 장의 방법을 써요. 터미널 출력은 tools/demo.py로 실제 Docker와 PostgreSQL 18을 실행한 결과예요.</aside>
 </section>
