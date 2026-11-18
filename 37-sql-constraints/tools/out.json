@@ -1,0 +1,1034 @@
+{
+ "version": [
+  {
+   "cmd": "",
+   "cwd": "~",
+   "out": [
+    "PostgreSQL 18.7 (Debian 18.7-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit"
+   ]
+  }
+ ],
+ "why": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE member (id INTEGER, name VARCHAR(20), email VARCHAR(50), age INTEGER);",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO member VALUES (1, 'kim', 'kim@mail.com', 25);",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO member VALUES (1, 'lee', 'kim@mail.com', -3);",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO member VALUES (2, NULL, NULL, 30);",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name |    email     | age",
+    "----+------+--------------+-----",
+    "  1 | kim  | kim@mail.com |  25",
+    "  1 | lee  | kim@mail.com |  -3",
+    "  2 |      |              |  30",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "min": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE product (",
+    "kant_shop(#   id INTEGER,",
+    "kant_shop(#   name VARCHAR(20),",
+    "kant_shop(#   price INTEGER CHECK (price > 0)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO product VALUES (1, 'earphone', -89000);",
+    "ERROR:  new row for relation \"product\" violates check constraint \"product_price_check\"",
+    "DETAIL:  Failing row contains (1, earphone, -89000).",
+    "kant_shop=# INSERT INTO product VALUES (1, 'earphone', 89000);",
+    "INSERT 0 1",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "nn": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE member (",
+    "kant_shop(#   id INTEGER,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL,",
+    "kant_shop(#   email VARCHAR(50)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO member (id, email) VALUES (1, 'kim@mail.com');",
+    "ERROR:  null value in column \"name\" of relation \"member\" violates not-null constraint",
+    "DETAIL:  Failing row contains (1, null, kim@mail.com).",
+    "kant_shop=# INSERT INTO member (id, name) VALUES (1, 'kim');",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name | email",
+    "----+------+-------",
+    "  1 | kim  |",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "df": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE member (",
+    "kant_shop(#   id INTEGER,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL,",
+    "kant_shop(#   points INTEGER DEFAULT 0,",
+    "kant_shop(#   joined_at TIMESTAMPTZ DEFAULT now()",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO member (id, name) VALUES (1, 'kim');",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO member (id, name, points) VALUES (2, 'lee', 500);",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name | points |           joined_at",
+    "----+------+--------+-------------------------------",
+    "  1 | kim  |      0 | 2026-11-17 00:48:50.624892+00",
+    "  2 | lee  |    500 | 2026-11-17 00:48:51.847456+00",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\d member",
+    "                         Table \"public.member\"",
+    "  Column   |           Type           | Collation | Nullable | Default",
+    "-----------+--------------------------+-----------+----------+---------",
+    " id        | integer                  |           |          |",
+    " name      | character varying(20)    |           | not null |",
+    " points    | integer                  |           |          | 0",
+    " joined_at | timestamp with time zone |           |          | now()",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "uq": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE member (",
+    "kant_shop(#   id INTEGER,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL,",
+    "kant_shop(#   email VARCHAR(50) UNIQUE",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO member VALUES (1, 'kim', 'kim@mail.com');",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO member VALUES (2, 'lee', 'kim@mail.com');",
+    "ERROR:  duplicate key value violates unique constraint \"member_email_key\"",
+    "DETAIL:  Key (email)=(kim@mail.com) already exists.",
+    "kant_shop=# INSERT INTO member VALUES (2, 'lee', 'lee@mail.com');",
+    "INSERT 0 1",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ck": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE product (",
+    "kant_shop(#   id INTEGER,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL,",
+    "kant_shop(#   price INTEGER CHECK (price > 0),",
+    "kant_shop(#   stock INTEGER CHECK (stock >= 0)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO product VALUES (1, 'earphone', 0, 3);",
+    "ERROR:  new row for relation \"product\" violates check constraint \"product_price_check\"",
+    "DETAIL:  Failing row contains (1, earphone, 0, 3).",
+    "kant_shop=# INSERT INTO product VALUES (1, 'earphone', 89000, -1);",
+    "ERROR:  new row for relation \"product\" violates check constraint \"product_stock_check\"",
+    "DETAIL:  Failing row contains (1, earphone, 89000, -1).",
+    "kant_shop=# INSERT INTO product VALUES (1, 'earphone', 89000, 3);",
+    "INSERT 0 1",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "nm": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE product (",
+    "kant_shop(#   id INTEGER,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL,",
+    "kant_shop(#   price INTEGER,",
+    "kant_shop(#   sale_price INTEGER,",
+    "kant_shop(#   CONSTRAINT price_positive CHECK (price > 0),",
+    "kant_shop(#   CONSTRAINT sale_lower CHECK (sale_price < price)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO product VALUES (1, 'tumbler', -15000, 12000);",
+    "ERROR:  new row for relation \"product\" violates check constraint \"price_positive\"",
+    "DETAIL:  Failing row contains (1, tumbler, -15000, 12000).",
+    "kant_shop=# INSERT INTO product VALUES (1, 'tumbler', 15000, 18000);",
+    "ERROR:  new row for relation \"product\" violates check constraint \"sale_lower\"",
+    "DETAIL:  Failing row contains (1, tumbler, 15000, 18000).",
+    "kant_shop=# INSERT INTO product VALUES (1, 'tumbler', 15000, 12000);",
+    "INSERT 0 1",
+    "kant_shop=# \\d product",
+    "                       Table \"public.product\"",
+    "   Column   |         Type          | Collation | Nullable | Default",
+    "------------+-----------------------+-----------+----------+---------",
+    " id         | integer               |           |          |",
+    " name       | character varying(20) |           | not null |",
+    " price      | integer               |           |          |",
+    " sale_price | integer               |           |          |",
+    "Check constraints:",
+    "    \"price_positive\" CHECK (price > 0)",
+    "    \"sale_lower\" CHECK (sale_price < price)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "pk": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE member (",
+    "kant_shop(#   id INTEGER PRIMARY KEY,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO member VALUES (1, 'kim');",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO member VALUES (1, 'lee');",
+    "ERROR:  duplicate key value violates unique constraint \"member_pkey\"",
+    "DETAIL:  Key (id)=(1) already exists.",
+    "kant_shop=# INSERT INTO member VALUES (NULL, 'park');",
+    "ERROR:  null value in column \"id\" of relation \"member\" violates not-null constraint",
+    "DETAIL:  Failing row contains (null, park).",
+    "kant_shop=# \\d member",
+    "                      Table \"public.member\"",
+    " Column |         Type          | Collation | Nullable | Default",
+    "--------+-----------------------+-----------+----------+---------",
+    " id     | integer               |           | not null |",
+    " name   | character varying(20) |           | not null |",
+    "Indexes:",
+    "    \"member_pkey\" PRIMARY KEY, btree (id)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "sr": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE member (",
+    "kant_shop(#   id SERIAL PRIMARY KEY,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO member (name) VALUES ('kim'), ('lee');",
+    "INSERT 0 2",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "  1 | kim",
+    "  2 | lee",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\d member",
+    "                                   Table \"public.member\"",
+    " Column |         Type          | Collation | Nullable |              Default",
+    "--------+-----------------------+-----------+----------+------------------------------------",
+    " id     | integer               |           | not null | nextval('member_id_seq'::regclass)",
+    " name   | character varying(20) |           | not null |",
+    "Indexes:",
+    "    \"member_pkey\" PRIMARY KEY, btree (id)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "sr-trap": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO member VALUES (3, 'park');",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO member (name) VALUES ('choi');",
+    "ERROR:  duplicate key value violates unique constraint \"member_pkey\"",
+    "DETAIL:  Key (id)=(3) already exists.",
+    "kant_shop=# INSERT INTO member (name) VALUES ('choi');",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "  1 | kim",
+    "  2 | lee",
+    "  3 | park",
+    "  4 | choi",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "id": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE product (",
+    "kant_shop(#   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL,",
+    "kant_shop(#   price INTEGER",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO product (name, price) VALUES ('earphone', 89000), ('tumbler', 15000);",
+    "INSERT 0 2",
+    "kant_shop=# INSERT INTO product VALUES (3, 'battery', 32000);",
+    "ERROR:  cannot insert a non-DEFAULT value into column \"id\"",
+    "DETAIL:  Column \"id\" is an identity column defined as GENERATED ALWAYS.",
+    "HINT:  Use OVERRIDING SYSTEM VALUE to override.",
+    "kant_shop=# SELECT * FROM product;",
+    " id |   name   | price",
+    "----+----------+-------",
+    "  1 | earphone | 89000",
+    "  2 | tumbler  | 15000",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\d product",
+    "                                Table \"public.product\"",
+    " Column |         Type          | Collation | Nullable |           Default",
+    "--------+-----------------------+-----------+----------+------------------------------",
+    " id     | integer               |           | not null | generated always as identity",
+    " name   | character varying(20) |           | not null |",
+    " price  | integer               |           |          |",
+    "Indexes:",
+    "    \"product_pkey\" PRIMARY KEY, btree (id)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "id-bd": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE product (",
+    "kant_shop(#   id INTEGER GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO product (name) VALUES ('earphone');",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO product VALUES (2, 'tumbler');",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO product (name) VALUES ('battery');",
+    "ERROR:  duplicate key value violates unique constraint \"product_pkey\"",
+    "DETAIL:  Key (id)=(2) already exists.",
+    "kant_shop=# SELECT * FROM product;",
+    " id |   name",
+    "----+----------",
+    "  1 | earphone",
+    "  2 | tumbler",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "cp": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE order_item (",
+    "kant_shop(#   order_id INTEGER,",
+    "kant_shop(#   product_id INTEGER,",
+    "kant_shop(#   qty INTEGER NOT NULL,",
+    "kant_shop(#   PRIMARY KEY (order_id, product_id)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO order_item VALUES (1, 1, 1), (1, 2, 2), (2, 1, 1);",
+    "INSERT 0 3",
+    "kant_shop=# INSERT INTO order_item VALUES (1, 1, 5);",
+    "ERROR:  duplicate key value violates unique constraint \"order_item_pkey\"",
+    "DETAIL:  Key (order_id, product_id)=(1, 1) already exists.",
+    "kant_shop=# SELECT * FROM order_item;",
+    " order_id | product_id | qty",
+    "----------+------------+-----",
+    "        1 |          1 |   1",
+    "        1 |          2 |   2",
+    "        2 |          1 |   1",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\d order_item",
+    "               Table \"public.order_item\"",
+    "   Column   |  Type   | Collation | Nullable | Default",
+    "------------+---------+-----------+----------+---------",
+    " order_id   | integer |           | not null |",
+    " product_id | integer |           | not null |",
+    " qty        | integer |           | not null |",
+    "Indexes:",
+    "    \"order_item_pkey\" PRIMARY KEY, btree (order_id, product_id)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "cu": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE cart_item (",
+    "kant_shop(#   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,",
+    "kant_shop(#   member_id INTEGER,",
+    "kant_shop(#   product_id INTEGER,",
+    "kant_shop(#   qty INTEGER NOT NULL,",
+    "kant_shop(#   UNIQUE (member_id, product_id)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO cart_item (member_id, product_id, qty) VALUES (1, 1, 1), (1, 2, 2);",
+    "INSERT 0 2",
+    "kant_shop=# INSERT INTO cart_item (member_id, product_id, qty) VALUES (1, 1, 3);",
+    "ERROR:  duplicate key value violates unique constraint \"cart_item_member_id_product_id_key\"",
+    "DETAIL:  Key (member_id, product_id)=(1, 1) already exists.",
+    "kant_shop=# INSERT INTO cart_item (member_id, product_id, qty) VALUES (NULL, 1, 1), (NULL, 1, 1);",
+    "INSERT 0 2",
+    "kant_shop=# SELECT * FROM cart_item;",
+    " id | member_id | product_id | qty",
+    "----+-----------+------------+-----",
+    "  1 |         1 |          1 |   1",
+    "  2 |         1 |          2 |   2",
+    "  4 |           |          1 |   1",
+    "  5 |           |          1 |   1",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "cp-null": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO order_item VALUES (NULL, 1, 1);",
+    "ERROR:  null value in column \"order_id\" of relation \"order_item\" violates not-null constraint",
+    "DETAIL:  Failing row contains (null, 1, 1).",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "fk": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE orders (",
+    "kant_shop(#   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,",
+    "kant_shop(#   member_id INTEGER REFERENCES member (id),",
+    "kant_shop(#   total INTEGER NOT NULL",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO member (name) VALUES ('kim'), ('lee');",
+    "INSERT 0 2",
+    "kant_shop=# INSERT INTO orders (member_id, total) VALUES (1, 104000);",
+    "INSERT 0 1",
+    "kant_shop=# INSERT INTO orders (member_id, total) VALUES (99, 15000);",
+    "ERROR:  insert or update on table \"orders\" violates foreign key constraint \"orders_member_id_fkey\"",
+    "DETAIL:  Key (member_id)=(99) is not present in table \"member\".",
+    "kant_shop=# SELECT * FROM orders;",
+    " id | member_id | total",
+    "----+-----------+--------",
+    "  1 |         1 | 104000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "fk-del": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# DELETE FROM member WHERE id = 1;",
+    "ERROR:  update or delete on table \"member\" violates foreign key constraint \"orders_member_id_fkey\" on table \"orders\"",
+    "DETAIL:  Key (id)=(1) is still referenced from table \"orders\".",
+    "kant_shop=# DELETE FROM member WHERE id = 2;",
+    "DELETE 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "  1 | kim",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "fk-drop": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# DROP TABLE member;",
+    "ERROR:  cannot drop table member because other objects depend on it",
+    "DETAIL:  constraint orders_member_id_fkey on table orders depends on table member",
+    "HINT:  Use DROP ... CASCADE to drop the dependent objects too.",
+    "kant_shop=# DROP TABLE orders;",
+    "DROP TABLE",
+    "kant_shop=# DROP TABLE member;",
+    "DROP TABLE",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "fk-order": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE orders (",
+    "kant_shop(#   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,",
+    "kant_shop(#   member_id INTEGER REFERENCES member (id)",
+    "kant_shop(# );",
+    "ERROR:  relation \"member\" does not exist",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "fk-cascade": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE orders (",
+    "kant_shop(#   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,",
+    "kant_shop(#   member_id INTEGER REFERENCES member (id) ON DELETE CASCADE,",
+    "kant_shop(#   total INTEGER NOT NULL",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO orders (member_id, total) VALUES (1, 104000), (1, 9000), (2, 15000);",
+    "INSERT 0 3",
+    "kant_shop=# DELETE FROM member WHERE id = 1;",
+    "DELETE 1",
+    "kant_shop=# SELECT * FROM orders;",
+    " id | member_id | total",
+    "----+-----------+-------",
+    "  3 |         2 | 15000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "fk-restrict": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE orders (",
+    "kant_shop(#   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,",
+    "kant_shop(#   member_id INTEGER REFERENCES member (id) ON DELETE RESTRICT,",
+    "kant_shop(#   total INTEGER NOT NULL",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO orders (member_id, total) VALUES (1, 104000);",
+    "INSERT 0 1",
+    "kant_shop=# DELETE FROM member WHERE id = 1;",
+    "ERROR:  update or delete on table \"member\" violates RESTRICT setting of foreign key constraint \"orders_member_id_fkey\" on table \"orders\"",
+    "DETAIL:  Key (id)=(1) is referenced from table \"orders\".",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "fk-setnull": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE orders (",
+    "kant_shop(#   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,",
+    "kant_shop(#   member_id INTEGER REFERENCES member (id) ON DELETE SET NULL,",
+    "kant_shop(#   total INTEGER NOT NULL",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO orders (member_id, total) VALUES (1, 104000);",
+    "INSERT 0 1",
+    "kant_shop=# DELETE FROM member WHERE id = 1;",
+    "DELETE 1",
+    "kant_shop=# SELECT * FROM orders;",
+    " id | member_id | total",
+    "----+-----------+--------",
+    "  1 |           | 104000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "al-add": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name |     email",
+    "----+------+---------------",
+    "  1 | kim  | kim@mail.com",
+    "  2 | lee  | kim@mail.com",
+    "  3 |      | park@mail.com",
+    "(3 rows)",
+    "",
+    "kant_shop=# ALTER TABLE member ADD CONSTRAINT member_email_key UNIQUE (email);",
+    "ERROR:  could not create unique index \"member_email_key\"",
+    "DETAIL:  Key (email)=(kim@mail.com) is duplicated.",
+    "kant_shop=# UPDATE member SET email = 'lee@mail.com' WHERE id = 2;",
+    "UPDATE 1",
+    "kant_shop=# ALTER TABLE member ADD CONSTRAINT member_email_key UNIQUE (email);",
+    "ALTER TABLE",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "al-col": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# ALTER TABLE member ALTER COLUMN name SET NOT NULL;",
+    "ERROR:  column \"name\" of relation \"member\" contains null values",
+    "kant_shop=# UPDATE member SET name = 'park' WHERE id = 3;",
+    "UPDATE 1",
+    "kant_shop=# ALTER TABLE member ALTER COLUMN name SET NOT NULL;",
+    "ALTER TABLE",
+    "kant_shop=# ALTER TABLE member ADD PRIMARY KEY (id);",
+    "ALTER TABLE",
+    "kant_shop=# ALTER TABLE member ADD COLUMN points INTEGER DEFAULT 0;",
+    "ALTER TABLE",
+    "kant_shop=# \\d member",
+    "                      Table \"public.member\"",
+    " Column |         Type          | Collation | Nullable | Default",
+    "--------+-----------------------+-----------+----------+---------",
+    " id     | integer               |           | not null |",
+    " name   | character varying(20) |           | not null |",
+    " email  | character varying(50) |           |          |",
+    " points | integer               |           |          | 0",
+    "Indexes:",
+    "    \"member_pkey\" PRIMARY KEY, btree (id)",
+    "    \"member_email_key\" UNIQUE CONSTRAINT, btree (email)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "al-drop": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# ALTER TABLE member DROP CONSTRAINT member_email_key;",
+    "ALTER TABLE",
+    "kant_shop=# ALTER TABLE member ALTER COLUMN name DROP NOT NULL;",
+    "ALTER TABLE",
+    "kant_shop=# ALTER TABLE member ALTER COLUMN points SET DEFAULT 100;",
+    "ALTER TABLE",
+    "kant_shop=# \\d member",
+    "                      Table \"public.member\"",
+    " Column |         Type          | Collation | Nullable | Default",
+    "--------+-----------------------+-----------+----------+---------",
+    " id     | integer               |           | not null |",
+    " name   | character varying(20) |           |          |",
+    " email  | character varying(50) |           |          |",
+    " points | integer               |           |          | 100",
+    "Indexes:",
+    "    \"member_pkey\" PRIMARY KEY, btree (id)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "tr-null": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE member (",
+    "kant_shop(#   id INTEGER PRIMARY KEY,",
+    "kant_shop(#   email VARCHAR(50) UNIQUE,",
+    "kant_shop(#   points INTEGER DEFAULT 0 CHECK (points >= 0)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO member VALUES (1, NULL, NULL), (2, NULL, NULL);",
+    "INSERT 0 2",
+    "kant_shop=# SELECT * FROM member;",
+    " id | email | points",
+    "----+-------+--------",
+    "  1 |       |",
+    "  2 |       |",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "tr-default": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO member VALUES (3, 'kim@mail.com', DEFAULT);",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id |    email     | points",
+    "----+--------------+--------",
+    "  1 |              |",
+    "  2 |              |",
+    "  3 | kim@mail.com |      0",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "tr-fix": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE member (",
+    "kant_shop(#   id INTEGER PRIMARY KEY,",
+    "kant_shop(#   email VARCHAR(50) NOT NULL UNIQUE,",
+    "kant_shop(#   points INTEGER NOT NULL DEFAULT 0 CHECK (points >= 0)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO member VALUES (1, NULL, NULL);",
+    "ERROR:  null value in column \"email\" of relation \"member\" violates not-null constraint",
+    "DETAIL:  Failing row contains (1, null, null).",
+    "kant_shop=# INSERT INTO member VALUES (1, 'kim@mail.com', NULL);",
+    "ERROR:  null value in column \"points\" of relation \"member\" violates not-null constraint",
+    "DETAIL:  Failing row contains (1, kim@mail.com, null).",
+    "kant_shop=# INSERT INTO member (id, email) VALUES (1, 'kim@mail.com');",
+    "INSERT 0 1",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ex-make": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE member (",
+    "kant_shop(#   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL,",
+    "kant_shop(#   email VARCHAR(50) NOT NULL UNIQUE",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# CREATE TABLE product (",
+    "kant_shop(#   id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,",
+    "kant_shop(#   name VARCHAR(20) NOT NULL,",
+    "kant_shop(#   price INTEGER NOT NULL CHECK (price > 0),",
+    "kant_shop(#   stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# CREATE TABLE cart_item (",
+    "kant_shop(#   member_id INTEGER REFERENCES member (id) ON DELETE CASCADE,",
+    "kant_shop(#   product_id INTEGER REFERENCES product (id),",
+    "kant_shop(#   qty INTEGER NOT NULL CHECK (qty > 0),",
+    "kant_shop(#   PRIMARY KEY (member_id, product_id)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# \\dt",
+    "            List of tables",
+    " Schema |   Name    | Type  |  Owner",
+    "--------+-----------+-------+----------",
+    " public | cart_item | table | postgres",
+    " public | member    | table | postgres",
+    " public | product   | table | postgres",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ex-data": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO member (name, email) VALUES ('kim', 'kim@mail.com'), ('lee', 'lee@mail.com');",
+    "INSERT 0 2",
+    "kant_shop=# INSERT INTO product (name, price, stock) VALUES ('earphone', 89000, 3), ('tumbler', 15000, 10), ('battery', 32000, 5), ('mousepad', 9000, 0), ('usb",
+    "hub', 30000, 10);",
+    "INSERT 0 5",
+    "kant_shop=# SELECT * FROM product;",
+    " id |   name   | price | stock",
+    "----+----------+-------+-------",
+    "  1 | earphone | 89000 |     3",
+    "  2 | tumbler  | 15000 |    10",
+    "  3 | battery  | 32000 |     5",
+    "  4 | mousepad |  9000 |     0",
+    "  5 | usb hub  | 30000 |    10",
+    "(5 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ex-cart": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO cart_item VALUES (1, 1, 1), (1, 2, 2);",
+    "INSERT 0 2",
+    "kant_shop=# INSERT INTO cart_item VALUES (1, 2, 1);",
+    "ERROR:  duplicate key value violates unique constraint \"cart_item_pkey\"",
+    "DETAIL:  Key (member_id, product_id)=(1, 2) already exists.",
+    "kant_shop=# UPDATE cart_item SET qty = qty + 1 WHERE member_id = 1 AND product_id = 2;",
+    "UPDATE 1",
+    "kant_shop=# INSERT INTO cart_item VALUES (1, 9, 1);",
+    "ERROR:  insert or update on table \"cart_item\" violates foreign key constraint \"cart_item_product_id_fkey\"",
+    "DETAIL:  Key (product_id)=(9) is not present in table \"product\".",
+    "kant_shop=# INSERT INTO cart_item VALUES (1, 3, 0);",
+    "ERROR:  new row for relation \"cart_item\" violates check constraint \"cart_item_qty_check\"",
+    "DETAIL:  Failing row contains (1, 3, 0).",
+    "kant_shop=# SELECT * FROM cart_item;",
+    " member_id | product_id | qty",
+    "-----------+------------+-----",
+    "         1 |          1 |   1",
+    "         1 |          2 |   3",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ex-leave": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# DELETE FROM product WHERE id = 2;",
+    "ERROR:  update or delete on table \"product\" violates foreign key constraint \"cart_item_product_id_fkey\" on table \"cart_item\"",
+    "DETAIL:  Key (id)=(2) is still referenced from table \"cart_item\".",
+    "kant_shop=# DELETE FROM member WHERE id = 1;",
+    "DELETE 1",
+    "kant_shop=# SELECT * FROM cart_item;",
+    " member_id | product_id | qty",
+    "-----------+------------+-----",
+    "         2 |          2 |   1",
+    "(1 row)",
+    "",
+    "kant_shop=# INSERT INTO member (name, email) VALUES ('park', 'lee@mail.com');",
+    "ERROR:  duplicate key value violates unique constraint \"member_email_key\"",
+    "DETAIL:  Key (email)=(lee@mail.com) already exists.",
+    "kant_shop=# UPDATE product SET stock = -1 WHERE id = 3;",
+    "ERROR:  new row for relation \"product\" violates check constraint \"product_stock_check\"",
+    "DETAIL:  Failing row contains (3, battery, 32000, -1).",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "tc-reset": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# DELETE FROM member;",
+    "DELETE 2",
+    "kant_shop=# INSERT INTO member (name) VALUES ('park');",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "  3 | park",
+    "(1 row)",
+    "",
+    "kant_shop=# TRUNCATE member;",
+    "TRUNCATE TABLE",
+    "kant_shop=# INSERT INTO member (name) VALUES ('choi');",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "  4 | choi",
+    "(1 row)",
+    "",
+    "kant_shop=# TRUNCATE member RESTART IDENTITY;",
+    "TRUNCATE TABLE",
+    "kant_shop=# INSERT INTO member (name) VALUES ('choi');",
+    "INSERT 0 1",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "  1 | choi",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "tc-fk": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# TRUNCATE member RESTART IDENTITY;",
+    "ERROR:  cannot truncate a table referenced in a foreign key constraint",
+    "DETAIL:  Table \"orders\" references \"member\".",
+    "HINT:  Truncate table \"orders\" at the same time, or use TRUNCATE ... CASCADE.",
+    "kant_shop=# TRUNCATE orders, member RESTART IDENTITY;",
+    "TRUNCATE TABLE",
+    "kant_shop=# SELECT * FROM member;",
+    " id | name",
+    "----+------",
+    "(0 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "tc-cascade": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# TRUNCATE member RESTART IDENTITY CASCADE;",
+    "NOTICE:  truncate cascades to table \"orders\"",
+    "TRUNCATE TABLE",
+    "kant_shop=# SELECT * FROM orders;",
+    " id | member_id | total",
+    "----+-----------+-------",
+    "(0 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ]
+}
