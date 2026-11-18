@@ -1,0 +1,37 @@
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">한 장 요약</h2>
+<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#2459C9">조건 섞기</p>
+<div style="position:absolute;left:96px;top:270px;width:560px;height:3px;background:#2459C9"></div>
+<p style="position:absolute;left:96px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">a AND (b OR c)</p>
+<p style="position:absolute;left:96px;top:340px;width:560px;font-size:23px;color:#4A5262">OR가 섞이면 괄호부터</p>
+<p style="position:absolute;left:96px;top:406px;width:560px;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">AND가 OR보다 먼저</p>
+<p style="position:absolute;left:96px;top:450px;width:560px;font-size:23px;color:#4A5262">곱셈이 덧셈보다 먼저처럼</p>
+<p style="position:absolute;left:96px;top:516px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">NOT IN · NOT LIKE · NOT BETWEEN</p>
+<p style="position:absolute;left:96px;top:560px;width:560px;font-size:23px;color:#4A5262">반대로 고르기</p>
+<p style="position:absolute;left:96px;top:626px;width:560px;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">NOT (조건)</p>
+<p style="position:absolute;left:96px;top:670px;width:560px;font-size:23px;color:#4A5262">괄호 안이 맞는 줄을 빼고</p>
+<p style="position:absolute;left:680px;top:220px;font-size:30px;font-weight:700;color:#0F7C86">CASE로 값 붙이기</p>
+<div style="position:absolute;left:680px;top:270px;width:560px;height:3px;background:#0F7C86"></div>
+<p style="position:absolute;left:680px;top:296px;width:560px;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">CASE WHEN 조건 THEN 값</p>
+<p style="position:absolute;left:680px;top:340px;width:560px;font-size:23px;color:#4A5262">처음 맞는 WHEN 하나만</p>
+<p style="position:absolute;left:680px;top:406px;width:560px;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">ELSE 값 END AS 이름</p>
+<p style="position:absolute;left:680px;top:450px;width:560px;font-size:23px;color:#4A5262">ELSE가 없으면 NULL</p>
+<p style="position:absolute;left:680px;top:516px;width:560px;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">좁은 조건부터</p>
+<p style="position:absolute;left:680px;top:560px;width:560px;font-size:23px;color:#4A5262">넓은 WHEN이 위면 아래는 안 봐요</p>
+<p style="position:absolute;left:680px;top:626px;width:560px;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">THEN 값끼리 같은 자료형</p>
+<p style="position:absolute;left:680px;top:670px;width:560px;font-size:23px;color:#4A5262">글자면 모두 글자</p>
+<p style="position:absolute;left:1264px;top:220px;font-size:30px;font-weight:700;color:#1F8A4C">줄 세우기</p>
+<div style="position:absolute;left:1264px;top:270px;width:560px;height:3px;background:#1F8A4C"></div>
+<p style="position:absolute;left:1264px;top:296px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">ORDER BY a DESC, b</p>
+<p style="position:absolute;left:1264px;top:340px;width:560px;font-size:23px;color:#4A5262">DESC는 바로 앞 기준에만</p>
+<p style="position:absolute;left:1264px;top:406px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">ORDER BY CASE ... END</p>
+<p style="position:absolute;left:1264px;top:450px;width:560px;font-size:23px;color:#4A5262">원하는 순서로 번호 매기기</p>
+<p style="position:absolute;left:1264px;top:516px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">NULLS LAST · NULLS FIRST</p>
+<p style="position:absolute;left:1264px;top:560px;width:560px;font-size:23px;color:#4A5262">빈칸 자리 정하기</p>
+<p style="position:absolute;left:1264px;top:626px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">COLLATE "C"</p>
+<p style="position:absolute;left:1264px;top:670px;width:560px;font-size:23px;color:#4A5262">한글 가나다 순</p>
+<p style="position:absolute;left:96px;top:780px;width:1728px;font-size:32px;font-weight:700;line-height:1.45;color:#1D2330">AND와 OR를 섞을 때는 괄호부터 쳐요.</p>
+<p style="position:absolute;left:96px;top:840px;width:1728px;font-size:28px;font-weight:700;line-height:1.45;color:#4A5262">39에서는 COUNT, SUM, GROUP BY로 줄을 묶어서 세고 더해요.</p>
+<aside>오늘 쓴 것을 세 묶음으로 모았어요. 왼쪽은 조건 섞기예요. AND가 OR보다 먼저 묶이니까 OR가 섞이면 괄호부터 쳐요. NOT은 IN, LIKE, BETWEEN 앞이나 괄호 앞에 붙여서 뒤집어요. 가운데는 CASE예요. 위에서부터 처음 맞는 WHEN 하나만 고르고, ELSE가 없으면 NULL이에요. 좁은 조건부터 적고, THEN 값끼리 자료형을 맞춰요. 오른쪽은 줄 세우기예요. DESC는 바로 앞 기준에만 붙고, CASE로 원하는 순서를 만들고, NULLS LAST로 빈칸 자리를 정해요. 한글 이름 순서가 이상하면 COLLATE C를 붙여요. 다음 39에서는 집계와 GROUP BY를 배워요.</aside>
+</section>
