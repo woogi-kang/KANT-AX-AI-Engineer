@@ -117,7 +117,13 @@
      "commands": "`WHERE a AND (b OR c)` `CASE WHEN ... THEN ... ELSE ... END AS` `ORDER BY fee DESC, course_name` `NULLS LAST`", "slides": "sql-case-slides.html"},
     {"dir": "39-sql-aggregate", "title": "SQL 4 (집계 함수와 GROUP BY)", "track": "데이터베이스",
      "goal": "여러 줄을 COUNT, SUM, AVG로 접고, GROUP BY로 묶어 묶음마다 세고, HAVING으로 묶음을 골라요",
-     "commands": "`COUNT(*)` `SUM(pay_amount)` `ROUND(AVG(fee), 2)` `GROUP BY enroll_month` `HAVING COUNT(*) >= 18`", "slides": "sql-aggregate-slides.html"}
+     "commands": "`COUNT(*)` `SUM(pay_amount)` `ROUND(AVG(fee), 2)` `GROUP BY enroll_month` `HAVING COUNT(*) >= 18`", "slides": "sql-aggregate-slides.html"},
+    {"dir": "40-sql-union-join", "title": "SQL 5 (UNION과 JOIN으로 결과 합치기)", "track": "데이터베이스",
+     "goal": "결과 두 개를 UNION으로 위아래로 잇고, 두 표를 JOIN으로 옆에 붙여 신청 번호 옆에 회원 이름과 강좌 이름을 보여 줘요",
+     "commands": "`UNION ALL` `UNION` `FROM enrollments e` `JOIN members m ON e.member_id = m.member_id` `LEFT JOIN ... WHERE ... IS NULL`", "slides": "sql-union-join-slides.html"},
+    {"dir": "41-sql-subquery", "title": "SQL 6 (서브쿼리)", "track": "데이터베이스",
+     "goal": "괄호 안 SELECT가 먼저 값, 목록, 표가 되게 해서 평균과 비교하고 목록으로 고르고 임시 표로 다시 묶어요",
+     "commands": "`WHERE fee > (SELECT AVG(fee) FROM courses)` `WHERE member_id IN (SELECT ...)` `FROM (SELECT ... GROUP BY ...) AS paid` `(SELECT COUNT(*) FROM members) AS 전체`", "slides": "sql-subquery-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
