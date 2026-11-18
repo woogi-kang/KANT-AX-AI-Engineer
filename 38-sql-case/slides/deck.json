@@ -1,0 +1,66 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-18T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "SQL 3 (조건 조합과 CASE)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "s-load",
+    "s-courses",
+    "a-truth",
+    "a-noparen",
+    "a-paren",
+    "a-and",
+    "a-not",
+    "c-two",
+    "c-parts",
+    "c-many",
+    "c-wrong",
+    "c-noelse",
+    "c-null",
+    "c-calc",
+    "c-python",
+    "o-two",
+    "o-dir",
+    "o-case",
+    "o-null",
+    "o-nulls",
+    "x-end",
+    "x-type",
+    "x-alias",
+    "x-collate",
+    "e-fee",
+    "e-time",
+    "e-sms",
+    "n-next",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "outro": {
+      "description": "정리",
+      "start": "n-next"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
