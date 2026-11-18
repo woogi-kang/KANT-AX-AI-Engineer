@@ -1,0 +1,27 @@
+<section id="n-next" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">37에서는 잘못된 값이 아예 못 들어오게 표를 설계해요</h2>
+<p style="position:absolute;left:96px;top:214px;font-size:24px;font-weight:700;line-height:1.35;color:#5B6270;white-space:nowrap">오늘 본 빈틈</p>
+<p style="position:absolute;left:1000px;top:214px;font-size:24px;font-weight:700;line-height:1.35;color:#5B6270;white-space:nowrap">37에서 배울 막는 법</p>
+<div style="position:absolute;left:96px;top:262px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:286px;font-size:27px;color:#1D2330;white-space:nowrap">가격이 NULL인 상품이 들어갔어요</p>
+<p data-build-in="pop order 2" data-delay="0" style="position:absolute;left:1000px;top:286px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;line-height:1.35;color:#1F8A4C;white-space:nowrap">NOT NULL</p>
+<div style="position:absolute;left:96px;top:348px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:96px;top:372px;font-size:27px;color:#1D2330;white-space:nowrap">같은 이메일 회원이 두 명이어도 막지 않아요</p>
+<p data-build-in="pop order 2" data-delay="70" style="position:absolute;left:1000px;top:372px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;line-height:1.35;color:#1F8A4C;white-space:nowrap">UNIQUE</p>
+<div style="position:absolute;left:96px;top:434px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:96px;top:458px;font-size:27px;color:#1D2330;white-space:nowrap">가격에 -5000을 넣어도 들어가요</p>
+<p data-build-in="pop order 2" data-delay="140" style="position:absolute;left:1000px;top:458px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;line-height:1.35;color:#1F8A4C;white-space:nowrap">CHECK (price &gt;= 0)</p>
+<div style="position:absolute;left:96px;top:520px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:96px;top:544px;font-size:27px;color:#1D2330;white-space:nowrap">가입일을 매번 손으로 적어요</p>
+<p data-build-in="pop order 2" data-delay="210" style="position:absolute;left:1000px;top:544px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;line-height:1.35;color:#1F8A4C;white-space:nowrap">DEFAULT now()</p>
+<div style="position:absolute;left:96px;top:606px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="280" style="position:absolute;left:96px;top:630px;font-size:27px;color:#1D2330;white-space:nowrap">id 번호를 매번 손으로 적어요</p>
+<p data-build-in="pop order 2" data-delay="280" style="position:absolute;left:1000px;top:630px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;line-height:1.35;color:#1F8A4C;white-space:nowrap">SERIAL · IDENTITY</p>
+<div style="position:absolute;left:96px;top:692px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="350" style="position:absolute;left:96px;top:716px;font-size:27px;color:#1D2330;white-space:nowrap">주문 표가 없는 회원을 가리켜도 몰라요</p>
+<p data-build-in="pop order 2" data-delay="350" style="position:absolute;left:1000px;top:716px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;font-weight:700;line-height:1.35;color:#1F8A4C;white-space:nowrap">FOREIGN KEY</p>
+<div style="position:absolute;left:96px;top:778px;width:1728px;height:1px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" style="position:absolute;left:96px;top:812px;width:1728px;font-size:26px;line-height:1.5;color:#4A5262">그다음에는 표 두 개를 잇는 JOIN, 줄을 묶어 세는 GROUP BY와 SUM, AVG를 배워요. 오늘은 이름만 알아 둬요.</p>
+<aside>37에서는 잘못된 값이 아예 못 들어오게 표를 설계해요. 오늘 왼쪽 같은 빈틈을 봤어요. 가격이 NULL인 상품이 들어갔고, 같은 이메일로 회원이 두 번 가입해도 막을 방법이 없었어요. 가격에 음수를 넣어도 들어가고, 가입일과 id를 매번 손으로 적었어요. 37에서는 표를 만들 때 NOT NULL, UNIQUE, CHECK 같은 제약 조건을 붙여서 이런 값이 들어오면 오류가 나게 해요. 번호를 자동으로 매기는 SERIAL과 IDENTITY, 표끼리 잇는 FOREIGN KEY도 배워요. 그다음에는 두 표를 합쳐 보는 JOIN과, 줄을 묶어 세는 GROUP BY와 SUM, AVG를 배워요.</aside>
+</section>
