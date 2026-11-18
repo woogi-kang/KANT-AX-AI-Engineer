@@ -111,7 +111,10 @@
      "commands": "`WHERE price >= 50000` `ORDER BY price DESC LIMIT 3` `UPDATE product SET price = 32000 WHERE id = 9` `DELETE FROM product WHERE id = 8` `RETURNING *`", "slides": "sql-basics-slides.html"},
     {"dir": "37-sql-constraints", "title": "SQL 2 (제약 조건으로 표 설계하기)", "track": "데이터베이스",
      "goal": "표에 NOT NULL, UNIQUE, CHECK, 기본 키, 외래 키를 붙여 잘못된 행이 들어오는 순간 PostgreSQL이 막게 해요",
-     "commands": "`NOT NULL` `CHECK (price > 0)` `GENERATED ALWAYS AS IDENTITY` `REFERENCES member (id) ON DELETE CASCADE` `ALTER TABLE ... ADD CONSTRAINT`", "slides": "sql-constraints-slides.html"}
+     "commands": "`NOT NULL` `CHECK (price > 0)` `GENERATED ALWAYS AS IDENTITY` `REFERENCES member (id) ON DELETE CASCADE` `ALTER TABLE ... ADD CONSTRAINT`", "slides": "sql-constraints-slides.html"},
+    {"dir": "40-sql-union-join", "title": "SQL 5 (UNION과 JOIN으로 결과 합치기)", "track": "데이터베이스",
+     "goal": "결과 두 개를 UNION으로 위아래로 잇고, 두 표를 JOIN으로 옆에 붙여 신청 번호 옆에 회원 이름과 강좌 이름을 보여 줘요",
+     "commands": "`UNION ALL` `UNION` `FROM enrollments e` `JOIN members m ON e.member_id = m.member_id` `LEFT JOIN ... WHERE ... IS NULL`", "slides": "sql-union-join-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

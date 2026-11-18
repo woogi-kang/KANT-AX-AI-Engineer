@@ -1,0 +1,83 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-18T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "SQL 5 (UNION과 JOIN으로 결과 합치기)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "db",
+    "min",
+    "u-all",
+    "u-all3",
+    "u-union",
+    "u-label",
+    "u-rule",
+    "u-order",
+    "j-alias",
+    "j-on",
+    "j-anim",
+    "j-many",
+    "j-inner",
+    "j-3",
+    "l-left",
+    "l-swap",
+    "f-full",
+    "f-cmp",
+    "l-find",
+    "c-py",
+    "c-when",
+    "x-amb",
+    "x-alias",
+    "x-on",
+    "x-nocol",
+    "x-where",
+    "e-roster",
+    "e-contact",
+    "e-check",
+    "sum",
+    "cheat"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "위아래로 쌓기",
+      "start": "u-all"
+    },
+    "p2": {
+      "description": "옆으로 붙이기",
+      "start": "j-alias"
+    },
+    "p3": {
+      "description": "짝이 없어도 남기기",
+      "start": "l-left"
+    },
+    "p5": {
+      "description": "자주 나는 오류와 함정",
+      "start": "x-amb"
+    },
+    "p6": {
+      "description": "실제 상황 예제",
+      "start": "e-roster"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
