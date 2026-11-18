@@ -13,7 +13,7 @@ x-shape[kind=ellipse]{border-radius:50%}
 table{border-collapse:collapse;width:100%}
 td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
 aside{display:none}
-html,body{margin:0;height:100%;background:#0E1117;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
+html,body{margin:0;height:100%;background:#E9E7E1;transition:background .3s;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
 #pl-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
 #pl-stage>section{position:absolute;left:0;top:0;visibility:hidden}
 #pl-stage>section.on{visibility:visible}
@@ -25,11 +25,13 @@ html,body{margin:0;height:100%;background:#0E1117;overflow:hidden;font-family:'N
 .hint svg{display:block;width:24px;height:24px}
 #pl-hl{left:20px}
 #pl-hr{right:20px}
-body:hover .hint{opacity:.7}
-body:hover .hint:hover{opacity:1;background:rgba(14,17,23,.85)}
+body.ui .hint{opacity:.7}
+body.ui .hint:hover{opacity:1;background:rgba(14,17,23,.85)}
+#pl-rotate{display:none;position:fixed;left:16px;right:16px;top:16px;padding:12px 16px;border-radius:12px;background:rgba(14,17,23,.88);color:#FFFFFF;font-size:15px;line-height:1.5;text-align:center}
+@media (orientation:portrait) and (max-width:900px){#pl-rotate{display:block}.hint{display:none}}
 #pl-copy{position:fixed;display:none;width:34px;height:34px;padding:0;align-items:center;justify-content:center;border:1px solid #C9CED8;border-radius:8px;background:rgba(255,255,255,.94);color:#4A5263;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:background .15s,color .15s,border-color .15s}
 #pl-copy:hover{background:#FFFFFF;color:#1D2330;border-color:#8C94A4}
-#pl-copy svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#pl-copy svg{display:block;width:var(--ic,18px);height:var(--ic,18px);fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #pl-copy .ok{display:none}
 #pl-copy.done{background:#1F8A4C;border-color:#1F8A4C;color:#FFFFFF}
 #pl-copy.done .cp{display:none}
@@ -38,7 +40,7 @@ body:hover .hint:hover{opacity:1;background:rgba(14,17,23,.85)}
 #pl-toast{position:fixed;left:50%;top:24px;transform:translateX(-50%);padding:10px 20px;border-radius:10px;background:rgba(14,17,23,.9);color:#FFFFFF;font-size:18px;opacity:0;transition:opacity .2s;pointer-events:none}
 #pl-toast.show{opacity:1}
 #pl-bar{position:fixed;z-index:100;left:50%;bottom:16px;transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px;border-radius:14px;color:#E6E9EF;font-size:15px;background:rgba(14,17,23,.88);box-shadow:0 4px 18px rgba(0,0,0,.25);opacity:0;transition:opacity .2s}
-body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
+body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 #pl-bar button{position:relative;height:40px;min-width:40px;display:flex;align-items:center;justify-content:center;background:transparent;color:#E6E9EF;border:0;border-radius:10px;padding:0 8px;font:inherit;cursor:pointer}
 #pl-bar button:hover{background:#2C3340}
 #pl-bar button.on{background:#5A3BB8}
@@ -834,6 +836,7 @@ body:hover #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
 <button id="pl-copy" data-tip="복사" aria-label="복사"><svg class="cp" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg><svg class="ok" viewBox="0 0 24 24"><polyline points="5,12.5 10,17.5 19,7"/></svg></button>
 <div id="pl-toast"></div>
+<div id="pl-rotate">휴대폰을 가로로 돌리면 슬라이드가 크게 보여요</div>
 <div id="pl-notes"><div class="nin"></div><i class="rz" data-d="n"></i><i class="rz" data-d="s"></i><i class="rz" data-d="e"></i><i class="rz" data-d="w"></i><i class="rz" data-d="nw"></i><i class="rz" data-d="ne"></i><i class="rz" data-d="sw"></i><i class="rz" data-d="se"></i></div>
 <div id="pl-bar"><button id="pl-prev" data-tip="이전 (←)" aria-label="이전"><svg viewBox="0 0 24 24"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-count" data-tip="눌러서 쪽 번호로 가기" aria-label="쪽 번호로 가기"></button><input id="pl-go" inputmode="numeric" placeholder="쪽" aria-label="쪽 번호"><button id="pl-next" data-tip="다음 (→)" aria-label="다음"><svg viewBox="0 0 24 24"><polyline points="9,5 16,12 9,19"/></svg></button><span class="sep"></span><button id="pl-replay" data-tip="다시 보기 (R)" aria-label="다시 보기"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><polyline points="3.5,3.5 3.5,8.5 8.5,8.5"/></svg></button><button id="pl-anim" data-tip="애니메이션 끄기 (A)" aria-label="애니메이션 끄기"><svg viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1-5.1-1.9 5.1-1.9z"/><path d="M18.5 16v4M16.5 18h4"/><line class="slash" x1="4" y1="4" x2="20" y2="20"/></svg></button><button id="pl-nb" data-tip="발표자 노트 (N)" aria-label="발표자 노트"><svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="M9 8.5h6M9 12h6M9 15.5h4"/></svg></button><button id="pl-fs" data-tip="전체 화면 (F)" aria-label="전체 화면"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="pl-help-btn" data-tip="단축키 (?)" aria-label="단축키"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.6a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.4"/><line x1="12" y1="17" x2="12" y2="17.1"/></svg></button></div>
 <div id="pl-help"><table><tr><td><kbd>→</kbd> <kbd>Space</kbd></td><td>다음 (애니메이션을 하나씩)</td></tr><tr><td><kbd>←</kbd></td><td>이전</td></tr><tr><td>숫자 뒤 <kbd>Enter</kbd></td><td>그 장으로 가기</td></tr><tr><td><kbd>R</kbd></td><td>지금 장 애니메이션 다시 보기</td></tr><tr><td><kbd>A</kbd></td><td>애니메이션 끄고 켜기</td></tr><tr><td><kbd>N</kbd></td><td>발표자 노트</td></tr><tr><td><kbd>F</kbd></td><td>전체 화면</td></tr><tr><td><kbd>?</kbd></td><td>이 안내 열고 닫기</td></tr></table><p>화면 양옆 화살표 버튼은 남은 애니메이션을 건너뛰고 바로 넘겨요.<br>노트 카드는 위쪽을 끌면 옮겨지고, 가장자리를 끌면 크기가 바뀌어요.</p></div>
@@ -861,8 +864,13 @@ const steps=slides.map(s=>{
 // seen[i]: how far slide i has been built, so coming back to it does not replay what was already shown
 const seen=slides.map(()=>0);
 let animOn=true;try{animOn=localStorage.getItem('slides-anim')!=='off';}catch(e){}
-function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage._s=s;stage.style.transform='translate(-50%,-50%) scale('+s+')';}
-addEventListener('resize',fit);fit();
+// The 1920x1080 stage is scaled to the window. A window that is not 16:9 gets bands on two sides:
+// when a band has room, the side arrows or the bottom bar move into it so they do not cover the slide.
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage._s=s;stage.style.transform='translate(-50%,-50%) scale('+s+')';
+  const bx=(innerWidth-1920*s)/2,by=(innerHeight-1080*s)/2,side=bx>=80?Math.round((bx-56)/2)+'px':'20px';
+  $('pl-hl').style.left=side;$('pl-hr').style.right=side;$('pl-bar').style.bottom=by>=60?Math.round((by-52)/2)+'px':'16px';}
+fit();
+
 function setBuild(i,n,animate){
   steps[i].forEach((g,gi)=>g.forEach(el=>{
     const was=el.classList.contains('pending');
@@ -1161,6 +1169,7 @@ function update(){
   $('pl-count').textContent=(cur+1)+' / '+slides.length;
   const aside=slides[cur].querySelector('aside');
   renderNotes(aside?aside.textContent:'');
+  bandColor();
   // A sandboxed preview (about:srcdoc) blocks replaceState; the page number just stays out of the address there.
   try{history.replaceState(null,'','#'+(cur+1));}catch(e){}
 }
@@ -1221,6 +1230,7 @@ function codeText(el){
 let hovered=null,copyT=0;
 const copyBtn=$('pl-copy');
 function setCopyTip(t){copyBtn.dataset.tip=t;copyBtn.setAttribute('aria-label',t);}
+function copySize(){return Math.round(Math.max(24,Math.min(34,34*stage._s*1.3)));}
 function hideCopy(){hovered=null;copyBtn.style.display='none';}
 // The button goes in the box's top-right corner. If text of the slide sits there (a short one-line box,
 // a small label such as "Python"), it tries the bottom-right corner, then just outside the box or on its corner.
@@ -1230,22 +1240,28 @@ function textRects(){
     const rg=document.createRange();rg.selectNodeContents(t);for(const c of rg.getClientRects())if(c.width&&c.height)out.push(c);}
   return out;
 }
-function placeCopy(r){
-  const w=34,h=34,g=8,txt=textRects();
-  const spots=[[r.right-g-w,r.top+g],[r.right-g-w,r.bottom-g-h],[r.right+g,r.top],[r.right-w/2,r.top-h/2],[r.right-w,r.top-g-h],[r.right-w,r.bottom+g],[r.right-w/2,r.bottom-h/2]];
+function placeCopy(r,w){
+  // the side arrows and the bottom bar show while the mouse moves, so the button keeps off them too
+  const h=w,g=Math.round(w*.24),txt=textRects().concat(['pl-hl','pl-hr','pl-bar'].map(id=>$(id).getBoundingClientRect()));
+  const spots=[[r.right-g-w,r.top+g],[r.right-g-w,r.bottom-g-h],[r.right+g,r.top],[r.right-w/2,r.top-h/2],[r.right-w,r.top-g-h],[r.right-w,r.bottom+g],[r.right-w/2,r.bottom-h/2],[r.left-g-w,r.top],[r.left-w/2,r.top-h/2]];
   const inView=([x,y])=>x>=4&&y>=4&&x+w<=innerWidth-4&&y+h<=innerHeight-4;
   const hits=([x,y])=>txt.filter(c=>c.right>x-3&&c.left<x+w+3&&c.bottom>y-3&&c.top<y+h+3).length;
-  const ok=spots.filter(inView);
-  return ok.find(s=>!hits(s))||ok.sort((a,b)=>hits(a)-hits(b))[0]||spots[0];
+  const ok=spots.filter(inView),free=ok.find(s=>!hits(s));
+  if(free)return [...free,0];
+  const best=ok.sort((a,b)=>hits(a)-hits(b))[0]||spots[0];
+  return [...best,hits(best)];
 }
 function showCopy(el){
   if(hovered===el)return;
   hovered=el;const q=el.getBoundingClientRect();
   // a cover box may run off the edge of the screen: use the part that is on screen
   const r={left:Math.max(q.left,0),top:Math.max(q.top,0),right:Math.min(q.right,innerWidth),bottom:Math.min(q.bottom,innerHeight)};
-  const [x,y]=placeCopy(r);
+  // on a small screen the slide shrinks, so the button shrinks with it (34px at full size, 24px at the smallest);
+  // when no spot is free of slide text, a 22px button tries again
+  let z=copySize(),[x,y,hit]=placeCopy(r,z);
+  if(hit&&z>22){const t=placeCopy(r,22);if(t[2]<hit){[x,y]=t;z=22;}}
   setCopyTip(codeText(el).label);clearTimeout(copyT);copyBtn.classList.remove('done');
-  copyBtn.style.left=x+'px';copyBtn.style.top=y+'px';copyBtn.style.display='flex';
+  copyBtn.style.width=copyBtn.style.height=z+'px';copyBtn.style.setProperty('--ic',Math.round(z*.53)+'px');copyBtn.style.left=x+'px';copyBtn.style.top=y+'px';copyBtn.style.display='flex';
 }
 // while the mouse travels from the box to a button placed outside it, keep the button
 function nearCopy(x,y){
@@ -1310,6 +1326,23 @@ slides.forEach((s,i)=>setBuild(i,0,false));
 cur=start;step=animOn?0:steps[cur].length;seen[cur]=step;setBuild(cur,step,false);
 animBtn();
 slides[cur].classList.add('on');update();
+// The bands around the stage take a slightly darker shade of the slide's own background.
+function bandColor(){
+  const c=(getComputedStyle(slides[cur]).backgroundColor.match(/[\d.]+/g)||[]).map(Number);
+  const [r,g,b]=c.length>=3&&c[3]!==0?c:[246,245,241],f=(.3*r+.59*g+.11*b)>128?.95:.7;
+  document.body.style.background='rgb('+[r,g,b].map(v=>Math.round(v*f)).join(',')+')';
+}
+bandColor();
+// The arrows and the bottom bar show while the mouse moves and hide 2 seconds after it stops,
+// so they do not sit on top of the slide on a small screen. They stay while the mouse is on them.
+let uiT=0;
+function showUi(ms){document.body.classList.add('ui');clearTimeout(uiT);uiT=setTimeout(()=>document.body.classList.remove('ui'),ms);}
+addEventListener('mousemove',e=>{const on=e.target.closest&&e.target.closest('#pl-bar,#pl-help,.hint');if(on){document.body.classList.add('ui');clearTimeout(uiT);}else showUi(2000);});
+document.documentElement.addEventListener('mouseleave',()=>{clearTimeout(uiT);document.body.classList.remove('ui');});
+addEventListener('touchstart',()=>showUi(3000),{passive:true});
+addEventListener('resize',fit);
+// In a small window the whole slide gets small: suggest full screen once per visit (not on a touch screen).
+try{if(stage._s<.7&&!document.fullscreenElement&&!matchMedia('(pointer:coarse)').matches&&!sessionStorage.getItem('slides-fs-tip')){sessionStorage.setItem('slides-fs-tip','1');setTimeout(()=>toast('전체 화면(F)으로 보면 글자가 커져요',4000),600);}}catch(e){}
 if(slides[cur]._fx&&slides[cur]._fx.enter)try{slides[cur]._fx.enter();}catch(e){console.error(e);}
 </script>
 </body></html>
