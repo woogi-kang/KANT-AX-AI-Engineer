@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/38-sql-case/sql-case-slides.html) | [37 · SQL 2 (제약 조건으로 표 설계하기)](../37-sql-constraints) | [41 · SQL 6 (서브쿼리)](../41-sql-subquery) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/38-sql-case/sql-case-slides.html) | [37 · SQL 2 (제약 조건으로 표 설계하기)](../37-sql-constraints) | [39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) |
 
 <!-- /curriculum:top -->
 
@@ -271,6 +271,6 @@ node ../tools/export.js slides sql-case-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 37 · SQL 2 (제약 조건으로 표 설계하기)](../37-sql-constraints) · [커리큘럼](../README.md) · [다음: 41 · SQL 6 (서브쿼리) →](../41-sql-subquery)
+[← 이전: 37 · SQL 2 (제약 조건으로 표 설계하기)](../37-sql-constraints) · [커리큘럼](../README.md) · [다음: 39 · SQL 4 (집계 함수와 GROUP BY) →](../39-sql-aggregate)
 
 <!-- /curriculum:nav -->

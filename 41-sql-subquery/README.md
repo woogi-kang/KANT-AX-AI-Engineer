@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/41-sql-subquery/sql-subquery-slides.html) | [38 · SQL 3 (조건 조합과 CASE)](../38-sql-case) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/41-sql-subquery/sql-subquery-slides.html) | [40 · SQL 5 (UNION과 JOIN으로 결과 합치기)](../40-sql-union-join) | 준비 중 |
 
 <!-- /curriculum:top -->
 
@@ -261,6 +261,6 @@ node ../tools/export.js slides sql-subquery-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 38 · SQL 3 (조건 조합과 CASE)](../38-sql-case) · [커리큘럼](../README.md)
+[← 이전: 40 · SQL 5 (UNION과 JOIN으로 결과 합치기)](../40-sql-union-join) · [커리큘럼](../README.md)
 
 <!-- /curriculum:nav -->

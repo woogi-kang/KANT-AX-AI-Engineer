@@ -1,0 +1,884 @@
+{
+ "cp": [
+  {
+   "cmd": "docker cp sports.sql my-pg:/tmp/",
+   "cwd": "~",
+   "out": []
+  }
+ ],
+ "load": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop -f /tmp/sports.sql",
+   "cwd": "~",
+   "out": [
+    "psql:/tmp/sports.sql:1: NOTICE:  table \"enrollments\" does not exist, skipping",
+    "psql:/tmp/sports.sql:1: NOTICE:  table \"courses\" does not exist, skipping",
+    "psql:/tmp/sports.sql:1: NOTICE:  table \"instructors\" does not exist, skipping",
+    "psql:/tmp/sports.sql:1: NOTICE:  table \"members\" does not exist, skipping",
+    "psql:/tmp/sports.sql:1: NOTICE:  table \"sports\" does not exist, skipping",
+    "DROP TABLE",
+    "CREATE TABLE",
+    "CREATE TABLE",
+    "CREATE TABLE",
+    "CREATE TABLE",
+    "CREATE TABLE",
+    "INSERT 0 5",
+    "INSERT 0 8",
+    "INSERT 0 14",
+    "INSERT 0 40",
+    "INSERT 0 187"
+   ]
+  }
+ ],
+ "dt": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# \\dt",
+    "             List of tables",
+    " Schema |    Name     | Type  |  Owner",
+    "--------+-------------+-------+----------",
+    " public | courses     | table | postgres",
+    " public | enrollments | table | postgres",
+    " public | instructors | table | postgres",
+    " public | members     | table | postgres",
+    " public | sports      | table | postgres",
+    "(5 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "why": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT * FROM enrollments",
+    "kant_shop-# WHERE course_id = 6 AND enroll_month = '2026-11';",
+    " enrollment_id | member_id | course_id | enroll_month | status | pay_amount",
+    "---------------+-----------+-----------+--------------+--------+------------",
+    "           159 |         3 |         6 | 2026-11      | 신청   |     120000",
+    "           160 |        24 |         6 | 2026-11      | 취소   |          0",
+    "           161 |        14 |         6 | 2026-11      | 신청   |     120000",
+    "           162 |        30 |         6 | 2026-11      | 신청   |     120000",
+    "(4 rows)",
+    "",
+    "kant_shop=# SELECT member_id, name FROM members",
+    "kant_shop-# WHERE member_id IN (3, 24, 14, 30);",
+    " member_id |  name",
+    "-----------+--------",
+    "         3 | 박도현",
+    "        14 | 신유찬",
+    "        24 | 양다인",
+    "        30 | 노채원",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "min": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name FROM instructors WHERE instructor_id = 5",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT name FROM members WHERE member_id = 1;",
+    "  name",
+    "--------",
+    " 정민재",
+    " 김민준",
+    "(2 rows)",
+    "",
+    "kant_shop=# SELECT c.course_name, i.name",
+    "kant_shop-# FROM courses c",
+    "kant_shop-# JOIN instructors i ON c.instructor_id = i.instructor_id",
+    "kant_shop-# WHERE c.course_id = 10;",
+    " course_name |  name",
+    "-------------+--------",
+    " 테니스 입문 | 정민재",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "u-sep": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT member_id FROM enrollments WHERE course_id = 4 AND enroll_month = '2026-09';",
+    " member_id",
+    "-----------",
+    "        27",
+    "        17",
+    "(2 rows)",
+    "",
+    "kant_shop=# SELECT member_id FROM enrollments WHERE course_id = 4 AND enroll_month = '2026-10';",
+    " member_id",
+    "-----------",
+    "        11",
+    "        19",
+    "        35",
+    "        17",
+    "        20",
+    "(5 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "u-all": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT member_id",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE course_id = 4 AND enroll_month = '2026-09'",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT member_id",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE course_id = 4 AND enroll_month = '2026-10';",
+    " member_id",
+    "-----------",
+    "        27",
+    "        17",
+    "        11",
+    "        19",
+    "        35",
+    "        17",
+    "        20",
+    "(7 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "u-all3": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT member_id",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE course_id = 4 AND enroll_month = '2026-09'",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT member_id",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE course_id = 4 AND enroll_month = '2026-10'",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT member_id",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE course_id = 4 AND enroll_month = '2026-11'",
+    "kant_shop-# ORDER BY member_id;",
+    " member_id",
+    "-----------",
+    "         1",
+    "         3",
+    "         8",
+    "        11",
+    "        11",
+    "        17",
+    "        17",
+    "        19",
+    "        20",
+    "        27",
+    "        35",
+    "        38",
+    "(12 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "u-union": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT member_id",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE course_id = 4 AND enroll_month = '2026-09'",
+    "kant_shop-# UNION",
+    "kant_shop-# SELECT member_id",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE course_id = 4 AND enroll_month = '2026-10'",
+    "kant_shop-# UNION",
+    "kant_shop-# SELECT member_id",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE course_id = 4 AND enroll_month = '2026-11'",
+    "kant_shop-# ORDER BY member_id;",
+    " member_id",
+    "-----------",
+    "         1",
+    "         3",
+    "         8",
+    "        11",
+    "        17",
+    "        19",
+    "        20",
+    "        27",
+    "        35",
+    "        38",
+    "(10 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "u-label": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT '강사' AS 구분, name, phone",
+    "kant_shop-# FROM instructors",
+    "kant_shop-# WHERE sport_id = 4",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT '회원' AS 구분, name, phone",
+    "kant_shop-# FROM members",
+    "kant_shop-# WHERE region = '영등포구';",
+    " 구분 |  name  |     phone",
+    "------+--------+---------------",
+    " 강사 | 정민재 | 010-2105-3305",
+    " 강사 | 한지우 | 010-2106-3306",
+    " 회원 | 조서연 | 010-3259-5371",
+    " 회원 | 장예린 | 010-3333-5477",
+    " 회원 | 한수아 | 010-3407-5583",
+    " 회원 | 오건우 | 010-3444-5636",
+    " 회원 | 류재원 | 010-3703-6007",
+    " 회원 | 문지환 | 010-3851-6219",
+    " 회원 | 허윤아 |",
+    " 회원 | 노채원 | 010-4110-6590",
+    " 회원 | 곽미숙 | 010-4184-6696",
+    " 회원 | 차영호 | 010-4221-6749",
+    " 회원 | 민서영 | 010-4369-6961",
+    " 회원 | 진우성 | 010-4406-7014",
+    "(14 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "u-rule": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name, phone FROM instructors",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT name FROM members;",
+    "ERROR:  each UNION query must have the same number of columns",
+    "LINE 3: SELECT name FROM members;",
+    "               ^",
+    "kant_shop=# SELECT name FROM instructors",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT birth_year FROM members;",
+    "ERROR:  UNION types character varying and integer cannot be matched",
+    "LINE 3: SELECT birth_year FROM members;",
+    "               ^",
+    "kant_shop=# SELECT name AS 이름 FROM instructors WHERE sport_id = 4",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT course_name FROM courses WHERE sport_id = 4;",
+    "       이름",
+    "------------------",
+    " 정민재",
+    " 한지우",
+    " 테니스 입문",
+    " 테니스 중급 레슨",
+    " 테니스 고급 레슨",
+    "(5 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "u-order": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT name FROM instructors WHERE sport_id = 4",
+    "kant_shop-# ORDER BY name",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT name FROM members WHERE member_id = 1;",
+    "ERROR:  syntax error at or near \"UNION\"",
+    "LINE 3: UNION ALL",
+    "        ^",
+    "kant_shop=# SELECT name FROM instructors WHERE sport_id = 4",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT name FROM members WHERE member_id = 1",
+    "kant_shop-# ORDER BY name;",
+    "  name",
+    "--------",
+    " 김민준",
+    " 정민재",
+    " 한지우",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "j-long": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT enrollments.member_id, enrollments.course_id, members.name",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# JOIN members ON enrollments.member_id = members.member_id",
+    "kant_shop-# WHERE enrollments.course_id = 6 AND enrollments.enroll_month = '2026-11';",
+    " member_id | course_id |  name",
+    "-----------+-----------+--------",
+    "         3 |         6 | 박도현",
+    "        14 |         6 | 신유찬",
+    "        24 |         6 | 양다인",
+    "        30 |         6 | 노채원",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "j-basic": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT e.member_id, e.course_id, m.name",
+    "kant_shop-# FROM enrollments e",
+    "kant_shop-# JOIN members m ON e.member_id = m.member_id",
+    "kant_shop-# WHERE e.course_id = 6 AND e.enroll_month = '2026-11';",
+    " member_id | course_id |  name",
+    "-----------+-----------+--------",
+    "         3 |         6 | 박도현",
+    "        14 |         6 | 신유찬",
+    "        24 |         6 | 양다인",
+    "        30 |         6 | 노채원",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "j-many": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT m.name, e.course_id, e.enroll_month, e.status",
+    "kant_shop-# FROM members m",
+    "kant_shop-# JOIN enrollments e ON m.member_id = e.member_id",
+    "kant_shop-# WHERE m.member_id = 11",
+    "kant_shop-# ORDER BY e.enroll_month, e.course_id;",
+    "  name  | course_id | enroll_month | status",
+    "--------+-----------+--------------+--------",
+    " 한수아 |         1 | 2026-09      | 완료",
+    " 한수아 |         5 | 2026-09      | 취소",
+    " 한수아 |         4 | 2026-10      | 완료",
+    " 한수아 |         8 | 2026-10      | 완료",
+    " 한수아 |         9 | 2026-10      | 완료",
+    " 한수아 |         2 | 2026-11      | 신청",
+    " 한수아 |         4 | 2026-11      | 신청",
+    " 한수아 |        13 | 2026-11      | 신청",
+    "(8 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "j-inner": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT c.course_id, c.course_name, i.name",
+    "kant_shop-# FROM courses c",
+    "kant_shop-# JOIN instructors i ON c.instructor_id = i.instructor_id",
+    "kant_shop-# ORDER BY c.course_id;",
+    " course_id |    course_name     |  name",
+    "-----------+--------------------+--------",
+    "         1 | 수영 초급 아침반   | 박서연",
+    "         2 | 수영 초급 저녁반   | 이도윤",
+    "         3 | 수영 중급 새벽반   | 박서연",
+    "         4 | 수영 고급반        | 이도윤",
+    "         6 | 헬스 PT 입문       | 김하준",
+    "         7 | 헬스 근력 중급     | 김하준",
+    "         8 | 아침 요가          | 최유나",
+    "         9 | 요가 중급          | 최유나",
+    "        10 | 테니스 입문        | 정민재",
+    "        11 | 테니스 중급 레슨   | 한지우",
+    "        12 | 테니스 고급 레슨   | 한지우",
+    "        13 | 필라테스 기구 초급 | 오세린",
+    "        14 | 필라테스 중급      | 오세린",
+    "(13 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "l-left": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT c.course_id, c.course_name, i.name",
+    "kant_shop-# FROM courses c",
+    "kant_shop-# LEFT JOIN instructors i ON c.instructor_id = i.instructor_id",
+    "kant_shop-# ORDER BY c.course_id;",
+    " course_id |    course_name     |  name",
+    "-----------+--------------------+--------",
+    "         1 | 수영 초급 아침반   | 박서연",
+    "         2 | 수영 초급 저녁반   | 이도윤",
+    "         3 | 수영 중급 새벽반   | 박서연",
+    "         4 | 수영 고급반        | 이도윤",
+    "         5 | 아쿠아로빅         |",
+    "         6 | 헬스 PT 입문       | 김하준",
+    "         7 | 헬스 근력 중급     | 김하준",
+    "         8 | 아침 요가          | 최유나",
+    "         9 | 요가 중급          | 최유나",
+    "        10 | 테니스 입문        | 정민재",
+    "        11 | 테니스 중급 레슨   | 한지우",
+    "        12 | 테니스 고급 레슨   | 한지우",
+    "        13 | 필라테스 기구 초급 | 오세린",
+    "        14 | 필라테스 중급      | 오세린",
+    "(14 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "l-swap": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT i.instructor_id, i.name, c.course_name",
+    "kant_shop-# FROM instructors i",
+    "kant_shop-# LEFT JOIN courses c ON i.instructor_id = c.instructor_id",
+    "kant_shop-# ORDER BY i.instructor_id, c.course_id;",
+    " instructor_id |  name  |    course_name",
+    "---------------+--------+--------------------",
+    "             1 | 박서연 | 수영 초급 아침반",
+    "             1 | 박서연 | 수영 중급 새벽반",
+    "             2 | 이도윤 | 수영 초급 저녁반",
+    "             2 | 이도윤 | 수영 고급반",
+    "             3 | 김하준 | 헬스 PT 입문",
+    "             3 | 김하준 | 헬스 근력 중급",
+    "             4 | 최유나 | 아침 요가",
+    "             4 | 최유나 | 요가 중급",
+    "             5 | 정민재 | 테니스 입문",
+    "             6 | 한지우 | 테니스 중급 레슨",
+    "             6 | 한지우 | 테니스 고급 레슨",
+    "             7 | 오세린 | 필라테스 기구 초급",
+    "             7 | 오세린 | 필라테스 중급",
+    "             8 | 윤태호 |",
+    "(14 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "f-full": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT c.course_id, c.course_name, i.name",
+    "kant_shop-# FROM courses c",
+    "kant_shop-# FULL JOIN instructors i ON c.instructor_id = i.instructor_id",
+    "kant_shop-# ORDER BY c.course_id;",
+    " course_id |    course_name     |  name",
+    "-----------+--------------------+--------",
+    "         1 | 수영 초급 아침반   | 박서연",
+    "         2 | 수영 초급 저녁반   | 이도윤",
+    "         3 | 수영 중급 새벽반   | 박서연",
+    "         4 | 수영 고급반        | 이도윤",
+    "         5 | 아쿠아로빅         |",
+    "         6 | 헬스 PT 입문       | 김하준",
+    "         7 | 헬스 근력 중급     | 김하준",
+    "         8 | 아침 요가          | 최유나",
+    "         9 | 요가 중급          | 최유나",
+    "        10 | 테니스 입문        | 정민재",
+    "        11 | 테니스 중급 레슨   | 한지우",
+    "        12 | 테니스 고급 레슨   | 한지우",
+    "        13 | 필라테스 기구 초급 | 오세린",
+    "        14 | 필라테스 중급      | 오세린",
+    "           |                    | 윤태호",
+    "(15 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "l-count": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM courses c JOIN instructors i ON c.instructor_id = i.instructor_id;",
+    " count",
+    "-------",
+    "    13",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM courses c LEFT JOIN instructors i ON c.instructor_id = i.instructor_id;",
+    " count",
+    "-------",
+    "    14",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM courses c FULL JOIN instructors i ON c.instructor_id = i.instructor_id;",
+    " count",
+    "-------",
+    "    15",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-amb": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT member_id, name",
+    "kant_shop-# FROM enrollments e",
+    "kant_shop-# JOIN members m ON e.member_id = m.member_id",
+    "kant_shop-# WHERE e.course_id = 6 AND e.enroll_month = '2026-11';",
+    "ERROR:  column reference \"member_id\" is ambiguous",
+    "LINE 1: SELECT member_id, name",
+    "               ^",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-alias": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT members.name FROM members m WHERE m.member_id = 1;",
+    "ERROR:  invalid reference to FROM-clause entry for table \"members\"",
+    "LINE 1: SELECT members.name FROM members m WHERE m.member_id = 1;",
+    "               ^",
+    "HINT:  Perhaps you meant to reference the table alias \"m\".",
+    "kant_shop=# SELECT * FROM courses c JOIN instructors i;",
+    "ERROR:  syntax error at or near \";\"",
+    "LINE 1: SELECT * FROM courses c JOIN instructors i;",
+    "                                                  ^",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-on": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT e.member_id, m.name, c.course_name",
+    "kant_shop-# FROM enrollments e",
+    "kant_shop-# LEFT JOIN members m ON e.member_id = m.member_id",
+    "kant_shop-# LEFT JOIN courses c ON e.member_id = c.course_id",
+    "kant_shop-# WHERE e.course_id = 1 AND e.enroll_month = '2026-11'",
+    "kant_shop-# ORDER BY m.name;",
+    " member_id |  name  |   course_name",
+    "-----------+--------+------------------",
+    "        22 | 고은채 |",
+    "        37 | 민서영 |",
+    "         3 | 박도현 | 수영 중급 새벽반",
+    "        27 | 백준혁 |",
+    "        24 | 양다인 |",
+    "        20 | 전소율 |",
+    "        38 | 진우성 |",
+    "(7 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-nocol": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT FROM members m",
+    "kant_shop-# FULL OUTER JOIN enrollments e",
+    "kant_shop-#     ON m.member_id = e.member_id",
+    "kant_shop-# LIMIT 3;",
+    "--",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT m.member_id, m.name, e.course_id",
+    "kant_shop-# FROM members m",
+    "kant_shop-# FULL OUTER JOIN enrollments e",
+    "kant_shop-#     ON m.member_id = e.member_id",
+    "kant_shop-# ORDER BY m.member_id DESC",
+    "kant_shop-# LIMIT 3;",
+    " member_id |  name  | course_id",
+    "-----------+--------+-----------",
+    "        40 | 채윤서 |",
+    "        39 | 엄하늘 |         2",
+    "        39 | 엄하늘 |         5",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-where": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT c.course_name, i.name",
+    "kant_shop-# FROM courses c",
+    "kant_shop-# LEFT JOIN instructors i ON c.instructor_id = i.instructor_id",
+    "kant_shop-# WHERE i.name <> '박서연' AND c.sport_id = 1;",
+    "   course_name    |  name",
+    "------------------+--------",
+    " 수영 초급 저녁반 | 이도윤",
+    " 수영 고급반      | 이도윤",
+    "(2 rows)",
+    "",
+    "kant_shop=# SELECT c.course_name, i.name",
+    "kant_shop-# FROM courses c",
+    "kant_shop-# LEFT JOIN instructors i ON c.instructor_id = i.instructor_id",
+    "kant_shop-# WHERE c.sport_id = 1;",
+    "   course_name    |  name",
+    "------------------+--------",
+    " 수영 초급 아침반 | 박서연",
+    " 수영 초급 저녁반 | 이도윤",
+    " 수영 중급 새벽반 | 박서연",
+    " 수영 고급반      | 이도윤",
+    " 아쿠아로빅       |",
+    "(5 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "e-roster": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     e.member_id, m.name, c.course_name, e.enroll_month, e.status",
+    "kant_shop-# FROM enrollments e",
+    "kant_shop-# LEFT JOIN members m ON e.member_id = m.member_id",
+    "kant_shop-# LEFT JOIN courses c ON e.course_id = c.course_id",
+    "kant_shop-# WHERE e.course_id = 1 AND e.enroll_month = '2026-11'",
+    "kant_shop-# ORDER BY m.name;",
+    " member_id |  name  |   course_name    | enroll_month | status",
+    "-----------+--------+------------------+--------------+--------",
+    "        22 | 고은채 | 수영 초급 아침반 | 2026-11      | 신청",
+    "        37 | 민서영 | 수영 초급 아침반 | 2026-11      | 신청",
+    "         3 | 박도현 | 수영 초급 아침반 | 2026-11      | 취소",
+    "        27 | 백준혁 | 수영 초급 아침반 | 2026-11      | 신청",
+    "        24 | 양다인 | 수영 초급 아침반 | 2026-11      | 신청",
+    "        20 | 전소율 | 수영 초급 아침반 | 2026-11      | 신청",
+    "        38 | 진우성 | 수영 초급 아침반 | 2026-11      | 취소",
+    "(7 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "e-never": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT m.member_id, m.name, m.phone",
+    "kant_shop-# FROM members m",
+    "kant_shop-# LEFT JOIN enrollments e ON m.member_id = e.member_id",
+    "kant_shop-# WHERE e.enrollment_id IS NULL;",
+    " member_id |  name  | phone",
+    "-----------+--------+-------",
+    "        40 | 채윤서 |",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "e-contact": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT '강사' AS 구분, i.name, i.phone",
+    "kant_shop-# FROM courses c",
+    "kant_shop-# JOIN instructors i ON c.instructor_id = i.instructor_id",
+    "kant_shop-# WHERE c.course_id = 4",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT '회원' AS 구분, m.name, m.phone",
+    "kant_shop-# FROM enrollments e",
+    "kant_shop-# JOIN members m ON e.member_id = m.member_id",
+    "kant_shop-# WHERE e.course_id = 4 AND e.enroll_month = '2026-11'",
+    "kant_shop-#   AND e.status <> '취소';",
+    " 구분 |  name  |     phone",
+    "------+--------+---------------",
+    " 강사 | 이도윤 | 010-2102-3302",
+    " 회원 | 김민준 | 010-3037-5053",
+    " 회원 | 한수아 | 010-3407-5583",
+    " 회원 | 진우성 | 010-4406-7014",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "version": [
+  {
+   "cmd": "",
+   "cwd": "~",
+   "out": [
+    "PostgreSQL 18.7 (Debian 18.7-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit"
+   ]
+  }
+ ],
+ "j-3": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT m.name, c.course_name, e.enroll_month, e.status",
+    "kant_shop-# FROM enrollments e",
+    "kant_shop-# JOIN members m ON e.member_id = m.member_id",
+    "kant_shop-# JOIN courses c ON e.course_id = c.course_id",
+    "kant_shop-# WHERE e.member_id = 11",
+    "kant_shop-# ORDER BY e.enroll_month, e.course_id;",
+    "  name  |    course_name     | enroll_month | status",
+    "--------+--------------------+--------------+--------",
+    " 한수아 | 수영 초급 아침반   | 2026-09      | 완료",
+    " 한수아 | 아쿠아로빅         | 2026-09      | 취소",
+    " 한수아 | 수영 고급반        | 2026-10      | 완료",
+    " 한수아 | 아침 요가          | 2026-10      | 완료",
+    " 한수아 | 요가 중급          | 2026-10      | 완료",
+    " 한수아 | 수영 초급 저녁반   | 2026-11      | 신청",
+    " 한수아 | 수영 고급반        | 2026-11      | 신청",
+    " 한수아 | 필라테스 기구 초급 | 2026-11      | 신청",
+    "(8 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "e-check": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT '강사 없는 강좌' AS 구분, c.course_name AS 이름",
+    "kant_shop-# FROM courses c",
+    "kant_shop-# LEFT JOIN instructors i ON c.instructor_id = i.instructor_id",
+    "kant_shop-# WHERE i.instructor_id IS NULL",
+    "kant_shop-# UNION ALL",
+    "kant_shop-# SELECT '강좌 없는 강사', i.name",
+    "kant_shop-# FROM instructors i",
+    "kant_shop-# LEFT JOIN courses c ON i.instructor_id = c.instructor_id",
+    "kant_shop-# WHERE c.course_id IS NULL;",
+    "      구분      |    이름",
+    "----------------+------------",
+    " 강사 없는 강좌 | 아쿠아로빅",
+    " 강좌 없는 강사 | 윤태호",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ]
+}

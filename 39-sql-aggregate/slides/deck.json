@@ -1,0 +1,95 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-18T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "SQL 4 (집계 함수와 GROUP BY)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "min",
+    "p-minmax",
+    "p-sum",
+    "p-avg",
+    "p-five",
+    "p-where",
+    "q-null",
+    "q-dist",
+    "q-four",
+    "q-zero",
+    "q-empty",
+    "g-why",
+    "g-pic",
+    "g-month",
+    "g-level",
+    "g-two",
+    "g-rule",
+    "g-fix",
+    "h-why",
+    "h-bar",
+    "h-region",
+    "h-wh",
+    "h-cmp",
+    "h-order",
+    "h-alias",
+    "c-dist",
+    "c-py",
+    "x-err",
+    "x-text",
+    "e-report",
+    "e-top",
+    "e-vip",
+    "e-sport",
+    "sum",
+    "cheat"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "집계 함수 다섯 개",
+      "start": "p-minmax"
+    },
+    "p2": {
+      "description": "COUNT 세 가지와 NULL",
+      "start": "q-null"
+    },
+    "p3": {
+      "description": "GROUP BY로 묶기",
+      "start": "g-why"
+    },
+    "p4": {
+      "description": "HAVING으로 묶음 고르기",
+      "start": "h-why"
+    },
+    "p5": {
+      "description": "앞에서 배운 것과 비교",
+      "start": "c-dist"
+    },
+    "p6": {
+      "description": "오류와 실제 상황",
+      "start": "x-err"
+    },
+    "end": {
+      "description": "정리",
+      "start": "sum"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
