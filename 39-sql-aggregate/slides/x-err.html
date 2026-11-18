@@ -1,0 +1,25 @@
+<section id="x-err" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">6. 오류와 실제 상황</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">집계와 GROUP BY에서 나는 오류 네 가지</h2>
+<p style="position:absolute;left:96px;top:214px;font-size:22px;font-weight:700;color:#5B6270">ERROR 뒤에 나오는 말</p>
+<p style="position:absolute;left:700px;top:214px;font-size:22px;font-weight:700;color:#5B6270">왜</p>
+<p style="position:absolute;left:1250px;top:214px;font-size:22px;font-weight:700;color:#5B6270">고치는 법</p>
+<div style="position:absolute;left:96px;top:270px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" style="position:absolute;left:96px;top:300px;width:580px;line-height:1.5;color:#A33131;font-weight:700"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px">must appear in the GROUP BY clause<br>or be used in an aggregate function</span></p>
+<p data-build-in="rise order 1" style="position:absolute;left:700px;top:300px;width:520px;font-size:24px;line-height:1.5;color:#1D2330">묶지 않은 열을 SELECT에 적었어요</p>
+<p data-build-in="rise order 1" style="position:absolute;left:1250px;top:300px;width:574px;font-size:24px;font-weight:700;line-height:1.5;color:#1F8A4C">GROUP BY에 더하거나 집계 함수로 감싸요</p>
+<div style="position:absolute;left:96px;top:440px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" style="position:absolute;left:96px;top:470px;width:580px;line-height:1.5;color:#A33131;font-weight:700"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px">aggregate functions are not<br>allowed in WHERE</span></p>
+<p data-build-in="rise order 2" style="position:absolute;left:700px;top:470px;width:520px;font-size:24px;line-height:1.5;color:#1D2330">WHERE에 COUNT, SUM을 적었어요</p>
+<p data-build-in="rise order 2" style="position:absolute;left:1250px;top:470px;width:574px;font-size:24px;font-weight:700;line-height:1.5;color:#1F8A4C">그 조건은 HAVING으로 옮겨요</p>
+<div style="position:absolute;left:96px;top:610px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" style="position:absolute;left:96px;top:640px;width:580px;line-height:1.5;color:#A33131;font-weight:700"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px">column "누적신청" does not exist</span></p>
+<p data-build-in="rise order 3" style="position:absolute;left:700px;top:640px;width:520px;font-size:24px;line-height:1.5;color:#1D2330">HAVING에 AS 이름을 적었어요</p>
+<p data-build-in="rise order 3" style="position:absolute;left:1250px;top:640px;width:574px;font-size:24px;font-weight:700;line-height:1.5;color:#1F8A4C">HAVING에는 함수를 다시 적어요</p>
+<div style="position:absolute;left:96px;top:780px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 4" style="position:absolute;left:96px;top:810px;width:580px;line-height:1.5;color:#A33131;font-weight:700"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px">function sum(character varying)<br>does not exist</span></p>
+<p data-build-in="rise order 4" style="position:absolute;left:700px;top:810px;width:520px;font-size:24px;line-height:1.5;color:#1D2330">글자 열을 SUM, AVG에 넣었어요</p>
+<p data-build-in="rise order 4" style="position:absolute;left:1250px;top:810px;width:574px;font-size:24px;font-weight:700;line-height:1.5;color:#1F8A4C">숫자 열인지 확인해요. 글자는 COUNT, MIN, MAX만</p>
+<div style="position:absolute;left:96px;top:950px;width:1728px;height:2px;background:#DCD8CE"></div>
+<aside>6파트는 오류와 실제 상황 예제예요. 오늘 나온 오류 네 가지를 모았어요. 첫째, 묶지 않은 열을 SELECT에 적으면 GROUP BY에 있거나 집계 함수 안에 있어야 한다고 나와요. 둘째, WHERE에 집계 함수를 적으면 WHERE에서는 못 쓴다고 나와요. HAVING으로 옮겨요. 셋째, HAVING에 AS 이름을 적으면 그런 열이 없다고 나와요. 넷째, 글자 열을 SUM이나 AVG에 넣으면 그런 함수가 없다고 나와요. 다음 장에서 넷째 오류를 직접 봐요.</aside>
+</section>
