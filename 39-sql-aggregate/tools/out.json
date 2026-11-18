@@ -1,0 +1,1093 @@
+{
+ "version": [
+  {
+   "cmd": "",
+   "cwd": "~",
+   "out": [
+    "PostgreSQL 18.7 (Debian 18.7-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit"
+   ]
+  }
+ ],
+ "why": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT enrollment_id, pay_amount FROM enrollments",
+    "kant_shop-# WHERE enroll_month = '2026-11';",
+    " enrollment_id | pay_amount",
+    "---------------+------------",
+    "           125 |      70000",
+    "           126 |          0",
+    "           127 |      70000",
+    "           128 |      70000",
+    "           129 |      70000",
+    "           130 |          0",
+    "           131 |      70000",
+    "           132 |      70000",
+    "           133 |      70000",
+    "           134 |      70000",
+    "           135 |      70000",
+    "           136 |      70000",
+    "           137 |      70000",
+    "           138 |      70000",
+    "           139 |      70000",
+    "           140 |      70000",
+    "           141 |      80000",
+    "           142 |      80000",
+    "           143 |      80000",
+    "           144 |      80000",
+    "           145 |      80000",
+    "           146 |      80000",
+    "           147 |      90000",
+    "           148 |          0",
+    "           149 |      90000",
+    "           150 |      90000",
+    "           151 |          0",
+    "           152 |      60000",
+    "           153 |      60000",
+    "           154 |      60000",
+    "           155 |      60000",
+    "           156 |      60000",
+    "           157 |      60000",
+    "           158 |      60000",
+    "           159 |     120000",
+    "           160 |          0",
+    "           161 |     120000",
+    "           162 |     120000",
+    "           163 |     100000",
+    "           164 |     100000",
+    "           165 |     100000",
+    "           166 |          0",
+    "           167 |      65000",
+    "           168 |      65000",
+    "           169 |      75000",
+    "           170 |      75000",
+    "           171 |      75000",
+    "           172 |      75000",
+    "           173 |      75000",
+    "           174 |      75000",
+    "           175 |      75000",
+    "           176 |      75000",
+    "           177 |      90000",
+    "           178 |      90000",
+    "           179 |     110000",
+    "           180 |     110000",
+    "           181 |     130000",
+    "           182 |     130000",
+    "           183 |     130000",
+    "           184 |     150000",
+    "           185 |     150000",
+    "           186 |     160000",
+    "           187 |     160000",
+    "(63 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "why-sum": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT SUM(pay_amount) FROM enrollments",
+    "kant_shop-# WHERE enroll_month = '2026-11';",
+    "   sum",
+    "---------",
+    " 4950000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "min": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM courses;",
+    " count",
+    "-------",
+    "    14",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "courses": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT course_id, course_name, fee, capacity FROM courses;",
+    " course_id |    course_name     |  fee   | capacity",
+    "-----------+--------------------+--------+----------",
+    "         1 | 수영 초급 아침반   |  70000 |       20",
+    "         2 | 수영 초급 저녁반   |  70000 |       20",
+    "         3 | 수영 중급 새벽반   |  80000 |       15",
+    "         4 | 수영 고급반        |  90000 |       12",
+    "         5 | 아쿠아로빅         |  60000 |       25",
+    "         6 | 헬스 PT 입문       | 120000 |       10",
+    "         7 | 헬스 근력 중급     | 100000 |       15",
+    "         8 | 아침 요가          |  65000 |       20",
+    "         9 | 요가 중급          |  75000 |       18",
+    "        10 | 테니스 입문        |  90000 |        8",
+    "        11 | 테니스 중급 레슨   | 110000 |        6",
+    "        12 | 테니스 고급 레슨   | 130000 |        6",
+    "        13 | 필라테스 기구 초급 | 150000 |        8",
+    "        14 | 필라테스 중급      | 160000 |        8",
+    "(14 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "minmax": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT MIN(fee), MAX(fee) FROM courses;",
+    "  min  |  max",
+    "-------+--------",
+    " 60000 | 160000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "sum": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT SUM(capacity) FROM courses;",
+    " sum",
+    "-----",
+    " 191",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "avg": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT AVG(fee) FROM courses;",
+    "        avg",
+    "--------------------",
+    " 97857.142857142857",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT ROUND(AVG(fee), 2) FROM courses;",
+    "  round",
+    "----------",
+    " 97857.14",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT ROUND(AVG(fee)) FROM courses;",
+    " round",
+    "-------",
+    " 97857",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "five": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     COUNT(*)            AS 강좌수,",
+    "kant_shop-#     MIN(fee)            AS 최저수강료,",
+    "kant_shop-#     MAX(fee)            AS 최고수강료,",
+    "kant_shop-#     SUM(capacity)       AS 전체정원,",
+    "kant_shop-#     ROUND(AVG(fee), 2)  AS 평균수강료",
+    "kant_shop-# FROM courses;",
+    " 강좌수 | 최저수강료 | 최고수강료 | 전체정원 | 평균수강료",
+    "--------+------------+------------+----------+------------",
+    "     14 |      60000 |     160000 |      191 |   97857.14",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "nov": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM enrollments;",
+    " count",
+    "-------",
+    "   187",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     COUNT(*)        AS 신청건수,",
+    "kant_shop-#     SUM(pay_amount) AS 매출,",
+    "kant_shop-#     MAX(pay_amount) AS 최고결제",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE enroll_month = '2026-11';",
+    " 신청건수 |  매출   | 최고결제",
+    "----------+---------+----------",
+    "       63 | 4950000 |   160000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "nulls": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT member_id, name, email, phone FROM members",
+    "kant_shop-# WHERE member_id <= 10;",
+    " member_id |  name  |      email       |     phone",
+    "-----------+--------+------------------+---------------",
+    "         1 | 김민준 | user01@gmail.com | 010-3037-5053",
+    "         2 | 이서윤 | user02@gmail.com | 010-3074-5106",
+    "         3 | 박도현 |                  | 010-3111-5159",
+    "         4 | 최지아 | user04@gmail.com |",
+    "         5 | 정하은 |                  | 010-3185-5265",
+    "         6 | 강시우 | user06@naver.com | 010-3222-5318",
+    "         7 | 조서연 | user07@gmail.com | 010-3259-5371",
+    "         8 | 윤지호 | user08@gmail.com | 010-3296-5424",
+    "         9 | 장예린 | user09@naver.com | 010-3333-5477",
+    "        10 | 임준서 |                  |",
+    "(10 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "count3": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     COUNT(*)               AS 회원수,",
+    "kant_shop-#     COUNT(email)           AS 이메일있음,",
+    "kant_shop-#     COUNT(phone)           AS 전화번호있음,",
+    "kant_shop-#     COUNT(DISTINCT region) AS 사는구",
+    "kant_shop-# FROM members;",
+    " 회원수 | 이메일있음 | 전화번호있음 | 사는구",
+    "--------+------------+--------------+--------",
+    "     40 |         31 |           33 |      4",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "distinct": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT DISTINCT region FROM members;",
+    "  region",
+    "----------",
+    " 구로구",
+    " 강서구",
+    " 영등포구",
+    " 마포구",
+    "(4 rows)",
+    "",
+    "kant_shop=# SELECT COUNT(region), COUNT(DISTINCT region) FROM members;",
+    " count | count",
+    "-------+-------",
+    "    40 |     4",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "zero": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*), ROUND(AVG(pay_amount)) AS 평균결제",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE enroll_month = '2026-11';",
+    " count | 평균결제",
+    "-------+----------",
+    "    63 |    78571",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT COUNT(*), ROUND(AVG(pay_amount)) AS 평균결제",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE enroll_month = '2026-11' AND status <> '취소';",
+    " count | 평균결제",
+    "-------+----------",
+    "    57 |    86842",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "empty": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*), SUM(pay_amount), MAX(pay_amount)",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE enroll_month = '2026-12';",
+    " count | sum | max",
+    "-------+-----+-----",
+    "     0 |     |",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-why": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*), SUM(pay_amount) FROM enrollments WHERE enroll_month = '2026-09';",
+    " count |   sum",
+    "-------+---------",
+    "    64 | 5265000",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT COUNT(*), SUM(pay_amount) FROM enrollments WHERE enroll_month = '2026-10';",
+    " count |   sum",
+    "-------+---------",
+    "    60 | 4565000",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT COUNT(*), SUM(pay_amount) FROM enrollments WHERE enroll_month = '2026-11';",
+    " count |   sum",
+    "-------+---------",
+    "    63 | 4950000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-small": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT enrollment_id, enroll_month, status, pay_amount",
+    "kant_shop-# FROM enrollments WHERE course_id = 11;",
+    " enrollment_id | enroll_month | status | pay_amount",
+    "---------------+--------------+--------+------------",
+    "            54 | 2026-09      | 취소   |          0",
+    "            55 | 2026-09      | 완료   |     110000",
+    "           115 | 2026-10      | 완료   |     110000",
+    "           116 | 2026-10      | 취소   |          0",
+    "           179 | 2026-11      | 신청   |     110000",
+    "           180 | 2026-11      | 신청   |     110000",
+    "(6 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-small-by": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT enroll_month, COUNT(*), SUM(pay_amount)",
+    "kant_shop-# FROM enrollments WHERE course_id = 11",
+    "kant_shop-# GROUP BY enroll_month;",
+    " enroll_month | count |  sum",
+    "--------------+-------+--------",
+    " 2026-11      |     2 | 220000",
+    " 2026-10      |     2 | 110000",
+    " 2026-09      |     2 | 110000",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-month": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     enroll_month    AS 신청월,",
+    "kant_shop-#     COUNT(*)        AS 신청건수,",
+    "kant_shop-#     SUM(pay_amount) AS 매출",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# GROUP BY enroll_month",
+    "kant_shop-# ORDER BY enroll_month;",
+    " 신청월  | 신청건수 |  매출",
+    "---------+----------+---------",
+    " 2026-09 |       64 | 5265000",
+    " 2026-10 |       60 | 4565000",
+    " 2026-11 |       63 | 4950000",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-level": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT level, COUNT(*) AS 강좌수, ROUND(AVG(fee)) AS 평균수강료",
+    "kant_shop-# FROM courses",
+    "kant_shop-# GROUP BY level;",
+    " level | 강좌수 | 평균수강료",
+    "-------+--------+------------",
+    " 초급  |      7 |      89286",
+    " 고급  |      2 |     110000",
+    " 중급  |      5 |     105000",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT level, COUNT(*) AS 강좌수, ROUND(AVG(fee)) AS 평균수강료",
+    "kant_shop-# FROM courses",
+    "kant_shop-# GROUP BY level",
+    "kant_shop-# ORDER BY 평균수강료;",
+    " level | 강좌수 | 평균수강료",
+    "-------+--------+------------",
+    " 초급  |      7 |      89286",
+    " 중급  |      5 |     105000",
+    " 고급  |      2 |     110000",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-two-small": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT enroll_month, status, COUNT(*)",
+    "kant_shop-# FROM enrollments WHERE course_id = 11",
+    "kant_shop-# GROUP BY enroll_month, status",
+    "kant_shop-# ORDER BY enroll_month, status;",
+    " enroll_month | status | count",
+    "--------------+--------+-------",
+    " 2026-09      | 완료   |     1",
+    " 2026-09      | 취소   |     1",
+    " 2026-10      | 완료   |     1",
+    " 2026-10      | 취소   |     1",
+    " 2026-11      | 신청   |     2",
+    "(5 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-two": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     enroll_month, status, COUNT(*) AS 건수",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# GROUP BY enroll_month, status",
+    "kant_shop-# ORDER BY enroll_month, status;",
+    " enroll_month | status | 건수",
+    "--------------+--------+------",
+    " 2026-09      | 완료   |   58",
+    " 2026-09      | 취소   |    6",
+    " 2026-10      | 완료   |   52",
+    " 2026-10      | 취소   |    8",
+    " 2026-11      | 신청   |   57",
+    " 2026-11      | 취소   |    6",
+    "(6 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-err": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT enroll_month, member_id, COUNT(*)",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# GROUP BY enroll_month;",
+    "ERROR:  column \"enrollments.member_id\" must appear in the GROUP BY clause or be used in an aggregate function",
+    "LINE 1: SELECT enroll_month, member_id, COUNT(*)",
+    "                             ^",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-err2": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT enroll_month, COUNT(*) FROM enrollments;",
+    "ERROR:  column \"enrollments.enroll_month\" must appear in the GROUP BY clause or be used in an aggregate function",
+    "LINE 1: SELECT enroll_month, COUNT(*) FROM enrollments;",
+    "               ^",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "h-course-all": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT course_id, COUNT(*) AS 누적신청",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE status <> '취소'",
+    "kant_shop-# GROUP BY course_id",
+    "kant_shop-# ORDER BY 누적신청 DESC, course_id;",
+    " course_id | 누적신청",
+    "-----------+----------",
+    "         2 |       25",
+    "         5 |       20",
+    "         8 |       17",
+    "         1 |       15",
+    "         9 |       13",
+    "         7 |       11",
+    "         3 |       10",
+    "         4 |       10",
+    "         6 |       10",
+    "        13 |        9",
+    "        10 |        8",
+    "        14 |        8",
+    "        12 |        7",
+    "        11 |        4",
+    "(14 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "h-where": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT course_id, COUNT(*) AS 누적신청",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE status <> '취소' AND COUNT(*) >= 18",
+    "kant_shop-# GROUP BY course_id;",
+    "ERROR:  aggregate functions are not allowed in WHERE",
+    "LINE 3: WHERE status <> '취소' AND COUNT(*) >= 18",
+    "                                   ^",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "h-course": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     course_id, COUNT(*) AS 누적신청",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE status <> '취소'",
+    "kant_shop-# GROUP BY course_id",
+    "kant_shop-# HAVING COUNT(*) >= 18",
+    "kant_shop-# ORDER BY 누적신청 DESC, course_id;",
+    " course_id | 누적신청",
+    "-----------+----------",
+    "         2 |       25",
+    "         5 |       20",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "h-nowhere": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     course_id, COUNT(*) AS 누적신청",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# GROUP BY course_id",
+    "kant_shop-# HAVING COUNT(*) >= 18",
+    "kant_shop-# ORDER BY 누적신청 DESC, course_id;",
+    " course_id | 누적신청",
+    "-----------+----------",
+    "         2 |       26",
+    "         5 |       23",
+    "         1 |       22",
+    "         8 |       19",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "h-region": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     region, COUNT(*) AS 회원수",
+    "kant_shop-# FROM members",
+    "kant_shop-# GROUP BY region",
+    "kant_shop-# HAVING COUNT(*) >= 10",
+    "kant_shop-# ORDER BY 회원수 DESC, region;",
+    "  region  | 회원수",
+    "----------+--------",
+    " 영등포구 |     12",
+    " 마포구   |     11",
+    " 강서구   |     10",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "h-alias": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT course_id, COUNT(*) AS 누적신청",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# GROUP BY course_id",
+    "kant_shop-# HAVING 누적신청 >= 18;",
+    "ERROR:  column \"누적신청\" does not exist",
+    "LINE 4: HAVING 누적신청 >= 18;",
+    "               ^",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "h-small": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT enroll_month, COUNT(*)",
+    "kant_shop-# FROM enrollments WHERE course_id = 11 AND status <> '취소'",
+    "kant_shop-# GROUP BY enroll_month",
+    "kant_shop-# HAVING COUNT(*) >= 2;",
+    " enroll_month | count",
+    "--------------+-------",
+    " 2026-11      |     2",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "c-distinct": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT DISTINCT region FROM members ORDER BY region;",
+    "  region",
+    "----------",
+    " 강서구",
+    " 구로구",
+    " 마포구",
+    " 영등포구",
+    "(4 rows)",
+    "",
+    "kant_shop=# SELECT region FROM members GROUP BY region ORDER BY region;",
+    "  region",
+    "----------",
+    " 강서구",
+    " 구로구",
+    " 마포구",
+    " 영등포구",
+    "(4 rows)",
+    "",
+    "kant_shop=# SELECT region, COUNT(*) FROM members GROUP BY region ORDER BY region;",
+    "  region  | count",
+    "----------+-------",
+    " 강서구   |    10",
+    " 구로구   |     7",
+    " 마포구   |    11",
+    " 영등포구 |    12",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "x-sum-text": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(name), MIN(name), MAX(name) FROM members;",
+    " count |  min   |  max",
+    "-------+--------+--------",
+    "    40 | 강시우 | 황민서",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT SUM(name) FROM members;",
+    "ERROR:  function sum(character varying) does not exist",
+    "LINE 1: SELECT SUM(name) FROM members;",
+    "               ^",
+    "HINT:  No function matches the given name and argument types. You might need to add explicit type casts.",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ex-report": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     enroll_month           AS 신청월,",
+    "kant_shop-#     COUNT(*)               AS 건수,",
+    "kant_shop-#     SUM(pay_amount)        AS 매출,",
+    "kant_shop-#     ROUND(AVG(pay_amount)) AS 평균결제",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE status <> '취소'",
+    "kant_shop-# GROUP BY enroll_month",
+    "kant_shop-# ORDER BY enroll_month;",
+    " 신청월  | 건수 |  매출   | 평균결제",
+    "---------+------+---------+----------",
+    " 2026-09 |   58 | 5265000 |    90776",
+    " 2026-10 |   52 | 4565000 |    87788",
+    " 2026-11 |   57 | 4950000 |    86842",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ex-top": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT course_id, COUNT(*) AS 신청수",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE status <> '취소'",
+    "kant_shop-# GROUP BY course_id",
+    "kant_shop-# ORDER BY 신청수 DESC",
+    "kant_shop-# LIMIT 3;",
+    " course_id | 신청수",
+    "-----------+--------",
+    "         2 |     25",
+    "         5 |     20",
+    "         8 |     17",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT course_id, course_name, fee FROM courses",
+    "kant_shop-# WHERE course_id IN (2, 5, 8);",
+    " course_id |   course_name    |  fee",
+    "-----------+------------------+-------",
+    "         2 | 수영 초급 저녁반 | 70000",
+    "         5 | 아쿠아로빅       | 60000",
+    "         8 | 아침 요가        | 65000",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ex-vip": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     member_id,",
+    "kant_shop-#     COUNT(*)        AS 신청수,",
+    "kant_shop-#     SUM(pay_amount) AS 누적결제",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# WHERE status <> '취소'",
+    "kant_shop-# GROUP BY member_id",
+    "kant_shop-# HAVING SUM(pay_amount) >= 600000",
+    "kant_shop-# ORDER BY 누적결제 DESC, member_id;",
+    " member_id | 신청수 | 누적결제",
+    "-----------+--------+----------",
+    "        16 |      8 |   745000",
+    "         3 |      8 |   740000",
+    "        26 |      7 |   705000",
+    "        17 |      7 |   630000",
+    "        39 |      6 |   615000",
+    "        11 |      7 |   610000",
+    "(6 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ex-sport": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT",
+    "kant_shop-#     sport_id,",
+    "kant_shop-#     COUNT(*)      AS 강좌수,",
+    "kant_shop-#     MIN(fee)      AS 최저,",
+    "kant_shop-#     MAX(fee)      AS 최고,",
+    "kant_shop-#     SUM(capacity) AS 정원",
+    "kant_shop-# FROM courses",
+    "kant_shop-# GROUP BY sport_id",
+    "kant_shop-# ORDER BY sport_id;",
+    " sport_id | 강좌수 |  최저  |  최고  | 정원",
+    "----------+--------+--------+--------+------",
+    "        1 |      5 |  60000 |  90000 |   92",
+    "        2 |      2 | 100000 | 120000 |   25",
+    "        3 |      2 |  65000 |  75000 |   38",
+    "        4 |      3 |  90000 | 130000 |   20",
+    "        5 |      2 | 150000 | 160000 |   16",
+    "(5 rows)",
+    "",
+    "kant_shop=# SELECT * FROM sports;",
+    " sport_id | sport_name",
+    "----------+------------",
+    "        1 | 수영",
+    "        2 | 헬스",
+    "        3 | 요가",
+    "        4 | 테니스",
+    "        5 | 필라테스",
+    "(5 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "avg-why": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT SUM(fee), COUNT(fee), AVG(fee) FROM courses;",
+    "   sum   | count |        avg",
+    "---------+-------+--------------------",
+    " 1370000 |    14 | 97857.142857142857",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "count3-10": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*), COUNT(email), COUNT(phone) FROM members",
+    "kant_shop-# WHERE member_id <= 10;",
+    " count | count | count",
+    "-------+-------+-------",
+    "    10 |     7 |     8",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-small-all": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*), SUM(pay_amount)",
+    "kant_shop-# FROM enrollments WHERE course_id = 11;",
+    " count |  sum",
+    "-------+--------",
+    "     6 | 440000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "g-fix": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT enroll_month, COUNT(DISTINCT member_id) AS 회원수",
+    "kant_shop-# FROM enrollments",
+    "kant_shop-# GROUP BY enroll_month",
+    "kant_shop-# ORDER BY enroll_month;",
+    " enroll_month | 회원수",
+    "--------------+--------",
+    " 2026-09      |     34",
+    " 2026-10      |     29",
+    " 2026-11      |     32",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "c-py-sql": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT region, COUNT(*)",
+    "kant_shop-# FROM members",
+    "kant_shop-# GROUP BY region;",
+    "  region  | count",
+    "----------+-------",
+    " 구로구   |     7",
+    " 강서구   |    10",
+    " 영등포구 |    12",
+    " 마포구   |    11",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ]
+}
