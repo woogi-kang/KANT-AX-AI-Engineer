@@ -1,0 +1,39 @@
+<section id="cheat" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">한 장 요약</h2>
+<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#2459C9">값 하나</p>
+<div style="position:absolute;left:96px;top:270px;width:560px;height:3px;background:#2459C9"></div>
+<p style="position:absolute;left:96px;top:300px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330;white-space:nowrap">WHERE fee &gt; (SELECT AVG(fee) FROM courses)</p>
+<p style="position:absolute;left:96px;top:342px;width:560px;font-size:23px;color:#4A5262">평균보다 비싼 강좌</p>
+<p style="position:absolute;left:96px;top:420px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330;white-space:nowrap">WHERE fee = (SELECT MAX(fee) FROM courses)</p>
+<p style="position:absolute;left:96px;top:462px;width:560px;font-size:23px;color:#4A5262">가장 비싼 강좌</p>
+<p style="position:absolute;left:96px;top:540px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330;white-space:nowrap">(SELECT COUNT(*) FROM members) AS 전체</p>
+<p style="position:absolute;left:96px;top:582px;width:560px;font-size:23px;color:#4A5262">SELECT 칸, 모든 줄에 같은 값</p>
+<p style="position:absolute;left:680px;top:220px;font-size:30px;font-weight:700;color:#0F7C86">목록</p>
+<div style="position:absolute;left:680px;top:270px;width:560px;height:3px;background:#0F7C86"></div>
+<p style="position:absolute;left:680px;top:300px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330;white-space:nowrap">WHERE member_id IN (SELECT member_id FROM …)</p>
+<p style="position:absolute;left:680px;top:342px;width:560px;font-size:23px;color:#4A5262">목록에 있는 회원</p>
+<p style="position:absolute;left:680px;top:420px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330;white-space:nowrap">WHERE member_id NOT IN (SELECT …)</p>
+<p style="position:absolute;left:680px;top:462px;width:560px;font-size:23px;color:#4A5262">목록에 없는 회원</p>
+<p style="position:absolute;left:680px;top:540px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330;white-space:nowrap">같은 결과: JOIN … ON …</p>
+<p style="position:absolute;left:680px;top:582px;width:560px;font-size:23px;color:#4A5262">두 표의 열을 같이 볼 때</p>
+<p style="position:absolute;left:1264px;top:220px;font-size:30px;font-weight:700;color:#B26A00">표</p>
+<div style="position:absolute;left:1264px;top:270px;width:560px;height:3px;background:#B26A00"></div>
+<p style="position:absolute;left:1264px;top:300px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330;white-space:nowrap">FROM (SELECT … GROUP BY …) AS paid</p>
+<p style="position:absolute;left:1264px;top:342px;width:560px;font-size:23px;color:#4A5262">임시 표에 이름 붙이기</p>
+<p style="position:absolute;left:1264px;top:420px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330;white-space:nowrap">WHERE paid.total_paid &gt;= 600000</p>
+<p style="position:absolute;left:1264px;top:462px;width:560px;font-size:23px;color:#4A5262">합계로 거르기</p>
+<p style="position:absolute;left:1264px;top:540px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:20px;font-weight:700;color:#1D2330;white-space:nowrap">SELECT AVG(total_paid) FROM (…) AS paid</p>
+<p style="position:absolute;left:1264px;top:582px;width:560px;font-size:23px;color:#4A5262">집계를 두 번</p>
+<div style="position:absolute;left:96px;top:690px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:716px;font-size:26px;font-weight:700;color:#A33131">막히면</p>
+<p style="position:absolute;left:96px;top:770px;width:840px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#A33131;white-space:nowrap">more than one row …</p>
+<p style="position:absolute;left:96px;top:808px;width:840px;font-size:23px;color:#4A5262">= 대신 IN</p>
+<p style="position:absolute;left:960px;top:770px;width:840px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#A33131;white-space:nowrap">must return only one column</p>
+<p style="position:absolute;left:960px;top:808px;width:840px;font-size:23px;color:#4A5262">열 하나만</p>
+<p style="position:absolute;left:96px;top:860px;width:840px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#A33131;white-space:nowrap">not allowed in WHERE</p>
+<p style="position:absolute;left:96px;top:898px;width:840px;font-size:23px;color:#4A5262">HAVING이나 FROM 서브쿼리</p>
+<p style="position:absolute;left:960px;top:860px;width:840px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#A33131;white-space:nowrap">missing FROM-clause entry</p>
+<p style="position:absolute;left:960px;top:898px;width:840px;font-size:23px;color:#4A5262">AS 이름 붙이기</p>
+<aside>오늘 쓴 것을 결과 모양 세 가지로 모았어요. 값 하나가 나오는 서브쿼리는 WHERE의 비교 기호 뒤나 SELECT 칸에 둬요. 목록이 나오는 서브쿼리는 IN, NOT IN 괄호 안에 둬요. 두 표의 열을 같이 봐야 하면 JOIN으로 바꿔요. 표가 나오는 서브쿼리는 FROM 자리에 두고 AS로 이름을 붙여요. 합계로 거르거나 합계의 평균처럼 집계를 두 번 할 때 써요. 아래는 자주 만나는 오류와 고치는 법이에요. 막히면 안쪽 SELECT만 따로 쳐서 모양부터 봐요.</aside>
+</section>

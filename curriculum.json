@@ -111,7 +111,10 @@
      "commands": "`WHERE price >= 50000` `ORDER BY price DESC LIMIT 3` `UPDATE product SET price = 32000 WHERE id = 9` `DELETE FROM product WHERE id = 8` `RETURNING *`", "slides": "sql-basics-slides.html"},
     {"dir": "37-sql-constraints", "title": "SQL 2 (제약 조건으로 표 설계하기)", "track": "데이터베이스",
      "goal": "표에 NOT NULL, UNIQUE, CHECK, 기본 키, 외래 키를 붙여 잘못된 행이 들어오는 순간 PostgreSQL이 막게 해요",
-     "commands": "`NOT NULL` `CHECK (price > 0)` `GENERATED ALWAYS AS IDENTITY` `REFERENCES member (id) ON DELETE CASCADE` `ALTER TABLE ... ADD CONSTRAINT`", "slides": "sql-constraints-slides.html"}
+     "commands": "`NOT NULL` `CHECK (price > 0)` `GENERATED ALWAYS AS IDENTITY` `REFERENCES member (id) ON DELETE CASCADE` `ALTER TABLE ... ADD CONSTRAINT`", "slides": "sql-constraints-slides.html"},
+    {"dir": "41-sql-subquery", "title": "SQL 6 (서브쿼리)", "track": "데이터베이스",
+     "goal": "괄호 안 SELECT가 먼저 값, 목록, 표가 되게 해서 평균과 비교하고 목록으로 고르고 임시 표로 다시 묶어요",
+     "commands": "`WHERE fee > (SELECT AVG(fee) FROM courses)` `WHERE member_id IN (SELECT ...)` `FROM (SELECT ... GROUP BY ...) AS paid` `(SELECT COUNT(*) FROM members) AS 전체`", "slides": "sql-subquery-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

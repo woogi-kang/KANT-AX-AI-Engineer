@@ -1,0 +1,88 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-18T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "SQL 6 (서브쿼리)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "shapes",
+    "min",
+    "w-max",
+    "w-sport",
+    "w-auto",
+    "i-err",
+    "i-in",
+    "i-notin",
+    "i-join",
+    "f-err",
+    "f-inner",
+    "f-wrap",
+    "f-join",
+    "f-having",
+    "f-avg",
+    "s-col",
+    "s-ratio",
+    "s-err",
+    "c-python",
+    "cmp",
+    "explain",
+    "x-table",
+    "x-paren",
+    "r-seat",
+    "r-pop",
+    "r-sms",
+    "sum",
+    "cheat"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "값 하나와 비교하기",
+      "start": "w-max"
+    },
+    "p2": {
+      "description": "목록과 IN",
+      "start": "i-err"
+    },
+    "p3": {
+      "description": "FROM에 넣는 임시 표",
+      "start": "f-err"
+    },
+    "p4": {
+      "description": "SELECT 칸에 넣기",
+      "start": "s-col"
+    },
+    "p5": {
+      "description": "비교하고 속 들여다보기",
+      "start": "c-python"
+    },
+    "p6": {
+      "description": "오류와 실제 상황",
+      "start": "x-table"
+    },
+    "outro": {
+      "description": "정리",
+      "start": "sum"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
