@@ -1,0 +1,32 @@
+<section id="x-table" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A33131">6. 오류와 실제 상황</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">서브쿼리에서 자주 만나는 오류 여섯 가지</h2>
+<p style="position:absolute;left:96px;top:214px;font-size:24px;font-weight:700;color:#5B6270">ERROR:  뒤에 이런 글이 보이면</p>
+<p style="position:absolute;left:1400px;top:214px;font-size:24px;font-weight:700;color:#5B6270">이렇게 해요</p>
+<div style="position:absolute;left:96px;top:262px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:278px;width:1280px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#A33131;white-space:nowrap">more than one row returned by a subquery used as an expression</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:322px;width:1280px;font-size:24px;color:#4A5262">= 뒤 서브쿼리가 여러 줄을 돌려줬어요</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:1400px;top:298px;width:424px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">IN (…)으로 바꿔요</p>
+<div style="position:absolute;left:96px;top:374px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:96px;top:390px;width:1280px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#A33131;white-space:nowrap">subquery must return only one column</p>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:96px;top:434px;width:1280px;font-size:24px;color:#4A5262">SELECT 칸 서브쿼리가 열 두 개를 꺼냈어요</p>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:1400px;top:410px;width:424px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">열마다 서브쿼리 하나</p>
+<div style="position:absolute;left:96px;top:486px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:96px;top:502px;width:1280px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#A33131;white-space:nowrap">aggregate functions are not allowed in WHERE</p>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:96px;top:546px;width:1280px;font-size:24px;color:#4A5262">WHERE에 SUM, COUNT를 썼어요</p>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:1400px;top:522px;width:424px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">HAVING이나 FROM 서브쿼리</p>
+<div style="position:absolute;left:96px;top:598px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:96px;top:614px;width:1280px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#A33131;white-space:nowrap">aggregate function calls cannot be nested</p>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:96px;top:658px;width:1280px;font-size:24px;color:#4A5262">AVG(SUM(…))처럼 겹쳐 썼어요</p>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:1400px;top:634px;width:424px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">안쪽 집계를 FROM 서브쿼리로</p>
+<div style="position:absolute;left:96px;top:710px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="280" style="position:absolute;left:96px;top:726px;width:1280px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#A33131;white-space:nowrap">missing FROM-clause entry for table "paid"</p>
+<p data-build-in="rise order 1" data-delay="280" style="position:absolute;left:96px;top:770px;width:1280px;font-size:24px;color:#4A5262">FROM 서브쿼리에 AS 이름을 안 붙였어요</p>
+<p data-build-in="rise order 1" data-delay="280" style="position:absolute;left:1400px;top:746px;width:424px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">) AS paid</p>
+<div style="position:absolute;left:96px;top:822px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="350" style="position:absolute;left:96px;top:838px;width:1280px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;color:#A33131;white-space:nowrap">syntax error at or near "SELECT"</p>
+<p data-build-in="rise order 1" data-delay="350" style="position:absolute;left:96px;top:882px;width:1280px;font-size:24px;color:#4A5262">서브쿼리를 괄호로 안 감쌌어요</p>
+<p data-build-in="rise order 1" data-delay="350" style="position:absolute;left:1400px;top:858px;width:424px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">( )로 감싸요</p>
+<div style="position:absolute;left:96px;top:934px;width:1728px;height:2px;background:#DCD8CE"></div>
+<aside>서브쿼리에서 자주 만나는 오류 여섯 가지예요. 첫째, 등호 뒤 서브쿼리가 여러 줄을 돌려주면 more than one row 오류가 나요. IN으로 바꿔요. 둘째, SELECT 칸 서브쿼리가 열을 두 개 꺼내면 only one column 오류가 나요. 셋째, WHERE에 SUM이나 COUNT를 쓰면 not allowed in WHERE가 나요. HAVING이나 FROM 서브쿼리를 써요. 넷째, AVG 안에 SUM을 겹쳐 쓰면 cannot be nested가 나요. 다섯째, FROM 서브쿼리에 AS 이름을 안 붙이고 paid 점 열 이름으로 부르면 paid라는 표를 못 찾는다고 나와요. 여섯째, 괄호 없이 SELECT를 바로 쓰면 SELECT 근처에서 문법 오류가 나요. 다섯째와 여섯째는 다음 장에서 실제 화면으로 봐요.</aside>
+</section>

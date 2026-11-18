@@ -1,0 +1,27 @@
+<section id="sum" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">원하는 것이 값인지, 목록인지, 표인지 먼저 정해요</h2>
+<p style="position:absolute;left:96px;top:220px;width:680px;font-size:24px;font-weight:700;color:#5B6270;white-space:nowrap">이럴 때</p>
+<p style="position:absolute;left:796px;top:220px;width:1008px;font-size:24px;font-weight:700;color:#5B6270;white-space:nowrap">이렇게 써요</p>
+<div style="position:absolute;left:96px;top:269px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" id="sum-tb-r0c0" style="position:absolute;left:96px;top:301px;width:680px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">평균, 최댓값 하나와 비교해요</p>
+<p data-build-in="rise order 1" id="sum-tb-r0c1" style="position:absolute;left:796px;top:301px;width:1008px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#2459C9">WHERE fee &gt; (SELECT AVG(fee) FROM courses)</span></p>
+<div style="position:absolute;left:96px;top:369px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" id="sum-tb-r1c0" style="position:absolute;left:96px;top:401px;width:680px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">어떤 목록에 들어 있는지(없는지) 물어요</p>
+<p data-build-in="rise order 2" id="sum-tb-r1c1" style="position:absolute;left:796px;top:401px;width:1008px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#0F7C86">WHERE member_id IN (SELECT member_id FROM …)</span></p>
+<div style="position:absolute;left:96px;top:469px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" id="sum-tb-r2c0" style="position:absolute;left:96px;top:501px;width:680px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">묶은 결과를 다시 거르거나 계산하거나 JOIN해요</p>
+<p data-build-in="rise order 3" id="sum-tb-r2c1" style="position:absolute;left:796px;top:501px;width:1008px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#B26A00">FROM (SELECT … GROUP BY …) AS paid</span></p>
+<div style="position:absolute;left:96px;top:569px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 4" id="sum-tb-r3c0" style="position:absolute;left:96px;top:601px;width:680px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">모든 줄 옆에 전체 값을 붙여요</p>
+<p data-build-in="rise order 4" id="sum-tb-r3c1" style="position:absolute;left:796px;top:601px;width:1008px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#A23B72">(SELECT ROUND(AVG(fee), 2) FROM courses) AS 전체평균</span></p>
+<div style="position:absolute;left:96px;top:669px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 5" style="position:absolute;left:96px;top:718.8px;font-size:26px;font-weight:700;color:#5B6270">쓰는 순서</p>
+<p data-build-in="rise order 5" data-delay="0" style="position:absolute;left:96px;top:768.8px;width:44px;height:44px;border-radius:22px;background:#1D2330;text-align:center;font-size:24px;font-weight:700;line-height:44px;color:#FFFFFF">1</p>
+<p data-build-in="rise order 5" data-delay="0" style="position:absolute;left:156px;top:772.8px;width:500px;font-size:25px;line-height:1.45;color:#1D2330">안쪽 SELECT만 따로 쳐서 결과 모양을 봐요</p>
+<p data-build-in="rise order 5" data-delay="80" style="position:absolute;left:686px;top:768.8px;width:44px;height:44px;border-radius:22px;background:#1D2330;text-align:center;font-size:24px;font-weight:700;line-height:44px;color:#FFFFFF">2</p>
+<p data-build-in="rise order 5" data-delay="80" style="position:absolute;left:746px;top:772.8px;width:500px;font-size:25px;line-height:1.45;color:#1D2330">모양에 맞는 자리에 괄호로 감싸 넣어요</p>
+<p data-build-in="rise order 5" data-delay="160" style="position:absolute;left:1276px;top:768.8px;width:44px;height:44px;border-radius:22px;background:#1D2330;text-align:center;font-size:24px;font-weight:700;line-height:44px;color:#FFFFFF">3</p>
+<p data-build-in="rise order 5" data-delay="160" style="position:absolute;left:1336px;top:772.8px;width:500px;font-size:25px;line-height:1.45;color:#1D2330">FROM 자리면 AS 이름을 붙여요</p>
+<aside>서브쿼리를 쓸지 정할 때는 원하는 것이 값인지, 목록인지, 표인지부터 생각해요. 평균이나 최댓값 하나와 비교하면 WHERE 비교 기호 뒤에 둬요. 어떤 목록에 들어 있는지 물으면 IN, 없는지 물으면 NOT IN이에요. 묶은 결과를 다시 거르거나 계산하거나 다른 표와 JOIN하면 FROM 자리에 두고 이름을 붙여요. 모든 줄 옆에 전체 값을 붙이려면 SELECT 칸에 둬요. 쓰는 순서는 세 단계예요. 안쪽 SELECT만 따로 쳐서 결과 모양을 보고, 모양에 맞는 자리에 괄호로 감싸 넣고, FROM 자리면 AS 이름을 붙여요.</aside>
+</section>

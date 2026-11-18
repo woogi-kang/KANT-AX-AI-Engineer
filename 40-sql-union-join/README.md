@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/40-sql-union-join/sql-union-join-slides.html) | [39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/40-sql-union-join/sql-union-join-slides.html) | [39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) | [41 · SQL 6 (서브쿼리)](../41-sql-subquery) |
 
 <!-- /curriculum:top -->
 
@@ -293,6 +293,6 @@ node ../tools/export.js slides sql-union-join-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) · [커리큘럼](../README.md)
+[← 이전: 39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) · [커리큘럼](../README.md) · [다음: 41 · SQL 6 (서브쿼리) →](../41-sql-subquery)
 
 <!-- /curriculum:nav -->

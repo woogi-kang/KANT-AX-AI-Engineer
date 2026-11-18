@@ -1,0 +1,31 @@
+<section id="cmp" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1F8A4C">5. 비교하고 속 들여다보기</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">서브쿼리를 넣는 자리는 네 곳이에요</h2>
+<p style="position:absolute;left:96px;top:220px;width:400px;font-size:24px;font-weight:700;color:#5B6270;white-space:nowrap">자리</p>
+<p style="position:absolute;left:516px;top:220px;width:180px;font-size:24px;font-weight:700;color:#5B6270;white-space:nowrap">결과 모양</p>
+<p style="position:absolute;left:716px;top:220px;width:700px;font-size:24px;font-weight:700;color:#5B6270;white-space:nowrap">예</p>
+<p style="position:absolute;left:1436px;top:220px;width:368px;font-size:24px;font-weight:700;color:#5B6270;white-space:nowrap">같은 일을 하는 다른 방법</p>
+<div style="position:absolute;left:96px;top:269px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" id="cmp-tb-r0c0" style="position:absolute;left:96px;top:306px;width:400px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#2459C9">WHERE 열 &gt; (…)</span></p>
+<p data-build-in="rise order 1" id="cmp-tb-r0c1" style="position:absolute;left:516px;top:306px;width:180px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">값 하나</p>
+<p data-build-in="rise order 1" id="cmp-tb-r0c2" style="position:absolute;left:716px;top:306px;width:700px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330">fee &gt; (SELECT AVG(fee) …)</span></p>
+<p data-build-in="rise order 1" id="cmp-tb-r0c3" style="position:absolute;left:1436px;top:306px;width:368px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">없어요</p>
+<div style="position:absolute;left:96px;top:379px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" id="cmp-tb-r1c0" style="position:absolute;left:96px;top:416px;width:400px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#0F7C86">WHERE 열 IN (…)</span></p>
+<p data-build-in="rise order 2" id="cmp-tb-r1c1" style="position:absolute;left:516px;top:416px;width:180px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">목록</p>
+<p data-build-in="rise order 2" id="cmp-tb-r1c2" style="position:absolute;left:716px;top:416px;width:700px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330">member_id IN (SELECT member_id …)</span></p>
+<p data-build-in="rise order 2" id="cmp-tb-r1c3" style="position:absolute;left:1436px;top:416px;width:368px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">JOIN</p>
+<div style="position:absolute;left:96px;top:489px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" id="cmp-tb-r2c0" style="position:absolute;left:96px;top:526px;width:400px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#B26A00">FROM (…) AS 이름</span></p>
+<p data-build-in="rise order 3" id="cmp-tb-r2c1" style="position:absolute;left:516px;top:526px;width:180px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">표</p>
+<p data-build-in="rise order 3" id="cmp-tb-r2c2" style="position:absolute;left:716px;top:526px;width:700px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330">FROM (SELECT … GROUP BY …) AS paid</span></p>
+<p data-build-in="rise order 3" id="cmp-tb-r2c3" style="position:absolute;left:1436px;top:526px;width:368px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">HAVING (거르기만 할 때)</p>
+<div style="position:absolute;left:96px;top:599px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 4" id="cmp-tb-r3c0" style="position:absolute;left:96px;top:636px;width:400px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#A23B72">SELECT (…) AS 이름</span></p>
+<p data-build-in="rise order 4" id="cmp-tb-r3c1" style="position:absolute;left:516px;top:636px;width:180px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">값 하나</p>
+<p data-build-in="rise order 4" id="cmp-tb-r3c2" style="position:absolute;left:716px;top:636px;width:700px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330">(SELECT COUNT(*) FROM members) AS 전체</span></p>
+<p data-build-in="rise order 4" id="cmp-tb-r3c3" style="position:absolute;left:1436px;top:636px;width:368px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">없어요</p>
+<div style="position:absolute;left:96px;top:709px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 5" style="position:absolute;left:96px;top:759px;width:1728px;font-size:29px;font-weight:700;line-height:1.45;color:#1D2330">모양이 맞지 않으면 오류가 나요. 어떤 모양이 나오는지는 안쪽 SELECT만 따로 쳐서 확인해요.</p>
+<aside>지금까지 본 네 자리를 한 표에 모았어요. WHERE의 비교 기호 뒤에는 값 하나가 나오는 서브쿼리를 둬요. IN 괄호 안에는 목록이 나오는 서브쿼리를 둬요. 같은 일을 JOIN으로도 할 수 있어요. FROM 뒤에는 표가 나오는 서브쿼리를 두고 AS로 이름을 붙여요. 거르기만 할 때는 HAVING이 더 짧아요. SELECT 칸에는 값 하나가 나오는 서브쿼리를 둬요. 자리에 맞지 않는 모양을 넣으면 다음 파트에서 볼 오류가 나요. 그래서 안쪽 SELECT만 따로 쳐서 모양부터 확인하는 습관이 가장 쓸모 있어요.</aside>
+</section>
