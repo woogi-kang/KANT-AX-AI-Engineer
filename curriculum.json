@@ -123,7 +123,10 @@
      "commands": "`UNION ALL` `UNION` `FROM enrollments e` `JOIN members m ON e.member_id = m.member_id` `LEFT JOIN ... WHERE ... IS NULL`", "slides": "sql-union-join-slides.html"},
     {"dir": "41-sql-subquery", "title": "SQL 6 (서브쿼리)", "track": "데이터베이스",
      "goal": "괄호 안 SELECT가 먼저 값, 목록, 표가 되게 해서 평균과 비교하고 목록으로 고르고 임시 표로 다시 묶어요",
-     "commands": "`WHERE fee > (SELECT AVG(fee) FROM courses)` `WHERE member_id IN (SELECT ...)` `FROM (SELECT ... GROUP BY ...) AS paid` `(SELECT COUNT(*) FROM members) AS 전체`", "slides": "sql-subquery-slides.html"}
+     "commands": "`WHERE fee > (SELECT AVG(fee) FROM courses)` `WHERE member_id IN (SELECT ...)` `FROM (SELECT ... GROUP BY ...) AS paid` `(SELECT COUNT(*) FROM members) AS 전체`", "slides": "sql-subquery-slides.html"},
+    {"dir": "43-sql-transaction", "title": "SQL 8 (트랜잭션)", "track": "데이터베이스",
+     "goal": "문장 여러 개를 BEGIN으로 묶고 COMMIT으로 확정하거나 ROLLBACK으로 한꺼번에 되돌려서, 실수한 UPDATE와 DELETE를 살려요",
+     "commands": "`BEGIN;` `COMMIT;` `ROLLBACK;` `DELETE ... RETURNING ...;` `kant_shop=*#`", "slides": "sql-transaction-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
