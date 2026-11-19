@@ -1,0 +1,24 @@
+<section id="sum" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">SQL은 그대로, 값은 %s로, 저장은 with 블록 끝에서</h2>
+<p style="position:absolute;left:96px;top:214px;width:500px;font-size:24px;font-weight:700;color:#5B6270;white-space:nowrap">이럴 때</p>
+<p style="position:absolute;left:616px;top:214px;width:1188px;font-size:24px;font-weight:700;color:#5B6270;white-space:nowrap">이렇게 써요</p>
+<div style="position:absolute;left:96px;top:263px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" id="sum-tb-r0c0" style="position:absolute;left:96px;top:293px;width:500px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">PostgreSQL에 접속해요</p>
+<p data-build-in="rise order 1" id="sum-tb-r0c1" style="position:absolute;left:616px;top:293px;width:1188px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330">with psycopg.connect(DSN, row_factory=dict_row) as conn:</span></p>
+<div style="position:absolute;left:96px;top:359px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" id="sum-tb-r1c0" style="position:absolute;left:96px;top:389px;width:500px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">여러 줄을 받아요</p>
+<p data-build-in="rise order 2" id="sum-tb-r1c1" style="position:absolute;left:616px;top:389px;width:1188px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330">rows = conn.execute(SQL).fetchall()</span></p>
+<div style="position:absolute;left:96px;top:455px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" id="sum-tb-r2c0" style="position:absolute;left:96px;top:485px;width:500px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">한 줄, 값 하나를 받아요</p>
+<p data-build-in="rise order 3" id="sum-tb-r2c1" style="position:absolute;left:616px;top:485px;width:1188px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330">row = conn.execute(SQL, (값,)).fetchone()</span></p>
+<div style="position:absolute;left:96px;top:551px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 4" id="sum-tb-r3c0" style="position:absolute;left:96px;top:581px;width:500px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">바뀌는 값을 넣어요</p>
+<p data-build-in="rise order 4" id="sum-tb-r3c1" style="position:absolute;left:616px;top:581px;width:1188px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330">WHERE course_id = %s</span> 와 <span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330">(course_id,)</span></p>
+<div style="position:absolute;left:96px;top:647px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 5" id="sum-tb-r4c0" style="position:absolute;left:96px;top:677px;width:500px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">바꾼 것을 저장해요</p>
+<p data-build-in="rise order 5" id="sum-tb-r4c1" style="position:absolute;left:616px;top:677px;width:1188px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">with 블록 끝(오류면 취소), 또는 <span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330">conn.commit()</span></p>
+<div style="position:absolute;left:96px;top:743px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 6" style="position:absolute;left:96px;top:792.8px;width:1728px;font-size:28px;line-height:1.55;color:#1D2330">다음에는 이 함수들을 웹 서버에 붙여서, 브라우저에서 누른 신청 버튼이 같은 INSERT를 실행하게 만들어요.</p>
+<aside>오늘 쓴 것을 다섯 줄로 모았어요. 접속은 with 블록과 connect, row_factory=dict_row예요. 여러 줄은 fetchall, 한 줄은 fetchone으로 받아요. 바뀌는 값은 SQL에 퍼센트 s를 적고 튜플로 따로 넘겨요. f-string으로 붙이지 않아요. 바꾼 것은 with 블록이 끝날 때 저장되고, 중간에 오류가 나면 모두 취소돼요. with 없이 쓰면 commit()을 직접 불러요. 다음에는 이 함수들을 웹 서버에 붙여서 브라우저 버튼으로 신청하게 만들어요.</aside>
+</section>

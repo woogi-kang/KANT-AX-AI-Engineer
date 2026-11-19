@@ -129,7 +129,10 @@
      "commands": "`INSERT INTO 표 (...) SELECT ...` `CAST(값 AS DATE)` `ALTER TABLE ... ADD COLUMN` `WHERE NOT EXISTS (SELECT 1 ...)` `TRUNCATE` `DROP TABLE`", "slides": "sql-insert-select-slides.html"},
     {"dir": "43-sql-transaction", "title": "SQL 8 (트랜잭션)", "track": "데이터베이스",
      "goal": "문장 여러 개를 BEGIN으로 묶고 COMMIT으로 확정하거나 ROLLBACK으로 한꺼번에 되돌려서, 실수한 UPDATE와 DELETE를 살려요",
-     "commands": "`BEGIN;` `COMMIT;` `ROLLBACK;` `DELETE ... RETURNING ...;` `kant_shop=*#`", "slides": "sql-transaction-slides.html"}
+     "commands": "`BEGIN;` `COMMIT;` `ROLLBACK;` `DELETE ... RETURNING ...;` `kant_shop=*#`", "slides": "sql-transaction-slides.html"},
+    {"dir": "44-python-postgres", "title": "파이썬에서 PostgreSQL 쓰기 (psycopg)", "track": "데이터베이스",
+     "goal": "파이썬 프로그램이 psycopg로 kant_shop에 접속해서 강좌 목록을 받아 찍고, %s로 값을 넘겨 수강 신청을 저장해요",
+     "commands": "`uv add \"psycopg[binary]\"` `with psycopg.connect(DSN) as conn:` `conn.execute(SQL).fetchall()` `row_factory=dict_row` `conn.execute(\"... = %s\", (값,))`", "slides": "python-postgres-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
