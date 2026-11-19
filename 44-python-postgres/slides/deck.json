@@ -1,0 +1,85 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-19T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "파이썬에서 PostgreSQL 쓰기 (psycopg)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "min",
+    "setup",
+    "dsn",
+    "with",
+    "fetchall",
+    "for",
+    "fetchone",
+    "dictrow",
+    "list",
+    "param",
+    "param2",
+    "inject",
+    "safe",
+    "enroll",
+    "check",
+    "commit",
+    "rollback",
+    "nocommit",
+    "cmp",
+    "e-install",
+    "e-conn",
+    "e-fetch",
+    "e-params",
+    "e-col",
+    "r-seats",
+    "r-dup",
+    "r-receipt",
+    "sum",
+    "cheat"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "준비하고 접속하기",
+      "start": "setup"
+    },
+    "p2": {
+      "description": "결과 꺼내기",
+      "start": "fetchall"
+    },
+    "p3": {
+      "description": "%s로 값 넣기",
+      "start": "param"
+    },
+    "p5": {
+      "description": "비교와 오류",
+      "start": "cmp"
+    },
+    "p6": {
+      "description": "실제 상황",
+      "start": "r-seats"
+    },
+    "outro": {
+      "description": "정리",
+      "start": "sum"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

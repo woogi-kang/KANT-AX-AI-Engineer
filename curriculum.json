@@ -123,7 +123,10 @@
      "commands": "`UNION ALL` `UNION` `FROM enrollments e` `JOIN members m ON e.member_id = m.member_id` `LEFT JOIN ... WHERE ... IS NULL`", "slides": "sql-union-join-slides.html"},
     {"dir": "41-sql-subquery", "title": "SQL 6 (서브쿼리)", "track": "데이터베이스",
      "goal": "괄호 안 SELECT가 먼저 값, 목록, 표가 되게 해서 평균과 비교하고 목록으로 고르고 임시 표로 다시 묶어요",
-     "commands": "`WHERE fee > (SELECT AVG(fee) FROM courses)` `WHERE member_id IN (SELECT ...)` `FROM (SELECT ... GROUP BY ...) AS paid` `(SELECT COUNT(*) FROM members) AS 전체`", "slides": "sql-subquery-slides.html"}
+     "commands": "`WHERE fee > (SELECT AVG(fee) FROM courses)` `WHERE member_id IN (SELECT ...)` `FROM (SELECT ... GROUP BY ...) AS paid` `(SELECT COUNT(*) FROM members) AS 전체`", "slides": "sql-subquery-slides.html"},
+    {"dir": "44-python-postgres", "title": "파이썬에서 PostgreSQL 쓰기 (psycopg)", "track": "데이터베이스",
+     "goal": "파이썬 프로그램이 psycopg로 kant_shop에 접속해서 강좌 목록을 받아 찍고, %s로 값을 넘겨 수강 신청을 저장해요",
+     "commands": "`uv add \"psycopg[binary]\"` `with psycopg.connect(DSN) as conn:` `conn.execute(SQL).fetchall()` `row_factory=dict_row` `conn.execute(\"... = %s\", (값,))`", "slides": "python-postgres-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

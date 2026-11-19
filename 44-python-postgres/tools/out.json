@@ -1,0 +1,581 @@
+{
+ "version": [
+  {
+   "cmd": "",
+   "cwd": "~",
+   "out": [
+    "PostgreSQL 18.7 (Debian 18.7-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit"
+   ]
+  }
+ ],
+ "setup": [
+  {
+   "cmd": "uv init sports-app",
+   "cwd": "~",
+   "out": [
+    "Initialized project `sports-app` at `/home/kim/sports-app`"
+   ]
+  },
+  {
+   "cmd": "cd sports-app",
+   "cwd": "~",
+   "out": []
+  },
+  {
+   "cmd": "uv add \"psycopg[binary]\"",
+   "cwd": "~/sports-app",
+   "out": [
+    "Using CPython 3.13.18 interpreter at: /usr/local/bin/python3.13",
+    "Creating virtual environment at: .venv",
+    "Resolved 4 packages in 374ms",
+    "Downloading psycopg-binary (3.7MiB)",
+    " Downloaded psycopg-binary",
+    "Prepared 2 packages in 131ms",
+    "Installed 2 packages in 2ms",
+    " + psycopg==3.3.9",
+    " + psycopg-binary==3.3.9"
+   ]
+  }
+ ],
+ "e-nomod": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "Using CPython 3.13.18 interpreter at: /usr/local/bin/python3.13",
+    "Creating virtual environment at: .venv",
+    "Traceback (most recent call last):",
+    "  File \"/home/kim/sports-app/main.py\", line 1, in <module>",
+    "    import psycopg",
+    "ModuleNotFoundError: No module named 'psycopg'"
+   ]
+  }
+ ],
+ "pyproject": [
+  {
+   "cmd": "",
+   "cwd": "",
+   "out": [
+    "[project]",
+    "name = \"sports-app\"",
+    "version = \"0.1.0\"",
+    "description = \"Add your description here\"",
+    "readme = \"README.md\"",
+    "requires-python = \">=3.13\"",
+    "dependencies = [",
+    "    \"psycopg[binary]>=3.3.9\",",
+    "]"
+   ]
+  }
+ ],
+ "pyver": [
+  {
+   "cmd": "",
+   "cwd": "",
+   "out": [
+    "Python 3.13.18",
+    "3.3.9"
+   ]
+  }
+ ],
+ "hello": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "연결 성공: ('kant_shop', 'postgres')"
+   ]
+  }
+ ],
+ "fetchall": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "[(1, '수영 초급 아침반', 70000), (2, '수영 초급 저녁반', 70000), (3, '수영 중급 새벽반', 80000)]",
+    "(1, '수영 초급 아침반', 70000)",
+    "수영 초급 아침반",
+    "수영 초급 아침반 70000",
+    "수영 초급 저녁반 70000",
+    "수영 중급 새벽반 80000"
+   ]
+  }
+ ],
+ "fetchone": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "(40,)",
+    "40 명",
+    "None"
+   ]
+  }
+ ],
+ "dictrow": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "{'course_id': 1, 'course_name': '수영 초급 아침반', 'fee': 70000}",
+    "수영 초급 아침반 70000",
+    "수영 초급 저녁반 70000",
+    "수영 중급 새벽반 80000"
+   ]
+  }
+ ],
+ "list": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    " 1 | 수영 |  70,000원 | 수영 초급 아침반",
+    " 2 | 수영 |  70,000원 | 수영 초급 저녁반",
+    " 3 | 수영 |  80,000원 | 수영 중급 새벽반",
+    " 4 | 수영 |  90,000원 | 수영 고급반",
+    " 5 | 수영 |  60,000원 | 아쿠아로빅",
+    " 6 | 헬스 | 120,000원 | 헬스 PT 입문",
+    " 7 | 헬스 | 100,000원 | 헬스 근력 중급",
+    " 8 | 요가 |  65,000원 | 아침 요가",
+    " 9 | 요가 |  75,000원 | 요가 중급",
+    "10 | 테니스 |  90,000원 | 테니스 입문",
+    "11 | 테니스 | 110,000원 | 테니스 중급 레슨",
+    "12 | 테니스 | 130,000원 | 테니스 고급 레슨",
+    "13 | 필라테스 | 150,000원 | 필라테스 기구 초급",
+    "14 | 필라테스 | 160,000원 | 필라테스 중급"
+   ]
+  }
+ ],
+ "param": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "종목: 테니스",
+    "   테니스 입문 90000",
+    "   테니스 중급 레슨 110000",
+    "   테니스 고급 레슨 130000",
+    "종목: 요가",
+    "   아침 요가 65000",
+    "   요가 중급 75000"
+   ]
+  }
+ ],
+ "param2": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "아쿠아로빅 60000",
+    "아침 요가 65000",
+    "수영 초급 아침반 70000",
+    "수영 초급 저녁반 70000"
+   ]
+  }
+ ],
+ "inject-bad": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "SELECT name, phone FROM members WHERE name = 'x' OR '1'='1'",
+    "40 명이 나왔어요"
+   ]
+  }
+ ],
+ "inject-ok": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "SELECT name, phone FROM members WHERE name = %s",
+    "0 명이 나왔어요"
+   ]
+  }
+ ],
+ "seats": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "2026-11 남은 자리",
+    " 1 | 15자리 | 수영 초급 아침반",
+    " 2 | 11자리 | 수영 초급 저녁반",
+    " 3 |  9자리 | 수영 중급 새벽반",
+    " 4 |  9자리 | 수영 고급반",
+    " 5 | 18자리 | 아쿠아로빅",
+    " 6 |  7자리 | 헬스 PT 입문",
+    " 7 | 12자리 | 헬스 근력 중급",
+    " 8 | 18자리 | 아침 요가",
+    " 9 | 10자리 | 요가 중급",
+    "10 |  6자리 | 테니스 입문",
+    "11 |  4자리 | 테니스 중급 레슨",
+    "12 |  3자리 | 테니스 고급 레슨",
+    "13 |  6자리 | 필라테스 기구 초급",
+    "14 |  6자리 | 필라테스 중급"
+   ]
+  }
+ ],
+ "e-port": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "Traceback (most recent call last):",
+    "  File \"/home/kim/sports-app/main.py\", line 5, in <module>",
+    "    with psycopg.connect(DSN) as conn:",
+    "         ~~~~~~~~~~~~~~~^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/connection.py\", line 126, in connect",
+    "    raise last_ex.with_traceback(None)",
+    "psycopg.OperationalError: connection failed: connection to server at \"127.0.0.1\", port 5433 failed: Connection refused",
+    "\tIs the server running on that host and accepting TCP/IP connections?"
+   ]
+  }
+ ],
+ "e-pw": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "Traceback (most recent call last):",
+    "  File \"/home/kim/sports-app/main.py\", line 5, in <module>",
+    "    with psycopg.connect(DSN) as conn:",
+    "         ~~~~~~~~~~~~~~~^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/connection.py\", line 126, in connect",
+    "    raise last_ex.with_traceback(None)",
+    "psycopg.OperationalError: connection failed: connection to server at \"127.0.0.1\", port 5432 failed: FATAL:  password authentication failed for user \"postgres\""
+   ]
+  }
+ ],
+ "e-fetch": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "연결 성공: <bound method Cursor.fetchone of <psycopg.Cursor [TUPLES_OK] [INTRANS] (host=localhost user=postgres database=kant_shop) at 0x7f4ae99e2390>>"
+   ]
+  }
+ ],
+ "e-tuple": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "Traceback (most recent call last):",
+    "  File \"/home/kim/sports-app/main.py\", line 8, in <module>",
+    "    row = conn.execute(SQL, (MONTH)).fetchone()",
+    "          ~~~~~~~~~~~~^^^^^^^^^^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/connection.py\", line 302, in execute",
+    "    return cur.execute(query, params, prepare=prepare)",
+    "           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/cursor.py\", line 113, in execute",
+    "    self._conn.wait(",
+    "    ~~~~~~~~~~~~~~~^",
+    "        self._execute_gen(query, params, prepare=prepare, binary=binary)",
+    "        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "    )",
+    "    ^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/connection.py\", line 495, in wait",
+    "    return waiting.wait(",
+    "           ~~~~~~~~~~~~^",
+    "        gen, self.pgconn.socket, interval=interval, timeout=timeout",
+    "        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "    )",
+    "    ^",
+    "  File \"psycopg_binary/_psycopg/waiting.pyx\", line 360, in psycopg_binary._psycopg.wait_c",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/_cursor_base.py\", line 205, in _execute_gen",
+    "    pgq = self._convert_query(query, params)",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/_cursor_base.py\", line 465, in _convert_query",
+    "    pgq.convert(query, params)",
+    "    ~~~~~~~~~~~^^^^^^^^^^^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/_queries.py\", line 92, in convert",
+    "    self.dump(vars)",
+    "    ~~~~~~~~~^^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/_queries.py\", line 101, in dump",
+    "    params = self.validate_and_reorder_params(self._parts, vars, self._order)",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/_queries.py\", line 138, in validate_and_reorder_params",
+    "    if PostgresQuery.is_params_sequence(vars):",
+    "       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/_queries.py\", line 124, in is_params_sequence",
+    "    raise TypeError(",
+    "    ...<2 lines>...",
+    "    )",
+    "TypeError: query parameters should be a sequence or a mapping, got str"
+   ]
+  }
+ ],
+ "e-tuple-ok": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "(63,)"
+   ]
+  }
+ ],
+ "e-quote": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "Traceback (most recent call last):",
+    "  File \"/home/kim/sports-app/main.py\", line 8, in <module>",
+    "    row = conn.execute(SQL, (MONTH,)).fetchone()",
+    "          ~~~~~~~~~~~~^^^^^^^^^^^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/connection.py\", line 304, in execute",
+    "    raise ex.with_traceback(None)",
+    "psycopg.errors.IndeterminateDatatype: could not determine data type of parameter $1"
+   ]
+  }
+ ],
+ "e-col": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "Traceback (most recent call last):",
+    "  File \"/home/kim/sports-app/main.py\", line 22, in <module>",
+    "    list_courses(conn)",
+    "    ~~~~~~~~~~~~^^^^^^",
+    "  File \"/home/kim/sports-app/main.py\", line 15, in list_courses",
+    "    for c in conn.execute(LIST_SQL):",
+    "             ~~~~~~~~~~~~^^^^^^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/connection.py\", line 304, in execute",
+    "    raise ex.with_traceback(None)",
+    "psycopg.errors.UndefinedColumn: column c.sports_id does not exist",
+    "LINE 4: JOIN sports s ON c.sports_id = s.sports_id",
+    "                         ^",
+    "HINT:  Perhaps you meant to reference the column \"c.sport_id\"."
+   ]
+  }
+ ],
+ "enroll": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "kant_shop=# SELECT COUNT(*) FROM enrollments;",
+    " count",
+    "-------",
+    "   187",
+    "(1 row)"
+   ]
+  },
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "10번 회원이 5번 강좌를 신청했어요 (60,000원)"
+   ]
+  },
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "kant_shop=# SELECT * FROM enrollments ORDER BY enrollment_id DESC LIMIT 2;",
+    " enrollment_id | member_id | course_id | enroll_month | status | pay_amount",
+    "---------------+-----------+-----------+--------------+--------+------------",
+    "           188 |        10 |         5 | 2026-11      | 신청   |      60000",
+    "           187 |        39 |        14 | 2026-11      | 신청   |     160000",
+    "(2 rows)"
+   ]
+  }
+ ],
+ "rollback": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "10번 회원이 5번 강좌를 신청했어요 (60,000원)",
+    "Traceback (most recent call last):",
+    "  File \"/home/kim/sports-app/main.py\", line 27, in <module>",
+    "    enroll(conn, 10, 30)",
+    "    ~~~~~~^^^^^^^^^^^^^^",
+    "  File \"/home/kim/sports-app/main.py\", line 19, in enroll",
+    "    fee = row[\"fee\"]",
+    "          ~~~^^^^^^^",
+    "TypeError: 'NoneType' object is not subscriptable"
+   ]
+  },
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "kant_shop=# SELECT COUNT(*) FROM enrollments;",
+    " count",
+    "-------",
+    "   187",
+    "(1 row)"
+   ]
+  }
+ ],
+ "dup": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "30번 강좌는 없어요",
+    "5번 강좌를 신청했어요 (60,000원)",
+    "5번 강좌는 이미 신청했어요"
+   ]
+  },
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "kant_shop=# SELECT enrollment_id, member_id, course_id FROM enrollments ORDER BY enrollment_id DESC LIMIT 2;",
+    " enrollment_id | member_id | course_id",
+    "---------------+-----------+-----------",
+    "           188 |        10 |         5",
+    "           187 |        39 |        14",
+    "(2 rows)"
+   ]
+  }
+ ],
+ "nocommit": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "바꿨어요"
+   ]
+  },
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "kant_shop=# SELECT member_id, name, phone FROM members WHERE member_id = 10;",
+    " member_id |  name  | phone",
+    "-----------+--------+-------",
+    "        10 | 임준서 |",
+    "(1 row)"
+   ]
+  },
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "바꿨어요"
+   ]
+  },
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "kant_shop=# SELECT member_id, name, phone FROM members WHERE member_id = 10;",
+    " member_id |  name  |     phone",
+    "-----------+--------+---------------",
+    "        10 | 임준서 | 010-1111-2222",
+    "(1 row)"
+   ]
+  }
+ ],
+ "e-stopped": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "Traceback (most recent call last):",
+    "  File \"/home/kim/sports-app/main.py\", line 5, in <module>",
+    "    with psycopg.connect(DSN) as conn:",
+    "         ~~~~~~~~~~~~~~~^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/connection.py\", line 126, in connect",
+    "    raise last_ex.with_traceback(None)",
+    "psycopg.OperationalError: connection failed: connection to server at \"127.0.0.1\", port 5432 failed: Connection refused",
+    "\tIs the server running on that host and accepting TCP/IP connections?"
+   ]
+  }
+ ],
+ "psql-auto": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "kant_shop=# UPDATE members SET phone = '010-1111-2222' WHERE member_id = 10;",
+    "UPDATE 1"
+   ]
+  },
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "kant_shop=# SELECT member_id, name, phone FROM members WHERE member_id = 10;",
+    " member_id |  name  |     phone",
+    "-----------+--------+---------------",
+    "        10 | 임준서 | 010-1111-2222",
+    "(1 row)"
+   ]
+  }
+ ],
+ "e-nopq": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "Traceback (most recent call last):",
+    "  File \"/home/kim/sports-app/main.py\", line 1, in <module>",
+    "    import psycopg",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/__init__.py\", line 9, in <module>",
+    "    from . import pq  # noqa: F401 import early to stabilize side effects",
+    "    ^^^^^^^^^^^^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/pq/__init__.py\", line 114, in <module>",
+    "    import_from_libpq()",
+    "    ~~~~~~~~~~~~~~~~~^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/pq/__init__.py\", line 108, in import_from_libpq",
+    "            raise ImportError(f\"\"\"\\",
+    "    ...<2 lines>...",
+    "    {sattempts}\"\"\")",
+    "ImportError: no pq wrapper available.",
+    "Attempts made:",
+    "- couldn't import psycopg 'c' implementation: No module named 'psycopg_c'",
+    "- couldn't import psycopg 'binary' implementation: No module named 'psycopg_binary'",
+    "- couldn't import psycopg 'python' implementation: libpq library not found"
+   ]
+  }
+ ],
+ "e-closed": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "연결 성공: ('kant_shop', 'postgres')",
+    "Traceback (most recent call last):",
+    "  File \"/home/kim/sports-app/main.py\", line 9, in <module>",
+    "    row = conn.execute(\"SELECT COUNT(*) FROM members\").fetchone()",
+    "          ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "  File \"/home/kim/sports-app/.venv/lib/python3.13/site-packages/psycopg/connection.py\", line 304, in execute",
+    "    raise ex.with_traceback(None)",
+    "psycopg.OperationalError: the connection is closed"
+   ]
+  }
+ ],
+ "receipt": [
+  {
+   "cmd": "uv run main.py",
+   "cwd": "~/sports-app",
+   "out": [
+    "배서진 회원님의 2026-11 신청 내역",
+    "   70,000원  수영 초급 저녁반",
+    "  100,000원  헬스 근력 중급",
+    "   75,000원  요가 중급",
+    "  160,000원  필라테스 중급",
+    "  405,000원  합계 (4개)"
+   ]
+  }
+ ],
+ "why": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "kant_shop=# SELECT course_id, course_name, fee FROM courses LIMIT 3;",
+    " course_id |   course_name    |  fee",
+    "-----------+------------------+-------",
+    "         1 | 수영 초급 아침반 | 70000",
+    "         2 | 수영 초급 저녁반 | 70000",
+    "         3 | 수영 중급 새벽반 | 80000",
+    "(3 rows)"
+   ]
+  }
+ ]
+}
