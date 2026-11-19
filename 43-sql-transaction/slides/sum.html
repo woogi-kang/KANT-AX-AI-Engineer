@@ -1,0 +1,27 @@
+<section id="sum" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">되돌릴 수도 있는 일 앞에서는 BEGIN부터 쳐요</h2>
+<p style="position:absolute;left:96px;top:220px;width:780px;font-size:24px;font-weight:700;color:#5B6270;white-space:nowrap">이럴 때</p>
+<p style="position:absolute;left:896px;top:220px;width:908px;font-size:24px;font-weight:700;color:#5B6270;white-space:nowrap">이렇게 해요</p>
+<div style="position:absolute;left:96px;top:269px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" id="sum-tb-r0c0" style="position:absolute;left:96px;top:301px;width:780px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">여러 줄을 UPDATE, DELETE해요</p>
+<p data-build-in="rise order 1" id="sum-tb-r0c1" style="position:absolute;left:896px;top:301px;width:908px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#2459C9">BEGIN; … 줄 수 확인 … COMMIT;</span></p>
+<div style="position:absolute;left:96px;top:369px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 2" id="sum-tb-r1c0" style="position:absolute;left:96px;top:401px;width:780px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">두 문장이 함께 성공해야 해요 (강좌 옮기기, 탈퇴)</p>
+<p data-build-in="rise order 2" id="sum-tb-r1c1" style="position:absolute;left:896px;top:401px;width:908px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#B26A00">BEGIN; 문장1; 문장2; COMMIT;</span></p>
+<div style="position:absolute;left:96px;top:469px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 3" id="sum-tb-r2c0" style="position:absolute;left:96px;top:501px;width:780px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">결과를 보기만 하고 싶어요 (인상 미리보기)</p>
+<p data-build-in="rise order 3" id="sum-tb-r2c1" style="position:absolute;left:896px;top:501px;width:908px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#A33131">BEGIN; UPDATE … RETURNING …; ROLLBACK;</span></p>
+<div style="position:absolute;left:96px;top:569px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 4" id="sum-tb-r3c0" style="position:absolute;left:96px;top:601px;width:780px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap">오류가 나서 프롬프트가 !# 예요</p>
+<p data-build-in="rise order 4" id="sum-tb-r3c1" style="position:absolute;left:896px;top:601px;width:908px;font-size:26px;font-weight:400;line-height:1.35;color:#4A5262;white-space:nowrap"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#A33131">ROLLBACK;</span> 뒤 고쳐서 처음부터</p>
+<div style="position:absolute;left:96px;top:669px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 5" style="position:absolute;left:96px;top:718.8px;font-size:26px;font-weight:700;color:#5B6270">프롬프트로 상태 읽기</p>
+<p data-build-in="rise order 5" data-delay="0" style="position:absolute;left:96px;top:768.8px;height:56px;padding:0 18px;border-radius:12px;background:#1B2029;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:56px;color:#9DC1E6;white-space:nowrap">kant_shop=#</p>
+<p data-build-in="rise order 5" data-delay="0" style="position:absolute;left:96px;top:840.8px;width:540px;font-size:25px;line-height:1.45;color:#1D2330">자동 저장 중</p>
+<p data-build-in="rise order 5" data-delay="80" style="position:absolute;left:686px;top:768.8px;height:56px;padding:0 18px;border-radius:12px;background:#1B2029;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:56px;color:#F2A65A;white-space:nowrap">kant_shop=*#</p>
+<p data-build-in="rise order 5" data-delay="80" style="position:absolute;left:686px;top:840.8px;width:540px;font-size:25px;line-height:1.45;color:#1D2330">트랜잭션 안, 아직 확정 전</p>
+<p data-build-in="rise order 5" data-delay="160" style="position:absolute;left:1276px;top:768.8px;height:56px;padding:0 18px;border-radius:12px;background:#1B2029;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:26px;font-weight:700;line-height:56px;color:#FF8A80;white-space:nowrap">kant_shop=!#</p>
+<p data-build-in="rise order 5" data-delay="160" style="position:absolute;left:1276px;top:840.8px;width:540px;font-size:25px;line-height:1.45;color:#1D2330">실패, ROLLBACK만 받아요</p>
+<aside>트랜잭션을 언제 쓰는지 정리해요. 여러 줄을 고치거나 지울 때는 BEGIN을 치고, 줄 수를 확인한 뒤 COMMIT해요. 강좌 옮기기나 회원 탈퇴처럼 두 문장이 함께 성공해야 하면 BEGIN과 COMMIT 사이에 묶어요. 결과를 보기만 하고 싶을 때는 BEGIN 뒤에 UPDATE와 RETURNING을 치고 ROLLBACK해요. 오류가 나서 프롬프트가 느낌표로 바뀌면 ROLLBACK하고 고쳐서 처음부터 다시 해요. 지금 상태는 프롬프트에서 읽어요. 아무 표시가 없으면 자동 저장 중, 별표면 확정 전, 느낌표면 실패한 트랜잭션이에요. 44에서는 파이썬에서 PostgreSQL을 쓰면서 같은 COMMIT이 어디서 일어나는지 봐요.</aside>
+</section>

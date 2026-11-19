@@ -1,0 +1,81 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-19T00:00:00Z"
+  },
+  "lists": "css",
+  "title": "SQL 8 (트랜잭션)",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "min",
+    "kinds",
+    "auto",
+    "begin",
+    "commit-late",
+    "rb-many",
+    "rb-trap",
+    "w-see",
+    "w-wait",
+    "w-quit",
+    "move-why",
+    "move-ok",
+    "move-err",
+    "move-commit",
+    "ddl",
+    "safe",
+    "oops",
+    "cmp-git",
+    "x-warn",
+    "x-table",
+    "r-fee",
+    "r-cap",
+    "r-quit",
+    "sum",
+    "cheat"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "BEGIN, COMMIT, ROLLBACK",
+      "start": "auto"
+    },
+    "p2": {
+      "description": "다른 창에서 보면",
+      "start": "w-see"
+    },
+    "p4": {
+      "description": "지우기 전에 확인하기",
+      "start": "safe"
+    },
+    "p5": {
+      "description": "비교와 오류",
+      "start": "cmp-git"
+    },
+    "p6": {
+      "description": "실제 상황",
+      "start": "r-fee"
+    },
+    "outro": {
+      "description": "정리",
+      "start": "sum"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
