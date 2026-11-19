@@ -1,0 +1,729 @@
+{
+ "version": [
+  {
+   "cmd": "",
+   "cwd": "~",
+   "out": [
+    "PostgreSQL 18.7 (Debian 18.7-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit"
+   ]
+  }
+ ],
+ "w-see": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "snaps": {
+    "before": {
+     "A": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# BEGIN;",
+      "BEGIN",
+      "kant_shop=*# UPDATE courses SET fee = 65000 WHERE course_id = 5;",
+      "UPDATE 1",
+      "kant_shop=*# SELECT fee FROM courses WHERE course_id = 5;",
+      "  fee",
+      "-------",
+      " 65000",
+      "(1 row)",
+      "",
+      "kant_shop=*#"
+     ],
+     "B": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# SELECT fee FROM courses WHERE course_id = 5;",
+      "  fee",
+      "-------",
+      " 60000",
+      "(1 row)",
+      "",
+      "kant_shop=#"
+     ]
+    },
+    "end": {
+     "A": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# BEGIN;",
+      "BEGIN",
+      "kant_shop=*# UPDATE courses SET fee = 65000 WHERE course_id = 5;",
+      "UPDATE 1",
+      "kant_shop=*# SELECT fee FROM courses WHERE course_id = 5;",
+      "  fee",
+      "-------",
+      " 65000",
+      "(1 row)",
+      "",
+      "kant_shop=*# COMMIT;",
+      "COMMIT",
+      "kant_shop=#"
+     ],
+     "B": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# SELECT fee FROM courses WHERE course_id = 5;",
+      "  fee",
+      "-------",
+      " 60000",
+      "(1 row)",
+      "",
+      "kant_shop=# SELECT fee FROM courses WHERE course_id = 5;",
+      "  fee",
+      "-------",
+      " 65000",
+      "(1 row)",
+      "",
+      "kant_shop=#"
+     ]
+    }
+   }
+  }
+ ],
+ "w-wait": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "snaps": {
+    "waiting": {
+     "A": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# BEGIN;",
+      "BEGIN",
+      "kant_shop=*# UPDATE courses SET capacity = capacity + 5 WHERE course_id = 5;",
+      "UPDATE 1",
+      "kant_shop=*#"
+     ],
+     "B": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# UPDATE courses SET capacity = capacity + 1 WHERE course_id = 5;"
+     ]
+    },
+    "released": {
+     "A": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# BEGIN;",
+      "BEGIN",
+      "kant_shop=*# UPDATE courses SET capacity = capacity + 5 WHERE course_id = 5;",
+      "UPDATE 1",
+      "kant_shop=*# COMMIT;",
+      "COMMIT",
+      "kant_shop=#"
+     ],
+     "B": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# UPDATE courses SET capacity = capacity + 1 WHERE course_id = 5;",
+      "UPDATE 1",
+      "kant_shop=#"
+     ]
+    },
+    "end": {
+     "A": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# BEGIN;",
+      "BEGIN",
+      "kant_shop=*# UPDATE courses SET capacity = capacity + 5 WHERE course_id = 5;",
+      "UPDATE 1",
+      "kant_shop=*# COMMIT;",
+      "COMMIT",
+      "kant_shop=#"
+     ],
+     "B": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# UPDATE courses SET capacity = capacity + 1 WHERE course_id = 5;",
+      "UPDATE 1",
+      "kant_shop=# SELECT capacity FROM courses WHERE course_id = 5;",
+      " capacity",
+      "----------",
+      "       31",
+      "(1 row)",
+      "",
+      "kant_shop=#"
+     ]
+    }
+   }
+  }
+ ],
+ "w-quit": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "snaps": {
+    "end": {
+     "A": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# BEGIN;",
+      "BEGIN",
+      "kant_shop=*# UPDATE courses SET fee = 65000 WHERE course_id = 5;",
+      "UPDATE 1",
+      "kant_shop=*# \\q"
+     ],
+     "B": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# SELECT fee FROM courses WHERE course_id = 5;",
+      "  fee",
+      "-------",
+      " 60000",
+      "(1 row)",
+      "",
+      "kant_shop=#"
+     ]
+    }
+   }
+  }
+ ],
+ "why": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# UPDATE courses SET fee = 0;",
+    "UPDATE 14",
+    "kant_shop=# ROLLBACK;",
+    "WARNING:  there is no transaction in progress",
+    "ROLLBACK",
+    "kant_shop=# SELECT course_name, fee FROM courses ORDER BY course_id LIMIT 4;",
+    "   course_name    | fee",
+    "------------------+-----",
+    " 수영 초급 아침반 |   0",
+    " 수영 초급 저녁반 |   0",
+    " 수영 중급 새벽반 |   0",
+    " 수영 고급반      |   0",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "min": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# UPDATE courses SET fee = 0;",
+    "UPDATE 14",
+    "kant_shop=*# SELECT course_name, fee FROM courses ORDER BY course_id LIMIT 3;",
+    "   course_name    | fee",
+    "------------------+-----",
+    " 수영 초급 아침반 |   0",
+    " 수영 초급 저녁반 |   0",
+    " 수영 중급 새벽반 |   0",
+    "(3 rows)",
+    "",
+    "kant_shop=*# ROLLBACK;",
+    "ROLLBACK",
+    "kant_shop=# SELECT course_name, fee FROM courses ORDER BY course_id LIMIT 3;",
+    "   course_name    |  fee",
+    "------------------+-------",
+    " 수영 초급 아침반 | 70000",
+    " 수영 초급 저녁반 | 70000",
+    " 수영 중급 새벽반 | 80000",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "auto": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# UPDATE courses SET fee = 65000 WHERE course_id = 5;",
+    "UPDATE 1",
+    "kant_shop=# SELECT course_name, fee FROM courses WHERE course_id = 5;",
+    " course_name |  fee",
+    "-------------+-------",
+    " 아쿠아로빅  | 65000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "begin": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# UPDATE courses SET fee = 65000 WHERE course_id = 5;",
+    "UPDATE 1",
+    "kant_shop=*# SELECT course_name, fee FROM courses WHERE course_id = 5;",
+    " course_name |  fee",
+    "-------------+-------",
+    " 아쿠아로빅  | 65000",
+    "(1 row)",
+    "",
+    "kant_shop=*# COMMIT;",
+    "COMMIT",
+    "kant_shop=# SELECT course_name, fee FROM courses WHERE course_id = 5;",
+    " course_name |  fee",
+    "-------------+-------",
+    " 아쿠아로빅  | 65000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "commit-late": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# UPDATE courses SET fee = 65000 WHERE course_id = 5;",
+    "UPDATE 1",
+    "kant_shop=*# COMMIT;",
+    "COMMIT",
+    "kant_shop=# ROLLBACK;",
+    "WARNING:  there is no transaction in progress",
+    "ROLLBACK",
+    "kant_shop=# SELECT course_name, fee FROM courses WHERE course_id = 5;",
+    " course_name |  fee",
+    "-------------+-------",
+    " 아쿠아로빅  | 65000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "rb-many": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# UPDATE courses SET capacity = 30 WHERE course_id = 5;",
+    "UPDATE 1",
+    "kant_shop=*# DELETE FROM enrollments WHERE enroll_month = '2026-09';",
+    "DELETE 64",
+    "kant_shop=*# ROLLBACK;",
+    "ROLLBACK",
+    "kant_shop=# SELECT capacity FROM courses WHERE course_id = 5;",
+    " capacity",
+    "----------",
+    "       25",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM enrollments WHERE enroll_month = '2026-09';",
+    " count",
+    "-------",
+    "    64",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "rb-trap": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# UPDATE courses",
+    "kant_shop-# SET capacity = capacity + 5",
+    "kant_shop-# WHERE course_id IN (SELECT course_id",
+    "kant_shop(#                     FROM enrollments",
+    "kant_shop(#                     WHERE enroll_month = '2026-11'",
+    "kant_shop(#                     GROUP BY course_id",
+    "kant_shop(#                     HAVING COUNT(*) >= 5)",
+    "kant_shop-# RETURNING course_id, capacity;",
+    " course_id | capacity",
+    "-----------+----------",
+    "         1 |       25",
+    "         2 |       25",
+    "         3 |       20",
+    "         4 |       17",
+    "         5 |       30",
+    "         9 |       23",
+    "(6 rows)",
+    "",
+    "UPDATE 6",
+    "kant_shop=# ROLLBACK;",
+    "WARNING:  there is no transaction in progress",
+    "ROLLBACK",
+    "kant_shop=# SELECT capacity FROM courses WHERE course_id = 5;",
+    " capacity",
+    "----------",
+    "       30",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "begin2": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# BEGIN;",
+    "WARNING:  there is already a transaction in progress",
+    "BEGIN",
+    "kant_shop=*# ROLLBACK;",
+    "ROLLBACK",
+    "kant_shop=# ROLLBACK;",
+    "WARNING:  there is no transaction in progress",
+    "ROLLBACK",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "move-ok": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT * FROM enrollments WHERE enrollment_id = 184;",
+    " enrollment_id | member_id | course_id | enroll_month | status | pay_amount",
+    "---------------+-----------+-----------+--------------+--------+------------",
+    "           184 |        11 |        13 | 2026-11      | 신청   |     150000",
+    "(1 row)",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# UPDATE enrollments SET status = '취소', pay_amount = 0 WHERE enrollment_id = 184;",
+    "UPDATE 1",
+    "kant_shop=*# INSERT INTO enrollments VALUES (188, 11, 9, '2026-11', '신청', 75000);",
+    "INSERT 0 1",
+    "kant_shop=*# COMMIT;",
+    "COMMIT",
+    "kant_shop=# SELECT * FROM enrollments WHERE member_id = 11 AND course_id IN (9, 13) AND enroll_month = '2026-11';",
+    " enrollment_id | member_id | course_id | enroll_month | status | pay_amount",
+    "---------------+-----------+-----------+--------------+--------+------------",
+    "           184 |        11 |        13 | 2026-11      | 취소   |          0",
+    "           188 |        11 |         9 | 2026-11      | 신청   |      75000",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "move-err": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# UPDATE enrollments SET status = '취소', pay_amount = 0 WHERE enrollment_id = 184;",
+    "UPDATE 1",
+    "kant_shop=*# INSERT INTO enrollments VALUES (187, 11, 9, '2026-11', '신청', 75000);",
+    "ERROR:  duplicate key value violates unique constraint \"enrollments_pkey\"",
+    "DETAIL:  Key (enrollment_id)=(187) already exists.",
+    "kant_shop=!# SELECT * FROM enrollments WHERE enrollment_id = 184;",
+    "ERROR:  current transaction is aborted, commands ignored until end of transaction block",
+    "kant_shop=!# ROLLBACK;",
+    "ROLLBACK",
+    "kant_shop=# SELECT * FROM enrollments WHERE enrollment_id = 184;",
+    " enrollment_id | member_id | course_id | enroll_month | status | pay_amount",
+    "---------------+-----------+-----------+--------------+--------+------------",
+    "           184 |        11 |        13 | 2026-11      | 신청   |     150000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "move-commit": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# UPDATE enrollments SET status = '취소', pay_amount = 0 WHERE enrollment_id = 184;",
+    "UPDATE 1",
+    "kant_shop=*# INSERT INTO enrollments VALUES (187, 11, 9, '2026-11', '신청', 75000);",
+    "ERROR:  duplicate key value violates unique constraint \"enrollments_pkey\"",
+    "DETAIL:  Key (enrollment_id)=(187) already exists.",
+    "kant_shop=!# COMMIT;",
+    "ROLLBACK",
+    "kant_shop=# SELECT enrollment_id, status, pay_amount FROM enrollments WHERE enrollment_id = 184;",
+    " enrollment_id | status | pay_amount",
+    "---------------+--------+------------",
+    "           184 | 신청   |     150000",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ddl": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# DROP TABLE enrollments;",
+    "DROP TABLE",
+    "kant_shop=*# SELECT COUNT(*) FROM enrollments;",
+    "ERROR:  relation \"enrollments\" does not exist",
+    "LINE 1: SELECT COUNT(*) FROM enrollments;",
+    "                             ^",
+    "kant_shop=!# ROLLBACK;",
+    "ROLLBACK",
+    "kant_shop=# SELECT COUNT(*) FROM enrollments;",
+    " count",
+    "-------",
+    "   187",
+    "(1 row)",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# TRUNCATE enrollments;",
+    "TRUNCATE TABLE",
+    "kant_shop=*# ROLLBACK;",
+    "ROLLBACK",
+    "kant_shop=# SELECT COUNT(*) FROM enrollments;",
+    " count",
+    "-------",
+    "   187",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "safe-del": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM enrollments WHERE enroll_month = '2026-11' AND status = '취소';",
+    " count",
+    "-------",
+    "     6",
+    "(1 row)",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# DELETE FROM enrollments",
+    "kant_shop-*# WHERE enroll_month = '2026-11' AND status = '취소'",
+    "kant_shop-*# RETURNING enrollment_id, member_id, course_id;",
+    " enrollment_id | member_id | course_id",
+    "---------------+-----------+-----------",
+    "           126 |         3 |         1",
+    "           130 |        38 |         1",
+    "           148 |         3 |         4",
+    "           151 |         8 |         4",
+    "           160 |        24 |         6",
+    "           166 |         2 |         7",
+    "(6 rows)",
+    "",
+    "DELETE 6",
+    "kant_shop=*# COMMIT;",
+    "COMMIT",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "oops-del": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM enrollments WHERE enroll_month = '2026-11' AND status = '취소';",
+    " count",
+    "-------",
+    "     6",
+    "(1 row)",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# DELETE FROM enrollments WHERE enroll_month = '2026-11' OR status = '취소';",
+    "DELETE 77",
+    "kant_shop=*# ROLLBACK;",
+    "ROLLBACK",
+    "kant_shop=# SELECT COUNT(*) FROM enrollments;",
+    " count",
+    "-------",
+    "   187",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "r-fee": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# UPDATE courses SET fee = fee * 1.05 WHERE sport_id = 3",
+    "kant_shop-*# RETURNING course_name, fee;",
+    " course_name |  fee",
+    "-------------+-------",
+    " 아침 요가   | 68250",
+    " 요가 중급   | 78750",
+    "(2 rows)",
+    "",
+    "UPDATE 2",
+    "kant_shop=*# ROLLBACK;",
+    "ROLLBACK",
+    "kant_shop=# SELECT course_name, fee FROM courses WHERE sport_id = 3;",
+    " course_name |  fee",
+    "-------------+-------",
+    " 아침 요가   | 65000",
+    " 요가 중급   | 75000",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "r-cap": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# UPDATE courses",
+    "kant_shop-*# SET capacity = capacity + 5",
+    "kant_shop-*# WHERE course_id IN (SELECT course_id",
+    "kant_shop(*#                     FROM enrollments",
+    "kant_shop(*#                     WHERE enroll_month = '2026-11'",
+    "kant_shop(*#                     GROUP BY course_id",
+    "kant_shop(*#                     HAVING COUNT(*) >= 5)",
+    "kant_shop-*# RETURNING course_id, capacity;",
+    " course_id | capacity",
+    "-----------+----------",
+    "         1 |       25",
+    "         2 |       25",
+    "         3 |       20",
+    "         4 |       17",
+    "         5 |       30",
+    "         9 |       23",
+    "(6 rows)",
+    "",
+    "UPDATE 6",
+    "kant_shop=*# COMMIT;",
+    "COMMIT",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "r-quit": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# DELETE FROM members WHERE member_id = 10;",
+    "ERROR:  update or delete on table \"members\" violates foreign key constraint \"enrollments_member_id_fkey\" on table \"enrollments\"",
+    "DETAIL:  Key (member_id)=(10) is still referenced from table \"enrollments\".",
+    "kant_shop=!# ROLLBACK;",
+    "ROLLBACK",
+    "kant_shop=# BEGIN;",
+    "BEGIN",
+    "kant_shop=*# DELETE FROM enrollments WHERE member_id = 10 RETURNING enrollment_id;",
+    " enrollment_id",
+    "---------------",
+    "             2",
+    "            54",
+    "            72",
+    "            79",
+    "            95",
+    "(5 rows)",
+    "",
+    "DELETE 5",
+    "kant_shop=*# DELETE FROM members WHERE member_id = 10 RETURNING name;",
+    "  name",
+    "--------",
+    " 임준서",
+    "(1 row)",
+    "",
+    "DELETE 1",
+    "kant_shop=*# COMMIT;",
+    "COMMIT",
+    "kant_shop=# \\q"
+   ]
+  }
+ ]
+}

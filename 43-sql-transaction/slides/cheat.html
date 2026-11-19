@@ -1,0 +1,37 @@
+<section id="cheat" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">한 장 요약</h2>
+<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#2459C9">세 명령</p>
+<div style="position:absolute;left:96px;top:270px;width:560px;height:3px;background:#2459C9"></div>
+<p style="position:absolute;left:96px;top:300px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">BEGIN;</p>
+<p style="position:absolute;left:96px;top:342px;width:560px;font-size:23px;color:#4A5262">저장 지점, 프롬프트에 *</p>
+<p style="position:absolute;left:96px;top:420px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">COMMIT;</p>
+<p style="position:absolute;left:96px;top:462px;width:560px;font-size:23px;color:#4A5262">확정, 다른 창에도 보여요</p>
+<p style="position:absolute;left:96px;top:540px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">ROLLBACK;</p>
+<p style="position:absolute;left:96px;top:582px;width:560px;font-size:23px;color:#4A5262">BEGIN 뒤 문장을 모두 되돌려요</p>
+<p style="position:absolute;left:680px;top:220px;font-size:30px;font-weight:700;color:#A23B72">안전하게 지우기</p>
+<div style="position:absolute;left:680px;top:270px;width:560px;height:3px;background:#A23B72"></div>
+<p style="position:absolute;left:680px;top:300px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">SELECT COUNT(*) … WHERE …;</p>
+<p style="position:absolute;left:680px;top:342px;width:560px;font-size:23px;color:#4A5262">같은 WHERE로 먼저 세기</p>
+<p style="position:absolute;left:680px;top:420px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">DELETE … WHERE … RETURNING …;</p>
+<p style="position:absolute;left:680px;top:462px;width:560px;font-size:23px;color:#4A5262">BEGIN 안에서 지우고 보기</p>
+<p style="position:absolute;left:680px;top:540px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">DELETE 6 = 6 → COMMIT;</p>
+<p style="position:absolute;left:680px;top:582px;width:560px;font-size:23px;color:#4A5262">숫자가 다르면 ROLLBACK</p>
+<p style="position:absolute;left:1264px;top:220px;font-size:30px;font-weight:700;color:#B26A00">기억할 것</p>
+<div style="position:absolute;left:1264px;top:270px;width:560px;height:3px;background:#B26A00"></div>
+<p style="position:absolute;left:1264px;top:300px;width:560px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">BEGIN 없이는 바로 저장</p>
+<p style="position:absolute;left:1264px;top:342px;width:560px;font-size:23px;color:#4A5262">ROLLBACK이 안 먹혀요</p>
+<p style="position:absolute;left:1264px;top:420px;width:560px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">COMMIT 전엔 나만 보여요</p>
+<p style="position:absolute;left:1264px;top:462px;width:560px;font-size:23px;color:#4A5262">\q로 나가면 버려져요</p>
+<p style="position:absolute;left:1264px;top:540px;width:560px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">오류 뒤 !#</p>
+<p style="position:absolute;left:1264px;top:582px;width:560px;font-size:23px;color:#4A5262">COMMIT도 ROLLBACK이 돼요</p>
+<div style="position:absolute;left:96px;top:690px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:716px;font-size:26px;font-weight:700;color:#5B6270">문장 종류</p>
+<p style="position:absolute;left:96px;top:770px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#2459C9">DDL</p>
+<p style="position:absolute;left:96px;top:822px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#4A5262;white-space:pre">CREATE  DROP  ALTER  TRUNCATE</p>
+<p style="position:absolute;left:680px;top:770px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#1F8A4C">DML</p>
+<p style="position:absolute;left:680px;top:822px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#4A5262;white-space:pre">INSERT  UPDATE  DELETE  SELECT</p>
+<p style="position:absolute;left:1264px;top:770px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;font-weight:700;color:#F2A65A">TCL</p>
+<p style="position:absolute;left:1264px;top:822px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:21px;font-weight:700;color:#4A5262;white-space:pre">BEGIN  COMMIT  ROLLBACK</p>
+<aside>오늘 배운 것을 한 장에 모았어요. 세 명령은 BEGIN, COMMIT, ROLLBACK이에요. 지울 때는 같은 WHERE로 먼저 세고, BEGIN 안에서 RETURNING을 붙여 지우고, 숫자가 같을 때만 COMMIT해요. 기억할 것 세 가지도 있어요. BEGIN 없이 친 문장은 바로 저장돼요. COMMIT하기 전의 변경은 내 창에만 보이고 나가면 버려져요. 오류가 난 뒤에는 COMMIT을 쳐도 ROLLBACK이 돼요. 아래는 문장 종류 세 가지예요.</aside>
+</section>

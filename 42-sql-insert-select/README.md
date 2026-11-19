@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/42-sql-insert-select/sql-insert-select-slides.html) | [41 · SQL 6 (서브쿼리)](../41-sql-subquery) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/42-sql-insert-select/sql-insert-select-slides.html) | [41 · SQL 6 (서브쿼리)](../41-sql-subquery) | [43 · SQL 8 (트랜잭션)](../43-sql-transaction) |
 
 <!-- /curriculum:top -->
 
@@ -383,6 +383,6 @@ node ../tools/export.js slides sql-insert-select-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 41 · SQL 6 (서브쿼리)](../41-sql-subquery) · [커리큘럼](../README.md)
+[← 이전: 41 · SQL 6 (서브쿼리)](../41-sql-subquery) · [커리큘럼](../README.md) · [다음: 43 · SQL 8 (트랜잭션) →](../43-sql-transaction)
 
 <!-- /curriculum:nav -->

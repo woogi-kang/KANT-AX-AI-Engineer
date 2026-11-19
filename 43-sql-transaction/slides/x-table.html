@@ -1,0 +1,32 @@
+<section id="x-table" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1F8A4C">5. 비교와 오류</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">트랜잭션에서 자주 만나는 메시지와 상황</h2>
+<p style="position:absolute;left:96px;top:214px;font-size:24px;font-weight:700;color:#5B6270">이런 게 보이면</p>
+<p style="position:absolute;left:1360px;top:214px;font-size:24px;font-weight:700;color:#5B6270">이렇게 해요</p>
+<div style="position:absolute;left:96px;top:262px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:278px;width:1240px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#B26A00;white-space:pre">WARNING:  there is no transaction in progress</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:322px;width:1240px;font-size:24px;color:#4A5262">BEGIN 없이 ROLLBACK, COMMIT을 쳤어요</p>
+<p data-build-in="rise order 1" data-delay="0" style="position:absolute;left:1360px;top:298px;width:464px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">이미 저장됐어요. 다음엔 BEGIN부터</p>
+<div style="position:absolute;left:96px;top:374px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:96px;top:390px;width:1240px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#B26A00;white-space:pre">WARNING:  there is already a transaction in progress</p>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:96px;top:434px;width:1240px;font-size:24px;color:#4A5262">BEGIN 상태에서 BEGIN을 또 쳤어요</p>
+<p data-build-in="rise order 1" data-delay="70" style="position:absolute;left:1360px;top:410px;width:464px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">그대로 이어서 쳐요</p>
+<div style="position:absolute;left:96px;top:486px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:96px;top:502px;width:1240px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:23px;font-weight:700;color:#A33131;white-space:pre">ERROR:  current transaction is aborted, …</p>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:96px;top:546px;width:1240px;font-size:24px;color:#4A5262">앞 문장 오류로 트랜잭션이 실패했어요 (!#)</p>
+<p data-build-in="rise order 1" data-delay="140" style="position:absolute;left:1360px;top:522px;width:464px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">ROLLBACK 뒤 처음부터</p>
+<div style="position:absolute;left:96px;top:598px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:96px;top:614px;width:1240px;font-size:25px;font-weight:700;color:#1D2330;white-space:pre">COMMIT을 쳤는데 ROLLBACK</p>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:96px;top:658px;width:1240px;font-size:24px;color:#4A5262">실패한 트랜잭션은 확정이 안 돼요</p>
+<p data-build-in="rise order 1" data-delay="210" style="position:absolute;left:1360px;top:634px;width:464px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">오류를 고쳐 다시 해요</p>
+<div style="position:absolute;left:96px;top:710px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="280" style="position:absolute;left:96px;top:726px;width:1240px;font-size:25px;font-weight:700;color:#1D2330;white-space:pre">다른 창의 UPDATE가 대답이 없어요</p>
+<p data-build-in="rise order 1" data-delay="280" style="position:absolute;left:96px;top:770px;width:1240px;font-size:24px;color:#4A5262">BEGIN한 창이 같은 줄을 잡고 있어요</p>
+<p data-build-in="rise order 1" data-delay="280" style="position:absolute;left:1360px;top:746px;width:464px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">그 창에서 COMMIT이나 ROLLBACK</p>
+<div style="position:absolute;left:96px;top:822px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p data-build-in="rise order 1" data-delay="350" style="position:absolute;left:96px;top:838px;width:1240px;font-size:25px;font-weight:700;color:#1D2330;white-space:pre">나갔다 오니 바꾼 값이 없어요</p>
+<p data-build-in="rise order 1" data-delay="350" style="position:absolute;left:96px;top:882px;width:1240px;font-size:24px;color:#4A5262">COMMIT 없이 \q로 나갔어요</p>
+<p data-build-in="rise order 1" data-delay="350" style="position:absolute;left:1360px;top:858px;width:464px;font-size:25px;font-weight:700;color:#1D2330;white-space:nowrap">끝내기 전에 * 확인</p>
+<div style="position:absolute;left:96px;top:934px;width:1728px;height:2px;background:#DCD8CE"></div>
+<aside>오늘 본 메시지와 상황을 모았어요. 위의 두 줄은 WARNING이에요. BEGIN 없이 ROLLBACK을 치면 이미 저장된 뒤라서 되돌릴 수 없어요. 다음부터 BEGIN을 먼저 쳐요. BEGIN을 두 번 치면 그냥 이어서 쓰면 돼요. 셋째와 넷째는 트랜잭션 안에서 오류가 난 경우예요. 프롬프트가 느낌표로 바뀌고, 무엇을 쳐도 무시돼요. COMMIT을 쳐도 ROLLBACK이 돼요. ROLLBACK하고 고쳐서 다시 해요. 다섯째, 다른 창의 UPDATE가 대답이 없으면 BEGIN한 창이 같은 줄을 고치는 중이에요. 여섯째, COMMIT 없이 나가면 바꾼 값은 사라져요.</aside>
+</section>
