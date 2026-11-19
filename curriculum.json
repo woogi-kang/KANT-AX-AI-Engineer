@@ -124,6 +124,9 @@
     {"dir": "41-sql-subquery", "title": "SQL 6 (서브쿼리)", "track": "데이터베이스",
      "goal": "괄호 안 SELECT가 먼저 값, 목록, 표가 되게 해서 평균과 비교하고 목록으로 고르고 임시 표로 다시 묶어요",
      "commands": "`WHERE fee > (SELECT AVG(fee) FROM courses)` `WHERE member_id IN (SELECT ...)` `FROM (SELECT ... GROUP BY ...) AS paid` `(SELECT COUNT(*) FROM members) AS 전체`", "slides": "sql-subquery-slides.html"},
+    {"dir": "42-sql-insert-select", "title": "SQL 7 (다른 표를 보고 넣고, 고치고, 지우기)", "track": "데이터베이스",
+     "goal": "SELECT로 고른 줄을 INSERT, UPDATE, DELETE에 붙이고 EXISTS로 다른 표에 있는지 물어서 넣고 고치고 지워요",
+     "commands": "`INSERT INTO 표 (...) SELECT ...` `CAST(값 AS DATE)` `ALTER TABLE ... ADD COLUMN` `WHERE NOT EXISTS (SELECT 1 ...)` `TRUNCATE` `DROP TABLE`", "slides": "sql-insert-select-slides.html"},
     {"dir": "43-sql-transaction", "title": "SQL 8 (트랜잭션)", "track": "데이터베이스",
      "goal": "문장 여러 개를 BEGIN으로 묶고 COMMIT으로 확정하거나 ROLLBACK으로 한꺼번에 되돌려서, 실수한 UPDATE와 DELETE를 살려요",
      "commands": "`BEGIN;` `COMMIT;` `ROLLBACK;` `DELETE ... RETURNING ...;` `kant_shop=*#`", "slides": "sql-transaction-slides.html"}

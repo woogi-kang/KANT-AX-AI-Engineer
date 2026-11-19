@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/43-sql-transaction/sql-transaction-slides.html) | [41 · SQL 6 (서브쿼리)](../41-sql-subquery) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/43-sql-transaction/sql-transaction-slides.html) | [42 · SQL 7 (다른 표를 보고 넣고, 고치고, 지우기)](../42-sql-insert-select) | 준비 중 |
 
 <!-- /curriculum:top -->
 
@@ -252,6 +252,6 @@ node ../tools/export.js slides sql-transaction-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 41 · SQL 6 (서브쿼리)](../41-sql-subquery) · [커리큘럼](../README.md)
+[← 이전: 42 · SQL 7 (다른 표를 보고 넣고, 고치고, 지우기)](../42-sql-insert-select) · [커리큘럼](../README.md)
 
 <!-- /curriculum:nav -->

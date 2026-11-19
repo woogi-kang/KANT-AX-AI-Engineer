@@ -1,0 +1,39 @@
+<section id="cheat" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#1D2330">정리</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:52px;font-weight:700;line-height:1.2;color:#1D2330">한 장 요약</h2>
+<p style="position:absolute;left:96px;top:220px;font-size:30px;font-weight:700;color:#2459C9">넣기</p>
+<div style="position:absolute;left:96px;top:270px;width:560px;height:3px;background:#2459C9"></div>
+<p style="position:absolute;left:96px;top:300px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">INSERT INTO 표 (열, …) SELECT …</p>
+<p style="position:absolute;left:96px;top:342px;width:560px;font-size:23px;color:#4A5262">VALUES 자리에 SELECT</p>
+<p style="position:absolute;left:96px;top:420px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">'이메일 미등록' AS reason</p>
+<p style="position:absolute;left:96px;top:462px;width:560px;font-size:23px;color:#4A5262">모든 줄에 같은 값</p>
+<p style="position:absolute;left:96px;top:540px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">CAST(값 AS DATE), 값::DATE</p>
+<p style="position:absolute;left:96px;top:582px;width:560px;font-size:23px;color:#4A5262">UNION 날짜는 꼭 바꿔요</p>
+<p style="position:absolute;left:680px;top:220px;font-size:30px;font-weight:700;color:#0F7C86">고치기</p>
+<div style="position:absolute;left:680px;top:270px;width:560px;height:3px;background:#0F7C86"></div>
+<p style="position:absolute;left:680px;top:300px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">ALTER TABLE 표 ADD COLUMN 열 …</p>
+<p style="position:absolute;left:680px;top:342px;width:560px;font-size:23px;color:#4A5262">있던 줄은 NULL이나 DEFAULT</p>
+<p style="position:absolute;left:680px;top:420px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">SET a = …, b = …</p>
+<p style="position:absolute;left:680px;top:462px;width:560px;font-size:23px;color:#4A5262">여러 열을 한 번에</p>
+<p style="position:absolute;left:680px;top:540px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">WHERE id IN (SELECT …)</p>
+<p style="position:absolute;left:680px;top:582px;width:560px;font-size:23px;color:#4A5262">INTEGER 열은 반올림돼요</p>
+<p style="position:absolute;left:1264px;top:220px;font-size:30px;font-weight:700;color:#B26A00">묻기와 지우기</p>
+<div style="position:absolute;left:1264px;top:270px;width:560px;height:3px;background:#B26A00"></div>
+<p style="position:absolute;left:1264px;top:300px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">WHERE NOT EXISTS (SELECT 1 …)</p>
+<p style="position:absolute;left:1264px;top:342px;width:560px;font-size:23px;color:#4A5262">잇는 조건을 꼭 적어요</p>
+<p style="position:absolute;left:1264px;top:420px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">SELECT 먼저, 같은 WHERE로 DELETE</p>
+<p style="position:absolute;left:1264px;top:462px;width:560px;font-size:23px;color:#4A5262">줄 수가 같은지 봐요</p>
+<p style="position:absolute;left:1264px;top:540px;width:560px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#1D2330;white-space:nowrap">DELETE / TRUNCATE / DROP</p>
+<p style="position:absolute;left:1264px;top:582px;width:560px;font-size:23px;color:#4A5262">고른 줄 / 모든 줄 / 표까지</p>
+<div style="position:absolute;left:96px;top:690px;width:1728px;height:2px;background:#DCD8CE"></div>
+<p style="position:absolute;left:96px;top:716px;font-size:26px;font-weight:700;color:#A33131">막히면</p>
+<p style="position:absolute;left:96px;top:770px;width:840px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#A33131;white-space:nowrap">is of type date but expression is of type text</p>
+<p style="position:absolute;left:96px;top:808px;width:840px;font-size:23px;color:#4A5262">CAST나 ::DATE</p>
+<p style="position:absolute;left:960px;top:770px;width:840px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#A33131;white-space:nowrap">INSERT has more target columns than expressions</p>
+<p style="position:absolute;left:960px;top:808px;width:840px;font-size:23px;color:#4A5262">열과 칸 개수 맞추기</p>
+<p style="position:absolute;left:96px;top:860px;width:840px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#A33131;white-space:nowrap">violates foreign key constraint</p>
+<p style="position:absolute;left:96px;top:898px;width:840px;font-size:23px;color:#4A5262">자식 줄부터, 또는 NOT EXISTS로 고르기</p>
+<p style="position:absolute;left:960px;top:860px;width:840px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;font-weight:700;color:#A33131;white-space:nowrap">contains null values</p>
+<p style="position:absolute;left:960px;top:898px;width:840px;font-size:23px;color:#4A5262">ADD COLUMN에 DEFAULT</p>
+<aside>오늘 쓴 명령을 넣기, 고치기, 묻기와 지우기로 모았어요. 넣기는 VALUES 자리에 SELECT를 붙이고, 표에 없는 글자는 모든 줄에 같은 값이 돼요. UNION으로 합친 날짜는 CAST나 콜론 두 개로 바꿔요. 고치기는 ADD COLUMN으로 열을 더하고, SET 뒤에 쉼표로 여러 열을 고치고, WHERE에 서브쿼리를 넣어요. 묻기와 지우기는 NOT EXISTS에 잇는 조건을 꼭 적고, 지우기 전에 같은 WHERE로 SELECT부터 해요. 아래는 오늘 본 오류 네 가지와 고치는 방법이에요.</aside>
+</section>
