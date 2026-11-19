@@ -1,0 +1,793 @@
+{
+ "version": [
+  {
+   "cmd": "",
+   "cwd": "~",
+   "out": [
+    "PostgreSQL 18.7 (Debian 18.7-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit"
+   ]
+  }
+ ],
+ "load": [
+  {
+   "cmd": "docker exec -i my-pg psql -U postgres -d kant_shop < sports.sql",
+   "cwd": "~",
+   "out": [
+    "DROP TABLE",
+    "CREATE TABLE",
+    "CREATE TABLE",
+    "CREATE TABLE",
+    "CREATE TABLE",
+    "CREATE TABLE",
+    "INSERT 0 5",
+    "INSERT 0 8",
+    "INSERT 0 14",
+    "INSERT 0 40",
+    "INSERT 0 187",
+    "NOTICE:  table \"enrollments\" does not exist, skipping",
+    "NOTICE:  table \"courses\" does not exist, skipping",
+    "NOTICE:  table \"instructors\" does not exist, skipping",
+    "NOTICE:  table \"members\" does not exist, skipping",
+    "NOTICE:  table \"sports\" does not exist, skipping"
+   ]
+  }
+ ],
+ "why": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT member_id, name FROM members WHERE email IS NULL;",
+    " member_id |  name",
+    "-----------+--------",
+    "         3 | 박도현",
+    "         5 | 정하은",
+    "        10 | 임준서",
+    "        16 | 황민서",
+    "        17 | 안태윤",
+    "        24 | 양다인",
+    "        27 | 백준혁",
+    "        31 | 하동건",
+    "        38 | 진우성",
+    "(9 rows)",
+    "",
+    "kant_shop=# INSERT INTO contact_lists (member_id, name, reason, request_date) VALUES",
+    "kant_shop-# (3, '박도현', '이메일 미등록', '2026-11-19'),",
+    "kant_shop-# (5, '정하은', '이메일 미등록', '2026-11-19'),",
+    "kant_shop-# (10, '임준서', '이메일 미등록', '2026-11-19'),",
+    "kant_shop-# (16, '황민서', '이메일 미등록', '2026-11-19'),",
+    "kant_shop-# (17, '안태윤', '이메일 미등록', '2026-11-19'),",
+    "kant_shop-# (24, '양다인', '이메일 미등록', '2026-11-19'),",
+    "kant_shop-# (27, '백준혁', '이메일 미등록', '2026-11-19'),",
+    "kant_shop-# (31, '하동건', '이메일 미등록', '2026-11-19'),",
+    "kant_shop-# (38, '진우성', '이메일 미등록', '2026-11-19');",
+    "INSERT 0 9",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "min": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO contact_lists (member_id, name, reason, request_date)",
+    "kant_shop-# SELECT member_id, name, '이메일 미등록', '2026-11-19'",
+    "kant_shop-# FROM members",
+    "kant_shop-# WHERE email IS NULL;",
+    "INSERT 0 9",
+    "kant_shop=# SELECT * FROM contact_lists;",
+    " request_id | member_id |  name  |    reason     | request_date",
+    "------------+-----------+--------+---------------+--------------",
+    "          1 |         3 | 박도현 | 이메일 미등록 | 2026-11-19",
+    "          2 |         5 | 정하은 | 이메일 미등록 | 2026-11-19",
+    "          3 |        10 | 임준서 | 이메일 미등록 | 2026-11-19",
+    "          4 |        16 | 황민서 | 이메일 미등록 | 2026-11-19",
+    "          5 |        17 | 안태윤 | 이메일 미등록 | 2026-11-19",
+    "          6 |        24 | 양다인 | 이메일 미등록 | 2026-11-19",
+    "          7 |        27 | 백준혁 | 이메일 미등록 | 2026-11-19",
+    "          8 |        31 | 하동건 | 이메일 미등록 | 2026-11-19",
+    "          9 |        38 | 진우성 | 이메일 미등록 | 2026-11-19",
+    "(9 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "create": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE contact_lists (",
+    "kant_shop(#     request_id   SERIAL       PRIMARY KEY,",
+    "kant_shop(#     member_id    INTEGER      NOT NULL,",
+    "kant_shop(#     name         VARCHAR(20)  NOT NULL,",
+    "kant_shop(#     reason       VARCHAR(50)  NOT NULL,",
+    "kant_shop(#     request_date DATE         NOT NULL",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# SELECT * FROM contact_lists;",
+    " request_id | member_id | name | reason | request_date",
+    "------------+-----------+------+--------+--------------",
+    "(0 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "fixed": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT member_id, name, '이메일 미등록' AS reason, '2026-11-19' AS request_date",
+    "kant_shop-# FROM members",
+    "kant_shop-# WHERE email IS NULL;",
+    " member_id |  name  |    reason     | request_date",
+    "-----------+--------+---------------+--------------",
+    "         3 | 박도현 | 이메일 미등록 | 2026-11-19",
+    "         5 | 정하은 | 이메일 미등록 | 2026-11-19",
+    "        10 | 임준서 | 이메일 미등록 | 2026-11-19",
+    "        16 | 황민서 | 이메일 미등록 | 2026-11-19",
+    "        17 | 안태윤 | 이메일 미등록 | 2026-11-19",
+    "        24 | 양다인 | 이메일 미등록 | 2026-11-19",
+    "        27 | 백준혁 | 이메일 미등록 | 2026-11-19",
+    "        31 | 하동건 | 이메일 미등록 | 2026-11-19",
+    "        38 | 진우성 | 이메일 미등록 | 2026-11-19",
+    "(9 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "union-err": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO contact_lists (member_id, name, reason, request_date)",
+    "kant_shop-# SELECT member_id, name, '이메일 미등록', '2026-11-19' FROM members WHERE email IS NULL",
+    "kant_shop-# UNION",
+    "kant_shop-# SELECT member_id, name, '전화번호 미등록', '2026-11-19' FROM members WHERE phone IS NULL;",
+    "ERROR:  column \"request_date\" is of type date but expression is of type text",
+    "LINE 2: SELECT member_id, name, '이메일 미등록', '2026-11-19' FROM m...",
+    "                                                 ^",
+    "HINT:  You will need to rewrite or cast the expression.",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "cast": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT '2026-11-19' + 7;",
+    "ERROR:  invalid input syntax for type integer: \"2026-11-19\"",
+    "LINE 1: SELECT '2026-11-19' + 7;",
+    "               ^",
+    "kant_shop=# SELECT CAST('2026-11-19' AS DATE) + 7 AS 일주일뒤, '2026-11-19'::DATE + 7 AS 같은값;",
+    "  일주일뒤  |   같은값",
+    "------------+------------",
+    " 2026-11-26 | 2026-11-26",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT '120'::INTEGER + 1 AS 숫자로;",
+    " 숫자로",
+    "--------",
+    "    121",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "union": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO contact_lists (member_id, name, reason, request_date)",
+    "kant_shop-# SELECT member_id, name, '이메일 미등록' AS reason, CAST('2026-11-19' AS DATE) AS request_date",
+    "kant_shop-# FROM members WHERE email IS NULL",
+    "kant_shop-# UNION",
+    "kant_shop-# SELECT member_id, name, '전화번호 미등록', '2026-11-19'::DATE",
+    "kant_shop-# FROM members WHERE phone IS NULL",
+    "kant_shop-# ORDER BY member_id, reason",
+    "kant_shop-# RETURNING request_id, member_id, name, reason;",
+    " request_id | member_id |  name  |     reason",
+    "------------+-----------+--------+-----------------",
+    "          1 |         3 | 박도현 | 이메일 미등록",
+    "          2 |         4 | 최지아 | 전화번호 미등록",
+    "          3 |         5 | 정하은 | 이메일 미등록",
+    "          4 |        10 | 임준서 | 전화번호 미등록",
+    "          5 |        10 | 임준서 | 이메일 미등록",
+    "          6 |        16 | 황민서 | 전화번호 미등록",
+    "          7 |        16 | 황민서 | 이메일 미등록",
+    "          8 |        17 | 안태윤 | 이메일 미등록",
+    "          9 |        22 | 고은채 | 전화번호 미등록",
+    "         10 |        24 | 양다인 | 이메일 미등록",
+    "         11 |        27 | 백준혁 | 이메일 미등록",
+    "         12 |        28 | 허윤아 | 전화번호 미등록",
+    "         13 |        31 | 하동건 | 이메일 미등록",
+    "         14 |        34 | 주경자 | 전화번호 미등록",
+    "         15 |        38 | 진우성 | 이메일 미등록",
+    "         16 |        40 | 채윤서 | 전화번호 미등록",
+    "(16 rows)",
+    "",
+    "INSERT 0 16",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "alter": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# ALTER TABLE courses ADD COLUMN class_days VARCHAR(10);",
+    "ALTER TABLE",
+    "kant_shop=# ALTER TABLE courses ADD COLUMN is_open BOOLEAN NOT NULL DEFAULT true;",
+    "ALTER TABLE",
+    "kant_shop=# SELECT course_id, course_name, class_days, is_open FROM courses WHERE course_id <= 4;",
+    " course_id |   course_name    | class_days | is_open",
+    "-----------+------------------+------------+---------",
+    "         1 | 수영 초급 아침반 |            | t",
+    "         2 | 수영 초급 저녁반 |            | t",
+    "         3 | 수영 중급 새벽반 |            | t",
+    "         4 | 수영 고급반      |            | t",
+    "(4 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "multi": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT course_id, course_name, class_days, start_time FROM courses WHERE course_id = 9;",
+    " course_id | course_name | class_days | start_time",
+    "-----------+-------------+------------+------------",
+    "         9 | 요가 중급   |            | 19:30:00",
+    "(1 row)",
+    "",
+    "kant_shop=# UPDATE courses",
+    "kant_shop-# SET class_days = '월수금', start_time = '20:00'",
+    "kant_shop-# WHERE course_id = 9",
+    "kant_shop-# RETURNING course_id, course_name, class_days, start_time;",
+    " course_id | course_name | class_days | start_time",
+    "-----------+-------------+------------+------------",
+    "         9 | 요가 중급   | 월수금     | 20:00:00",
+    "(1 row)",
+    "",
+    "UPDATE 1",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "calc": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# UPDATE courses SET fee = fee * 1.05 WHERE sport_id = 1 RETURNING course_id, fee;",
+    " course_id |  fee",
+    "-----------+-------",
+    "         1 | 73500",
+    "         2 | 73500",
+    "         3 | 84000",
+    "         4 | 94500",
+    "         5 | 63000",
+    "(5 rows)",
+    "",
+    "UPDATE 5",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "round": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT course_name, fee, fee / 1.1 AS 공급가 FROM courses WHERE course_id IN (1, 8);",
+    "   course_name    |  fee  |       공급가",
+    "------------------+-------+--------------------",
+    " 수영 초급 아침반 | 70000 | 63636.363636363636",
+    " 아침 요가        | 65000 | 59090.909090909091",
+    "(2 rows)",
+    "",
+    "kant_shop=# ALTER TABLE courses ADD COLUMN supply INTEGER;",
+    "ALTER TABLE",
+    "kant_shop=# UPDATE courses SET supply = fee / 1.1 WHERE course_id IN (1, 8)",
+    "kant_shop-# RETURNING course_name, fee, supply;",
+    "   course_name    |  fee  | supply",
+    "------------------+-------+--------",
+    " 수영 초급 아침반 | 70000 |  63636",
+    " 아침 요가        | 65000 |  59091",
+    "(2 rows)",
+    "",
+    "UPDATE 2",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "sub-upd": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT course_id FROM enrollments",
+    "kant_shop-# WHERE enroll_month = '2026-11'",
+    "kant_shop-# GROUP BY course_id",
+    "kant_shop-# HAVING COUNT(*) >= 5",
+    "kant_shop-# ORDER BY course_id;",
+    " course_id",
+    "-----------",
+    "         1",
+    "         2",
+    "         3",
+    "         4",
+    "         5",
+    "         9",
+    "(6 rows)",
+    "",
+    "kant_shop=# UPDATE courses",
+    "kant_shop-# SET capacity = capacity + 5",
+    "kant_shop-# WHERE course_id IN (",
+    "kant_shop(#     SELECT course_id FROM enrollments",
+    "kant_shop(#     WHERE enroll_month = '2026-11'",
+    "kant_shop(#     GROUP BY course_id",
+    "kant_shop(#     HAVING COUNT(*) >= 5",
+    "kant_shop(# )",
+    "kant_shop-# RETURNING course_id, course_name, capacity;",
+    " course_id |   course_name    | capacity",
+    "-----------+------------------+----------",
+    "         1 | 수영 초급 아침반 |       25",
+    "         2 | 수영 초급 저녁반 |       25",
+    "         3 | 수영 중급 새벽반 |       20",
+    "         4 | 수영 고급반      |       17",
+    "         5 | 아쿠아로빅       |       30",
+    "         9 | 요가 중급        |       23",
+    "(6 rows)",
+    "",
+    "UPDATE 6",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "ex-min": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT 1 FROM enrollments WHERE member_id = 10;",
+    " ?column?",
+    "----------",
+    "        1",
+    "        1",
+    "        1",
+    "        1",
+    "        1",
+    "(5 rows)",
+    "",
+    "kant_shop=# SELECT EXISTS (SELECT 1 FROM enrollments WHERE member_id = 10);",
+    " exists",
+    "--------",
+    " t",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT EXISTS (SELECT 1 FROM enrollments WHERE member_id = 40);",
+    " exists",
+    "--------",
+    " f",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "exists": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT m.member_id, m.name",
+    "kant_shop-# FROM members m",
+    "kant_shop-# WHERE EXISTS (",
+    "kant_shop(#     SELECT 1 FROM enrollments e",
+    "kant_shop(#     WHERE e.member_id = m.member_id",
+    "kant_shop(#       AND e.course_id = 13 AND e.enroll_month = '2026-11'",
+    "kant_shop(# );",
+    " member_id |  name",
+    "-----------+--------",
+    "        25 | 손현우",
+    "        11 | 한수아",
+    "(2 rows)",
+    "",
+    "kant_shop=# SELECT member_id, name FROM members",
+    "kant_shop-# WHERE member_id IN (",
+    "kant_shop(#     SELECT member_id FROM enrollments",
+    "kant_shop(#     WHERE course_id = 13 AND enroll_month = '2026-11'",
+    "kant_shop(# );",
+    " member_id |  name",
+    "-----------+--------",
+    "        25 | 손현우",
+    "        11 | 한수아",
+    "(2 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "not-exists": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT m.member_id, m.name, m.region",
+    "kant_shop-# FROM members m",
+    "kant_shop-# WHERE NOT EXISTS (",
+    "kant_shop(#     SELECT 1 FROM enrollments e",
+    "kant_shop(#     WHERE e.member_id = m.member_id",
+    "kant_shop(# );",
+    " member_id |  name  | region",
+    "-----------+--------+--------",
+    "        40 | 채윤서 | 강서구",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "notin-null": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT course_id, course_name, instructor_id FROM courses WHERE course_id IN (4, 5, 6);",
+    " course_id | course_name  | instructor_id",
+    "-----------+--------------+---------------",
+    "         4 | 수영 고급반  |             2",
+    "         5 | 아쿠아로빅   |",
+    "         6 | 헬스 PT 입문 |             3",
+    "(3 rows)",
+    "",
+    "kant_shop=# SELECT name FROM instructors",
+    "kant_shop-# WHERE instructor_id NOT IN (SELECT instructor_id FROM courses);",
+    " name",
+    "------",
+    "(0 rows)",
+    "",
+    "kant_shop=# SELECT i.name FROM instructors i",
+    "kant_shop-# WHERE NOT EXISTS (SELECT 1 FROM courses c WHERE c.instructor_id = i.instructor_id);",
+    "  name",
+    "--------",
+    " 윤태호",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "del-check": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT m.member_id, m.name",
+    "kant_shop-# FROM members m",
+    "kant_shop-# WHERE NOT EXISTS (SELECT 1 FROM enrollments e WHERE e.member_id = m.member_id);",
+    " member_id |  name",
+    "-----------+--------",
+    "        40 | 채윤서",
+    "(1 row)",
+    "",
+    "kant_shop=# DELETE FROM members m",
+    "kant_shop-# WHERE NOT EXISTS (SELECT 1 FROM enrollments e WHERE e.member_id = m.member_id)",
+    "kant_shop-# RETURNING m.member_id, m.name;",
+    " member_id |  name",
+    "-----------+--------",
+    "        40 | 채윤서",
+    "(1 row)",
+    "",
+    "DELETE 1",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "fk-err": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# DELETE FROM members WHERE member_id = 10;",
+    "ERROR:  update or delete on table \"members\" violates foreign key constraint \"enrollments_member_id_fkey\" on table \"enrollments\"",
+    "DETAIL:  Key (member_id)=(10) is still referenced from table \"enrollments\".",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "three": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# DELETE FROM contact_lists WHERE reason = '전화번호 미등록';",
+    "DELETE 7",
+    "kant_shop=# SELECT COUNT(*) FROM contact_lists;",
+    " count",
+    "-------",
+    "     9",
+    "(1 row)",
+    "",
+    "kant_shop=# TRUNCATE contact_lists RESTART IDENTITY;",
+    "TRUNCATE TABLE",
+    "kant_shop=# SELECT COUNT(*) FROM contact_lists;",
+    " count",
+    "-------",
+    "     0",
+    "(1 row)",
+    "",
+    "kant_shop=# DROP TABLE contact_lists;",
+    "DROP TABLE",
+    "kant_shop=# SELECT COUNT(*) FROM contact_lists;",
+    "ERROR:  relation \"contact_lists\" does not exist",
+    "LINE 1: SELECT COUNT(*) FROM contact_lists;",
+    "                             ^",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "err-count": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO contact_lists (member_id, name, reason, request_date)",
+    "kant_shop-# SELECT member_id, name, '이메일 미등록' FROM members WHERE email IS NULL;",
+    "ERROR:  INSERT has more target columns than expressions",
+    "LINE 1: ...SERT INTO contact_lists (member_id, name, reason, request_da...",
+    "                                                             ^",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "err-order": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# INSERT INTO contact_lists (member_id, name, reason, request_date)",
+    "kant_shop-# SELECT name, member_id, '이메일 미등록', '2026-11-19' FROM members WHERE email IS NULL;",
+    "ERROR:  column \"member_id\" is of type integer but expression is of type character varying",
+    "LINE 2: SELECT name, member_id, '이메일 미등록', '2026-11-19' FROM m...",
+    "               ^",
+    "HINT:  You will need to rewrite or cast the expression.",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "err-link": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM members m",
+    "kant_shop-# WHERE NOT EXISTS (SELECT 1 FROM enrollments e WHERE e.member_id = m.member_id);",
+    " count",
+    "-------",
+    "     1",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM members m",
+    "kant_shop-# WHERE NOT EXISTS (SELECT 1 FROM enrollments e);",
+    " count",
+    "-------",
+    "     0",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT COUNT(*) FROM members m",
+    "kant_shop-# WHERE EXISTS (SELECT 1 FROM enrollments e);",
+    " count",
+    "-------",
+    "    40",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "err-notnull": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# ALTER TABLE courses ADD COLUMN class_days VARCHAR(10) NOT NULL;",
+    "ERROR:  column \"class_days\" of relation \"courses\" contains null values",
+    "kant_shop=# ALTER TABLE courses ADD COLUMN class_days VARCHAR(10) NOT NULL DEFAULT '미정';",
+    "ALTER TABLE",
+    "kant_shop=# SELECT course_id, class_days FROM courses WHERE course_id <= 3;",
+    " course_id | class_days",
+    "-----------+------------",
+    "         1 | 미정",
+    "         2 | 미정",
+    "         3 | 미정",
+    "(3 rows)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "r-move": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# CREATE TABLE cancelled (",
+    "kant_shop(#     enrollment_id INTEGER PRIMARY KEY,",
+    "kant_shop(#     member_id     INTEGER,",
+    "kant_shop(#     course_id     INTEGER,",
+    "kant_shop(#     enroll_month  VARCHAR(7)",
+    "kant_shop(# );",
+    "CREATE TABLE",
+    "kant_shop=# INSERT INTO cancelled",
+    "kant_shop-# SELECT enrollment_id, member_id, course_id, enroll_month",
+    "kant_shop-# FROM enrollments WHERE status = '취소';",
+    "INSERT 0 20",
+    "kant_shop=# DELETE FROM enrollments WHERE status = '취소';",
+    "DELETE 20",
+    "kant_shop=# SELECT COUNT(*) FROM enrollments;",
+    " count",
+    "-------",
+    "   167",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "r-teacher": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# SELECT i.instructor_id, i.name, i.sport_id FROM instructors i",
+    "kant_shop-# WHERE NOT EXISTS (SELECT 1 FROM courses c WHERE c.instructor_id = i.instructor_id);",
+    " instructor_id |  name  | sport_id",
+    "---------------+--------+----------",
+    "             8 | 윤태호 |        1",
+    "(1 row)",
+    "",
+    "kant_shop=# SELECT course_id, course_name, sport_id FROM courses WHERE instructor_id IS NULL;",
+    " course_id | course_name | sport_id",
+    "-----------+-------------+----------",
+    "         5 | 아쿠아로빅  |        1",
+    "(1 row)",
+    "",
+    "kant_shop=# UPDATE courses",
+    "kant_shop-# SET instructor_id = (SELECT instructor_id FROM instructors WHERE name = '윤태호')",
+    "kant_shop-# WHERE course_id = 5",
+    "kant_shop-# RETURNING course_id, course_name, instructor_id;",
+    " course_id | course_name | instructor_id",
+    "-----------+-------------+---------------",
+    "         5 | 아쿠아로빅  |             8",
+    "(1 row)",
+    "",
+    "UPDATE 1",
+    "kant_shop=# \\q"
+   ]
+  }
+ ],
+ "r-contact": [
+  {
+   "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+   "cwd": "~",
+   "out": [
+    "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+    "Type \"help\" for help.",
+    "",
+    "kant_shop=# UPDATE members SET email = 'user03@gmail.com' WHERE member_id = 3;",
+    "UPDATE 1",
+    "kant_shop=# UPDATE members SET email = 'user10@naver.com' WHERE member_id = 10;",
+    "UPDATE 1",
+    "kant_shop=# DELETE FROM contact_lists",
+    "kant_shop-# WHERE reason = '이메일 미등록'",
+    "kant_shop-#   AND member_id IN (SELECT member_id FROM members WHERE email IS NOT NULL)",
+    "kant_shop-# RETURNING request_id, member_id, name;",
+    " request_id | member_id |  name",
+    "------------+-----------+--------",
+    "          1 |         3 | 박도현",
+    "          5 |        10 | 임준서",
+    "(2 rows)",
+    "",
+    "DELETE 2",
+    "kant_shop=# SELECT COUNT(*) FROM contact_lists;",
+    " count",
+    "-------",
+    "    14",
+    "(1 row)",
+    "",
+    "kant_shop=# \\q"
+   ]
+  }
+ ]
+}
