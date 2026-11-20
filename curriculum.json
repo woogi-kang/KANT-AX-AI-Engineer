@@ -132,7 +132,10 @@
      "commands": "`BEGIN;` `COMMIT;` `ROLLBACK;` `DELETE ... RETURNING ...;` `kant_shop=*#`", "slides": "sql-transaction-slides.html"},
     {"dir": "44-python-postgres", "title": "파이썬에서 PostgreSQL 쓰기 (psycopg)", "track": "데이터베이스",
      "goal": "파이썬 프로그램이 psycopg로 kant_shop에 접속해서 강좌 목록을 받아 찍고, %s로 값을 넘겨 수강 신청을 저장해요",
-     "commands": "`uv add \"psycopg[binary]\"` `with psycopg.connect(DSN) as conn:` `conn.execute(SQL).fetchall()` `row_factory=dict_row` `conn.execute(\"... = %s\", (값,))`", "slides": "python-postgres-slides.html"}
+     "commands": "`uv add \"psycopg[binary]\"` `with psycopg.connect(DSN) as conn:` `conn.execute(SQL).fetchall()` `row_factory=dict_row` `conn.execute(\"... = %s\", (값,))`", "slides": "python-postgres-slides.html"},
+    {"dir": "45-numpy-pandas", "title": "NumPy와 pandas 맛보기", "track": "파이썬",
+     "goal": "한 달 지출 12건을 NumPy 배열과 pandas 표로 옮겨 합계, 고르기, 정렬, 분류별 합계를 한 줄로 구해요",
+     "commands": "`uv add numpy pandas` `np.array(리스트)` `spend[(조건1) & (조건2)]` `sort_values(by=..., ascending=False)` `groupby(\"열\")[\"값\"].sum()`", "slides": "numpy-pandas-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
