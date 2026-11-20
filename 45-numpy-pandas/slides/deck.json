@@ -1,0 +1,87 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-20T03:00:00Z"
+  },
+  "lists": "css",
+  "title": "NumPy와 pandas 맛보기",
+  "order": [
+    "cover",
+    "toc",
+    "setup",
+    "why",
+    "big",
+    "min",
+    "n-list",
+    "n-plus",
+    "n-stats",
+    "n-shape",
+    "n-mask",
+    "n-filter",
+    "d-make",
+    "d-look",
+    "d-col",
+    "d-cols",
+    "d-cond",
+    "d-filter",
+    "d-and",
+    "d-sort",
+    "a-div",
+    "a-col",
+    "a-loc",
+    "a-group",
+    "a-count",
+    "c-cmp",
+    "c-sql",
+    "e-and",
+    "e-key",
+    "e-mod",
+    "x-top",
+    "x-food",
+    "x-big",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "why"
+    },
+    "p2": {
+      "description": "NumPy 배열",
+      "start": "n-list"
+    },
+    "p3": {
+      "description": "pandas 표 고르기",
+      "start": "d-make"
+    },
+    "p4": {
+      "description": "열 더하고 묶기",
+      "start": "a-div"
+    },
+    "p6": {
+      "description": "실제 상황",
+      "start": "x-top"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
