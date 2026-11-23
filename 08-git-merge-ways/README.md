@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) | [09 · uv로 파이썬 시작하기](../09-python-uv) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/08-git-merge-ways/git-merge-ways-slides.pdf) | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) | [09 · uv로 파이썬 시작하기](../09-python-uv) |
 
 <!-- /curriculum:top -->
 
@@ -212,7 +212,7 @@ tools/
   gen.py           모든 장과 deck.json 생성 (커밋 그래프, 비교 카드, PR 버튼 그림)
   demo.sh          모든 방법을 새 저장소에서 다시 실행해 실제 출력 확인
 git-merge-ways-slides.html  배포용 HTML
-git-merge-ways-slides.pdf   강사용 PDF
+git-merge-ways-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

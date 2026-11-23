@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/26-python-inheritance/python-inheritance-slides.html) | [25 · 클래스 2 (`__str__`과 `__repr__`)](../25-python-str-repr) | [27 · 클래스 4 (캡슐화)](../27-python-encapsulation) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/26-python-inheritance/python-inheritance-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/26-python-inheritance/python-inheritance-slides.pdf) | [25 · 클래스 2 (`__str__`과 `__repr__`)](../25-python-str-repr) | [27 · 클래스 4 (캡슐화)](../27-python-encapsulation) |
 
 <!-- /curriculum:top -->
 
@@ -260,7 +260,7 @@ tools/
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
   lab_find.js      17쪽 어디서부터 찾을까의 버튼 동작 (gen.py가 그 장에 넣어요)
 python-inheritance-slides.html  배포용 HTML
-python-inheritance-slides.pdf   강사용 PDF
+python-inheritance-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

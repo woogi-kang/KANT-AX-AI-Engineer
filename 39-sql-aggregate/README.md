@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/39-sql-aggregate/sql-aggregate-slides.html) | [38 · SQL 3 (조건 조합과 CASE)](../38-sql-case) | [40 · SQL 5 (UNION과 JOIN으로 결과 합치기)](../40-sql-union-join) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/39-sql-aggregate/sql-aggregate-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/39-sql-aggregate/sql-aggregate-slides.pdf) | [38 · SQL 3 (조건 조합과 CASE)](../38-sql-case) | [40 · SQL 5 (UNION과 JOIN으로 결과 합치기)](../40-sql-union-join) |
 
 <!-- /curriculum:top -->
 
@@ -294,7 +294,7 @@ tools/
   ptyrun.py                psql을 터미널처럼 실행하는 도우미
   make_sports.py           sports.sql을 고정 시드로 만드는 스크립트
 sql-aggregate-slides.html  배포용 HTML
-sql-aggregate-slides.pdf   강사용 PDF
+sql-aggregate-slides.pdf   슬라이드 PDF
 ```
 
 출력은 `docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 postgres:18`로 켠 컨테이너에서 `uv run --with pyte python tools/demo.py`로 만들었어요. 장면 하나만 다시 만들려면 장면 이름을 뒤에 적어요(예: `tools/demo.py g-month`). 15 비교 장의 파이썬 출력은 `uv run count.py`로 실제로 실행한 결과예요.

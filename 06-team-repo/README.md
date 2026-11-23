@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) | [05 · VS Code Git Graph로 기록 보기](../05-git-graph) | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/06-team-repo/team-repo-slides.pdf) | [05 · VS Code Git Graph로 기록 보기](../05-git-graph) | [07 · 커밋 전 변경 취소하기와 잠깐 보관하기](../07-git-restore-stash) |
 
 <!-- /curriculum:top -->
 
@@ -217,7 +217,7 @@ tools/
   demo.sh          kim, lee, park 실습(1~3부)을 새 저장소에서 다시 실행해 실제 출력 확인
   cases.sh         5부 팀 작업 케이스를 kim, lee로 다시 실행 (PR Merge 버튼은 세 번째 clone이 대신)
 team-repo-slides.html  배포용 HTML
-team-repo-slides.pdf   강사용 PDF
+team-repo-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

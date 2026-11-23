@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/27-python-encapsulation/python-encapsulation-slides.html) | [26 · 클래스 3 (상속과 클래스 변수)](../26-python-inheritance) | [28 · 미니 프로젝트: 장바구니 (들여쓰기, items, 모듈)](../28-python-modules) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/27-python-encapsulation/python-encapsulation-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/27-python-encapsulation/python-encapsulation-slides.pdf) | [26 · 클래스 3 (상속과 클래스 변수)](../26-python-inheritance) | [28 · 미니 프로젝트: 장바구니 (들여쓰기, items, 모듈)](../28-python-modules) |
 
 <!-- /curriculum:top -->
 
@@ -283,7 +283,7 @@ tools/
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
   lab_name.js      13쪽 이름 바꾸기 눌러 보기의 버튼 동작 (gen.py가 그 장에 넣어요)
 python-encapsulation-slides.html  배포용 HTML
-python-encapsulation-slides.pdf   강사용 PDF
+python-encapsulation-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

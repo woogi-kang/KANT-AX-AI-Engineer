@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/24-python-class/python-class-slides.html) | [23 · 리스트 컴프리헨션](../23-python-comprehension) | [25 · 클래스 2 (`__str__`과 `__repr__`)](../25-python-str-repr) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/24-python-class/python-class-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/24-python-class/python-class-slides.pdf) | [23 · 리스트 컴프리헨션](../23-python-comprehension) | [25 · 클래스 2 (`__str__`과 `__repr__`)](../25-python-str-repr) |
 
 <!-- /curriculum:top -->
 
@@ -249,7 +249,7 @@ tools/
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
   lab_stamp.js     17쪽 붕어빵 기계의 버튼 동작 (gen.py가 그 장에 넣어요)
 python-class-slides.html  배포용 HTML
-python-class-slides.pdf   강사용 PDF
+python-class-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

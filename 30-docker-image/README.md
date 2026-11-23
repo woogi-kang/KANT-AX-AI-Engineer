@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/30-docker-image/docker-image-slides.html) | [29 · Docker 1 (컨테이너 실행하기)](../29-docker-basics) | [31 · nginx 기초 (웹 서버와 리버스 프록시)](../31-nginx-basics) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/30-docker-image/docker-image-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/30-docker-image/docker-image-slides.pdf) | [29 · Docker 1 (컨테이너 실행하기)](../29-docker-basics) | [31 · nginx 기초 (웹 서버와 리버스 프록시)](../31-nginx-basics) |
 
 <!-- /curriculum:top -->
 
@@ -268,7 +268,7 @@ tools/
   out.json         실제 실행 출력
   gen.py           모든 장과 deck.json 생성
 docker-image-slides.html  배포용 HTML
-docker-image-slides.pdf   강사용 PDF
+docker-image-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요. `demo.py`는 Docker 데몬과 uv가 있어야 하고, 컨테이너와 볼륨, nginx 이미지를 지우고 시작해요.

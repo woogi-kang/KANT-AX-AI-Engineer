@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) | [02 · Git 기본 흐름](../02-git-basics) | [04 · Git diff로 확인하기](../04-git-diff) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/03-git-branch/git-branch-slides.pdf) | [02 · Git 기본 흐름](../02-git-basics) | [04 · Git diff로 확인하기](../04-git-diff) |
 
 <!-- /curriculum:top -->
 
@@ -211,7 +211,7 @@ tools/
   gen_branch.py    커밋 그래프 장면(g, b, d, r, u, c, p로 시작하는 장) 생성
   gen_pages.py     표지, 목차, 개념, 충돌 시나리오, PR, 에러 장 생성
 git-branch-slides.html  배포용 HTML
-git-branch-slides.pdf   강사용 PDF
+git-branch-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

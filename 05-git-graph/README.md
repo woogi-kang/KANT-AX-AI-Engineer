@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) | [04 · Git diff로 확인하기](../04-git-diff) | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/05-git-graph/git-graph-slides.pdf) | [04 · Git diff로 확인하기](../04-git-diff) | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) |
 
 <!-- /curriculum:top -->
 
@@ -116,7 +116,7 @@ tools/
   rects.json       measure.js가 만든 위치 (gen.py가 읽어요)
   demo.sh          실습을 새 저장소에서 다시 실행해 실제 출력 확인
 git-graph-slides.html  배포용 HTML
-git-graph-slides.pdf   강사용 PDF
+git-graph-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

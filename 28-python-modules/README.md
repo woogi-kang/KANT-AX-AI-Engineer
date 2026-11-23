@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/28-python-modules/python-modules-slides.html) | [27 · 클래스 4 (캡슐화)](../27-python-encapsulation) | [29 · Docker 1 (컨테이너 실행하기)](../29-docker-basics) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/28-python-modules/python-modules-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/28-python-modules/python-modules-slides.pdf) | [27 · 클래스 4 (캡슐화)](../27-python-encapsulation) | [29 · Docker 1 (컨테이너 실행하기)](../29-docker-basics) |
 
 <!-- /curriculum:top -->
 
@@ -252,7 +252,7 @@ tools/
   out.json         실제 실행 출력
   gen.py           모든 장과 deck.json 생성 (에디터, 터미널, 들여쓰기 상자 그림)
 python-modules-slides.html  배포용 HTML
-python-modules-slides.pdf   강사용 PDF
+python-modules-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

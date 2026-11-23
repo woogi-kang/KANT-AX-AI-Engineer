@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) | [10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) | [12 · 파이썬 기초 1 (변수, 타입, 연산)](../12-python-basics) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/11-gh-cli/gh-cli-slides.pdf) | [10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) | [12 · 파이썬 기초 1 (변수, 타입, 연산)](../12-python-basics) |
 
 <!-- /curriculum:top -->
 
@@ -219,7 +219,7 @@ tools/
   mock_github.py   github.com 대신 응답하는 작은 서버 (로그인, 레포, 이슈, PR, git push)
   demo-output.txt  슬라이드에 옮긴 실행 결과
 gh-cli-slides.html  배포용 HTML
-gh-cli-slides.pdf   강사용 PDF
+gh-cli-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
