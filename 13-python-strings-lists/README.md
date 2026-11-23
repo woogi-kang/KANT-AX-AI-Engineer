@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/13-python-strings-lists/python-strings-lists-slides.html) | [12 · 파이썬 기초 1 (변수, 타입, 연산)](../12-python-basics) | [14 · 파이썬 기초 3 (in, 2차원 리스트)](../14-python-2d-lists) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/13-python-strings-lists/python-strings-lists-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/13-python-strings-lists/python-strings-lists-slides.pdf) | [12 · 파이썬 기초 1 (변수, 타입, 연산)](../12-python-basics) | [14 · 파이썬 기초 3 (in, 2차원 리스트)](../14-python-2d-lists) |
 
 <!-- /curriculum:top -->
 
@@ -310,7 +310,7 @@ tools/
   demo.sh          hello-uv를 새로 만들고 run_nb.py로 셀을 실행
   gen.py           모든 장과 deck.json 생성 (노트북 셀, 강조, 글자 칸, 리스트 칸, 영수증)
 python-strings-lists-slides.html  배포용 HTML
-python-strings-lists-slides.pdf   강사용 PDF
+python-strings-lists-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

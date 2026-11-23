@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/19-python-functions/python-functions-slides.html) | [18 · 제어문 2 (반복 제어 while, break)](../18-python-while) | [20 · 함수 2 (기본값, 지역 변수와 전역 변수)](../20-python-scope) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/19-python-functions/python-functions-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/19-python-functions/python-functions-slides.pdf) | [18 · 제어문 2 (반복 제어 while, break)](../18-python-while) | [20 · 함수 2 (기본값, 지역 변수와 전역 변수)](../20-python-scope) |
 
 <!-- /curriculum:top -->
 
@@ -242,7 +242,7 @@ tools/
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
 python-functions-slides.html  배포용 HTML
-python-functions-slides.pdf   강사용 PDF
+python-functions-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

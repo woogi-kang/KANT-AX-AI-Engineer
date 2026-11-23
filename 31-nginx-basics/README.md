@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/31-nginx-basics/nginx-basics-slides.html) | [30 · Docker 2 (컨테이너 안에 들어가기, 볼륨, compose)](../30-docker-image) | [32 · 데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)](../32-database-basics) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/31-nginx-basics/nginx-basics-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/31-nginx-basics/nginx-basics-slides.pdf) | [30 · Docker 2 (컨테이너 안에 들어가기, 볼륨, compose)](../30-docker-image) | [32 · 데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)](../32-database-basics) |
 
 <!-- /curriculum:top -->
 
@@ -372,7 +372,7 @@ tools/
   out.json         실제 실행 출력
   gen.py           모든 장과 deck.json 생성
 nginx-basics-slides.html  배포용 HTML
-nginx-basics-slides.pdf   강사용 PDF
+nginx-basics-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요. `demo.py`는 Docker 데몬이 있어야 하고, cafe 폴더의 컨테이너를 지우고 시작해요.

@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/42-sql-insert-select/sql-insert-select-slides.html) | [41 · SQL 6 (서브쿼리)](../41-sql-subquery) | [43 · SQL 8 (트랜잭션)](../43-sql-transaction) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/42-sql-insert-select/sql-insert-select-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/42-sql-insert-select/sql-insert-select-slides.pdf) | [41 · SQL 6 (서브쿼리)](../41-sql-subquery) | [43 · SQL 8 (트랜잭션)](../43-sql-transaction) |
 
 <!-- /curriculum:top -->
 
@@ -356,7 +356,7 @@ tools/
   sports.sql       demo.py가 장면마다 넣는 데이터
   out.json         슬라이드에 넣은 실제 출력
 sql-insert-select-slides.html   배포용 HTML
-sql-insert-select-slides.pdf    강사용 PDF
+sql-insert-select-slides.pdf    슬라이드 PDF
 ```
 
 수업 코드에서 고친 곳이 있어요.

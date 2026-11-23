@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) | [08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) | [10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/09-python-uv/python-uv-slides.pdf) | [08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) | [10 · VS Code에서 Jupyter 노트북 쓰기](../10-vscode-jupyter) |
 
 <!-- /curriculum:top -->
 
@@ -296,7 +296,7 @@ tools/
   run_nb.py        노트북 셀을 프로젝트 커널로 실행해 출력 확인 (demo.sh가 불러요)
   run_nb2.py       커널 하나에서 셀, 터미널 명령, 같은 셀 순서로 실행 (33쪽, demo.sh가 불러요)
 python-uv-slides.html  배포용 HTML
-python-uv-slides.pdf   강사용 PDF
+python-uv-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

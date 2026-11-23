@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/23-python-comprehension/python-comprehension-slides.html) | [22 · 정렬과 sorted, max, min 제대로 쓰기](../22-python-sorting) | [24 · 클래스 1 (붕어빵 틀과 붕어빵)](../24-python-class) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/23-python-comprehension/python-comprehension-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/23-python-comprehension/python-comprehension-slides.pdf) | [22 · 정렬과 sorted, max, min 제대로 쓰기](../22-python-sorting) | [24 · 클래스 1 (붕어빵 틀과 붕어빵)](../24-python-class) |
 
 <!-- /curriculum:top -->
 
@@ -211,7 +211,7 @@ tools/
   demo.sh          hello-uv를 새로 만들고 노트북 셀을 실제로 실행해 출력 확인
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
 python-comprehension-slides.html  배포용 HTML
-python-comprehension-slides.pdf   강사용 PDF
+python-comprehension-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

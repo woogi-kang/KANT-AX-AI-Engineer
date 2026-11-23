@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) | [08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/07-git-restore-stash/git-restore-stash-slides.pdf) | [06 · 팀 레포에서 같이 작업하고 충돌 풀기](../06-team-repo) | [08 · 갈라진 기록 합치는 방법 비교하기](../08-git-merge-ways) |
 
 <!-- /curriculum:top -->
 
@@ -170,7 +170,7 @@ tools/
   gen.py           모든 장 생성 (네 칸 장면과 서랍, 비교표, 팀 순서, 강조)
   demo.sh          실습을 새 저장소에서 다시 실행해 실제 출력 확인 (팀원 lee 포함)
 git-restore-stash-slides.html  배포용 HTML
-git-restore-stash-slides.pdf   강사용 PDF
+git-restore-stash-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

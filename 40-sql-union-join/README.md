@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/40-sql-union-join/sql-union-join-slides.html) | [39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) | [41 · SQL 6 (서브쿼리)](../41-sql-subquery) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/40-sql-union-join/sql-union-join-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/40-sql-union-join/sql-union-join-slides.pdf) | [39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) | [41 · SQL 6 (서브쿼리)](../41-sql-subquery) |
 
 <!-- /curriculum:top -->
 
@@ -272,7 +272,7 @@ tools/
   demo.py          슬라이드에 넣은 출력을 실제 postgres:18로 실행 (out.json)
   ptyrun.py        psql을 터미널 화면처럼 실행하는 도우미
 sql-union-join-slides.html   배포용 HTML
-sql-union-join-slides.pdf    강사용 PDF
+sql-union-join-slides.pdf    슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `boxcheck.js`, `playshots.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

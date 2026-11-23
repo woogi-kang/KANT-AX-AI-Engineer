@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/38-sql-case/sql-case-slides.html) | [37 · SQL 2 (제약 조건으로 표 설계하기)](../37-sql-constraints) | [39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/38-sql-case/sql-case-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/38-sql-case/sql-case-slides.pdf) | [37 · SQL 2 (제약 조건으로 표 설계하기)](../37-sql-constraints) | [39 · SQL 4 (집계 함수와 GROUP BY)](../39-sql-aggregate) |
 
 <!-- /curriculum:top -->
 
@@ -249,7 +249,7 @@ tools/
   ptyrun.py             psql을 터미널처럼 띄워서 화면을 그대로 받기
   gen.py                이 챕터의 장 생성 (out.json을 읽어요)
 sql-case-slides.html    배포용 HTML
-sql-case-slides.pdf     강사용 PDF
+sql-case-slides.pdf     슬라이드 PDF
 ```
 
 출력은 실제 Docker와 `postgres:18`(PostgreSQL 18.7)로 만들었어요. 명령은 이 폴더에서 쳐요.

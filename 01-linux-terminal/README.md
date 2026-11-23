@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) | 없음 | [02 · Git 기본 흐름](../02-git-basics) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/01-linux-terminal/linux-terminal-slides.pdf) | 없음 | [02 · Git 기본 흐름](../02-git-basics) |
 
 <!-- /curriculum:top -->
 
@@ -175,7 +175,7 @@ tools/
   gen_scenes.py    터미널과 폴더 지도 장면 생성
   gen_pages.py     목차, 왜, 프롬프트, 경고, 단축키, 요약 장 생성
 linux-terminal-slides.html  배포용 HTML
-linux-terminal-slides.pdf   강사용 PDF
+linux-terminal-slides.pdf   슬라이드 PDF
 ```
 
 폴더 지도가 나오는 장면(`tree-map`, `s*`, `paths`, `special`, `err-*`)은 `gen_scenes.py`, 목차·왜·프롬프트·경고·단축키·요약 장(`toc`, `why`, `prompt`, `warn`, `warn-rf`, `keys`, `cheatsheet`)은 `gen_pages.py`를 고친 뒤 다시 만들어요. 표지(`cover`)와 마크다운 장(`markdown`)은 `slides/`에서 바로 고쳐요.

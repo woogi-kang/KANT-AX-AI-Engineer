@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/45-numpy-pandas/numpy-pandas-slides.html) | [44 · 파이썬에서 PostgreSQL 쓰기 (psycopg)](../44-python-postgres) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/45-numpy-pandas/numpy-pandas-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/45-numpy-pandas/numpy-pandas-slides.pdf) | [44 · 파이썬에서 PostgreSQL 쓰기 (psycopg)](../44-python-postgres) | 준비 중 |
 
 <!-- /curriculum:top -->
 
@@ -243,7 +243,7 @@ tools/
   run_nb.py                 demo.sh가 부르는 셀 실행기 (nbclient)
   demo.log                  슬라이드에 옮긴 실제 출력
 numpy-pandas-slides.html    배포용 HTML
-numpy-pandas-slides.pdf     강사용 PDF
+numpy-pandas-slides.pdf     슬라이드 PDF
 ```
 
 출력은 `bash tools/demo.sh /tmp/새폴더 > tools/demo.log`로 다시 만들어요. 실제 uv, numpy, pandas, ipykernel 커널에서 셀을 실행해요. 공용 도구는 맨 위 [tools/](../tools)에 있어요. 명령은 이 폴더에서 쳐요.

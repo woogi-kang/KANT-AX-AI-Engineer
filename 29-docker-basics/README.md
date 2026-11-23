@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/29-docker-basics/docker-basics-slides.html) | [28 · 미니 프로젝트: 장바구니 (들여쓰기, items, 모듈)](../28-python-modules) | [30 · Docker 2 (컨테이너 안에 들어가기, 볼륨, compose)](../30-docker-image) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/29-docker-basics/docker-basics-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/29-docker-basics/docker-basics-slides.pdf) | [28 · 미니 프로젝트: 장바구니 (들여쓰기, items, 모듈)](../28-python-modules) | [30 · Docker 2 (컨테이너 안에 들어가기, 볼륨, compose)](../30-docker-image) |
 
 <!-- /curriculum:top -->
 
@@ -279,7 +279,7 @@ tools/
   nginxshot.js     localhost:8080 Welcome to nginx! 화면 캡처
   src/             캡처한 그림
 docker-basics-slides.html   배포용 HTML
-docker-basics-slides.pdf    강사용 PDF
+docker-basics-slides.pdf    슬라이드 PDF
 ```
 
 - 터미널 출력은 리눅스 컨테이너의 Docker 29.9.2로 실제로 실행한 결과예요. 엔진 꺼짐 오류(33쪽)는 Mac 소켓 경로를 `DOCKER_HOST`로 넣어서 실제로 냈어요.
