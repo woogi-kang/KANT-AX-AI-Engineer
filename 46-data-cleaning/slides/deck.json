@@ -1,0 +1,86 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-23T10:00:00Z"
+  },
+  "lists": "css",
+  "title": "데이터 정리하기 (타이타닉 전처리)",
+  "order": [
+    "cover",
+    "toc",
+    "setup",
+    "why",
+    "big",
+    "min",
+    "info",
+    "describe",
+    "isnull",
+    "loc-null",
+    "mean-median",
+    "fill-age",
+    "embark-count",
+    "mode",
+    "embarked",
+    "deck",
+    "quantile",
+    "iqr",
+    "outliers",
+    "drop",
+    "dup",
+    "dup-check",
+    "font",
+    "hist",
+    "c-sql",
+    "e-cat",
+    "e-assign",
+    "e-mode",
+    "e-dup",
+    "x-fare",
+    "x-hist",
+    "x-pipe",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "why"
+    },
+    "p2": {
+      "description": "훑어보고 빈칸 찾기",
+      "start": "info"
+    },
+    "p4": {
+      "description": "튀는 값과 중복",
+      "start": "quantile"
+    },
+    "p5": {
+      "description": "그래프와 오류",
+      "start": "font"
+    },
+    "p6": {
+      "description": "실제 상황",
+      "start": "x-fare"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

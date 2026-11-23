@@ -53,6 +53,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [43 · SQL 8 (트랜잭션)](./43-sql-transaction) | 데&#8288;이&#8288;터&#8288;베&#8288;이&#8288;스 | 문장 여러 개를 BEGIN으로 묶고 COMMIT으로 확정하거나 ROLLBACK으로 한꺼번에 되돌려서, 실수한 UPDATE와 DELETE를 살려요 | `BEGIN;` `COMMIT;` `ROLLBACK;` `DELETE ... RETURNING ...;` `kant_shop=*#` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/43-sql-transaction/sql-transaction-slides.html) |
 | [44 · 파이썬에서 PostgreSQL 쓰기 (psycopg)](./44-python-postgres) | 데&#8288;이&#8288;터&#8288;베&#8288;이&#8288;스 | 파이썬 프로그램이 psycopg로 kant_shop에 접속해서 강좌 목록을 받아 찍고, %s로 값을 넘겨 수강 신청을 저장해요 | `uv add "psycopg[binary]"` `with psycopg.connect(DSN) as conn:` `conn.execute(SQL).fetchall()` `row_factory=dict_row` `conn.execute("... = %s", (값,))` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/44-python-postgres/python-postgres-slides.html) |
 | [45 · NumPy와 pandas 맛보기](./45-numpy-pandas) | 파&#8288;이&#8288;썬 | 한 달 지출 12건을 NumPy 배열과 pandas 표로 옮겨 합계, 고르기, 정렬, 분류별 합계를 한 줄로 구해요 | `uv add numpy pandas` `np.array(리스트)` `spend[(조건1) & (조건2)]` `sort_values(by=..., ascending=False)` `groupby("열")["값"].sum()` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/45-numpy-pandas/numpy-pandas-slides.html) |
+| [46 · 데이터 정리하기 (타이타닉 전처리)](./46-data-cleaning) | 파&#8288;이&#8288;썬 | 타이타닉 승객 891명의 빈칸을 채우고 튀는 값과 겹친 행을 찾아 머신러닝에 넣을 표로 다듬어요 | `df.isnull().sum()` `fillna(값)` `mode()[0]` `quantile(0.75)` `duplicated()` | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/46-data-cleaning/data-cleaning-slides.html) |
 
 <!-- /curriculum:chapters -->
 

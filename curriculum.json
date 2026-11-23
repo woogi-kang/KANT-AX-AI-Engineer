@@ -135,7 +135,10 @@
      "commands": "`uv add \"psycopg[binary]\"` `with psycopg.connect(DSN) as conn:` `conn.execute(SQL).fetchall()` `row_factory=dict_row` `conn.execute(\"... = %s\", (값,))`", "slides": "python-postgres-slides.html"},
     {"dir": "45-numpy-pandas", "title": "NumPy와 pandas 맛보기", "track": "파이썬",
      "goal": "한 달 지출 12건을 NumPy 배열과 pandas 표로 옮겨 합계, 고르기, 정렬, 분류별 합계를 한 줄로 구해요",
-     "commands": "`uv add numpy pandas` `np.array(리스트)` `spend[(조건1) & (조건2)]` `sort_values(by=..., ascending=False)` `groupby(\"열\")[\"값\"].sum()`", "slides": "numpy-pandas-slides.html"}
+     "commands": "`uv add numpy pandas` `np.array(리스트)` `spend[(조건1) & (조건2)]` `sort_values(by=..., ascending=False)` `groupby(\"열\")[\"값\"].sum()`", "slides": "numpy-pandas-slides.html"},
+    {"dir": "46-data-cleaning", "title": "데이터 정리하기 (타이타닉 전처리)", "track": "파이썬",
+     "goal": "타이타닉 승객 891명의 빈칸을 채우고 튀는 값과 겹친 행을 찾아 머신러닝에 넣을 표로 다듬어요",
+     "commands": "`df.isnull().sum()` `fillna(값)` `mode()[0]` `quantile(0.75)` `duplicated()`", "slides": "data-cleaning-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
