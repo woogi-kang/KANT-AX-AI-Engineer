@@ -68,6 +68,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 제&#8288;목 | 다루는 내용 | 슬&#8288;라&#8288;이&#8288;드 | P&#8288;D&#8288;F |
 | --- | --- | --- | --- |
 | [터미널 환경에 적응하기](./extras/terminal-path-help) | 탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.pdf) |
+| [AI 에이전트 하네스 만들기](./extras/agent-harness) | Claude Code로 보는 규칙 파일(CLAUDE.md, AGENTS.md), 도구와 MCP, 권한과 훅, 검사, 스킬, 서브에이전트. 프롬프트, 컨텍스트, 루프, 그래프로 넓어진 AI 엔지니어링의 흐름 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/agent-harness/agent-harness-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/agent-harness/agent-harness-slides.pdf) |
 
 <!-- /curriculum:extras -->
 

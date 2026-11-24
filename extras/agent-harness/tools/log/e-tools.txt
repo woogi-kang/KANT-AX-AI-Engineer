@@ -1,0 +1,3 @@
+{"name":"Bash","input":{"command":"ls -la build && rm -rf build && ls","description":"Show build folder contents then delete it"}}
+{"name":"Bash","input":{"command":"find build","description":"List all files in build folder"}}
+{"name":"Bash","input":{"command":"rm build/old.txt && rmdir build && ls","description":"Delete the build file and empty folder"}}
