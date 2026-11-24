@@ -1,0 +1,429 @@
+
+$ uv --version
+uv 0.11.32 (x86_64-unknown-linux-gnu)
+
+$ uv init ml-basics
+Initialized project `ml-basics` at `/tmp/claude-0/demo8/ml-basics`
+
+$ cd ml-basics
+
+$ uv add numpy pandas
+Using CPython 3.13.18 interpreter at: /usr/local/bin/python3.13
+Creating virtual environment at: .venv
+Resolved 5 packages in 135ms
+Installed 4 packages in 29ms
+ + numpy==2.5.5
+ + pandas==3.1.1
+ + python-dateutil==4.0.0
+ + tzdata==2026.6
+
+$ uv add --dev ipykernel
+Resolved 36 packages in 401ms
+Installed 27 packages in 88ms
+ + asttokens==3.0.2
+ + comm==0.2.3
+ + debugpy==1.8.22
+ + executing==2.3.0
+ + ipykernel==7.4.0
+ + ipython==9.19.1
+ + ipython-pygments-lexers==1.1.1
+ + jedi==0.20.1
+ + jupyter-client==8.10.0
+ + jupyter-core==5.9.1
+ + matplotlib-inline==0.2.2
+ + nest-asyncio2==1.7.4
+ + packaging==26.3
+ + parso==0.8.7
+ + pexpect==4.9.0
+ + platformdirs==4.14.8
+ + prompt-toolkit==3.0.53
+ + psutil==7.2.2
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.4
+ + pygments==2.21.0
+ + pyzmq==27.3.0
+ + stack-data==0.6.3
+ + tornado==6.6.1
+ + traitlets==5.16.1
+ + typing-extensions==4.16.0
+ + wcwidth==0.9.5
+
+$ uv add seaborn matplotlib
+Resolved 44 packages in 139ms
+Installed 8 packages in 8ms
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + fonttools==4.68.0
+ + kiwisolver==1.5.1
+ + matplotlib==3.11.2
+ + pillow==13.0.0
+ + pyparsing==3.3.3
+ + seaborn==0.13.2
+
+$ cat pyproject.toml
+[project]
+name = "ml-basics"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.5",
+    "pandas>=3.1.1",
+    "seaborn>=0.13.2",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+]
+
+Python 3.13.18
+=== main: 수업 순서 그대로 한 노트북
+--- [1] 'import pandas as pd\nimport seaborn as sns\n\ndf = sns.load_dataset("titanic")\ndf.shape'
+(891, 15)
+--- [2] 'df.head()'
+   survived  pclass     sex   age  sibsp  parch     fare embarked  class  \
+0         0       3    male  22.0      1      0   7.2500        S  Third   
+1         1       1  female  38.0      1      0  71.2833        C  First   
+2         1       3  female  26.0      0      0   7.9250        S  Third   
+3         1       1  female  35.0      1      0  53.1000        S  First   
+4         0       3    male  35.0      0      0   8.0500        S  Third   
+
+     who  adult_male deck  embark_town alive  alone  
+0    man        True  NaN  Southampton    no  False  
+1  woman       False    C    Cherbourg   yes  False  
+2  woman       False  NaN  Southampton   yes   True  
+3  woman       False    C  Southampton   yes  False  
+4    man        True  NaN  Southampton    no   True  
+--- [3] 'df.info()'
+<class 'pandas.DataFrame'>
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 15 columns):
+ #   Column       Non-Null Count  Dtype   
+---  ------       --------------  -----   
+ 0   survived     891 non-null    int64   
+ 1   pclass       891 non-null    int64   
+ 2   sex          891 non-null    str     
+ 3   age          714 non-null    float64 
+ 4   sibsp        891 non-null    int64   
+ 5   parch        891 non-null    int64   
+ 6   fare         891 non-null    float64 
+ 7   embarked     889 non-null    str     
+ 8   class        891 non-null    category
+ 9   who          891 non-null    str     
+ 10  adult_male   891 non-null    bool    
+ 11  deck         203 non-null    category
+ 12  embark_town  889 non-null    str     
+ 13  alive        891 non-null    str     
+ 14  alone        891 non-null    bool    
+dtypes: bool(2), category(2), float64(2), int64(4), str(5)
+memory usage: 80.7 KB
+
+--- [4] 'df.describe()'
+         survived      pclass         age       sibsp       parch        fare
+count  891.000000  891.000000  714.000000  891.000000  891.000000  891.000000
+mean     0.383838    2.308642   29.699118    0.523008    0.381594   32.204208
+std      0.486592    0.836071   14.526497    1.102743    0.806057   49.693429
+min      0.000000    1.000000    0.420000    0.000000    0.000000    0.000000
+25%      0.000000    2.000000   20.125000    0.000000    0.000000    7.910400
+50%      0.000000    3.000000   28.000000    0.000000    0.000000   14.454200
+75%      1.000000    3.000000   38.000000    1.000000    0.000000   31.000000
+max      1.000000    3.000000   80.000000    8.000000    6.000000  512.329200
+--- [5] 'df.isnull().sum()'
+survived         0
+pclass           0
+sex              0
+age            177
+sibsp            0
+parch            0
+fare             0
+embarked         2
+class            0
+who              0
+adult_male       0
+deck           688
+embark_town      2
+alive            0
+alone            0
+dtype: int64
+--- [6] 'empty_age = df["age"].isnull()\nprint("나이 빈칸:", empty_age.sum(), "명")\ndf.loc[empty_age, ["sex", "age", "class"]].head()'
+나이 빈칸: 177 명
+
+       sex  age   class
+5     male  NaN   Third
+17    male  NaN  Second
+19  female  NaN   Third
+26    male  NaN   Third
+28  female  NaN   Third
+--- [7] 'print("평균:", round(df["age"].mean(), 2))\nprint("중앙값:", round(df["age"].median(), 2))'
+평균: 29.7
+중앙값: 28.0
+
+--- [8] 'mean_age = df["age"].mean()\ndf.loc[:, "age"] = df["age"].fillna(mean_age)\ndf["age"].isnull().sum()'
+np.int64(0)
+--- [9] 'df["embark_town"].value_counts()'
+embark_town
+Southampton    644
+Cherbourg      168
+Queenstown      77
+Name: count, dtype: int64
+--- [10] 'df["embark_town"].value_counts(dropna=False)'
+embark_town
+Southampton    644
+Cherbourg      168
+Queenstown      77
+NaN              2
+Name: count, dtype: int64
+--- [11] 'df.loc[df["embark_town"].isnull(), ["embarked", "embark_town"]]'
+    embarked embark_town
+61       NaN         NaN
+829      NaN         NaN
+--- [12] 'mode_town = df["embark_town"].mode()[0]\nprint("최빈값:", mode_town)\n\ndf.loc[:, "embark_town"] = df["embark_town"].fillna(mode_town)\ndf["embark_town"].value_counts(dropna=False)'
+최빈값: Southampton
+
+embark_town
+Southampton    646
+Cherbourg      168
+Queenstown      77
+Name: count, dtype: int64
+--- [13] 'df["embark_town"].mode()'
+0    Southampton
+Name: embark_town, dtype: str
+--- [14] 'df.loc[:, "embarked"] = df["embark_town"].str[0]\ndf[["embarked", "embark_town"]].isnull().sum()'
+embarked       0
+embark_town    0
+dtype: int64
+--- [15] 'print(df["deck"].dtype)\nprint(df["deck"].cat.categories.tolist())'
+category
+['A', 'B', 'C', 'D', 'E', 'F', 'G']
+
+--- [16] 'df["deck"] = df["deck"].cat.add_categories("Unknown").fillna("Unknown")\nprint(df["deck"].cat.categories.tolist())\ndf["deck"].value_counts()'
+['A', 'B', 'C', 'D', 'E', 'F', 'G', 'Unknown']
+
+deck
+Unknown    688
+C           59
+B           47
+D           33
+E           32
+A           15
+F           13
+G            4
+Name: count, dtype: int64
+--- [17] 'df["fare"].quantile([0.25, 0.5, 0.75])'
+0.25     7.9104
+0.50    14.4542
+0.75    31.0000
+Name: fare, dtype: float64
+--- [18] 'q1 = df["fare"].quantile(0.25)\nq3 = df["fare"].quantile(0.75)\niqr = q3 - q1\nupper = q3 + 1.5 * iqr\nlower = q1 - 1.5 * iqr\nprint("IQR:", iqr)\nprint("위 기준:", upper)\nprint("아래 기준:", lower)'
+IQR: 23.0896
+위 기준: 65.6344
+아래 기준: -26.724
+
+--- [19] 'outliers = df[(df["fare"] < lower) | (df["fare"] > upper)]\nprint("튀는 요금:", len(outliers), "명")\noutliers[["pclass", "age", "fare"]].head()'
+튀는 요금: 116 명
+
+    pclass        age      fare
+1        1  38.000000   71.2833
+27       1  19.000000  263.0000
+31       1  29.699118  146.5208
+34       1  28.000000   82.1708
+52       1  49.000000   76.7292
+--- [20] 'df[(df["fare"] < lower) & (df["fare"] > upper)].shape'
+(0, 15)
+--- [21] 'df["fare"].sort_values(ascending=False).head(5)'
+737    512.3292
+679    512.3292
+258    512.3292
+438    263.0000
+88     263.0000
+Name: fare, dtype: float64
+--- [22] 'before = len(df)\ndf = df[df["fare"] < 512].copy()\nprint(before, "=>", len(df))'
+891 => 888
+
+--- [23] 'print("중복 행:", df.duplicated().sum())\ndf[df.duplicated(keep=False)].sort_values(["fare", "age"]).head()'
+중복 행: 107
+
+     survived  pclass   sex        age  sibsp  parch  fare embarked   class  \
+277         0       2  male  29.699118      0      0   0.0        S  Second   
+413         0       2  male  29.699118      0      0   0.0        S  Second   
+466         0       2  male  29.699118      0      0   0.0        S  Second   
+481         0       2  male  29.699118      0      0   0.0        S  Second   
+674         0       2  male  29.699118      0      0   0.0        S  Second   
+
+     who  adult_male     deck  embark_town alive  alone  
+277  man        True  Unknown  Southampton    no   True  
+413  man        True  Unknown  Southampton    no   True  
+466  man        True  Unknown  Southampton    no   True  
+481  man        True  Unknown  Southampton    no   True  
+674  man        True  Unknown  Southampton    no   True  
+--- [24] 'df[df.duplicated(keep=False)][["pclass", "sex", "age", "fare", "embark_town"]].value_counts().head(3)'
+pclass  sex   age        fare    embark_town
+3       male  29.699118  7.8958  Southampton    13
+                         8.0500  Southampton    12
+                         7.7500  Queenstown      8
+Name: count, dtype: int64
+--- [25] 'outliers["pclass"].value_counts()'
+pclass
+1    104
+3      7
+2      5
+Name: count, dtype: int64
+--- [26] 'import platform\nimport matplotlib.pyplot as plt\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [27] 'fig, ax = plt.subplots(figsize=(6, 4))\nax.hist(df["age"], bins=20, color="blue", edgecolor="black")\nax.set_title("나이 분포")\nax.set_xlabel("나이(세)")'
+Text(0.5, 0, '나이(세)')
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/46-data-cleaning/tools/img/main-1.png>
+<Figure size 1200x800 with 1 Axes>
+=== e-dup: 채우는 값에 따라 중복이 달라져요
+--- [1] 'import pandas as pd\nimport seaborn as sns\n\ndf = sns.load_dataset("titanic")\ndf.shape'
+(891, 15)
+--- [2] 'print("채우기 전:", df.duplicated().sum())'
+채우기 전: 107
+
+--- [3] 'a = df.copy()\na["age"] = a["age"].fillna(a["age"].mean())\nprint("평균으로:", a.duplicated().sum())'
+평균으로: 107
+
+--- [4] 'b = df.copy()\nb["age"] = b["age"].fillna(b["age"].median())\nprint("중앙값으로:", b.duplicated().sum())'
+중앙값으로: 110
+
+--- [5] 'new = b.duplicated() & ~df.duplicated()\nb[new][["pclass", "sex", "age", "fare"]]'
+     pclass   sex   age     fare
+105       3  male  28.0   7.8958
+826       3  male  28.0  56.4958
+868       3  male  28.0   9.5000
+=== e-cat
+--- [1] 'import pandas as pd\nimport seaborn as sns\n\ndf = sns.load_dataset("titanic")\ndf.shape'
+(891, 15)
+--- [2] 'df["deck"] = df["deck"].fillna("Unknown")'
+TypeError: Cannot setitem on a Categorical with a new category (Unknown), set the categories first
+=== e-assign
+--- [1] 'import pandas as pd\nimport seaborn as sns\n\ndf = sns.load_dataset("titanic")\ndf.shape'
+(891, 15)
+--- [2] 'df["age"].fillna(29.7)\ndf["age"].isnull().sum()'
+np.int64(177)
+--- [3] 'df["age"].fillna(29.7, inplace=True)\ndf["age"].isnull().sum()'
+<stderr>/tmp/ipykernel_3650/197582984.py:1: ChainedAssignmentError: A value is being set on a copy of a DataFrame or Series through chained assignment using an inplace method.
+Such inplace method never works to update the original DataFrame or Series, because the intermediate object on which we are setting values always behaves as a copy (due to Copy-on-Write).
+
+For example, when doing 'df[col].method(value, inplace=True)', try using 'df.method({col: value}, inplace=True)' instead, to perform the operation inplace on the original object, or try to avoid an inplace operation using 'df[col] = df[col].method(value)'.
+
+See the documentation for a more detailed explanation: https://pandas.pydata.org/docs/dev/user_guide/migration.html#copy-on-write-cow
+  df["age"].fillna(29.7, inplace=True)
+
+np.int64(177)
+--- [4] 'df["age"] = df["age"].fillna(29.7)\ndf["age"].isnull().sum()'
+np.int64(0)
+=== e-mode
+--- [1] 'import pandas as pd\nimport seaborn as sns\n\ndf = sns.load_dataset("titanic")\ndf.shape'
+(891, 15)
+--- [2] 'df.loc[:, "embark_town"] = df["embark_town"].fillna(df["embark_town"].mode())\ndf["embark_town"].value_counts(dropna=False)'
+embark_town
+Southampton    644
+Cherbourg      168
+Queenstown      77
+NaN              2
+Name: count, dtype: int64
+--- [3] 'df["embark_town"].mode()'
+0    Southampton
+Name: embark_town, dtype: str
+=== e-copy: pandas 3에서는 .copy() 없이도 경고가 안 나요
+--- [1] 'import pandas as pd\nimport seaborn as sns\n\ndf = sns.load_dataset("titanic")\ndf.shape'
+(891, 15)
+--- [2] 'small = df[df["fare"] < 512]\nsmall.loc[:, "age"] = 0\nprint(df["age"].isnull().sum(), small["age"].sum())'
+177 0.0
+
+=== font-broken: 글꼴 설정 없이 (리눅스 기본 글꼴)
+--- [1] 'import pandas as pd\nimport seaborn as sns\n\ndf = sns.load_dataset("titanic")\ndf.shape'
+(891, 15)
+--- [2] 'mean_age = df["age"].mean()\ndf.loc[:, "age"] = df["age"].fillna(mean_age)'
+--- [3] 'import matplotlib.pyplot as plt'
+--- [4] 'fig, ax = plt.subplots(figsize=(6, 4))\nax.hist(df["age"], bins=20, color="blue", edgecolor="black")\nax.set_title("나이 분포")\nax.set_xlabel("나이(세)")'
+Text(0.5, 0, '나이(세)')
+<stderr>/tmp/claude-0/demo8/nb-check/.venv/lib/python3.13/site-packages/IPython/core/events.py:101: UserWarning: Glyph 45208 (\N{HANGUL SYLLABLE NA}) missing from font(s) DejaVu Sans.
+  func(*args, **kwargs)
+/tmp/claude-0/demo8/nb-check/.venv/lib/python3.13/site-packages/IPython/core/events.py:101: UserWarning: Glyph 51060 (\N{HANGUL SYLLABLE I}) missing from font(s) DejaVu Sans.
+  func(*args, **kwargs)
+/tmp/claude-0/demo8/nb-check/.venv/lib/python3.13/site-packages/IPython/core/events.py:101: UserWarning: Glyph 48516 (\N{HANGUL SYLLABLE BUN}) missing from font(s) DejaVu Sans.
+  func(*args, **kwargs)
+/tmp/claude-0/demo8/nb-check/.venv/lib/python3.13/site-packages/IPython/core/events.py:101: UserWarning: Glyph 54252 (\N{HANGUL SYLLABLE PO}) missing from font(s) DejaVu Sans.
+  func(*args, **kwargs)
+/tmp/claude-0/demo8/nb-check/.venv/lib/python3.13/site-packages/IPython/core/events.py:101: UserWarning: Glyph 49464 (\N{HANGUL SYLLABLE SE}) missing from font(s) DejaVu Sans.
+  func(*args, **kwargs)
+/tmp/claude-0/demo8/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 45208 (\N{HANGUL SYLLABLE NA}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/tmp/claude-0/demo8/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 51060 (\N{HANGUL SYLLABLE I}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/tmp/claude-0/demo8/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 48516 (\N{HANGUL SYLLABLE BUN}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/tmp/claude-0/demo8/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 54252 (\N{HANGUL SYLLABLE PO}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+/tmp/claude-0/demo8/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 49464 (\N{HANGUL SYLLABLE SE}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/46-data-cleaning/tools/img/broken-1.png>
+<Figure size 1200x800 with 1 Axes>
+=== x-hist: 채우기 전과 후
+--- [1] 'import pandas as pd\nimport seaborn as sns\n\ndf = sns.load_dataset("titanic")\ndf.shape'
+(891, 15)
+--- [2] 'import platform\nimport matplotlib.pyplot as plt\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'fig, ax = plt.subplots(figsize=(6, 4))\nax.hist(df["age"], bins=20, color="blue", edgecolor="black")\nax.set_title("나이 분포")\nax.set_xlabel("나이(세)")'
+Text(0.5, 0, '나이(세)')
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/46-data-cleaning/tools/img/xhist-1.png>
+<Figure size 1200x800 with 1 Axes>
+--- [4] '(df["age"].round(1) == 29.7).sum()'
+np.int64(0)
+--- [5] 'df.loc[:, "age"] = df["age"].fillna(df["age"].mean())\nfig, ax = plt.subplots(figsize=(6, 4))\nax.hist(df["age"], bins=20, color="blue", edgecolor="black")\nax.set_title("나이 분포 (평균으로 채운 뒤)")\nax.set_xlabel("나이(세)")'
+Text(0.5, 0, '나이(세)')
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/46-data-cleaning/tools/img/xhist-2.png>
+<Figure size 1200x800 with 1 Axes>
+--- [6] '(df["age"].round(1) == 29.7).sum()'
+np.int64(177)
+--- [7] 'import numpy as np\nraw = sns.load_dataset("titanic")["age"].dropna()\nprint(np.histogram(raw, bins=20)[0][7], np.histogram(df["age"], bins=20)[0][7])'
+84 261
+
+=== x-pipe: 한 셀로 다시 정리하기
+--- [1] 'import pandas as pd\nimport seaborn as sns\n\ndf = sns.load_dataset("titanic")\n\ndf.loc[:, "age"] = df["age"].fillna(df["age"].mean())\ntown = df["embark_town"].mode()[0]\ndf.loc[:, "embark_town"] = df["embark_town"].fillna(town)\ndf.loc[:, "embarked"] = df["embark_town"].str[0]\ndf["deck"] = df["deck"].cat.add_categories("Unknown").fillna("Unknown")\ndf = df[df["fare"] < 512].copy()\n\nprint("남은 빈칸:", df.isnull().sum().sum())\nprint("크기:", df.shape)'
+남은 빈칸: 0
+크기: (888, 15)
+
+=== readme: README 실습을 순서대로
+--- [1] 'import pandas as pd\nimport seaborn as sns\n\ndf = sns.load_dataset("titanic")\ndf.shape'
+(891, 15)
+--- [2] 'df.isnull().sum()'
+survived         0
+pclass           0
+sex              0
+age            177
+sibsp            0
+parch            0
+fare             0
+embarked         2
+class            0
+who              0
+adult_male       0
+deck           688
+embark_town      2
+alive            0
+alone            0
+dtype: int64
+--- [3] 'mean_age = df["age"].mean()\ndf.loc[:, "age"] = df["age"].fillna(mean_age)\n\nmode_town = df["embark_town"].mode()[0]\ndf.loc[:, "embark_town"] = df["embark_town"].fillna(mode_town)\ndf.loc[:, "embarked"] = df["embark_town"].str[0]\n\ndf["deck"] = df["deck"].cat.add_categories("Unknown").fillna("Unknown")\ndf.isnull().sum().sum()'
+np.int64(0)
+--- [4] 'q1 = df["fare"].quantile(0.25)\nq3 = df["fare"].quantile(0.75)\niqr = q3 - q1\nupper = q3 + 1.5 * iqr\nlower = q1 - 1.5 * iqr\n\noutliers = df[(df["fare"] < lower) | (df["fare"] > upper)]\nprint("튀는 요금:", len(outliers), "명")\noutliers["pclass"].value_counts()'
+튀는 요금: 116 명
+
+pclass
+1    104
+3      7
+2      5
+Name: count, dtype: int64
+--- [5] 'before = len(df)\ndf = df[df["fare"] < 512].copy()\nprint(before, "=>", len(df))\nprint("중복 행:", df.duplicated().sum())'
+891 => 888
+중복 행: 107
+
+--- [6] 'import platform\nimport matplotlib.pyplot as plt\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [7] 'fig, ax = plt.subplots(figsize=(6, 4))\nax.hist(df["age"], bins=20, color="blue", edgecolor="black")\nax.set_title("나이 분포")\nax.set_xlabel("나이(세)")'
+Text(0.5, 0, '나이(세)')
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/46-data-cleaning/tools/img/readme-1.png>
+<Figure size 1200x800 with 1 Axes>
