@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/35-docker-cli/docker-cli-slides.html) | [34 · Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기)](../34-docker-postgres) | [36 · SQL 1 (골라 보기, 고치기, 자료형)](../36-sql-basics) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/35-docker-cli/docker-cli-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/35-docker-cli/docker-cli-slides.pdf) | [34 · Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기)](../34-docker-postgres) | [36 · SQL 1 (골라 보기, 고치기, 자료형)](../36-sql-basics) |
 
 <!-- /curriculum:top -->
 
@@ -289,7 +289,7 @@ tools/
   out.json              demo.py가 만든 출력
   gen.py                이 챕터의 장 생성
 docker-cli-slides.html  배포용 HTML
-docker-cli-slides.pdf   강사용 PDF
+docker-cli-slides.pdf   슬라이드 PDF
 ```
 
 `demo.py`는 Docker가 켜진 리눅스에서 약 3분 걸려요. 시작할 때 모든 컨테이너와 볼륨을 지우니 연습용 환경에서만 돌려요.

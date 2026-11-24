@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) | [01 · 터미널 기초](../01-linux-terminal) | [03 · Git 브랜치와 협업](../03-git-branch) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/02-git-basics/git-basics-slides.pdf) | [01 · 터미널 기초](../01-linux-terminal) | [03 · Git 브랜치와 협업](../03-git-branch) |
 
 <!-- /curriculum:top -->
 
@@ -178,7 +178,7 @@ slides/
 tools/
   gen.py           모든 장 생성 (네 칸 실습 장면, 강조 포함)
 git-basics-slides.html  배포용 HTML
-git-basics-slides.pdf   강사용 PDF
+git-basics-slides.pdf   슬라이드 PDF
 ```
 
 `slides/*.html`은 직접 고치지 말고 `tools/gen.py`를 고친 뒤 다시 만들어요. 강조 기법은 맨 위 [tools/HIGHLIGHT.md](../tools/HIGHLIGHT.md)에서 골라요.

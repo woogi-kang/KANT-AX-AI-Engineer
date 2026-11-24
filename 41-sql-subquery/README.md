@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/41-sql-subquery/sql-subquery-slides.html) | [40 · SQL 5 (UNION과 JOIN으로 결과 합치기)](../40-sql-union-join) | [42 · SQL 7 (다른 표를 보고 넣고, 고치고, 지우기)](../42-sql-insert-select) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/41-sql-subquery/sql-subquery-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/41-sql-subquery/sql-subquery-slides.pdf) | [40 · SQL 5 (UNION과 JOIN으로 결과 합치기)](../40-sql-union-join) | [42 · SQL 7 (다른 표를 보고 넣고, 고치고, 지우기)](../42-sql-insert-select) |
 
 <!-- /curriculum:top -->
 
@@ -240,7 +240,7 @@ tools/
   sports.sql       demo.py가 장면마다 넣는 데이터
   out.json         슬라이드에 넣은 실제 출력
 sql-subquery-slides.html   배포용 HTML
-sql-subquery-slides.pdf    강사용 PDF
+sql-subquery-slides.pdf    슬라이드 PDF
 ```
 
 출력을 다시 만들려면 `my-pg` 컨테이너를 켜 둔 상태에서 `uv run --with pyte python tools/demo.py`를 쳐요. 장면 이름을 붙이면(`... demo.py i-notin`) 그 장면만 다시 실행해요. `EXPLAIN ANALYZE`의 시간 숫자는 칠 때마다 조금씩 달라요.

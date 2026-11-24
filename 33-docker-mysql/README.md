@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/33-docker-mysql/docker-mysql-slides.html) | [32 · 데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)](../32-database-basics) | [34 · Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기)](../34-docker-postgres) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/33-docker-mysql/docker-mysql-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/33-docker-mysql/docker-mysql-slides.pdf) | [32 · 데이터베이스 기초 (표, 타입, 기본 키, SQL 맛보기)](../32-database-basics) | [34 · Docker 4 (PostgreSQL 컨테이너로 데이터베이스 쓰기)](../34-docker-postgres) |
 
 <!-- /curriculum:top -->
 
@@ -360,7 +360,7 @@ tools/
   out.json         실제 실행 출력
   gen.py           모든 장과 deck.json 생성
 docker-mysql-slides.html  배포용 HTML
-docker-mysql-slides.pdf   강사용 PDF
+docker-mysql-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요. demo 스크립트는 Docker 데몬이 있어야 하고, db 컨테이너와 cafe-data 볼륨을 지우고 시작해요. demo.py를 먼저 돌리고 나머지 둘을 돌려요.

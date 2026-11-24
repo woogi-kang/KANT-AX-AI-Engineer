@@ -26,6 +26,11 @@ def block(text, name, body):
     return pat.sub(lambda m: f"{start}\n\n{body}\n\n{end}", text, count=1)
 
 
+def pdf(slides):
+    # 슬라이드 HTML 옆에 같은 이름의 PDF가 있어요 (주제-slides.pdf)
+    return slides.removesuffix(".html") + ".pdf"
+
+
 def label(ch):
     return f"{ch['dir'][:2]} · {ch['title']}"
 
@@ -46,7 +51,7 @@ def main():
         out[path] = text
 
     for c in chapters + [dict(e, dir="extras/" + e["dir"]) for e in extras]:
-        for need in ("README.md", c["slides"]):
+        for need in ("README.md", c["slides"], pdf(c["slides"])):
             if not (ROOT / c["dir"] / need).exists():
                 raise SystemExit(f"파일이 없어요: {c['dir']}/{need}")
 
@@ -58,14 +63,14 @@ def main():
     for c in chapters:
         rows.append(
             f"| [{label(c)}](./{c['dir']}) | {nobreak(c['track'])} | {c['goal']} | {c['commands']} "
-            f"| [{nobreak('열기')}]({pages}/{c['dir']}/{c['slides']}) |"
+            f"| [{nobreak('열기')}]({pages}/{c['dir']}/{c['slides']})<br>[{nobreak('PDF')}]({pages}/{c['dir']}/{pdf(c['slides'])}) |"
         )
     extra_rows = lambda prefix: [
         f"| {nobreak('제목')} | 다루는 내용 | {nobreak('슬라이드')} |",
         "| --- | --- | --- |",
     ] + [
         f"| [{e['title']}]({prefix}{e['dir']}) | {e['summary']} "
-        f"| [{nobreak('열기')}]({pages}/extras/{e['dir']}/{e['slides']}) |"
+        f"| [{nobreak('열기')}]({pages}/extras/{e['dir']}/{e['slides']})<br>[{nobreak('PDF')}]({pages}/extras/{e['dir']}/{pdf(e['slides'])}) |"
         for e in extras
     ]
     edit("README.md", ("chapters", "\n".join(rows)), ("extras", "\n".join(extra_rows("./extras/"))))
@@ -94,7 +99,7 @@ def main():
         top = "\n".join([
             f"| {nobreak('슬라이드')} | 이전 챕터 | 다음 챕터 |",
             "| --- | --- | --- |",
-            f"| [브라우저로 열기]({pages}/{c['dir']}/{c['slides']}) | {prev_cell} | {next_cell} |",
+            f"| [브라우저로 열기]({pages}/{c['dir']}/{c['slides']}) · [PDF 받기]({pages}/{c['dir']}/{pdf(c['slides'])}) | {prev_cell} | {next_cell} |",
         ])
         nav = []
         if prev:
@@ -110,7 +115,7 @@ def main():
         top = "\n".join([
             f"| {nobreak('슬라이드')} | 관련 챕터 | 번외 목록 |",
             "| --- | --- | --- |",
-            f"| [브라우저로 열기]({pages}/extras/{e['dir']}/{e['slides']}) | {related} | [번외 목록](../README.md) |",
+            f"| [브라우저로 열기]({pages}/extras/{e['dir']}/{e['slides']}) · [PDF 받기]({pages}/extras/{e['dir']}/{pdf(e['slides'])}) | {related} | [번외 목록](../README.md) |",
         ])
         edit(f"extras/{e['dir']}/README.md", ("top", top), ("nav", "[커리큘럼](../../README.md) · [번외 목록](../README.md)"))
 

@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/25-python-str-repr/python-str-repr-slides.html) | [24 · 클래스 1 (붕어빵 틀과 붕어빵)](../24-python-class) | [26 · 클래스 3 (상속과 클래스 변수)](../26-python-inheritance) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/25-python-str-repr/python-str-repr-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/25-python-str-repr/python-str-repr-slides.pdf) | [24 · 클래스 1 (붕어빵 틀과 붕어빵)](../24-python-class) | [26 · 클래스 3 (상속과 클래스 변수)](../26-python-inheritance) |
 
 <!-- /curriculum:top -->
 
@@ -250,7 +250,7 @@ tools/
   run_nb.py        셀을 프로젝트 커널로 실행 (demo.sh가 불러요)
   lab_who.js       14쪽 누가 불릴까의 버튼 동작 (gen.py가 그 장에 넣어요)
 python-str-repr-slides.html  배포용 HTML
-python-str-repr-slides.pdf   강사용 PDF
+python-str-repr-slides.pdf   슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.

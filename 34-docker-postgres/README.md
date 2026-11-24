@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/34-docker-postgres/docker-postgres-slides.html) | [33 · Docker 3 (MySQL 컨테이너)](../33-docker-mysql) | [35 · Docker 5 (명령어 한눈에 보기)](../35-docker-cli) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/34-docker-postgres/docker-postgres-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/34-docker-postgres/docker-postgres-slides.pdf) | [33 · Docker 3 (MySQL 컨테이너)](../33-docker-mysql) | [35 · Docker 5 (명령어 한눈에 보기)](../35-docker-cli) |
 
 <!-- /curriculum:top -->
 
@@ -340,7 +340,7 @@ tools/
   out.json                     demo.py가 만든 출력
   gen.py                       이 챕터의 장 생성
 docker-postgres-slides.html    배포용 HTML
-docker-postgres-slides.pdf     강사용 PDF
+docker-postgres-slides.pdf     슬라이드 PDF
 ```
 
 `demo.py`는 Docker가 켜진 리눅스에서 약 5분 걸려요. 밖에서 붙는 장면은 `--add-host host.docker.internal:host-gateway`로 만들었어요. Mac과 Windows의 Docker Desktop은 이 옵션 없이도 같은 이름을 써요.

@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/43-sql-transaction/sql-transaction-slides.html) | [42 · SQL 7 (다른 표를 보고 넣고, 고치고, 지우기)](../42-sql-insert-select) | [44 · 파이썬에서 PostgreSQL 쓰기 (psycopg)](../44-python-postgres) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/43-sql-transaction/sql-transaction-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/43-sql-transaction/sql-transaction-slides.pdf) | [42 · SQL 7 (다른 표를 보고 넣고, 고치고, 지우기)](../42-sql-insert-select) | [44 · 파이썬에서 PostgreSQL 쓰기 (psycopg)](../44-python-postgres) |
 
 <!-- /curriculum:top -->
 
@@ -231,7 +231,7 @@ tools/
   sports.sql       demo.py가 장면마다 넣는 데이터
   out.json         슬라이드에 넣은 실제 출력
 sql-transaction-slides.html   배포용 HTML
-sql-transaction-slides.pdf    강사용 PDF
+sql-transaction-slides.pdf    슬라이드 PDF
 ```
 
 출력을 다시 만들려면 `uv run --with pyte python tools/demo.py`를 쳐요. 스크립트가 `my-pg` 컨테이너를 새로 켜고 장면마다 데이터를 다시 넣어요. 장면 이름을 붙이면(`... demo.py w-wait`) 그 장면만 다시 실행해요.

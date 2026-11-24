@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/44-python-postgres/python-postgres-slides.html) | [43 · SQL 8 (트랜잭션)](../43-sql-transaction) | [45 · NumPy와 pandas 맛보기](../45-numpy-pandas) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/44-python-postgres/python-postgres-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/44-python-postgres/python-postgres-slides.pdf) | [43 · SQL 8 (트랜잭션)](../43-sql-transaction) | [45 · NumPy와 pandas 맛보기](../45-numpy-pandas) |
 
 <!-- /curriculum:top -->
 
@@ -248,7 +248,7 @@ tools/
   src/*.py         슬라이드에 넣은 파이썬 프로그램 (하나씩 ~/sports-app/main.py로 복사해 실행)
   out.json         슬라이드에 넣은 실제 출력
 python-postgres-slides.html   배포용 HTML
-python-postgres-slides.pdf    강사용 PDF
+python-postgres-slides.pdf    슬라이드 PDF
 ```
 
 출력을 다시 만들려면 Docker를 켠 상태에서 `uv run --with pyte python tools/demo.py`를 쳐요. 장면 이름을 붙이면(`... demo.py enroll`) 그 장면만 다시 실행해요. 장면마다 `kant_shop`을 새로 만들고 `sports.sql`을 넣어서 시작해요. `no pq wrapper` 장면은 libpq가 없는 깨끗한 `python:3.13-slim` 컨테이너에서 같은 uv로 실행했어요.

@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/36-sql-basics/sql-basics-slides.html) | [35 · Docker 5 (명령어 한눈에 보기)](../35-docker-cli) | [37 · SQL 2 (제약 조건으로 표 설계하기)](../37-sql-constraints) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/36-sql-basics/sql-basics-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/36-sql-basics/sql-basics-slides.pdf) | [35 · Docker 5 (명령어 한눈에 보기)](../35-docker-cli) | [37 · SQL 2 (제약 조건으로 표 설계하기)](../37-sql-constraints) |
 
 <!-- /curriculum:top -->
 
@@ -326,7 +326,7 @@ tools/
   ptyrun.py        psql을 진짜 터미널처럼 실행해 화면을 옮기는 도우미
   out.json         demo.py가 남긴 실제 출력
 sql-basics-slides.html   배포용 HTML
-sql-basics-slides.pdf    강사용 PDF
+sql-basics-slides.pdf    슬라이드 PDF
 ```
 
 출력은 `postgres:18`(PostgreSQL 18.7) 컨테이너에서 실제로 실행한 결과예요. 컨테이너 시간대가 UTC라서 `now()`와 `TIMESTAMPTZ` 결과는 실행한 시각과 시간대에 따라 달라요. `ORDER BY` 없는 `SELECT`의 줄 순서도 수강생 화면과 다를 수 있어요.

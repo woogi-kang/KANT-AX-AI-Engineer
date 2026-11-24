@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 관련 챕터 | 번외 목록 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) | [01 · 터미널 기초](../../01-linux-terminal), [02 · Git 기본 흐름](../../02-git-basics), [09 · uv로 파이썬 시작하기](../../09-python-uv) | [번외 목록](../README.md) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.pdf) | [01 · 터미널 기초](../../01-linux-terminal), [02 · Git 기본 흐름](../../02-git-basics), [09 · uv로 파이썬 시작하기](../../09-python-uv) | [번외 목록](../README.md) |
 
 <!-- /curriculum:top -->
 
@@ -147,7 +147,7 @@ tools/
   gen.py           모든 장 생성 (탐색기와 터미널 장면, 폴더 지도, 지시선)
   demo.sh          슬라이드에 넣은 출력을 실제로 실행 (/home/kim을 만들어서 root로 실행)
 terminal-path-help-slides.html  배포용 HTML
-terminal-path-help-slides.pdf   강사용 PDF
+terminal-path-help-slides.pdf   슬라이드 PDF
 ```
 
 장 배치는 Stageshow 원칙을 따라요. 장마다 주인공(터미널, 탐색기, 그림) 하나를 크게 두고, 설명은 카드 대신 지시선과 밑줄로 그 위에 붙여요. 강조는 `tools/HIGHLIGHT.md` 표에서 장마다 골라요. 탐색기 장은 커서, 스포트라이트, 확대로 누를 곳을 짚고, 터미널 장은 줄 스포트라이트와 실행 막대로 한 줄씩 읽어 줘요. 폴더 지도는 점이 길을 따라 움직이고, 에러 장은 터미널이 살짝 흔들려요. 오타와 짝이 되는 이름은 그 글자만 색이 들어와요. 글자가 한 자씩 찍히는 효과는 쓰지 않아요.

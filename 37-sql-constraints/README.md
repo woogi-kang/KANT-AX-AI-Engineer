@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/37-sql-constraints/sql-constraints-slides.html) | [36 · SQL 1 (골라 보기, 고치기, 자료형)](../36-sql-basics) | [38 · SQL 3 (조건 조합과 CASE)](../38-sql-case) |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/37-sql-constraints/sql-constraints-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/37-sql-constraints/sql-constraints-slides.pdf) | [36 · SQL 1 (골라 보기, 고치기, 자료형)](../36-sql-basics) | [38 · SQL 3 (조건 조합과 CASE)](../38-sql-case) |
 
 <!-- /curriculum:top -->
 
@@ -386,7 +386,7 @@ tools/
   ptyrun.py                  psql을 가짜 터미널(160칸)에서 실행
   out.json                   demo.py가 저장한 실제 출력
 sql-constraints-slides.html  배포용 HTML
-sql-constraints-slides.pdf   강사용 PDF
+sql-constraints-slides.pdf   슬라이드 PDF
 ```
 
 - 장면마다 빈 `kant_shop`에서 시작해요. 장면에 필요한 앞 단계는 `demo.py`가 기록하지 않고 먼저 실행해요.

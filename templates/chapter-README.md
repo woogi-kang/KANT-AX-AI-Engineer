@@ -55,7 +55,7 @@ tools/
   gen.py           이 챕터의 장 생성
   demo.sh          슬라이드에 넣은 출력을 실제로 실행
 주제-slides.html   배포용 HTML
-주제-slides.pdf    강사용 PDF
+주제-slides.pdf    슬라이드 PDF
 ```
 
 검사, HTML, PDF를 만드는 공용 도구(`check.js`, `build_player.js`, `export.js`)는 맨 위 [tools/](../tools)에 한 벌만 있어요. 명령은 이 폴더에서 쳐요.
