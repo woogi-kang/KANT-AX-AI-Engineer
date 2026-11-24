@@ -57,20 +57,20 @@ def main():
 
     # 맨 위 README: 커리큘럼 표
     rows = [
-        f"| 챕터 | {nobreak('분류')} | 한 줄 목표 | 핵심 명령 | {nobreak('슬라이드')} |",
+        f"| 챕터 | {nobreak('분류')} | 한 줄 목표 | {nobreak('슬라이드')} | {nobreak('PDF')} |",
         "| --- | --- | --- | --- | --- |",
     ]
     for c in chapters:
         rows.append(
-            f"| [{label(c)}](./{c['dir']}) | {nobreak(c['track'])} | {c['goal']} | {c['commands']} "
-            f"| [{nobreak('열기')}]({pages}/{c['dir']}/{c['slides']})<br>[{nobreak('PDF')}]({pages}/{c['dir']}/{pdf(c['slides'])}) |"
+            f"| [{label(c)}](./{c['dir']}) | {nobreak(c['track'])} | {c['goal']} "
+            f"| [{nobreak('열기')}]({pages}/{c['dir']}/{c['slides']}) | [{nobreak('받기')}]({pages}/{c['dir']}/{pdf(c['slides'])}) |"
         )
     extra_rows = lambda prefix: [
-        f"| {nobreak('제목')} | 다루는 내용 | {nobreak('슬라이드')} |",
-        "| --- | --- | --- |",
+        f"| {nobreak('제목')} | 다루는 내용 | {nobreak('슬라이드')} | {nobreak('PDF')} |",
+        "| --- | --- | --- | --- |",
     ] + [
         f"| [{e['title']}]({prefix}{e['dir']}) | {e['summary']} "
-        f"| [{nobreak('열기')}]({pages}/extras/{e['dir']}/{e['slides']})<br>[{nobreak('PDF')}]({pages}/extras/{e['dir']}/{pdf(e['slides'])}) |"
+        f"| [{nobreak('열기')}]({pages}/extras/{e['dir']}/{e['slides']}) | [{nobreak('받기')}]({pages}/extras/{e['dir']}/{pdf(e['slides'])}) |"
         for e in extras
     ]
     edit("README.md", ("chapters", "\n".join(rows)), ("extras", "\n".join(extra_rows("./extras/"))))
