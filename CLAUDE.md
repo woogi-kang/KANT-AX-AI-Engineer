@@ -34,9 +34,9 @@ KANT AX/AI 엔지니어 트랙 수강생에게 공유하는 학습 자료 레포
   - 번외도 수업 규칙과 아래 "덱 만들기 흐름"을 똑같이 따라요. 아직 안 배운 명령은 관련 챕터를 밝히고 써요.
 - 학생에게 알릴 변경(플레이어 조작, 여러 덱에 걸친 수정)은 릴리스 노트로 남겨요. `updates/날짜-주제/README.md`에 실제 덱 스크린샷(`img/`)과 같이 쓰고, 찍는 스크립트는 그 폴더 `tools/`에 둬요. 제목과 항목은 "슬라이드 보는 방법이 개선되었어요", "코드 복사 버튼이 추가되었어요"처럼 공지 말투로 써요. 목록은 `curriculum.json`의 `updates`에 한 줄(`dir`, `date`, `title`, `summary`) 더하고 `python3 tools/build_readme.py`를 쳐요. 맨 위 README에는 최근 3개만, `updates/README.md`에는 전부 나와요.
 - 챕터, 번외, 릴리스 노트 목록은 `curriculum.json` 한 곳에서만 고쳐요. `python3 tools/build_readme.py`가 맨 위 커리큘럼 표, 번외 표, 챕터 README 맨 위 표와 맨 아래 이동 링크를 만들어요. 만든 내용은 `<!-- curriculum:이름 -->`과 `<!-- /curriculum:이름 -->` 사이에만 들어가요. 그 사이를 README에서 직접 고치지 않아요. 올리기 전에 `python3 tools/build_readme.py --check`가 조용히 끝나는지 봐요.
-- 커리큘럼 표는 챕터, 분류, 한 줄 목표, 핵심 명령, 슬라이드 다섯 칸이에요. 분류는 터미널, Git, GitHub, 파이썬, Docker, 데이터베이스 중 하나예요. 한 줄 목표는 "~해요"로 끝나는 한 문장이에요. 핵심 명령은 다섯 개 안팎만 적고, 나머지는 챕터 README 명령어 요약에 적어요.
+- 커리큘럼 표는 챕터, 분류, 한 줄 목표, 슬라이드(`열기`), PDF(`받기`) 다섯 칸이에요. 번외 표는 제목, 다루는 내용, 슬라이드, PDF 네 칸이에요. 분류는 터미널, Git, GitHub, 파이썬, Docker, 데이터베이스 중 하나예요. 한 줄 목표는 "~해요"로 끝나는 한 문장이에요. 핵심 명령은 표에 넣지 않고 챕터 README 명령어 요약에 적어요(`curriculum.json`의 `commands`는 표에 나오지 않아요).
 - 새 챕터 README는 `templates/chapter-README.md`를 복사해서 시작해요. 절 순서는 학습 목표, 시작하기 전에, 구성, 핵심 개념, 실습, 명령어 요약, 문제 해결, 강사용이에요.
-- HTML 링크는 GitHub Pages 주소(`https://woogi-kang.github.io/KANT-AX-AI-Engineer/폴더/파일.html`)로 걸어요. PDF도 같은 GitHub Pages 주소(`폴더/주제-slides.pdf`)로 걸어요. 수강생이 받는 PDF 링크는 맨 위 커리큘럼 표의 `PDF`, 챕터와 번외 README 맨 위 표의 `PDF 받기`이고 `tools/build_readme.py`가 만들어요. 그래서 슬라이드를 고치면 PDF도 꼭 다시 만들어 HTML과 쪽 수를 맞춰요.
+- HTML 링크는 GitHub Pages 주소(`https://woogi-kang.github.io/KANT-AX-AI-Engineer/폴더/파일.html`)로 걸어요. PDF도 같은 GitHub Pages 주소(`폴더/주제-slides.pdf`)로 걸어요. 수강생이 받는 PDF 링크는 맨 위 커리큘럼 표와 번외 표의 `PDF` 열(`받기`), 챕터와 번외 README 맨 위 표의 `PDF 받기`이고 `tools/build_readme.py`가 만들어요. 그래서 슬라이드를 고치면 PDF도 꼭 다시 만들어 HTML과 쪽 수를 맞춰요.
 
 ## 수업 규칙 (자료 내용)
 
@@ -156,7 +156,7 @@ main에 올리기 전에 매번 아래를 확인해요.
 1. 새로 넣은 장이 배우는 순서와 2-2의 덱 흐름에 맞는 자리인지 봐요. 아직 안 배운 명령이나 개념이 먼저 나오면 안 돼요.
 2. 같은 덱과 다른 덱(01, 02, 03 …)의 내용, 용어, 해시, 발표자 노트의 앞 장 참조와 어긋나지 않는지 봐요.
 3. 위 수업 규칙에 어긋나는 명령이 없는지 검색해요. (`-u`, `--graph`, `--all`, `commit -am`, 07 밖의 `restore`, `stash`, 08 앞의 `rebase`, `--squash`, `--no-ff`, 09 비교 장 밖의 `pip install`)
-4. 챕터 README(구성의 쪽 번호, 명령어 요약, 실습, 문제 해결), `curriculum.json`(한 줄 목표, 핵심 명령), 맨 위 README(과정 규칙)를 슬라이드에 맞춰 고쳐요. README는 덮어쓰지 않고 합쳐요. 그다음 `python3 tools/build_readme.py`로 표를 다시 만들고 `--check`가 조용히 끝나는지 봐요.
+4. 챕터 README(구성의 쪽 번호, 명령어 요약, 실습, 문제 해결), `curriculum.json`(한 줄 목표), 맨 위 README(과정 규칙)를 슬라이드에 맞춰 고쳐요. README는 덮어쓰지 않고 합쳐요. 그다음 `python3 tools/build_readme.py`로 표를 다시 만들고 `--check`가 조용히 끝나는지 봐요.
 5. README의 실습 명령을 순서대로 쳤을 때 실제로 동작하는지 확인해요.
 6. HTML과 PDF를 다시 만들어요.
 7. 표지를 포함한 모든 장을 직접 보고 검수해요. 몇 장만 골라 보지 않아요.
