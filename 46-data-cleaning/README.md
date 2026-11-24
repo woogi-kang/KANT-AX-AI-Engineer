@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/46-data-cleaning/data-cleaning-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/46-data-cleaning/data-cleaning-slides.pdf) | [45 · NumPy와 pandas 맛보기](../45-numpy-pandas) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/46-data-cleaning/data-cleaning-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/46-data-cleaning/data-cleaning-slides.pdf) | [45 · NumPy와 pandas 맛보기](../45-numpy-pandas) | [48 · 첫 머신러닝 모델 (선형 회귀)](../48-linear-regression) |
 
 <!-- /curriculum:top -->
 
@@ -293,6 +293,6 @@ node ../tools/export.js slides data-cleaning-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 45 · NumPy와 pandas 맛보기](../45-numpy-pandas) · [커리큘럼](../README.md)
+[← 이전: 45 · NumPy와 pandas 맛보기](../45-numpy-pandas) · [커리큘럼](../README.md) · [다음: 48 · 첫 머신러닝 모델 (선형 회귀) →](../48-linear-regression)
 
 <!-- /curriculum:nav -->
