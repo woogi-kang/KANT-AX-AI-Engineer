@@ -1,0 +1,365 @@
+
+$ uv --version
+uv 0.11.32 (x86_64-unknown-linux-gnu)
+
+$ uv init ml-basics
+Initialized project `ml-basics` at `/tmp/claude-0/gd-demo/ml-basics`
+
+$ cd ml-basics
+
+$ uv add numpy pandas
+Using CPython 3.13.18 interpreter at: /usr/local/bin/python3.13
+Creating virtual environment at: .venv
+Resolved 5 packages in 11ms
+Installed 4 packages in 25ms
+ + numpy==2.5.5
+ + pandas==3.1.1
+ + python-dateutil==4.0.0
+ + tzdata==2026.6
+
+$ uv add --dev ipykernel
+Resolved 36 packages in 26ms
+Installed 27 packages in 170ms
+ + asttokens==3.0.2
+ + comm==0.2.3
+ + debugpy==1.8.22
+ + executing==2.3.0
+ + ipykernel==7.4.0
+ + ipython==9.19.1
+ + ipython-pygments-lexers==1.1.1
+ + jedi==0.20.1
+ + jupyter-client==8.10.0
+ + jupyter-core==5.9.1
+ + matplotlib-inline==0.2.2
+ + nest-asyncio2==1.7.4
+ + packaging==26.4
+ + parso==0.8.7
+ + pexpect==4.9.0
+ + platformdirs==4.14.8
+ + prompt-toolkit==3.0.53
+ + psutil==7.2.2
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.4
+ + pygments==2.21.0
+ + pyzmq==27.3.0
+ + stack-data==0.6.3
+ + tornado==6.6.1
+ + traitlets==5.16.1
+ + typing-extensions==4.16.0
+ + wcwidth==0.9.5
+
+$ uv add seaborn matplotlib
+Resolved 44 packages in 29ms
+Installed 8 packages in 15ms
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + fonttools==4.68.0
+ + kiwisolver==1.5.1
+ + matplotlib==3.11.2
+ + pillow==13.0.0
+ + pyparsing==3.3.3
+ + seaborn==0.13.2
+
+$ uv add scikit-learn
+Resolved 50 packages in 29ms
+Installed 6 packages in 45ms
+ + cloudpickle==3.1.3
+ + joblib==1.6.0
+ + narwhals==2.29.0
+ + scikit-learn==1.9.1
+ + scipy==1.18.1
+ + threadpoolctl==3.8.0
+
+$ mkdir datasets
+
+$ cp /home/user/TeamSparta-KANT-AX-AI-Engineer/49-gradient-descent/tools/../datasets/office.csv datasets/
+
+$ ls
+README.md
+datasets
+main.py
+pyproject.toml
+uv.lock
+
+Python 3.13.18
+scikit-learn 1.9.1
+=== main: gd.ipynb, 수업 순서 그대로
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.linear_model import SGDRegressor\nfrom sklearn.metrics import mean_squared_error'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\n\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "hours": [1, 2, 3, 4, 5],\n    "scores": [47, 53, 65, 73, 87]\n})\n\nX = df[["hours"]]\ny = df["scores"]\ndf'
+   hours  scores
+0      1      47
+1      2      53
+2      3      65
+3      4      73
+4      5      87
+--- [4] 'model = LinearRegression()\nmodel.fit(X, y)\ny_pred = model.predict(X)\n\nprint(f"Weight: {model.coef_[0]:.2f}")\nprint(f"Bias: {model.intercept_:.2f}")\nprint(f"MSE: {mean_squared_error(y, y_pred):.4f}")'
+Weight: 10.00
+Bias: 35.00
+MSE: 3.2000
+
+--- [5] 'new_data = pd.DataFrame({"hours": [6]})\nmodel.predict(new_data)'
+array([95.])
+--- [6] 'pred = 0 * df["hours"] + 0\nprint("w = 0, b = 0 일 때 MSE =", round(mean_squared_error(y, pred), 1))'
+w = 0, b = 0 일 때 MSE = 4428.2
+
+--- [7] 'for w in [8, 9, 10, 11, 12]:\n    pred = w * df["hours"] + 35\n    mse = mean_squared_error(y, pred)\n    print("w =", w, "MSE =", round(mse, 1))'
+w = 8 MSE = 47.2
+w = 9 MSE = 14.2
+w = 10 MSE = 3.2
+w = 11 MSE = 14.2
+w = 12 MSE = 47.2
+
+--- [8] 'ws = [w / 2 for w in range(12, 29)]\nlosses = [mean_squared_error(y, w * df["hours"] + 35) for w in ws]\n\nfig, ax = plt.subplots(figsize=(7, 4))\nax.plot(ws, losses, marker="o")\nax.set_title("b = 35일 때 기울기 w에 따른 MSE")\nax.set_xlabel("기울기 w")\nax.set_ylabel("MSE")\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/49-gradient-descent/tools/img/main-1.png>
+<Figure size 1400x800 with 1 Axes>
+--- [9] 'def loss(w):\n    pred = w * df["hours"] + 35\n    return mean_squared_error(y, pred)\n\nprint(loss(8), loss(10), loss(12))'
+47.2 3.2 47.2
+
+--- [10] 'for w in [8, 10, 12]:\n    slope = (loss(w + 0.001) - loss(w)) / 0.001\n    print("w =", w, "| 손실의 기울기 =", round(slope, 1))'
+w = 8 | 손실의 기울기 = -44.0
+w = 10 | 손실의 기울기 = 0.0
+w = 12 | 손실의 기울기 = 44.0
+
+--- [11] 'w = 8\nfor step in range(1, 6):\n    slope = (loss(w + 0.001) - loss(w)) / 0.001\n    w = w - 0.01 * slope\n    print("걸음", step, "| 경사 =", round(slope, 1), "| 새 w =", round(w, 2), "| MSE =", round(loss(w), 2))'
+걸음 1 | 경사 = -44.0 | 새 w = 8.44 | MSE = 29.97
+걸음 2 | 경사 = -34.3 | 새 w = 8.78 | MSE = 19.49
+걸음 3 | 경사 = -26.8 | 새 w = 9.05 | MSE = 13.11
+걸음 4 | 경사 = -20.9 | 새 w = 9.26 | MSE = 9.23
+걸음 5 | 경사 = -16.3 | 새 w = 9.42 | MSE = 6.87
+
+--- [12] 'for lr in [0.002, 0.01, 0.1]:\n    w = 8\n    path = [w]\n    for step in range(5):\n        slope = (loss(w + 0.001) - loss(w)) / 0.001\n        w = w - lr * slope\n        path.append(round(w, 2))\n    print("학습률", lr, ":", path)'
+학습률 0.002 : [8, 8.09, 8.17, 8.25, 8.33, 8.4]
+학습률 0.01 : [8, 8.44, 8.78, 9.05, 9.26, 9.42]
+학습률 0.1 : [8, 12.4, 7.12, 13.45, 5.85, 14.97]
+
+--- [13] 'sgd = SGDRegressor(\n    loss="squared_error",      # 손실 함수: 오차 제곱 평균(MSE)\n    learning_rate="constant",  # 학습률을 처음 값 그대로\n    eta0=0.01,                 # 학습률: 한 번에 고치는 보폭\n    shuffle=False,             # 데이터 순서를 섞지 않음\n    random_state=42            # 난수 시드\n)\nsgd'
+SGDRegressor(learning_rate='constant', random_state=42, shuffle=False)
+--- [14] 'epochs = 1000\nhistory = []\n\nfor epoch in range(epochs):\n    sgd.partial_fit(X, y)\n\n    y_pred = sgd.predict(X)\n    mse = mean_squared_error(y, y_pred)\n\n    history.append({\n        "epoch": epoch + 1,\n        "weight": sgd.coef_[0],\n        "bias": sgd.intercept_[0],\n        "mse": mse\n    })\n\nhistory_df = pd.DataFrame(history)\nhistory_df'
+     epoch     weight       bias          mse
+0        1   8.455225   2.731163  1369.816039
+1        2  12.813586   4.270770   515.808449
+2        3  15.045308   5.190714   269.417813
+3        4  16.173242   5.787904   193.744630
+4        5  16.728403   6.216494   167.673523
+..     ...        ...        ...          ...
+995    996  10.129378  34.741070     3.250171
+996    997  10.129367  34.741113     3.250168
+997    998  10.129357  34.741155     3.250165
+998    999  10.129346  34.741197     3.250162
+999   1000  10.129335  34.741238     3.250159
+
+[1000 rows x 4 columns]
+--- [15] 'history_df[history_df["epoch"].isin([1, 5, 10, 50, 100, 300, 500, 1000])]'
+     epoch     weight       bias          mse
+0        1   8.455225   2.731163  1369.816039
+4        5  16.728403   6.216494   167.673523
+9       10  17.060518   7.615610   141.377004
+49      50  15.031795  15.629821    72.111791
+99     100  13.294764  22.401342    32.278720
+299    300  10.678818  32.599172     4.254356
+499    500  10.223895  34.372614     3.302220
+999   1000  10.129335  34.741238     3.250159
+--- [16] 'plt.figure(figsize=(10, 5))\nplt.plot(history_df["epoch"], history_df["mse"], color="blue", label="학습 손실(Training Loss)")\nplt.title("epoch마다 MSE가 줄어요")\nplt.xlabel("Epoch")\nplt.ylabel("MSE")\nplt.grid(alpha=0.3)\nplt.legend()\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/49-gradient-descent/tools/img/main-2.png>
+<Figure size 2000x1000 with 1 Axes>
+--- [17] 'fig, axes = plt.subplots(1, 2, figsize=(12, 5))\n\naxes[0].plot(history_df["epoch"], history_df["weight"], color="blue")\naxes[0].set_title("기울기 w")\naxes[0].set_xlabel("Epoch")\naxes[0].grid(alpha=0.3)\n\naxes[1].plot(history_df["epoch"], history_df["bias"], color="blue")\naxes[1].set_title("절편 b")\naxes[1].set_xlabel("Epoch")\naxes[1].grid(alpha=0.3)\n\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/49-gradient-descent/tools/img/main-3.png>
+<Figure size 2400x1000 with 2 Axes>
+--- [18] 'print(f"기울기(w): {sgd.coef_[0]:.2f}")\nprint(f"절편(b): {sgd.intercept_[0]:.2f}")\n\nnew_data = pd.DataFrame({"hours": [6]})\nprediction = sgd.predict(new_data)\nprint(f"예측 성적: {prediction[0]:.2f}점")'
+기울기(w): 10.13
+절편(b): 34.74
+예측 성적: 95.52점
+
+--- [19] 'print(type(sgd))'
+<class 'sklearn.linear_model._stochastic_gradient.SGDRegressor'>
+
+--- [20] 'history[:2]'
+[{'epoch': 1,
+  'weight': np.float64(8.455224781754193),
+  'bias': np.float64(2.731163490747725),
+  'mse': 1369.8160386515333},
+ {'epoch': 2,
+  'weight': np.float64(12.813586407042692),
+  'bias': np.float64(4.270770391911027),
+  'mse': 515.8084491302236}]
+--- [21] 'history_df.shape'
+(1000, 4)
+--- [22] 'history_df[history_df["mse"] < 3.3].head(1)'
+     epoch     weight       bias       mse
+503    504  10.220602  34.385449  3.299564
+--- [23] 'history_df[history_df["mse"] < 3.5].head(1)'
+     epoch     weight       bias       mse
+388    389  10.380967  33.760294  3.499643
+--- [24] '[round(v, 2) for v in [history_df["mse"].min(), history_df["mse"].iloc[-1]]]'
+[np.float64(3.25), np.float64(3.25)]
+=== train: 학습률 비교
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.linear_model import SGDRegressor\nfrom sklearn.metrics import mean_squared_error'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\n\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "hours": [1, 2, 3, 4, 5],\n    "scores": [47, 53, 65, 73, 87]\n})\n\nX = df[["hours"]]\ny = df["scores"]\ndf'
+   hours  scores
+0      1      47
+1      2      53
+2      3      65
+3      4      73
+4      5      87
+--- [4] 'def train(eta, epochs=1000):\n    model = SGDRegressor(loss="squared_error", learning_rate="constant",\n                         eta0=eta, shuffle=False, random_state=42)\n    losses = []\n    for epoch in range(epochs):\n        model.partial_fit(X, y)\n        losses.append(mean_squared_error(y, model.predict(X)))\n    return model, losses'
+--- [5] 'for eta in [0.001, 0.01, 0.1, 0.5]:\n    m, losses = train(eta)\n    print("eta0 =", eta, "| w =", round(m.coef_[0], 2), "| b =", round(m.intercept_[0], 2), "| MSE =", round(losses[-1], 2))'
+eta0 = 0.001 | w = 13.53 | b = 22.17 | MSE = 33.13
+
+eta0 = 0.01 | w = 10.13 | b = 34.74 | MSE = 3.25
+
+eta0 = 0.1 | w = 14.1 | b = 26.87 | MSE = 54.15
+
+eta0 = 0.5 | w = 122243204786.88 | b = 2622426923558.02 | MSE = 8.964943610021554e+24
+
+--- [6] 'fig, ax = plt.subplots(figsize=(10, 5))\nfor eta in [0.001, 0.01, 0.1]:\n    m, losses = train(eta)\n    ax.plot(range(1, 1001), losses, label="eta0 = " + str(eta))\nax.set_ylim(0, 200)\nax.set_title("학습률마다 MSE가 줄어드는 모습")\nax.set_xlabel("Epoch")\nax.set_ylabel("MSE")\nax.legend()\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/49-gradient-descent/tools/img/eta-1.png>
+<Figure size 2000x1000 with 1 Axes>
+--- [7] 'm, losses = train(0.5)\nprint(losses[:5])'
+[172149912.2151003, 879515344619.9103, 4486687432513745.0, 2.288753442431855e+19, 1.1675408295109558e+23]
+
+=== err-loss
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.linear_model import SGDRegressor\nfrom sklearn.metrics import mean_squared_error'
+--- [2] 'df = pd.DataFrame({\n    "hours": [1, 2, 3, 4, 5],\n    "scores": [47, 53, 65, 73, 87]\n})\n\nX = df[["hours"]]\ny = df["scores"]\ndf'
+   hours  scores
+0      1      47
+1      2      53
+2      3      65
+3      4      73
+4      5      87
+--- [3] 'sgd = SGDRegressor(loss="mse")\nsgd.partial_fit(X, y)'
+InvalidParameterError: The 'loss' parameter of SGDRegressor must be a str among {'squared_epsilon_insensitive', 'huber', 'epsilon_insensitive', 'squared_error'}. Got 'mse' instead.
+=== err-default: learning_rate를 빼면
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.linear_model import SGDRegressor\nfrom sklearn.metrics import mean_squared_error'
+--- [2] 'df = pd.DataFrame({\n    "hours": [1, 2, 3, 4, 5],\n    "scores": [47, 53, 65, 73, 87]\n})\n\nX = df[["hours"]]\ny = df["scores"]\ndf'
+   hours  scores
+0      1      47
+1      2      53
+2      3      65
+3      4      73
+4      5      87
+--- [3] 'sgd = SGDRegressor(loss="squared_error", eta0=0.01, shuffle=False, random_state=42)\nfor epoch in range(1000):\n    sgd.partial_fit(X, y)\nprint(sgd.learning_rate)\nprint("w =", round(sgd.coef_[0], 2), "| b =", round(sgd.intercept_[0], 2))\nprint("MSE =", round(mean_squared_error(y, sgd.predict(X)), 2))'
+invscaling
+w = 12.13 | b = 27.26
+MSE = 14.09
+
+=== err-fit: partial_fit 대신 fit
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.linear_model import SGDRegressor\nfrom sklearn.metrics import mean_squared_error'
+--- [2] 'df = pd.DataFrame({\n    "hours": [1, 2, 3, 4, 5],\n    "scores": [47, 53, 65, 73, 87]\n})\n\nX = df[["hours"]]\ny = df["scores"]\ndf'
+   hours  scores
+0      1      47
+1      2      53
+2      3      65
+3      4      73
+4      5      87
+--- [3] 'sgd = SGDRegressor(loss="squared_error", learning_rate="constant", eta0=0.01,\n                   max_iter=1000, shuffle=False, random_state=42)\nfor epoch in range(3):\n    sgd.fit(X, y)\n    print(epoch + 1, "| w =", round(sgd.coef_[0], 2), "| b =", round(sgd.intercept_[0], 2), "| n_iter_ =", sgd.n_iter_)'
+1 | w = 10.31 | b = 34.04 | n_iter_ = 427
+2 | w = 10.31 | b = 34.04 | n_iter_ = 427
+3 | w = 10.31 | b = 34.04 | n_iter_ = 427
+
+--- [4] 'sgd = SGDRegressor(loss="squared_error", learning_rate="constant", eta0=0.01,\n                   max_iter=1, shuffle=False, random_state=42)\nfor epoch in range(3):\n    sgd.fit(X, y)\n    print(epoch + 1, "| w =", round(sgd.coef_[0], 2), "| b =", round(sgd.intercept_[0], 2))'
+1 | w = 8.46 | b = 2.73
+2 | w = 8.46 | b = 2.73
+3 | w = 8.46 | b = 2.73
+
+<stderr>/tmp/claude-0/gd-demo/nb-check/.venv/lib/python3.13/site-packages/sklearn/linear_model/_stochastic_gradient.py:1620: ConvergenceWarning: Maximum number of iteration reached before convergence. Consider increasing max_iter to improve the fit.
+  warnings.warn(
+/tmp/claude-0/gd-demo/nb-check/.venv/lib/python3.13/site-packages/sklearn/linear_model/_stochastic_gradient.py:1620: ConvergenceWarning: Maximum number of iteration reached before convergence. Consider increasing max_iter to improve the fit.
+  warnings.warn(
+/tmp/claude-0/gd-demo/nb-check/.venv/lib/python3.13/site-packages/sklearn/linear_model/_stochastic_gradient.py:1620: ConvergenceWarning: Maximum number of iteration reached before convergence. Consider increasing max_iter to improve the fit.
+  warnings.warn(
+
+=== err-twice: 반복 셀을 두 번 실행
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.linear_model import SGDRegressor\nfrom sklearn.metrics import mean_squared_error'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\n\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "hours": [1, 2, 3, 4, 5],\n    "scores": [47, 53, 65, 73, 87]\n})\n\nX = df[["hours"]]\ny = df["scores"]\ndf'
+   hours  scores
+0      1      47
+1      2      53
+2      3      65
+3      4      73
+4      5      87
+--- [4] 'sgd = SGDRegressor(\n    loss="squared_error",      # 손실 함수: 오차 제곱 평균(MSE)\n    learning_rate="constant",  # 학습률을 처음 값 그대로\n    eta0=0.01,                 # 학습률: 한 번에 고치는 보폭\n    shuffle=False,             # 데이터 순서를 섞지 않음\n    random_state=42            # 난수 시드\n)\nsgd'
+SGDRegressor(learning_rate='constant', random_state=42, shuffle=False)
+--- [5] 'epochs = 1000\nhistory = []\n\nfor epoch in range(epochs):\n    sgd.partial_fit(X, y)\n\n    y_pred = sgd.predict(X)\n    mse = mean_squared_error(y, y_pred)\n\n    history.append({\n        "epoch": epoch + 1,\n        "weight": sgd.coef_[0],\n        "bias": sgd.intercept_[0],\n        "mse": mse\n    })\n\nhistory_df = pd.DataFrame(history)\nhistory_df'
+     epoch     weight       bias          mse
+0        1   8.455225   2.731163  1369.816039
+1        2  12.813586   4.270770   515.808449
+2        3  15.045308   5.190714   269.417813
+3        4  16.173242   5.787904   193.744630
+4        5  16.728403   6.216494   167.673523
+..     ...        ...        ...          ...
+995    996  10.129378  34.741070     3.250171
+996    997  10.129367  34.741113     3.250168
+997    998  10.129357  34.741155     3.250165
+998    999  10.129346  34.741197     3.250162
+999   1000  10.129335  34.741238     3.250159
+
+[1000 rows x 4 columns]
+--- [6] 'epochs = 1000\nhistory = []\n\nfor epoch in range(epochs):\n    sgd.partial_fit(X, y)\n\n    y_pred = sgd.predict(X)\n    mse = mean_squared_error(y, y_pred)\n\n    history.append({\n        "epoch": epoch + 1,\n        "weight": sgd.coef_[0],\n        "bias": sgd.intercept_[0],\n        "mse": mse\n    })\n\nhistory_df = pd.DataFrame(history)\nhistory_df'
+     epoch     weight       bias       mse
+0        1  10.129325  34.741279  3.250156
+1        2  10.129314  34.741320  3.250153
+2        3  10.129304  34.741360  3.250150
+3        4  10.129294  34.741400  3.250147
+4        5  10.129284  34.741439  3.250144
+..     ...        ...        ...       ...
+995    996  10.128128  34.745945  3.249819
+996    997  10.128128  34.745946  3.249819
+997    998  10.128128  34.745946  3.249819
+998    999  10.128128  34.745946  3.249819
+999   1000  10.128128  34.745946  3.249819
+
+[1000 rows x 4 columns]
+--- [7] 'history_df.head(3)'
+   epoch     weight       bias       mse
+0      1  10.129325  34.741279  3.250156
+1      2  10.129314  34.741320  3.250153
+2      3  10.129304  34.741360  3.250150
+--- [8] 'plt.figure(figsize=(10, 5))\nplt.plot(history_df["epoch"], history_df["mse"], color="blue", label="학습 손실(Training Loss)")\nplt.title("epoch마다 MSE가 줄어요")\nplt.xlabel("Epoch")\nplt.ylabel("MSE")\nplt.grid(alpha=0.3)\nplt.legend()\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/49-gradient-descent/tools/img/etwice-1.png>
+<Figure size 2000x1000 with 1 Axes>
+=== x-new: 학생 두 명 더
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.linear_model import SGDRegressor\nfrom sklearn.metrics import mean_squared_error'
+--- [2] 'df = pd.DataFrame({\n    "hours": [1, 2, 3, 4, 5],\n    "scores": [47, 53, 65, 73, 87]\n})\n\nX = df[["hours"]]\ny = df["scores"]\ndf'
+   hours  scores
+0      1      47
+1      2      53
+2      3      65
+3      4      73
+4      5      87
+--- [3] 'sgd = SGDRegressor(\n    loss="squared_error",      # 손실 함수: 오차 제곱 평균(MSE)\n    learning_rate="constant",  # 학습률을 처음 값 그대로\n    eta0=0.01,                 # 학습률: 한 번에 고치는 보폭\n    shuffle=False,             # 데이터 순서를 섞지 않음\n    random_state=42            # 난수 시드\n)\nsgd'
+SGDRegressor(learning_rate='constant', random_state=42, shuffle=False)
+--- [4] 'epochs = 1000\nhistory = []\n\nfor epoch in range(epochs):\n    sgd.partial_fit(X, y)\n\n    y_pred = sgd.predict(X)\n    mse = mean_squared_error(y, y_pred)\n\n    history.append({\n        "epoch": epoch + 1,\n        "weight": sgd.coef_[0],\n        "bias": sgd.intercept_[0],\n        "mse": mse\n    })\n\nhistory_df = pd.DataFrame(history)\nhistory_df'
+     epoch     weight       bias          mse
+0        1   8.455225   2.731163  1369.816039
+1        2  12.813586   4.270770   515.808449
+2        3  15.045308   5.190714   269.417813
+3        4  16.173242   5.787904   193.744630
+4        5  16.728403   6.216494   167.673523
+..     ...        ...        ...          ...
+995    996  10.129378  34.741070     3.250171
+996    997  10.129367  34.741113     3.250168
+997    998  10.129357  34.741155     3.250165
+998    999  10.129346  34.741197     3.250162
+999   1000  10.129335  34.741238     3.250159
+
+[1000 rows x 4 columns]
+--- [5] 'df7 = pd.DataFrame({\n    "hours": [1, 2, 3, 4, 5, 6, 7],\n    "scores": [47, 53, 65, 73, 87, 94, 106]\n})\nX7 = df7[["hours"]]\ny7 = df7["scores"]\n\nfor epoch in range(300):\n    sgd.partial_fit(X7, y7)\n\nprint("SGD   w =", round(sgd.coef_[0], 2), "| b =", round(sgd.intercept_[0], 2))\nlr7 = LinearRegression().fit(X7, y7)\nprint("정답  w =", round(lr7.coef_[0], 2), "| b =", round(lr7.intercept_, 2))'
+SGD   w = 10.11 | b = 34.72
+정답  w = 10.04 | b = 34.86
+
+--- [6] 'print(sgd.predict(pd.DataFrame({"hours": [8]})).round(1), lr7.predict(pd.DataFrame({"hours": [8]})).round(1))'
+[115.6] [115.1]
+
+=== x-office: 47 오피스텔에 SGD
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\n\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.linear_model import SGDRegressor\nfrom sklearn.metrics import mean_squared_error'
+--- [2] 'from sklearn.metrics import r2_score\n\noffice = pd.read_csv("datasets/office.csv")\nXo = office[["area"]]\nyo = office["price"]\n\nfor eta in [0.01, 0.0001]:\n    sgd_o = SGDRegressor(loss="squared_error", learning_rate="constant",\n                         eta0=eta, shuffle=False, random_state=42)\n    for epoch in range(1000):\n        sgd_o.partial_fit(Xo, yo)\n    r2 = r2_score(yo, sgd_o.predict(Xo))\n    print("eta0 =", eta, "| w =", round(sgd_o.coef_[0], 2), "| b =", round(sgd_o.intercept_[0], 2), "| R2 =", round(r2, 3))'
+eta0 = 0.01 | w = -303320086979.13 | b = 427074117107.3 | R2 = -2.9579296731822244e+18
+
+eta0 = 0.0001 | w = 458.45 | b = 4735.1 | R2 = 0.802
+
+--- [3] 'lr_o = LinearRegression().fit(Xo, yo)\nprint("LinearRegression w =", round(lr_o.coef_[0], 2), "| b =", round(lr_o.intercept_, 2), "| R2 =", round(r2_score(yo, lr_o.predict(Xo)), 3))'
+LinearRegression w = 465.67 | b = 4727.98 | R2 = 0.804
+

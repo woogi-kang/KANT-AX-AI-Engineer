@@ -1,0 +1,91 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-25T07:00:00Z"
+  },
+  "lists": "css",
+  "title": "경사 하강법 (조금씩 고쳐 가며 직선 찾기)",
+  "order": [
+    "cover",
+    "toc",
+    "setup",
+    "recap",
+    "recap-mse",
+    "why",
+    "big",
+    "loss",
+    "table",
+    "ushape",
+    "two",
+    "tangent",
+    "step",
+    "walk",
+    "lr",
+    "lr-sgd",
+    "lr-chart",
+    "sgd",
+    "args",
+    "partial",
+    "loop",
+    "history",
+    "curve",
+    "wb",
+    "pred",
+    "compare",
+    "e-loss",
+    "e-default",
+    "e-fit",
+    "e-twice",
+    "x-stop",
+    "x-new",
+    "x-office",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "recap"
+    },
+    "p2": {
+      "description": "손실과 경사",
+      "start": "loss"
+    },
+    "p3": {
+      "description": "학습률",
+      "start": "lr"
+    },
+    "p4": {
+      "description": "SGDRegressor로 학습하기",
+      "start": "sgd"
+    },
+    "p5": {
+      "description": "오류와 함정",
+      "start": "e-loss"
+    },
+    "p6": {
+      "description": "실제 상황",
+      "start": "x-stop"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
