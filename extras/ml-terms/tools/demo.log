@@ -1,0 +1,333 @@
+
+$ uv --version
+uv 0.11.32 (x86_64-unknown-linux-gnu)
+
+$ uv init ml-basics
+Initialized project `ml-basics` at `/tmp/ml-terms-demo/ml-basics`
+
+$ cd ml-basics
+
+$ uv add numpy pandas
+Using CPython 3.13.18 interpreter at: /usr/local/bin/python3.13
+Creating virtual environment at: .venv
+Resolved 5 packages in 11ms
+Installed 4 packages in 19ms
+ + numpy==2.5.5
+ + pandas==3.1.1
+ + python-dateutil==4.0.0
+ + tzdata==2026.6
+
+$ uv add --dev ipykernel
+Resolved 36 packages in 16ms
+Installed 27 packages in 61ms
+ + asttokens==3.0.2
+ + comm==0.2.3
+ + debugpy==1.8.22
+ + executing==2.3.0
+ + ipykernel==7.4.0
+ + ipython==9.19.1
+ + ipython-pygments-lexers==1.1.1
+ + jedi==0.20.1
+ + jupyter-client==8.10.0
+ + jupyter-core==5.9.1
+ + matplotlib-inline==0.2.2
+ + nest-asyncio2==1.7.4
+ + packaging==26.4
+ + parso==0.8.7
+ + pexpect==4.9.0
+ + platformdirs==4.14.8
+ + prompt-toolkit==3.0.53
+ + psutil==7.2.2
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.4
+ + pygments==2.21.0
+ + pyzmq==27.3.0
+ + stack-data==0.6.3
+ + tornado==6.6.1
+ + traitlets==5.16.1
+ + typing-extensions==4.16.0
+ + wcwidth==0.9.5
+
+$ uv add seaborn matplotlib
+Resolved 44 packages in 20ms
+Installed 8 packages in 8ms
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + fonttools==4.68.0
+ + kiwisolver==1.5.1
+ + matplotlib==3.11.2
+ + pillow==13.0.0
+ + pyparsing==3.3.3
+ + seaborn==0.13.2
+
+$ uv add scikit-learn
+Resolved 50 packages in 24ms
+Installed 6 packages in 14ms
+ + cloudpickle==3.1.3
+ + joblib==1.6.0
+ + narwhals==2.29.0
+ + scikit-learn==1.9.1
+ + scipy==1.18.1
+ + threadpoolctl==3.8.0
+
+$ mkdir datasets
+
+$ cp ../../47-plot-data/datasets/usa_housing.csv datasets/
+
+$ .venv/bin/python --version
+Python 3.13.18
+scikit-learn 1.9.1 pandas 3.1.1 numpy 2.5.5
+
+### import
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from sklearn.linear_model import LinearRegression, SGDRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+--- output
+
+
+### mean
+titanic = sns.load_dataset("titanic")
+print("평균:", round(titanic["fare"].mean(), 2))
+print("중앙값:", titanic["fare"].median())
+print("가장 큰 값:", titanic["fare"].max())
+--- output
+평균: 32.2
+중앙값: 14.4542
+가장 큰 값: 512.3292
+
+### iqr
+q1 = titanic["fare"].quantile(0.25)
+q3 = titanic["fare"].quantile(0.75)
+iqr = q3 - q1
+upper = q3 + 1.5 * iqr
+print("Q1:", q1, " Q3:", q3)
+print("IQR:", round(iqr, 2), " 울타리:", round(upper, 2))
+print("울타리 밖:", (titanic["fare"] > upper).sum(), "명")
+--- output
+Q1: 7.9104  Q3: 31.0
+IQR: 23.09  울타리: 65.63
+울타리 밖: 116 명
+
+### five
+df = pd.DataFrame({
+    "hours": [1, 2, 3, 4, 5],
+    "scores": [47, 53, 65, 73, 87]
+})
+df
+--- output
+   hours  scores
+0      1      47
+1      2      53
+2      3      65
+3      4      73
+4      5      87
+
+### corr
+print(round(df["hours"].corr(df["scores"]), 2))
+--- output
+0.99
+
+### corr3
+house = pd.read_csv("datasets/usa_housing.csv")
+print("공부 시간과 점수:", round(df["hours"].corr(df["scores"]), 2))
+print("집 면적과 가격:", round(house["SquareFeet"].corr(house["Price"]), 2))
+print("객실 등급과 요금:", round(titanic["pclass"].corr(titanic["fare"]), 2))
+--- output
+공부 시간과 점수: 0.99
+집 면적과 가격: 0.08
+객실 등급과 요금: -0.55
+
+### seed
+rng = np.random.default_rng(42)
+print(rng.normal(0, 2500, 5).round())
+rng = np.random.default_rng(42)
+print(rng.normal(0, 2500, 5).round())
+--- output
+[  762. -2600.  1876.  2351. -4878.]
+[  762. -2600.  1876.  2351. -4878.]
+
+### xy
+X = df[["hours"]]
+y = df["scores"]
+print(X.shape, y.shape)
+--- output
+(5, 1) (5,)
+
+### fit
+model = LinearRegression()
+model.fit(X, y)
+print("기울기 w:", round(model.coef_[0], 2))
+print("절편 b:", round(model.intercept_, 2))
+--- output
+기울기 w: 10.0
+절편 b: 35.0
+
+### predict
+new = pd.DataFrame({"hours": [6]})
+print(model.predict(new))
+--- output
+[95.]
+
+### ypred
+y_pred = model.predict(X)
+print("예측:", y_pred)
+print("오차:", (y - y_pred).round(2).tolist())
+--- output
+예측: [45. 55. 65. 75. 85.]
+오차: [2.0, -2.0, 0.0, -2.0, 2.0]
+
+### metrics
+print("MAE:", round(mean_absolute_error(y, y_pred), 2))
+print("MSE:", round(mean_squared_error(y, y_pred), 2))
+print("RMSE:", round(mean_squared_error(y, y_pred) ** 0.5, 2))
+print("R²:", round(r2_score(y, y_pred), 2))
+--- output
+MAE: 1.6
+MSE: 3.2
+RMSE: 1.79
+R²: 0.98
+
+### r2base
+mean_line = [y.mean()] * 5
+print("평균만 찍기 MSE:", round(mean_squared_error(y, mean_line), 2))
+print("평균만 찍기 R²:", r2_score(y, mean_line))
+--- output
+평균만 찍기 MSE: 203.2
+평균만 찍기 R²: 0.0
+
+### r2neg
+bad = 20 * df["hours"]
+print("20 × 공부 시간 R²:", round(r2_score(y, bad), 2))
+--- output
+20 × 공부 시간 R²: -0.12
+
+### r2corr
+r = df["hours"].corr(df["scores"])
+print("상관계수:", round(r, 4))
+print("상관계수 제곱:", round(r ** 2, 4))
+print("R²:", round(r2_score(y, y_pred), 4))
+--- output
+상관계수: 0.9921
+상관계수 제곱: 0.9843
+R²: 0.9843
+
+### double
+m2 = LinearRegression()
+m2.fit(X, y * 2)
+print("기울기 w:", round(m2.coef_[0], 2))
+print("상관계수:", round(df["hours"].corr(y * 2), 2))
+--- output
+기울기 w: 20.0
+상관계수: 0.99
+
+### ucurve
+for w in [8, 9, 10, 11, 12]:
+    pred = w * df["hours"] + 35
+    print(w, round(mean_squared_error(y, pred), 2))
+--- output
+8 47.2
+9 14.2
+10 3.2
+11 14.2
+12 47.2
+
+### slope
+hours = df["hours"]
+before = mean_squared_error(y, 8 * hours + 35)
+after = mean_squared_error(y, 8.001 * hours + 35)
+change = after - before
+print("MSE 변화:", round(change, 4))
+print("변화 ÷ 0.001:", round(change / 0.001, 1))
+--- output
+MSE 변화: -0.044
+변화 ÷ 0.001: -44.0
+
+### sgd
+sgd = SGDRegressor(
+    loss="squared_error",
+    learning_rate="constant",
+    eta0=0.01,
+    max_iter=1000,
+    shuffle=False,
+    random_state=42
+)
+--- output
+
+
+### loop
+history = []
+for epoch in range(1000):
+    sgd.partial_fit(X, y)
+    y_pred = sgd.predict(X)
+    history.append({
+        "epoch": epoch + 1,
+        "weight": sgd.coef_[0],
+        "bias": sgd.intercept_[0],
+        "mse": mean_squared_error(y, y_pred)
+    })
+history_df = pd.DataFrame(history)
+history_df[history_df["epoch"].isin([1, 5, 10, 100, 500, 1000])]
+--- output
+     epoch     weight       bias          mse
+0        1   8.455225   2.731163  1369.816039
+4        5  16.728403   6.216494   167.673523
+9       10  17.060518   7.615610   141.377004
+99     100  13.294764  22.401342    32.278720
+499    500  10.223895  34.372614     3.302220
+999   1000  10.129335  34.741238     3.250159
+
+### sgdres
+print("기울기 w:", round(sgd.coef_[0], 2))
+print("절편 b:", round(sgd.intercept_[0], 2))
+print("6시간:", round(sgd.predict(pd.DataFrame({"hours": [6]}))[0], 2), "점")
+--- output
+기울기 w: 10.13
+절편 b: 34.74
+6시간: 95.52 점
+
+### eta
+for eta in [0.001, 0.01, 0.3]:
+    s = SGDRegressor(learning_rate="constant", eta0=eta,
+                     shuffle=False, random_state=42)
+    for epoch in range(1000):
+        s.partial_fit(X, y)
+    print(eta, mean_squared_error(y, s.predict(X)))
+--- output
+0.001 33.12605284565372
+0.01 3.2501590833022513
+0.3 3.238215196361221e+24
+
+### multi
+study = pd.DataFrame({
+    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],
+    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],
+    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],
+    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]
+})
+X3 = study[["study_hours", "sleep_hours", "practice_count"]]
+m3 = LinearRegression()
+m3.fit(X3, study["score"])
+print("coef_:", m3.coef_.round(2))
+print("intercept_:", round(m3.intercept_, 2))
+--- output
+coef_: [5.8  2.68 0.63]
+intercept_: 17.66
+
+### multipred
+a = pd.DataFrame({"study_hours": [3, 4], "sleep_hours": [7, 7], "practice_count": [20, 20]})
+print(m3.predict(a).round(2))
+--- output
+[66.48 72.28]
+
+### heat
+study.corr().round(2)
+--- output
+                study_hours  sleep_hours  practice_count  score
+study_hours            1.00         0.00            0.85   0.93
+sleep_hours            0.00         1.00            0.14   0.29
+practice_count         0.85         0.14            1.00   0.93
+score                  0.93         0.29            0.93   1.00
+
+saved tools/data.json

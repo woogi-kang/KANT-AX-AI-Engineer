@@ -143,7 +143,10 @@
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
      "summary": "탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기",
-     "slides": "terminal-path-help-slides.html"}
+     "slides": "terminal-path-help-slides.html"},
+    {"dir": "ml-terms", "title": "머신러닝 용어 풀이", "related": ["45-numpy-pandas", "46-data-cleaning"],
+     "summary": "특성과 타깃, 기울기 w와 절편 b, MAE·MSE·R², 손실 함수, 2차함수와 미분, 경사 하강법, 학습률, epoch, 다중 회귀 계수를 그림과 실제 출력으로 찾아보기",
+     "slides": "ml-terms-slides.html"}
   ],
   "updates": [
     {"dir": "2026-11-23-pdf-download", "date": "2026-11-23", "title": "챕터마다 슬라이드 PDF를 받을 수 있어요",

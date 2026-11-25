@@ -68,6 +68,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 제&#8288;목 | 다루는 내용 | 슬&#8288;라&#8288;이&#8288;드 | P&#8288;D&#8288;F |
 | --- | --- | --- | --- |
 | [터미널 환경에 적응하기](./extras/terminal-path-help) | 탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.pdf) |
+| [머신러닝 용어 풀이](./extras/ml-terms) | 특성과 타깃, 기울기 w와 절편 b, MAE·MSE·R², 손실 함수, 2차함수와 미분, 경사 하강법, 학습률, epoch, 다중 회귀 계수를 그림과 실제 출력으로 찾아보기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/ml-terms/ml-terms-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/ml-terms/ml-terms-slides.pdf) |
 
 <!-- /curriculum:extras -->
 

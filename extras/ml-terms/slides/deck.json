@@ -1,0 +1,95 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-25T13:00:00Z"
+  },
+  "lists": "css",
+  "title": "머신러닝 용어 풀이",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "map",
+    "example",
+    "mean",
+    "iqr",
+    "corr",
+    "seed",
+    "xy",
+    "model",
+    "wb",
+    "error",
+    "mae",
+    "mse",
+    "r2",
+    "loss",
+    "formula",
+    "parab",
+    "two",
+    "deriv",
+    "gd",
+    "lr",
+    "epoch",
+    "sgd",
+    "conv",
+    "hyper",
+    "multi",
+    "coefread",
+    "heat",
+    "pair1",
+    "pair2",
+    "myth1",
+    "myth2",
+    "read1",
+    "read2",
+    "read3",
+    "index1",
+    "index2"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "데이터 읽기",
+      "start": "mean"
+    },
+    "p2": {
+      "description": "모델과 채점",
+      "start": "xy"
+    },
+    "p3": {
+      "description": "경사 하강법",
+      "start": "loss"
+    },
+    "p4": {
+      "description": "여러 열로 예측",
+      "start": "multi"
+    },
+    "p5": {
+      "description": "헷갈리는 짝과 오해",
+      "start": "pair1"
+    },
+    "p6": {
+      "description": "용어로 코드 읽기",
+      "start": "read1"
+    },
+    "index": {
+      "description": "찾아보기",
+      "start": "index1"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
