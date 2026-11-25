@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/48-linear-regression/linear-regression-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/48-linear-regression/linear-regression-slides.pdf) | [47 · 그래프 그리기와 연습 데이터 만들기](../47-plot-data) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/48-linear-regression/linear-regression-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/48-linear-regression/linear-regression-slides.pdf) | [47 · 그래프 그리기와 연습 데이터 만들기](../47-plot-data) | [50 · 다중 선형 회귀와 ML 기초 정리](../50-multiple-regression) |
 
 <!-- /curriculum:top -->
 
@@ -272,6 +272,6 @@ node ../tools/export.js slides linear-regression-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 47 · 그래프 그리기와 연습 데이터 만들기](../47-plot-data) · [커리큘럼](../README.md)
+[← 이전: 47 · 그래프 그리기와 연습 데이터 만들기](../47-plot-data) · [커리큘럼](../README.md) · [다음: 50 · 다중 선형 회귀와 ML 기초 정리 →](../50-multiple-regression)
 
 <!-- /curriculum:nav -->

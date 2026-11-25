@@ -144,7 +144,10 @@
      "commands": "`plt.subplots()` `ax.plot()` `plt.scatter()` `corr()` `np.random.default_rng(42)` `to_csv(index=False)`", "slides": "plot-data-slides.html"},
     {"dir": "48-linear-regression", "title": "첫 머신러닝 모델 (선형 회귀)", "track": "파이썬",
      "goal": "scikit-learn 선형 회귀로 오피스텔 시세 200건의 직선을 학습하고, 새 면적의 가격을 예측하고, MAE와 R²로 채점해요",
-     "commands": "`uv add scikit-learn` `model.fit(X, y)` `model.predict(표)` `mean_absolute_error(y, y_pred)` `r2_score(y, y_pred)`", "slides": "linear-regression-slides.html"}
+     "commands": "`uv add scikit-learn` `model.fit(X, y)` `model.predict(표)` `mean_absolute_error(y, y_pred)` `r2_score(y, y_pred)`", "slides": "linear-regression-slides.html"},
+    {"dir": "50-multiple-regression", "title": "다중 선형 회귀와 ML 기초 정리", "track": "파이썬",
+     "goal": "seaborn 산점도와 상관계수 히트맵으로 열을 살펴보고, 입력 열 셋으로 점수를 예측한 뒤 45~50의 머신러닝 기초를 한 장으로 정리해요",
+     "commands": "`sns.scatterplot(ax=axes[0])` `df.corr()` `sns.heatmap(annot=True, vmin=-1, vmax=1)` `X = df[[\"a\", \"b\", \"c\"]]` `model.coef_`", "slides": "multiple-regression-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],
