@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/47-plot-data/plot-data-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/47-plot-data/plot-data-slides.pdf) | [46 · 데이터 정리하기 (타이타닉 전처리)](../46-data-cleaning) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/47-plot-data/plot-data-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/47-plot-data/plot-data-slides.pdf) | [46 · 데이터 정리하기 (타이타닉 전처리)](../46-data-cleaning) | [48 · 첫 머신러닝 모델 (선형 회귀)](../48-linear-regression) |
 
 <!-- /curriculum:top -->
 
@@ -298,6 +298,6 @@ node ../tools/export.js slides plot-data-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 46 · 데이터 정리하기 (타이타닉 전처리)](../46-data-cleaning) · [커리큘럼](../README.md)
+[← 이전: 46 · 데이터 정리하기 (타이타닉 전처리)](../46-data-cleaning) · [커리큘럼](../README.md) · [다음: 48 · 첫 머신러닝 모델 (선형 회귀) →](../48-linear-regression)
 
 <!-- /curriculum:nav -->

@@ -141,7 +141,10 @@
      "commands": "`df.isnull().sum()` `fillna(값)` `mode()[0]` `quantile(0.75)` `duplicated()`", "slides": "data-cleaning-slides.html"},
     {"dir": "47-plot-data", "title": "그래프 그리기와 연습 데이터 만들기", "track": "파이썬",
      "goal": "matplotlib으로 선 그래프와 산점도를 그리고 NumPy 난수로 정답을 아는 연습 데이터를 만들어 저장해요",
-     "commands": "`plt.subplots()` `ax.plot()` `plt.scatter()` `corr()` `np.random.default_rng(42)` `to_csv(index=False)`", "slides": "plot-data-slides.html"}
+     "commands": "`plt.subplots()` `ax.plot()` `plt.scatter()` `corr()` `np.random.default_rng(42)` `to_csv(index=False)`", "slides": "plot-data-slides.html"},
+    {"dir": "48-linear-regression", "title": "첫 머신러닝 모델 (선형 회귀)", "track": "파이썬",
+     "goal": "scikit-learn 선형 회귀로 오피스텔 시세 200건의 직선을 학습하고, 새 면적의 가격을 예측하고, MAE와 R²로 채점해요",
+     "commands": "`uv add scikit-learn` `model.fit(X, y)` `model.predict(표)` `mean_absolute_error(y, y_pred)` `r2_score(y, y_pred)`", "slides": "linear-regression-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

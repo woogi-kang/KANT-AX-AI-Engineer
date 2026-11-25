@@ -55,6 +55,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [45 · NumPy와 pandas 맛보기](./45-numpy-pandas) | 파&#8288;이&#8288;썬 | 한 달 지출 12건을 NumPy 배열과 pandas 표로 옮겨 합계, 고르기, 정렬, 분류별 합계를 한 줄로 구해요 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/45-numpy-pandas/numpy-pandas-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/45-numpy-pandas/numpy-pandas-slides.pdf) |
 | [46 · 데이터 정리하기 (타이타닉 전처리)](./46-data-cleaning) | 파&#8288;이&#8288;썬 | 타이타닉 승객 891명의 빈칸을 채우고 튀는 값과 겹친 행을 찾아 머신러닝에 넣을 표로 다듬어요 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/46-data-cleaning/data-cleaning-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/46-data-cleaning/data-cleaning-slides.pdf) |
 | [47 · 그래프 그리기와 연습 데이터 만들기](./47-plot-data) | 파&#8288;이&#8288;썬 | matplotlib으로 선 그래프와 산점도를 그리고 NumPy 난수로 정답을 아는 연습 데이터를 만들어 저장해요 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/47-plot-data/plot-data-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/47-plot-data/plot-data-slides.pdf) |
+| [48 · 첫 머신러닝 모델 (선형 회귀)](./48-linear-regression) | 파&#8288;이&#8288;썬 | scikit-learn 선형 회귀로 오피스텔 시세 200건의 직선을 학습하고, 새 면적의 가격을 예측하고, MAE와 R²로 채점해요 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/48-linear-regression/linear-regression-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/48-linear-regression/linear-regression-slides.pdf) |
 
 <!-- /curriculum:chapters -->
 
