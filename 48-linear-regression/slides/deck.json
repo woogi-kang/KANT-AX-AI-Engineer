@@ -1,0 +1,94 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-24T07:00:00Z"
+  },
+  "lists": "css",
+  "title": "첫 머신러닝 모델 (선형 회귀)",
+  "order": [
+    "cover",
+    "toc",
+    "setup",
+    "read",
+    "why",
+    "big",
+    "wxb",
+    "sklearn",
+    "min",
+    "import",
+    "model",
+    "xy",
+    "fit",
+    "best",
+    "coef",
+    "predict",
+    "draw",
+    "ypred",
+    "errors",
+    "mae",
+    "rmse",
+    "r2",
+    "metrics",
+    "compare4",
+    "mask",
+    "cases",
+    "corr",
+    "e-1d",
+    "e-pred",
+    "e-name",
+    "e-notfit",
+    "e-mask",
+    "x-quote",
+    "x-find",
+    "x-refit",
+    "x-house",
+    "trouble",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "why"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    },
+    "p2": {
+      "description": "학습하고 예측하기",
+      "start": "import"
+    },
+    "p3": {
+      "description": "채점하기",
+      "start": "errors"
+    },
+    "p4": {
+      "description": "특이 매물과 47 비교",
+      "start": "mask"
+    },
+    "p5": {
+      "description": "오류와 함정",
+      "start": "e-1d"
+    },
+    "p6": {
+      "description": "실제 상황",
+      "start": "x-quote"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
