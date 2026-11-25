@@ -34,7 +34,7 @@ INK, SUB, LINE, CARD, BG = "#1D2330", "#4A5262", "#E1DED6", "#FFFFFF", "#F6F5F1"
 BL, GR, OR, PUR, RED, TEAL, GRAY = "#2459C9", "#1F8A4C", "#B26A00", "#5A3BB8", "#A33131", "#0F7C86", "#6A7180"
 MAG = "#A23B72"
 WC, WBG = "#1E5FA8", "#E5EEF8"     # w, the line's slope (same blue as chapter 49)
-BC, BBG = PUR, "#ECE7F8"           # b, the intercept
+BC, BBG = TEAL, "#E2F2F3"          # b, the intercept (same teal as chapter 49)
 EC, EBG = RED, "#F8E6E6"           # error and loss
 GC, GBG = OR, "#F7EEDD"            # the loss slope (경사), same orange as chapter 49
 TC, TBG = TEAL, "#E2F2F3"
@@ -995,7 +995,7 @@ o = [sec("multi")] + head(3, "다중 선형 회귀는 문제 열이 여러 개�
 o.append(f'<div id="m-one"{MORPH_FROM()} style="position:absolute;left:96px;top:300px;font-family:{MONO};font-size:50px;font-weight:700;color:{INK};white-space:nowrap">'
          + tok("y", "점수") + tok("eq", "\u00a0=\u00a0") + tok("w1", "w", f"color:{WC}") + tok("x1", "×공부") + tok("pb", "\u00a0+\u00a0") + tok("b", "b", f"color:{BC}") + '</div>')
 o.append(f'<div{MORPH(1, "m-one")} style="position:absolute;left:96px;top:300px;font-family:{MONO};font-size:50px;font-weight:700;color:{INK};white-space:nowrap">'
-         + tok("y", "점수") + tok("eq", "\u00a0=\u00a0") + tok("w1", "5.80", f"color:{WC}") + tok("x1", "×공부") + " + " + '<span style="color:#2E8FA3">2.68</span>×수면 + <span style="color:#7A5BD0">0.63</span>×문제' + tok("pb", "\u00a0+\u00a0") + tok("b", "17.66", f"color:{BC}") + '</div>')
+         + tok("y", "점수") + tok("eq", "\u00a0=\u00a0") + tok("w1", "5.80", f"color:{WC}") + tok("x1", "×공부") + " + " + '<span style="color:#1F8A4C">2.68</span>×수면 + <span style="color:#7A5BD0">0.63</span>×문제' + tok("pb", "\u00a0+\u00a0") + tok("b", "17.66", f"color:{BC}") + '</div>')
 html_, bot = code(96, 440, 1020, cm3["code"][7:], cm3["out"], fs=22)
 o.append(html_)
 yo = oline(440, len(cm3["code"][7:]), 0, 22)
@@ -1009,11 +1009,11 @@ W("multi", o, "48과 49는 공부 시간 하나로 점수를 예측했어요. �
 o = [sec("coefread")] + head(3, "계수는 다른 열은 그대로 두고 그 열만 1 늘렸을 때 바뀌는 점수예요", [("계수", MAG, "#F6E7EF"), ("coefficient", MAG, "#F6E7EF")], "50")
 cmp_ = C["multipred"]
 o.append(f'<div style="position:absolute;left:96px;top:290px;display:flex;flex-direction:row;gap:24px">'
-         + chip('공부 ', WC, WBG, 34).replace("공부 ", '공부 <span id="sh" data-start="3">4</span>') + chip("수면 7", "#2E8FA3", "#E2F2F3", 34) + chip("문제 20", "#7A5BD0", BBG, 34) + '</div>')
+         + chip('공부 ', WC, WBG, 34).replace("공부 ", '공부 <span id="sh" data-start="3">4</span>') + chip("수면 7", GR, GRBG, 34) + chip("문제 20", "#7A5BD0", "#ECE7F8", 34) + '</div>')
 o.append(text(2, "sh", "4"))
 # stacked bar of contributions for 3 and 4 hours
 base_x, unit = 96, 15.5
-parts_ = [("b", co[3], BC), ("공부", co[0] * 3, WC), ("수면", co[1] * 7, "#2E8FA3"), ("문제", co[2] * 20, "#7A5BD0")]
+parts_ = [("b", co[3], BC), ("공부", co[0] * 3, WC), ("수면", co[1] * 7, GR), ("문제", co[2] * 20, "#7A5BD0")]
 xx = base_x
 for nm, v, col in parts_:
     o.append(bar(xx, 440, v * unit - 4, 90, col))
