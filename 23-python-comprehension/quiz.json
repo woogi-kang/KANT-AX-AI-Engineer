@@ -1,0 +1,281 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "numbers = [1, 2, 3]\nprint([x + 10 for x in numbers])",
+          "choices": [
+            "`[1, 2, 3]`",
+            "`[11, 12, 13]`",
+            "`[x + 10]`",
+            "`36`"
+          ],
+          "answer": 1,
+          "explain": "`numbers`에서 `x`를 하나씩 꺼내 `x + 10`을 계산해 새 리스트에 모아요. 21의 `list(map(lambda x: x + 10, numbers))`와 결과가 같아요.",
+          "page": 6,
+          "verify": "py"
+        },
+        {
+          "id": "w2",
+          "q": "아래 `for` 문과 같은 리스트를 만드는 컴프리헨션은 어느 것인가요?",
+          "code": "up = []\nfor p in prices:\n    if p >= 5000:\n        up.append(p + 500)",
+          "choices": [
+            "`[for p in prices: if p >= 5000: p + 500]`",
+            "`[p + 500 if p >= 5000 for p in prices]`",
+            "`[p + 500 for p in prices if p >= 5000]`",
+            "`[p + 500: for p in prices if p >= 5000]`"
+          ],
+          "answer": 2,
+          "explain": "넣을 값 `p + 500`을 맨 앞에 적고, 그 뒤에 `for`와 `if`를 콜론 없이 이어 적어요. 고르는 `if`는 `for` 뒤에 와요.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "part": "만들기와 고르기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "prices = [4500, 5000, 6500, 3000]\nprint([p for p in prices if p >= 5000])",
+          "choices": [
+            "`[5000, 6500]`",
+            "`[True, True]`",
+            "`[4500, 5000, 6500, 3000]`",
+            "`[6500]`"
+          ],
+          "answer": 0,
+          "explain": "`for` 뒤의 `if`는 조건이 `True`인 값만 골라 담아요. 넣을 값 자리에 `p`를 그대로 적어서 값은 바뀌지 않아요.",
+          "page": 9,
+          "verify": "py"
+        },
+        {
+          "id": "c2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "prices = [4500, 5000, 6500, 3000]\nprint([p if p >= 5000 else 0 for p in prices])",
+          "choices": [
+            "`[5000, 6500]`",
+            "`[5000, 6500, 0, 0]`",
+            "`[0, 6500, 6500, 0]`",
+            "`[0, 5000, 6500, 0]`"
+          ],
+          "answer": 3,
+          "explain": "`for` 앞의 `if else`는 고르지 않고 모든 값을 바꿔 적어요. 개수는 4개 그대로이고, 조건이 `False`인 4500과 3000 자리에 0이 들어가요.",
+          "page": 12,
+          "verify": "py"
+        },
+        {
+          "id": "c3",
+          "q": "5000원 이상만 골라 10% 할인했어요. 무엇이 찍히나요?",
+          "code": "prices = [4500, 5000, 6500, 3000]\nprint([p * 9 // 10 for p in prices if p >= 5000])",
+          "choices": [
+            "`[4050, 4500, 5850, 2700]`",
+            "`[4500, 5850]`",
+            "`[5000, 6500]`",
+            "`[4500, 5850, 0, 0]`"
+          ],
+          "answer": 1,
+          "explain": "뒤의 `if`가 4500과 3000을 걸러 내고, 남은 5000과 6500만 앞의 식으로 바꿔요. 21에서 `map` 안에 `filter`를 넣은 결과와 같아요.",
+          "page": 10,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "여러 데이터에 쓰기",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "2잔 이상인 주문의 메뉴만 모았어요. 무엇이 찍히나요?",
+          "code": "orders = [(\"kim\", \"latte\", 2), (\"lee\", \"cake\", 1), (\"park\", \"coffee\", 3), (\"kim\", \"tea\", 1)]\nprint([menu_name for name, menu_name, qty in orders if qty >= 2])",
+          "choices": [
+            "`['kim', 'park']`",
+            "`['latte', 'cake', 'coffee', 'tea']`",
+            "`['latte', 'coffee']`",
+            "`[2, 3]`"
+          ],
+          "answer": 2,
+          "explain": "`for` 뒤에 이름 세 개를 적어 튜플을 꺼내 담아요. `qty >= 2`인 주문만 골라 `menu_name`을 모아요.",
+          "page": 14,
+          "verify": "py"
+        },
+        {
+          "id": "d2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "stock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2}\nprint({m: n for m, n in stock.items() if n > 0})",
+          "choices": [
+            "`['coffee', 'cake']`",
+            "`{'coffee': 3, 'cake': 2}`",
+            "`{'coffee', 'cake'}`",
+            "`{'latte': 0}`"
+          ],
+          "answer": 1,
+          "explain": "중괄호 안 넣을 값 자리에 `키: 값`을 적어서 딕셔너리가 돼요. 재고가 0보다 큰 짝만 남고, 21의 `filter`와 달리 재고 숫자도 같이 남아요.",
+          "page": 15,
+          "verify": "py"
+        },
+        {
+          "id": "d3",
+          "q": "주문한 손님 이름을 집합으로 모았어요. 무엇이 찍히나요?",
+          "code": "orders = [(\"kim\", \"latte\", 2), (\"lee\", \"cake\", 1), (\"park\", \"coffee\", 3), (\"kim\", \"tea\", 1)]\nbuyers = {o[0] for o in orders}\nprint(len(buyers))",
+          "choices": [
+            "`4`",
+            "`2`",
+            "`1`",
+            "`3`"
+          ],
+          "answer": 3,
+          "explain": "값 하나만 든 중괄호는 집합이에요. kim이 두 번 주문했지만 집합에는 한 번만 남아서 kim, lee, park 3명이에요.",
+          "page": 16,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "함수와 함께 쓰기",
+      "questions": [
+        {
+          "id": "f1",
+          "q": "장바구니 가격 합계를 구했어요. 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500, \"tea\": 4000}\ncart = [\"coffee\", \"cake\", \"latte\", \"latte\"]\nprint(sum([menu[m] for m in cart]))",
+          "choices": [
+            "`16000`",
+            "`21000`",
+            "`20000`",
+            "`['coffee', 'cake', 'latte', 'latte']`"
+          ],
+          "answer": 1,
+          "explain": "메뉴마다 `menu[m]`으로 가격을 꺼낸 리스트를 `sum`이 더해요. latte가 두 번이라 4500 + 6500 + 5000 + 5000 = 21000이에요.",
+          "page": 17,
+          "verify": "py"
+        },
+        {
+          "id": "f2",
+          "q": "재고가 있는 메뉴 중 가장 싼 메뉴를 골랐어요. 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500, \"tea\": 4000}\nstock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2, \"tea\": 5}\nok = [m for m in menu if stock[m] > 0]\nprint(min(ok, key=menu.get))",
+          "choices": [
+            "`tea`",
+            "`coffee`",
+            "`4000`",
+            "`cake`"
+          ],
+          "answer": 0,
+          "explain": "컴프리헨션이 재고 있는 coffee, cake, tea를 고르고, `min`이 `key=menu.get`으로 가격을 비교해요. 가장 싼 4000원짜리 이름 `tea`가 나와요.",
+          "page": 18,
+          "verify": "py"
+        },
+        {
+          "id": "f3",
+          "q": "컴프리헨션보다 `for`로 쓰는 게 맞는 경우는 어느 것인가요?",
+          "choices": [
+            "가격마다 500원 더한 새 리스트를 만들 때",
+            "점수 80점 이상만 골라 새 리스트를 만들 때",
+            "메뉴 이름을 `print`로 찍기만 할 때",
+            "이름마다 길이를 모아 `max`에 넘길 때"
+          ],
+          "answer": 2,
+          "explain": "컴프리헨션은 새 리스트 하나를 만들 때 써요. 찍기만 하거나, 한 번에 여러 줄을 하거나, `break`로 멈춰야 할 때는 `for`가 읽기 쉬워요.",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "part": "오류와 함정",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "`[p for p in prices if p >= 5000 else 0]`에서 `SyntaxError: invalid syntax`가 났어요. 5000원 미만을 0으로 바꾼 4개짜리 리스트를 원하면 어떻게 고치나요?",
+          "choices": [
+            "`[p for p in prices if p >= 5000]`",
+            "`[p for p in prices else 0 if p >= 5000]`",
+            "`[p for p in prices if p >= 5000 else: 0]`",
+            "`[p if p >= 5000 else 0 for p in prices]`"
+          ],
+          "answer": 3,
+          "explain": "`for` 뒤의 `if`는 고르기라서 `else`를 받지 않아요. 모든 값을 바꾸려면 `if else`를 `for` 앞으로 옮겨요. `else`만 빼면 2개짜리 리스트가 돼요.",
+          "page": 20
+        },
+        {
+          "id": "e2",
+          "q": "셀에 `result = [print(m) for m in [\"latte\", \"tea\"]]`를 쳤어요. `result`에는 무엇이 담기나요?",
+          "choices": [
+            "`['latte', 'tea']`",
+            "`[None, None]`",
+            "`[]`",
+            "`None`"
+          ],
+          "answer": 1,
+          "explain": "`print`는 찍고 나서 `None`을 돌려줘요. 컴프리헨션이 그 `None`을 모아서 `[None, None]`이 돼요. 찍기만 할 때는 `for`를 써요.",
+          "page": 21
+        },
+        {
+          "id": "e3",
+          "q": "아래 코드를 실행하면 어떤 오류가 나요?",
+          "code": "prices = [4500, 5000, 6500, 3000]\nprint([x + 10 for p in prices])",
+          "choices": [
+            "`NameError: name 'x' is not defined`",
+            "`NameError: name 'p' is not defined`",
+            "`SyntaxError: invalid syntax`",
+            "`TypeError: unsupported operand type(s)`"
+          ],
+          "answer": 0,
+          "explain": "앞의 넣을 값은 `x`인데 `for`로 꺼낸 이름은 `p`뿐이에요. 두 이름을 `[p + 10 for p in prices]`처럼 같게 맞춰요.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "재고가 0인 메뉴를 모아 이어 찍었어요. 무엇이 찍히나요?",
+          "code": "stock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2, \"tea\": 0}\nsoldout = [m for m in stock if stock[m] == 0]\nprint(\"품절:\", \", \".join(soldout))",
+          "choices": [
+            "`품절: coffee, cake`",
+            "`품절: ['latte', 'tea']`",
+            "`품절: latte, tea`",
+            "`품절: latte tea`"
+          ],
+          "answer": 2,
+          "explain": "재고가 0인 키만 골라 리스트를 만들고, `\", \".join`이 쉼표와 띄어쓰기로 이어 한 줄로 만들어요.",
+          "page": 25,
+          "verify": "py"
+        },
+        {
+          "id": "p2",
+          "q": "모든 학생에게 결과를 붙였어요. 무엇이 찍히나요?",
+          "code": "scores = [[\"kim\", 92], [\"lee\", 78], [\"park\", 85], [\"choi\", 59]]\nprint([\"합격\" if score >= 60 else \"재시험\" for name, score in scores])",
+          "choices": [
+            "`['합격', '합격', '합격']`",
+            "`['합격', '재시험', '합격', '재시험']`",
+            "`['kim', 'lee', 'park']`",
+            "`['합격', '합격', '합격', '재시험']`"
+          ],
+          "answer": 3,
+          "explain": "앞의 한 줄 `if else`는 고르지 않고 모두에게 값을 붙여서 4개가 그대로예요. 60점 미만인 choi만 `재시험`이에요.",
+          "page": 26,
+          "verify": "py"
+        },
+        {
+          "id": "p3",
+          "q": "장바구니 합계를 영수증 끝줄로 찍었어요. 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\ncart = [\"latte\", \"cake\", \"coffee\"]\nprint(f\"합계 {sum([menu[m] for m in cart]):,}원\")",
+          "choices": [
+            "`합계 16,000원`",
+            "`합계 16000원`",
+            "`합계 [5000, 6500, 4500]원`",
+            "`합계 21,000원`"
+          ],
+          "answer": 0,
+          "explain": "가격만 모은 리스트를 `sum`에 넘겨 16000이 되고, f-string의 `:,`가 천 단위 콤마를 넣어요.",
+          "page": 24,
+          "verify": "py"
+        }
+      ]
+    }
+  ]
+}

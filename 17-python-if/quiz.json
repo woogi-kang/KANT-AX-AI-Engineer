@@ -1,0 +1,273 @@
+{
+  "parts": [
+    {
+      "part": "참과 거짓으로 길 고르기",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "money = 5000\nprice = 4500\nif money >= price:\n    print(\"주문\")\nprint(\"다음\")",
+          "choices": [
+            "`다음`",
+            "`주문`과 `다음` 두 줄",
+            "`주문`",
+            "아무것도 찍히지 않아요"
+          ],
+          "answer": 1,
+          "explain": "5000은 4500보다 크거나 같아서 조건이 True예요. 들여쓴 `print(\"주문\")`을 실행하고, 들여쓰지 않은 `print(\"다음\")`은 if 밖이라 늘 실행해요. 두 줄로 찍혀요.",
+          "page": 6
+        },
+        {
+          "id": "t2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000}\nprint(\"tea\" not in menu)",
+          "choices": [
+            "`False`",
+            "`tea`",
+            "`True`",
+            "`KeyError: 'tea'`"
+          ],
+          "answer": 2,
+          "explain": "메뉴판에 tea가 없으니 `\"tea\" in menu`는 False이고, `not in`으로 물으면 True예요. if 조건 자리에는 이렇게 True나 False가 나오는 식을 적어요.",
+          "page": 7,
+          "verify": "py"
+        },
+        {
+          "id": "t3",
+          "q": "`if money >= price:` 줄 끝의 콜론(`:`) 뒤에서 할 일로 맞는 것은 무엇인가요?",
+          "choices": [
+            "다음 줄을 4칸 들여써서 True일 때 실행할 줄을 적어요",
+            "다음 줄을 들여쓰지 않고 그대로 적어요",
+            "같은 줄에 `then`을 적고 이어서 써요",
+            "다음 줄을 중괄호 `{ }`로 감싸요"
+          ],
+          "answer": 0,
+          "explain": "if 뒤에 조건을 적고 콜론으로 끝낸 다음, 다음 줄을 4칸 들여쓰면 True일 때만 실행해요. 파이썬은 중괄호가 아니라 들여쓰기로 범위를 정해요.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "part": "if, else, elif",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "price = 4500\nmoney = 3000\nif money >= price:\n    print(\"주문할 수 있어요\")\nprint(\"커피 나왔어요\")",
+          "choices": [
+            "아무것도 찍히지 않아요",
+            "`주문할 수 있어요`",
+            "`IndentationError`가 나요",
+            "`커피 나왔어요`"
+          ],
+          "answer": 3,
+          "explain": "조건이 False라 들여쓴 줄은 건너뛰어요. `print(\"커피 나왔어요\")`는 들여쓰지 않아 if 밖이라 돈이 모자라도 실행해요. 오류 없이 결과만 틀려요.",
+          "page": 9,
+          "verify": "py"
+        },
+        {
+          "id": "e2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "total = 25000\nif total >= 10000:\n    print(\"5% 할인\")\nelif total >= 20000:\n    print(\"10% 할인\")\nelse:\n    print(\"할인 없음\")",
+          "choices": [
+            "`10% 할인`",
+            "`5% 할인`",
+            "`5% 할인 10% 할인`",
+            "`할인 없음`"
+          ],
+          "answer": 1,
+          "explain": "elif는 위에서부터 묻고 처음 True 하나만 실행해요. 25000은 첫 조건 10000 이상에서 이미 True라 5% 할인을 찍고 아래는 묻지 않아요. 범위가 겹치는 조건은 좁은 쪽을 위에 둬요.",
+          "page": 12,
+          "verify": "py"
+        },
+        {
+          "id": "e3",
+          "q": "아래 코드를 실행하면 몇 줄이 찍히나요?",
+          "code": "total = 25000\nif total >= 20000:\n    print(\"10% 할인\")\nif total >= 10000:\n    print(\"5% 할인\")",
+          "choices": [
+            "한 줄, `10% 할인`만",
+            "한 줄, `5% 할인`만",
+            "두 줄, `10% 할인`과 `5% 할인`",
+            "아무것도 찍히지 않아요"
+          ],
+          "answer": 2,
+          "explain": "if를 따로 두 번 쓰면 갈림길이 두 개라 둘째 if도 다시 물어요. 25000은 두 조건 모두 True라 할인을 두 번 찍어요. 하나만 골라야 하면 elif를 써요.",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "part": "조건 합치기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "height = 110\nage = 9\nif height >= 120 and age >= 7:\n    print(\"탈 수 있어요\")\nelse:\n    print(\"다음에 타요\")",
+          "choices": [
+            "`다음에 타요`",
+            "`탈 수 있어요`",
+            "`탈 수 있어요 다음에 타요`"
+          ],
+          "answer": 0,
+          "explain": "and는 두 조건이 모두 True일 때만 True예요. 나이는 True지만 키 110은 120 이상이 아니라 False라서 전체가 False고 else로 가요.",
+          "page": 14,
+          "verify": "py"
+        },
+        {
+          "id": "c2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(bool(0), bool(\"\"), bool([]), bool(\"tea\"))",
+          "choices": [
+            "`True True True True`",
+            "`False False False False`",
+            "`False True False True`",
+            "`False False False True`"
+          ],
+          "answer": 3,
+          "explain": "0, 빈 문자열 `\"\"`, 빈 리스트 `[]`는 False로 봐요. 빈 문자열은 글자가 하나도 없어서 False예요. 글자가 있는 `\"tea\"`는 True예요.",
+          "page": 19,
+          "verify": "py"
+        },
+        {
+          "id": "c3",
+          "q": "가게는 9시부터 18시 전까지 열어요. 영업 중인지 묻는 조건으로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`9 < hour <= 18`",
+            "`9 <= hour < 18`",
+            "`9 <= hour <= 18`",
+            "`hour >= 9 or hour < 18`"
+          ],
+          "answer": 1,
+          "explain": "9는 들어가니 `<=`, 18은 빠지니 `<`예요. `hour >= 9 and hour < 18`과 같아요. or로 이으면 모든 시간이 True가 돼요.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "part": "for와 함께, 줄여 쓰기",
+      "questions": [
+        {
+          "id": "f1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "prices = [4500, 5000, 6500, 4000]\ncheap = []\nfor p in prices:\n    if p <= 5000:\n        cheap.append(p)\nprint(cheap)",
+          "choices": [
+            "`[4500, 4000]`",
+            "`[6500]`",
+            "`[4500, 5000, 4000]`",
+            "`[4500, 5000, 6500, 4000]`"
+          ],
+          "answer": 2,
+          "explain": "for로 하나씩 꺼내 if로 5000 이하인지 묻고 True일 때만 append해요. 5000도 `<=`라서 들어가고, 6500만 건너뛰어요.",
+          "page": 21,
+          "verify": "py"
+        },
+        {
+          "id": "f2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "total = 12000\nmsg = \"5% 할인\" if total >= 10000 else \"할인 없음\"\nprint(msg)",
+          "choices": [
+            "`5% 할인`",
+            "`할인 없음`",
+            "`True`",
+            "`SyntaxError`가 나요"
+          ],
+          "answer": 0,
+          "explain": "`값1 if 조건 else 값2`는 조건이 True면 값1, 아니면 값2예요. 12000은 10000 이상이라 True고 `\"5% 할인\"`이 들어가요.",
+          "page": 24,
+          "verify": "py"
+        },
+        {
+          "id": "f3",
+          "q": "`menu.get(\"cakee\", 5000)`과 같은 일을 하는 if, else 코드는 무엇인가요?",
+          "choices": [
+            "`if \"cakee\" in menu:` 안에 `price = 5000`, `else:` 안에 `price = menu[\"cakee\"]`",
+            "`if \"cakee\" in menu:` 안에 `price = menu[\"cakee\"]`, `else:` 안에 `price = 5000`",
+            "`if menu[\"cakee\"]:` 안에 `price = menu[\"cakee\"]`, `else:` 안에 `price = 5000`",
+            "`if \"cakee\" not in menu:` 안에 `price = menu[\"cakee\"]`"
+          ],
+          "answer": 1,
+          "explain": "get은 키가 있으면 그 값, 없으면 기본값을 줘요. 먼저 `in`으로 키가 있는지 물어요. `if menu[\"cakee\"]:`처럼 바로 꺼내면 키가 없을 때 KeyError가 나요.",
+          "page": 25
+        }
+      ]
+    },
+    {
+      "part": "자주 나는 오류",
+      "questions": [
+        {
+          "id": "x1",
+          "q": "아래 코드를 실행하면 어떤 오류가 나나요?",
+          "code": "order = \"coffee\"\nif order = \"coffee\":\n    print(\"커피예요\")",
+          "choices": [
+            "`SyntaxError: expected ':'`",
+            "`IndentationError: unexpected indent`",
+            "`SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?`",
+            "오류 없이 `커피예요`가 찍혀요"
+          ],
+          "answer": 2,
+          "explain": "if 뒤에 넣기 기호 `=` 하나를 써서 SyntaxError가 나요. 묻기는 `==` 두 개예요. 오류 메시지가 `==`를 쓰려던 거냐고 고칠 곳까지 알려 줘요.",
+          "page": 27
+        },
+        {
+          "id": "x2",
+          "q": "`order`가 `\"cake\"`인데 아래 코드는 `커피 종류예요`를 찍어요. 어떻게 고치나요?",
+          "code": "order = \"cake\"\nif order == \"coffee\" or \"latte\":\n    print(\"커피 종류예요\")",
+          "choices": [
+            "`if order == \"coffee\" or order == \"latte\":`",
+            "`if order == \"coffee\" and \"latte\":`",
+            "`if order == (\"coffee\" or \"latte\"):`",
+            "`if order = \"coffee\" or \"latte\":`"
+          ],
+          "answer": 0,
+          "explain": "or 뒤의 `\"latte\"`는 빈 글자가 아니라 True로 봐서 조건이 늘 True가 돼요. or 뒤에도 `order ==` 비교를 다시 적거나 `order in [\"coffee\", \"latte\"]`로 물어요.",
+          "page": 29
+        },
+        {
+          "id": "x3",
+          "q": "`price = \"4500\"`일 때 `if price >= 4000:`을 실행하면 `TypeError: '>=' not supported between instances of 'str' and 'int'`가 나요. 어떻게 고치나요?",
+          "choices": [
+            "`if price == 4000:`으로 바꿔요",
+            "`if str(price) >= 4000:`으로 바꿔요",
+            "`if \"price\" >= 4000:`으로 바꿔요",
+            "`if int(price) >= 4000:`으로 바꿔요"
+          ],
+          "answer": 3,
+          "explain": "따옴표가 있는 `\"4500\"`은 글자라서 숫자와 크기를 비교할 수 없어요. `int()`로 숫자로 바꿔요. `==`로 바꾸면 오류 없이 False가 나와서 if가 조용히 건너뛰어요.",
+          "page": 30
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "scores = [[\"kim\", 92], [\"lee\", 78]]\nfor name, score in scores:\n    if score >= 90:\n        grade = \"A\"\n    elif score >= 80:\n        grade = \"B\"\n    elif score >= 70:\n        grade = \"C\"\n    else:\n        grade = \"F\"\n    print(name, grade)",
+          "choices": [
+            "`kim A` 다음 줄에 `lee B`",
+            "`kim A` 다음 줄에 `lee F`",
+            "`kim A` 다음 줄에 `lee C`",
+            "`kim A`만 찍혀요"
+          ],
+          "answer": 2,
+          "explain": "높은 점수 조건부터 elif 계단을 내려가요. 78은 90 이상, 80 이상이 아니고 70 이상에서 처음 True라 C예요. print는 for 안, if 밖이라 한 명마다 한 줄씩 찍혀요.",
+          "page": 32
+        },
+        {
+          "id": "p2",
+          "q": "할인율처럼 셋 이상 중 하나만 골라야 할 때 쓰는 모양은 무엇인가요?",
+          "choices": [
+            "if 여러 개",
+            "if, elif, else",
+            "if, else",
+            "`값1 if 조건 else 값2`"
+          ],
+          "answer": 1,
+          "explain": "셋 이상 중 하나만 고르면 if, elif, else예요. if 여러 개는 쿠폰 여러 장처럼 각각 따로 확인할 때 써서 둘 이상이 실행될 수 있어요.",
+          "page": 34
+        }
+      ]
+    }
+  ]
+}

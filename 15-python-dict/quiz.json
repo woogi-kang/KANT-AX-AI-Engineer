@@ -1,0 +1,231 @@
+{
+  "parts": [
+    {
+      "part": "만들고 꺼내기",
+      "questions": [
+        {
+          "id": "m1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\nprint(menu[\"cake\"] * 2)",
+          "choices": [
+            "`13000`",
+            "`6500`",
+            "`cakecake`",
+            "`KeyError: 'cake'`"
+          ],
+          "answer": 0,
+          "explain": "대괄호에 키를 넣으면 그 칸의 값이 나와요. `menu[\"cake\"]`는 숫자 6500이라 2를 곱하면 13000이에요.",
+          "page": 7,
+          "verify": "py"
+        },
+        {
+          "id": "m2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\nprint(menu.get(\"tea\"), menu.get(\"tea\", 0))",
+          "choices": [
+            "`None None`",
+            "`0 0`",
+            "`None 0`",
+            "`tea 0`"
+          ],
+          "answer": 2,
+          "explain": "`get`은 없는 키를 물어도 오류 없이 답해요. 기본값을 안 적으면 값이 없다는 뜻의 `None`, 적으면 그 값 0을 돌려줘요.",
+          "page": 8,
+          "verify": "py"
+        },
+        {
+          "id": "m3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "sale = {\"cake\": None}\nprint(sale.get(\"cake\", 5000))",
+          "choices": [
+            "`5000`",
+            "`None`",
+            "`cake`",
+            "`KeyError: 'cake'`"
+          ],
+          "answer": 1,
+          "explain": "기본값은 키가 없을 때만 써요. cake 키는 있고 값이 `None`이라서 5000이 아니라 `None`이 그대로 나와요.",
+          "page": 9,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "바꾸고 지우기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\nmenu[\"tea\"] = 4000\nmenu[\"latte\"] = 5500\nprint(len(menu))",
+          "choices": [
+            "`3`",
+            "`5`",
+            "`2`",
+            "`4`"
+          ],
+          "answer": 3,
+          "explain": "없는 키 tea는 새 칸이 생기고, 있는 키 latte는 값만 바뀌어요. 칸은 coffee, latte, cake, tea 네 개라 4예요.",
+          "page": 10,
+          "verify": "py"
+        },
+        {
+          "id": "c2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "dup = {\"latte\": 5000, \"latte\": 5500}\nprint(dup)",
+          "choices": [
+            "`{'latte': 5000, 'latte': 5500}`",
+            "`{'latte': 5000}`",
+            "`{'latte': 5500}`",
+            "`KeyError: 'latte'`"
+          ],
+          "answer": 2,
+          "explain": "딕셔너리의 키는 겹치지 않아요. 같은 키를 두 번 적어도 오류는 나지 않고, 마지막에 적은 5500만 남아요.",
+          "page": 11,
+          "verify": "py"
+        },
+        {
+          "id": "c3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5500}\nprint(\"latte\" in menu, 5500 in menu)",
+          "choices": [
+            "`True False`",
+            "`True True`",
+            "`False True`",
+            "`False False`"
+          ],
+          "answer": 0,
+          "explain": "딕셔너리에 `in`을 쓰면 키 쪽만 봐요. latte는 키라 True, 5500은 값이라 False예요. 값에서 찾으려면 `5500 in menu.values()`를 써요.",
+          "page": 13,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "둘러보기",
+      "questions": [
+        {
+          "id": "l1",
+          "q": "`menu.keys()[0]`으로 첫 번째 키를 꺼내려다 `TypeError: 'dict_keys' object is not subscriptable`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "`menu[0]`",
+            "`menu.get(0)`",
+            "`menu.keys(0)`",
+            "`list(menu.keys())[0]`"
+          ],
+          "answer": 3,
+          "explain": "keys()로 모은 것에는 번호를 바로 못 붙여요. `list()`로 감싸 보통 리스트로 바꾼 뒤 `[0]`으로 꺼내요. `menu[0]`은 0이라는 키를 찾아서 `KeyError: 0`이 나요.",
+          "page": 15
+        },
+        {
+          "id": "l2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\nprint(sum(menu.values()), sorted(menu))",
+          "choices": [
+            "`16000 [4500, 5000, 6500]`",
+            "`16000 ['cake', 'coffee', 'latte']`",
+            "`3 ['cake', 'coffee', 'latte']`",
+            "`16000 ['coffee', 'latte', 'cake']`"
+          ],
+          "answer": 1,
+          "explain": "values()에는 리스트처럼 `sum`을 써서 16000이 나와요. `sorted`에 딕셔너리를 그대로 넣으면 키만 abc 순으로 정렬한 리스트가 나와요.",
+          "page": 17,
+          "verify": "py"
+        },
+        {
+          "id": "l3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "words = \"coffee latte coffee cake coffee latte\".split()\ncount = {}\nfor w in words:\n    count[w] = count.get(w, 0) + 1\nprint(count)",
+          "choices": [
+            "`{'coffee': 3, 'latte': 2, 'cake': 1}`",
+            "`{'coffee': 1, 'latte': 1, 'cake': 1}`",
+            "`{'cake': 1, 'coffee': 3, 'latte': 2}`",
+            "`KeyError: 'coffee'`"
+          ],
+          "answer": 0,
+          "explain": "처음 나온 단어는 키가 없어서 `get`이 0을 주고 1이 들어가요. 그다음부터는 센 값에 1을 더해요. 대괄호로 `count[w] + 1`을 적었다면 처음 단어에서 `KeyError`가 나요.",
+          "page": 19,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "리스트와 섞기",
+      "questions": [
+        {
+          "id": "x1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "scores = {\"kim\": [90, 85, 77],\n          \"lee\": [70, 95, 88],\n          \"park\": [60, 75, 99]}\nprint(scores[\"lee\"][1])",
+          "choices": [
+            "`85`",
+            "`70`",
+            "`95`",
+            "`[70, 95, 88]`"
+          ],
+          "answer": 2,
+          "explain": "키로 한 겹, 번호로 한 겹 더 꺼내요. `scores[\"lee\"]`는 lee의 점수 리스트이고, 그 리스트의 1번이 95예요.",
+          "page": 20,
+          "verify": "py"
+        },
+        {
+          "id": "x2",
+          "q": "`orders`는 주문 딕셔너리를 담은 리스트예요. 1번 주문의 메뉴 이름은 어떻게 꺼내나요?",
+          "choices": [
+            "`orders[\"menu\"][1]`",
+            "`orders[1][0]`",
+            "`orders.get(\"menu\")`",
+            "`orders[1][\"menu\"]`"
+          ],
+          "answer": 3,
+          "explain": "바깥은 리스트라 번호, 안쪽은 딕셔너리라 키로 꺼내요. `orders[\"menu\"]`처럼 리스트에 키부터 넣으면 `TypeError: list indices must be integers or slices, not str`가 나요.",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "part": "실제로 써 보기",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "`scores = {\"kim\": [90, 85, 77], \"lee\": [70, 95, 88]}`에서 `scores[0]`을 치면 무엇이 나오나요?",
+          "choices": [
+            "`[90, 85, 77]`",
+            "`KeyError: 0`",
+            "`IndexError: list index out of range`",
+            "`TypeError: list indices must be integers or slices, not str`"
+          ],
+          "answer": 1,
+          "explain": "딕셔너리에는 번호가 없어서 0이라는 키를 찾다가 `KeyError: 0`이 나요. 첫 학생을 보려면 `scores[\"kim\"]`처럼 키로 꺼내요.",
+          "page": 24
+        },
+        {
+          "id": "p2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "orders = [{\"menu\": \"coffee\", \"qty\": 2},\n          {\"menu\": \"latte\", \"qty\": 1},\n          {\"menu\": \"coffee\", \"qty\": 1},\n          {\"menu\": \"latte\", \"qty\": 3}]\nsold = {}\nfor order in orders:\n    name = order[\"menu\"]\n    sold[name] = sold.get(name, 0) + order[\"qty\"]\nprint(sold)",
+          "choices": [
+            "`{'coffee': 2, 'latte': 2}`",
+            "`{'coffee': 1, 'latte': 3}`",
+            "`{'coffee': 3, 'latte': 4}`",
+            "`{'coffee': 2, 'latte': 1, 'coffee': 1, 'latte': 3}`"
+          ],
+          "answer": 2,
+          "explain": "1씩 더하지 않고 주문의 qty만큼 더해요. coffee는 2와 1이라 3, latte는 1과 3이라 4예요. 키는 겹치지 않아서 메뉴마다 한 칸만 있어요.",
+          "page": 27,
+          "verify": "py"
+        },
+        {
+          "id": "p3",
+          "q": "리스트는 `xs.append(\"tea\")`로 값을 더해요. 딕셔너리 `menu`에 tea 4000원을 더하려면 어떻게 적나요?",
+          "choices": [
+            "`menu[\"tea\"] = 4000`",
+            "`menu.append(\"tea\", 4000)`",
+            "`menu[4000] = \"tea\"`",
+            "`menu.append({\"tea\": 4000})`"
+          ],
+          "answer": 0,
+          "explain": "딕셔너리는 새 키에 값을 넣으면 더해져요. 키가 메뉴 이름, 값이 가격이라 `menu[\"tea\"] = 4000`이에요. `menu[4000] = \"tea\"`는 키와 값이 뒤바뀐 칸이 생겨요.",
+          "page": 23
+        }
+      ]
+    }
+  ]
+}

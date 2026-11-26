@@ -1,0 +1,234 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "n1",
+          "q": "같은 합계 계산 4줄을 손님마다 복사해 쓰면 무엇이 불편한가요?",
+          "choices": [
+            "복사한 코드는 실행되지 않아요",
+            "할인 규칙이 생기면 복사한 곳을 다 찾아 고쳐야 하고, 한 곳만 빠뜨려도 금액이 달라져요",
+            "두 번째 복사부터 `SyntaxError`가 나요",
+            "변수 `total`을 한 번만 쓸 수 있어요"
+          ],
+          "answer": 1,
+          "explain": "복사한 코드도 잘 돌지만 고칠 곳이 여러 군데가 돼요. 4줄에 이름을 붙여 함수로 만들고 이름으로 부르면 고칠 곳이 한 곳이 돼요.",
+          "page": 4
+        },
+        {
+          "id": "n2",
+          "q": "아래 코드를 실행하면 `어서 오세요`가 몇 번 찍히나요?",
+          "code": "def hello():\n    print(\"어서 오세요\")\nhello()\nhello()",
+          "choices": [
+            "1번",
+            "3번",
+            "2번",
+            "0번"
+          ],
+          "answer": 2,
+          "explain": "def 줄과 몸통은 정의라서 그 자체로는 찍지 않아요. 아래 `hello()`로 두 번 불러서 두 번 찍혀요. 몸통은 한 번만 적고 부른 만큼 실행돼요.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "part": "정의와 호출",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "아래 셀 하나만 실행하면 무엇이 찍히나요?",
+          "code": "def hello():\n    print(\"어서 오세요\")\n    print(\"주문하시겠어요?\")",
+          "choices": [
+            "`어서 오세요`",
+            "`어서 오세요`와 `주문하시겠어요?` 두 줄",
+            "`NameError`가 나요",
+            "아무것도 찍히지 않아요"
+          ],
+          "answer": 3,
+          "explain": "def는 hello라는 이름에 몸통을 기억해 두기만 해요. `hello()`로 불러야 그제야 몸통이 실행돼요.",
+          "page": 8
+        },
+        {
+          "id": "d2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def hello():\n    print(\"B\", end=\" \")\nprint(\"A\", end=\" \")\nhello()\nprint(\"C\", end=\" \")\nhello()",
+          "choices": [
+            "`A B C B`",
+            "`B A C B`",
+            "`A C B B`",
+            "`A B C`"
+          ],
+          "answer": 0,
+          "explain": "위에서부터 실행하다 `hello()`를 만나면 몸통으로 가서 실행하고, 부른 줄의 다음 줄로 돌아와요. 두 번 불러서 B가 두 번 찍혀요.",
+          "page": 9,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "매개변수와 인자",
+      "questions": [
+        {
+          "id": "m1",
+          "q": "`def greet(name):`과 `greet(\"kim\")`에서 `name`과 `\"kim\"`을 부르는 이름으로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`name`은 인자, `\"kim\"`은 매개변수",
+            "`name`은 매개변수, `\"kim\"`은 인자",
+            "둘 다 매개변수",
+            "둘 다 함수 이름"
+          ],
+          "answer": 1,
+          "explain": "def 괄호 안의 칸 이름이 매개변수, 부를 때 괄호에 넣는 값이 인자예요. 부르면 `\"kim\"`이 name 칸에 담겨요.",
+          "page": 10
+        },
+        {
+          "id": "m2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def order(menu_name, qty):\n    print(f\"{menu_name} {qty}잔\")\norder(2, \"latte\")",
+          "choices": [
+            "`latte 2잔`",
+            "`TypeError`가 나요",
+            "`2 latte잔`",
+            "`2잔 latte`"
+          ],
+          "answer": 2,
+          "explain": "인자는 뜻이 아니라 적은 순서대로 칸에 들어가요. menu_name에 2, qty에 `\"latte\"`가 담겨서 오류 없이 이상하게 찍혀요.",
+          "page": 12,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "return",
+      "questions": [
+        {
+          "id": "v1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def price_of(qty):\n    return 4500 * qty\nprint(price_of(3) + 1000)",
+          "choices": [
+            "`14500`",
+            "`13500`",
+            "`4500`",
+            "`TypeError`가 나요"
+          ],
+          "answer": 0,
+          "explain": "return 뒤의 값이 함수를 부른 자리에 들어가요. `price_of(3)`이 13500으로 바뀐 뒤 1000을 더해 14500이에요.",
+          "page": 13,
+          "verify": "py"
+        },
+        {
+          "id": "v2",
+          "q": "아래 코드를 실행하면 마지막 줄은 무엇을 찍나요?",
+          "code": "def show(qty):\n    print(4500 * qty)\na = show(2)\nprint(\"a:\", a)",
+          "choices": [
+            "`a: 9000`",
+            "`a: show`",
+            "`a: 0`",
+            "`a: None`"
+          ],
+          "answer": 3,
+          "explain": "show는 9000을 화면에 찍기만 하고 return이 없어요. return이 없으면 None을 돌려줘서 a에는 None이 담겨요. 다음 계산에 쓸 값은 return으로 돌려줘요.",
+          "page": 14
+        },
+        {
+          "id": "v3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def summary(prices):\n    return sum(prices), len(prices)\ntotal, n = summary([4500, 5000, 6500])\nprint(total, n)",
+          "choices": [
+            "`(16000, 3)`",
+            "`16000 3`",
+            "`16000`",
+            "`3 16000`"
+          ],
+          "answer": 1,
+          "explain": "`return a, b`는 튜플 하나로 돌려주고, `total, n =`으로 꺼내 담으면 두 변수에 하나씩 담겨요. 꺼내 담지 않고 그대로 찍으면 `(16000, 3)`이 나와요.",
+          "page": 17,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "오류와 함정",
+      "questions": [
+        {
+          "id": "o1",
+          "q": "칸이 두 개인 `def order(menu_name, qty):`를 `order(\"latte\")`로 부르면 어떤 오류가 나나요?",
+          "choices": [
+            "`TypeError: order() takes 2 positional arguments but 3 were given`",
+            "`NameError: name 'qty' is not defined`",
+            "`TypeError: order() missing 1 required positional argument: 'qty'`",
+            "오류 없이 `latte None잔`이 찍혀요"
+          ],
+          "answer": 2,
+          "explain": "qty 칸에 들어갈 값이 없어서 missing 오류가 나요. 세 개를 넣으면 반대로 `takes 2 positional arguments but 3 were given`이 나요. def 줄의 칸 수만큼 인자를 넣어요.",
+          "page": 19
+        },
+        {
+          "id": "o2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def calc(qty):\n    total = 4500 * qty\n    return total\n    print(\"계산 끝\")\nprint(calc(2))",
+          "choices": [
+            "`9000`",
+            "`계산 끝 9000`",
+            "`계산 끝`",
+            "`None`"
+          ],
+          "answer": 0,
+          "explain": "return을 만나면 함수가 바로 끝나서 그 아래 `print(\"계산 끝\")`은 실행되지 않아요. 오류도 나지 않아요. 할 일을 다 적은 뒤 return을 마지막에 둬요.",
+          "page": 20,
+          "verify": "py"
+        },
+        {
+          "id": "o3",
+          "q": "`show(2) + 1000`에서 `TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'`가 났어요. 어떻게 고치나요?",
+          "code": "def show(qty):\n    print(4500 * qty)\nshow(2) + 1000",
+          "choices": [
+            "`show(2)`를 `show`로 바꿔요",
+            "몸통의 `print(4500 * qty)`를 `return 4500 * qty`로 바꿔요",
+            "`1000`을 `\"1000\"`으로 바꿔요",
+            "def 줄을 부르는 줄 아래로 옮겨요"
+          ],
+          "answer": 1,
+          "explain": "찍기만 하는 함수는 None을 돌려줘서 `None + 1000`이 돼요. 계산에 쓸 값은 print 대신 return으로 돌려줘요.",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def can_order(stock, name):\n    if stock[name] > 0:\n        return True\n    return False\nstock = {\"coffee\": 3, \"latte\": 0}\nprint(can_order(stock, \"coffee\"), can_order(stock, \"latte\"))",
+          "choices": [
+            "`True True`",
+            "`False True`",
+            "`3 0`",
+            "`True False`"
+          ],
+          "answer": 3,
+          "explain": "재고가 0보다 크면 `return True`에서 끝나요. latte는 0이라 if가 False고 아래 `return False`까지 가요.",
+          "page": 24,
+          "verify": "py"
+        },
+        {
+          "id": "p2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def discount_rate(total):\n    if total >= 20000:\n        return 10\n    elif total >= 10000:\n        return 5\n    return 0\ndef pay(total):\n    rate = discount_rate(total)\n    sale = total * rate // 100\n    return total - sale\nprint(pay(15500))",
+          "choices": [
+            "`15500`",
+            "`775`",
+            "`14725`",
+            "`13950`"
+          ],
+          "answer": 2,
+          "explain": "pay가 discount_rate를 불러 할인율 5를 받아요. 할인 금액은 `15500 * 5 // 100`으로 775원이고, 뺀 결제 금액 14725를 돌려줘요.",
+          "page": 26,
+          "verify": "py"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "parts": [
+    {
+      "part": "in과 not in",
+      "questions": [
+        {
+          "id": "i1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "word = \"python\"\nprint(\"th\" in word, \"pt\" in word, \"P\" in word)",
+          "choices": [
+            "`True False False`",
+            "`True True True`",
+            "`True True False`",
+            "`False False False`"
+          ],
+          "answer": 0,
+          "explain": "문자열의 `in`은 글자 조각이 붙어 있는지 찾아요. th는 붙어 있어서 True, p와 t 사이에는 y가 있어서 False예요. 대문자 P는 소문자 p와 다른 글자라 False예요.",
+          "page": 6,
+          "verify": "py"
+        },
+        {
+          "id": "i2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "order = (\"coffee\", 4500, 2)\nprint(\"4500\" in order)",
+          "choices": [
+            "`True`",
+            "`4500`",
+            "`False`",
+            "`1`"
+          ],
+          "answer": 2,
+          "explain": "따옴표로 감싼 `\"4500\"`은 글자라서 숫자 4500과 다른 값이에요. 그래서 튜플에 숫자 4500이 있어도 False예요.",
+          "page": 6,
+          "verify": "py"
+        },
+        {
+          "id": "i3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "orders = [(\"coffee\", 4500, 2), (\"latte\", 5000, 1), (\"cake\", 6500, 3)]\nprint(\"cake\" in orders, \"cake\" in orders[2])",
+          "choices": [
+            "`True True`",
+            "`False True`",
+            "`True False`",
+            "`False False`"
+          ],
+          "answer": 1,
+          "explain": "`in`은 바깥 한 겹만 봐요. 바깥 리스트에는 튜플 세 개뿐이라 글자 cake는 없어서 False예요. `orders[2]`로 한 겹 꺼내면 안에 cake가 있어서 True예요.",
+          "page": 8,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "2차원 리스트",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "scores = [[90, 85, 77],\n          [70, 95, 88],\n          [60, 75, 99]]\nprint(scores[1][2])",
+          "choices": [
+            "`85`",
+            "`[70, 95, 88]`",
+            "`75`",
+            "`88`"
+          ],
+          "answer": 3,
+          "explain": "앞 번호가 행, 뒤 번호가 열이고 둘 다 0부터 세요. `scores[1]`은 1행 `[70, 95, 88]`이고, 그 행의 2열이 88이에요.",
+          "page": 11,
+          "verify": "py"
+        },
+        {
+          "id": "d2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "board = [[0] * 3] * 3\nboard[0][0] = 9\nprint(board)",
+          "choices": [
+            "`[[9, 0, 0], [0, 0, 0], [0, 0, 0]]`",
+            "`[[9, 9, 9], [0, 0, 0], [0, 0, 0]]`",
+            "`[[9, 0, 0], [9, 0, 0], [9, 0, 0]]`",
+            "`IndexError: list index out of range`"
+          ],
+          "answer": 2,
+          "explain": "`[[0] * 3] * 3`은 행 리스트 하나를 세 번 담아서 세 행이 사실 같은 리스트예요. 0행 0열만 바꿔도 모든 행이 바뀌어요. 빈 표는 행을 하나씩 직접 적어서 만들어요.",
+          "page": 20,
+          "verify": "py"
+        },
+        {
+          "id": "d3",
+          "q": "`scores`의 1열(영어) 점수만 리스트로 모으려고 해요. 어떻게 하나요?",
+          "choices": [
+            "빈 리스트 `eng`를 만들고 `for row in scores:` 안에서 `eng.append(row[1])`",
+            "`eng = scores[:1]`",
+            "`eng = scores[1]`",
+            "`eng = scores[1][:]`"
+          ],
+          "answer": 0,
+          "explain": "행은 `scores[1]`처럼 바로 꺼내지만 열을 바로 꺼내는 문법은 없어요. for로 행마다 같은 번호의 칸 `row[1]`을 모아요. `scores[1]`은 1열이 아니라 1행이에요.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "part": "실제로 써 보기",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "seats = [[\"O\", \"O\", \"X\", \"O\"],\n         [\"X\", \"O\", \"O\", \"O\"],\n         [\"O\", \"X\", \"X\", \"O\"]]\nprint(len(seats) * len(seats[0]))",
+          "choices": [
+            "`7`",
+            "`9`",
+            "`16`",
+            "`12`"
+          ],
+          "answer": 3,
+          "explain": "`len(seats)`는 행 수 3, `len(seats[0])`은 0행 안의 칸 수라서 열 수 4예요. 둘을 곱하면 전체 좌석 12석이에요.",
+          "page": 23,
+          "verify": "py"
+        },
+        {
+          "id": "r2",
+          "q": "한 행에 값이 네 개인 `students`를 `for name, kor, eng in students:`처럼 변수 세 개로 꺼내면 어떻게 되나요?",
+          "choices": [
+            "넷째 값은 버리고 세 개만 담겨요",
+            "`ValueError: too many values to unpack (expected 3)`가 나요",
+            "`IndexError: list index out of range`가 나요",
+            "마지막 변수에 남은 값이 리스트로 담겨요"
+          ],
+          "answer": 1,
+          "explain": "for 뒤 변수 개수는 행의 값 개수와 같아야 해요. 값이 네 개인데 변수가 세 개라 `ValueError`가 나요. 변수를 네 개 적어서 맞춰요.",
+          "page": 22
+        }
+      ]
+    }
+  ]
+}
