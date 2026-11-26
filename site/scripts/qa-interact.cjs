@@ -66,7 +66,7 @@ const ok = (w, name, pass, info = "") => {
     await p.click(".player .cover-btn");
     await p.waitForSelector(".player iframe");
     await p.waitForTimeout(1800);
-    const fr = p.frames().find((f) => /sql-basics-slides\.html/.test(f.url()));
+    const fr = p.frames().find((f) => /sql-basics-slides(\.html)?(#|$)/.test(f.url()));
     const sections = fr ? await fr.$$eval("section", (s) => s.length) : 0;
     ok(w, "플레이어: 표지 누르면 덱이 열려요", sections > 10, `장 ${sections}개`);
     const kant = fr ? await fr.evaluate(() => document.body.innerText.includes("KANT")) : null;
