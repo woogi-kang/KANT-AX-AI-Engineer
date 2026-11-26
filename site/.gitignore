@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+# 빌드할 때 레포에서 복사해 오는 파일
+public/decks/
+public/updates/
+public/design/

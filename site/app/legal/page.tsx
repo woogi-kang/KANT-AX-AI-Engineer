@@ -1,0 +1,80 @@
+import type { Metadata } from "next";
+import { Check, X } from "lucide-react";
+import AppShell from "@/components/AppShell";
+import { CONTACT, OWNER } from "@/components/SiteFooter";
+
+export const metadata: Metadata = { title: "이용 안내와 저작권" };
+
+const OSS = [
+  ["Pretendard", "본문 글꼴", "SIL OFL 1.1"],
+  ["JetBrains Mono, D2Coding", "코드 글꼴 (D2Coding은 한글만)", "SIL OFL 1.1"],
+  ["Lucide", "아이콘", "ISC"],
+  ["Next.js, React", "사이트 틀", "MIT"],
+  ["unified, remark, rehype", "README를 화면으로 바꾸기", "MIT"],
+];
+
+export default function LegalPage() {
+  return (
+    <AppShell current="legal">
+      <h1 className="page-title">이용 안내와 저작권</h1>
+      <p className="lede">모든 챕터는 무료로 볼 수 있어요. 다만 자료의 저작권은 {OWNER}에게 있어서, 혼자 공부하는 데까지만 쓸 수 있어요.</p>
+      <div className="legal-2">
+        <div className="can">
+          <h2>
+            <Check className="i" />할 수 있어요
+          </h2>
+          <ul>
+            <li>사이트에서 슬라이드와 노트를 보고 따라 치기</li>
+            <li>PDF를 받아 혼자 보거나 인쇄해서 공부하기</li>
+            <li>예제 코드를 내 컴퓨터에서 따라 치고 고쳐 보기</li>
+            <li>친구에게 사이트 주소(링크) 알려 주기</li>
+          </ul>
+        </div>
+        <div className="cant">
+          <h2>
+            <X className="i" />
+            허락 없이는 할 수 없어요
+          </h2>
+          <ul>
+            <li>슬라이드, PDF, 글, 그림을 다른 사이트, 카페, 블로그, 메신저 방에 올리기</li>
+            <li>고치거나 번역해서 다시 배포하기</li>
+            <li>판매하거나 유료 강의, 다른 교육 자료, 회사 교육에 쓰기</li>
+            <li>저작권 표시와 출처를 지우고 쓰기</li>
+            <li>사이트 내용을 한꺼번에 내려받아 모으기(크롤링)</li>
+          </ul>
+        </div>
+      </div>
+      <div className="legal-ask">
+        <b>허락이 필요할 때</b>
+        <p>쓰려는 곳과 범위를 적어 메일로 보내 주세요. 허락받은 뒤에도 &quot;출처: 풀스택 AI/AX 엔지니어&quot;와 사이트 주소를 함께 적어 주세요.</p>
+        <a className="mail" href={`mailto:${CONTACT}`}>
+          {CONTACT}
+        </a>
+      </div>
+      <h2 className="legal-h" id="oss">
+        사용한 오픈 소스
+      </h2>
+      <p className="note" style={{ margin: "0 0 10px" }}>
+        아래는 각 라이선스대로 쓰고, 이 사이트의 저작권 범위에 들어가지 않아요.
+      </p>
+      <table className="legal-t">
+        <thead>
+          <tr>
+            <th>이름</th>
+            <th>쓰는 곳</th>
+            <th>라이선스</th>
+          </tr>
+        </thead>
+        <tbody>
+          {OSS.map(([a, b, c]) => (
+            <tr key={a}>
+              <td>{a}</td>
+              <td>{b}</td>
+              <td>{c}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </AppShell>
+  );
+}
