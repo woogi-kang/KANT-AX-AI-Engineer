@@ -59,10 +59,6 @@ export default function Home() {
               <dt>도구</dt>
               <dd>{CLOUD.length}</dd>
             </div>
-            <div>
-              <dt>수강료</dt>
-              <dd>0원</dd>
-            </div>
           </dl>
         </div>
         <div className="cloud" aria-label="배우는 도구">
