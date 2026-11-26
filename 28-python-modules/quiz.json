@@ -1,0 +1,237 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "장바구니 프로젝트에서 `cart.py` 맨 위의 `from product import Product`는 무슨 일을 하나요?",
+          "choices": [
+            "`product.py`에 있는 `Product` 틀을 `cart.py`에서 쓸 수 있게 불러와요",
+            "`Product` 틀을 새로 만들어요",
+            "`product.py` 파일을 지워요",
+            "`cart.py`를 `product.py`로 복사해요"
+          ],
+          "answer": 0,
+          "explain": "상품 틀은 `product.py`에, 장바구니는 `cart.py`에 나눠 적었어요. `import`가 두 파일을 이어서 `cart.py`에서도 `Product`를 쓰게 해요.",
+          "page": 5
+        },
+        {
+          "id": "w2",
+          "q": "장바구니 프로젝트의 세 파일 중 `cart = Cart()`처럼 장바구니를 만들어 주문하는 코드를 두는 파일은 어디인가요?",
+          "choices": [
+            "`product.py`",
+            "`cart.py`의 `class Cart` 안",
+            "`main.py`",
+            "`pyproject.toml`"
+          ],
+          "answer": 2,
+          "explain": "상품은 `product.py`, 장바구니 틀은 `cart.py`가 맡고, `main.py`가 둘을 import해서 주문해요.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "part": "들여쓰기는 상자",
+      "questions": [
+        {
+          "id": "b1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "for name in [\"텀블러\", \"이어폰\"]:\n    print(name, end=\" \")\nprint(\"끝\")",
+          "choices": [
+            "`텀블러 끝 이어폰 끝`",
+            "`텀블러 이어폰 끝`",
+            "`끝`",
+            "`텀블러 이어폰`"
+          ],
+          "answer": 1,
+          "explain": "4칸 들어간 `print(name, ...)`만 `for` 상자 안이라 두 번 돌아요. 왼쪽으로 나온 `print(\"끝\")`은 `for`가 끝난 뒤 한 번만 실행돼요.",
+          "page": 7,
+          "verify": "py"
+        },
+        {
+          "id": "b2",
+          "q": "`add`에서 `return`을 `if product.is_sold_out():`와 같은 칸으로 내렸어요. 품절이 아닌 텀블러를 담으면 어떻게 되나요?",
+          "code": "def add(self, product, qty):\n    if product.is_sold_out():\n        print(\"품절된 상품입니다.\")\n    return\n    self.items[product] = self.items.get(product, 0) + qty\n    print(f\"{product.name} {qty}개를 담았습니다.\")",
+          "choices": [
+            "`텀블러 1개를 담았습니다.`가 찍혀요",
+            "`품절된 상품입니다.`가 찍혀요",
+            "`IndentationError`가 나요",
+            "아무것도 담기지 않아요"
+          ],
+          "answer": 3,
+          "explain": "`return`이 `if` 밖으로 나와서 조건과 상관없이 언제나 실행돼요. 아래 담는 줄까지 못 가서 장바구니가 비어 있어요. `return`을 `if` 안으로 4칸 더 넣어요.",
+          "page": 8
+        },
+        {
+          "id": "b3",
+          "q": "`uv run cart.py`에서 `IndentationError: expected an indented block after function definition on line 42`가 났어요. 무엇을 고치나요?",
+          "choices": [
+            "42번 줄 `def` 다음 줄을 4칸 더 안으로 넣어요",
+            "42번 줄 끝의 콜론을 지워요",
+            "파일 맨 위에 `import`를 더해요",
+            "43번 줄을 왼쪽 끝으로 붙여요"
+          ],
+          "answer": 0,
+          "explain": "콜론 다음 줄은 4칸 더 들어가야 하는데, 42번 줄 `def` 다음 줄이 안으로 안 들어갔다는 뜻이에요. 43번 줄 앞에 4칸을 더 넣어요.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "part": "`for p, q in items()`",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "cart_items = {\"텀블러\": 1, \"무선 이어폰\": 2}\nprint(list(cart_items.items()))",
+          "choices": [
+            "`['텀블러', '무선 이어폰']`",
+            "`[1, 2]`",
+            "`[('텀블러', 1), ('무선 이어폰', 2)]`",
+            "`{'텀블러': 1, '무선 이어폰': 2}`"
+          ],
+          "answer": 2,
+          "explain": "`items()`는 키와 값을 튜플 한 쌍씩 묶어 줘요. 한 쌍이 튜플이라 `for name, qty in ...`처럼 두 칸에 나눠 담을 수 있어요.",
+          "page": 13,
+          "verify": "py"
+        },
+        {
+          "id": "t2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "cart_items = {\"텀블러\": 1, \"무선 이어폰\": 2}\ntotal = 0\nfor name, qty in cart_items.items():\n    total = total + qty\nprint(total)",
+          "choices": [
+            "`2`",
+            "`3`",
+            "`텀블러무선 이어폰`",
+            "`12`"
+          ],
+          "answer": 1,
+          "explain": "`for`가 한 쌍씩 꺼내 `name`과 `qty`에 나눠 담아요. 값인 수량 1과 2를 차례로 더해서 3이에요.",
+          "page": 14,
+          "verify": "py"
+        },
+        {
+          "id": "t3",
+          "q": "`for p, q in cart.items:`라고 적었더니 `TypeError: cannot unpack non-iterable Product object`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "`for p, q in cart.items():`",
+            "`for p in cart.items:`에 `q = 1`을 더해요",
+            "`for p, q in Cart.items:`",
+            "`for p, q in cart.items.items():`"
+          ],
+          "answer": 3,
+          "explain": "`cart.items`는 `Cart` 안의 딕셔너리 칸이에요. 딕셔너리를 그냥 돌면 키인 `Product` 하나씩 나와서 둘로 못 나눠요. 딕셔너리 메서드 `.items()`를 붙여야 한 쌍씩 나와요.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "part": "모듈과 `import`",
+      "questions": [
+        {
+          "id": "m1",
+          "q": "`main.py` 맨 위에 `import product`만 적고 `tumbler = Product(\"텀블러\", 15_000, 10)`을 쳤어요. 무엇이 나오나요?",
+          "choices": [
+            "`ModuleNotFoundError: No module named 'Product'`",
+            "`NameError: name 'Product' is not defined. Did you mean: 'product'?`",
+            "`ImportError: cannot import name 'Product'`",
+            "오류 없이 상품이 만들어져요"
+          ],
+          "answer": 1,
+          "explain": "`import product`는 모듈을 통째로 불러와서 `product.Product(...)`처럼 점을 찍어 써요. 아니면 맨 위를 `from product import Product`로 바꿔요.",
+          "page": 27
+        },
+        {
+          "id": "m2",
+          "q": "`coupon.py` 안의 `COUPONS`와 `discount` 두 개만 이름 그대로 쓰고 싶어요. 어떻게 적나요?",
+          "choices": [
+            "`from coupon import *`",
+            "`import COUPONS, discount`",
+            "`from coupon import COUPONS, discount`",
+            "`import coupon.COUPONS, coupon.discount`"
+          ],
+          "answer": 2,
+          "explain": "`from 모듈 import 이름1, 이름2`처럼 쉼표로 이어서 필요한 것만 꺼내요. `*`는 무엇이 들어왔는지 안 보여서 쓰지 않아요.",
+          "page": 23
+        },
+        {
+          "id": "m3",
+          "q": "`from product import product`를 쳤더니 `ImportError: cannot import name 'product' from 'product' ... Did you mean: 'Product'?`가 났어요. 원인은 무엇인가요?",
+          "choices": [
+            "`product.py` 파일이 없어요",
+            "`product.py` 안의 이름은 대문자 `Product`인데 소문자로 적었어요",
+            "`import`를 두 번 적었어요",
+            "`product.py`를 먼저 실행하지 않았어요"
+          ],
+          "answer": 1,
+          "explain": "파일은 찾았지만 그 안에 소문자 `product`라는 이름이 없어요. 대소문자를 맞춰 `from product import Product`로 적어요. 파일 이름이 틀리면 `ModuleNotFoundError`가 나요.",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "part": "`if __name__ == \"__main__\"`",
+      "questions": [
+        {
+          "id": "n1",
+          "q": "`cart.py` 안에 `print(\"cart.py의 __name__:\", __name__)`이 있어요. `main.py`가 `from cart import Cart`로 불러서 `uv run main.py`를 치면 이 줄은 무엇을 찍나요?",
+          "choices": [
+            "`cart.py의 __name__: __main__`",
+            "`cart.py의 __name__: main`",
+            "`cart.py의 __name__: cart`",
+            "아무것도 찍지 않아요"
+          ],
+          "answer": 2,
+          "explain": "직접 실행한 파일만 `__name__`이 `\"__main__\"`이에요. 다른 파일이 import로 부르면 `__name__`은 모듈 이름 `cart`예요.",
+          "page": 29
+        },
+        {
+          "id": "n2",
+          "q": "`cart.py` 맨 아래의 테스트 코드를 `if __name__ == \"__main__\":` 안에 넣었어요. 어떻게 달라지나요?",
+          "choices": [
+            "`uv run cart.py`로 직접 실행할 때만 테스트가 돌고, import할 때는 안 돌아요",
+            "import할 때만 테스트가 돌아요",
+            "테스트 코드가 어느 때도 안 돌아요",
+            "`main.py`에서 `Cart`를 못 불러와요"
+          ],
+          "answer": 0,
+          "explain": "직접 실행하면 `__name__`이 `\"__main__\"`이라 조건이 True예요. `main.py`가 import하면 `\"cart\"`라서 테스트 출력이 섞이지 않아요.",
+          "page": 30
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "재고가 0인 마우스패드를 `cart.add(pad, 1)`로 담으려 하면 무엇이 찍히나요?",
+          "choices": [
+            "`마우스패드 1개를 담았습니다.`",
+            "`품절된 상품입니다.`",
+            "`재고가 부족합니다. (담을 수 있는 수량:0개)`",
+            "`IndentationError`가 나요"
+          ],
+          "answer": 1,
+          "explain": "`add` 첫 부분에서 `product.is_sold_out()`이 True라서 안내를 찍고 `return`으로 바로 끝나요. 그래서 영수증에도 마우스패드는 없어요.",
+          "page": 31
+        },
+        {
+          "id": "p2",
+          "q": "`coupon.py`의 `discount`를 불러 쓰는 코드예요. 15,000원 텀블러 3개를 담고 `pay = cart.total() - discount(\"VIP\")`를 찍으면 무엇이 나오나요?",
+          "code": "# coupon.py\nCOUPONS = {\"WELCOME\": 3_000, \"VIP\": 5_000}\ndef discount(code):\n    return COUPONS.get(code, 0)",
+          "choices": [
+            "`결제할 금액: 45,000원`",
+            "`결제할 금액: 42,000원`",
+            "`결제할 금액: 40,000원`",
+            "`결제할 금액: 5,000원`"
+          ],
+          "answer": 2,
+          "explain": "텀블러 3개는 45,000원이고 `discount(\"VIP\")`가 5,000을 돌려줘서 40,000원이에요. 없는 쿠폰을 넣으면 `get`의 기본값 0이 나와요.",
+          "page": 32
+        }
+      ]
+    }
+  ]
+}

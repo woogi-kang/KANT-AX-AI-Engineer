@@ -1,0 +1,242 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "import numpy as np\narr = np.array([3200, 1500, 15000])\nprint(arr * 2)",
+          "choices": [
+            "`[3200, 1500, 15000, 3200, 1500, 15000]`",
+            "`[ 6400  3000 30000]`",
+            "`[6400, 3000, 30000]`"
+          ],
+          "answer": 1,
+          "explain": "배열에 `* 2`를 하면 칸마다 2를 곱해요. 배열을 print하면 쉼표 없이 띄어쓰기로 칸을 나눠요.",
+          "page": 6,
+          "verify": "py"
+        },
+        {
+          "id": "w2",
+          "q": "pandas DataFrame의 숫자 열 하나하나는 무엇으로 되어 있나요?",
+          "choices": [
+            "파이썬 리스트",
+            "딕셔너리",
+            "NumPy 배열",
+            "튜플"
+          ],
+          "answer": 2,
+          "explain": "DataFrame은 배열 여러 개에 열 이름을 붙여 옆으로 세운 표예요. 그래서 열마다 배열처럼 `sum`, `mean`을 써요.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "part": "NumPy 배열",
+      "questions": [
+        {
+          "id": "n1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "prices = [3200, 1500, 15000]\nprint(prices * 2)",
+          "choices": [
+            "`[6400, 3000, 30000]`",
+            "`[3200, 1500, 15000, 2]`",
+            "`[3200, 1500, 15000, 3200, 1500, 15000]`"
+          ],
+          "answer": 2,
+          "explain": "리스트에 `* 2`를 하면 같은 리스트를 두 번 이어 붙여요(13). 값마다 곱하려면 `np.array(prices) * 2`처럼 배열로 바꿔요.",
+          "page": 7,
+          "verify": "py"
+        },
+        {
+          "id": "n2",
+          "q": "리스트 `prices`에 `print(prices + 500)`을 치면 어떻게 되나요?",
+          "choices": [
+            "`TypeError: can only concatenate list (not \"int\") to list`",
+            "칸마다 500이 더해져요",
+            "리스트 끝에 500이 붙어요"
+          ],
+          "answer": 0,
+          "explain": "리스트의 `+`는 리스트끼리 이어 붙이는 기호라서 숫자와는 오류가 나요. 배열로 바꾸면 칸마다 500이 더해져요.",
+          "page": 8
+        },
+        {
+          "id": "n3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "import numpy as np\narr = np.array([3200, 15000, 6500, 32000])\nprint(arr[arr >= 10000])",
+          "choices": [
+            "`[False  True False  True]`",
+            "`[15000 32000]`",
+            "`[3200  6500]`",
+            "`2`"
+          ],
+          "answer": 1,
+          "explain": "안쪽 `arr >= 10000`이 먼저 True, False 배열이 되고, 바깥 `arr`가 True 자리의 값만 남겨요.",
+          "page": 12,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "pandas 표 고르기",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "행 12개, 열 4개인 표 `spend`에서 `spend.shape`는 무엇을 돌려주나요?",
+          "choices": [
+            "`(4, 12)`",
+            "`48`",
+            "`12`",
+            "`(12, 4)`"
+          ],
+          "answer": 3,
+          "explain": "표의 `shape`는 (행, 열)이에요. 괄호 없이 적어요.",
+          "page": 14
+        },
+        {
+          "id": "d2",
+          "q": "`spend`에서 shop 열과 amount 열만 남긴 표를 보려면 어떻게 적나요?",
+          "choices": [
+            "`spend[\"shop\", \"amount\"]`",
+            "`spend[[\"shop\", \"amount\"]]`",
+            "`spend[\"shop\"][\"amount\"]`"
+          ],
+          "answer": 1,
+          "explain": "열 이름 리스트를 대괄호에 넣어서 대괄호가 두 겹이에요. 한 겹에 이름 두 개를 적으면 `KeyError: ('shop', 'amount')`가 나요.",
+          "page": 16
+        },
+        {
+          "id": "d3",
+          "q": "식비이면서 5000원 이상인 행을 고르는 코드는 무엇인가요?",
+          "choices": [
+            "`spend[spend[\"category\"] == \"식비\" and spend[\"amount\"] >= 5000]`",
+            "`spend[spend[\"category\"] == \"식비\" & spend[\"amount\"] >= 5000]`",
+            "`spend[(spend[\"category\"] == \"식비\") & (spend[\"amount\"] >= 5000)]`"
+          ],
+          "answer": 2,
+          "explain": "조건 두 개는 `&`로 잇고 조건마다 괄호로 감싸요. `and`를 쓰면 `ValueError`, 괄호를 빼면 `TypeError`가 나요.",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "part": "열 더하고 묶기",
+      "questions": [
+        {
+          "id": "a1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(3250 / 100, 3250 // 100)",
+          "choices": [
+            "`32 32`",
+            "`32.5 32`",
+            "`32.5 32.5`"
+          ],
+          "answer": 1,
+          "explain": "`/`는 소수까지 계산하고 `//`는 몫만 남겨요. 포인트처럼 정수가 필요하면 `//`를 써요.",
+          "page": 21,
+          "verify": "py"
+        },
+        {
+          "id": "a2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "import pandas as pd\nspend = pd.DataFrame({\n    \"amount\": [3200, 1500, 15000]\n})\nspend[\"point\"] = spend[\"amount\"] // 100\nspend.loc[2, \"amount\"] = 14000\nprint(spend.loc[2, \"point\"])",
+          "choices": [
+            "`140`",
+            "`14000`",
+            "`150`"
+          ],
+          "answer": 2,
+          "explain": "point는 만들 때 한 번 계산한 값이라 amount를 고쳐도 따라 바뀌지 않아요. point 계산 줄을 다시 실행해야 140이 돼요.",
+          "page": 23,
+          "verify": "py"
+        },
+        {
+          "id": "a3",
+          "q": "분류(category)마다 금액(amount) 합계를 내는 코드는 무엇인가요?",
+          "choices": [
+            "`spend.groupby(\"category\")[\"amount\"].sum()`",
+            "`spend[\"category\"].value_counts()`",
+            "`spend[\"amount\"].sum()`",
+            "`spend.sort_values(by=\"category\")`"
+          ],
+          "answer": 0,
+          "explain": "`groupby`로 같은 분류끼리 묶고, amount 열을 골라 `sum`으로 더해요. 39의 `GROUP BY category`와 `SUM(amount)`와 같아요. `value_counts()`는 합계가 아니라 횟수를 세요.",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "part": "비교와 오류",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "`spend[spend[\"category\"] == \"식비\" and spend[\"amount\"] >= 5000]`을 실행하면 어떤 오류가 나나요?",
+          "choices": [
+            "`KeyError: 'and'`",
+            "`ValueError: The truth value of a Series is ambiguous. ...`",
+            "오류 없이 0행이 나와요"
+          ],
+          "answer": 1,
+          "explain": "`and`는 왼쪽이 True인지 하나로 정해야 하는데, Series에는 True와 False가 12개라 정할 수 없어요. `(조건1) & (조건2)`로 고쳐요.",
+          "page": 28
+        },
+        {
+          "id": "e2",
+          "q": "`spend[\"amout\"]`을 실행했더니 `KeyError: 'amout'`이 났어요. 원인은 무엇인가요?",
+          "choices": [
+            "열 이름을 잘못 적었어요",
+            "패키지를 넣지 않았어요",
+            "대괄호를 두 겹으로 써야 해요"
+          ],
+          "answer": 0,
+          "explain": "amount에서 n이 빠져서 없는 열을 찾았어요. 헷갈리면 `spend.head()`로 머리글부터 봐요.",
+          "page": 29
+        },
+        {
+          "id": "e3",
+          "q": "리스트 `amounts`에 `amounts.mean()`을 부르면 `AttributeError: 'list' object has no attribute 'mean'`이 나요. 어떻게 고치나요?",
+          "choices": [
+            "`uv add numpy pandas`를 다시 쳐요",
+            "`mean(amounts)`로 바꿔요",
+            "`np.array(amounts)`로 바꾼 배열에 `mean()`을 물어요"
+          ],
+          "answer": 2,
+          "explain": "리스트에는 `mean` 메서드가 없어요. `arr = np.array(amounts)` 뒤 `arr.mean()`으로 묻거나, 리스트 그대로 `sum(amounts) / len(amounts)`로 구해요.",
+          "page": 30
+        }
+      ]
+    },
+    {
+      "part": "실제 상황",
+      "questions": [
+        {
+          "id": "x1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "import pandas as pd\nspend = pd.DataFrame({\n    \"category\": [\"식비\", \"교통\", \"식비\"],\n    \"amount\": [3200, 1500, 6500]\n})\nfood = spend[spend[\"category\"] == \"식비\"][\"amount\"].sum()\nprint(food)",
+          "choices": [
+            "`3200`",
+            "`9700`",
+            "`11200`"
+          ],
+          "answer": 1,
+          "explain": "식비인 행만 남긴 표에서 amount 열을 꺼내 더해요. 3200과 6500을 더해서 9700이에요.",
+          "page": 32,
+          "verify": "py"
+        },
+        {
+          "id": "x2",
+          "q": "`big = spend[spend[\"amount\"] >= 10000]` 뒤 `len(big)`은 무엇을 알려 주나요?",
+          "choices": [
+            "1만 원 넘는 지출의 합계",
+            "열의 개수",
+            "1만 원 넘는 지출의 행 수"
+          ],
+          "answer": 2,
+          "explain": "`len`에 표를 넣으면 행 수가 나와요. 수업 데이터에서는 4번이에요. 합계는 `big[\"amount\"].sum()`으로 구해요.",
+          "page": 33
+        }
+      ]
+    }
+  ]
+}

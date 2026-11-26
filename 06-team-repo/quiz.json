@@ -1,0 +1,214 @@
+{
+  "parts": [
+    {
+      "part": "팀 레포 준비",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "팀장 kim이 GitHub에 팀 레포를 만들 때 Add README를 켜는 이유는 무엇인가요?",
+          "choices": [
+            "레포가 Private으로 바뀌어서 팀원만 볼 수 있어요",
+            "첫 커밋(Initial commit)이 생겨서 셋이 바로 clone할 수 있어요",
+            "팀원이 자동으로 Collaborator로 초대돼요",
+            "pull 설정이 저절로 들어가요"
+          ],
+          "answer": 1,
+          "explain": "Add README를 켜면 Initial commit이 하나 생겨요. 그래서 셋이 같은 주소로 바로 clone할 수 있어요. 초대는 Settings의 Collaborators에서 따로 해요.",
+          "page": 5
+        },
+        {
+          "id": "p2",
+          "q": "lee가 clone은 했는데 push할 때 `Permission to kim/team-intro.git denied to lee`(403)가 나요. 무엇을 해야 하나요?",
+          "choices": [
+            "`git config --global pull.rebase false`를 쳐요",
+            "`git pull origin main` 뒤에 다시 push해요",
+            "`github.com/kim/team-intro/invitations`에서 Accept invitation을 눌러요",
+            "레포를 지우고 lee가 새로 만들어요"
+          ],
+          "answer": 2,
+          "explain": "초대를 아직 수락하지 않으면 clone은 돼도 push에서 403이 나요. 메일이나 레포 주소 뒤에 `/invitations`를 붙인 페이지에서 Accept invitation을 눌러요.",
+          "page": 6
+        },
+        {
+          "id": "p3",
+          "q": "`git config --global pull.rebase false`에서 `false`는 무슨 뜻인가요?",
+          "choices": [
+            "pull할 때 merge로 합치라는 뜻이에요",
+            "pull을 아예 못 하게 막는다는 뜻이에요",
+            "이 저장소 하나에만 적용한다는 뜻이에요",
+            "fetch만 하고 합치지 말라는 뜻이에요"
+          ],
+          "answer": 0,
+          "explain": "`false`는 합칠 때 merge로 하라는 뜻이에요. `--global`이라 내 컴퓨터의 모든 저장소에 적용돼서 처음 한 번만 치면 돼요.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "part": "다른 파일은 저절로",
+      "questions": [
+        {
+          "id": "a1",
+          "q": "kim이 먼저 push한 뒤 lee가 push했더니 아래처럼 나왔어요. 다음에 칠 명령은 무엇인가요?",
+          "code": "! [rejected]        main -> main (fetch first)\nerror: failed to push some refs to 'https://github.com/kim/team-intro.git'\nhint: 'git pull' before pushing again.",
+          "choices": [
+            "`git push --force origin main`",
+            "`git clone https://github.com/kim/team-intro.git`",
+            "`git commit -m \"fix: push 다시\"`",
+            "`git pull origin main`"
+          ],
+          "answer": 3,
+          "explain": "GitHub에 lee가 모르는 kim의 커밋이 있어서 거절됐어요. 먼저 `git pull origin main`으로 받아 합쳐요. `--force`는 kim의 커밋을 지우니 쓰지 않아요.",
+          "page": 10
+        },
+        {
+          "id": "a2",
+          "q": "pull 하다가 `Merge branch 'main' of ...`와 `#` 줄이 있는 vim 화면이 열렸어요. 어떻게 닫나요?",
+          "choices": [
+            "`Ctrl+C`를 눌러 pull을 취소해요",
+            "Esc를 누르고 `:wq`, Enter를 쳐요",
+            "첫 줄을 모두 지우고 창을 닫아요",
+            "`git merge --abort`를 vim 안에 적어요"
+          ],
+          "answer": 1,
+          "explain": "merge 커밋 메시지를 적는 화면이에요. 메시지를 그대로 두고 Esc, `:wq`, Enter를 치면 저장하고 닫히면서 pull이 끝나요.",
+          "page": 12
+        },
+        {
+          "id": "a3",
+          "q": "kim은 push한 뒤로 새 커밋이 없어요. 이때 `git pull origin main`을 치면 어떻게 되나요?",
+          "choices": [
+            "Fast-forward로 main 이름표만 앞으로 옮겨요",
+            "merge 커밋이 생기고 vim이 열려요",
+            "`CONFLICT`가 나서 멈춰요",
+            "`! [rejected]`가 나와요"
+          ],
+          "answer": 0,
+          "explain": "kim 쪽에 새 커밋이 없으니 받아 온 커밋을 그대로 이어 붙이면 돼요. 출력에 `Fast-forward`가 나오고 merge 커밋도 vim도 없어요.",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "part": "같은 줄은 충돌",
+      "questions": [
+        {
+          "id": "b1",
+          "q": "kim과 lee가 README.md 첫 줄을 서로 다르게 고쳤어요. lee가 pull하자 아래처럼 나왔어요. 무슨 뜻인가요?",
+          "code": "Auto-merging README.md\nCONFLICT (content): Merge conflict in README.md\nAutomatic merge failed; fix conflicts and then commit the result.",
+          "choices": [
+            "pull 설정이 없어서 멈췄어요",
+            "초대를 수락하지 않아서 거절됐어요",
+            "같은 줄을 둘 다 고쳐서 Git이 하나를 고를 수 없어요",
+            "kim의 커밋이 GitHub에서 지워졌어요"
+          ],
+          "answer": 2,
+          "explain": "두 사람이 같은 줄을 서로 다르게 고쳐서 Git이 대신 고를 수 없어요. 파일을 고치고 commit할 때까지 merge 커밋이 생기지 않아요.",
+          "page": 20
+        },
+        {
+          "id": "b2",
+          "q": "lee가 README.md를 열면 아래처럼 보여요. `HEAD` 바로 아래 줄 `# 커밋조 팀`은 누구 것인가요?",
+          "code": "<<<<<<< HEAD\n# 커밋조 팀\n=======\n# 깃벗 팀\n>>>>>>> 058635425c086372cec618e885f0483ba8c58d08",
+          "choices": [
+            "GitHub에서 받아 온 kim의 것",
+            "pull 하기 전 lee 컴퓨터의 것",
+            "park이 올린 것",
+            "Git이 새로 지은 이름"
+          ],
+          "answer": 1,
+          "explain": "위쪽 `HEAD` 아래가 lee 자기 것이에요. 아래쪽은 GitHub에서 받아 온 kim의 커밋 0586354의 줄이에요. pull로 생긴 충돌은 아래 이름이 커밋 해시예요.",
+          "page": 21
+        },
+        {
+          "id": "b3",
+          "q": "lee가 충돌을 풀어 push했어요. kim과 park은 무엇을 하면 되나요?",
+          "choices": [
+            "둘 다 같은 충돌을 직접 다시 풀어요",
+            "레포를 지우고 다시 clone해요",
+            "`git merge --abort`를 쳐요",
+            "`git pull origin main`으로 받아요"
+          ],
+          "answer": 3,
+          "explain": "충돌은 한 사람만 풀어요. 나머지는 pull 하면 Fast-forward로 따라와서 셋 다 `# 깃벗 팀`이 돼요.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "part": "팀 규칙",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "팀 규칙에서 push가 거절되면 어떻게 하라고 했나요?",
+          "choices": [
+            "`--force`로 밀어 올려요",
+            "pull해요. `--force`는 팀원 커밋을 지워서 쓰지 않아요",
+            "레포를 새로 만들어요",
+            "팀장에게 push를 부탁해요"
+          ],
+          "answer": 1,
+          "explain": "4번 규칙이 거절되면 pull, `--force`는 금지예요. `--force`는 GitHub에 있는 팀원 커밋을 지워요.",
+          "page": 24
+        },
+        {
+          "id": "r2",
+          "q": "한 번 작업할 때 도는 순서로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`git push origin main`, 파일 고치기, `git add 파일`, `git commit -m \"...\"`",
+            "파일 고치기, `git commit -m \"...\"`, `git add 파일`, `git pull origin main`",
+            "`git pull origin main`, 파일 고치기, `git add 파일`, `git commit -m \"...\"`, `git push origin main`",
+            "`git clone 주소`, `git push origin main`, `git pull origin main`"
+          ],
+          "answer": 2,
+          "explain": "받기, 작업, 담기, 저장, 올리기 순서예요. push가 거절되면 다시 1번 pull로 돌아가요.",
+          "page": 25
+        }
+      ]
+    },
+    {
+      "part": "브랜치로 일할 때",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "새 일을 시작할 때 브랜치를 만드는 순서로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`git checkout main`, `git pull origin main`, `git checkout -b feature/lee-intro`",
+            "`git checkout -b feature/lee-intro`, `git checkout main`, `git pull origin main`",
+            "`git pull origin main`, `git push origin feature/lee-intro`, `git checkout main`",
+            "`git branch -d feature/lee-intro`, `git checkout -b feature/lee-intro`"
+          ],
+          "answer": 0,
+          "explain": "main으로 가서 pull로 최신으로 맞춘 뒤 새 브랜치를 만들어요. 오래된 main에서 만들면 팀원이 합친 내용 없이 시작해서 충돌이 나기 쉬워요.",
+          "page": 28
+        },
+        {
+          "id": "c2",
+          "q": "lee의 PR 화면에 `This branch has conflicts that must be resolved`가 떠요. lee는 어디에서 무엇을 치나요?",
+          "choices": [
+            "main으로 checkout한 뒤 `git push origin main`",
+            "새 PR을 만들고 예전 PR은 닫아요",
+            "`git branch -d`로 브랜치를 지우고 다시 만들어요",
+            "PR을 올린 내 브랜치에서 `git pull origin main`, 충돌을 풀고 add, commit 뒤 `git push origin 내브랜치`"
+          ],
+          "answer": 3,
+          "explain": "충돌을 푸는 곳은 PR을 올린 내 브랜치예요. 같은 브랜치로 다시 push하면 열린 PR에 커밋이 더해지고 Merge 버튼이 살아나서 새 PR이 필요 없어요.",
+          "page": 34
+        },
+        {
+          "id": "c3",
+          "q": "main에서 커밋해 버렸는데 아직 push 전이에요. 브랜치로 옮기는 순서로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`git reset --hard HEAD~1`, `git branch feature/next-meeting`, `git checkout feature/next-meeting`",
+            "`git branch feature/next-meeting`, `git reset --hard HEAD~1`, `git checkout feature/next-meeting`",
+            "`git push origin main`, `git branch feature/next-meeting`",
+            "`git checkout -b feature/next-meeting`, `git push origin main`"
+          ],
+          "answer": 1,
+          "explain": "먼저 `git branch`로 지금 커밋에 이름표를 하나 더 붙여요. 그다음 main만 한 칸 되돌리고 그 브랜치로 옮겨요. 커밋은 그대로 두고 이름표만 옮기는 방법이에요. `--hard` 전에는 `git status`가 깨끗한지 봐요.",
+          "page": 39
+        }
+      ]
+    }
+  ]
+}

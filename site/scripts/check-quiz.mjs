@@ -19,7 +19,7 @@ const parts = (md) =>
     .filter((r) => r.length >= 2 && /\d/.test(r[1]))
     .map(([name, range]) => {
       const [a, b] = range.split(/[–~-]/).map((x) => parseInt(x, 10));
-      return { name: name.replace(/^\d+\s*[.·]\s*/, ""), from: a, to: b || a };
+      return { name: name.replace(/^\d+\s*(?:\.|·)\s*/, ""), from: a, to: b || a };
     });
 const norm = (s) => s.replace(/`/g, "").trim();
 

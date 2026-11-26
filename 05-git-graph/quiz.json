@@ -1,0 +1,168 @@
+{
+  "parts": [
+    {
+      "part": "설치하고 열기",
+      "questions": [
+        {
+          "id": "i1",
+          "q": "확장 탭에서 `git graph`를 검색하면 이름이 비슷한 확장이 여러 개 나와요. 무엇을 보고 골라요?",
+          "choices": [
+            "별점이 가장 높은 것",
+            "만든 사람이 mhutchie인 것",
+            "맨 아래에 있는 것",
+            "이름이 가장 긴 것"
+          ],
+          "answer": 1,
+          "explain": "만든 사람이 mhutchie인 Git Graph에서 Install을 눌러요. 설치가 끝나면 Install 자리에 톱니바퀴가 나와요.",
+          "page": 5
+        },
+        {
+          "id": "i2",
+          "q": "Git Graph를 열기 전에 먼저 해 둘 일은 무엇인가요?",
+          "choices": [
+            "VS Code를 다시 켜요",
+            "`git push origin main`을 쳐요",
+            "File > Open Folder로 `git init`을 한 `hello-git` 폴더를 열어요",
+            "바탕화면 폴더를 열어요"
+          ],
+          "answer": 2,
+          "explain": "Git Graph는 VS Code에 열린 폴더가 Git 저장소일 때만 동작해요. 저장소 폴더를 연 뒤 아래 상태 표시줄의 Git Graph를 눌러요.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "part": "화면 읽기",
+      "questions": [
+        {
+          "id": "v1",
+          "q": "Git Graph 표에서 가장 최근 커밋은 어디에 있나요?",
+          "choices": [
+            "맨 위",
+            "맨 아래",
+            "가운데",
+            "오른쪽 끝 칸"
+          ],
+          "answer": 0,
+          "explain": "표 한 줄이 커밋 하나이고, `git log --oneline`처럼 맨 위가 가장 최근이에요. 03 슬라이드는 왼쪽에서 오른쪽으로, Git Graph는 아래에서 위로 쌓여요.",
+          "page": 7
+        },
+        {
+          "id": "v2",
+          "q": "Git Graph에서 지금 있는 브랜치는 어떻게 알아보나요?",
+          "choices": [
+            "이름표가 기울어진 글씨예요",
+            "이름표가 맨 아래에 있어요",
+            "이름표가 회색이에요",
+            "이름표가 굵은 글씨에 색 테두리예요"
+          ],
+          "answer": 3,
+          "explain": "굵은 글씨에 색 테두리인 이름표가 지금 있는 브랜치예요. 터미널의 `HEAD ->`와 같은 뜻이에요. 기울어진 `origin`은 `origin/main`도 같은 커밋이라는 표시예요.",
+          "page": 9
+        },
+        {
+          "id": "v3",
+          "q": "이름표가 `main | origin`으로 붙어 있어요. 이 그림이 뜻하는 것은 무엇인가요?",
+          "choices": [
+            "GitHub의 main과 언제나 똑같다는 보장이에요",
+            "마지막으로 push하거나 fetch했을 때의 GitHub main과 같은 커밋이에요",
+            "아직 커밋하지 않은 파일이 있어요",
+            "브랜치가 두 개로 갈라졌어요"
+          ],
+          "answer": 1,
+          "explain": "`origin/main`은 마지막으로 GitHub과 주고받은 위치예요. 그 뒤에 팀원이 올린 커밋은 `git fetch origin`을 쳐야 내 컴퓨터로 받아지고 Git Graph에 나타나요.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "part": "명령 치고 확인하기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "`login.md`를 고치고 아직 커밋하지 않았어요. Git Graph 맨 위에는 무엇이 보이나요?",
+          "choices": [
+            "`origin/main` 이름표",
+            "새 커밋 번호 8자리",
+            "회색 빈 점과 `Uncommitted Changes (1)`",
+            "아무것도 안 바뀌어요"
+          ],
+          "answer": 2,
+          "explain": "고친 파일이 있으면 맨 위에 `Uncommitted Changes` 줄이 생겨요. 괄호 안 숫자는 아직 커밋하지 않은 파일 수예요.",
+          "page": 11
+        },
+        {
+          "id": "c2",
+          "q": "`git fetch origin`을 쳤더니 아래처럼 나왔어요. Git Graph는 어떻게 바뀌나요?",
+          "code": "$ git fetch origin\nFrom https://github.com/kim/hello-git\n   15d92cb..b9f30e5  main       -> origin/main",
+          "choices": [
+            "lee의 커밋이 맨 위에 생기고 `origin/main`이 main보다 위로 가요",
+            "main과 `origin/main`이 함께 위로 올라가요",
+            "내 폴더에 `README.md`가 바로 생겨요",
+            "길이 둘로 갈라져요"
+          ],
+          "answer": 0,
+          "explain": "fetch는 기록만 받아 와서 `origin/main` 이름표만 lee의 커밋으로 올라가요. 굵은 main은 아래에 남고, 내 파일은 `git pull origin main`을 쳐야 바뀌어요.",
+          "page": 14
+        },
+        {
+          "id": "c3",
+          "q": "main에서 `git merge feature/login`을 하면 Git Graph에서 무엇을 보고 합쳐졌다고 알 수 있나요?",
+          "choices": [
+            "`feature/login` 이름표가 사라져요",
+            "맨 위에 회색 빈 점이 생겨요",
+            "`main | origin`이 붙어요",
+            "두 선이 merge 커밋에서 만나요"
+          ],
+          "answer": 3,
+          "explain": "merge 커밋 `5991c366`이 생기고, 이 점에서 아래로 선이 두 개 나가요. 하나는 main의 `ad50d357`, 하나는 feature/login의 `dd7f15af`예요.",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "part": "막힐 때와 실제 상황",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "Git Graph에서 커밋을 오른쪽 클릭하면 Checkout, Merge, Reset 메뉴가 나와요. 수업에서는 어떻게 하나요?",
+          "choices": [
+            "메뉴로 바로 실행해요",
+            "명령은 터미널에 치고 Git Graph로는 결과만 확인해요",
+            "Fetch 버튼을 눌러 받아 와요",
+            "VS Code를 닫았다가 다시 켜요"
+          ],
+          "answer": 1,
+          "explain": "메뉴 한 번에 merge나 reset이 실행돼서 무엇이 바뀌었는지 놓치기 쉬워요. 터미널에 남아야 오류가 났을 때 읽고 고칠 수 있어요. Fetch 버튼 대신 `git fetch origin`을 쳐요.",
+          "page": 22
+        },
+        {
+          "id": "p2",
+          "q": "Git Graph를 열었더니 `No Git repositories were found`가 나와요. 어떻게 고치나요?",
+          "choices": [
+            "`git fetch origin`을 쳐요",
+            "오른쪽 위 새로고침 아이콘을 눌러요",
+            "File > Open Folder로 `git init`을 한 `hello-git` 폴더를 열어요",
+            "Git Graph를 지우고 다시 설치해요"
+          ],
+          "answer": 2,
+          "explain": "저장소가 아닌 폴더를 열었을 때 나와요. 바탕화면이나 상위 폴더를 열면 Git 저장소를 못 찾아요. `git init`을 한 바로 그 폴더를 열어요.",
+          "page": 23
+        },
+        {
+          "id": "p3",
+          "q": "Git Graph에서 `origin/main`이 `main`보다 위에 있어요. 다음에 칠 명령은 무엇인가요?",
+          "choices": [
+            "`git push origin main`",
+            "`git branch -d main`",
+            "할 일 없음",
+            "`git pull origin main`"
+          ],
+          "answer": 3,
+          "explain": "위에 있는 쪽이 앞서요. `origin/main`이 위에 있으면 GitHub이 앞선 거라 pull해요. `main`이 위면 push, 둘이 붙어 있으면 할 일이 없어요.",
+          "page": 24
+        }
+      ]
+    }
+  ]
+}

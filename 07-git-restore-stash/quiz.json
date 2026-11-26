@@ -1,0 +1,221 @@
+{
+  "parts": [
+    {
+      "part": "git restore",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "`git status`에서 아래 안내 줄이 보여요. 이 줄이 알려 주는 일은 무엇인가요?",
+          "code": "Changes not staged for commit:\n  (use \"git restore <file>...\" to discard changes in working directory)\n        modified:   login.md",
+          "choices": [
+            "커밋을 하나 취소하는 방법",
+            "작업 폴더에서 고친 내용을 버리는 방법",
+            "GitHub에서 파일을 받아 오는 방법",
+            "대기실에 파일을 올리는 방법"
+          ],
+          "answer": 1,
+          "explain": "`git restore <file>`은 작업 폴더의 고친 내용을 버리는 명령이에요. status의 괄호 안 안내가 다음에 칠 명령을 알려 줘요.",
+          "page": 5
+        },
+        {
+          "id": "r2",
+          "q": "login.md를 덮어써서 아래 `git diff`가 나왔어요. `git restore login.md`를 치면 어떻게 되나요?",
+          "code": "@@ -1,3 +1 @@\n-# 로그인\n-아이디\n-비밀번호\n+로그인 버튼",
+          "choices": [
+            "`+` 줄은 사라지고 `-` 세 줄이 돌아와요",
+            "`-` 세 줄이 사라지고 `+` 줄만 남아요",
+            "마지막 커밋이 지워져요",
+            "두 모습이 충돌 표시로 함께 남아요"
+          ],
+          "answer": 0,
+          "explain": "`-` 줄은 원래 있던 줄, `+` 줄은 새로 생긴 줄이에요. restore를 치면 `+` 줄이 사라지고 `-` 줄이 돌아와요. 그래서 버리기 전에 `+` 줄 중 남길 게 있는지 봐요.",
+          "page": 6
+        },
+        {
+          "id": "r3",
+          "q": "`git restore`로 버린 줄을 다시 찾을 수 있나요?",
+          "choices": [
+            "`git reflog`로 찾을 수 있어요",
+            "휴지통에서 꺼내면 돼요",
+            "`git revert`로 되돌릴 수 있어요",
+            "찾을 수 없어요. 커밋하지 않은 변경은 Git에 기록이 없어요"
+          ],
+          "answer": 3,
+          "explain": "커밋하지 않은 변경은 Git에 기록이 없어요. reflog도 커밋만 기억해서 소용없어요. 먼저 `git diff`로 보고, 남길 게 있으면 커밋부터 해요.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "part": "git restore --staged",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "`git add .`로 개인 메모 memo.md까지 대기실에 올렸어요. memo.md만 내리는 명령은 무엇인가요?",
+          "choices": [
+            "`git restore memo.md`",
+            "`git reset --hard HEAD~1`",
+            "`git restore --staged memo.md`",
+            "`git stash`"
+          ],
+          "answer": 2,
+          "explain": "`git restore --staged 파일`은 대기실에서만 내려요. memo.md 파일은 작업 폴더에 그대로 남고, 처음 만든 파일이라 다시 Untracked가 돼요.",
+          "page": 10
+        },
+        {
+          "id": "s2",
+          "q": "login.md에 `아이디 저장` 줄을 붙여 add한 뒤 `git restore --staged login.md`를 쳤어요. `아이디 저장` 줄은 어떻게 되나요?",
+          "choices": [
+            "작업 폴더에 그대로 남아요",
+            "파일에서 사라져요",
+            "바로 커밋돼요",
+            "서랍(stash)으로 들어가요"
+          ],
+          "answer": 0,
+          "explain": "`--staged`가 붙으면 대기실만 바꿔요. `git diff`에 `+아이디 저장`이 그대로 나와요. `--staged`를 빼면 이 줄까지 사라져요.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "part": "git stash",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "login.md를 고치던 중에 pull했더니 아래처럼 멈췄어요. 아직 커밋하기엔 덜 끝났어요. 무엇을 치나요?",
+          "code": "error: Your local changes to the following files would be overwritten by merge:\n        login.md\nPlease commit your changes or stash them before you merge.\nAborting",
+          "choices": [
+            "`git restore login.md`",
+            "`git stash`",
+            "`git push origin main`",
+            "`git stash drop`"
+          ],
+          "answer": 1,
+          "explain": "덜 끝난 변경은 `git stash`로 서랍에 넣어요. 작업 폴더가 마지막 커밋 모습으로 돌아가서 pull할 수 있어요. restore는 고친 내용을 버려요.",
+          "page": 12
+        },
+        {
+          "id": "t2",
+          "q": "`git stash list`가 아래처럼 나와요. 가장 최근에 넣은 것은 어느 줄인가요?",
+          "code": "stash@{0}: WIP on main: dd746b3 feat: 비밀번호 재설정에 이메일 안내 추가\nstash@{1}: WIP on main: dd746b3 feat: 비밀번호 재설정에 이메일 안내 추가",
+          "choices": [
+            "`stash@{1}`",
+            "둘 다 같은 시각에 넣어서 알 수 없어요",
+            "`dd746b3` 커밋",
+            "`stash@{0}`"
+          ],
+          "answer": 3,
+          "explain": "새로 넣은 것이 늘 `{0}`이고 예전 것은 `{1}`로 밀려요. pop은 맨 위 `{0}`부터 꺼내요. `dd746b3`은 넣을 때의 마지막 커밋이에요.",
+          "page": 14
+        },
+        {
+          "id": "t3",
+          "q": "pull을 마치고 `git stash pop`을 쳤더니 마지막에 아래 줄이 나왔어요. 무슨 뜻인가요?",
+          "code": "Dropped refs/stash@{0} (ea47a275d168793f5d750db2514463f36986122d)",
+          "choices": [
+            "꺼낸 서랍을 지웠다는 뜻이에요",
+            "고친 내용을 버렸다는 뜻이에요",
+            "서랍이 GitHub에 올라갔다는 뜻이에요",
+            "충돌이 나서 서랍을 남겼다는 뜻이에요"
+          ],
+          "answer": 0,
+          "explain": "pop은 서랍에서 꺼내 작업 폴더에 다시 얹고, 꺼낸 서랍은 지워요. Dropped 줄이 서랍에서 지웠다는 뜻이에요. 서랍은 내 컴퓨터에만 있어요.",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "part": "비교하기",
+      "questions": [
+        {
+          "id": "v1",
+          "q": "`git restore 파일`과 `git reset HEAD~1`의 차이로 맞는 것은 무엇인가요?",
+          "choices": [
+            "둘 다 커밋을 하나 취소해요",
+            "restore는 이름표를 옮기고, reset은 파일만 바꿔요",
+            "restore는 커밋은 그대로 두고 파일만 바꾸고, reset은 이름표를 한 칸 뒤로 옮겨 커밋을 취소해요",
+            "restore는 push한 뒤에만, reset은 push 전에만 써요"
+          ],
+          "answer": 2,
+          "explain": "restore는 커밋을 건드리지 않고 ① ②의 파일만 바꿔요. reset은 이름표를 뒤로 옮겨 커밋을 취소해요. 커밋하기 전에는 restore, 커밋한 뒤에는 reset이나 revert예요.",
+          "page": 17
+        },
+        {
+          "id": "v2",
+          "q": "고치던 게 있는데 버릴지 남길지 모르겠어요. 덱에서 가장 안전하다고 한 것은 무엇인가요?",
+          "choices": [
+            "`git restore 파일`",
+            "`git stash`로 치웠다가 `git stash pop`",
+            "`git restore .`",
+            "`git reset --hard HEAD~1`"
+          ],
+          "answer": 1,
+          "explain": "stash는 지우지 않고 서랍에 넣어 두니 가장 안전해요. restore는 되찾을 수 없어요.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "part": "막힐 때",
+      "questions": [
+        {
+          "id": "m1",
+          "q": "`git stash pop`에서 `CONFLICT`가 나고 `The stash entry is kept in case you need it again.`이 나왔어요. 파일을 고치고 `git add login.md`를 친 뒤 무엇을 하나요?",
+          "choices": [
+            "`git stash pop`을 한 번 더 쳐요",
+            "`git restore login.md`로 버려요",
+            "`git stash`로 다시 넣어요",
+            "`git stash drop`으로 남은 서랍을 지워요"
+          ],
+          "answer": 3,
+          "explain": "충돌이 나면 pop이 서랍을 비우지 않아요. 파일에 반영한 뒤 `git stash drop`으로 서랍을 지우고, 늘 하던 대로 커밋하고 push해요.",
+          "page": 20
+        },
+        {
+          "id": "m2",
+          "q": "새로 만든 파일만 있는데 `git stash`를 쳤더니 `No local changes to save`가 나와요. 어떻게 하나요?",
+          "choices": [
+            "`git add 파일`로 올린 뒤 `git stash`해요",
+            "`git stash pop`을 먼저 쳐요",
+            "`git restore --staged 파일`을 쳐요",
+            "`git config --global pull.rebase false`를 쳐요"
+          ],
+          "answer": 0,
+          "explain": "Git이 아직 모르는 Untracked 파일은 stash에 들어가지 않아요. `git add`로 올린 뒤 stash해요.",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "part": "팀에서 쓰기",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "팀원이 먼저 push했고 나는 고치던 중이에요. 받고 나서 커밋하는 순서로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`git stash pop`, `git pull origin main`, `git stash`",
+            "`git pull origin main`, `git stash`, `git stash pop`",
+            "`git stash`, `git pull origin main`, `git stash pop`, add와 commit, `git push origin main`",
+            "`git restore login.md`, `git pull origin main`, `git push origin main`"
+          ],
+          "answer": 2,
+          "explain": "stash, pull, pop으로 받은 뒤 add, commit, push해요. stash를 쓰면 팀원 커밋 위에 내 커밋이 올라가서 `git log`가 merge 커밋 없이 한 줄로 이어져요.",
+          "page": 22
+        },
+        {
+          "id": "w2",
+          "q": "feature/login에서 stash하고 main으로 가서 급한 일을 마쳤어요. 서랍은 어디에서 꺼내야 하나요?",
+          "choices": [
+            "main에서 바로 `git stash pop`",
+            "넣었던 feature/login으로 돌아가서 `git stash pop`",
+            "어느 브랜치든 서랍이 따로 있어서 상관없어요",
+            "GitHub에서 받아 와야 해요"
+          ],
+          "answer": 1,
+          "explain": "서랍은 저장소에 하나라 다른 브랜치에서도 같은 서랍이 보여요. 다른 브랜치에서 pop하면 그 브랜치에 얹혀서 헷갈려요. stash list의 `on feature/login` 부분을 보고 넣었던 브랜치에서 꺼내요.",
+          "page": 23
+        }
+      ]
+    }
+  ]
+}

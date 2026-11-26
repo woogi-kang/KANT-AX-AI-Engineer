@@ -1,0 +1,242 @@
+{
+  "parts": [
+    {
+      "part": "집합이 뭔가요",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "orders = [\"coffee\", \"latte\", \"coffee\", \"cake\", \"latte\"]\nkinds = set(orders)\nprint(len(orders), len(kinds))",
+          "choices": [
+            "`5 3`",
+            "`5 5`",
+            "`3 3`",
+            "`5 2`"
+          ],
+          "answer": 0,
+          "explain": "`len(orders)`는 잔 수라서 5예요. `set(orders)`는 겹친 coffee와 latte를 하나씩만 남겨서 메뉴 종류 3가지가 돼요.",
+          "page": 9,
+          "verify": "py"
+        },
+        {
+          "id": "s2",
+          "q": "빈 집합을 만들려고 `cart = {}`를 적고 `cart.add(\"coffee\")`를 쳤더니 오류가 났어요. 어떤 오류이고 어떻게 고치나요?",
+          "choices": [
+            "`KeyError: 'coffee'`, `cart[\"coffee\"]`로 고쳐요",
+            "`TypeError: unhashable type: 'list'`, 튜플로 고쳐요",
+            "`AttributeError: 'dict' object has no attribute 'add'`, `cart = set()`으로 고쳐요",
+            "오류가 아니라 `{'coffee'}`가 돼요"
+          ],
+          "answer": 2,
+          "explain": "빈 중괄호 `{}`는 15의 빈 딕셔너리예요. 딕셔너리에는 `add`가 없어서 `AttributeError`가 나요. 빈 집합은 `set()`으로 만들어요.",
+          "page": 11
+        },
+        {
+          "id": "s3",
+          "q": "`bad = {[1, 2], 3}`을 실행하면 어떻게 되나요?",
+          "choices": [
+            "`{1, 2, 3}`이 돼요",
+            "`TypeError: unhashable type: 'list'`가 나요",
+            "`{[1, 2], 3}`이 돼요",
+            "`AttributeError`가 나요"
+          ],
+          "answer": 1,
+          "explain": "집합에는 숫자, 문자열, 튜플처럼 바뀌지 않는 값만 넣을 수 있어요. 리스트는 append로 바뀔 수 있어서 `TypeError`가 나요. 15의 딕셔너리 키도 같은 규칙이에요.",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "part": "바꾸고 확인하기",
+      "questions": [
+        {
+          "id": "b1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "menus = {\"coffee\", \"latte\", \"cake\"}\nmenus.add(\"tea\")\nmenus.add(\"coffee\")\nprint(len(menus))",
+          "choices": [
+            "`5`",
+            "`3`",
+            "`KeyError: 'coffee'`",
+            "`4`"
+          ],
+          "answer": 3,
+          "explain": "tea가 들어가서 네 개가 돼요. 이미 있는 coffee를 한 번 더 `add`하면 오류 없이 아무 일도 없어서 4개 그대로예요.",
+          "page": 13,
+          "verify": "py"
+        },
+        {
+          "id": "b2",
+          "q": "`menus`에 juice가 들어 있는지 모르는 채로 빼려고 해요. 없어도 셀이 멈추지 않게 하려면 무엇을 쓰나요?",
+          "choices": [
+            "`menus.remove(\"juice\")`",
+            "`menus.pop(\"juice\")`",
+            "`menus.discard(\"juice\")`",
+            "`del menus[\"juice\"]`"
+          ],
+          "answer": 2,
+          "explain": "`discard`는 있으면 빼고 없으면 그냥 넘어가요. `remove`는 없는 값을 빼면 `KeyError: 'juice'`가 나고 셀이 멈춰요.",
+          "page": 14
+        },
+        {
+          "id": "b3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "orders = [\"tea\", \"cake\", \"tea\",\n          \"coffee\", \"cake\"]\nprint(sorted(set(orders)))",
+          "choices": [
+            "`['cake', 'coffee', 'tea']`",
+            "`['cake', 'cake', 'coffee', 'tea', 'tea']`",
+            "`{'cake', 'coffee', 'tea'}`",
+            "`['tea', 'cake', 'coffee']`"
+          ],
+          "answer": 0,
+          "explain": "`set()`으로 겹친 주문을 없애고 `sorted()`로 abc 순서로 줄 세워요. `sorted()`의 결과는 집합이 아니라 리스트라서 대괄호로 나와요.",
+          "page": 19,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "집합 연산",
+      "questions": [
+        {
+          "id": "o1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nprint(sorted(a & b))",
+          "choices": [
+            "`[1, 2, 3, 4, 5, 6]`",
+            "`[5, 6]`",
+            "`[1, 2]`",
+            "`[3, 4]`"
+          ],
+          "answer": 3,
+          "explain": "교집합 `&`는 두 집합에 다 있는 값이에요. a와 b에 다 있는 값은 3과 4예요. `[1, 2, 3, 4, 5, 6]`은 합집합 `|`의 결과예요.",
+          "page": 23,
+          "verify": "py"
+        },
+        {
+          "id": "o2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nprint(sorted(b - a))",
+          "choices": [
+            "`[1, 2]`",
+            "`[5, 6]`",
+            "`[3, 4]`",
+            "`[1, 2, 5, 6]`"
+          ],
+          "answer": 1,
+          "explain": "차집합 `-`는 앞 집합에서 뒤 집합에 있는 값을 빼요. b에서 3과 4를 빼서 5, 6이 남아요. 앞뒤를 바꾼 `a - b`는 1, 2예요.",
+          "page": 24,
+          "verify": "py"
+        },
+        {
+          "id": "o3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nc = a | b\nprint(len(a), len(c))",
+          "choices": [
+            "`4 6`",
+            "`4 8`",
+            "`6 6`",
+            "`6 8`"
+          ],
+          "answer": 0,
+          "explain": "연산을 해도 a와 b는 그대로라 `len(a)`는 4예요. 합집합은 겹친 3과 4를 한 번씩만 담아서 6개예요.",
+          "page": 25,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "비교와 오류",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(len(set(\"banana\")), len({\"banana\"}))",
+          "choices": [
+            "`1 1`",
+            "`6 1`",
+            "`3 1`",
+            "`3 3`"
+          ],
+          "answer": 2,
+          "explain": "`set()`에 문자열을 바로 넣으면 글자로 쪼개져서 b, a, n 세 글자만 남아요. 중괄호에 바로 적은 `{\"banana\"}`는 단어 하나를 통째로 담아요.",
+          "page": 28,
+          "verify": "py"
+        },
+        {
+          "id": "e2",
+          "q": "메뉴판처럼 메뉴 이름으로 가격을 찾을 값은 어디에 담나요?",
+          "choices": [
+            "리스트",
+            "튜플",
+            "집합",
+            "딕셔너리"
+          ],
+          "answer": 3,
+          "explain": "이름으로 값을 찾을 때는 딕셔너리예요. 집합은 중복 없애기, 들어 있는지 묻기, 겹침 찾기에 써요. 집합에는 값만 있고 키가 없어서 가격을 붙여 둘 수 없어요.",
+          "page": 27
+        },
+        {
+          "id": "e3",
+          "q": "`menus[0]`으로 집합의 첫 값을 꺼내려다 `TypeError: 'set' object is not subscriptable`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "`menus.sort()` 뒤 `menus[0]`",
+            "`sorted(menus)[0]`",
+            "`menus.get(0)`",
+            "`menus[1]`"
+          ],
+          "answer": 1,
+          "explain": "집합에는 칸 번호가 없어요. `sorted()`로 abc 순서 리스트로 바꾸면 `[0]`으로 꺼낼 수 있어요. 집합에는 `sort()`도 없어서 `AttributeError`가 나요.",
+          "page": 29
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "python_class = {\"kim\", \"lee\", \"park\", \"choi\"}\ndata_class = {\"park\", \"choi\", \"jung\", \"kang\"}\nprint(f\"모두 {len(python_class | data_class)}명\")",
+          "choices": [
+            "`모두 8명`",
+            "`모두 2명`",
+            "`모두 6명`",
+            "`모두 4명`"
+          ],
+          "answer": 2,
+          "explain": "합집합 `|`는 두 반을 다 듣는 park과 choi를 한 번씩만 담아요. 명단에 8명을 적었지만 사람은 모두 6명이에요.",
+          "page": 31,
+          "verify": "py"
+        },
+        {
+          "id": "p2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\norders = [\"coffee\", \"tea\", \"cake\", \"juice\", \"coffee\"]\nprint(sorted(set(orders) - set(menu)))",
+          "choices": [
+            "`['juice', 'tea']`",
+            "`['cake', 'coffee']`",
+            "`['latte']`",
+            "`[4500, 5000, 6500]`"
+          ],
+          "answer": 0,
+          "explain": "`set(menu)`는 딕셔너리의 키만 모은 집합이에요. 주문에서 메뉴판의 키를 빼면 메뉴판에 없는 주문 juice와 tea가 남아요. `['latte']`는 반대로 `set(menu) - set(orders)`예요.",
+          "page": 32,
+          "verify": "py"
+        },
+        {
+          "id": "p3",
+          "q": "하루 주문 리스트 `orders`에서 메뉴별로 몇 잔 팔렸는지 셀 때 무엇을 쓰나요?",
+          "choices": [
+            "`set(orders).count(m)`",
+            "`orders.count(m)`",
+            "`len(set(orders))`",
+            "`sorted(set(orders))`"
+          ],
+          "answer": 1,
+          "explain": "종류는 집합으로 뽑고, 잔 수는 원래 리스트에서 `count`로 세요. 집합은 중복을 없앴으니 셀 수 없어요. `len(set(orders))`는 메뉴가 몇 가지인지예요.",
+          "page": 30
+        }
+      ]
+    }
+  ]
+}

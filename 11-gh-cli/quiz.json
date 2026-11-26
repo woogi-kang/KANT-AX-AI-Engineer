@@ -1,0 +1,227 @@
+{
+  "parts": [
+    {
+      "part": "설치하고 로그인하기",
+      "questions": [
+        {
+          "id": "a1",
+          "q": "설치하자마자 `gh auth status`를 쳤더니 아래처럼 나왔어요. 다음에 칠 명령은 무엇인가요?",
+          "code": "~ $ gh auth status\nYou are not logged into any GitHub hosts. To log in, run: gh auth login",
+          "choices": [
+            "`gh --version`",
+            "`gh auth refresh`",
+            "`gh auth login`",
+            "`gh repo list`"
+          ],
+          "answer": 2,
+          "explain": "아직 로그인하지 않았다는 출력이에요. 마지막 줄 `To log in, run: gh auth login`이 다음에 칠 명령까지 알려 줘요.",
+          "page": 7
+        },
+        {
+          "id": "a2",
+          "q": "`gh auth login`의 네 질문에서 수업에서 고르는 답을 바르게 모은 것은 무엇인가요?",
+          "choices": [
+            "GitHub.com, SSH, Yes, Login with a web browser",
+            "GitHub.com, HTTPS, Yes, Login with a web browser",
+            "Other, HTTPS, No, Paste an authentication token",
+            "GitHub.com, HTTPS, No, Paste an authentication token"
+          ],
+          "answer": 1,
+          "explain": "github.com을 쓰니 GitHub.com, 02부터 써 온 https 주소라 HTTPS예요. git도 gh 로그인을 쓰게 Yes를 고르고, 로그인은 브라우저로 해요. SSH와 토큰 붙여 넣기는 쓰지 않아요.",
+          "page": 11
+        },
+        {
+          "id": "a3",
+          "q": "로그인한 뒤 `gh auth status`의 `Token scopes` 줄은 무엇을 보여 주나요?",
+          "code": "- Token scopes: 'gist', 'read:org', 'repo', 'workflow'",
+          "choices": [
+            "출입증(토큰)으로 할 수 있는 일(권한) 목록",
+            "내 계정에 있는 레포 목록",
+            "git이 쓰는 주소 방식",
+            "로그인한 GitHub 아이디"
+          ],
+          "answer": 0,
+          "explain": "`Token scopes`는 출입증으로 열 수 있는 문, 곧 권한 목록이에요. 이 목록에 없는 일은 못 해요. 레포 지우기 `delete_repo`는 처음에는 들어 있지 않아요.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "part": "이미 있는 레포 연결하기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "06의 `git clone https://github.com/kim/team-intro.git`과 같은 일을 하는 gh 명령은 무엇인가요?",
+          "choices": [
+            "`gh repo clone https://github.com/kim/team-intro.git`",
+            "`gh clone team-intro`",
+            "`gh repo view kim/team-intro`",
+            "`gh repo clone kim/team-intro`"
+          ],
+          "answer": 3,
+          "explain": "gh는 주소 대신 주인/이름만 적어요. 앞의 `https://github.com/`와 뒤의 `.git`을 안 적어도 돼요. 출력 첫 줄 `Cloning into`는 `git clone`과 같아요.",
+          "page": 16
+        },
+        {
+          "id": "c2",
+          "q": "`gh repo clone`으로 받은 `team-intro` 폴더에서 GitHub에 올릴 때는 어떻게 하나요?",
+          "choices": [
+            "`gh repo push`로 올려요",
+            "지금처럼 `git push origin main`으로 올려요",
+            "`git remote add origin`부터 다시 해요",
+            "`gh browse`로 웹에서 올려요"
+          ],
+          "answer": 1,
+          "explain": "gh로 받은 폴더도 `git clone`으로 받은 폴더와 똑같아요. `git remote -v`에 origin이 이미 등록돼 있어서 push와 pull도 지금처럼 쳐요.",
+          "page": 17
+        },
+        {
+          "id": "c3",
+          "q": "`~/kant/team-intro` 폴더 안에서 `gh repo view`를 주인/이름 없이 쳤는데 `kim/team-intro`를 보여 줬어요. 어떻게 알았나요?",
+          "choices": [
+            "지금 폴더의 origin 주소를 보고 알아냈어요",
+            "폴더 이름과 같은 레포를 GitHub에서 검색했어요",
+            "가장 최근에 만든 레포를 골랐어요",
+            "`README.md` 첫 줄을 읽었어요"
+          ],
+          "answer": 0,
+          "explain": "레포 폴더 안에서는 gh가 origin 주소를 읽고 어느 레포인지 알아내요. 그래서 `gh repo view`, `gh browse`만 쳐도 돼요. `gh repo list`는 어느 폴더에서 쳐도 결과가 같아요.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "part": "새 레포 만들기",
+      "questions": [
+        {
+          "id": "n1",
+          "q": "`gh repo create my-notes --public --source=. --remote=origin`에서 `--source=.`은 무슨 뜻인가요?",
+          "choices": [
+            "누구나 볼 수 있는 레포로 만들어요",
+            "만든 뒤 바로 push해요",
+            "지금 폴더를 레포로 써요",
+            "origin 이름으로 연결해요"
+          ],
+          "answer": 2,
+          "explain": "`.`은 지금 폴더예요. `--public`은 누구나 보기, `--remote=origin`은 origin 이름으로 연결하는 옵션이에요.",
+          "page": 22
+        },
+        {
+          "id": "n2",
+          "q": "수업에서 `gh repo create`에 `--push`를 붙이지 않는 까닭은 무엇인가요?",
+          "choices": [
+            "`--push`를 붙이면 레포가 비공개로 만들어져서요",
+            "`--push`는 수업에서 쓰지 않기로 한 push 설정까지 같이 바꿔서요",
+            "`--push`는 Mac에서만 동작해서요",
+            "`--push`를 붙이면 origin이 연결되지 않아서요"
+          ],
+          "answer": 1,
+          "explain": "`--push`는 수업에서 쓰지 않는 push 설정까지 같이 바꿔요. 그래서 붙이지 않고, 만든 뒤 `git push origin main`으로 직접 올려요.",
+          "page": 22
+        },
+        {
+          "id": "n3",
+          "q": "`gh repo create` 뒤 `git push origin main`을 쳤더니 비밀번호나 토큰을 묻지 않고 바로 올라갔어요. 왜 그런가요?",
+          "choices": [
+            "`gh repo create`가 push까지 해 둬서요",
+            "레포를 `--public`으로 만들어서요",
+            "1파트 질문 3에서 Yes를 골라 git이 gh 로그인을 써서요",
+            "`git init`을 다시 쳐서요"
+          ],
+          "answer": 2,
+          "explain": "질문 3에서 Yes를 고르면 gh가 `~/.gitconfig`에 credential 설정을 넣어요. 그래서 git이 gh에게 출입증을 받아 로그인 창 없이 올려요.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "part": "레포 지우기와 권한 추가",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "`gh repo delete kim/my-notes`로 GitHub 레포를 지우면 무엇이 남나요?",
+          "choices": [
+            "GitHub의 휴지통에 레포가 남아요",
+            "이슈와 PR 기록이 남아요",
+            "다른 사람이 누른 스타가 남아요",
+            "내 컴퓨터의 `~/kant/my-notes` 폴더가 남아요"
+          ],
+          "answer": 3,
+          "explain": "GitHub 레포와 그 안의 이슈, PR, 스타는 모두 사라지고 GitHub에는 휴지통이 없어요. 내 컴퓨터 폴더는 그대로 남아요.",
+          "page": 25
+        },
+        {
+          "id": "d2",
+          "q": "처음 `gh repo delete`를 쳤더니 아래 오류가 났어요. 어떻게 하나요?",
+          "code": "HTTP 403: Must have admin rights to Repository. (https://api.github.com/repos/kim/my-notes)\nThis API operation needs the \"delete_repo\" scope. To request it, run:\n  gh auth refresh -h github.com -s delete_repo",
+          "choices": [
+            "`gh auth login`으로 네 질문에 다시 답해요",
+            "`gh auth refresh -h github.com -s delete_repo`로 지우기 권한을 더해요",
+            "GitHub 장애라서 나중에 다시 쳐요",
+            "`rm -r my-notes`로 폴더를 먼저 지워요"
+          ],
+          "answer": 1,
+          "explain": "고장이 아니라 출입증에 `delete_repo` 권한이 없어서 막힌 거예요. 오류가 알려 준 `gh auth refresh` 명령을 쳐요. 질문 네 개는 다시 묻지 않고 출입증만 다시 받아요.",
+          "page": 26
+        },
+        {
+          "id": "d3",
+          "q": "`gh auth refresh -h github.com -s delete_repo`에서 `-h`는 무슨 뜻인가요?",
+          "choices": [
+            "어느 GitHub인지 적는 host",
+            "도움말 보기 help",
+            "숨김 레포 hidden",
+            "기록 보기 history"
+          ],
+          "answer": 0,
+          "explain": "여기서 `-h`는 도움말이 아니라 host(사이트 주소)의 줄임이에요. `-s delete_repo`는 더할 권한(scope)이에요.",
+          "page": 27
+        }
+      ]
+    },
+    {
+      "part": "자주 쓰는 gh 명령",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "브랜치 `feature/kim-hobby`에 커밋을 만들었어요. `gh pr create`로 PR을 열기 전에 먼저 칠 명령은 무엇인가요?",
+          "choices": [
+            "`git push origin main`",
+            "`gh pr merge`",
+            "`git push origin feature/kim-hobby`",
+            "`gh issue create`"
+          ],
+          "answer": 2,
+          "explain": "PR은 GitHub에 올라간 브랜치로 열어요. 그래서 `git push origin feature/kim-hobby`로 먼저 올려요. push 전에 치면 gh가 브랜치를 어디에 push할지 되물어요.",
+          "page": 32
+        },
+        {
+          "id": "p2",
+          "q": "이슈 #1을 만든 뒤 처음 연 PR이 `#2`가 됐어요. 왜 그런가요?",
+          "choices": [
+            "PR 번호는 늘 2부터 시작해서요",
+            "GitHub은 이슈와 PR 번호를 같이 세서요",
+            "커밋이 2개라서요",
+            "브랜치가 2개라서요"
+          ],
+          "answer": 1,
+          "explain": "GitHub은 이슈와 PR 번호를 같이 세요. 이슈 #1 다음이라 PR이 2번이 됐어요.",
+          "page": 33
+        },
+        {
+          "id": "p3",
+          "q": "`gh pr merge 2 --merge`로 PR을 합쳤어요. 내 컴퓨터의 main에도 받아 오려면 어떻게 하나요?",
+          "choices": [
+            "아무것도 안 해도 내 main이 저절로 바뀌어요",
+            "`gh pr view 2`를 쳐요",
+            "`gh repo clone`으로 다시 받아요",
+            "`git checkout main` 뒤 `git pull origin main`을 쳐요"
+          ],
+          "answer": 3,
+          "explain": "합친 것은 GitHub의 main이라 내 컴퓨터는 아직 그대로예요. main으로 옮겨서 `git pull origin main`으로 받아 와요. `git log --oneline` 맨 위에 `Merge pull request #2` 커밋이 생겨요.",
+          "page": 34
+        }
+      ]
+    }
+  ]
+}

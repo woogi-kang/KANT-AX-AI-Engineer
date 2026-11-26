@@ -26,7 +26,7 @@ export function chapterInfo(relDir: string) {
     .filter((r) => r.length >= 2 && /\d/.test(r[1]))
     .map(([name, range, desc = ""]) => {
       const [a, b] = range.split(/[–~-]/).map((x) => parseInt(x, 10));
-      return { name: name.replace(/^\d+\s*[.·]\s*/, ""), from: a, to: b || a, desc };
+      return { name: name.replace(/^\d+\s*(?:\.|·)\s*/, ""), from: a, to: b || a, desc };
     });
   return { goals, parts };
 }
