@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/50-multiple-regression/multiple-regression-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/50-multiple-regression/multiple-regression-slides.pdf) | [48 · 첫 머신러닝 모델 (선형 회귀)](../48-linear-regression) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/50-multiple-regression/multiple-regression-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/50-multiple-regression/multiple-regression-slides.pdf) | [49 · 경사 하강법 (조금씩 고쳐 가며 직선 찾기)](../49-gradient-descent) | 준비 중 |
 
 <!-- /curriculum:top -->
 
@@ -288,6 +288,6 @@ node ../tools/export.js slides multiple-regression-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 48 · 첫 머신러닝 모델 (선형 회귀)](../48-linear-regression) · [커리큘럼](../README.md)
+[← 이전: 49 · 경사 하강법 (조금씩 고쳐 가며 직선 찾기)](../49-gradient-descent) · [커리큘럼](../README.md)
 
 <!-- /curriculum:nav -->

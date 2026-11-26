@@ -145,6 +145,9 @@
     {"dir": "48-linear-regression", "title": "첫 머신러닝 모델 (선형 회귀)", "track": "파이썬",
      "goal": "scikit-learn 선형 회귀로 오피스텔 시세 200건의 직선을 학습하고, 새 면적의 가격을 예측하고, MAE와 R²로 채점해요",
      "commands": "`uv add scikit-learn` `model.fit(X, y)` `model.predict(표)` `mean_absolute_error(y, y_pred)` `r2_score(y, y_pred)`", "slides": "linear-regression-slides.html"},
+    {"dir": "49-gradient-descent", "title": "경사 하강법 (조금씩 고쳐 가며 직선 찾기)", "track": "파이썬",
+     "goal": "손실 그래프의 경사를 보고 w와 b를 조금씩 고치는 경사 하강법을 SGDRegressor로 학습하고, 학습률과 학습 곡선을 읽어요",
+     "commands": "`SGDRegressor(loss=\"squared_error\", learning_rate=\"constant\", eta0=0.01)` `sgd.partial_fit(X, y)` `history_df[\"mse\"]`", "slides": "gradient-descent-slides.html"},
     {"dir": "50-multiple-regression", "title": "다중 선형 회귀와 ML 기초 정리", "track": "파이썬",
      "goal": "seaborn 산점도와 상관계수 히트맵으로 열을 살펴보고, 입력 열 셋으로 점수를 예측한 뒤 45~50의 머신러닝 기초를 한 장으로 정리해요",
      "commands": "`sns.scatterplot(ax=axes[0])` `df.corr()` `sns.heatmap(annot=True, vmin=-1, vmax=1)` `X = df[[\"a\", \"b\", \"c\"]]` `model.coef_`", "slides": "multiple-regression-slides.html"}
