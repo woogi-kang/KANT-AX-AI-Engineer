@@ -26,7 +26,8 @@ export function NumBox({ children }: { children: React.ReactNode }) {
   return <span className="ict sm n num">{children}</span>;
 }
 
-const DARK: LogoKey[] = ["github", "terminal"];
+/** 어두운 화면에서 바탕과 대비가 낮아 밝은 바탕을 까는 로고(짙은 남색, 짙은 파랑, 검정, 가는 글자) */
+const DARK: LogoKey[] = ["github", "terminal", "mysql", "postgresql", "pandas", "nginx"];
 /** 도구 로고 그림 */
 export function Logo({ k, size = 28 }: { k: LogoKey; size?: number }) {
   return (
