@@ -1,0 +1,176 @@
+<!doctype html><html lang="ko" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>로드맵 지도</title>
+<link rel="preload" href="../v2/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin><style>@font-face{font-family:"Pretendard";font-weight:45 920;font-display:swap;src:url("../v2/fonts/PretendardVariable.woff2") format("woff2-variations")}
+@font-face{font-family:"JetBrains Mono";font-weight:100 800;font-display:swap;src:url("../v2/fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2")}
+@font-face{font-family:"D2Coding Hangul";font-weight:400;font-display:swap;size-adjust:120%;unicode-range:U+AC00-D7A3,U+3131-318E;src:url("../v2/fonts/d2coding-hangul-400.woff2") format("woff2")}
+@font-face{font-family:"D2Coding Hangul";font-weight:700;font-display:swap;size-adjust:120%;unicode-range:U+AC00-D7A3,U+3131-318E;src:url("../v2/fonts/d2coding-hangul-700.woff2") format("woff2")}
+*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;word-break:keep-all;overflow-wrap:break-word}
+a{color:inherit;text-decoration:none}img,svg{display:block}h1,h2,h3,h4,p{margin:0}button{font:inherit;color:inherit}
+.mono,code,kbd{font-family:"JetBrains Mono","D2Coding Hangul",ui-monospace,Menlo,monospace}
+.i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:2px solid #2459C9;outline-offset:2px}
+@media (max-width:640px){br.w{display:none}}
+:root{--bg:#FFFFFF;--paper:#F5F4EF;--ink:#16181D;--sub:#5B6070;--mute:#8A8F9C;--line:#DCDAD2;--line2:#C9C6BC;--ac:#2459C9;--ac-s:#E9EFFC;--node:#16181D;--node-ink:#FFFFFF;--ok:#1F8A4C}
+[data-theme=dark]{--bg:#121418;--paper:#181B21;--ink:#ECEDEF;--sub:#A3A8B3;--mute:#7C818D;--line:#2B2F38;--line2:#3A3F4A;--ac:#7FA2F0;--ac-s:#1D2740;--node:#ECEDEF;--node-ink:#121418;--ok:#5CC08A}
+body{background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.hd{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:10}
+.hd .wrap{display:flex;align-items:center;gap:24px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em;white-space:nowrap}
+.brand-m{width:28px;height:28px;border-radius:7px;background:var(--node);color:var(--node-ink);display:grid;place-items:center}.brand-m .i{width:16px;height:16px}
+.nav{display:flex;gap:4px}.nav a{padding:6px 10px;border-radius:6px;color:var(--sub);font-weight:600;font-size:15px}.nav a[aria-current]{color:var(--ink);background:var(--paper)}
+.tools{margin-left:auto;display:flex;gap:8px;align-items:center}
+.sbtn{display:flex;align-items:center;gap:8px;height:36px;padding:0 10px 0 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--sub);cursor:pointer;font-size:14px;min-width:200px}.sbtn kbd{margin-left:auto;font-size:12px;border:1px solid var(--line);border-radius:5px;padding:0 6px}
+.ibtn{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:var(--bg);cursor:pointer}
+[data-theme=light] .ibtn .moon-i,[data-theme=dark] .ibtn .sun-i{display:none}
+.hero{padding:56px 0 28px}
+.hero h1{font-size:44px;line-height:1.25;letter-spacing:-.025em;font-weight:800;max-width:780px}
+.hero p{margin-top:14px;color:var(--sub);font-size:18px;max-width:680px}
+.roles{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.role{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:14px 18px 14px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;min-width:280px}
+.role .i{width:22px;height:22px;margin-top:2px;color:var(--sub)}.role b{display:block;font-size:16px}.role small{color:var(--sub);font-size:14px}
+.role[aria-selected=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}.role[aria-selected=true] .i{color:var(--ac)}
+.legend{display:flex;gap:20px;flex-wrap:wrap;align-items:center;padding:14px 0;margin-top:8px;color:var(--sub);font-size:14px}
+.lg{display:flex;align-items:center;gap:8px}.lg i{display:block;width:22px;height:14px;border-radius:4px;border:2px solid var(--ink)}.lg i.dash{border-style:dashed;border-color:var(--mute)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ac);flex:none}.dot.off{background:none;border:1.5px solid var(--mute)}
+.mapbox{background:var(--paper);background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:22px 22px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:48px 0 56px}
+.map{position:relative;max-width:1040px;margin:0 auto}
+.map::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:3px;margin-left:-1.5px;background:var(--ink);border-radius:2px}
+.st{position:relative;display:grid;grid-template-columns:1fr 280px 1fr;gap:0 40px;align-items:center;padding:20px 0}
+.st-node{grid-column:2;grid-row:1/span 9;align-self:center;position:relative;z-index:1;background:var(--node);color:var(--node-ink);border-radius:12px;padding:14px 16px}
+.st-node small{font-size:13px;opacity:.7;font-weight:600}.st-node h3{font-size:18px;line-height:1.35;margin-top:2px}.st-node p{font-size:14px;opacity:.78;margin-top:4px;line-height:1.5}
+.tp{position:relative;display:block;background:var(--bg);border:2px solid var(--ink);border-radius:10px;padding:10px 14px;margin:6px 0}
+.tp.opt{border-style:dashed;border-color:var(--mute)}
+.tp::after{content:"";position:absolute;top:50%;width:40px;height:2px;background:var(--line2)}
+.tp.l{grid-column:1}.tp.l::after{right:-42px}.tp.r{grid-column:3}.tp.r::after{left:-42px}
+.tp b{display:flex;align-items:center;gap:8px;font-size:16px;line-height:1.4}.tp p{color:var(--sub);font-size:14px;line-height:1.5;margin-top:2px}
+.tp .meta{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:13px;color:var(--ac);font-weight:600}.tp.soon .meta{color:var(--mute);font-weight:500}
+.tp:hover{box-shadow:0 0 0 3px var(--ac-s);border-color:var(--ac)}
+.tp.here{background:var(--ac-s);border-color:var(--ac)}
+.grow{padding:56px 0}.grow .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.grow h2{font-size:24px;letter-spacing:-.015em}.grow p{color:var(--sub);margin-top:8px}
+.chg{list-style:none;padding:0;margin:14px 0 0;border-top:1px solid var(--line)}.chg li{display:flex;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}.chg time{color:var(--mute);font-size:14px;flex:none;width:96px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:9px;font-weight:700;border:1.5px solid var(--ink)}.btn.pri{background:var(--ink);color:var(--bg)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.ft{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--sub);font-size:14px}.ft .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+/* 주제 화면 */
+.crumb{display:flex;gap:6px;align-items:center;flex-wrap:wrap;color:var(--sub);font-size:14px;padding:20px 0 0}.crumb .i{width:14px;height:14px}.crumb a:hover{color:var(--ink)}
+.tpage{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;padding:24px 0 64px}
+.kick{color:var(--sub);font-size:15px;font-weight:600}
+.tpage h1{font-size:38px;letter-spacing:-.025em;line-height:1.25;margin-top:6px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:13px;font-weight:700;border:1.5px solid var(--ink);border-radius:6px;padding:1px 8px;letter-spacing:0}
+.lede{font-size:18px;color:var(--sub);margin-top:14px;max-width:680px}
+.blk{margin-top:40px}.blk h2{font-size:20px;letter-spacing:-.01em;margin-bottom:12px}
+.can{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.can li{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:10px}.can .i{color:var(--ok);margin-top:3px}
+.pre{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border:2px solid var(--ink);border-radius:10px}.pre small{color:var(--sub)}
+.res{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}
+.res li{display:grid;grid-template-columns:128px minmax(0,1fr) auto;gap:18px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.res img{width:128px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--line)}
+.res b{display:block;line-height:1.4}.res .no{color:var(--mute);font-weight:600;margin-right:6px}.res p{color:var(--sub);font-size:14px;margin-top:2px}
+.res .acts{display:flex;gap:6px}.res .acts a{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;font-weight:600;white-space:nowrap}.res .acts a:first-child{border-color:var(--ink)}
+.res .acts .i{width:15px;height:15px}
+.nextc{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;border:2px solid var(--ink);border-radius:12px}.nextc small{color:var(--sub)}.nextc b{font-size:18px;display:block}
+.side{position:sticky;top:84px;align-self:start}
+.mini{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px}
+.mini h3{font-size:14px;color:var(--sub);font-weight:600}.mini .sn{font-size:17px;font-weight:800;margin:2px 0 12px}
+.mini ol{list-style:none;padding:0 0 0 18px;margin:0;position:relative}.mini ol::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:2px;background:var(--ink)}
+.mini li{position:relative;padding:6px 0;font-size:15px}.mini li::before{content:"";position:absolute;left:-18px;top:13px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ink)}
+.mini li.opt::before{border-style:dashed;border-color:var(--mute)}.mini li.here{font-weight:800;color:var(--ac)}.mini li.here::before{background:var(--ac);border-color:var(--ac)}
+.mini .stg{display:flex;justify-content:space-between;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:14px;color:var(--sub)}
+.note{margin-top:14px;font-size:13px;color:var(--mute);line-height:1.5}
+.dlg{position:fixed;inset:0;z-index:50;display:none;place-items:start center;padding:12vh 16px 16px;background:rgba(10,12,16,.35)}
+.dlg[open]{display:grid}.dlg-box{width:min(560px,100%);background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 50px rgba(0,0,0,.18);overflow:hidden}
+.dlg-in{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}.dlg-in input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:16px;color:inherit;outline:none}
+.dlg-in kbd{font-size:12px;border:1px solid var(--line);border-radius:6px;padding:2px 6px;color:var(--sub)}.dlg-list{max-height:50vh;overflow:auto;padding:6px}
+.dlg-item{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:8px}.dlg-item:hover,.dlg-item.on{background:var(--paper)}.dlg-item small{color:var(--sub);flex:none}.dlg-empty{padding:16px;color:var(--sub)}
+@media (max-width:1100px){.sbtn{min-width:0}.sbtn span,.sbtn kbd{display:none}}
+@media (max-width:960px){.st{grid-template-columns:1fr 240px 1fr;gap:0 28px}.tp.l::after{right:-30px;width:28px}.tp.r::after{left:-30px;width:28px}.tpage{grid-template-columns:1fr}.side{position:static}}
+@media (max-width:760px){.wrap{padding:0 16px}.nav{display:none}.hero{padding:36px 0 20px}.hero h1{font-size:30px}.hero p{font-size:16px}.role{min-width:0;flex:1 1 100%}
+.mapbox{padding:28px 16px 36px}.map::before{left:9px}.st{display:block;padding:10px 0 10px 32px}.st-node{margin-bottom:8px}.st-node::before{content:"";position:absolute;left:-29px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--node);box-shadow:0 0 0 4px var(--paper)}
+.tp::after{display:none}.grow .wrap{grid-template-columns:1fr;gap:36px}.tpage h1{font-size:28px}.can{grid-template-columns:1fr}
+.res li{grid-template-columns:88px minmax(0,1fr)}.res img{width:88px}.res .acts{grid-column:1/-1}}</style></head><body><header class="hd"><div class="wrap"><a class="brand" href="home.html"><span class="brand-m"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h8.5a1 1 0 010 7h-11a1 1 0 000 7H15"/><circle cx="18" cy="19" r="3"/><circle cx="6" cy="5" r="3"/></svg></span>풀스택 AI/AX 로드맵</a>
+<nav class="nav" aria-label="메뉴"><a href="home.html" aria-current="page">로드맵</a><a href="#">가이드라인</a><a href="#">꿀팁</a><a href="#">소식</a></nav>
+<div class="tools"><button class="sbtn" data-search aria-label="찾기"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg><span>주제 찾기</span><kbd>/</kbd></button><button class="ibtn" data-theme-toggle aria-label="화면 밝기 바꾸기"><svg class="i moon-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg><svg class="i sun-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></button></div></div></header><main>
+<section class="hero"><div class="wrap"><h1>AI/AX를 준비하는 사람을 위한<br class="w"> 한 장짜리 공개 로드맵</h1>
+<p>어디서 시작해서 무엇을 어떤 순서로 배우면 되는지 지도로 보여 드려요. 주제를 누르면 그 주제를 배우는 자료가 모여 있어요.</p>
+<div class="roles" data-tabs role="tablist" aria-label="역할 고르기"><button class="role" role="tab" data-tab="eng" aria-selected="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span><b>AI/AX 엔지니어 준비</b><small>AI를 쓰는 서비스를 직접 만들고 운영할 수 있게 돼요</small></span></button><button class="role" role="tab" data-tab="ax" aria-selected="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 12h4"/><path d="M10 8h4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/></svg><span><b>AX 도입 실무</b><small>우리 회사 업무에 AI를 안전하게 들여올 수 있게 돼요</small></span></button></div>
+<div class="legend"><span class="lg"><i></i>꼭 거쳐 가요</span><span class="lg"><i class="dash"></i>필요하면 봐요</span><span class="lg"><span class="dot"></span>자료 있음</span><span class="lg"><span class="dot off"></span>준비 중</span></div></div></section>
+<div class="mapbox"><div class="map" data-panel="eng"><section class="st" aria-label="1단계">
+<div class="st-node"><small>1단계</small><h3>개발 도구 익히기</h3><p>터미널과 Git으로 파일과 기록을 다뤄요</p></div>
+<a class="tp l" href="topic.html" data-t>
+<b>터미널 명령</b><p>폴더를 옮겨 다니고 파일을 만들어요</p><span class="meta"><span class="dot"></span>자료 1개</span></a><a class="tp r" href="topic.html" data-t>
+<b>Git으로 기록 남기기</b><p>커밋, 브랜치, 비교를 손으로 해 봐요</p><span class="meta"><span class="dot"></span>자료 4개</span></a><a class="tp l" href="topic.html" data-t>
+<b>팀에서 같이 쓰기</b><p>충돌을 풀고 기록을 합쳐요</p><span class="meta"><span class="dot"></span>자료 3개</span></a><a class="tp r opt" href="topic.html" data-t>
+<b>GitHub CLI</b><p>터미널에서 레포와 PR을 다뤄요</p><span class="meta"><span class="dot"></span>자료 1개</span></a></section><section class="st" aria-label="2단계">
+<div class="st-node"><small>2단계</small><h3>파이썬으로 문제 풀기</h3><p>값, 조건, 반복, 함수, 클래스를 차례로 쌓아요</p></div>
+<a class="tp l" href="topic.html" data-t>
+<b>파이썬 환경 만들기</b><p>uv와 VS Code 노트북을 준비해요</p><span class="meta"><span class="dot"></span>자료 2개</span></a><a class="tp r" href="topic.html" data-t>
+<b>값과 자료 구조</b><p>리스트, 딕셔너리, 집합에 값을 담아요</p><span class="meta"><span class="dot"></span>자료 5개</span></a><a class="tp l" href="topic.html" data-t>
+<b>조건과 반복</b><p>if와 while로 흐름을 정해요</p><span class="meta"><span class="dot"></span>자료 2개</span></a><a class="tp r" href="topic.html" data-t>
+<b>함수</b><p>같은 일을 함수로 묶어 다시 써요</p><span class="meta"><span class="dot"></span>자료 5개</span></a><a class="tp l opt" href="topic.html" data-t>
+<b>클래스와 모듈</b><p>코드를 틀과 파일로 나눠요</p><span class="meta"><span class="dot"></span>자료 5개</span></a></section><section class="st" aria-label="3단계">
+<div class="st-node"><small>3단계</small><h3>데이터 저장하고 꺼내기</h3><p>표로 저장하고 SQL로 골라 봐요</p></div>
+<a class="tp l" href="topic.html" data-t>
+<b>데이터베이스 개념</b><p>표, 행, 열, 기본 키를 읽어요</p><span class="meta"><span class="dot"></span>자료 1개</span></a><a class="tp r here" href="topic.html" data-t>
+<b>SQL로 골라 보고 고치기</b><p>조건, 집계, JOIN, 트랜잭션까지 써요</p><span class="meta"><span class="dot"></span>자료 8개</span></a><a class="tp l" href="topic.html" data-t>
+<b>파이썬에서 DB 쓰기</b><p>코드에서 SQL을 안전하게 실행해요</p><span class="meta"><span class="dot"></span>자료 1개</span></a></section><section class="st" aria-label="4단계">
+<div class="st-node"><small>4단계</small><h3>실행 환경 만들기</h3><p>컨테이너로 어디서나 같은 환경을 띄워요</p></div>
+<a class="tp l" href="topic.html" data-t>
+<b>Docker 컨테이너</b><p>이미지를 받아 컨테이너로 켜요</p><span class="meta"><span class="dot"></span>자료 3개</span></a><a class="tp r opt" href="topic.html" data-t>
+<b>웹 서버와 nginx</b><p>요청을 받아 뒤로 넘겨요</p><span class="meta"><span class="dot"></span>자료 1개</span></a><a class="tp l opt" href="topic.html" data-t>
+<b>DB를 컨테이너로</b><p>MySQL과 PostgreSQL을 띄워요</p><span class="meta"><span class="dot"></span>자료 2개</span></a><a class="tp r soon" href="topic.html" data-t>
+<b>배포하기</b><p>만든 것을 인터넷에 올려요</p><span class="meta"><span class="dot off"></span>준비 중</span></a></section><section class="st" aria-label="5단계">
+<div class="st-node"><small>5단계</small><h3>데이터 분석과 머신러닝 기초</h3><p>데이터를 정리하고 첫 모델을 만들어요</p></div>
+<a class="tp l" href="topic.html" data-t>
+<b>NumPy와 pandas</b><p>표 데이터를 계산하고 골라요</p><span class="meta"><span class="dot"></span>자료 1개</span></a><a class="tp r" href="topic.html" data-t>
+<b>데이터 정리</b><p>빈칸과 튀는 값을 다뤄요</p><span class="meta"><span class="dot"></span>자료 1개</span></a><a class="tp l soon" href="topic.html" data-t>
+<b>머신러닝 기초</b><p>회귀와 분류 모델을 만들어요</p><span class="meta"><span class="dot off"></span>준비 중</span></a></section><section class="st" aria-label="6단계">
+<div class="st-node"><small>6단계</small><h3>LLM 활용</h3><p>언어 모델을 서비스에 붙여요</p></div>
+<a class="tp l soon" href="topic.html" data-t>
+<b>프롬프트 설계</b><p>원하는 답을 받는 질문을 써요</p><span class="meta"><span class="dot off"></span>준비 중</span></a><a class="tp r soon" href="topic.html" data-t>
+<b>RAG</b><p>우리 문서를 찾아 답에 붙여요</p><span class="meta"><span class="dot off"></span>준비 중</span></a><a class="tp l opt soon" href="topic.html" data-t>
+<b>에이전트</b><p>도구를 쓰는 AI를 만들어요</p><span class="meta"><span class="dot off"></span>준비 중</span></a></section><section class="st" aria-label="7단계">
+<div class="st-node"><small>7단계</small><h3>평가와 운영</h3><p>AI 기능이 맞게 도는지 재고 지켜요</p></div>
+<a class="tp l soon" href="topic.html" data-t>
+<b>평가하기</b><p>답이 맞는지 기준을 세워 재요</p><span class="meta"><span class="dot off"></span>준비 중</span></a><a class="tp r opt soon" href="topic.html" data-t>
+<b>운영과 비용</b><p>로그, 비용, 장애를 살펴요</p><span class="meta"><span class="dot off"></span>준비 중</span></a></section></div><div class="map" data-panel="ax" hidden><section class="st" aria-label="1단계">
+<div class="st-node"><small>1단계</small><h3>AX 이해하기</h3><p>AI가 바꾸는 일과 못 바꾸는 일을 나눠요</p></div>
+<a class="tp l soon" href="topic.html" data-t>
+<b>AX가 뭔가요</b><p>디지털 전환과 AX의 차이를 봐요</p><span class="meta"><span class="dot off"></span>준비 중</span></a><a class="tp r soon" href="topic.html" data-t>
+<b>AI가 잘하는 일, 못하는 일</b><p>틀릴 수 있는 곳을 먼저 알아요</p><span class="meta"><span class="dot off"></span>준비 중</span></a></section><section class="st" aria-label="2단계">
+<div class="st-node"><small>2단계</small><h3>업무 고르기</h3><p>AI를 먼저 붙일 업무를 정해요</p></div>
+<a class="tp l soon" href="topic.html" data-t>
+<b>업무 지도 그리기</b><p>반복되는 일과 판단하는 일을 나눠요</p><span class="meta"><span class="dot off"></span>준비 중</span></a><a class="tp r soon" href="topic.html" data-t>
+<b>첫 업무 고르기</b><p>작고, 자주 하고, 틀려도 되돌릴 수 있는 일부터</p><span class="meta"><span class="dot off"></span>준비 중</span></a></section><section class="st" aria-label="3단계">
+<div class="st-node"><small>3단계</small><h3>데이터 준비</h3><p>흩어진 데이터를 표로 모아요</p></div>
+<a class="tp l soon" href="topic.html" data-t>
+<b>데이터가 어디 있나</b><p>엑셀, 메일, 시스템에 흩어진 것을 찾아요</p><span class="meta"><span class="dot off"></span>준비 중</span></a><a class="tp r opt" href="topic.html" data-t>
+<b>표 데이터 다루기</b><p>pandas로 정리하는 맛을 봐요</p><span class="meta"><span class="dot"></span>자료 2개</span></a><a class="tp l opt" href="topic.html" data-t>
+<b>SQL 읽기</b><p>시스템 데이터를 직접 골라 봐요</p><span class="meta"><span class="dot"></span>자료 2개</span></a></section><section class="st" aria-label="4단계">
+<div class="st-node"><small>4단계</small><h3>AI 도구 써 보기</h3><p>이미 있는 도구로 먼저 해 봐요</p></div>
+<a class="tp l soon" href="topic.html" data-t>
+<b>대화형 AI 쓰기</b><p>문서 요약, 초안 쓰기를 해 봐요</p><span class="meta"><span class="dot off"></span>준비 중</span></a><a class="tp r opt soon" href="topic.html" data-t>
+<b>업무 자동화 도구</b><p>반복 작업을 이어 붙여요</p><span class="meta"><span class="dot off"></span>준비 중</span></a></section><section class="st" aria-label="5단계">
+<div class="st-node"><small>5단계</small><h3>작게 시범 적용</h3><p>한 팀, 한 업무에서 기간을 정해 해 봐요</p></div>
+<a class="tp l soon" href="topic.html" data-t>
+<b>시범 계획 세우기</b><p>범위, 기간, 잴 것을 정해요</p><span class="meta"><span class="dot off"></span>준비 중</span></a><a class="tp r soon" href="topic.html" data-t>
+<b>전후 비교하기</b><p>걸린 시간과 고친 횟수를 재요</p><span class="meta"><span class="dot off"></span>준비 중</span></a></section><section class="st" aria-label="6단계">
+<div class="st-node"><small>6단계</small><h3>지키며 넓히기</h3><p>규칙을 세우고 다른 팀으로 넓혀요</p></div>
+<a class="tp l soon" href="topic.html" data-t>
+<b>보안과 개인정보</b><p>넣으면 안 되는 데이터를 정해요</p><span class="meta"><span class="dot off"></span>준비 중</span></a><a class="tp r soon" href="topic.html" data-t>
+<b>사내 사용 규칙</b><p>누가, 무엇을, 어디까지 쓰는지 적어요</p><span class="meta"><span class="dot off"></span>준비 중</span></a><a class="tp l opt" href="topic.html" data-t>
+<b>사내 교육</b><p>기초 자료로 함께 공부해요</p><span class="meta"><span class="dot"></span>자료 2개</span></a></section></div></div>
+<section class="grow"><div class="wrap"><div><h2>지도는 계속 자라요</h2><p>현장에서 받은 질문과 의견으로 주제를 더하고 고쳐요. 바뀐 내용은 모두 기록으로 남겨요.</p>
+<ul class="chg"><li><time>2026-11-26</time><span>가이드라인 초안 0.1을 공개해요</span></li><li><time>2026-11-24</time><span>데이터 정리하기 자료를 더했어요</span></li><li><time>2026-11-23</time><span>모든 슬라이드에 PDF 받기를 더했어요</span></li></ul></div>
+<div><h2>함께 만들어요</h2><p>빠진 주제나 틀린 곳이 보이면 알려 주세요. 회사에서 AX를 준비하며 겪은 일도 다음 사람에게 큰 도움이 돼요.</p>
+<div class="btns"><a class="btn pri" href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/></svg>의견 보내기</a><a class="btn" href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>바뀐 내용 전체 보기</a></div>
+<p class="note">초안 0.1 · 마지막 고침 2026-11-26</p></div></div></section></main><footer class="ft"><div class="wrap"><span>공익 목적으로 만드는 공개 자료예요. 가입 없이 누구나 볼 수 있어요.</span><span>© 2026 Taewook Kang (woogi) · woogi@memoriz.net</span></div></footer><div class="dlg" data-dlg role="dialog" aria-modal="true" aria-label="찾기"><div class="dlg-box"><div class="dlg-in"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg><input type="text" placeholder="주제, 단계, 명령어로 찾아요" aria-label="찾을 말"><kbd>Esc</kbd></div><div class="dlg-list"></div></div></div><script>(()=>{const d=document.documentElement;
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'});
+const dlg=document.querySelector('[data-dlg]');const inp=dlg.querySelector('input'),list=dlg.querySelector('.dlg-list');const data=[{"t":"터미널 명령","s":"엔지니어 1단계"},{"t":"Git으로 기록 남기기","s":"엔지니어 1단계"},{"t":"팀에서 같이 쓰기","s":"엔지니어 1단계"},{"t":"GitHub CLI","s":"엔지니어 1단계"},{"t":"파이썬 환경 만들기","s":"엔지니어 2단계"},{"t":"값과 자료 구조","s":"엔지니어 2단계"},{"t":"조건과 반복","s":"엔지니어 2단계"},{"t":"함수","s":"엔지니어 2단계"},{"t":"클래스와 모듈","s":"엔지니어 2단계"},{"t":"데이터베이스 개념","s":"엔지니어 3단계"},{"t":"SQL로 골라 보고 고치기","s":"엔지니어 3단계"},{"t":"파이썬에서 DB 쓰기","s":"엔지니어 3단계"},{"t":"Docker 컨테이너","s":"엔지니어 4단계"},{"t":"웹 서버와 nginx","s":"엔지니어 4단계"},{"t":"DB를 컨테이너로","s":"엔지니어 4단계"},{"t":"배포하기","s":"엔지니어 4단계"},{"t":"NumPy와 pandas","s":"엔지니어 5단계"},{"t":"데이터 정리","s":"엔지니어 5단계"},{"t":"머신러닝 기초","s":"엔지니어 5단계"},{"t":"프롬프트 설계","s":"엔지니어 6단계"},{"t":"RAG","s":"엔지니어 6단계"},{"t":"에이전트","s":"엔지니어 6단계"},{"t":"평가하기","s":"엔지니어 7단계"},{"t":"운영과 비용","s":"엔지니어 7단계"},{"t":"AX가 뭔가요","s":"AX 실무 1단계"},{"t":"AI가 잘하는 일, 못하는 일","s":"AX 실무 1단계"},{"t":"업무 지도 그리기","s":"AX 실무 2단계"},{"t":"첫 업무 고르기","s":"AX 실무 2단계"},{"t":"데이터가 어디 있나","s":"AX 실무 3단계"},{"t":"표 데이터 다루기","s":"AX 실무 3단계"},{"t":"SQL 읽기","s":"AX 실무 3단계"},{"t":"대화형 AI 쓰기","s":"AX 실무 4단계"},{"t":"업무 자동화 도구","s":"AX 실무 4단계"},{"t":"시범 계획 세우기","s":"AX 실무 5단계"},{"t":"전후 비교하기","s":"AX 실무 5단계"},{"t":"보안과 개인정보","s":"AX 실무 6단계"},{"t":"사내 사용 규칙","s":"AX 실무 6단계"},{"t":"사내 교육","s":"AX 실무 6단계"},{"t":"방향 정하기","s":"가이드라인 1단계"},{"t":"업무와 데이터 살펴보기","s":"가이드라인 2단계"},{"t":"작게 시범 적용하기","s":"가이드라인 3단계"},{"t":"평가하고 결정하기","s":"가이드라인 4단계"},{"t":"넓히고 가르치기","s":"가이드라인 5단계"},{"t":"지키며 운영하기","s":"가이드라인 6단계"}];
+function draw(){const q=inp.value.trim().toLowerCase();const it=data.filter(x=>!q||(x.t+' '+x.s).toLowerCase().includes(q)).slice(0,8);list.innerHTML=it.map((x,j)=>'<a class="dlg-item'+(j?'':' on')+'" href="topic.html"><b>'+x.t.replace(/</g,'&lt;')+'</b><small>'+x.s+'</small></a>').join('')||'<p class="dlg-empty">찾는 내용이 없어요</p>'}
+function open(){dlg.setAttribute('open','');inp.value='';draw();inp.focus()}
+document.querySelectorAll('[data-search]').forEach(b=>b.onclick=open);inp.oninput=draw;dlg.onclick=e=>{if(e.target===dlg)dlg.removeAttribute('open')};
+addEventListener('keydown',e=>{const t=e.target.tagName;if(e.key==='Escape')dlg.removeAttribute('open');else if(!dlg.hasAttribute('open')&&((e.key==='/'&&t!=='INPUT')||((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'))){e.preventDefault();open()}});
+document.querySelectorAll('[data-tabs]').forEach(g=>{const bs=g.querySelectorAll('[data-tab]');bs.forEach(b=>b.onclick=()=>{bs.forEach(x=>x.setAttribute('aria-selected',x===b));document.querySelectorAll('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==b.dataset.tab)})});
+})()</script></body></html>

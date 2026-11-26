@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>새 구조 시안 비교</title>
+<style>
+@font-face{font-family:"Pretendard";font-weight:45 920;font-display:swap;src:url("../v2/fonts/PretendardVariable.woff2") format("woff2-variations")}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#EDECE8;color:#1D2330;font:15px/1.6 "Pretendard",system-ui,sans-serif;word-break:keep-all}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:5;background:#EDECE8;border-bottom:1px solid #D9D6CE}
+.top-in{max-width:1680px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
+h1{margin:0;font-size:18px;letter-spacing:-.02em}
+.seg{display:inline-flex;background:#fff;border-radius:999px;padding:3px;box-shadow:0 0 0 1px #D9D6CE}
+.seg button{border:0;background:none;font:inherit;font-size:14px;font-weight:600;color:#6A7180;padding:6px 14px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#1D2330;color:#fff}
+.top p{margin:0 0 0 auto;font-size:13px;color:#6A7180}
+main{max-width:1680px;margin:0 auto;padding:20px 24px 48px;display:grid;gap:20px;grid-template-columns:repeat(3,minmax(0,1fr))}
+main.phone{grid-template-columns:repeat(3,minmax(0,1fr));max-width:1200px}
+.v-h .ia{margin-top:10px;padding-top:8px;border-top:1px dashed #ECEAE4;font-size:12px;color:#4A5262;line-height:1.6}
+.note{max-width:1680px;margin:0 auto;padding:0 24px 40px;font-size:13px;color:#6A7180}
+.v{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px #D9D6CE;display:flex;flex-direction:column}
+.v-h{padding:14px 16px 12px;border-bottom:1px solid #ECEAE4}
+.v-h b{font-size:16px;letter-spacing:-.02em}
+.v-h b span{font:600 12px/1 ui-monospace,monospace;color:#2459C9;background:#E6EDFB;border-radius:4px;padding:3px 6px;margin-right:8px;vertical-align:2px}
+.v-h p{margin:4px 0 0;font-size:13px;color:#4A5262}
+.v-h ul{margin:8px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:12px;color:#6A7180}
+.v-h li::before{content:"+ ";color:#1F8A4C;font-weight:700}.v-h li.m::before{content:"− ";color:#A33131}
+.frame{position:relative;overflow:hidden;background:#F6F5F1}
+.frame iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0}
+.v-f{display:flex;gap:12px;padding:10px 16px;border-top:1px solid #ECEAE4;font-size:13px;font-weight:600}
+.v-f a{color:#2459C9;text-decoration:none}
+@media (max-width:1100px){main,main.phone{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){main.phone{grid-template-columns:minmax(0,1fr)}.top p{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <h1>공개 로드맵 새 구조 시안 세 가지</h1>
+  <div class="seg" role="group" aria-label="화면"><button type="button" data-p="home" aria-pressed="true">홈</button><button type="button" data-p="detail" aria-pressed="false">상세 화면</button></div>
+  <div class="seg" role="group" aria-label="폭"><button type="button" data-w="1440" aria-pressed="true">넓은 화면</button><button type="button" data-w="390" aria-pressed="false">휴대폰</button></div>
+  <p>각 칸은 실제 화면을 줄여 보여 줘요. 칸 안에서 스크롤하고 눌러 볼 수 있어요.</p>
+</div></header>
+<main id="grid">
+  <section class="v" data-v="v6" data-d="topic"><div class="v-h"><b><span>v6</span>로드맵 지도</b><p>역할(엔지니어 준비, AX 도입 실무)을 고르면 단계와 주제가 한 장의 지도로 나와요. 주제를 누르면 그 주제를 배우는 자료가 모여 있어요.</p>
+    <ul><li>전체 길과 지금 위치가 한눈에 보여요</li><li>꼭 볼 것과 필요하면 볼 것이 나뉘어요</li><li class="m">주제가 늘면 지도가 길어져요</li><li class="m">빈 주제(준비 중)가 많아 보여요</li></ul>
+    <p class="ia">홈: 역할 고르기 · 단계별 지도 · 바뀐 기록 · 의견 보내기<br>주제: 왜 필요한가 · 마치면 할 수 있는 것 · 먼저 볼 것 · 자료 · 다음 주제</p></div>
+    <div class="frame"><iframe title="v6" loading="lazy"></iframe></div><div class="v-f"><a data-open>홈 크게 열기 →</a><a data-open2>주제 화면 →</a></div></section>
+  <section class="v" data-v="v7" data-d="phase"><div class="v-h"><b><span>v7</span>가이드라인 문서</b><p>공공기관 지침서처럼 판과 고친 날을 밝혀요. 기업 AX 도입 여섯 단계와 엔지니어 역량 기준, 두 문서로 시작해요.</p>
+    <ul><li>회사 회의에서 그대로 띄워 쓰기 좋아요</li><li>고친 기록과 제안 창구가 분명해요</li><li class="m">배우는 자료는 뒤로 물러나요</li><li class="m">글이 많고 그림이 적어요</li></ul>
+    <p class="ia">홈: 문서 두 개 · 도입 여섯 단계 · 역량 기준 · 원칙 · 고친 기록<br>단계: 목표 · 물어볼 것 · 체크리스트 · 결과물 · 함정 · 역할 · 관련 자료</p></div>
+    <div class="frame"><iframe title="v7" loading="lazy"></iframe></div><div class="v-f"><a data-open>홈 크게 열기 →</a><a data-open2>단계 문서 →</a></div></section>
+  <section class="v" data-v="v8" data-d="milestone"><div class="v-h"><b><span>v8</span>역할별 여정</b><p>질문 세 개에 답하면 시작할 이정표를 알려 줘요. 사람마다 길(입문자, AX 실무자, 팀 리더)이 있고, 이정표마다 연습 과제가 있어요.</p>
+    <ul><li>처음 온 사람이 어디서 시작할지 바로 알아요</li><li>"할 수 있게 돼요"로 목표가 분명해요</li><li class="m">진단 질문을 잘 다듬어야 해요</li><li class="m">과제와 힌트를 이정표마다 써야 해요</li></ul>
+    <p class="ia">홈: 시작점 진단 · 세 가지 길(이정표) · 공통 원칙<br>이정표: 위치 · 할 수 있게 되는 것 · 연습 과제와 힌트 · 자료 · 스스로 확인 · 다음 이정표</p></div>
+    <div class="frame"><iframe title="v8" loading="lazy"></iframe></div><div class="v-f"><a data-open>홈 크게 열기 →</a><a data-open2>이정표 화면 →</a></div></section>
+</main>
+<p class="note">세 시안 모두 지금 챕터를 "자료"로 붙인 예시 구성이에요. 단계, 주제, 가이드라인 문구는 초안이고 숫자나 통계는 넣지 않았어요. 이전 시안(v2~v5)은 <a href="../compare/">이전 비교 화면</a>에 그대로 있어요.</p>
+<script>
+(()=>{let p='home',w=1440;const grid=document.getElementById('grid');
+function fit(){document.querySelectorAll('.v').forEach(v=>{const f=v.querySelector('.frame'),ifr=f.querySelector('iframe');const h=w===1440?900:844;const s=f.clientWidth/w;f.style.height=Math.round(h*s)+'px';ifr.style.width=w+'px';ifr.style.height=h+'px';ifr.style.transform='scale('+s+')'})}
+function load(){grid.classList.toggle('phone',w===390);document.querySelectorAll('.v').forEach(v=>{const d='../'+v.dataset.v+'/'+v.dataset.d+'.html',h='../'+v.dataset.v+'/home.html';const u=p==='home'?h:d;v.querySelector('[data-open2]').href=d;const ifr=v.querySelector('iframe');if(ifr.getAttribute('src')!==u)ifr.src=u;v.querySelector('[data-open]').href=h});requestAnimationFrame(fit)}
+document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{p=b.dataset.p;document.querySelectorAll('[data-p]').forEach(x=>x.setAttribute('aria-pressed',x===b));load()});
+document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{w=+b.dataset.w;document.querySelectorAll('[data-w]').forEach(x=>x.setAttribute('aria-pressed',x===b));load()});
+addEventListener('resize',fit);load();})();
+</script>
+</body>
+</html>
