@@ -28,8 +28,8 @@ const MAX = 400; // 화면에 넣는 수업 출력 줄 수
 const SIZE = { python: "13MB", sql: "16MB", replay: "" };
 const LEAD = {
   python: "코드를 고쳐서 바로 실행해 봐요. 브라우저 안에서 파이썬 3.14가 돌아가요.",
-  sql: "SQL을 고쳐서 바로 실행해 봐요. 브라우저 안에서 PostgreSQL 19가 돌아가요. 수업(PostgreSQL 18) 화면과 조금 다를 수 있어요.",
-  replay: "수업에서 친 명령을 똑같이 쳐 보세요. 맞으면 수업에서 실제로 나온 화면을 보여 줘요.",
+  sql: "SQL을 고쳐서 바로 실행해 봐요. 브라우저 안에서 PostgreSQL 19가 돌아가요. 수업은 PostgreSQL 18이라서 화면이 조금 다를 수 있어요.",
+  replay: "수업에서 친 명령을 똑같이 쳐 봐요. 맞으면 수업에서 실제로 나온 화면이 나와요.",
 };
 
 export function practiceOf(dir: string): Data | null {

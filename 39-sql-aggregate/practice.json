@@ -752,7 +752,7 @@
    "page": 33,
    "title": "글자 열은 COUNT, MIN, MAX만 돼요. SUM과 AVG는 숫자 열만",
    "part": "6. 오류와 실제 상황",
-   "diff": "PostgreSQL 19는 이 오류의 DETAIL과 HINT 문장이 조금 달라요(수업은 18)."
+   "diff": "PostgreSQL 19는 이 오류의 DETAIL과 HINT 문장이 조금 달라요. 수업은 PostgreSQL 18이에요."
   },
   {
    "id": "ex-report",

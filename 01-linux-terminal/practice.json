@@ -1,0 +1,554 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "01 덱의 터미널 화면(bash 5.2, GNU coreutils 9.4에서 실제로 실행해 확인한 출력, 프롬프트는 위치만 남김)",
+ "cells": [
+  {
+   "id": "why-1",
+   "page": 3,
+   "title": "터미널은 글자로 다루는 폴더 창이에요",
+   "part": "1. 개념 잡기",
+   "steps": [
+    {
+     "cmd": "ls",
+     "out": [
+      "Desktop  Documents"
+     ],
+     "cwd": "~"
+    }
+   ]
+  },
+  {
+   "id": "s1-pwd-1",
+   "page": 6,
+   "title": "pwd",
+   "part": "2. 둘러보기",
+   "steps": [
+    {
+     "cmd": "pwd",
+     "out": [
+      "/home/kim"
+     ],
+     "cwd": "~"
+    }
+   ]
+  },
+  {
+   "id": "s2-ls-1",
+   "page": 7,
+   "title": "ls",
+   "part": "2. 둘러보기",
+   "steps": [
+    {
+     "cmd": "pwd",
+     "out": [
+      "/home/kim"
+     ],
+     "cwd": "~"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "Desktop  Documents"
+     ],
+     "cwd": "~"
+    }
+   ]
+  },
+  {
+   "id": "s3-mkdir-1",
+   "page": 8,
+   "title": "mkdir kant",
+   "part": "2. 둘러보기",
+   "steps": [
+    {
+     "cmd": "mkdir kant",
+     "out": [],
+     "cwd": "~"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "Desktop  Documents  kant"
+     ],
+     "cwd": "~"
+    }
+   ]
+  },
+  {
+   "id": "s4-cd-1",
+   "page": 9,
+   "title": "cd kant",
+   "part": "2. 둘러보기",
+   "steps": [
+    {
+     "cmd": "cd kant",
+     "out": [],
+     "cwd": "~"
+    },
+    {
+     "cmd": "pwd",
+     "out": [
+      "/home/kim/kant"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s5-touch-1",
+   "page": 10,
+   "title": "touch memo.md",
+   "part": "3. 파일 만들기",
+   "steps": [
+    {
+     "cmd": "touch memo.md",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "memo.md"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s6-echo-1",
+   "page": 11,
+   "title": "echo \"# hello\" > memo.md",
+   "part": "3. 파일 만들기",
+   "steps": [
+    {
+     "cmd": "echo \"# hello\" > memo.md",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "cat memo.md",
+     "out": [
+      "# hello"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s7-mkdir2-1",
+   "page": 13,
+   "title": "mkdir notes",
+   "part": "3. 파일 만들기",
+   "steps": [
+    {
+     "cmd": "mkdir notes",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "memo.md  notes"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s8-cd-rel-1",
+   "page": 16,
+   "title": "cd notes",
+   "part": "4. 경로",
+   "steps": [
+    {
+     "cmd": "cd notes",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "pwd",
+     "out": [
+      "/home/kim/kant/notes"
+     ],
+     "cwd": "~/kant/notes"
+    }
+   ]
+  },
+  {
+   "id": "s9-cd-up-1",
+   "page": 17,
+   "title": "cd ..",
+   "part": "4. 경로",
+   "steps": [
+    {
+     "cmd": "cd ..",
+     "out": [],
+     "cwd": "~/kant/notes"
+    },
+    {
+     "cmd": "pwd",
+     "out": [
+      "/home/kim/kant"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s10-cd-abs-1",
+   "page": 18,
+   "title": "cd /home/kim/kant/notes",
+   "part": "4. 경로",
+   "steps": [
+    {
+     "cmd": "cd /home/kim/kant/notes",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "pwd",
+     "out": [
+      "/home/kim/kant/notes"
+     ],
+     "cwd": "~/kant/notes"
+    }
+   ]
+  },
+  {
+   "id": "s11-cd-home-1",
+   "page": 19,
+   "title": "cd ~",
+   "part": "4. 경로",
+   "steps": [
+    {
+     "cmd": "cd ~",
+     "out": [],
+     "cwd": "~/kant/notes"
+    },
+    {
+     "cmd": "pwd",
+     "out": [
+      "/home/kim"
+     ],
+     "cwd": "~"
+    }
+   ]
+  },
+  {
+   "id": "s12-mv-1",
+   "page": 20,
+   "title": "mv memo.md notes/",
+   "part": "5. 옮기고 지우기",
+   "steps": [
+    {
+     "cmd": "cd kant",
+     "out": [],
+     "cwd": "~"
+    },
+    {
+     "cmd": "mv memo.md notes/",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "notes"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls notes",
+     "out": [
+      "memo.md"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s13-cp-1",
+   "page": 21,
+   "title": "cp notes/memo.md plan.md",
+   "part": "5. 옮기고 지우기",
+   "steps": [
+    {
+     "cmd": "cp notes/memo.md plan.md",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "notes  plan.md"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "cat plan.md",
+     "out": [
+      "# hello"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s14-rename-1",
+   "page": 22,
+   "title": "mv plan.md todo.md",
+   "part": "5. 옮기고 지우기",
+   "steps": [
+    {
+     "cmd": "mv plan.md todo.md",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "notes  todo.md"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s15-rm-1",
+   "page": 24,
+   "title": "rm todo.md",
+   "part": "5. 옮기고 지우기",
+   "steps": [
+    {
+     "cmd": "rm todo.md",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "notes"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s16-rm-r-1",
+   "page": 25,
+   "title": "rm -r notes",
+   "part": "5. 옮기고 지우기",
+   "steps": [
+    {
+     "cmd": "rm notes",
+     "out": [
+      "rm: cannot remove 'notes': Is a directory"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "rm -r notes",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "# 아무것도 없어요"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s16b-rm-rf-1",
+   "page": 26,
+   "title": "rm -rf old",
+   "part": "5. 옮기고 지우기",
+   "steps": [
+    {
+     "cmd": "mkdir old",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "touch old/a.md old/b.md",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls old",
+     "out": [
+      "a.md  b.md"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "rm -rf old",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "# 아무것도 없어요"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "rm -r old",
+     "out": [
+      "rm: cannot remove 'old': No such file or directory"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "rm -rf old",
+     "out": [
+      "# 없어도 아무 말 없어요"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s17-ls-a-1",
+   "page": 28,
+   "title": "ls -a",
+   "part": "6. 더 편하게",
+   "steps": [
+    {
+     "cmd": "git init",
+     "out": [
+      "Initialized empty Git repository in /home/kim/kant/.git/"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "# 아무것도 안 보여요"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls -a",
+     "out": [
+      ".  ..  .git"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "s18-ls-al-1",
+   "page": 29,
+   "title": "ls -al",
+   "part": "6. 더 편하게",
+   "steps": [
+    {
+     "cmd": "touch README.md",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "README.md"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls -al",
+     "out": [
+      "total 12",
+      "drwxr-xr-x 3 kim kim 4096 Oct 28 04:28 .",
+      "drwxr-xr-x 5 kim kim 4096 Oct 28 04:28 ..",
+      "drwxr-xr-x 7 kim kim 4096 Oct 28 04:28 .git",
+      "-rw-r--r-- 1 kim kim    0 Oct 28 04:28 README.md"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "err-cd-1",
+   "page": 31,
+   "title": "No such file or directory",
+   "part": "7. 문제 해결",
+   "steps": [
+    {
+     "cmd": "cd notse",
+     "out": [
+      "bash: cd: notse: No such file or directory"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "notes  todo.md"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "err-cmd-1",
+   "page": 32,
+   "title": "command not found",
+   "part": "7. 문제 해결",
+   "steps": [
+    {
+     "cmd": "sl",
+     "out": [
+      "bash: sl: command not found"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "notes  todo.md"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  },
+  {
+   "id": "err-space-1",
+   "page": 33,
+   "title": "mkdir my folder",
+   "part": "7. 문제 해결",
+   "steps": [
+    {
+     "cmd": "mkdir my folder",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "folder  my  notes  todo.md",
+      "",
+      "# 이렇게 고쳐요"
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "mkdir \"my folder\"",
+     "out": [],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "'my folder'"
+     ],
+     "cwd": "~/kant"
+    }
+   ]
+  }
+ ]
+}

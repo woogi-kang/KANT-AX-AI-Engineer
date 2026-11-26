@@ -6,9 +6,9 @@
 | --- | --- | --- | --- |
 | `python` | 12~27, 45 | 브라우저 안 Pyodide(파이썬 3.14) | 챕터 `tools/run_nb.py`를 실제 Jupyter 커널로 실행한 출력 |
 | `sql` | 36~43 | 브라우저 안 PGlite(PostgreSQL 19) | 챕터 `tools/demo.py`가 실제 `postgres:18` psql에서 담은 `tools/out.json` |
-| `replay` | 02~11, 28~31, 33~35, 44, 46 | 실행하지 않아요. 친 명령이 맞으면 수업 출력을 보여 줘요 | 덱의 터미널 화면, 또는 `tools/out.json`, `tools/demo-output.txt` |
+| `replay` | 01~11, 28~31, 33~35, 44, 46 | 실행하지 않아요. 친 명령이 맞으면 수업 출력을 보여 줘요 | 덱의 터미널 화면, 또는 `tools/out.json`, `tools/demo-output.txt` |
 
-01(프롬프트를 따로 그린 터미널), 32(읽기만 하는 챕터)는 아직 칸이 없어요.
+32는 읽기만 하는 챕터라 칸이 없어요.
 
 ## practice.json
 
@@ -55,4 +55,4 @@ python3 build_replay_out.py 35-docker-cli
 
 ## 엔진 파일
 
-`scripts/copy-engines.mjs`가 빌드 전에 `engines/*.mjs`와 npm의 Pyodide 코어, PGlite를 `public/engines/`에 복사해요. CDN 대신 같은 사이트에서 내보내서 학교나 회사 망에서 CDN이 막혀도 돌아가고, 버전이 `package.json`에 묶여요. 처음 실행할 때만 받아요(파이썬 약 13MB, SQL 약 16MB). numpy, pandas 같은 패키지도 같은 사이트에 둬요. 빌드할 때 `practice.json`의 `packages`와 그 패키지가 기대는 패키지를 Pyodide 공식 CDN에서 `site/.pyodide-packages/`에 한 번 받아 두고, 잠금 파일(`pyodide-lock.json`)의 sha256과 맞는지 본 뒤 복사해요.
+`scripts/copy-engines.mjs`가 빌드 전에 `engines/*.mjs`와 npm의 Pyodide 코어, PGlite를 `public/engines/`에 복사해요. CDN 대신 같은 사이트에서 내보내요. 그래서 학교나 회사 망에서 CDN이 막혀도 돌아가고, 엔진 버전은 `package.json`이 정해요. 처음 실행할 때만 받아요(파이썬 약 13MB, SQL 약 16MB). numpy, pandas 같은 패키지도 같은 사이트에 둬요. 빌드할 때 `practice.json`의 `packages`와 그 패키지가 기대는 패키지를 Pyodide 공식 CDN에서 `site/.pyodide-packages/`에 한 번 받아 두고, 잠금 파일(`pyodide-lock.json`)의 sha256과 맞는지 본 뒤 복사해요.

@@ -174,8 +174,7 @@
       "/home/kim/hello-uv/.venv/bin/python",
       "(hello-uv) $ python main.py",
       "Hello from hello-uv!",
-      "(hello-uv) $ deactivate",
-      "$"
+      "(hello-uv) $ deactivate"
      ]
     }
    ]

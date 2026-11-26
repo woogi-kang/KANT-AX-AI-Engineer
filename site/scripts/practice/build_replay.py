@@ -11,6 +11,10 @@ from html.parser import HTMLParser
 
 from deck import ROOT, Deck, write
 
+# 챕터 README가 밝힌 출력 출처가 따로 있으면 그대로 적어요
+SOURCE = {
+    "01-linux-terminal": "01 덱의 터미널 화면(bash 5.2, GNU coreutils 9.4에서 실제로 실행해 확인한 출력, 프롬프트는 위치만 남김)",
+}
 MONO = re.compile(r"mono|Mono|Consolas|Menlo", re.I)
 
 
@@ -63,9 +67,12 @@ class Term(HTMLParser):
 
 def steps_of(lines):
     lines = [l.replace(" ", " ").rstrip() for l in lines]
-    if not any(l.startswith("$ ") for l in lines):
+    # 프롬프트는 "$ 명령"이거나 01처럼 위치를 앞에 둔 "~/kant $ 명령"이에요
+    if not any(re.match(r"^(?:[~/]\S* )?\$ ", l) for l in lines):
         return None
     steps, cur = [], None
+    # 명령 없이 프롬프트만 있는 마지막 줄("~ $")은 빼요
+    lines = [l for l in lines if not re.match(r"^(?:[~/]\S* )?\$$", l)]
     for l in lines:
         m = re.match(r"^(?:(\S+) )?\$ (.*)$", l)
         if m and (m.group(1) is None or m.group(1).startswith(("~", "/"))):
@@ -109,7 +116,7 @@ def main():
     data = {
         "v": 1,
         "kind": "replay",
-        "source": f"{chapter} 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+        "source": SOURCE.get(chapter, f"{chapter} 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)"),
         "cells": cells,
     }
     n = sum(len([s for s in c["steps"] if s["cmd"]]) for c in cells)

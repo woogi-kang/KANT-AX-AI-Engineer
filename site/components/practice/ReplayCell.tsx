@@ -29,7 +29,7 @@ export default function ReplayCell({ cell }: { cell: ReplayView }) {
   }, [n]);
   const cur = steps[n];
   const done = n >= steps.length;
-  const prompt = (s: Step) => `${s.cwd && s.cwd !== "~" ? s.cwd + " " : ""}$ `;
+  const prompt = (s: Step) => `${s.cwd ? s.cwd + " " : ""}$ `;
 
   const enter = () => {
     if (!cur) return;
@@ -142,7 +142,7 @@ export default function ReplayCell({ cell }: { cell: ReplayView }) {
       </div>
       {miss && cur && (
         <p className="pc-note" role="status">
-          수업에서 친 명령과 달라요. 철자와 띄어쓰기를 확인하거나 명령 보기를 눌러요.
+          수업에서 친 명령과 달라요. 철자와 띄어쓰기를 확인해 봐요. 모르겠으면 명령 보기를 눌러요.
         </p>
       )}
       {cell.diff && <p className="pc-diff">{cell.diff}</p>}
