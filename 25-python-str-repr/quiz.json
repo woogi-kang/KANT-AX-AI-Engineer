@@ -1,0 +1,271 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "`__str__`도 `__repr__`도 없는 `Bread` 틀로 찍은 붕어빵 `a`를 `print(a)`하면 무엇이 보이나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\na = Bread(\"팥\", 1000)\nprint(a)",
+          "choices": [
+            "`팥 1000`",
+            "`<__main__.Bread object at 0x...>`처럼 낯선 글자",
+            "`Bread('팥', 1000)`",
+            "`AttributeError`가 나요"
+          ],
+          "answer": 1,
+          "explain": "`Bread`는 우리가 만든 틀이라 파이썬이 보여 주는 법을 몰라요. 그래서 기본 모양인 꺾쇠괄호와 주소가 나와요. 주소는 실행할 때마다 달라요.",
+          "page": 4
+        },
+        {
+          "id": "w2",
+          "q": "`__str__`, `__repr__`처럼 앞뒤에 밑줄이 두 개씩 붙은 메서드는 누가 부르나요?",
+          "choices": [
+            "`a.__str__()`처럼 우리가 직접 불러야 해요",
+            "만들자마자 한 번만 저절로 불려요",
+            "`intro`처럼 이름을 지은 사람이 불러요",
+            "`print`할 때처럼 정해진 순간에 파이썬이 틀에서 찾아 불러요"
+          ],
+          "answer": 3,
+          "explain": "앞뒤 밑줄 두 개는 파이썬과 약속한 이름이에요. 우리는 이름만 맞게 적어 두고, `print`나 셀 마지막 줄 같은 순간에 파이썬이 찾아 불러요. `intro`처럼 우리가 이름 지은 메서드만 직접 불러요.",
+          "page": 5
+        },
+        {
+          "id": "w3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n    def __str__(self):\n        return \"붕어빵이에요\"\na = Bread(\"팥\", 1000)\nprint(a)",
+          "choices": [
+            "`붕어빵이에요`",
+            "`팥`",
+            "`팥 붕어빵이에요`",
+            "`None`"
+          ],
+          "answer": 0,
+          "explain": "`print(a)`는 `a`의 틀에서 `__str__`을 찾아 부르고, 돌려받은 글자를 찍어요. 지금 `__str__`은 맛과 상관없이 늘 같은 글자를 돌려줘요.",
+          "page": 6,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "`__str__`",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n    def __str__(self):\n        return f\"{self.flavor} 붕어빵 {self.price:,}원\"\nb = Bread(\"슈크림\", 1200)\nprint(f\"주문: {b}\")",
+          "choices": [
+            "`주문: b`",
+            "`주문: 슈크림 붕어빵 1200원`",
+            "`주문: 슈크림 붕어빵 1,200원`",
+            "`주문: Bread('슈크림', 1200)`"
+          ],
+          "answer": 2,
+          "explain": "f-string 중괄호에 붕어빵을 넣으면 `__str__`이 불려요. `self`가 `b`라서 슈크림과 1200이 들어가고, `:,`로 천 단위 콤마가 붙어요.",
+          "page": 8,
+          "verify": "py"
+        },
+        {
+          "id": "s2",
+          "q": "`__str__`을 만든 틀에서 붕어빵 `a`를 다른 글자와 더하기로 이으려면 어떻게 적나요?",
+          "choices": [
+            "`\"포장할게요: \" + a.intro()`",
+            "`\"포장할게요: \" + str(a)`",
+            "`\"포장할게요: \" + a`",
+            "`\"포장할게요: \" + a.flavor()`"
+          ],
+          "answer": 1,
+          "explain": "`str(a)`가 `__str__`을 불러 붕어빵을 글자로 바꿔요. 바꾼 글자는 더하기로 이을 수 있어요. `a`를 바로 더하면 `TypeError`가 나요.",
+          "page": 8
+        },
+        {
+          "id": "s3",
+          "q": "24의 `intro`와 비교했을 때 `__str__`이 다른 점은 무엇인가요?",
+          "choices": [
+            "`intro`는 글자를 return하고 `__str__`은 안에서 바로 print해요",
+            "둘 다 우리가 직접 불러야 해요",
+            "`__str__`은 `print`, `str()`, f-string이 알아서 부르고 글자를 return해요",
+            "`__str__`을 만들면 `intro`는 지워져요"
+          ],
+          "answer": 2,
+          "explain": "`intro`는 우리가 `a.intro()`로 부르고 안에서 바로 print해요. `__str__`은 파이썬이 알아서 부르고 글자를 돌려줘서, 그 글자를 f-string이나 더하기로 다시 쓸 수 있어요.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "part": "`__repr__`",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "`__str__`만 만든 틀이에요. 아래 코드는 무엇을 찍나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n    def __str__(self):\n        return f\"{self.flavor} 붕어빵 {self.price:,}원\"\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint([a, b])",
+          "choices": [
+            "`[팥 붕어빵 1,000원, 슈크림 붕어빵 1,200원]`",
+            "`['팥 붕어빵 1,000원', '슈크림 붕어빵 1,200원']`",
+            "`[Bread('팥', 1000), Bread('슈크림', 1200)]`",
+            "`[<__main__.Bread object at 0x...>, <__main__.Bread object at 0x...>]`처럼 낯선 글자"
+          ],
+          "answer": 3,
+          "explain": "리스트 안의 값은 `__str__`이 아니라 `__repr__`로 보여 줘요. `__repr__`이 없으니 기본 모양이 나와요.",
+          "page": 10
+        },
+        {
+          "id": "r2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print([\"팥\", \"슈크림\"])",
+          "choices": [
+            "`[팥, 슈크림]`",
+            "`['팥', '슈크림']`",
+            "`팥 슈크림`",
+            "`\"팥\", \"슈크림\"`"
+          ],
+          "answer": 1,
+          "explain": "리스트 안의 글자는 repr 방식으로 보여서 글자라는 게 보이게 따옴표가 붙어요. `print(\"팥\")`처럼 글자 하나만 찍으면 따옴표 없이 `팥`이 나와요.",
+          "page": 11,
+          "verify": "py"
+        },
+        {
+          "id": "r3",
+          "q": "`__str__` 없이 `__repr__`만 만든 틀이에요. 아래 코드는 무엇을 찍나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n    def __repr__(self):\n        return f\"Bread('{self.flavor}', {self.price})\"\na = Bread(\"팥\", 1000)\nprint(a)",
+          "choices": [
+            "`Bread('팥', 1000)`",
+            "`팥 붕어빵 1,000원`",
+            "`<__main__.Bread object at 0x...>`",
+            "`TypeError`가 나요"
+          ],
+          "answer": 0,
+          "explain": "`__str__`이 없으면 `print`는 `__repr__`을 빌려 써요. 반대로 `__str__`만 있으면 리스트 안과 셀 마지막 줄은 빌려 쓰지 않아요. 그래서 하나만 만든다면 `__repr__`이에요.",
+          "page": 15,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "붕어빵 여러 개 다루기",
+      "questions": [
+        {
+          "id": "m1",
+          "q": "`__str__`과 `__repr__`이 모두 있는 틀이에요. 아래 코드는 무엇을 찍나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n    def __str__(self):\n        return f\"{self.flavor} 붕어빵 {self.price:,}원\"\n    def __repr__(self):\n        return f\"Bread('{self.flavor}', {self.price})\"\nbreads = [Bread(\"팥\", 1000), Bread(\"슈크림\", 1200), Bread(\"피자\", 1500)]\nprint([b for b in breads if b.price >= 1200])",
+          "choices": [
+            "`[슈크림 붕어빵 1,200원, 피자 붕어빵 1,500원]`",
+            "`['슈크림', '피자']`",
+            "`[Bread('슈크림', 1200), Bread('피자', 1500)]`",
+            "`[Bread('팥', 1000), Bread('슈크림', 1200), Bread('피자', 1500)]`"
+          ],
+          "answer": 2,
+          "explain": "1200원 이상인 붕어빵을 통째로 골라 담았어요. 리스트를 print하면 안의 붕어빵은 `__repr__`로 보여요. 팥은 1000원이라 빠져요.",
+          "page": 18,
+          "verify": "py"
+        },
+        {
+          "id": "m2",
+          "q": "붕어빵 리스트 `breads`에 `sorted(breads)`를 쳤더니 `TypeError: '<' not supported between instances of 'Bread' and 'Bread'`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "`sorted(breads, reverse=True)`",
+            "`sorted(breads, key=lambda b: b.price)`",
+            "`breads.sort()`",
+            "`sorted(str(breads))`"
+          ],
+          "answer": 1,
+          "explain": "붕어빵끼리는 맛으로 비교할지 가격으로 비교할지 몰라요. `key=lambda b: b.price`로 가격 칸으로 비교하라고 알려 주면 돼요. `reverse=True`만 붙이면 같은 오류가 나요.",
+          "page": 19
+        },
+        {
+          "id": "m3",
+          "q": "아래 코드를 실행하면 마지막 줄에 무엇이 찍히나요?",
+          "code": "class Stall:\n    def __init__(self, name, stock):\n        self.name = name\n        self.stock = stock\n        self.sold = 0\n    def sell(self, qty):\n        if qty > self.stock:\n            return \"재고가 모자라요\"\n        self.stock = self.stock - qty\n        self.sold = self.sold + qty\n        return \"판매 완료\"\ns = Stall(\"팥\", 5)\ns.sell(3)\ns.sell(4)\nprint(s.stock, s.sold)",
+          "choices": [
+            "`-2 7`",
+            "`5 0`",
+            "`1 4`",
+            "`2 3`"
+          ],
+          "answer": 3,
+          "explain": "3개는 팔려서 재고 2, 판매 3이 돼요. 4개는 재고 2보다 많아서 `if`에서 return하고 바로 끝나요. 그래서 재고와 판매 개수가 그대로 남아요.",
+          "page": 21,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "오류와 함정",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "`__str__` 안에 `print(self.flavor, \"붕어빵\")`만 적고 `print(a)`를 쳤어요. 무엇이 나오나요?",
+          "choices": [
+            "`팥 붕어빵`만 한 번 찍혀요",
+            "`팥 붕어빵`이 두 번 찍혀요",
+            "`팥 붕어빵`이 찍히고 `TypeError: __str__ returned non-string (type NoneType)`가 나요",
+            "`<__main__.Bread object at 0x...>`가 찍혀요"
+          ],
+          "answer": 2,
+          "explain": "`__str__`이 불려서 안의 print가 먼저 실행돼요. 그런데 return이 없어서 `None`을 돌려주니 오류가 나요. `__str__`은 꼭 글자를 return해요.",
+          "page": 22
+        },
+        {
+          "id": "e2",
+          "q": "`def _str_(self):`처럼 밑줄을 하나씩만 적고 `print(a)`를 쳤어요. 어떻게 되나요?",
+          "choices": [
+            "`AttributeError`가 나요",
+            "오류 없이 `<__main__.Bread object at 0x...>`처럼 기본 모양이 나와요",
+            "`TypeError`가 나요",
+            "`_str_`이 돌려준 글자가 나와요"
+          ],
+          "answer": 1,
+          "explain": "파이썬은 `__str__`을 찾는데 없으니 기본 모양을 써요. `_str_`은 이름이 비슷한 평범한 메서드일 뿐이에요. 오류가 없어서 찾기 어려우니 밑줄 개수부터 봐요.",
+          "page": 24
+        },
+        {
+          "id": "e3",
+          "q": "`__str__`을 만든 틀인데 `print(\"주문: \" + a)`에서 `TypeError: can only concatenate str (not \"Bread\") to str`가 났어요. 고친 줄로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`print(\"주문: \" + a.__str__)`",
+            "`print(\"주문: \" + str(a))`",
+            "`print(\"주문: \" + repr)`",
+            "`print(\"주문: \" + int(a))`"
+          ],
+          "answer": 1,
+          "explain": "더하기는 붕어빵을 글자로 바꿔 주지 않아요. `str(a)`로 먼저 바꾸면 `__str__`이 불려요. `f\"주문: {a}\"`나 `print(\"주문:\", a)`도 돼요.",
+          "page": 25
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Stall:\n    def __init__(self, flavor, price, stock):\n        self.flavor = flavor\n        self.price = price\n        self.stock = stock\n        self.sold = 0\n    def sell(self, qty):\n        if qty > self.stock:\n            return f\"{self.flavor} 재고가 모자라요\"\n        self.stock = self.stock - qty\n        self.sold = self.sold + qty\n        return f\"{self.flavor} {qty}개 판매\"\n    def __str__(self):\n        return f\"{self.flavor}: 판매 {self.sold}개, 매출 {self.sold * self.price:,}원\"\ncream = Stall(\"슈크림\", 1200, 10)\ncream.sell(12)\ncream.sell(4)\nprint(cream)",
+          "choices": [
+            "`슈크림: 판매 16개, 매출 19,200원`",
+            "`슈크림: 판매 4개, 매출 4,800원`",
+            "`슈크림: 판매 12개, 매출 14,400원`",
+            "`슈크림 4개 판매`"
+          ],
+          "answer": 1,
+          "explain": "12개는 재고 10개보다 많아서 막히고, 4개만 팔려요. `print(cream)`은 `__str__`을 불러 판매 4개와 4개 곱하기 1200원인 매출을 찍어요.",
+          "page": 27,
+          "verify": "py"
+        },
+        {
+          "id": "p2",
+          "q": "카페 메뉴판에서 `for d in sorted(menu, key=lambda d: d.price): print(d)`는 손님용 줄을, `print([d for d in menu if d.price < 5000])`는 `[Drink('tea', 4000), ...]`를 찍었어요. 각각 어느 메서드를 썼나요?",
+          "choices": [
+            "앞은 `__repr__`, 뒤는 `__str__`",
+            "둘 다 `__str__`",
+            "앞은 `__str__`, 뒤는 `__repr__`",
+            "둘 다 `__repr__`"
+          ],
+          "answer": 2,
+          "explain": "`print(d)`는 음료 하나를 찍으니 `__str__`의 메뉴판 줄이 나와요. 리스트를 print하면 안의 값은 `__repr__`의 코드 모양으로 보여요.",
+          "page": 28
+        }
+      ]
+    }
+  ]
+}

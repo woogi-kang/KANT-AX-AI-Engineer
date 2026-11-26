@@ -12,6 +12,8 @@ import { AREA_IC, shortTitle } from "@/lib/site";
 import { Cover, coverSrc, Crumb, Ict, Logo, More, SecHead } from "@/components/ui";
 import Player from "@/components/Player";
 import PartGo from "@/components/PartGo";
+import ChapterPractice from "@/components/practice/ChapterPractice";
+import ChapterQuiz from "@/components/quiz/ChapterQuiz";
 
 type Params = { params: Promise<{ dir: string }> };
 export const dynamicParams = false;
@@ -121,6 +123,11 @@ export default async function ChapterPage({ params }: Params) {
           ))}
         </section>
       )}
+
+      {/* 코드 실행 영역 자리: 실습 칸(바로 쳐 보기). 내용은 components/practice/ 에서 채워요 */}
+      <ChapterPractice dir={c.dir} no={c.no} />
+      {/* 확인 문제 영역 자리: 파트별 문제. 내용은 components/quiz/ 에서 채워요 */}
+      <ChapterQuiz dir={c.dir} no={c.no} parts={parts} />
 
       <section className="sec doc">
         <SecHead title="교안" />

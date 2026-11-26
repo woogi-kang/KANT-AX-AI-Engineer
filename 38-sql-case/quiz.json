@@ -1,0 +1,198 @@
+{
+  "parts": [
+    {
+      "part": "조건 섞기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "`WHERE sport_id = 1 AND level = '초급' OR start_time < '09:00'`을 PostgreSQL은 어떻게 묶어서 읽나요?",
+          "choices": [
+            "`sport_id = 1 AND (level = '초급' OR start_time < '09:00')`",
+            "`(sport_id = 1 AND level = '초급') OR start_time < '09:00'`",
+            "`(sport_id = 1 OR start_time < '09:00') AND level = '초급'`",
+            "적은 순서대로 왼쪽부터 하나씩 읽어요"
+          ],
+          "answer": 1,
+          "explain": "곱셈이 덧셈보다 먼저이듯 AND가 OR보다 먼저 묶여요. 그래서 종목에 상관없이 9시 전에 시작하는 헬스, 요가, 테니스 강좌까지 7줄이 나왔어요.",
+          "page": 8
+        },
+        {
+          "id": "c2",
+          "q": "수영 강좌 다섯 개 중 초급이면서 9시 전에 시작하는 강좌를 찾는 WHERE예요. `sport_id = 1 AND (level = '초급' AND start_time < '09:00')`의 결과는 몇 줄인가요?",
+          "choices": [
+            "7줄",
+            "4줄",
+            "1줄",
+            "5줄"
+          ],
+          "answer": 2,
+          "explain": "둘 다 맞는 수영 초급 아침반 1줄만 남아요. 괄호 없이 쓰면 7줄, OR를 괄호로 묶으면 4줄이었어요. AND끼리만 이을 때는 괄호가 있어도 없어도 같아요.",
+          "page": 10
+        },
+        {
+          "id": "c3",
+          "q": "`WHERE level NOT IN ('초급', '중급')`은 어떤 강좌를 고르나요?",
+          "choices": [
+            "초급과 중급 강좌",
+            "고급 강좌",
+            "level이 비어 있는 강좌만",
+            "모든 강좌"
+          ],
+          "answer": 1,
+          "explain": "`NOT`은 조건을 뒤집어요. 초급도 중급도 아닌 수영 고급반과 테니스 고급 레슨 두 줄이 나와요.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "part": "CASE로 값 붙이기",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "`CASE WHEN birth_year <= 1960 THEN '할인' WHEN birth_year >= 2000 THEN '청소년' ELSE '일반' END`에서 1975년생은 무엇이 붙나요?",
+          "choices": [
+            "`할인`",
+            "`청소년`",
+            "빈칸(NULL)",
+            "`일반`"
+          ],
+          "answer": 3,
+          "explain": "위에서부터 따져요. 1960 이하도 아니고 2000 이상도 아니라서 `ELSE`의 `일반`이 붙어요. 실제로 최지아(1975)가 일반이었어요.",
+          "page": 14
+        },
+        {
+          "id": "w2",
+          "q": "`CASE WHEN birth_year < 2000 THEN '일반' WHEN birth_year <= 1960 THEN '할인' ELSE '청소년' END`로 바꾸면 1958년생 전소율은 무엇이 붙나요?",
+          "choices": [
+            "`일반`",
+            "`할인`",
+            "`청소년`",
+            "오류가 나요"
+          ],
+          "answer": 0,
+          "explain": "1958은 2000보다 작아서 첫 `WHEN`에서 맞아요. 처음 맞는 하나만 고르니 할인을 주는 두 번째 `WHEN`은 보지도 않아요. 그래서 좁은 조건부터 적어요.",
+          "page": 15
+        },
+        {
+          "id": "w3",
+          "q": "요금 CASE에서 `ELSE '일반'` 줄만 지우고 실행하면 1975년생부터 1998년생까지의 요금 칸은 어떻게 되나요?",
+          "choices": [
+            "`일반`이 그대로 붙어요",
+            "`syntax error`가 나요",
+            "빈칸(NULL)이에요",
+            "그 줄들이 결과에서 빠져요"
+          ],
+          "answer": 2,
+          "explain": "`ELSE`가 없으면 PostgreSQL은 `ELSE NULL`로 읽어요. 오류 없이 칸만 비고, 줄은 11줄 그대로예요.",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "part": "여러 기준으로 줄 세우기",
+      "questions": [
+        {
+          "id": "o1",
+          "q": "`ORDER BY level, fee DESC`에서 `DESC`는 어디에 붙나요?",
+          "choices": [
+            "level과 fee 둘 다",
+            "fee 하나에만",
+            "level 하나에만",
+            "결과 전체를 거꾸로"
+          ],
+          "answer": 1,
+          "explain": "`DESC`는 바로 앞 기준 하나에만 붙어요. 방향을 안 적은 level은 `ASC`라 작은 것부터, 같은 level 안에서 fee가 큰 것부터 서요.",
+          "page": 21
+        },
+        {
+          "id": "o2",
+          "q": "`ORDER BY level`로 세우면 고급, 중급, 초급 순서로 서요. 초급, 중급, 고급 순서로 세우려면 어떻게 하나요?",
+          "choices": [
+            "`ORDER BY level DESC`",
+            "`ORDER BY level NULLS FIRST`",
+            "`ORDER BY CASE WHEN level = '초급' THEN 1 WHEN level = '중급' THEN 2 ELSE 3 END`",
+            "`ORDER BY level, fee`"
+          ],
+          "answer": 2,
+          "explain": "글자로 세우면 가나다 순이라 고급이 맨 앞이에요. `ORDER BY`에 CASE를 적어 줄마다 번호를 매기고 그 번호로 세워요.",
+          "page": 22
+        },
+        {
+          "id": "o3",
+          "q": "구로구 회원을 `ORDER BY email DESC`로 세웠어요. 이메일이 비어 있는(NULL) 박도현과 양다인은 어디에 서나요?",
+          "choices": [
+            "맨 앞",
+            "맨 뒤",
+            "결과에서 빠져요",
+            "user01과 user06 사이"
+          ],
+          "answer": 0,
+          "explain": "PostgreSQL은 NULL을 가장 큰 값처럼 다뤄요. 큰 것부터 세우면 맨 앞이에요. 맨 뒤로 보내려면 `email DESC NULLS LAST`를 적어요.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "part": "자주 나는 오류와 함정",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "`CASE WHEN fee >= 100000 THEN '고가' ELSE 0 END AS 가격대`를 치면 어떻게 되나요?",
+          "choices": [
+            "`invalid input syntax for type integer: \"고가\"`가 나요",
+            "`syntax error at or near \"AS\"`가 나요",
+            "10만 원 미만은 0이 붙어요",
+            "`column \"가격대\" does not exist`가 나요"
+          ],
+          "answer": 0,
+          "explain": "결과 열 하나에는 한 자료형만 담겨요. 숫자 0을 보고 정수 열로 정한 뒤 고가를 정수로 바꾸려다 실패해요. `ELSE '-'`처럼 둘 다 글자로 맞춰요.",
+          "page": 26
+        },
+        {
+          "id": "e2",
+          "q": "`SELECT name, CASE ... END AS 요금 FROM members WHERE 요금 = '할인';`이 `column \"요금\" does not exist`로 막혔어요. 왜 그런가요?",
+          "choices": [
+            "CASE를 END로 닫지 않아서",
+            "한글 열 이름은 쓸 수 없어서",
+            "WHERE가 SELECT보다 먼저 처리돼서 요금이 아직 없어서",
+            "`'할인'`을 큰따옴표로 감싸야 해서"
+          ],
+          "answer": 2,
+          "explain": "처리 순서는 FROM, WHERE, SELECT, ORDER BY예요. 요금은 SELECT에서 생기니 WHERE에서는 못 쓰고 ORDER BY에서는 써요. WHERE에는 `birth_year <= 1960`처럼 원래 열로 적어요.",
+          "page": 27
+        }
+      ]
+    },
+    {
+      "part": "실제 상황 예제",
+      "questions": [
+        {
+          "id": "x1",
+          "q": "시간표 CASE에서 `WHEN start_time < '07:00' THEN '새벽' WHEN start_time < '12:00' THEN '오전'`으로 적었어요. 07:30에 시작하는 테니스 중급 레슨은 무엇이 붙나요?",
+          "choices": [
+            "`새벽`",
+            "`오전`",
+            "`오후`",
+            "`저녁`"
+          ],
+          "answer": 1,
+          "explain": "첫 `WHEN`(7시 전)은 아니고 두 번째 `WHEN`(12시 전)에서 맞아요. 위에서부터 따지니 두 번째 `WHEN`에 7시 이상이라는 조건을 따로 적지 않아도 돼요.",
+          "page": 30
+        },
+        {
+          "id": "x2",
+          "q": "할인이나 청소년 회원 중 전화번호가 있는 사람만 고르는 WHERE로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`WHERE birth_year <= 1960 OR birth_year >= 2000 AND phone IS NOT NULL`",
+            "`WHERE birth_year <= 1960 AND birth_year >= 2000 AND phone IS NOT NULL`",
+            "`WHERE (birth_year <= 1960 OR birth_year >= 2000) AND phone IS NOT NULL`",
+            "`WHERE birth_year <= 1960 OR (birth_year >= 2000 OR phone IS NOT NULL)`"
+          ],
+          "answer": 2,
+          "explain": "OR를 괄호로 먼저 묶어서 할인이나 청소년 중에서 고르고, AND로 전화번호 조건을 이어요. 괄호가 없으면 AND가 먼저 묶여서 할인 회원은 전화번호를 따지지 않고 골라요.",
+          "page": 31
+        }
+      ]
+    }
+  ]
+}

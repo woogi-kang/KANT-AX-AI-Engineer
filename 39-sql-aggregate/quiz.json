@@ -1,0 +1,242 @@
+{
+  "parts": [
+    {
+      "part": "집계 함수 다섯 개",
+      "questions": [
+        {
+          "id": "a1",
+          "q": "`SELECT MIN(fee), MAX(fee), SUM(capacity) FROM courses;`의 결과는 몇 줄인가요?",
+          "choices": [
+            "강좌 수만큼 14줄",
+            "함수 수만큼 3줄",
+            "1줄",
+            "0줄"
+          ],
+          "answer": 2,
+          "explain": "집계 함수는 여러 줄을 한 줄로 접어요. 함수를 몇 개 적든 결과는 한 줄이에요.",
+          "page": 9
+        },
+        {
+          "id": "a2",
+          "q": "`AVG(fee)`가 `97857.142857142857`이에요. `ROUND(AVG(fee), 2)`는 무엇을 보여 주나요?",
+          "choices": [
+            "`97857`",
+            "`97857.14`",
+            "`97857.15`",
+            "`97900`"
+          ],
+          "answer": 1,
+          "explain": "`ROUND(값, 2)`는 셋째 자리에서 반올림해 소수 둘째 자리까지 남겨요. 자리 수를 안 적은 `ROUND(AVG(fee))`는 정수 `97857`이에요.",
+          "page": 8
+        },
+        {
+          "id": "a3",
+          "q": "신청 187줄 중 11월만 세려고 `SELECT COUNT(*) FROM enrollments WHERE enroll_month = '2026-11';`을 쳤어요. 무엇이 먼저 일어나나요?",
+          "choices": [
+            "187줄을 다 센 뒤 11월을 골라요",
+            "WHERE로 11월 63줄을 먼저 거르고 남은 줄을 접어요",
+            "달마다 묶음을 만든 뒤 11월 묶음만 남겨요",
+            "WHERE와 COUNT는 같이 쓸 수 없어요"
+          ],
+          "answer": 1,
+          "explain": "WHERE가 먼저 줄을 거르고 집계 함수는 남은 줄만 접어요. 그래서 11월 신청건수 63이 나왔어요.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "part": "COUNT 세 가지와 NULL",
+      "questions": [
+        {
+          "id": "n1",
+          "q": "회원 1~10번 중 이메일이 비어 있는(NULL) 회원이 3명이에요. `COUNT(*)`와 `COUNT(email)`은 각각 얼마인가요?",
+          "choices": [
+            "10과 10",
+            "7과 10",
+            "10과 3",
+            "10과 7"
+          ],
+          "answer": 3,
+          "explain": "`COUNT(*)`는 줄 수를 세고 `COUNT(열)`은 그 열이 NULL인 줄을 빼고 세요. 그래서 10과 7이에요.",
+          "page": 11
+        },
+        {
+          "id": "n2",
+          "q": "11월 결제 63건 중 6건은 취소라서 0원이에요. `AVG(pay_amount)`를 낼 때 0원 6건은 어떻게 되나요?",
+          "choices": [
+            "개수에 들어가서 평균이 낮아져요",
+            "NULL처럼 건너뛰어요",
+            "오류가 나요",
+            "평균에서 저절로 빠져서 57건으로 나눠요"
+          ],
+          "answer": 0,
+          "explain": "집계 함수는 NULL만 건너뛰어요. 0은 값이라서 63으로 나눠 78571이 나와요. 취소를 `WHERE status <> '취소'`로 빼야 57건으로 나눠 86842예요.",
+          "page": 14
+        },
+        {
+          "id": "n3",
+          "q": "12월 신청은 0줄이에요. `SELECT COUNT(*), SUM(pay_amount) FROM enrollments WHERE enroll_month = '2026-12';`의 결과는 무엇인가요?",
+          "choices": [
+            "결과가 0줄이에요",
+            "count는 0, sum은 빈칸(NULL)",
+            "count도 sum도 0",
+            "count도 sum도 빈칸"
+          ],
+          "answer": 1,
+          "explain": "센 줄이 없으니 `COUNT`는 0이고, 더할 값이 없으니 `SUM`은 NULL이에요. 결과는 한 줄이 나와요.",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "part": "GROUP BY로 묶기",
+      "questions": [
+        {
+          "id": "g1",
+          "q": "`SELECT enroll_month, COUNT(*) FROM enrollments GROUP BY enroll_month;`에서 달이 9월, 10월, 11월 세 가지예요. 결과는 몇 줄인가요?",
+          "choices": [
+            "187줄",
+            "1줄",
+            "3줄",
+            "63줄"
+          ],
+          "answer": 2,
+          "explain": "같은 값끼리 바구니에 담고 바구니마다 한 줄로 접어요. 묶음이 3개라 3줄이에요. 묶음 순서는 정해져 있지 않아서 `ORDER BY`를 붙여요.",
+          "page": 18
+        },
+        {
+          "id": "g2",
+          "q": "`SELECT enroll_month, member_id, COUNT(*) FROM enrollments GROUP BY enroll_month;`을 치면 어떻게 되나요?",
+          "choices": [
+            "`column \"enrollments.member_id\" must appear in the GROUP BY clause ...` 오류가 나요",
+            "member_id는 묶음의 첫 줄 값이 나와요",
+            "member_id 칸이 빈칸으로 나와요",
+            "달과 회원 짝마다 한 줄씩 나와요"
+          ],
+          "answer": 0,
+          "explain": "한 달 묶음에 member_id가 여러 개라 한 칸에 무엇을 적을지 정할 수 없어요. `GROUP BY`에 더하거나 `COUNT(DISTINCT member_id)`처럼 집계 함수로 감싸요.",
+          "page": 21
+        },
+        {
+          "id": "g3",
+          "q": "`GROUP BY enroll_month, status`는 어떤 줄끼리 한 묶음으로 만드나요?",
+          "choices": [
+            "달이 같은 줄끼리",
+            "상태가 같은 줄끼리",
+            "달이나 상태 중 하나라도 같은 줄끼리",
+            "달도 같고 상태도 같은 줄끼리"
+          ],
+          "answer": 3,
+          "explain": "열 두 개로 묶으면 두 값이 모두 같은 줄만 한 묶음이에요. 9월 완료와 9월 취소는 다른 묶음이라 결과가 6줄이었어요.",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "part": "HAVING으로 묶음 고르기",
+      "questions": [
+        {
+          "id": "h1",
+          "q": "신청이 18건 이상인 강좌만 보려고 `WHERE COUNT(*) >= 18`을 적었더니 오류가 났어요. 무엇으로 고치나요?",
+          "choices": [
+            "`GROUP BY` 뒤에 `HAVING COUNT(*) >= 18`",
+            "`WHERE` 앞에 `HAVING`을 붙여요",
+            "`ORDER BY COUNT(*) >= 18`",
+            "`WHERE COUNT(course_id) >= 18`"
+          ],
+          "answer": 0,
+          "explain": "WHERE는 묶기 전에 줄을 하나씩 볼 때 실행돼서 아직 셀 묶음이 없어요(`aggregate functions are not allowed in WHERE`). 묶은 뒤 거르는 일은 `HAVING`이 해요.",
+          "page": 24
+        },
+        {
+          "id": "h2",
+          "q": "SQL이 실제로 실행하는 순서로 맞는 것은 무엇인가요?",
+          "choices": [
+            "SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY",
+            "FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY",
+            "FROM, GROUP BY, WHERE, SELECT, HAVING, ORDER BY",
+            "FROM, SELECT, WHERE, GROUP BY, HAVING, ORDER BY"
+          ],
+          "answer": 1,
+          "explain": "FROM으로 표를 고르고 WHERE로 줄을 거른 뒤 GROUP BY로 묶고 HAVING으로 묶음을 걸러요. SELECT는 그다음이라 AS 이름은 ORDER BY에서만 써요.",
+          "page": 28
+        },
+        {
+          "id": "h3",
+          "q": "`HAVING 누적신청 >= 18`이 `column \"누적신청\" does not exist`로 막혔어요. 어떻게 고치나요?",
+          "choices": [
+            "`누적신청`을 큰따옴표로 감싸요",
+            "`WHERE 누적신청 >= 18`로 옮겨요",
+            "`HAVING COUNT(*) >= 18`처럼 함수를 다시 적어요",
+            "AS 이름을 영어로 바꿔요"
+          ],
+          "answer": 2,
+          "explain": "AS 이름은 HAVING 다음에 실행되는 SELECT에서 생겨요. HAVING에는 함수를 다시 적고, ORDER BY에는 이름을 써도 돼요.",
+          "page": 29
+        }
+      ]
+    },
+    {
+      "part": "앞에서 배운 것과 비교",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "`SELECT DISTINCT region FROM members;`와 `SELECT region FROM members GROUP BY region;`의 차이로 맞는 것은 무엇인가요?",
+          "choices": [
+            "DISTINCT만 겹친 구를 지워요",
+            "목록은 같고, 구마다 `COUNT(*)`로 세는 일은 GROUP BY만 돼요",
+            "GROUP BY는 구를 항상 가나다 순으로 세워요",
+            "DISTINCT는 NULL을 세고 GROUP BY는 안 세요"
+          ],
+          "answer": 1,
+          "explain": "둘 다 구 4개 목록을 내요. 묶음마다 세려면 `SELECT region, COUNT(*) ... GROUP BY region`처럼 GROUP BY를 써요.",
+          "page": 30
+        },
+        {
+          "id": "p2",
+          "q": "15에서 `counts[r] = counts.get(r, 0) + 1`로 구마다 세던 일을 SQL로 하면 무엇인가요?",
+          "choices": [
+            "`SELECT COUNT(DISTINCT region) FROM members;`",
+            "`SELECT region FROM members ORDER BY region;`",
+            "`SELECT region, COUNT(*) FROM members GROUP BY region;`",
+            "`SELECT SUM(region) FROM members;`"
+          ],
+          "answer": 2,
+          "explain": "for와 get으로 키마다 1씩 더하던 일을 `GROUP BY region`과 `COUNT(*)`가 한 문장으로 해요.",
+          "page": 31
+        }
+      ]
+    },
+    {
+      "part": "오류와 실제 상황",
+      "questions": [
+        {
+          "id": "x1",
+          "q": "`SELECT SUM(name) FROM members;`를 치면 어떻게 되나요?",
+          "choices": [
+            "`function sum(character varying) does not exist`가 나요",
+            "이름 글자 수를 모두 더해요",
+            "이름을 모두 이어 붙여요",
+            "0이 나와요"
+          ],
+          "answer": 0,
+          "explain": "글자 열은 `COUNT`, `MIN`, `MAX`만 돼요. `SUM`과 `AVG`는 숫자 열에만 써요.",
+          "page": 33
+        },
+        {
+          "id": "x2",
+          "q": "취소를 빼고 누적 결제가 60만 원 이상인 회원을 고르려고 해요. 맞는 문장은 무엇인가요?",
+          "choices": [
+            "`... WHERE SUM(pay_amount) >= 600000 GROUP BY member_id`",
+            "`... GROUP BY member_id HAVING status <> '취소' AND SUM(pay_amount) >= 600000`",
+            "`... WHERE status <> '취소' GROUP BY member_id HAVING SUM(pay_amount) >= 600000`",
+            "`... WHERE status <> '취소' AND pay_amount >= 600000 GROUP BY member_id`"
+          ],
+          "answer": 2,
+          "explain": "무엇을 셀지(취소 빼기)는 WHERE로, 묶은 뒤 합계 조건은 HAVING으로 적어요. 실제로 16번 회원 745000원부터 6명이 나왔어요.",
+          "page": 36
+        }
+      ]
+    }
+  ]
+}

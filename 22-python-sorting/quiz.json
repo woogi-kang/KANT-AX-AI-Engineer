@@ -1,0 +1,280 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "판매량이 가장 많은 메뉴를 찾으려고 했어요. 무엇이 찍히나요?",
+          "code": "sales = {\"coffee\": 12, \"latte\": 30, \"cake\": 8, \"tea\": 15}\nprint(max(sales))",
+          "choices": [
+            "`latte`",
+            "`30`",
+            "`tea`",
+            "`coffee`"
+          ],
+          "answer": 2,
+          "explain": "`max`는 딕셔너리를 받으면 키만 봐요. 이름끼리 abc 순으로 비교해서 가장 뒤인 `tea`가 나와요. 판매량으로 비교하려면 `key=sales.get`을 줘요.",
+          "page": 4,
+          "verify": "py"
+        },
+        {
+          "id": "w2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "names = [\"latte\", \"tea\", \"coffee\"]\nprint(sorted(names, key=len))",
+          "choices": [
+            "`['coffee', 'latte', 'tea']`",
+            "`['tea', 'latte', 'coffee']`",
+            "`[3, 5, 6]`",
+            "`['coffee', 'tea', 'latte']`"
+          ],
+          "answer": 1,
+          "explain": "`key=len`이 값마다 길이 5, 3, 6을 만들고 그 값으로 줄을 세워요. 결과에는 숫자가 아니라 원래 이름이 들어가요.",
+          "page": 6,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "sorted, sort, key",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "prices = [6500, 4500, 5000]\nprices = prices.sort()\nprint(prices)",
+          "choices": [
+            "`[4500, 5000, 6500]`",
+            "`[6500, 4500, 5000]`",
+            "`[]`",
+            "`None`"
+          ],
+          "answer": 3,
+          "explain": "`sort`는 리스트를 줄 세우기만 하고 돌려주는 값이 없어요. 그 `None`을 다시 `prices`에 넣어서 리스트를 잃었어요. `prices.sort()`만 쓰거나 `prices = sorted(prices)`로 써요.",
+          "page": 8,
+          "verify": "py"
+        },
+        {
+          "id": "s2",
+          "q": "숫자를 글자로 담은 리스트를 줄 세웠어요. 무엇이 찍히나요?",
+          "code": "print(sorted([\"10\", \"9\", \"100\"]))",
+          "choices": [
+            "`['10', '100', '9']`",
+            "`['9', '10', '100']`",
+            "`['100', '10', '9']`",
+            "`[9, 10, 100]`"
+          ],
+          "answer": 0,
+          "explain": "글자는 첫 글자부터 비교해요. `1`이 `9`보다 앞이라 `'10'`과 `'100'`이 `'9'`보다 먼저 와요. 크기순으로 세우려면 `key=int`를 줘요.",
+          "page": 10,
+          "verify": "py"
+        },
+        {
+          "id": "s3",
+          "q": "대소문자와 상관없이 abc 순으로 세웠어요. 무엇이 찍히나요?",
+          "code": "print(sorted([\"Latte\", \"cake\", \"Tea\", \"coffee\"], key=str.lower))",
+          "choices": [
+            "`['Latte', 'Tea', 'cake', 'coffee']`",
+            "`['cake', 'coffee', 'latte', 'tea']`",
+            "`['cake', 'coffee', 'Latte', 'Tea']`",
+            "`['Tea', 'Latte', 'coffee', 'cake']`"
+          ],
+          "answer": 2,
+          "explain": "`key=str.lower`는 비교할 때만 소문자로 바꿔요. 결과에는 `Latte`, `Tea`처럼 원래 글자가 그대로 남아요. key가 없으면 대문자가 소문자보다 앞에 와요.",
+          "page": 12,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "튜플과 딕셔너리 정렬",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "튜플 리스트를 그냥 줄 세웠어요. 무엇이 찍히나요?",
+          "code": "items = [(\"latte\", 5000), (\"cake\", 6500), (\"coffee\", 4500), (\"cake\", 6000)]\nprint(sorted(items))",
+          "choices": [
+            "`[('cake', 6500), ('cake', 6000), ('coffee', 4500), ('latte', 5000)]`",
+            "`[('cake', 6000), ('cake', 6500), ('coffee', 4500), ('latte', 5000)]`",
+            "`[('coffee', 4500), ('latte', 5000), ('cake', 6000), ('cake', 6500)]`"
+          ],
+          "answer": 1,
+          "explain": "튜플은 첫 칸부터 비교해요. cake 둘은 첫 칸이 같아서 둘째 칸 6000과 6500을 비교해요. 가격순으로 세우려면 `key=lambda m: m[1]`을 줘요.",
+          "page": 13,
+          "verify": "py"
+        },
+        {
+          "id": "t2",
+          "q": "판매량 많은 순, 같으면 이름순으로 세웠어요. 무엇이 찍히나요?",
+          "code": "sales = [(\"latte\", 30), (\"cake\", 8), (\"coffee\", 30), (\"tea\", 15)]\nprint(sorted(sales, key=lambda m: (-m[1], m[0])))",
+          "choices": [
+            "`[('latte', 30), ('coffee', 30), ('tea', 15), ('cake', 8)]`",
+            "`[('cake', 8), ('tea', 15), ('coffee', 30), ('latte', 30)]`",
+            "`[('coffee', 30), ('latte', 30), ('tea', 15), ('cake', 8)]`",
+            "`[(-30, 'coffee'), (-30, 'latte'), (-15, 'tea'), (-8, 'cake')]`"
+          ],
+          "answer": 2,
+          "explain": "key가 `(-판매량, 이름)`을 돌려줘서 -30이 가장 앞에 서요. -30이 같은 둘은 이름으로 비교해서 coffee가 먼저예요. 결과에는 key 값이 아니라 원래 튜플이 들어가요.",
+          "page": 15,
+          "verify": "py"
+        },
+        {
+          "id": "t3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "sales = {\"coffee\": 12, \"latte\": 30, \"cake\": 8, \"tea\": 15}\nprint(sorted(sales, key=sales.get, reverse=True))",
+          "choices": [
+            "`['latte', 'tea', 'coffee', 'cake']`",
+            "`[30, 15, 12, 8]`",
+            "`['tea', 'latte', 'coffee', 'cake']`",
+            "`[('latte', 30), ('tea', 15), ('coffee', 12), ('cake', 8)]`"
+          ],
+          "answer": 0,
+          "explain": "`key=sales.get`은 키마다 판매량을 꺼내 비교해요. 줄 서는 건 키라서 결과는 메뉴 이름 리스트이고, `reverse=True`라 많이 팔린 순이에요.",
+          "page": 18,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "max와 min",
+      "questions": [
+        {
+          "id": "x1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "names = [\"latte\", \"tea\", \"coffee\"]\nprint(max(names, key=len))",
+          "choices": [
+            "`6`",
+            "`tea`",
+            "`latte`",
+            "`coffee`"
+          ],
+          "answer": 3,
+          "explain": "`key=len`으로 길이를 비교해서 가장 긴 이름을 골라요. 돌아오는 건 길이 6이 아니라 원래 값 `coffee`예요.",
+          "page": 19,
+          "verify": "py"
+        },
+        {
+          "id": "x2",
+          "q": "`big`이 빈 리스트일 수 있어요. 비어 있으면 오류 대신 0을 받으려면 어떻게 적나요?",
+          "choices": [
+            "`max(big, default=0)`",
+            "`max(big, key=0)`",
+            "`max(big, reverse=0)`",
+            "`max(big)`"
+          ],
+          "answer": 0,
+          "explain": "`max(big)`은 빈 리스트에서 `ValueError: max() iterable argument is empty`가 나요. `default=0`을 적으면 비어 있을 때 0을 돌려줘요.",
+          "page": 21
+        },
+        {
+          "id": "x3",
+          "q": "이름과 판매량을 같이 받으려고 했어요. 무엇이 찍히나요?",
+          "code": "sales = {\"coffee\": 12, \"latte\": 30, \"cake\": 8, \"tea\": 15}\nprint(max(sales.items(), key=lambda kv: kv[1]))",
+          "choices": [
+            "`latte`",
+            "`('latte', 30)`",
+            "`30`",
+            "`('tea', 15)`"
+          ],
+          "answer": 1,
+          "explain": "`items()`를 넘기면 `(키, 값)` 튜플이 하나씩 들어가고, `kv[1]`인 판매량으로 비교해요. 결과는 튜플 통째로 나와요.",
+          "page": 20,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "오류와 함정",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "`sorted([4500, \"5000\", 6500])`을 치면 어떻게 되나요?",
+          "choices": [
+            "`[4500, '5000', 6500]`가 찍혀요",
+            "`[4500, 5000, 6500]`가 찍혀요",
+            "`TypeError: '<' not supported between instances of 'str' and 'int'`",
+            "`ValueError: invalid literal for int()`"
+          ],
+          "answer": 2,
+          "explain": "글자 `\"5000\"`과 숫자는 크기를 비교할 수 없어서 `TypeError`가 나요. 비교할 때만 숫자로 바꾸려면 `key=int`를 주고, 처음부터 같은 타입으로 담는 게 가장 좋아요.",
+          "page": 23
+        },
+        {
+          "id": "e2",
+          "q": "`sorted(sales, sales.get)`에서 `TypeError: sorted expected 1 argument, got 2`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "`sorted(sales, key=sales.get)`",
+            "`sorted(sales, key=sales.get())`",
+            "`sorted(sales.get)`",
+            "`sorted(sales, sales.get())`"
+          ],
+          "answer": 0,
+          "explain": "`sorted`는 줄 세울 값 하나만 위치로 받고, key는 키워드 인자로만 받아요. `key=`를 붙이고 함수는 괄호 없이 넘겨요.",
+          "page": 25
+        },
+        {
+          "id": "e3",
+          "q": "`sorted([\"latte\", \"tea\"], key=len())`을 치면 어떤 오류가 나요?",
+          "choices": [
+            "`NameError: name 'len' is not defined`",
+            "`SyntaxError: invalid syntax`",
+            "`TypeError: sorted expected 1 argument, got 2`",
+            "`TypeError: len() takes exactly one argument (0 given)`"
+          ],
+          "answer": 3,
+          "explain": "key에 괄호를 붙이면 `len`이 그 자리에서 아무것도 받지 않고 먼저 실행돼요. `key=len`처럼 이름만 넘겨요.",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "이름이 짧은 순, 길이가 같으면 abc 순으로 세웠어요. 무엇이 찍히나요?",
+          "code": "names = [\"mocha\", \"tea\", \"latte\", \"americano\", \"cake\"]\nprint(sorted(names, key=lambda n: (len(n), n)))",
+          "choices": [
+            "`['tea', 'cake', 'mocha', 'latte', 'americano']`",
+            "`['americano', 'cake', 'latte', 'mocha', 'tea']`",
+            "`['tea', 'cake', 'latte', 'mocha', 'americano']`",
+            "`['americano', 'latte', 'mocha', 'cake', 'tea']`"
+          ],
+          "answer": 2,
+          "explain": "key가 `(길이, 이름)` 튜플을 돌려줘요. 길이 5인 mocha와 latte는 첫 칸이 같아서 이름을 비교하고 latte가 앞이에요. `key=len`만 주면 처음 적은 순서대로 mocha가 먼저예요.",
+          "page": 28,
+          "verify": "py"
+        },
+        {
+          "id": "p2",
+          "q": "판매 순위 3위까지 잘랐어요. 무엇이 찍히나요?",
+          "code": "sales = {\"coffee\": 12, \"latte\": 30, \"cake\": 8, \"tea\": 15, \"juice\": 15}\nrank = sorted(sales.items(), key=lambda kv: (-kv[1], kv[0]))\nprint(rank[:3])",
+          "choices": [
+            "`[('latte', 30), ('tea', 15), ('juice', 15)]`",
+            "`[('latte', 30), ('juice', 15), ('tea', 15)]`",
+            "`[('cake', 8), ('coffee', 12), ('juice', 15)]`",
+            "`[('latte', 30), ('juice', 15), ('tea', 15), ('coffee', 12)]`"
+          ],
+          "answer": 1,
+          "explain": "많은 순으로 세우고 15잔끼리는 이름순이라 juice가 tea보다 앞이에요. `[:3]`은 앞 3개만 잘라요.",
+          "page": 26,
+          "verify": "py"
+        },
+        {
+          "id": "p3",
+          "q": "성적표에서 1등 이름을 뽑았어요. 무엇이 찍히나요?",
+          "code": "scores = [(\"kim\", 92), (\"lee\", 78), (\"park\", 85), (\"choi\", 59)]\nprint(\"1등:\", max(scores, key=lambda s: s[1])[0])",
+          "choices": [
+            "`1등: ('kim', 92)`",
+            "`1등: 92`",
+            "`1등: park`",
+            "`1등: kim`"
+          ],
+          "answer": 3,
+          "explain": "`max`는 점수 `s[1]`로 비교해서 튜플 `('kim', 92)`를 통째로 돌려줘요. 뒤에 `[0]`을 붙여서 이름만 꺼냈어요.",
+          "page": 29,
+          "verify": "py"
+        }
+      ]
+    }
+  ]
+}

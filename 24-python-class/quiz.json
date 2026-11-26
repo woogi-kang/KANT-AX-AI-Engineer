@@ -1,0 +1,275 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "붕어빵을 딕셔너리로 담다가 키를 잘못 적었어요. 언제 어떤 오류가 나요?",
+          "code": "def intro(bread):\n    print(bread[\"flavor\"], \"붕어빵\", bread[\"price\"], \"원\")\nb3 = {\"flavr\": \"피자\", \"price\": 1500}\nintro(b3)",
+          "choices": [
+            "`b3 = ...` 줄에서 바로 `SyntaxError`가 나요",
+            "`intro(b3)`를 부를 때 `KeyError: 'flavor'`가 나요",
+            "오류 없이 `피자 붕어빵 1500 원`이 찍혀요",
+            "`intro(b3)`를 부를 때 `AttributeError`가 나요"
+          ],
+          "answer": 1,
+          "explain": "딕셔너리는 키를 `flavr`로 틀려도 만들 때는 아무 말이 없어요. 한참 뒤 `bread[\"flavor\"]`를 꺼낼 때 `KeyError`가 나요.",
+          "page": 4
+        },
+        {
+          "id": "w2",
+          "q": "틀로 찍어 낸 붕어빵 하나하나를 무엇이라고 부르나요?",
+          "choices": [
+            "클래스",
+            "메서드",
+            "객체",
+            "속성"
+          ],
+          "answer": 2,
+          "explain": "틀이 클래스, 찍어 낸 붕어빵이 객체예요. 붕어빵에 든 값은 속성, 붕어빵이 하는 일은 메서드예요.",
+          "page": 5
+        },
+        {
+          "id": "w3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(type([1, 2]))",
+          "choices": [
+            "`<class 'list'>`",
+            "`list`",
+            "`[1, 2]`",
+            "`<class 'str'>`"
+          ],
+          "answer": 0,
+          "explain": "`list`도 파이썬이 미리 만들어 둔 틀이에요. `[1, 2]`는 `list` 틀로 찍은 객체라서 `type()`이 `<class 'list'>`라고 알려 줘요.",
+          "page": 6,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "가장 작은 틀",
+      "questions": [
+        {
+          "id": "m1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Bread:\n    pass\na = Bread()\nb = Bread()\na.flavor = \"팥\"\na.price = 1000\nb.flavor = \"슈크림\"\nb.price = 1200\nprint(a.flavor, a.price)",
+          "choices": [
+            "`슈크림 1200`",
+            "`팥 1000`",
+            "`flavor price`",
+            "`AttributeError`"
+          ],
+          "answer": 1,
+          "explain": "`a.flavor = \"팥\"`처럼 점 뒤에 칸 이름을 적어 값을 붙여요. `a`와 `b`는 같은 틀로 찍었어도 서로 다른 붕어빵이라 값이 따로 있어요.",
+          "page": 8,
+          "verify": "py"
+        },
+        {
+          "id": "m2",
+          "q": "아래 코드를 실행하면 어떻게 되나요?",
+          "code": "class Bread:\n    pass\nc = Bread()\nc.flavor = \"피자\"\nprint(c.price)",
+          "choices": [
+            "`None`이 찍혀요",
+            "`0`이 찍혀요",
+            "`KeyError: 'price'`",
+            "`AttributeError: 'Bread' object has no attribute 'price'`"
+          ],
+          "answer": 3,
+          "explain": "`c`에는 `flavor` 칸만 붙이고 `price` 줄을 빠뜨렸어요. 없는 속성을 꺼내면 `AttributeError`가 나요. 찍을 때 재료를 한 번에 넣게 하는 방법이 `__init__`이에요.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "part": "self와 `__init__`",
+      "questions": [
+        {
+          "id": "i1",
+          "q": "`def __init__(self, flavor, price):`인 틀로 붕어빵을 찍을 때 맞게 적은 것은 어느 것인가요?",
+          "choices": [
+            "`a = Bread(self, \"팥\", 1000)`",
+            "`a = Bread.__init__(\"팥\", 1000)`",
+            "`a = Bread(a, \"팥\", 1000)`",
+            "`a = Bread(\"팥\", 1000)`"
+          ],
+          "answer": 3,
+          "explain": "칸은 셋이지만 `self` 칸은 파이썬이 방금 찍은 붕어빵으로 채워요. 그래서 괄호에는 `self`를 뺀 재료 두 개만 적어요.",
+          "page": 12
+        },
+        {
+          "id": "i2",
+          "q": "아래 코드를 실행하면 어떻게 되나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        flavor = flavor\n        price = price\na = Bread(\"팥\", 1000)\nprint(a.flavor)",
+          "choices": [
+            "`팥`이 찍혀요",
+            "`AttributeError: 'Bread' object has no attribute 'flavor'`",
+            "`NameError: name 'flavor' is not defined`",
+            "`None`이 찍혀요"
+          ],
+          "answer": 1,
+          "explain": "`flavor = flavor`는 들어온 재료를 자기 자신에게 다시 넣었을 뿐이라 붕어빵에 칸이 붙지 않아요. 붕어빵에 남길 값은 `self.flavor = flavor`로 적어요.",
+          "page": 19
+        },
+        {
+          "id": "i3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n        self.baked = False\na = Bread(\"팥\", 1000)\nprint(a.flavor, a.price, a.baked)",
+          "choices": [
+            "`팥 1000 False`",
+            "`팥 1000 baked`",
+            "`팥 1000 True`",
+            "`TypeError`"
+          ],
+          "answer": 0,
+          "explain": "`baked` 칸은 재료로 받지 않고 `__init__` 안에서 처음 값 `False`를 넣었어요. 모든 붕어빵이 같은 값으로 시작하는 칸에 이렇게 써요.",
+          "page": 20,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "메서드",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n    def discount(self, won):\n        self.price = self.price - won\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\na.discount(200)\nprint(a.price, b.price)",
+          "choices": [
+            "`800 1000`",
+            "`1000 1200`",
+            "`800 1200`",
+            "`800 800`"
+          ],
+          "answer": 2,
+          "explain": "`a.discount(200)`을 부르면 `self`는 `a`라서 `a`의 가격만 800이 돼요. `b`는 칸이 따로라 1200 그대로예요.",
+          "page": 23,
+          "verify": "py"
+        },
+        {
+          "id": "t2",
+          "q": "`a.intro()`와 똑같이 동작하는 줄은 어느 것인가요?",
+          "choices": [
+            "`Bread.intro()`",
+            "`intro(a)`",
+            "`a.intro(a)`",
+            "`Bread.intro(a)`"
+          ],
+          "answer": 3,
+          "explain": "파이썬은 `a.intro()`를 `Bread` 틀의 `intro`에 점 앞의 `a`를 넣어 부르는 것으로 바꿔요. 그래서 `self` 칸에 `a`가 들어가요.",
+          "page": 22
+        },
+        {
+          "id": "t3",
+          "q": "메서드가 `return`으로 돌려준 값을 찍었어요. 무엇이 찍히나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n    def discount(self, won):\n        self.price = self.price - won\n    def total(self, qty):\n        return self.price * qty\na = Bread(\"팥\", 1000)\na.discount(200)\nprint(a.total(3))",
+          "choices": [
+            "`3000`",
+            "`1000`",
+            "`None`",
+            "`2400`"
+          ],
+          "answer": 3,
+          "explain": "`discount(200)`으로 `a`의 가격이 800이 됐어요. `total(3)`은 `self.price * qty`를 돌려줘서 800 × 3 = 2400이에요.",
+          "page": 23,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "오류와 함정",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "`def __init__(self, flavor, price):`인 틀에 `a = Bread(\"팥\")`을 치면 어떤 오류가 나요?",
+          "choices": [
+            "`TypeError: Bread.__init__() missing 1 required positional argument: 'price'`",
+            "`TypeError: Bread() takes no arguments`",
+            "`AttributeError: 'Bread' object has no attribute 'price'`",
+            "`KeyError: 'price'`"
+          ],
+          "answer": 0,
+          "explain": "재료가 하나 모자라서 찍는 순간 `TypeError`가 나요. `self`는 파이썬이 채우니 `self`를 뺀 칸 수만큼 `Bread(\"팥\", 1000)`처럼 넣어요.",
+          "page": 25
+        },
+        {
+          "id": "e2",
+          "q": "`a.intro()`에서 `TypeError: Bread.intro() takes 0 positional arguments but 1 was given`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "`a.intro(a)`로 불러요",
+            "`def intro(self):`로 고쳐요",
+            "`a.intro`처럼 괄호를 빼요",
+            "`def __intro__():`로 고쳐요"
+          ],
+          "answer": 1,
+          "explain": "`a.intro()`는 `Bread.intro(a)`라서 `a`가 하나 들어가요. 받을 칸이 없으니 오류가 나요. 메서드의 첫 칸에는 꼭 `self`를 적어요.",
+          "page": 26
+        },
+        {
+          "id": "e3",
+          "q": "아래 코드를 실행하면 어떤 오류가 나요?",
+          "code": "class Bread:\n    def _init_(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\na = Bread(\"팥\", 1000)",
+          "choices": [
+            "`TypeError: Bread.__init__() missing 2 required positional arguments`",
+            "`SyntaxError: invalid syntax`",
+            "`TypeError: Bread() takes no arguments`",
+            "`AttributeError: 'Bread' object has no attribute '_init_'`"
+          ],
+          "answer": 2,
+          "explain": "밑줄을 하나씩만 적어서 파이썬이 약속된 이름 `__init__`을 못 찾아요. 재료를 받지 않는 틀이 돼서 `takes no arguments`가 나요.",
+          "page": 27
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "도장 카드에 도장을 찍었어요. 무엇이 찍히나요?",
+          "code": "class Card:\n    def __init__(self, name):\n        self.name = name\n        self.stamps = 0\n    def add(self):\n        self.stamps = self.stamps + 1\nkim = Card(\"kim\")\nlee = Card(\"lee\")\nkim.add()\nkim.add()\nkim.add()\nlee.add()\nprint(kim.stamps, lee.stamps)",
+          "choices": [
+            "`3 1`",
+            "`4 4`",
+            "`1 1`",
+            "`0 0`"
+          ],
+          "answer": 0,
+          "explain": "`stamps`는 0에서 시작하고, `add`는 자기 도장만 하나 늘려요. `kim.add()`를 세 번 부르면 `self`가 매번 `kim`이라 kim만 3개, lee는 따로 1개예요.",
+          "page": 31,
+          "verify": "py"
+        },
+        {
+          "id": "p2",
+          "q": "사이즈를 넣지 않고 음료를 찍었어요. 무엇이 찍히나요?",
+          "code": "class Drink:\n    def __init__(self, name, price, size=\"M\"):\n        self.name = name\n        self.price = price\n        self.size = size\n    def label(self):\n        return f\"{self.name}({self.size}) {self.price:,}원\"\nd1 = Drink(\"latte\", 5000)\nprint(d1.label())",
+          "choices": [
+            "`latte() 5,000원`",
+            "`latte(M) 5000원`",
+            "`latte(L) 5,000원`",
+            "`latte(M) 5,000원`"
+          ],
+          "answer": 3,
+          "explain": "`__init__`에도 20의 기본값을 쓸 수 있어요. `size`를 안 넣어서 `\"M\"`이 들어가고, `:,`가 천 단위 콤마를 넣어요.",
+          "page": 30,
+          "verify": "py"
+        },
+        {
+          "id": "p3",
+          "q": "주문한 붕어빵 리스트의 합계를 냈어요. 무엇이 찍히나요?",
+          "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\norder = [Bread(\"팥\", 1000), Bread(\"슈크림\", 1200), Bread(\"팥\", 1000)]\ntotal = sum([b.price for b in order])\nprint(\"합계\", total, \"원\")",
+          "choices": [
+            "`합계 2200 원`",
+            "`합계 3200 원`",
+            "`합계 1000 원`",
+            "`합계 [1000, 1200, 1000] 원`"
+          ],
+          "answer": 1,
+          "explain": "객체도 리스트에 담을 수 있어요. 컴프리헨션으로 `b.price`만 모아 `sum`에 넘기면 1000 + 1200 + 1000 = 3200이에요.",
+          "page": 29,
+          "verify": "py"
+        }
+      ]
+    }
+  ]
+}
