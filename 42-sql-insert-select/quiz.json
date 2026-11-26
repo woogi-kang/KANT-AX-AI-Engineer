@@ -1,0 +1,242 @@
+{
+  "parts": [
+    {
+      "part": "다른 표에서 골라 넣기",
+      "questions": [
+        {
+          "id": "i1",
+          "q": "`INSERT INTO contact_lists (member_id, name, reason, request_date) SELECT member_id, name, '이메일 미등록', '2026-11-19' FROM members WHERE email IS NULL;`에서 넣을 열과 SELECT 칸은 무엇으로 짝을 짓나요?",
+          "choices": [
+            "열 이름이 같은 것끼리",
+            "적은 순서대로, 첫째 칸은 첫째 열에",
+            "자료형이 같은 것끼리",
+            "PostgreSQL이 알아서 맞춰요"
+          ],
+          "answer": 1,
+          "explain": "열과 칸은 이름이 아니라 순서로 짝을 지어요. 셋째 칸 `'이메일 미등록'`은 셋째 열 reason에 모든 줄 같은 값으로 들어가요.",
+          "page": 7
+        },
+        {
+          "id": "i2",
+          "q": "두 SELECT를 `UNION`으로 합쳐 `request_date`(DATE 열)에 넣었더니 `is of type date but expression is of type text`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "날짜를 큰따옴표로 감싸요",
+            "`UNION`을 `UNION ALL`로 바꿔요",
+            "날짜를 `CAST('2026-11-19' AS DATE)`나 `'2026-11-19'::DATE`로 적어요",
+            "request_date 열을 지워요"
+          ],
+          "answer": 2,
+          "explain": "UNION이 두 SELECT를 먼저 합치면서 따옴표 글자를 text로 정해요. `CAST(값 AS DATE)`와 `값::DATE`는 같은 뜻이고, 날짜로 맞추면 16줄이 한 번에 들어가요.",
+          "page": 11
+        },
+        {
+          "id": "i3",
+          "q": "이메일 미등록 9명과 전화번호 미등록 7명을 `UNION`으로 넣었어요. 둘 다 없는 임준서는 명단에 몇 줄인가요?",
+          "choices": [
+            "0줄",
+            "1줄",
+            "2줄",
+            "UNION이라 오류가 나요"
+          ],
+          "answer": 2,
+          "explain": "UNION은 완전히 같은 줄만 하나로 합쳐요. reason이 이메일 미등록과 전화번호 미등록으로 달라서 두 줄이 남아요.",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "part": "여러 열과 계산으로 고치기",
+      "questions": [
+        {
+          "id": "u1",
+          "q": "14줄이 있는 courses에 `ALTER TABLE courses ADD COLUMN is_open BOOLEAN NOT NULL DEFAULT true;`를 쳤어요. 있던 줄의 is_open은 무엇인가요?",
+          "choices": [
+            "모두 NULL",
+            "모두 `t`",
+            "모두 `f`",
+            "오류가 나서 열이 안 생겨요"
+          ],
+          "answer": 1,
+          "explain": "새 열을 더하면 있던 줄은 NULL이 되지만, `DEFAULT`를 같이 적으면 그 값이 들어가요. 그래서 모두 `t`예요.",
+          "page": 13
+        },
+        {
+          "id": "u2",
+          "q": "fee가 65000인 아침 요가에 `UPDATE courses SET supply = fee / 1.1 ...`을 쳤어요. supply가 INTEGER 열이면 무엇이 들어가나요?",
+          "choices": [
+            "`59090.909090909091`",
+            "`59090`",
+            "`59091`",
+            "오류가 나요"
+          ],
+          "answer": 2,
+          "explain": "계산은 59090.909…로 나오지만 INTEGER 열에 넣으면 소수점 아래를 반올림해요. 70000원은 63636.36…이라 63636이었어요.",
+          "page": 15
+        },
+        {
+          "id": "u3",
+          "q": "11월 신청이 5건 이상인 강좌만 정원을 5 늘리려고 해요. 고를 줄을 정하는 곳은 어디인가요?",
+          "choices": [
+            "`SET capacity = capacity + 5` 안",
+            "`WHERE course_id IN (SELECT course_id FROM enrollments ... GROUP BY course_id HAVING COUNT(*) >= 5)`",
+            "`RETURNING` 뒤",
+            "`ALTER TABLE` 문"
+          ],
+          "answer": 1,
+          "explain": "UPDATE의 WHERE에 IN 서브쿼리를 넣으면 고칠 줄을 다른 표가 정해요. 안쪽만 먼저 쳐서 6개인지 보고, 그대로 IN 안에 넣었어요.",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "part": "있는지 묻기 (EXISTS)",
+      "questions": [
+        {
+          "id": "x1",
+          "q": "`SELECT EXISTS (SELECT 1 FROM enrollments WHERE member_id = 40);`의 결과는 무엇인가요? 40번 회원은 신청이 없어요.",
+          "choices": [
+            "`0`",
+            "`f`",
+            "빈칸(NULL)",
+            "`1`"
+          ],
+          "answer": 1,
+          "explain": "EXISTS는 괄호 안에 줄이 하나라도 있으면 `t`, 없으면 `f`예요. 칸 내용은 보지 않아서 안쪽을 `SELECT 1`로 짧게 적어요.",
+          "page": 17
+        },
+        {
+          "id": "x2",
+          "q": "신청 기록이 한 번도 없는 회원을 찾는 문장으로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`... FROM members m WHERE NOT EXISTS (SELECT 1 FROM enrollments e WHERE e.member_id = m.member_id)`",
+            "`... FROM members m WHERE NOT EXISTS (SELECT 1 FROM enrollments e)`",
+            "`... FROM members m WHERE EXISTS (SELECT 1 FROM enrollments e WHERE e.member_id = m.member_id)`",
+            "`... FROM members m WHERE m.member_id NOT EXISTS (enrollments)`"
+          ],
+          "answer": 0,
+          "explain": "안쪽 WHERE에 바깥 회원과 잇는 조건 `e.member_id = m.member_id`를 적어야 회원마다 다시 물어요. 잇는 조건을 빼면 0명, EXISTS면 40명이 나와요.",
+          "page": 20
+        },
+        {
+          "id": "x3",
+          "q": "courses의 instructor_id 중 하나가 NULL이에요. `WHERE instructor_id NOT IN (SELECT instructor_id FROM courses)`로 강좌 없는 강사를 찾으면 몇 줄인가요?",
+          "choices": [
+            "1줄 (윤태호)",
+            "8줄",
+            "0줄",
+            "오류가 나요"
+          ],
+          "answer": 2,
+          "explain": "목록에 NULL이 섞이면 NULL과 비교한 답이 모름이라 아무도 안 나와요. 같은 질문을 `NOT EXISTS`로 쓰면 윤태호 1명이 맞게 나와요.",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "part": "지우기와 표 비우기",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "회원을 지우기 전에 수업에서 권하는 순서는 무엇인가요?",
+          "choices": [
+            "DELETE부터 치고 결과 숫자를 봐요",
+            "같은 WHERE로 SELECT해서 지울 줄을 보고, WHERE를 그대로 DELETE에 옮겨요",
+            "TRUNCATE로 비우고 다시 넣어요",
+            "DROP TABLE 뒤 CREATE TABLE을 해요"
+          ],
+          "answer": 1,
+          "explain": "SELECT 줄 수와 DELETE 뒤 숫자가 같은지 봐요. 실제로 채윤서 1명을 보고 `DELETE 1`로 같은 1줄만 지웠어요.",
+          "page": 23
+        },
+        {
+          "id": "d2",
+          "q": "신청 기록이 5건 있는 10번 회원을 `DELETE FROM members WHERE member_id = 10;`으로 지우면 어떻게 되나요?",
+          "choices": [
+            "회원과 신청 5건이 같이 지워져요",
+            "회원만 지워지고 신청은 남아요",
+            "`DELETE 0`이 나와요",
+            "`is still referenced from table \"enrollments\"` 오류로 막혀요"
+          ],
+          "answer": 3,
+          "explain": "enrollments의 member_id가 members를 가리키는 외래 키라서 아직 쓰는 줄이 있으면 막아요.",
+          "page": 24
+        },
+        {
+          "id": "d3",
+          "q": "명단 표의 줄은 모두 비우되 표는 남기고 번호도 1부터 다시 세고 싶어요. 무엇을 치나요?",
+          "choices": [
+            "`DROP TABLE contact_lists;`",
+            "`DELETE FROM contact_lists WHERE reason = '전화번호 미등록';`",
+            "`TRUNCATE contact_lists RESTART IDENTITY;`",
+            "`ALTER TABLE contact_lists DROP COLUMN request_id;`"
+          ],
+          "answer": 2,
+          "explain": "TRUNCATE는 모든 줄을 비우고 빈 표는 남겨요. DROP TABLE은 표까지 없애서 다음 SELECT가 `relation \"contact_lists\" does not exist`예요.",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "part": "오류와 함정",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "넣을 열은 4개인데 SELECT 칸을 3개만 적었어요. 무엇이 나오나요?",
+          "choices": [
+            "`INSERT has more target columns than expressions`",
+            "빈 열에 NULL이 들어가요",
+            "`column \"member_id\" is of type integer but expression is of type character varying`",
+            "`INSERT 0 9`"
+          ],
+          "answer": 0,
+          "explain": "열과 칸은 개수도 순서도 맞아야 해요. 순서를 바꿔 name을 member_id 자리에 두면 integer와 character varying이 안 맞는다는 오류가 나요.",
+          "page": 27
+        },
+        {
+          "id": "e2",
+          "q": "14줄이 있는 courses에 `ADD COLUMN class_days VARCHAR(10) NOT NULL`만 쳤더니 `contains null values`로 막혔어요. 어떻게 고치나요?",
+          "choices": [
+            "`NOT NULL`을 `NULL`로 바꿔요",
+            "`DEFAULT '미정'`을 같이 적어요",
+            "courses를 먼저 TRUNCATE해요",
+            "열 이름을 바꿔요"
+          ],
+          "answer": 1,
+          "explain": "있던 14줄의 새 칸이 비어서 NOT NULL에 걸려요. `NOT NULL DEFAULT '미정'`으로 적으면 있던 줄에 미정이 들어가요.",
+          "page": 29
+        }
+      ]
+    },
+    {
+      "part": "실제 상황",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "취소한 신청 20줄을 보관 표로 옮길 때, INSERT와 DELETE의 WHERE는 어떻게 적나요?",
+          "choices": [
+            "INSERT에는 `status = '취소'`, DELETE에는 WHERE를 빼요",
+            "두 문장에 같은 `WHERE status = '취소'`",
+            "INSERT에는 `status <> '취소'`, DELETE에는 `status = '취소'`",
+            "DELETE를 먼저 하고 INSERT에는 WHERE를 빼요"
+          ],
+          "answer": 1,
+          "explain": "같은 WHERE로 넣고 지우면 `INSERT 0 20`, `DELETE 20`으로 숫자가 맞아요. 남은 신청은 187 - 20 = 167줄이에요.",
+          "page": 30
+        },
+        {
+          "id": "s2",
+          "q": "아쿠아로빅에 윤태호 강사를 맡길 때, 강사 번호를 손으로 적지 않으려면 SET을 어떻게 쓰나요?",
+          "choices": [
+            "`SET instructor_id = '윤태호'`",
+            "`SET instructor_id = (SELECT instructor_id FROM instructors WHERE name = '윤태호')`",
+            "`SET instructor_id IN (SELECT instructor_id FROM instructors)`",
+            "`SET instructor_id = EXISTS (SELECT 1 FROM instructors WHERE name = '윤태호')`"
+          ],
+          "answer": 1,
+          "explain": "값 하나가 나오는 서브쿼리를 `=` 오른쪽에 두면 번호 8이 들어가요. `RETURNING`으로 instructor_id가 8이 된 것을 확인했어요.",
+          "page": 31
+        }
+      ]
+    }
+  ]
+}
