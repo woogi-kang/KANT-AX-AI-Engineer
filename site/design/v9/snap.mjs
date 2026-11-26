@@ -47,7 +47,8 @@ const cases = table(between(cs, "## 업무별 사례 목록", "사례명과")).m
 const pub = JSON.parse(rd("research/public-ax-cases.json")).cases;
 const fail = JSON.parse(rd("research/ax-failure-cases.json")).cases;
 const publicCases = { n: pub.length, kr: pub.filter((c) => c.region === "KR").length, sample: pub.filter((c) => ["K01", "K05", "K12", "G15", "G21", "G08"].includes(c.id)).map((c) => ({ id: c.id, org: c.organization, w: c.workflow.ko, ind: c.industry })) };
-const failures = { n: fail.length, kr: fail.filter((c) => c.region === "KR").length };
+publicCases.list = pub.map((c) => ({ id: c.id, org: c.organization, w: c.workflow.ko, ind: c.industry, region: c.region, stage: c.deployment_stage, verify: c.outcome_verification }));
+const failures = { n: fail.length, kr: fail.filter((c) => c.region === "KR").length, list: fail.map((c) => ({ id: c.id, org: c.organization, domain: c.domain.ko, change: c.attempted_change.ko, outcome: c.outcome, causes: c.failure_causes, check: c.capstone_check.ko })) };
 
 const topicMd = rd("technical-foundations/software-and-api.md");
 const version = (/최신 릴리스: `([^`]+)`/.exec(readme) || [])[1];

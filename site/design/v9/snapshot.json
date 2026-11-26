@@ -485,11 +485,601 @@
     "w": "Slack 운영 경보 조사에서 PR·사람 검토·배포 후 확인까지",
     "ind": "software-engineering"
    }
+  ],
+  "list": [
+   {
+    "id": "K01",
+    "org": "국민권익위원회 외",
+    "w": "민원 답변 추천과 중복 민원 군집화",
+    "ind": "public-sector",
+    "region": "KR",
+    "stage": "limited-operation",
+    "verify": "none"
+   },
+   {
+    "id": "K02",
+    "org": "신한은행",
+    "w": "법인 여신 분석과 의견서 작성 지원",
+    "ind": "financial-services",
+    "region": "KR",
+    "stage": "limited-operation",
+    "verify": "none"
+   },
+   {
+    "id": "K03",
+    "org": "신한라이프",
+    "w": "대화형 가입설계와 전산심사",
+    "ind": "financial-services",
+    "region": "KR",
+    "stage": "limited-operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "K04",
+    "org": "LG유플러스",
+    "w": "상담 중 답변 추천과 후처리 지원",
+    "ind": "customer-service",
+    "region": "KR",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "K05",
+    "org": "삼성SDS",
+    "w": "회의록·담당자별 후속 업무·메일 초안",
+    "ind": "collaboration",
+    "region": "KR",
+    "stage": "pilot",
+    "verify": "self-reported"
+   },
+   {
+    "id": "K06",
+    "org": "포스코",
+    "w": "센서·영상 기반 예지정비와 경고",
+    "ind": "manufacturing",
+    "region": "KR",
+    "stage": "operation",
+    "verify": "none"
+   },
+   {
+    "id": "K07",
+    "org": "LG전자",
+    "w": "개발 단계 완성품 품질 예측",
+    "ind": "manufacturing",
+    "region": "KR",
+    "stage": "unknown",
+    "verify": "self-reported"
+   },
+   {
+    "id": "K08",
+    "org": "SK텔레콤",
+    "w": "취약계층 안부 확인과 상담 이관",
+    "ind": "healthcare-social-care",
+    "region": "KR",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "K09",
+    "org": "SK텔레콤",
+    "w": "발달장애인 행동 기록 지원",
+    "ind": "healthcare-social-care",
+    "region": "KR",
+    "stage": "limited-operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "K10",
+    "org": "LG유플러스",
+    "w": "출결·상담·활동 기록 통합",
+    "ind": "education",
+    "region": "KR",
+    "stage": "unknown",
+    "verify": "none"
+   },
+   {
+    "id": "K11",
+    "org": "HSAD",
+    "w": "대화형 소비자 조사와 분석",
+    "ind": "marketing",
+    "region": "KR",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "K12",
+    "org": "현대자동차그룹",
+    "w": "앱 리뷰 분류와 답변 초안",
+    "ind": "customer-service",
+    "region": "KR",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "K13",
+    "org": "현대자동차그룹",
+    "w": "매뉴얼 근거를 제공하는 정비 지원",
+    "ind": "automotive-service",
+    "region": "KR",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "K14",
+    "org": "현대자동차그룹",
+    "w": "VIN 기반 생산 순서 대조",
+    "ind": "manufacturing",
+    "region": "KR",
+    "stage": "operation",
+    "verify": "none"
+   },
+   {
+    "id": "K15",
+    "org": "동원그룹",
+    "w": "해외 법인 협업 번역과 회의록",
+    "ind": "collaboration",
+    "region": "KR",
+    "stage": "limited-operation",
+    "verify": "none"
+   },
+   {
+    "id": "K16",
+    "org": "LG전자",
+    "w": "판금 불량 원인과 생산 조건 분석",
+    "ind": "manufacturing",
+    "region": "KR",
+    "stage": "limited-operation",
+    "verify": "none"
+   },
+   {
+    "id": "G01",
+    "org": "Morgan Stanley",
+    "w": "고객 미팅에서 CRM 기록과 후속 초안",
+    "ind": "financial-services",
+    "region": "US",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G02",
+    "org": "IBM",
+    "w": "HR 문의에서 인사이동·재직증명 처리까지",
+    "ind": "people-operations",
+    "region": "GLOBAL",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G03",
+    "org": "Siemens·thyssenkrupp",
+    "w": "자동화 코드·센서 설정·검사 문서",
+    "ind": "manufacturing",
+    "region": "DE",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G04",
+    "org": "Jabil",
+    "w": "작업자 문제 해결과 구매 조사 지원",
+    "ind": "manufacturing",
+    "region": "US",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G05",
+    "org": "Bosch Rexroth",
+    "w": "대규모 제품군 기술지원 검색",
+    "ind": "manufacturing",
+    "region": "DE",
+    "stage": "operation",
+    "verify": "none"
+   },
+   {
+    "id": "G06",
+    "org": "Walmart",
+    "w": "상품 성과 원인 분석과 운영 티켓",
+    "ind": "consumer-retail",
+    "region": "US",
+    "stage": "limited-operation",
+    "verify": "none"
+   },
+   {
+    "id": "G07",
+    "org": "CarMax",
+    "w": "리뷰 요약과 대규모 상품 콘텐츠",
+    "ind": "consumer-retail",
+    "region": "US",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G08",
+    "org": "Corewell Health",
+    "w": "진료 대화에서 임상 기록 초안",
+    "ind": "healthcare-social-care",
+    "region": "US",
+    "stage": "pilot",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G09",
+    "org": "Foley Hoag",
+    "w": "M&A 실사·공시표·소송 문서 초안",
+    "ind": "legal-life-sciences",
+    "region": "US",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G10",
+    "org": "Accenture",
+    "w": "테스트·레거시 이해·기술부채 처리",
+    "ind": "software-engineering",
+    "region": "GLOBAL",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G11",
+    "org": "EXL",
+    "w": "인수심사 서류 추출과 검토 지원",
+    "ind": "financial-services",
+    "region": "IN_GLOBAL",
+    "stage": "limited-operation",
+    "verify": "none"
+   },
+   {
+    "id": "G12",
+    "org": "부에노스아이레스시",
+    "w": "정부 정보 통합과 관광 질의",
+    "ind": "public-sector",
+    "region": "AR",
+    "stage": "limited-operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G13",
+    "org": "Lumen Technologies",
+    "w": "고객 조사와 접촉 준비",
+    "ind": "b2b-sales",
+    "region": "US",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G14",
+    "org": "Moderna",
+    "w": "근거 자료에서 의약품 개발 문서 초안",
+    "ind": "legal-life-sciences",
+    "region": "GLOBAL",
+    "stage": "limited-operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G15",
+    "org": "Klarna",
+    "w": "자동 상담과 복잡 민원의 상담사 인계",
+    "ind": "customer-service",
+    "region": "SE",
+    "stage": "adjusted-operation",
+    "verify": "cross-checked"
+   },
+   {
+    "id": "G16",
+    "org": "Virgin Atlantic",
+    "w": "경쟁사 고객 여정 조사와 제품 기획·데이터 통합",
+    "ind": "travel",
+    "region": "UK",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G17",
+    "org": "Zapier",
+    "w": "영업 리드 누락 점검과 캠페인 자료·보고 자동화",
+    "ind": "software-marketing",
+    "region": "US",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G18",
+    "org": "Bundesagentur für Arbeit",
+    "w": "전화 문의 접수·표준 답변과 맥락을 보존한 상담사 인계",
+    "ind": "public-sector",
+    "region": "DE",
+    "stage": "pilot",
+    "verify": "none"
+   },
+   {
+    "id": "G19",
+    "org": "Deaconess Health",
+    "w": "환자 대화·차트에 맞춘 근거 조회와 진료 판단 지원",
+    "ind": "healthcare-social-care",
+    "region": "US",
+    "stage": "limited-operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G20",
+    "org": "DXC Technology",
+    "w": "보험 문서 접수·분류·검토 경로와 결정 이력 관리",
+    "ind": "financial-services",
+    "region": "US_GLOBAL",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G21",
+    "org": "Carvana",
+    "w": "Slack 운영 경보 조사에서 PR·사람 검토·배포 후 확인까지",
+    "ind": "software-engineering",
+    "region": "US",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G22",
+    "org": "Pictet",
+    "w": "내부 규정 대조와 역할별 데이터 접근을 갖춘 업무 도구 제작",
+    "ind": "financial-services",
+    "region": "CH",
+    "stage": "limited-operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G23",
+    "org": "GE Appliances",
+    "w": "부품 공급사 주문 상태 문의와 공급망 처리",
+    "ind": "manufacturing",
+    "region": "US",
+    "stage": "operation",
+    "verify": "self-reported"
+   },
+   {
+    "id": "G24",
+    "org": "MING Labs",
+    "w": "전사 에이전트 조정 역할의 중단과 업무 책임 재설계",
+    "ind": "professional-services",
+    "region": "GLOBAL",
+    "stage": "adjusted-operation",
+    "verify": "self-reported"
+   }
   ]
  },
  "failures": {
   "n": 16,
-  "kr": 4
+  "kr": 4,
+  "list": [
+   {
+    "id": "FK01",
+    "org": "스캐터랩 (이루다)",
+    "domain": "대화형 챗봇 서비스",
+    "change": "연애 상담 앱에서 모은 카카오톡 대화로 대화형 챗봇을 학습시키고 응답 데이터베이스를 만들었다.",
+    "outcome": [
+     "STOPPED",
+     "SANCTIONED"
+    ],
+    "causes": [
+     "data-consent",
+     "unsafe-output"
+    ],
+    "check": "학습·검색에 쓸 데이터마다 수집 목적과 동의 범위를 기록한다. 차별·유해 응답 평가 세트는 출시 전 통과 기준으로 둔다."
+   },
+   {
+    "id": "FK02",
+    "org": "교육부 (AI 디지털교과서)",
+    "domain": "공교육 수업 도구",
+    "change": "초등 3·4학년, 중1, 고1 일부 과목에 AI 디지털교과서를 교과서 지위로 도입해 수업 방식 전환을 추진했다.",
+    "outcome": [
+     "SCALED_BACK"
+    ],
+    "causes": [
+     "premature-scale",
+     "stakeholder-trust",
+     "metric-gap"
+    ],
+    "check": "현업이 쓰는지(활성 사용률)와 일이 나아졌는지(성과 지표)를 따로 정한다. 의무 확대 전에는 소규모 비교 결과와 사용자 의견을 공개한다."
+   },
+   {
+    "id": "FK03",
+    "org": "삼성전자",
+    "domain": "사내 생성형 AI 사용 정책",
+    "change": "직원이 외부 생성형 AI로 번역·요약·코드 작업을 하던 흐름을 사내 정책으로 관리하려 했다.",
+    "outcome": [
+     "PAUSED",
+     "SCALED_BACK"
+    ],
+    "causes": [
+     "data-leak",
+     "no-permission-boundary"
+    ],
+    "check": "금지 대신 입력 가능한 정보 등급, 사용자 교육, 승인 범위, 로그를 갖춘 사용 경로를 먼저 설계하고 부서별로 다른 기준을 둔다."
+   },
+   {
+    "id": "FK04",
+    "org": "고용노동부 (구직급여 상담 챗봇)",
+    "domain": "공공 민원 상담",
+    "change": "구직급여(실업급여) 문의 일부를 챗봇으로 처리해 상담 부담을 줄이려 했다.",
+    "outcome": [
+     "UNPROVEN"
+    ],
+    "causes": [
+     "escalation-gap",
+     "metric-gap",
+     "stakeholder-trust"
+    ],
+    "check": "자동화율만 보지 말고 사람 상담 인입이 실제로 줄었는지, 사람 연결 요청이 어디서 생기는지 함께 측정한다."
+   },
+   {
+    "id": "FG01",
+    "org": "McDonald's · IBM",
+    "domain": "드라이브스루 음성 주문",
+    "change": "약 100개 매장의 드라이브스루 주문을 음성 AI(Automated Order Taker)가 받게 했다.",
+    "outcome": [
+     "STOPPED"
+    ],
+    "causes": [
+     "accuracy"
+    ],
+    "check": "확대 조건이 되는 정확도 기준을 미리 숫자로 정한다. 그 기준에 못 미치면 연장하지 않고 끝낼 판정 날짜도 정해 둔다."
+   },
+   {
+    "id": "FG02",
+    "org": "Air Canada",
+    "domain": "고객 응대 챗봇",
+    "change": "웹사이트 챗봇이 운임·환불 규정 문의에 답하게 했다.",
+    "outcome": [
+     "SANCTIONED"
+    ],
+    "causes": [
+     "ungrounded-answer"
+    ],
+    "check": "규정·가격처럼 책임이 따르는 답변은 원문 조항을 인용하게 하고 원문과 다른 답변을 잡는 평가 사례를 만든다. 답변 책임자는 회사라는 전제로 승인 범위를 정한다."
+   },
+   {
+    "id": "FG03",
+    "org": "New York City (MyCity)",
+    "domain": "공공 사업자 규정 안내 챗봇",
+    "change": "2023년 가을 사업자가 시 규정을 물어볼 수 있는 생성형 AI 챗봇을 공개했다.",
+    "outcome": [
+     "STOPPED"
+    ],
+    "causes": [
+     "ungrounded-answer",
+     "weak-review"
+    ],
+    "check": "법·규정 안내는 범위를 좁혀 시작하고 위반 답변 시험 세트를 정기적으로 돌린다. 경고 문구를 정확도 관리의 대체 수단으로 쓰지 않는다."
+   },
+   {
+    "id": "FG04",
+    "org": "Commonwealth Bank of Australia",
+    "domain": "고객센터 음성봇과 인력 조정",
+    "change": "AI 음성봇 도입을 이유로 고객센터 직무 45개를 감축하려 했다.",
+    "outcome": [
+     "REVERSED"
+    ],
+    "causes": [
+     "premature-scale",
+     "metric-gap"
+    ],
+    "check": "인력·업무 재배치 결정 전에 기준선 대비 실제 업무량 변화를 일정 기간 측정하고 그 근거를 이해관계자가 확인할 수 있게 남긴다."
+   },
+   {
+    "id": "FG05",
+    "org": "Department for Business and Trade",
+    "domain": "사무 생산성 도구 시범",
+    "change": "2024년 10~12월 직원 1,000명에게 Microsoft 365 Copilot을 제공하고 효과를 평가했다.",
+    "outcome": [
+     "UNPROVEN"
+    ],
+    "causes": [
+     "metric-gap",
+     "ungrounded-answer"
+    ],
+    "check": "사용자가 느낀 절약 시간과 산출물 품질, 실제 업무 성과를 다른 지표로 나누고 작업 유형별로 도입 여부를 정한다."
+   },
+   {
+    "id": "FG06",
+    "org": "Deloitte Australia · DEWR",
+    "domain": "정부 용역 보고서 작성",
+    "change": "정부 부처 용역 보고서 작성에 Azure OpenAI GPT-4o 기반 도구를 사용했다.",
+    "outcome": [
+     "REVERSED"
+    ],
+    "causes": [
+     "ungrounded-answer",
+     "weak-review"
+    ],
+    "check": "AI가 쓴 인용은 원문 존재 여부와 문구 일치를 자동 또는 사람이 확인하는 단계를 납품 전 통과 기준에 넣는다. AI 사용 사실은 산출물에 밝힌다."
+   },
+   {
+    "id": "FG07",
+    "org": "Replit · SaaStr",
+    "domain": "코딩 에이전트의 운영 환경 실행",
+    "change": "SaaStr 창업자가 12일 동안 Replit 코딩 에이전트로 실제 데이터가 있는 앱을 만들고 운영하는 실험을 했다.",
+    "outcome": [
+     "PAUSED"
+    ],
+    "causes": [
+     "no-permission-boundary",
+     "weak-review"
+    ],
+    "check": "지시문으로 권한을 막지 않는다. 운영 데이터 쓰기·삭제는 도구 권한과 환경 분리로 차단하고 복구 절차를 실제로 시험한다."
+   },
+   {
+    "id": "FG08",
+    "org": "CNET",
+    "domain": "AI 보조 기사 작성",
+    "change": "CNET Money 팀이 내부 AI 엔진으로 짧은 금융 해설 기사 77건을 작성·게시했다. 편집자가 개요를 쓰고 초안을 고쳤다.",
+    "outcome": [
+     "PAUSED"
+    ],
+    "causes": [
+     "weak-review",
+     "ungrounded-answer"
+    ],
+    "check": "사람 검토가 있다는 사실만으로 통과시키지 않는다. 검토자가 확인할 항목(수치·고유명사·출처)과 표본 감사 비율을 정한다."
+   },
+   {
+    "id": "FG09",
+    "org": "National Eating Disorders Association",
+    "domain": "정신건강 상담 챗봇",
+    "change": "직원 6명·자원봉사자 약 200명이 운영하던 상담 전화를 챗봇 Tessa로 바꾸려 했다.",
+    "outcome": [
+     "STOPPED"
+    ],
+    "causes": [
+     "unsafe-output",
+     "premature-scale",
+     "escalation-gap"
+    ],
+    "check": "위험군 이용자가 있는 업무는 사람 상담을 없애는 계획과 AI 도입을 분리한다. 위험 답변 차단 시험과 즉시 사람 연결부터 통과시킨다."
+   },
+   {
+    "id": "FG10",
+    "org": "Zillow Group (Zillow Offers)",
+    "domain": "알고리즘 기반 주택 매입·재판매",
+    "change": "가격 예측 모델을 바탕으로 회사가 직접 주택을 사고 고쳐 되파는 사업을 키웠다.",
+    "outcome": [
+     "STOPPED"
+    ],
+    "causes": [
+     "accuracy",
+     "premature-scale"
+    ],
+    "check": "모델 오차가 곧바로 돈이 되는 업무는 거래 규모 한도, 오차 허용 범위, 시장 변화 시 자동 축소 조건을 운영 계약에 넣는다."
+   },
+   {
+    "id": "FG11",
+    "org": "MD Anderson Cancer Center · IBM Watson",
+    "domain": "암 진료 의사결정 지원",
+    "change": "2012년부터 IBM Watson 기반 Oncology Expert Advisor를 개발해 진료 판단을 지원하려 했다.",
+    "outcome": [
+     "STOPPED"
+    ],
+    "causes": [
+     "integration-drift",
+     "governance"
+    ],
+    "check": "연동 대상 시스템의 교체 일정과 소유자를 위험 목록에 넣는다. 단계마다 '임상(현업) 사용 가능' 판정과 예산 승인을 묶는다."
+   },
+   {
+    "id": "FG12",
+    "org": "Amazon",
+    "domain": "채용 서류 선별",
+    "change": "2014년부터 과거 10년치 이력서로 학습한 모델이 지원자를 별점으로 순위화하게 하려 했다.",
+    "outcome": [
+     "STOPPED"
+    ],
+    "causes": [
+     "bias"
+    ],
+    "check": "과거 결정을 정답으로 학습하는 업무는 집단별 결과 차이를 평가 지표로 두고 순위 결과를 자동 탈락에 쓰지 않는다."
+   }
+  ]
  },
  "topicMd": "# 소프트웨어와 API\n\n## 왜 필요한가\n\nAX 시스템은 모델 호출만으로 끝나지 않는다. 사용자, 원본 시스템, 승인, 외부 실행, 결과 기록을 연결해야 한다. 상태·권한·중복·부분 실패를 다루지 못하면 데모가 동작하더라도 실제 업무 운영이 불안정해질 수 있다.\n\n## 알아야 할 것\n\n- HTTP와 REST API의 요청·응답·상태 코드\n- 인증과 인가의 차이\n- 동기 요청, 비동기 작업, 배치, 이벤트, 웹훅\n- 관계형 데이터, 트랜잭션, 상태 전이\n- 스키마와 버전 호환성\n- 타임아웃, 재시도, 중복 실행 방지와 멱등성(idempotency)\n- 환경 설정, 시크릿, 조직 계정\n- 단위·통합·종단 간 테스트, CI/CD\n\n## 선택할 조건\n\n### API와 화면 자동화\n\n공식 API가 필요한 기능과 감사를 지원하면 API를 우선한다. 화면 자동화는 필요한 업무를 공식 연결로 처리할 수 없고 업무 가치가 검증될 때 제한된 대안으로 검토한다. 화면 변경, 세션 만료, 개인 계정 의존, 감사 한계를 운영 위험에 포함한다.\n\n브라우저를 쓰는 에이전트도 사이트 접근, 로그인, 실제 변경 승인을 따로 다룬다. OpenAI Agents API의 computer use는 이런 처리를 애플리케이션에 요구하는 구현 예다. [공식 가이드](https://developers.openai.com/api/docs/guides/agents-api/tools/computer-use), [발표 기록](https://developers.openai.com/api/docs/changelog) (추가일 2026-09-29, 확인일 2026-10-26). 클릭이나 제출 메시지 대신 원본 시스템의 상태로 완료를 확인한다.\n\n### 공식 연결을 쓸 수 없는 업무\n\n같은 업무를 공식 API, MCP 연결, 화면 조작으로 처리할 수 있는지 비교하고 선택 근거를 남긴다.\n\n| 경로 | 선택 전에 확인할 것 |\n|---|---|\n| 공식 API | 필요한 읽기·변경 기능, 인증, 대상 ID, 결과 조회와 중복 방지 |\n| MCP 연결 | 제공 도구의 실제 기능, 원본 시스템의 권한, Host·Server 지원과 결과 검증 |\n| 화면 조작 | 공식 연결이 부족한 이유, 시스템 소유자의 허용 범위, 테스트 환경과 결과 확인 경로 |\n| 사람의 직접 처리 | 자동 조작을 허용하지 않거나 대상·결과를 확실히 확인할 수 없는 경우 |\n\nMCP 연결이 있어도 필요한 업무 기능이나 권한을 제공하는지는 별도 확인한다. 화면 조작은 테스트 계정과 합성 자료로 시작한다. 계정·조직·작업 대상 ID를 확인하고 제출 전 승인 내용과 실제 입력값을 대조한다. API가 없어도 원본 시스템의 상세 화면, 처리 이력, 내보낸 결과 등으로 저장 상태를 확인할 수 있어야 한다.\n\n결과를 확인할 수 없으면 같은 버튼을 다시 누르지 않고 보류한다. 로그인 만료, UI 변경, 악성 화면 지시, 중복 제출, 부분 성공과 재접속은 [화면 연동 실습 점검표](../toolkit/ui-integration-checklist.md)로 시험한다. 제품의 computer use 기능은 구현 선택지이며 화면 자동화의 등장 시점이나 업계 공통 표준을 뜻하지 않는다.\n\n### 동기와 비동기\n\n사용자가 즉시 결과를 기다려야 하고 작업이 짧으면 동기를 고려한다. 외부 시스템이 느리거나 작업이 길고 재시도가 필요하면 비동기 작업과 상태 조회를 고려한다.\n\n### API·SDK 변경\n\n모델 이름이 같아도 API 버전, SDK, 도구 스키마가 달라지면 요청이나 인증 처리에 영향을 줄 수 있다. 예를 들어 Claude API `2026-10-21`은 sampling 인자를 제거했고 해당 SDK 주요 버전은 인증 헤더와 일부 컨텍스트 압축 방식도 바꿨다. 이 예시는 모든 공급자의 공통 규칙이 아니다. [공식 이전 가이드](https://platform.claude.com/docs/en/api/migration-2026-10-21) (API 버전일 2026-10-21, 확인일 2026-10-26).\n\n사용 중인 모델·API·SDK·도구 버전을 고정해 기준선을 남긴다. 변경 뒤에는 정상 응답뿐 아니라 인증 거부, 입력 오류, 타임아웃, 부분 성공도 비교한다. 공급자별 파라미터를 지원 여부 확인 없이 공통 요청에 넣지 않는다.\n\n### 직접 구축과 기존 SaaS\n\n고유한 UI가 필요하다는 이유만으로 새 서비스를 만들지 않는다. 기존 업무 도구 안에서 승인·상태·감사를 충족할 수 있는지 먼저 확인한다.\n\n## 직접 해볼 것\n\n1. 테스트 환경의 두 시스템을 연결한다.\n2. 읽기와 쓰기 권한을 분리한다.\n3. 입력·출력 스키마와 상태 전이를 정의한다.\n4. 타임아웃, 권한 거부, 부분 성공, 중복 요청을 주입한다.\n5. 같은 실행 키를 두 번 보내도 외부 작업이 한 번만 적용되게 한다.\n6. 다른 개발자가 새 환경에서 같은 동작을 재현할 수 있게 한다.\n7. SDK·API 변경 전후에 같은 계약 검사를 실행하고 되돌리는 절차를 확인한다.\n8. 화면 자동화를 택했다면 로그인 만료·UI 변경·잘못된 대상 선택·중복 제출을 시험한다.\n\n선택한 연결 방식의 동작과 실패를 검증한다. API·MCP·화면 조작을 모두 구현할 필요는 없다. 사용하지 않는 방식의 전용 항목은 선택 근거와 함께 `해당 없음`으로 남기되 권한·승인·결과 확인·복구 기준은 그대로 적용한다.\n\n## 확인할 결과\n\n- 선택한 연결의 입력·출력·상태 계약(API·MCP·이벤트·화면 조작 등)\n- 상태 전이와 오류 분류\n- 실행 가능한 코드와 테스트\n- 시크릿이 없는 환경 설정 예시\n- 배포·롤백 절차\n- 재현과 인수인계 기록\n\n## 실패 패턴\n\n- 성공 응답만 처리하고 부분 실패 상태를 저장하지 않는다.\n- 자동 재시도가 메시지·결제·주문 변경을 중복 실행한다.\n- 사용자 개인 계정과 브라우저 세션에 의존한다.\n- 자유 형식 모델 출력을 검증 없이 API 요청으로 보낸다.\n- 테스트 환경 없이 실제 시스템에서 첫 통합 시험을 한다.\n\n## 함께 합의할 사람\n\n- 업무 책임자: 상태와 완료의 의미\n- 원본 시스템 소유자: 공식 연결과 제한\n- 보안 담당자: 인증·인가·시크릿\n- 운영 담당자: 재시도·경보·복구\n\n## 출처\n\n- [`PRIMARY_OFFICIAL` MDN, HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview)\n- [`PRIMARY_REPOSITORY` roadmap.sh AI Agents, backend·REST API prerequisites](https://github.com/nilbuild/developer-roadmap/tree/master/roadmaps/ai-agents/content)\n"
 }
