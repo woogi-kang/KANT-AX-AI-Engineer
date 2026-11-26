@@ -55,6 +55,7 @@ npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, �
 | `components/` | `SideNav`, `SearchDialog`, `FilterChips`(거르기), `Player`(표지 뒤 덱), `LecCard`, `LibTiles` |
 | `lib/` | `content.ts`(강의), `roadmap.ts`(로드맵 레포), `links.ts`, `chapter.ts`, `markdown.ts`, `search.ts`, `site.ts`(이름, 메뉴, 아이콘), `logos.ts` |
 | `scripts/` | `fetch-roadmap.mjs`, `copy-assets.mjs`, `check-build.mjs`, `shoot-covers.mjs`, `qa.cjs` |
+| `app/library/` | 사례와 자료 영역. 모양은 `library.css`, 데이터는 `lib/library.ts`(case.json, 공개·실패 사례 JSON, 월간 채용 JSON), 거르기는 `components/LibFilter.tsx`(묶음 여러 개와 찾기 칸, 주소 뒤 `?키=값`), 복사 버튼은 `components/CopyText.tsx` |
 | `design/` | 디자인 시안. 사이트에서는 `/design/`으로 열려요 |
 
 ## 여러 작업이 동시에 고칠 때
