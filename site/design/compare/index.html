@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>시안 비교 · 풀스택 AI/AX 엔지니어</title>
+<style>
+@font-face{font-family:"Pretendard";font-weight:45 920;font-display:swap;src:url("../v2/fonts/PretendardVariable.woff2") format("woff2-variations")}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#EDECE8;color:#1D2330;font:15px/1.6 "Pretendard",system-ui,sans-serif;word-break:keep-all}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:5;background:#EDECE8;border-bottom:1px solid #D9D6CE}
+.top-in{max-width:1680px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
+h1{margin:0;font-size:18px;letter-spacing:-.02em}
+.seg{display:inline-flex;background:#fff;border-radius:999px;padding:3px;box-shadow:0 0 0 1px #D9D6CE}
+.seg button{border:0;background:none;font:inherit;font-size:14px;font-weight:600;color:#6A7180;padding:6px 14px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#1D2330;color:#fff}
+.top p{margin:0 0 0 auto;font-size:13px;color:#6A7180}
+main{max-width:1680px;margin:0 auto;padding:20px 24px 48px;display:grid;gap:20px;grid-template-columns:repeat(2,minmax(0,1fr))}
+main.phone{grid-template-columns:repeat(4,minmax(0,1fr))}
+.v{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px #D9D6CE;display:flex;flex-direction:column}
+.v-h{padding:14px 16px 12px;border-bottom:1px solid #ECEAE4}
+.v-h b{font-size:16px;letter-spacing:-.02em}
+.v-h b span{font:600 12px/1 ui-monospace,monospace;color:#2459C9;background:#E6EDFB;border-radius:4px;padding:3px 6px;margin-right:8px;vertical-align:2px}
+.v-h p{margin:4px 0 0;font-size:13px;color:#4A5262}
+.v-h ul{margin:8px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:12px;color:#6A7180}
+.v-h li::before{content:"+ ";color:#1F8A4C;font-weight:700}.v-h li.m::before{content:"− ";color:#A33131}
+.frame{position:relative;overflow:hidden;background:#F6F5F1}
+.frame iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0}
+.v-f{display:flex;gap:12px;padding:10px 16px;border-top:1px solid #ECEAE4;font-size:13px;font-weight:600}
+.v-f a{color:#2459C9;text-decoration:none}
+@media (max-width:1100px){main,main.phone{grid-template-columns:minmax(0,1fr)}main.phone{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){main.phone{grid-template-columns:minmax(0,1fr)}.top p{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <h1>디자인 시안 네 가지 비교</h1>
+  <div class="seg" role="group" aria-label="화면"><button type="button" data-p="home" aria-pressed="true">홈</button><button type="button" data-p="chapter" aria-pressed="false">장 화면</button></div>
+  <div class="seg" role="group" aria-label="폭"><button type="button" data-w="1440" aria-pressed="true">넓은 화면</button><button type="button" data-w="390" aria-pressed="false">휴대폰</button></div>
+  <p>각 칸은 실제 화면을 줄여 보여 줘요. 칸 안에서 스크롤하고 눌러 볼 수 있어요.</p>
+</div></header>
+<main id="grid">
+  <section class="v" data-v="v2"><div class="v-h"><b><span>v2</span>종이와 계단</b><p>덱의 종이색 바탕에, 썸네일은 분류색 모눈과 그 장의 코드 한 줄이에요. 차분한 기본형이에요.</p>
+    <ul><li>덱과 같은 색이라 이어 보기 편해요</li><li>장식이 적어 오래 봐도 덜 지쳐요</li><li class="m">첫인상이 조용한 편이에요</li><li class="m">그림이 작아요</li></ul></div>
+    <div class="frame"><iframe title="v2" loading="lazy"></iframe></div><div class="v-f"><a data-open>크게 열기 →</a><a href="../v2/">디자인 시스템 문서 →</a></div></section>
+  <section class="v" data-v="v3"><div class="v-h"><b><span>v3</span>코드 에디터</b><p>어두운 바탕에 레포 폴더 나무와 터미널 창 카드예요. 장 화면은 에디터처럼 왼쪽 탐색기와 탭이에요.</p>
+    <ul><li>개발 도구에 익숙해지는 느낌을 줘요</li><li>명령이 카드 가운데 크게 보여요</li><li class="m">처음 온 수강생에게는 어렵게 보일 수 있어요</li><li class="m">기본이 어두운 화면이에요(밝게 바꾸기 가능)</li></ul></div>
+    <div class="frame"><iframe title="v3" loading="lazy"></iframe></div><div class="v-f"><a data-open>크게 열기 →</a></div></section>
+  <section class="v" data-v="v4"><div class="v-h"><b><span>v4</span>그림책</b><p>묶음 19개마다 다른 그림(커밋 줄, 표, 컨테이너 등)을 그리고, 둥근 카드와 밝은 색으로 친근하게 만들었어요.</p>
+    <ul><li>개념이 그림으로 먼저 보여요</li><li>나이와 배경이 다양한 수강생에게 편해요</li><li class="m">같은 묶음 카드는 그림이 같아요</li><li class="m">그림을 새 묶음마다 그려야 해요</li></ul></div>
+    <div class="frame"><iframe title="v4" loading="lazy"></iframe></div><div class="v-f"><a data-open>크게 열기 →</a></div></section>
+  <section class="v" data-v="v5"><div class="v-h"><b><span>v5</span>갤러리</b><p>실제 덱 표지를 썸네일로 크게 쓰고, 단계마다 옆으로 넘겨 봐요. 장 화면은 어두운 극장 띠와 장 미리보기 줄이에요.</p>
+    <ul><li>무엇을 배우는지 표지로 바로 보여요</li><li>덱을 고치면 썸네일도 따라 바뀌어요</li><li class="m">표지가 모두 어두워 줄이 비슷해 보여요</li><li class="m">표지 그림을 빌드 때 찍어야 해요</li></ul></div>
+    <div class="frame"><iframe title="v5" loading="lazy"></iframe></div><div class="v-f"><a data-open>크게 열기 →</a></div></section>
+</main>
+<script>
+(()=>{let p='home',w=1440;const grid=document.getElementById('grid');
+function fit(){document.querySelectorAll('.v').forEach(v=>{const f=v.querySelector('.frame'),ifr=f.querySelector('iframe');const h=w===1440?900:844;const s=f.clientWidth/w;f.style.height=Math.round(h*s)+'px';ifr.style.width=w+'px';ifr.style.height=h+'px';ifr.style.transform='scale('+s+')'})}
+function load(){grid.classList.toggle('phone',w===390);document.querySelectorAll('.v').forEach(v=>{const u='../'+v.dataset.v+'/'+p+'.html';const ifr=v.querySelector('iframe');if(ifr.getAttribute('src')!==u)ifr.src=u;v.querySelector('[data-open]').href=u});requestAnimationFrame(fit)}
+document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{p=b.dataset.p;document.querySelectorAll('[data-p]').forEach(x=>x.setAttribute('aria-pressed',x===b));load()});
+document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{w=+b.dataset.w;document.querySelectorAll('[data-w]').forEach(x=>x.setAttribute('aria-pressed',x===b));load()});
+addEventListener('resize',fit);load();})();
+</script>
+</body>
+</html>

@@ -30,10 +30,10 @@ for (const u of cur.updates) {
   if (!fs.existsSync(img)) continue;
   for (const f of fs.readdirSync(img)) copy(path.join(img, f), path.join(PUB, "updates", u.dir, "img", f));
 }
-// 디자인 시안: design/ 폴더를 통째로(만드는 스크립트 gen.mjs는 빼고)
+// 디자인 시안: design/ 폴더를 통째로(만드는 스크립트 .mjs는 빼고)
 (function copyDir(from, to) {
   for (const f of fs.readdirSync(from, { withFileTypes: true })) {
-    if (f.name === "gen.mjs") continue;
+    if (f.name.endsWith(".mjs")) continue;
     if (f.isDirectory()) copyDir(path.join(from, f.name), path.join(to, f.name));
     else copy(path.join(from, f.name), path.join(to, f.name));
   }
