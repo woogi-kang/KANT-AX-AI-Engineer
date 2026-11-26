@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LifeBuoy, Map, Megaphone, Scale } from "lucide-react";
+import { Lightbulb, Map, Megaphone, Scale } from "lucide-react";
 import { load } from "@/lib/content";
 import SiteFooter from "./SiteFooter";
 import NavScrim from "./NavScrim";
@@ -19,10 +19,10 @@ export default function AppShell({ current, children }: { current: Key; children
   return (
     <div className="app">
       <nav className="appnav" aria-label="사이트 메뉴">
-        {item("home", "/", "학습 로드맵", <Map className="i" />, chapters.length)}
-        {item("extras", "/#guides", "가이드", <LifeBuoy className="i" />, extras.length)}
+        {item("home", "/", "강의", <Map className="i" />, chapters.length)}
+        {item("extras", "/#tips", "꿀팁", <Lightbulb className="i" />, extras.length)}
         <div className="sep" />
-        {item("news", "/updates/", "업데이트", <Megaphone className="i" />)}
+        {item("news", "/updates/", "소식", <Megaphone className="i" />)}
         {item("legal", "/legal/", "이용 안내", <Scale className="i" />)}
       </nav>
       <NavScrim />

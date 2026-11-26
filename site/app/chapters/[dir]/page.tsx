@@ -30,7 +30,7 @@ export default async function ChapterPage({ params }: Params) {
   const top = (
     <>
       <nav className="crumb" aria-label="위치">
-        <Link href="/">학습 로드맵</Link>
+        <Link href="/">강의</Link>
         <ChevronRight className="i" />
         <Link href={`/#stage-${c.stageNo}`}>
           {c.stageNo}단계 {c.stageTitle}

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, LifeBuoy, Megaphone, Sparkles } from "lucide-react";
+import { ArrowRight, Lightbulb, Megaphone, Sparkles } from "lucide-react";
 import AppShell from "@/components/AppShell";
 import CurriculumList from "@/components/CurriculumList";
 import LogoTile from "@/components/LogoTile";
@@ -43,7 +43,7 @@ export default function Home() {
               01부터 시작하기 <ArrowRight className="i" />
             </Link>
             <a className="btn secondary" href="#roadmap">
-              로드맵 보기
+              강의 둘러보기
             </a>
           </div>
           <dl className="stats">
@@ -75,7 +75,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="news-bar" aria-label="업데이트">
+      <section className="news-bar" aria-label="소식">
         <Megaphone className="i" />
         <div className="news-items">
           {latest.map((n) => (
@@ -91,7 +91,7 @@ export default function Home() {
       </section>
 
       <h2 className="sec-h" id="roadmap">
-        학습 로드맵<span>다섯 단계를 차례로 밟아요</span>
+        강의<span>다섯 단계를 차례로 밟아요</span>
       </h2>
       <nav className="road" aria-label="단계">
         {stages.map((s) => {
@@ -112,14 +112,14 @@ export default function Home() {
       </nav>
       <CurriculumList stages={stages} filters={filters} fresh={fresh} logos={logos} />
 
-      <h2 className="sec-h" id="guides">
-        가이드<span>순서와 상관없이 막혔을 때 꺼내 봐요</span>
+      <h2 className="sec-h" id="tips">
+        꿀팁<span>순서와 상관없이 막혔을 때 꺼내 봐요</span>
       </h2>
       <div className="guides">
         {extras.map((e) => (
           <Link className="guide" key={e.dir} href={`/extras/${e.dir}/`}>
             <span className="guide-i">
-              <LifeBuoy width={26} height={26} />
+              <Lightbulb width={26} height={26} />
             </span>
             <div>
               <b>{e.title}</b>

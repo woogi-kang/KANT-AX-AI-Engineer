@@ -28,7 +28,7 @@ export default async function UpdatePage({ params }: Params) {
   return (
     <AppShell current="news">
       <nav className="crumb" aria-label="위치">
-        <Link href="/updates/">업데이트</Link>
+        <Link href="/updates/">소식</Link>
         <ChevronRight className="i" />
         <span>릴리스 노트</span>
       </nav>
