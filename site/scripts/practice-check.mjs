@@ -31,10 +31,32 @@ let noted = 0;
 const bad = [];
 const t0 = Date.now();
 
+// 받아 두지 못한 패키지(CDN이 막힌 환경)를 쓰는 챕터는 건너뛰어요. Cloudflare 빌드와 CI에서는 copy-engines가 먼저 멈춰요.
+const pkgCache = path.join(import.meta.dirname, "..", ".pyodide-packages");
+const pyLock = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, "..", "node_modules/pyodide/pyodide-lock.json"), "utf8"));
+const hasPackages = (names) => {
+  const seen = new Set();
+  const stack = [...names];
+  while (stack.length) {
+    const n = stack.pop();
+    if (seen.has(n)) continue;
+    seen.add(n);
+    const p = pyLock.packages[n];
+    if (!p || !fs.existsSync(path.join(pkgCache, p.file_name))) return false;
+    stack.push(...p.depends);
+  }
+  return true;
+};
+const skipped = [];
+
 for (const d of dirs) {
   const file = path.join(ROOT, d, "practice.json");
   const data = JSON.parse(fs.readFileSync(file, "utf8"));
   if (data.kind === "replay") continue;
+  if (data.packages && !hasPackages(data.packages)) {
+    skipped.push(d);
+    continue;
+  }
   let changed = false;
   for (const cell of data.cells) {
     if (cell.hidden || !cell.expect) continue;
@@ -91,4 +113,5 @@ for (const { d, cell, c } of bad) {
   }
 }
 console.log(`\n실습 칸 ${total}개: 같음 ${same}, 다름(메모 있음) ${noted}, 다름(메모 없음) ${bad.length}  ${((Date.now() - t0) / 1000).toFixed(1)}초`);
+if (skipped.length) console.warn(`경고: 파이썬 패키지를 받아 두지 못해서 건너뛴 챕터: ${skipped.join(", ")}`);
 if (bad.length && !accept) process.exit(1);
