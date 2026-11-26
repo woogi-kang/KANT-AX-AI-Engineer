@@ -1,0 +1,377 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요할까",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "lee가 kim의 프로젝트를 clone해서 `python3 main.py`로 바로 실행했더니 `ModuleNotFoundError`가 났어요. 왜 그런가요?",
+          "choices": [
+            "clone할 때 main.py가 빠졌어요",
+            "fastapi는 kim 컴퓨터의 가상환경에만 있고 GitHub에는 올라가지 않아요",
+            "lee 컴퓨터의 파이썬이 main.py를 읽지 못해요",
+            ".gitignore가 main.py를 막았어요"
+          ],
+          "answer": 1,
+          "explain": "코드와 목록 파일은 받았지만 코드가 쓰는 패키지는 따라오지 않았어요. 패키지는 kim 컴퓨터의 가상환경 안에만 설치돼 있어요. uv로는 `uv sync` 한 번이면 풀려요.",
+          "page": 3
+        },
+        {
+          "id": "w2",
+          "q": "아래 오류의 마지막 줄은 무엇을 알려 주나요?",
+          "code": "Traceback (most recent call last):\n  File \"/home/lee/hello-uv/main.py\", line 1, in <module>\n    import fastapi\nModuleNotFoundError: No module named 'fastapi'",
+          "choices": [
+            "`fastapi`라는 패키지를 찾지 못했어요",
+            "main.py 파일을 찾지 못했어요",
+            "1번 줄의 글자를 잘못 적었어요",
+            "python3가 설치되어 있지 않아요"
+          ],
+          "answer": 0,
+          "explain": "main.py 첫 줄 `import fastapi`가 fastapi를 불러오려 했는데, 이 컴퓨터에는 fastapi가 없어서 찾지 못했다는 뜻이에요.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "part": "큰 그림",
+      "questions": [
+        {
+          "id": "b1",
+          "q": "남이 만들어 둔 코드 묶음과 그것이 모여 있는 인터넷 창고를 짝지은 것은 무엇인가요?",
+          "choices": [
+            "가상환경, .venv",
+            "커널, Jupyter",
+            "패키지, PyPI",
+            "프로젝트, pyproject.toml"
+          ],
+          "answer": 2,
+          "explain": "남이 만든 코드 묶음을 패키지라고 하고, PyPI라는 인터넷 창고에 60만 개 넘게 모여 있어요. 오늘 예시 패키지는 웹 서버를 만드는 fastapi예요.",
+          "page": 5
+        },
+        {
+          "id": "b2",
+          "q": "가상환경(.venv)을 프로젝트 폴더마다 따로 두는 이유는 무엇인가요?",
+          "choices": [
+            "파이썬 코드를 더 빨리 실행하려고요",
+            "패키지를 GitHub에 함께 올리려고요",
+            "파이썬을 컴퓨터에 설치하지 않으려고요",
+            "프로젝트마다 필요한 패키지 버전이 달라도 부딪히지 않게 하려고요"
+          ],
+          "answer": 3,
+          "explain": "컴퓨터 파이썬에 바로 넣으면 모든 프로젝트가 패키지 한 벌을 같이 써요. A는 fastapi 0.162, B는 0.110이 필요하면 둘 중 하나가 깨져요. 그래서 폴더마다 .venv 상자를 둬요.",
+          "page": 6
+        },
+        {
+          "id": "b3",
+          "q": "넣은 패키지의 정확한 버전을 따라온 패키지까지 적어 두는 파일은 무엇인가요?",
+          "choices": [
+            "`pyproject.toml`",
+            "`uv.lock`",
+            "`.python-version`",
+            "`.gitignore`"
+          ],
+          "answer": 1,
+          "explain": "`pyproject.toml`에는 내가 고른 패키지가, `uv.lock`에는 따라온 것까지 정확한 버전이 적혀요. `.python-version`은 쓸 파이썬 버전이에요.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "part": "uv 설치하기",
+      "questions": [
+        {
+          "id": "i1",
+          "q": "Windows에서 PowerShell을 열고 uv를 설치하는 명령은 무엇인가요?",
+          "choices": [
+            "`brew install uv`",
+            "`uv --version`",
+            "`winget install --id=astral-sh.uv -e`"
+          ],
+          "answer": 2,
+          "explain": "Windows는 winget, Mac은 터미널에서 `brew install uv`로 설치해요. `uv --version`은 설치가 끝났는지 확인하는 명령이에요.",
+          "page": 8
+        },
+        {
+          "id": "i2",
+          "q": "uv 설치가 끝났어요. 바로 다음에 할 일은 무엇인가요?",
+          "choices": [
+            "터미널을 닫았다가 새로 열고 `uv --version`으로 확인해요",
+            "같은 설치 명령을 한 번 더 쳐요",
+            "설치한 터미널에서 바로 `uv init`을 쳐요"
+          ],
+          "answer": 0,
+          "explain": "설치가 끝나면 터미널을 새로 열어야 uv 명령을 찾아요. Windows는 Git Bash를 새로 열어요. `uv --version`에 버전이 나오면 준비가 끝났어요.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "part": "프로젝트 만들고 실행하기",
+      "questions": [
+        {
+          "id": "k1",
+          "q": "`uv init hello-uv`로 만든 폴더를 `ls -a`로 보면 `.git`이 있어요. 왜 있나요?",
+          "choices": [
+            "GitHub에서 clone한 폴더라서요",
+            "uv init이 git init까지 해 줘서요",
+            "`.python-version`이 만들어서요",
+            "`uv run`을 처음 쳐서요"
+          ],
+          "answer": 1,
+          "explain": "uv init은 git init까지 해 줘서 `.git`과 `.gitignore`가 같이 생겨요. 그래서 수업 저장소 hello-git 안이 아니라 홈 폴더에서 시작해요.",
+          "page": 9
+        },
+        {
+          "id": "k2",
+          "q": "새 프로젝트에서 `uv run main.py`를 처음 치면 폴더에 새로 생기는 것은 무엇인가요?",
+          "choices": [
+            "`pyproject.toml`과 `README.md`",
+            "`.git`과 `.gitignore`",
+            "`.python-version`",
+            "`.venv`와 `uv.lock`"
+          ],
+          "answer": 3,
+          "explain": "처음 실행할 때 uv가 가상환경 `.venv`를 만들고 그 안의 파이썬으로 실행해요. `uv.lock`도 이때 생겨요. 나머지는 `uv init`이 만든 파일이에요.",
+          "page": 11
+        },
+        {
+          "id": "k3",
+          "q": "Windows Git Bash에서 uv가 만든 `.venv`를 직접 켜는 명령은 무엇인가요?",
+          "choices": [
+            "`source .venv/bin/activate`",
+            "`source .venv/Scripts/activate`",
+            "`.venv\\Scripts\\activate`",
+            "`deactivate`"
+          ],
+          "answer": 1,
+          "explain": "Git Bash는 bin 대신 Scripts 폴더예요. macOS와 Linux는 `source .venv/bin/activate`, PowerShell은 `.venv\\Scripts\\activate`, 끄기는 `deactivate`예요. 수업 실습은 그래도 `uv run`으로 적어요.",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "part": "패키지 넣고 빼기",
+      "questions": [
+        {
+          "id": "a1",
+          "q": "`uv add fastapi`는 명령 하나로 어느 세 곳을 함께 바꾸나요?",
+          "choices": [
+            "`pyproject.toml`, `uv.lock`, `.venv`",
+            "`main.py`, `README.md`, `.gitignore`",
+            "`.python-version`, `.git`, `.venv`",
+            "`pyproject.toml`, `main.py`, `README.md`"
+          ],
+          "answer": 0,
+          "explain": "`pyproject.toml`의 dependencies 칸에 fastapi를 적고, `uv.lock`에 정확한 버전을 적고, `.venv`에 설치해요. 예전의 pip 설치와 목록 적기를 합친 일이에요.",
+          "page": 15
+        },
+        {
+          "id": "a2",
+          "q": "`uv add fastapi`로 하나만 넣었는데 `Installed 11 packages`가 나왔어요. 왜 그런가요?",
+          "choices": [
+            "uv가 자주 쓰는 패키지를 미리 같이 넣어서요",
+            "명령을 여러 번 쳐서요",
+            "fastapi가 쓰는 패키지와 그 아래 단계 패키지까지 따라 들어와서요",
+            "uv 캐시에 있던 패키지가 다 들어가서요"
+          ],
+          "answer": 2,
+          "explain": "`uv tree --depth 2`로 보면 fastapi가 바로 쓰는 패키지가 6개, 그 아래 단계에서 4개가 더 들어와요. 고른 1개와 따라온 10개를 합쳐 11개예요.",
+          "page": 16
+        },
+        {
+          "id": "a3",
+          "q": "`uv remove fastapi`로 뺀 뒤 `uv add fastapi`로 다시 넣었더니 처음과 달리 `Prepared` 줄 없이 바로 설치됐어요. 왜 그런가요?",
+          "choices": [
+            "`.venv`에서 지워지지 않고 남아 있어서요",
+            "한 번 받은 패키지는 uv 캐시에 있어서 다시 받지 않아요",
+            "`pyproject.toml`에 fastapi 줄이 남아 있어서요",
+            "두 번째는 패키지를 설치하지 않아서요"
+          ],
+          "answer": 1,
+          "explain": "처음에는 인터넷에서 받아 준비하는 `Prepared` 줄이 있었어요. 다시 넣을 때는 uv 캐시라는 보관함에서 꺼내서 11개가 0.002초 만에 들어갔어요.",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "part": "다른 컴퓨터에서 그대로",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "hello-uv 폴더에서 GitHub에 올리지 않는 것은 무엇인가요?",
+          "choices": [
+            "`pyproject.toml`",
+            "`uv.lock`",
+            "`.python-version`",
+            "`.venv`"
+          ],
+          "answer": 3,
+          "explain": "uv init이 만든 `.gitignore`에 `.venv`가 적혀 있어서 `git status`에도 안 보여요. `.venv`는 크고 다시 만들 수 있어서 올리지 않아요. 나머지 세 파일은 꼭 같이 올려요.",
+          "page": 20
+        },
+        {
+          "id": "s2",
+          "q": "lee가 kim의 프로젝트를 clone하고 `cd hello-uv`까지 했어요. 파이썬 받기, `.venv` 만들기, 패키지 설치를 한 번에 하는 명령은 무엇인가요?",
+          "choices": [
+            "`uv init hello-uv`",
+            "`uv add fastapi`",
+            "`uv sync`",
+            "`python3 main.py`"
+          ],
+          "answer": 2,
+          "explain": "`uv sync`가 `.python-version`의 파이썬을 받고, `.venv`를 만들고, `uv.lock`에 적힌 버전 그대로 패키지 11개를 설치해요. 그 뒤 `uv run main.py`가 fastapi 버전을 찍어요.",
+          "page": 22
+        },
+        {
+          "id": "s3",
+          "q": "팀원이 `uv add`로 패키지를 넣고 push했어요. 나는 `git pull origin main`을 쳤어요. 왜 `uv sync`를 한 번 더 치나요?",
+          "choices": [
+            "pull은 `pyproject.toml`과 `uv.lock`만 바꾸고 내 `.venv`는 그대로라서요",
+            "pull이 내 `.venv`를 지워서요",
+            "pull만으로는 `uv.lock`이 받아지지 않아서요",
+            "`uv sync`를 쳐야 pull이 끝나서요"
+          ],
+          "answer": 0,
+          "explain": "목록은 바뀌었지만 내 `.venv`에는 아직 그 패키지가 없어요. `uv run`도 실행 전에 같은 일을 하지만, 받은 뒤에는 `uv sync`로 설치가 끝났는지 눈으로 확인해요.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "part": "VS Code에서 Jupyter 쓰기",
+      "questions": [
+        {
+          "id": "j1",
+          "q": "`uv add --dev ipykernel`로 넣은 ipykernel은 `pyproject.toml`의 어디에 적히나요?",
+          "choices": [
+            "`dependencies` 칸",
+            "`[dependency-groups]`의 `dev` 칸",
+            "어디에도 적히지 않고 `.venv`에만 들어가요",
+            "`requires-python` 줄"
+          ],
+          "answer": 1,
+          "explain": "`--dev`를 붙이면 dependencies가 아니라 dependency-groups의 dev 칸에 적혀요. 실행에 꼭 필요한 패키지와 개발할 때만 쓰는 도구를 나눠 두는 거예요. `uv sync`는 dev 칸도 함께 설치해요.",
+          "page": 26
+        },
+        {
+          "id": "j2",
+          "q": "VS Code에서 hello-uv 폴더를 열고 노트북의 Select Kernel을 눌렀어요. Python Environments 목록에서 무엇을 골라야 하나요?",
+          "choices": [
+            "`Python 3.12 (/usr/bin/python3)`",
+            "`Existing Jupyter Server...`",
+            "`★ .venv (Python 3.14.6)`"
+          ],
+          "answer": 2,
+          "explain": "노트북 커널은 꼭 hello-uv 안의 `.venv`를 골라요. VS Code는 열린 폴더 안의 `.venv`를 목록 맨 위에 별표로 보여 줘요. 컴퓨터에 원래 있던 파이썬을 고르면 넣은 패키지를 못 찾아요.",
+          "page": 27
+        },
+        {
+          "id": "j3",
+          "q": "노트북 셀에서 아래 코드를 실행했더니 `/home/kim/hello-uv/.venv/bin/python`이 나왔어요. 무슨 뜻인가요?",
+          "code": "import sys\nprint(sys.executable)",
+          "choices": [
+            "컴퓨터에 원래 있던 파이썬이 커널이에요",
+            "커널이 아직 골라지지 않았어요",
+            "ipykernel이 설치되지 않았어요",
+            "커널로 hello-uv의 `.venv`를 맞게 골랐어요"
+          ],
+          "answer": 3,
+          "explain": "이 셀은 지금 커널이 어느 파이썬인지 보여 줘요. hello-uv/.venv 안이면 맞게 고른 거예요. 그래서 uv add로 넣은 fastapi도 노트북에서 바로 불러와요.",
+          "page": 28
+        }
+      ]
+    },
+    {
+      "part": "예전 방식과 비교",
+      "questions": [
+        {
+          "id": "o1",
+          "q": "옛 강의에 받은 프로젝트를 맞추는 명령으로 `pip install -r requirements.txt`가 나와요. uv에서는 무엇으로 바꿔 치나요?",
+          "choices": [
+            "`uv add`",
+            "`uv sync`",
+            "`uv init 이름`",
+            "`uv run main.py`"
+          ],
+          "answer": 1,
+          "explain": "받은 프로젝트 맞추기는 `uv sync`예요. 패키지 넣기는 `uv add`, 가상환경 만들기는 `uv init 이름`, 실행은 `uv run main.py`로 바꿔요.",
+          "page": 29
+        },
+        {
+          "id": "o2",
+          "q": "fastapi를 뺄 때 예전 방식 `pip uninstall fastapi`와 `uv remove fastapi`는 어떻게 다른가요?",
+          "choices": [
+            "둘 다 fastapi와 따라온 10개를 모두 지워요",
+            "`uv remove`는 fastapi 하나만 지우고, `pip uninstall`은 11개를 모두 지워요",
+            "`pip uninstall`은 fastapi 하나만 지워서 10개가 남고, `uv remove`는 11개를 모두 빼요"
+          ],
+          "answer": 2,
+          "explain": "`pip uninstall fastapi`는 따라온 10개를 남겨요. `uv remove`는 다른 패키지가 쓰지 않으면 따라온 것까지 함께 빼요. 예전 방식은 따라 치지 않고 눈으로만 봐요.",
+          "page": 29
+        }
+      ]
+    },
+    {
+      "part": "막힐 때",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "홈 폴더에서 `uv add fastapi`를 쳤더니 아래 메시지가 나왔어요. 어떻게 고치나요?",
+          "code": "error: No `pyproject.toml` found in current directory or any parent directory",
+          "choices": [
+            "터미널을 닫았다가 다시 열어요",
+            "`uv init`을 한 번 더 쳐요",
+            "uv를 다시 설치해요",
+            "`pwd`로 위치를 보고 `cd hello-uv`로 프로젝트 폴더에 들어가요"
+          ],
+          "answer": 3,
+          "explain": "프로젝트 폴더 밖, pyproject.toml이 없는 곳에서 친 경우예요. 터미널을 다시 여는 건 `command not found`일 때 하는 일이에요.",
+          "page": 30
+        },
+        {
+          "id": "t2",
+          "q": "노트북 셀을 실행했더니 VS Code가 ipykernel을 설치하라는 알림을 띄웠어요. 어떻게 하나요?",
+          "choices": [
+            "알림의 Install 버튼을 눌러요",
+            "VS Code를 다시 열어요",
+            "알림을 닫고 터미널에서 `uv add --dev ipykernel`을 쳐요"
+          ],
+          "answer": 2,
+          "explain": "알림의 Install은 pip로 넣어서 `pyproject.toml`과 `uv.lock`에 적히지 않아요. 터미널에서 uv로 넣어야 팀원도 `uv sync`로 받아요.",
+          "page": 31
+        }
+      ]
+    },
+    {
+      "part": "실제 상황 예제",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "인터넷 튜토리얼에 `pip install requests`가 나와요. 우리 프로젝트에서는 무엇으로 바꿔 치나요?",
+          "choices": [
+            "`uv add requests`",
+            "`uv run requests`",
+            "`uv sync requests`",
+            "`uv init requests`"
+          ],
+          "answer": 0,
+          "explain": "`pip install 패키지`는 `uv add 패키지`로 바꿔 쳐요. 이렇게 넣으면 `pyproject.toml`에 requests가 적혀서 팀원도 `uv sync`로 받아요.",
+          "page": 32
+        },
+        {
+          "id": "e2",
+          "q": "kim이 `uv add requests`로 패키지를 넣었어요. 팀원에게 보내려면 `git add` 뒤에 어떤 파일을 적나요?",
+          "choices": [
+            "`.venv`",
+            "`pyproject.toml uv.lock`",
+            "`main.py`",
+            "`.venv uv.lock`"
+          ],
+          "answer": 1,
+          "explain": "`git status --short`에 바뀐 파일은 `pyproject.toml`과 `uv.lock` 두 개예요. `.venv`는 올리지 않아요. lee는 pull 뒤 `uv sync`로 `.venv`에 설치해요.",
+          "page": 34
+        }
+      ]
+    }
+  ]
+}
