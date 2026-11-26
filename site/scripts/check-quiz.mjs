@@ -9,6 +9,10 @@ import { execFileSync } from "node:child_process";
 const ROOT = path.resolve(import.meta.dirname, "..", "..");
 const cur = JSON.parse(fs.readFileSync(path.join(ROOT, "curriculum.json"), "utf8"));
 const only = process.argv[2];
+// Cloudflare Pages 빌드(CF_PAGES=1)에는 python3, numpy, pandas가 없어서 실행 검사만 건너뛰어요. 로컬과 qa에서는 늘 실행해요.
+// 로컬에서도 건너뛰려면 QUIZ_NO_RUN=1을 줘요.
+const noRun = process.env.CF_PAGES === "1" || process.env.QUIZ_NO_RUN === "1";
+let nSkip = 0;
 const errs = [];
 let nQ = 0, nPy = 0, nCh = 0;
 
@@ -58,6 +62,7 @@ for (const c of cur.chapters) {
       if (q.verify === "py") {
         nPy++;
         if (!q.code) { bad(`${at} verify py인데 code가 없어요`); continue; }
+        if (noRun) { nSkip++; continue; }
         let out;
         try { out = execFileSync("python3", ["-I", "-c", q.code], { encoding: "utf8", env: { ...process.env, PYTHONHASHSEED: "0" }, timeout: 10000 }); }
         catch (e) { bad(`${at} 코드 실행 실패 ${String(e.stderr || e.message).trim().split("\n").pop()}`); continue; }
@@ -73,4 +78,5 @@ if (errs.length) {
   console.error(`check-quiz: 문제 ${errs.length}건\n` + errs.map((e) => "  " + e).join("\n"));
   process.exit(1);
 }
-console.log(`check-quiz: 챕터 ${nCh}개, 문제 ${nQ}개(파이썬으로 실행해 본 문제 ${nPy}개)를 확인했어요`);
+if (nSkip) console.warn(`check-quiz: 경고 이 빌드에서는 파이썬 실행 검사 ${nSkip}개를 건너뛰었어요(CF_PAGES 또는 QUIZ_NO_RUN). 로컬에서 npm run quiz로 실행해 보세요`);
+console.log(`check-quiz: 챕터 ${nCh}개, 문제 ${nQ}개(파이썬으로 실행해 본 문제 ${nPy - nSkip}개)를 확인했어요`);
