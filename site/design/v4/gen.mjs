@@ -1,5 +1,5 @@
 // 시안 v4 "그림책": 밝은 바탕, 묶음마다 다른 그림(SVG)으로 개념을 보여 줘요. site 폴더에서 node design/v4/gen.mjs
-import { i, tile, esc, inline, chapters, stages, extras, news, NOTICE, C, goals, before, parts, slides, prev, next, page, FOOT, write, LV } from "../lib.mjs";
+import { HERO_T, HERO_P, CTA1, CTA2, whoHtml, i, tile, esc, inline, chapters, stages, extras, news, NOTICE, C, goals, before, parts, slides, prev, next, page, FOOT, write, LV } from "../lib.mjs";
 
 /* 묶음 19개의 그림. 색은 --c(분류색), --m(중간), --s(옅은 색), 흰색만 써요. viewBox 320x200 */
 const W = "#fff";
@@ -41,6 +41,15 @@ const ART = [
 const art = (gi, cls = "art") => `<svg class="${cls}" viewBox="0 0 320 200" aria-hidden="true">${ART[gi]}</svg>`;
 
 const css = `
+.who{margin-top:40px;padding:28px;border-radius:24px;background:var(--card);box-shadow:0 0 0 1px var(--line)}
+.who-h{text-align:center}.who-h h2{font-size:24px;letter-spacing:-.03em}.who-h p{color:var(--sub);margin-top:4px}
+.who-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px}
+.who-i{padding:20px;border-radius:18px;background:var(--soft)}.who-i .i{width:40px;height:40px;padding:9px;border-radius:12px;background:#fff;color:var(--accent)}
+.who-i b{display:block;margin-top:12px;font-size:16px}.who-i p{font-size:14px;color:var(--sub);margin-top:4px}
+.pr{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.pr li{display:flex;gap:6px;align-items:center;padding:6px 14px;border-radius:999px;background:#E3F4EA;color:#1F6B3F;font-size:14px;font-weight:600}.pr .i{width:16px;height:16px}
+@media (max-width:760px){.who{padding:20px}.who-h{text-align:left}.who-g{grid-template-columns:1fr}.pr{justify-content:flex-start}}
+
 :root{--bg:#FFFDF8;--card:#FFFFFF;--soft:#F5F2EA;--line:#ECE7DC;--ink:#1F2430;--sub:#4E5566;--muted:#7B8190;--accent:#2459C9;--accent-soft:#E7EEFC;
  --term:#5B6474;--term-s:#ECEEF2;--term-m:#C9CED8;--git:#C7741E;--git-s:#FBEEDC;--git-m:#F0C58D;--gh:#6E52CF;--gh-s:#EFEAFB;--gh-m:#C9BBF2;
  --py:#2E6DC2;--py-s:#E6EFFB;--py-m:#A9C6EE;--docker:#14899A;--docker-s:#DDF2F3;--docker-m:#93D3D9;--db:#B9478A;--db-s:#F8E6F0;--db-m:#E9A9CD}
@@ -62,7 +71,7 @@ body{background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6}
 .om{display:none}
 @media (max-width:760px){.nav,.sbtn span,.sbtn kbd{display:none}.sbtn{min-width:0;width:40px;padding:0;justify-content:center;background:none}.om{display:grid}.hd-r{gap:0}}
 .hero{text-align:center;padding:56px 0 24px}
-.hero h1{font-size:44px;line-height:1.22;letter-spacing:-.04em;font-weight:800}
+.hero h1{font-size:40px;line-height:1.28;letter-spacing:-.04em;font-weight:800}
 .hero h1 em{font-style:normal;color:var(--accent)}
 .hero p{font-size:18px;color:var(--sub);margin:16px auto 0;max-width:32em}
 .cta{display:flex;gap:10px;justify-content:center;margin-top:28px;flex-wrap:wrap}
@@ -150,17 +159,18 @@ body{background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6}
 const markSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h5v-5h5V9h6"/><circle cx="20" cy="5" r="1.6" fill="#fff" stroke="none"/></svg>`;
 const header = `<header class="hd"><div class="wrap"><a class="brand" href="home.html"><span class="mark">${markSvg}</span>풀스택 AI/AX 엔지니어</a>
 <nav class="nav"><a href="home.html#lec" aria-current="page">강의</a><a href="home.html#tips">꿀팁</a><a href="home.html#news">소식</a></nav>
-<div class="hd-r"><button class="sbtn" type="button" data-search>${i("search")}<span>무엇을 배워 볼까요?</span><kbd>/</kbd></button><button class="ib" type="button" aria-label="어둡게 보기">${i("moon")}</button><button class="ib om" type="button" aria-label="메뉴">${i("menu")}</button></div></div></header>`;
+<div class="hd-r"><button class="sbtn" type="button" data-search>${i("search")}<span>챕터, 명령어 찾기</span><kbd>/</kbd></button><button class="ib" type="button" aria-label="어둡게 보기">${i("moon")}</button><button class="ib om" type="button" aria-label="메뉴">${i("menu")}</button></div></div></header>`;
 const foot = `<footer class="ft"><div class="wrap"><span>${FOOT}</span><nav><a href="#">이용 안내</a><a href="mailto:woogi@memoriz.net">문의</a></nav></div></footer>`;
 const lv = (c) => `<span class="lv"><i>${[1, 2, 3].map((k) => `<b${k <= LV[c.level] ? ' class="on"' : ""}></b>`).join("")}</i>${c.level}</span>`;
 const card = (c) => `<a class="card t-${c.tk}" href="chapter.html" data-t="${c.tk}"><div class="pic"><span class="no">${c.no}</span><span class="lg">${c.logos.map((k) => tile(k, 28)).join("")}</span>${art(c.gi)}<span class="kw">${esc(c.keyword)}</span></div><div class="card-b"><small>${esc(c.group)}</small><h3>${esc(c.title)}${c.no === "46" ? '<span class="new">새 챕터</span>' : ""}</h3>${lv(c)}</div></a>`;
 const tracks = [["전체", "all"], ...["터미널", "Git", "GitHub", "파이썬", "Docker", "데이터베이스"].map((t) => [t, chapters.find((c) => c.track === t).tk])];
 const home = page("v4 그림책 · 홈", "light", css, `${header}<main class="wrap">
-<section class="hero"><h1>개발이 처음이어도<br><em>그림으로 먼저</em> 이해해요</h1><p>터미널부터 데이터 분석까지 ${chapters.length}개 챕터를, 애니메이션 슬라이드와 실제로 실행한 화면으로 배워요.</p>
-<div class="cta"><a class="btn p" href="chapter.html">01부터 시작하기 ${i("arrow-right")}</a><a class="btn s" href="#lec">강의 둘러보기</a></div>
+<section class="hero"><h1>AI/AX를 준비하는 모든 사람을 위한<br class="w"> <em>공개 로드맵</em></h1><p>${HERO_P}</p>
+<div class="cta"><a class="btn p" href="chapter.html">${CTA1} ${i("arrow-right")}</a><a class="btn s" href="#lec">${CTA2}</a></div>
 <ol class="path">${stages.map((s) => `<li class="t-${s.list[Math.floor(s.list.length / 2)].tk}"><a href="#stage-${s.no}"><span class="n">${s.no}</span><span class="ill">${art(s.groups[s.no === 1 ? 1 : 0].gi, "")}</span><span><b>${s.title}</b><small>${s.from}–${s.to} · ${s.list.length}챕터</small></span></a></li>`).join("")}</ol></section>
 <div class="notice">${i("megaphone")}<span>${NOTICE}</span></div>
-<section class="sec" id="lec"><div class="sec-h"><div><h2>강의</h2><p>순서대로 한 단계씩 올라가요</p></div><div class="chips">${tracks.map(([l, k]) => `<button type="button" data-f="${k}" aria-pressed="${k === "all"}">${l}</button>`).join("")}</div></div>
+${whoHtml(i)}
+<section class="sec" id="lec"><div class="sec-h"><div><h2>강의</h2><p>다섯 단계로 나눈 로드맵이에요</p></div><div class="chips">${tracks.map(([l, k]) => `<button type="button" data-f="${k}" aria-pressed="${k === "all"}">${l}</button>`).join("")}</div></div>
 ${stages.map((s) => `<section class="stage" id="stage-${s.no}" data-stage><div class="stage-h"><span class="n">${s.no}</span><b>${s.title}</b><small>${s.from}–${s.to}</small></div><div class="cards">${s.list.map(card).join("")}</div></section>`).join("")}</section>
 <section class="sec" id="tips"><div class="sec-h"><div><h2>꿀팁</h2><p>막혔을 때 꺼내 봐요</p></div></div><div class="tips">${extras.map((e) => `<a class="tip" href="#"><span class="ic">${i("lightbulb")}</span><div><h3>${esc(e.title)}</h3><p>${inline(e.summary.split(", ").slice(0, 3).join(", "))}</p><div class="rel">${e.rel.map((c) => `<span>${c.no} ${esc(c.title.replace(/ \(.+\)$/, ""))}</span>`).join("")}</div></div></a>`).join("")}</div></section>
 <section class="sec" id="news"><div class="sec-h"><div><h2>소식</h2><p>새 챕터와 바뀐 점</p></div><a class="more" href="#">전체 보기 ${i("chevron-right")}</a></div><div class="news">${news.map((n) => `<a href="#"><span class="k"><b>${n.k}</b>${n.d}</span><h3>${esc(n.t)}</h3><p>${esc(n.p)}</p></a>`).join("")}</div></section>

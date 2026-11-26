@@ -17,7 +17,7 @@ async function lucide(name) {
   const mod = await import(f);
   return mod.__iconData.node.map(([t, a]) => `<${t} ${Object.entries(a).filter(([k]) => k !== "key").map(([k, v]) => `${k}="${v}"`).join(" ")}/>`).join("");
 }
-const NAMES = ["search", "sun", "moon", "menu", "arrow-right", "chevron-right", "chevron-left", "chevron-down", "download", "external-link", "panel-left", "lightbulb", "x", "square-terminal", "database", "copy", "info", "folder", "folder-open", "file-code", "file-text", "corner-down-left", "play", "circle-check", "megaphone", "sparkle"];
+const NAMES = ["search", "sun", "moon", "menu", "arrow-right", "chevron-right", "chevron-left", "chevron-down", "download", "external-link", "panel-left", "lightbulb", "x", "square-terminal", "database", "copy", "info", "folder", "folder-open", "file-code", "file-text", "corner-down-left", "play", "circle-check", "megaphone", "sparkle", "user", "building-2", "users"];
 for (const n of NAMES) cache[n] = await lucide(n);
 export const IC = cache;
 export const i = (n, cls = "i") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${cache[n]}</svg>`;
@@ -94,7 +94,8 @@ body{margin:0;font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sys
 a{color:inherit;text-decoration:none}img,svg{display:block}h1,h2,h3,h4,p{margin:0}button{font:inherit;color:inherit}
 .mono,code,kbd{font-family:"JetBrains Mono","D2Coding Hangul",ui-monospace,Menlo,monospace}
 .i{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
-:focus-visible{outline:2px solid #2459C9;outline-offset:2px}`;
+:focus-visible{outline:2px solid #2459C9;outline-offset:2px}
+@media (max-width:640px){br.w{display:none}}`;
 
 /* 찾기 창: / 또는 Ctrl K. 시안마다 모양은 CSS로 바꿔요 */
 const sdata = JSON.stringify([...chapters.map((c) => ({ t: `${c.no} · ${c.title}`, s: c.track, k: c.keyword })), ...cur.extras.map((e) => ({ t: e.title, s: "꿀팁", k: "" }))]);
@@ -111,5 +112,20 @@ const tabs=document.querySelectorAll('[data-f]');tabs.forEach(b=>b.onclick=()=>{
 })()</script>`;
 export const page = (title, theme, css, body) => `<!doctype html><html lang="ko" data-theme="${theme}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title>
 <link rel="preload" href="../v2/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin><style>${FONTS}\n${css}</style></head><body>${body}${searchDlg}${script}</body></html>`;
-export const FOOT = "© 2026 Taewook Kang (woogi) · 허락 없이 옮겨 싣거나 고쳐 배포할 수 없어요";
+export const FOOT = "공익 목적으로 만드는 무료 공개 자료예요 · © 2026 Taewook Kang (woogi) · 허락 없이 옮겨 싣거나 고쳐 배포할 수 없어요";
+
+/* 사이트 성격: 파는 강의가 아니라 공익 목적의 공개 로드맵 (Memoriz, 2026-11-26) */
+export const HERO_T = "AI/AX를 준비하는 모든 사람을 위한 공개 로드맵";
+export const HERO_P = "IT 회사만이 아니라 모든 회사가 AX를 준비하고 있어요. 엔지니어를 준비하는 사람도, 회사에서 AX 도입을 맡은 실무자도 터미널부터 데이터 분석까지 순서대로 따라올 수 있게 모두 공개해요.";
+export const CTA1 = "처음부터 따라가기";
+export const CTA2 = "로드맵 전체 보기";
+export const WHO = [
+  ["user", "AI/AX 엔지니어를 준비하는 사람", "개발이 처음이어도 터미널, Git, 파이썬부터 한 단계씩 쌓아요."],
+  ["building-2", "AX 도입을 맡은 실무자", "IT 회사가 아니어도 데이터와 AI를 다루는 데 필요한 기초를 순서대로 봐요."],
+  ["users", "함께 배우는 팀과 스터디", "같은 순서와 같은 화면을 보며 사내 교육이나 스터디에서 함께 따라가요."],
+];
+export const PRINCIPLES = ["가입 없이 모두 공개", "배우는 순서대로", "실제로 실행한 화면만", "현장 질문으로 계속 고쳐요"];
+export const whoHtml = (icon) => `<section class="who" aria-label="이 로드맵은"><div class="who-h"><h2>이 로드맵은</h2><p>공익 목적으로 만드는 무료 공개 자료예요. 가입이나 결제 없이 누구나 처음부터 끝까지 볼 수 있어요.</p></div>
+<div class="who-g">${WHO.map(([ic, t, d]) => `<div class="who-i">${icon(ic)}<b>${t}</b><p>${d}</p></div>`).join("")}</div>
+<ul class="pr">${PRINCIPLES.map((x) => `<li>${icon("circle-check")}${x}</li>`).join("")}</ul></section>`;
 export const write = (dir, file, html) => { fs.mkdirSync(path.join(SITE, "design", dir), { recursive: true }); fs.writeFileSync(path.join(SITE, "design", dir, file), html); };

@@ -1,8 +1,17 @@
 // 시안 v5 "갤러리": 덱 표지를 썸네일로 크게 써요. 단계마다 옆으로 넘기는 줄. site 폴더에서 node design/v5/gen.mjs
-import { i, esc, inline, chapters, byNo, stages, extras, news, NOTICE, C, goals, before, slides, prev, next, page, FOOT, write, LV } from "../lib.mjs";
+import { HERO_T, HERO_P, CTA1, CTA2, whoHtml, i, esc, inline, chapters, byNo, stages, extras, news, NOTICE, C, goals, before, slides, prev, next, page, FOOT, write, LV } from "../lib.mjs";
 
 const cov = (no) => `../shared/covers/${no}.jpg`;
 const css = `
+.who{margin-top:44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:32px;padding:28px 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--line)}
+.who-h h2{font-size:22px;letter-spacing:-.03em}.who-h p{color:var(--sub);margin-top:6px;font-size:15px}
+.who-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.who-i .i{width:22px;height:22px;color:var(--accent)}.who-i b{display:block;margin-top:10px;font-size:16px;letter-spacing:-.02em}.who-i p{font-size:14px;color:var(--sub);margin-top:4px}
+.pr{grid-column:1/-1;list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px;color:var(--sub)}
+.pr li{display:flex;gap:6px;align-items:center}.pr .i{width:16px;height:16px;color:#1F8A4C}
+@media (max-width:900px){.who{grid-template-columns:1fr;gap:20px}.who-g{grid-template-columns:1fr;gap:16px}}
+.intro .lead{max-width:44em}
+
 :root{--bg:#FFFFFF;--soft:#F4F4F2;--line:#E8E7E3;--ink:#16191F;--sub:#4C5260;--muted:#7C8290;--accent:#2459C9;--accent-soft:#E8EEFB;--theater:#101318;
  --t-term:#4A5262;--t-git:#A0560A;--t-gh:#5A3BB8;--t-py:#1E5FA8;--t-docker:#0D7480;--t-db:#A23B72}
 body{background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6}
@@ -19,7 +28,7 @@ body{background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6}
 .om{display:none}
 @media (max-width:760px){.nav{display:none}.om{display:grid}}
 .intro{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:40px 0 20px;flex-wrap:wrap}
-.intro h1{font-size:34px;letter-spacing:-.035em;line-height:1.25;font-weight:800}
+.intro h1{font-size:32px;letter-spacing:-.035em;line-height:1.25;font-weight:800}
 .intro p{color:var(--sub);margin-top:6px}
 .btn{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 22px;border-radius:999px;font-weight:700;font-size:15px;white-space:nowrap}
 .btn.p{background:var(--ink);color:#fff}.btn.a{background:var(--accent);color:#fff}.btn.s{box-shadow:inset 0 0 0 1px var(--line)}.btn.sm{height:38px;padding:0 16px;font-size:14px}
@@ -97,12 +106,13 @@ const header = (dark = false) => `<header class="hd${dark ? " dark" : ""}"><div 
 <div class="hd-r"><button class="ib" type="button" data-search aria-label="강의 찾기 (/)">${i("search")}</button><button class="ib" type="button" aria-label="어둡게 보기">${i("moon")}</button><button class="ib om" type="button" aria-label="메뉴">${i("menu")}</button></div></div></header>`;
 const foot = `<footer class="ft"><div class="wrap"><span>${FOOT}</span><nav><a href="#">이용 안내</a><a href="mailto:woogi@memoriz.net">문의</a></nav></div></footer>`;
 const tileEl = (c) => `<a class="tile t-${c.tk}" href="chapter.html" data-t="${c.tk}"><div class="im"><img src="${cov(c.no)}" alt="" loading="lazy"><span class="no">${c.no}</span></div><b>${esc(c.title)}${c.no === "46" ? '<span class="new">새 챕터</span>' : ""}</b><div class="m"><em>${c.level}</em><span>· ${esc(c.group)}</span></div></a>`;
-const F = byNo["46"];
+const F = byNo["01"];
 const home = page("v5 갤러리 · 홈", "light", css, `${header()}<main class="wrap">
-<section class="intro"><div><h1>슬라이드를 넘기며 배우는<br>터미널부터 데이터 분석까지</h1><p>${chapters.length}개 챕터, 배우는 순서대로 모았어요.</p></div><a class="btn p" href="chapter.html">01부터 시작하기 ${i("arrow-right")}</a></section>
-<section class="feature"><a class="big t-${F.tk}" href="chapter.html"><div class="bi"><img src="${cov(F.no)}" alt=""><span class="tag">새 챕터 · ${F.no}</span></div><div class="big-c"><h2>${esc(F.title)}</h2><p>${esc(F.goal)}</p></div></a>
-<div class="side-list"><h3>최근에 올라온 챕터</h3>${["45", "44", "43"].map((n) => byNo[n]).map((c) => `<a class="row-i t-${c.tk}" href="chapter.html"><img src="${cov(c.no)}" alt=""><span><small>${c.no}</small><b>${esc(c.title)}</b></span></a>`).join("")}</div></section>
+<section class="intro"><div><h1>${HERO_T.replace("위한 ", "위한<br class=\"w\"> ")}</h1><p class="lead">${HERO_P}</p></div><a class="btn p" href="chapter.html">${CTA1} ${i("arrow-right")}</a></section>
+<section class="feature"><a class="big t-${F.tk}" href="chapter.html"><div class="bi"><img src="${cov(F.no)}" alt=""><span class="tag">1단계 첫 챕터 · ${F.no}</span></div><div class="big-c"><h2>${esc(F.title)}</h2><p>${esc(F.goal)}</p></div></a>
+<div class="side-list"><h3>단계마다 첫 챕터</h3>${["12", "29", "36"].map((n) => byNo[n]).map((c) => `<a class="row-i t-${c.tk}" href="chapter.html"><img src="${cov(c.no)}" alt=""><span><small>${c.no}</small><b>${esc(c.title)}</b></span></a>`).join("")}</div></section>
 <div class="notice"><b>공지</b>${NOTICE}</div>
+${whoHtml(i)}
 <div id="lec">${stages.map((s) => `<section class="shelf" data-stage><div class="shelf-h"><h2>${s.no}단계 ${s.title}</h2><small>${s.from}–${s.to}</small><div class="nav2"><button type="button" data-scroll="r${s.no}" data-dir="l" aria-label="이전">${i("chevron-left")}</button><button type="button" data-scroll="r${s.no}" aria-label="다음">${i("chevron-right")}</button></div></div><div class="rail" id="r${s.no}">${s.list.map(tileEl).join("")}</div></section>`).join("")}</div>
 <section class="shelf" id="tips"><div class="shelf-h"><h2>꿀팁</h2><small>막혔을 때 꺼내 봐요</small></div><div class="tips">${extras.map((e) => `<a class="tip" href="#"><img src="${cov("x-" + e.dir)}" alt=""><div><small>꿀팁</small><h3>${esc(e.title)}</h3><p>${inline(e.summary.split(", ").slice(0, 3).join(", "))}</p></div></a>`).join("")}</div></section>
 <section class="shelf" id="news"><div class="shelf-h"><h2>소식</h2><div class="nav2"><a class="btn s sm" href="#">전체 보기</a></div></div><div class="newsl">${news.map((n) => `<a href="#"><time>${n.d}</time><span class="k">${n.k}</span><b>${esc(n.t)}</b><p>${esc(n.p)}</p></a>`).join("")}</div></section>

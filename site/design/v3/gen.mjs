@@ -1,7 +1,15 @@
 // 시안 v3 "코드 에디터": 어두운 바탕, 레포 폴더 나무와 터미널 창으로 그려요. site 폴더에서 node design/v3/gen.mjs
-import { i, tile, esc, inline, chapters, stages, extras, news, NOTICE, C, goals, before, parts, slides, prev, next, cut, page, FOOT, write, LV } from "../lib.mjs";
+import { HERO_T, HERO_P, CTA1, CTA2, whoHtml, i, tile, esc, inline, chapters, stages, extras, news, NOTICE, C, goals, before, parts, slides, prev, next, cut, page, FOOT, write, LV } from "../lib.mjs";
 
 const css = `
+.who{margin-top:28px;border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:22px}
+.who-h{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}.who-h h2{font:700 15px "JetBrains Mono","D2Coding Hangul",monospace}.who-h h2::before{content:"# ";color:var(--prompt)}.who-h p{color:var(--sub);font-size:14px}
+.who-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:16px}
+.who-i .i{width:20px;height:20px;color:var(--accent)}.who-i b{display:block;margin-top:8px;font-size:15px}.who-i p{font-size:13px;color:var(--sub);margin-top:2px}
+.pr{list-style:none;margin:18px 0 0;padding:14px 0 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 20px;font:13px "JetBrains Mono","D2Coding Hangul",monospace;color:var(--sub)}
+.pr li{display:flex;gap:6px;align-items:center}.pr .i{width:15px;height:15px;color:var(--prompt)}
+@media (max-width:760px){.who-g{grid-template-columns:1fr;gap:14px}}
+
 :root{--bg:#0E1116;--panel:#151920;--panel-2:#1A1F27;--line:#252B35;--line-2:#323A46;--ink:#E7E9EE;--sub:#AEB5C1;--muted:#7D8594;--faint:#535B69;
  --accent:#6E9BF0;--accent-soft:#1B2740;--prompt:#7EE2A0;
  --t-term:#BAC0CA;--t-git:#E9A956;--t-gh:#A894EC;--t-py:#72A5E8;--t-docker:#56BFC8;--t-db:#E58BB8;color-scheme:dark}
@@ -30,7 +38,7 @@ kbd{font-size:11px;border:1px solid var(--line-2);border-radius:4px;padding:1px 
 /* 첫 화면 */
 .hero{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:48px;padding:56px 0 40px;align-items:center}
 .hero .k{font:500 13px/1 "JetBrains Mono",monospace;color:var(--prompt)}
-.hero h1{font-size:40px;line-height:1.25;letter-spacing:-.035em;font-weight:800;margin-top:14px}
+.hero h1{font-size:36px;line-height:1.3;letter-spacing:-.035em;font-weight:800;margin-top:14px}
 .hero p{color:var(--sub);font-size:17px;margin-top:16px;max-width:30em}
 .cta{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:6px;font-weight:600;font-size:15px;border:1px solid var(--line-2);white-space:nowrap}
@@ -139,10 +147,11 @@ const tree = `<div class="tree" aria-label="배우는 순서"><div class="tree-h
 ${stages.map((s) => `<li class="d"><a href="#stage-${s.no}">${i(s.no === 1 ? "folder-open" : "folder")}${s.no}-${esc(s.title.replace(/ /g, "-"))}/<small>${s.list.length}</small></a></li>${s.no === 1 ? s.list.slice(0, 5).map((c) => `<li class="f t-${c.tk}"><a href="chapter.html">${i("file-code")}${c.dir}</a></li>`).join("") + `<li class="f"><a href="#stage-1">… ${s.list.length - 5}개 더</a></li>` : ""}`).join("")}
 </ul></div>`;
 const home = page("v3 코드 에디터 · 홈", "dark", css, `${header()}<main class="wrap">
-<section class="hero"><div><span class="k">$ cd 01-linux-terminal</span><h1>터미널부터 데이터 분석까지,<br>배우는 순서대로 한 폴더씩</h1><p>개발이 처음이어도 따라올 수 있게, 애니메이션 슬라이드와 실제로 실행한 화면으로 배워요.</p>
-<div class="cta"><a class="btn p" href="chapter.html">01부터 시작하기 ${i("arrow-right")}</a><a class="btn s" href="#lec">강의 둘러보기</a></div></div>${tree}</section>
+<section class="hero"><div><span class="k">$ cat ROADMAP.md</span><h1>${HERO_T.replace("위한 ", "위한<br class=\"w\"> ")}</h1><p>${HERO_P}</p>
+<div class="cta"><a class="btn p" href="chapter.html">${CTA1} ${i("arrow-right")}</a><a class="btn s" href="#lec">${CTA2}</a></div></div>${tree}</section>
 <div class="notice"><b>공지</b>${NOTICE}</div>
-<section class="sec" id="lec"><div class="sec-h"><h2>강의</h2><span class="c">${chapters.length} chapters</span></div>
+${whoHtml(i)}
+<section class="sec" id="lec"><div class="sec-h"><h2>강의</h2><span class="c">5단계 로드맵 · ${chapters.length}개 챕터</span></div>
 <div class="filters">${tracks.map(([l, k, n]) => `<button type="button" class="t-${k}" data-f="${k}" aria-pressed="${k === "all"}">${k === "all" ? "" : "<i></i>"}${l} ${n}</button>`).join("")}</div>
 ${stages.map((s) => `<section class="stage" id="stage-${s.no}" data-stage><div class="stage-h"><span class="p">${s.no}/</span><b>${s.title}</b><span>${s.from}–${s.to}</span></div><div class="grid">${s.list.map(card).join("")}</div></section>`).join("")}</section>
 <section class="sec" id="tips"><div class="sec-h"><h2>꿀팁</h2><span class="c">막혔을 때 꺼내 보는 자료</span></div><div class="tips">${extras.map((e) => `<a class="tip" href="#"><span class="ic">${i("lightbulb")}</span><div><h3>${esc(e.title)}</h3><p>${inline(e.summary.split(", ").slice(0, 3).join(", "))}</p><div class="rel">${e.rel.map((c) => `<span>${c.no} ${esc(c.title.replace(/ \(.+\)$/, ""))}</span>`).join("")}</div></div></a>`).join("")}</div></section>

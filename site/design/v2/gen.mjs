@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import * as si from "simple-icons";
+import { HERO_T, HERO_P, CTA1, CTA2, whoHtml, FOOT } from "../lib.mjs";
 
 const HERE = import.meta.dirname;
 const SITE = path.resolve(HERE, "../..");
@@ -21,7 +22,7 @@ async function lu(name) {
   }
   return lucideCache[name];
 }
-const ICONS = ["search","sun","moon","menu","arrow-right","chevron-right","chevron-left","download","external-link","panel-left","lightbulb","x","square-terminal","database","copy","info","triangle-alert","circle-x","corner-down-left","arrow-up-down","keyboard"];
+const ICONS = ["search","sun","moon","menu","arrow-right","chevron-right","chevron-left","download","external-link","panel-left","lightbulb","x","square-terminal","database","copy","info","triangle-alert","circle-x","corner-down-left","arrow-up-down","keyboard","user","building-2","users","circle-check"];
 const IC = {};
 for (const n of ICONS) IC[n] = await lu(n);
 const i = (n, cls = "i") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
@@ -85,7 +86,7 @@ const header = (cur_ = "강의", full = false, withNavBtn = false) => `<header c
 </div></header>`;
 
 const footer = `<footer class="ft"><div class="wrap">
-  <span>© 2026 Taewook Kang (woogi) · 허락 없이 옮겨 싣거나 고쳐 배포할 수 없어요</span>
+  <span>${FOOT}</span>
   <nav><a href="#">이용 안내</a><a href="mailto:woogi@memoriz.net">문의</a><a href="#">GitHub</a></nav>
 </div></footer>`;
 
@@ -124,8 +125,17 @@ const news = [
 ];
 news.unshift({ k: "새 챕터", d: "2026-11-24", t: "46 · " + byNo["46"].title, p: plain(byNo["46"].goal) });
 const homeCss = `
+@media (max-width:640px){br.w{display:none}}
+.who{margin-top:var(--s-7);padding:var(--s-6);background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg)}
+.who-h{display:flex;gap:var(--s-5);align-items:baseline;flex-wrap:wrap}.who-h h2{font-size:var(--fs-20);font-weight:800}.who-h p{color:var(--sub);font-size:var(--fs-14)}
+.who-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-5);margin-top:var(--s-5)}
+.who-i .i{width:22px;height:22px;color:var(--accent)}.who-i b{display:block;margin-top:var(--s-2);font-size:var(--fs-16)}.who-i p{font-size:var(--fs-14);color:var(--sub);margin-top:2px}
+.pr{list-style:none;margin:var(--s-5) 0 0;padding:var(--s-4) 0 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-5);font-size:var(--fs-14);color:var(--sub)}
+.pr li{display:flex;gap:6px;align-items:center}.pr .i{width:16px;height:16px;color:var(--run)}
+@media (max-width:760px){.who{padding:var(--s-5)}.who-g{grid-template-columns:1fr;gap:var(--s-4)}}
+
 .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:var(--s-7);align-items:end;padding:var(--s-8) 0 var(--s-6)}
-.hero h1{font-size:var(--fs-40);line-height:1.25;font-weight:800;letter-spacing:-.035em}
+.hero h1{font-size:36px;line-height:1.3;font-weight:800;letter-spacing:-.035em}
 .hero p{margin-top:var(--s-4);font-size:var(--fs-18);color:var(--sub);max-width:30em}
 .hero-cta{display:flex;gap:var(--s-3);margin-top:var(--s-6);flex-wrap:wrap}
 .road{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:end}
@@ -148,16 +158,17 @@ const home = page("강의 · 풀스택 AI/AX 엔지니어", `${header("강의")}
 <main class="wrap" id="main">
   <section class="hero">
     <div>
-      <h1>터미널부터 데이터 분석까지,<br>배우는 순서대로 한 계단씩</h1>
-      <p>개발이 처음이어도 따라올 수 있게, 애니메이션 슬라이드와 실제로 실행한 화면으로 배워요.</p>
-      <div class="hero-cta"><a class="btn primary" href="chapter.html">01부터 시작하기 ${i("arrow-right")}</a><a class="btn secondary" href="#lectures">강의 둘러보기</a></div>
+      <h1>${HERO_T.replace("위한 ", "위한<br class=\"w\"> ")}</h1>
+      <p>${HERO_P}</p>
+      <div class="hero-cta"><a class="btn primary" href="chapter.html">${CTA1} ${i("arrow-right")}</a><a class="btn secondary" href="#lectures">${CTA2}</a></div>
     </div>
     ${roadmap}
   </section>
   <div class="notice" role="status"><span class="k">공지</span><p>12월 수업부터 머신러닝 챕터가 이어서 올라와요. 슬라이드 아래 PDF 받기로 미리 내려받을 수 있어요.</p><button class="icon-btn" type="button" data-notice-close aria-label="공지 닫기">${i("x")}</button></div>
+  ${whoHtml(i)}
 
   <section class="sec" id="lectures">
-    <div class="sec-h"><div><h2>강의</h2><p>${chapters.length}개 챕터를 다섯 단계로 묶었어요</p></div></div>
+    <div class="sec-h"><div><h2>강의</h2><p>다섯 단계로 나눈 로드맵이에요. ${chapters.length}개 챕터를 배우는 순서대로 놓았어요.</p></div></div>
     <div class="lec-bar"><div class="tabs" role="group" aria-label="분류로 걸러 보기">
       <button class="tab" type="button" data-f="all" aria-pressed="true">전체 <small>${chapters.length}</small></button>
       ${trackCounts.map((t) => `<button class="tab t-${t.k}" type="button" data-f="${t.k}" aria-pressed="false"><span class="sw"></span>${t.label} <small>${t.n}</small></button>`).join("")}
