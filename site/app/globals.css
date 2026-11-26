@@ -110,6 +110,7 @@ a.tile:hover, button.tile:hover { border-color: var(--ac); }
 .lc { display: block; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--card); min-width: 0; }
 .lc:hover { border-color: var(--ac); }
 .cv { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; background: var(--cover-bg); }
+.cv { height: auto; }
 .lc .bd { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; }
 .lc b { font-size: 15.5px; line-height: 1.35; }
 .lc small { color: var(--mute); font-size: 13px; }
@@ -317,3 +318,5 @@ a.chip:hover { border-color: var(--ac); }
 .legal-t th, .legal-t td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
 .note { color: var(--mute); font-size: 13.5px; }
 @media (max-width: 560px) { .legal-2 { grid-template-columns: 1fr; } }
+/* 표지 그림: img의 height 속성이 비율(16:9)을 덮지 않게 해요 */
+img.cv { height: auto; }

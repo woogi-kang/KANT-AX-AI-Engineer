@@ -25,11 +25,12 @@ npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, �
 | --- | --- |
 | 강의 단계, 묶음, 레벨, 챕터, 꿀팁, 소식 | 이 레포 `curriculum.json` |
 | 챕터 교안, 학습 목표, 구성(파트와 쪽) | 챕터 `README.md` (`lib/chapter.ts`) |
-| 슬라이드, PDF | 덱 HTML과 PDF (`scripts/copy-assets.mjs`가 `public/decks/`로 복사) |
+| 슬라이드, PDF | 덱 HTML과 PDF (`scripts/copy-assets.mjs`가 `public/decks/`로 복사하면서 표지의 "KANT AX/AI 엔지니어 트랙"만 사이트 이름으로 바꿔요. 레포 원본과 GitHub Pages 덱, PDF는 그대로예요) |
 | 로드맵 5단계, 주제 문서, 업무 사례, 공개 사례, 실패·중단 사례, 템플릿, 채용 현황, 용어 사전 | 로드맵 레포 [woogi-kang/ax-engineer-roadmap](https://github.com/woogi-kang/ax-engineer-roadmap) (MIT). 빌드할 때 `scripts/fetch-roadmap.mjs`가 `site/.roadmap`에 받아요. 다른 폴더를 쓰려면 `ROADMAP_DIR=폴더` |
 | 챕터 실습 칸(바로 쳐 보기) | 챕터 폴더의 `practice.json` (`scripts/practice/`의 스크립트가 수업 출력에서 만들어요. 형식과 만드는 법은 `scripts/practice/README.md`) |
 | 로드맵 주제와 강의 챕터 잇기 | `content/roadmap-links.json` |
 | 덱 표지 그림 | `assets/covers/` (`npm run covers -- 폴더`로 찍어요. 표지의 KANT 글자는 사이트 이름으로 바꿔 찍어요) |
+| 파트 첫 장 그림 | `assets/parts/<폴더>/<쪽>.jpg`, 꿀팁은 `assets/parts/extras/<폴더>/` (`node scripts/shoot-parts.mjs [폴더]`로 찍어요. 덱이나 README 구성 표를 고치면 다시 찍어요) |
 | 도구 로고 | `assets/logos/` (devicon MIT 컬러 로고, uv는 Simple Icons CC0) |
 
 ## 주소
@@ -53,10 +54,11 @@ npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, �
 | `app/tokens.css` | 색 토큰. 밝은 화면과 어두운 화면(`[data-theme="dark"]`) 두 벌 |
 | `app/globals.css` | 여러 화면이 같이 쓰는 모양(타일, 표지 카드, 펼쳐 보기, 거르기 버튼, 찾기 창) |
 | `components/ui.tsx` | `Ic`(lucide 아이콘 이름으로), `Ict`(아이콘 칸), `Logo`, `Cover`, `More`(펼쳐 보기), `Crumb`, `PageHead`, `SecHead`, `Diff` |
-| `components/` | `SideNav`, `SearchDialog`, `FilterChips`(거르기), `Player`(표지 뒤 덱), `LecCard`, `LibTiles` |
+| `components/` | `Lesson`(교안 절, `lib/lesson.ts`가 명령 카드, 문제 해결 카드, 코드 복사 버튼을 만들어요), `SideNav`, `SearchDialog`, `FilterChips`(거르기), `Player`(표지 뒤 덱), `LecCard`, `LibTiles` |
 | `lib/` | `content.ts`(강의), `roadmap.ts`(로드맵 레포), `links.ts`, `chapter.ts`, `markdown.ts`, `search.ts`, `site.ts`(이름, 메뉴, 아이콘), `logos.ts` |
-| `scripts/` | `fetch-roadmap.mjs`, `copy-assets.mjs`, `check-build.mjs`, `shoot-covers.mjs`, `qa.cjs` |
+| `scripts/` | `fetch-roadmap.mjs`, `copy-assets.mjs`, `copy-engines.mjs`, `check-build.mjs`, `practice-check.mjs`, `shoot-covers.mjs`, `shoot-parts.mjs`, `qa.cjs`, `practice/`(실습 칸 데이터 만들기) |
 | `engines/` | 실습 칸 엔진 코드(파이썬 Pyodide, SQL PGlite, psql 화면 모양). 브라우저 워커와 `scripts/practice-check.mjs`가 같이 써요. `scripts/copy-engines.mjs`가 빌드 전에 `public/engines/`로 복사해요 |
+| `app/library/` | 사례와 자료 영역. 모양은 `library.css`, 데이터는 `lib/library.ts`(case.json, 공개·실패 사례 JSON, 월간 채용 JSON), 거르기는 `components/LibFilter.tsx`(묶음 여러 개와 찾기 칸, 주소 뒤 `?키=값`), 복사 버튼은 `components/CopyText.tsx` |
 | `design/` | 디자인 시안. 사이트에서는 `/design/`으로 열려요 |
 
 ## 여러 작업이 동시에 고칠 때
@@ -68,3 +70,35 @@ npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, �
 - 숫자와 사례는 두 레포에 있는 값만 써요. 지어낸 숫자, 점검 질문, 출력은 넣지 않아요. 사이트에는 KANT라는 말을 쓰지 않아요.
 - 챕터 화면의 실습 칸과 문제 칸 자리: `app/chapters/[dir]/page.tsx`가 교안 절 바로 위에서 `components/practice/ChapterPractice.tsx`(바로 쳐 보기, 코드 실행 영역)와 `components/quiz/ChapterQuiz.tsx`(확인 문제 영역)를 불러요. 두 영역은 그 폴더 안만 고치고 챕터 화면 파일은 건드리지 않아요. 내용이 없는 챕터는 `null`을 돌려줘요.
 - 올리기 전에 `npm run build`와 `npm run qa`가 문제 0건으로 끝나는지 보고, 고친 화면은 1440과 390 폭 스크린샷을 직접 열어 봐요(밝은 화면, 어두운 화면 모두).
+
+## 확인 문제
+
+챕터 화면의 "확인 문제"는 챕터 폴더의 `quiz.json`에서 와요(`components/quiz/`). 파트마다 2~3문제를 두고, 틀리면 "다시 보기" 버튼이 위 슬라이드를 그 내용이 있는 쪽으로 열어요(`deck-go`). 고른 답은 화면에만 있고 저장하지 않아요.
+
+```json
+{
+  "parts": [
+    {
+      "part": "문자열과 출력",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "word = \"python\"\nprint(word[2:5])",
+          "choices": ["`yth`", "`tho`", "`thon`"],
+          "answer": 1,
+          "explain": "`[2:5]`는 2번 선부터 5번 선까지 잘라요.",
+          "page": 7,
+          "verify": "py"
+        }
+      ]
+    }
+  ]
+}
+```
+
+- `part`는 챕터 README 구성 표의 파트 이름에서 앞 번호를 뺀 것이에요. 들어가기와 정리 파트에는 문제를 두지 않아요.
+- `answer`는 정답 보기 번호(0부터), `page`는 다시 볼 슬라이드 쪽이에요. 그 파트 쪽 안이어야 해요.
+- 문제, 정답, 해설은 교안과 덱의 실제 출력에만 근거해요. 그 챕터까지 배운 범위(CLAUDE.md 수업 규칙)를 넘지 않아요.
+- `verify: "py"`를 붙이면 점검할 때 `code`를 python3로 실행해서 출력이 정답 보기와 같은지 봐요.
+- `npm run quiz`(빌드 뒤에도 저절로 돌아요)가 형식, 파트 이름, 쪽 번호, 정답 번호, 실행 결과를 확인해요.

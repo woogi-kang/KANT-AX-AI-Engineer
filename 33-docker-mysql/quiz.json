@@ -1,0 +1,257 @@
+{
+  "parts": [
+    {
+      "part": "MySQL 컨테이너 켜기",
+      "questions": [
+        {
+          "id": "m1",
+          "q": "MySQL 컨테이너를 켤 때 꼭 있어야 하는 `-e` 환경 변수는 무엇인가요?",
+          "choices": [
+            "`MYSQL_ROOT_PASSWORD`",
+            "`MYSQL_DATABASE`",
+            "`MYSQL_PORT`",
+            "`MYSQL_USER`"
+          ],
+          "answer": 0,
+          "explain": "`MYSQL_ROOT_PASSWORD`는 관리자 root의 비밀번호라 꼭 있어야 해요. `MYSQL_DATABASE`는 처음 켤 때 만들 데이터베이스 이름이에요.",
+          "page": 6
+        },
+        {
+          "id": "m2",
+          "q": "`docker logs db`에 `ready for connections`가 두 번 나와요. 언제 들어가도 되나요?",
+          "code": "… ready for connections. Version: '8.4.13'  socket: '/var/run/mysqld/mysqld.sock'  port: 0  MySQL Community Server - GPL.\n… ready for connections. Version: '8.4.13'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.",
+          "choices": [
+            "`port: 0` 줄이 나오면 바로",
+            "`Initializing database files` 줄이 나오면",
+            "`port: 3306` 줄이 나온 뒤",
+            "logs와 상관없이 언제든"
+          ],
+          "answer": 2,
+          "explain": "`port: 0`은 cafe를 만들려고 잠깐 켠 임시 서버예요. 마지막에 `port: 3306`이 보이면 진짜 서버가 켜진 거예요. 처음 켤 때는 10초쯤 걸려요.",
+          "page": 8
+        },
+        {
+          "id": "m3",
+          "q": "`docker exec -it db mysql -u root -p`에서 `-p`는 무엇을 하나요?",
+          "choices": [
+            "비밀번호를 물어보게 해요",
+            "프롬프트를 바꿔요",
+            "포트를 열어요",
+            "데이터베이스를 골라요"
+          ],
+          "answer": 0,
+          "explain": "`-u`는 사용자 이름, `-p`는 비밀번호를 물어보라는 뜻이에요. `Enter password:`가 나오면 cafe1234를 쳐요. 쳐도 화면에 안 보이는 게 정상이에요.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "part": "데이터베이스와 표 만들기",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "`CREATE TABLE`로 만든 orders 표의 열 이름, 타입, 기본 키를 한 줄씩 보여 주는 명령은 무엇인가요?",
+          "choices": [
+            "`DESCRIBE orders;`",
+            "`SHOW TABLES;`",
+            "`SHOW DATABASES;`",
+            "`SELECT * FROM orders;`"
+          ],
+          "answer": 0,
+          "explain": "`DESCRIBE orders;`는 Field, Type, Null, Key를 보여 줘요. Key의 PRI가 기본 키예요. `SHOW TABLES;`는 표 목록만 보여 줘요.",
+          "page": 13
+        },
+        {
+          "id": "d2",
+          "q": "`USE shop;`으로 막 만든 shop에 들어가서 `SHOW TABLES;`를 쳤어요. 무엇이 나오나요?",
+          "choices": [
+            "orders 표",
+            "`Empty set (0.00 sec)`",
+            "`Database changed`",
+            "`ERROR 1146`"
+          ],
+          "answer": 1,
+          "explain": "방금 만든 shop은 비어 있어서 `Empty set`이 나와요. `Database changed`는 `USE shop;`을 쳤을 때 나오는 글이에요.",
+          "page": 11
+        },
+        {
+          "id": "d3",
+          "q": "`DROP DATABASE shop;`에 대한 설명으로 맞는 것은 무엇인가요?",
+          "choices": [
+            "정말 지울지 한 번 물어봐요",
+            "안의 표까지 통째로 지우고 되돌릴 수 없어요",
+            "다음에 켤 때 다시 생겨요",
+            "표는 남기고 데이터베이스 이름만 지워요"
+          ],
+          "answer": 1,
+          "explain": "DROP은 묻지 않고 바로 지워요. 안에 든 표와 행까지 다 사라지니 연습할 때는 지워도 되는 것에만 쳐요.",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "part": "계정과 접속 방법",
+      "questions": [
+        {
+          "id": "a1",
+          "q": "`-e MYSQL_USER=cafe -e MYSQL_PASSWORD=cafe5678`로 만든 cafe 계정으로 `CREATE DATABASE shop;`을 치면 어떻게 되나요?",
+          "choices": [
+            "`ERROR 1045`로 접속이 끊겨요",
+            "shop이 만들어져요",
+            "`ERROR 1044 (42000): Access denied for user 'cafe'@'%' to database 'shop'`",
+            "root로 바뀌어요"
+          ],
+          "answer": 2,
+          "explain": "cafe 계정은 `MYSQL_DATABASE`로 만든 cafe만 쓸 수 있어요. 표는 만들 수 있지만 새 데이터베이스는 막혀요. 앱에는 root 대신 이 계정을 줘요.",
+          "page": 17
+        },
+        {
+          "id": "a2",
+          "q": "`docker exec -it db bash`로 들어간 뒤 그 안에서 `mysql -u root -p cafe`로 접속했어요. 내 터미널로 돌아오려면 `exit`를 몇 번 치나요?",
+          "choices": [
+            "한 번",
+            "두 번",
+            "세 번",
+            "치지 않아도 저절로 나와요"
+          ],
+          "answer": 1,
+          "explain": "상자 안에 상자로 들어간 거라서 mysql에서 `exit`하면 bash로, bash에서 한 번 더 `exit`하면 내 터미널로 돌아와요.",
+          "page": 18
+        },
+        {
+          "id": "a3",
+          "q": "아래 명령에 `-it`를 붙이지 않은 까닭은 무엇인가요?",
+          "code": "docker exec db mysql -u root -pcafe1234 cafe -e \"SHOW TABLES;\"",
+          "choices": [
+            "결과를 받기만 하고 키보드로 칠 일이 없어서",
+            "MySQL이 `-it`를 모르는 옵션이라서",
+            "`-e`와 같이 쓰면 오류가 나서",
+            "비밀번호를 붙여 써서"
+          ],
+          "answer": 0,
+          "explain": "`-e`로 한 문장만 실행하고 결과만 받으니 키보드 입력이 필요 없어요. 31의 `docker exec 이름 명령`과 같은 모양이에요. `-p` 뒤에 비밀번호를 붙이면 Warning이 나오니 연습할 때만 써요.",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "part": "볼륨과 compose",
+      "questions": [
+        {
+          "id": "v1",
+          "q": "볼륨 없이 켠 db를 stop, rm으로 지우고 같은 명령으로 다시 켰어요. `SELECT * FROM orders;`를 치면 어떻게 되나요?",
+          "choices": [
+            "`Empty set`",
+            "`ERROR 2002`",
+            "`ERROR 1146 (42S02): Table 'cafe.orders' doesn't exist`",
+            "주문이 그대로 나와요"
+          ],
+          "answer": 2,
+          "explain": "표는 컨테이너 안 `/var/lib/mysql`에 저장돼서 컨테이너를 지울 때 같이 지워져요. cafe 데이터베이스는 `-e MYSQL_DATABASE`로 다시 만들어졌지만 안은 비어 있어요.",
+          "page": 20
+        },
+        {
+          "id": "v2",
+          "q": "지웠다 켜도 표가 남게 하려면 `docker run`에 무엇을 붙이나요?",
+          "choices": [
+            "`-v cafe-data:/var/lib/mysql`",
+            "`-e MYSQL_KEEP=1`",
+            "`-v ./site:/usr/share/nginx/html`",
+            "`-p 3307:3306`"
+          ],
+          "answer": 0,
+          "explain": "MySQL은 표를 `/var/lib/mysql`에 파일로 남겨요. 그 자리에 이름 있는 볼륨을 붙이면 새 컨테이너에 같은 볼륨을 붙였을 때 예전 표를 그대로 읽어요.",
+          "page": 22
+        },
+        {
+          "id": "v3",
+          "q": "compose.yaml에서 `-e MYSQL_ROOT_PASSWORD=cafe1234`는 어느 칸에 적나요?",
+          "choices": [
+            "`environment`",
+            "`ports`",
+            "`image`",
+            "`volumes`"
+          ],
+          "answer": 0,
+          "explain": "`-e`는 `environment` 아래에 `이름: 값` 모양으로 적어요. 이름 있는 볼륨을 쓰려면 맨 아래 `volumes:` 칸에도 `cafe-data:`를 한 번 적어요.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "part": "자주 나는 오류",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "`docker run -d --name db mysql:8.4`로 켰더니 `docker ps -a`에 `Exited (1)`이 보여요. 까닭은 무엇인가요?",
+          "choices": [
+            "볼륨이 없어서",
+            "이미지가 오래돼서",
+            "비밀번호 `-e`를 빠뜨려서",
+            "포트를 안 열어서"
+          ],
+          "answer": 2,
+          "explain": "`docker logs db`에 `password option is not specified`가 나와요. `docker rm db`로 꺼진 컨테이너를 지우고 `-e MYSQL_ROOT_PASSWORD`를 붙여 다시 켜요.",
+          "page": 26
+        },
+        {
+          "id": "e2",
+          "q": "`docker run` 바로 뒤에 들어갔더니 `ERROR 2002 (HY000): Can't connect to local MySQL server`가 나와요. 어떻게 하나요?",
+          "choices": [
+            "비밀번호를 바꿔요",
+            "`docker logs db`에 `port: 3306` 줄이 보일 때 다시 들어가요",
+            "볼륨을 지워요",
+            "3307번으로 바꿔요"
+          ],
+          "answer": 1,
+          "explain": "처음 켤 때 10초쯤 준비하는 동안에는 서버를 못 찾아요. logs에서 `port: 3306`이 나오면 다시 들어가요.",
+          "page": 27
+        },
+        {
+          "id": "e3",
+          "q": "cafe-data 볼륨을 그대로 붙인 채 `-e MYSQL_ROOT_PASSWORD=new5678`로 다시 켰더니 new5678로는 `Access denied`가 나와요. 까닭은 무엇인가요?",
+          "choices": [
+            "비밀번호를 잘못 쳐서",
+            "MySQL 버전이 바뀌어서",
+            "볼륨에 데이터가 이미 있어서 처음 준비를 건너뛰고 예전 비밀번호를 그대로 써서",
+            "컨테이너 이름이 겹쳐서"
+          ],
+          "answer": 2,
+          "explain": "MySQL은 볼륨에 데이터가 있으면 `-e`의 비밀번호와 데이터베이스 이름을 읽지 않아요. 예전 비밀번호 cafe1234로 들어가면 표가 그대로 있어요. 처음부터 다시 할 때만 `docker volume rm`으로 지워요.",
+          "page": 31
+        }
+      ]
+    },
+    {
+      "part": "실제 상황 예제",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "월요일에 주문을 넣고 `docker compose down`으로 껐다가 화요일에 `up -d`로 켰어요. 월요일 주문은 어떻게 되나요?",
+          "choices": [
+            "다시 INSERT해야 보여요",
+            "절반만 남아요",
+            "사라져요",
+            "볼륨에 남아 있어서 그대로 보여요"
+          ],
+          "answer": 3,
+          "explain": "`down`은 컨테이너와 네트워크만 지우고 볼륨은 남겨 둬요. compose.yaml에 볼륨만 적어 두면 매일 껐다 켜도 데이터가 이어져요.",
+          "page": 32
+        },
+        {
+          "id": "s2",
+          "q": "`./init:/docker-entrypoint-initdb.d`를 더하고 `up -d`만 했더니 menu 표가 생기지 않았어요. 까닭은 무엇인가요?",
+          "choices": [
+            "menu.sql 이름이 틀려서",
+            "MySQL은 SQL 파일을 못 읽어서",
+            "init 폴더의 SQL 파일은 볼륨이 빈 채로 처음 켤 때 한 번만 실행되는데, 볼륨에 예전 데이터가 있어서",
+            "포트가 겹쳐서"
+          ],
+          "answer": 2,
+          "explain": "볼륨에 데이터가 이미 있으면 처음 준비를 건너뛰어서 이 파일도 안 돌아요. `docker compose down -v`로 볼륨까지 지우고 켜면 실행돼요. 쌓인 주문도 같이 지워지니 연습할 때만 써요.",
+          "page": 33
+        }
+      ]
+    }
+  ]
+}

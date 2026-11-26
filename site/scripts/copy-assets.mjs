@@ -17,8 +17,21 @@ function copy(from, to) {
   fs.copyFileSync(from, to);
   files++;
 }
+// 사이트 플레이어로 보는 덱은 표지의 강의 이름("KANT AX/AI 엔지니어 트랙")만 사이트 이름으로 바꿔 복사해요.
+// 레포 원본 덱, main, GitHub Pages의 덱과 PDF는 그대로예요. 수업 예제 속 이름(KANT 카페, kant_shop)은 바꾸지 않아요.
+const SITE_NAME = "풀스택 AI/AX 엔지니어";
+let renamed = 0;
+function copyDeckHtml(from, to) {
+  if (!fs.existsSync(from)) throw new Error(`없는 파일: ${path.relative(ROOT, from)}`);
+  fs.mkdirSync(path.dirname(to), { recursive: true });
+  const html = fs.readFileSync(from, "utf8");
+  const out = html.replaceAll("KANT AX/AI 엔지니어 트랙", SITE_NAME);
+  if (out !== html) renamed++;
+  fs.writeFileSync(to, out);
+  files++;
+}
 function deck(srcDir, destDir, slides) {
-  copy(path.join(srcDir, slides), path.join(destDir, slides));
+  copyDeckHtml(path.join(srcDir, slides), path.join(destDir, slides));
   const pdf = slides.replace(/\.html$/, ".pdf");
   copy(path.join(srcDir, pdf), path.join(destDir, pdf));
 }
@@ -51,4 +64,4 @@ for (const c of cur.chapters) if (!fs.existsSync(path.join(SITE, "assets", "cove
   }
 })(path.join(SITE, "design"), path.join(PUB, "design"));
 
-console.log(`copy-assets: ${files}개 파일을 public/으로 복사했어요`);
+console.log(`copy-assets: ${files}개 파일을 public/으로 복사했어요(덱 표지 이름 ${renamed}개 바꿈)`);

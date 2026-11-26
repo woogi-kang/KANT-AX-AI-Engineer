@@ -1,0 +1,276 @@
+{
+  "parts": [
+    {
+      "part": "diff란?",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "`git status`와 `git diff`는 무엇이 다른가요?",
+          "choices": [
+            "`git status`는 바뀐 줄까지, `git diff`는 파일 이름만 보여 줘요",
+            "`git status`는 파일 이름만, `git diff`는 바뀐 줄까지 보여 줘요",
+            "둘 다 바뀐 줄을 보여 주고 색만 달라요",
+            "`git diff`는 GitHub에 올린 파일만 보여 줘요"
+          ],
+          "answer": 1,
+          "explain": "`git status`는 어느 파일이 바뀌었는지만 알려 줘요. 그 안의 어느 줄이 어떻게 바뀌었는지는 `git diff`가 `-`와 `+`로 보여 줘요.",
+          "page": 3
+        },
+        {
+          "id": "w2",
+          "q": "`git diff --staged`는 어느 두 칸을 비교하나요?",
+          "choices": [
+            "① 작업 폴더와 ② 대기실",
+            "① 작업 폴더와 ④ 원격 저장소",
+            "② 대기실과 ③ 마지막 커밋",
+            "두 브랜치의 마지막 커밋"
+          ],
+          "answer": 2,
+          "explain": "`git diff`는 ① 작업 폴더와 ② 대기실을, `git diff --staged`는 ② 대기실과 ③ 마지막 커밋을 비교해요. `--cached`라고 써도 같아요.",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "part": "git diff",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "`git diff` 출력에서 줄 맨 앞의 `-`와 `+`는 무슨 뜻인가요?",
+          "code": "-비밀번호\n+비밀번호 (8자 이상)\n+로그인 버튼",
+          "choices": [
+            "`-`는 지운 줄, `+`는 넣은 줄이에요",
+            "`-`는 넣은 줄, `+`는 지운 줄이에요",
+            "`-`는 오류가 난 줄, `+`는 고친 줄이에요",
+            "파일 안에 실제로 적힌 글자예요"
+          ],
+          "answer": 0,
+          "explain": "줄 맨 앞의 기호 한 칸은 파일 내용이 아니라 diff가 붙인 표시예요. 한 줄을 고치면 예전 줄을 지운 `-` 한 줄과 새 줄을 넣은 `+` 한 줄이 짝으로 나와요.",
+          "page": 6
+        },
+        {
+          "id": "d2",
+          "q": "`@@ -1,3 +1,4 @@`에서 `+1,4`는 무슨 뜻인가요?",
+          "choices": [
+            "1번 커밋에서 4줄을 고쳤어요",
+            "예전 파일의 1번째 줄부터 4줄이에요",
+            "줄이 1개 지워지고 4개 생겼어요",
+            "지금 파일의 1번째 줄부터 4줄이에요"
+          ],
+          "answer": 3,
+          "explain": "`-1,3`은 예전 파일의 1번째 줄부터 3줄, `+1,4`는 지금 파일의 1번째 줄부터 4줄을 보여 준다는 뜻이에요. 줄이 하나 늘어서 3이 4가 됐어요.",
+          "page": 7
+        },
+        {
+          "id": "d3",
+          "q": "`login.md`를 고친 뒤 `git add login.md`를 하고 `git diff`를 쳤더니 아무것도 안 나와요. 왜 그런가요?",
+          "choices": [
+            "고친 내용이 지워졌어요",
+            "작업 폴더와 대기실이 같아졌어요",
+            "`git diff`는 한 번만 볼 수 있어요",
+            "add하면 바로 커밋돼요"
+          ],
+          "answer": 1,
+          "explain": "`git diff`는 ① 작업 폴더와 ② 대기실을 비교해요. add로 고친 내용이 대기실로 옮겨 가서 두 칸이 똑같아졌어요. 커밋될 내용은 `git diff --staged`로 봐요.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "part": "git diff --staged",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "add한 뒤에 커밋 메시지를 쓰기 전, 지금 commit하면 들어갈 줄을 보려면 무엇을 치나요?",
+          "choices": [
+            "`git diff`",
+            "`git show`",
+            "`git diff --staged`",
+            "`git status`"
+          ],
+          "answer": 2,
+          "explain": "`git diff --staged`는 대기실과 마지막 커밋을 비교해서 지금 commit하면 들어갈 내용을 보여 줘요.",
+          "page": 9
+        },
+        {
+          "id": "s2",
+          "q": "`git add login.md` 뒤에 `echo \"아이디 저장\" >> login.md`로 한 줄을 더 적었어요. 지금 바로 commit하면 어떻게 되나요?",
+          "choices": [
+            "`아이디 저장` 줄은 빠지고 add할 때의 모습만 들어가요",
+            "`아이디 저장` 줄까지 모두 들어가요",
+            "오류가 나서 커밋이 안 돼요",
+            "`login.md`가 대기실에서 빠져요"
+          ],
+          "answer": 0,
+          "explain": "`git diff --staged`에 `아이디 저장` 줄이 없으니 지금 commit하면 그 줄은 빠져요. 한 번 더 `git add`를 해야 해요.",
+          "page": 11
+        },
+        {
+          "id": "s3",
+          "q": "커밋 출력에 `1 file changed, 3 insertions(+), 1 deletion(-)`이 나왔어요. 이 숫자는 무엇과 같나요?",
+          "choices": [
+            "커밋한 횟수 3번과 push 1번",
+            "고친 파일 3개와 지운 파일 1개",
+            "`@@` 줄의 숫자 3과 1",
+            "diff의 `+` 줄 3개와 `-` 줄 1개"
+          ],
+          "answer": 3,
+          "explain": "`3 insertions(+), 1 deletion(-)`은 diff의 `+` 줄 3개, `-` 줄 1개와 같은 숫자예요. 커밋하고 나면 `git diff`와 `git diff --staged` 모두 빈 화면이에요.",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "part": "git show와 브랜치 비교",
+      "questions": [
+        {
+          "id": "b1",
+          "q": "번호 없이 `git show`만 치면 무엇을 보여 주나요?",
+          "choices": [
+            "지금 브랜치의 마지막 커밋 정보와 바로 전 커밋과 비교한 diff",
+            "아직 add하지 않은 고친 줄",
+            "모든 커밋의 메시지 목록",
+            "GitHub에 올린 마지막 커밋"
+          ],
+          "answer": 0,
+          "explain": "`git show`는 커밋 하나를 열어서 위에는 커밋 정보, 아래에는 바로 전 커밋과 비교한 diff를 보여 줘요. 다른 커밋은 `git show e12ffc2`처럼 번호를 붙여요.",
+          "page": 13
+        },
+        {
+          "id": "b2",
+          "q": "main에 서 있고 `feature/login`을 merge하기 전에, main에 들어올 변경을 미리 보려고 해요. 어떻게 치나요?",
+          "choices": [
+            "`git diff feature/login main`",
+            "`git diff --staged feature/login`",
+            "`git diff main feature/login`",
+            "`git show feature/login main`"
+          ],
+          "answer": 2,
+          "explain": "`git diff A B`는 A를 B로 만들려면 무엇을 바꿔야 하는지 보여 줘요. merge 전에는 받을 쪽 main을 앞에 써요. 순서를 바꾸면 `+`와 `-`가 뒤집혀요.",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "part": ".gitignore",
+      "questions": [
+        {
+          "id": "g1",
+          "q": "`.env`를 GitHub에 올리면 안 되는 까닭은 무엇인가요?",
+          "choices": [
+            "파일이 너무 커서 push가 실패해요",
+            "API 키 같은 비밀 값이 들어 있어서 누구나 볼 수 있게 돼요",
+            "Git이 `.env`를 읽지 못해서 오류가 나요",
+            "팀원의 `.env`와 충돌이 나요"
+          ],
+          "answer": 1,
+          "explain": "`.env`는 API 키 같은 비밀 값을 적어 두는 파일이에요. GitHub에 올라간 키는 누구나 볼 수 있고, 지워도 기록에 남아서 키를 새로 발급받아야 해요.",
+          "page": 16
+        },
+        {
+          "id": "g2",
+          "q": "`.gitignore`에 적는 규칙으로 맞는 것은 무엇인가요?",
+          "choices": [
+            "한 줄에 여러 이름을 쉼표로 적어요",
+            "`.gitignore`에 적으면 그 파일이 폴더에서 지워져요",
+            "`.gitignore`는 커밋하지 않고 나만 써요",
+            "끝에 `/`를 붙이면 폴더, `*`는 아무 글자, `#`으로 시작하면 메모 줄이에요"
+          ],
+          "answer": 3,
+          "explain": "한 줄에 하나씩 적고, 끝에 `/`는 폴더, `*`는 아무 글자, `#`은 메모예요. 파일 자체는 지워지지 않고 Git만 못 본 척해요. `.gitignore`는 커밋해서 팀원도 같은 규칙을 써요.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "part": "비교와 막힐 때",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "`git status`를 봤더니 `nothing to commit`이에요. 방금 한 커밋이 무엇을 바꿨는지 보려면 무엇을 치나요?",
+          "choices": [
+            "`git diff`",
+            "`git diff --staged`",
+            "`git add .`",
+            "`git show`"
+          ],
+          "answer": 3,
+          "explain": "빨간 글씨면 `git diff`, 초록 글씨면 `git diff --staged`, 깨끗하면 `git show`를 써요. `git show`는 마지막 커밋과 바로 전 커밋을 비교해요.",
+          "page": 19
+        },
+        {
+          "id": "t2",
+          "q": "새로 만든 `signup.md`가 `git diff`에 안 나와요. 왜 그런가요?",
+          "choices": [
+            "Untracked 파일이라 비교할 예전 모습이 없어요",
+            "`.gitignore`에 자동으로 들어갔어요",
+            "파일 이름에 영어가 들어가서예요",
+            "이미 커밋됐어요"
+          ],
+          "answer": 0,
+          "explain": "Git이 아직 모르는 파일이라 비교할 예전 모습이 없어서 `git diff`에 안 나와요. `git add 파일`을 한 뒤 `git diff --staged`로 봐요.",
+          "page": 20
+        },
+        {
+          "id": "t3",
+          "q": "`app.log`를 먼저 커밋한 뒤에 `.gitignore`에 `*.log`를 적었는데 `git status`에 계속 `modified: app.log`가 나와요. 내 폴더의 파일은 두고 기록 대상에서만 빼려면 무엇을 치나요?",
+          "choices": [
+            "`git diff --stat app.log`",
+            "`git rm --cached app.log`",
+            "`git show app.log`",
+            "`.gitignore`에 `app.log`를 한 번 더 적어요"
+          ],
+          "answer": 1,
+          "explain": "`.gitignore`는 Git이 아직 모르는 파일에만 통해요. `git rm --cached`는 파일은 내 폴더에 두고 Git 기록에서만 빼요. 그다음 `.gitignore`와 같이 add, commit 해요.",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "part": "실제 상황",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "merge 전에 `git diff main feature/login`을 쳤더니 아래처럼 나왔어요. 이대로 merge하면 어떻게 될까요?",
+          "code": "-# 로그인 페이지\n+# 로그인하기",
+          "choices": [
+            "main의 제목이 저절로 지워져요",
+            "아무 일도 안 일어나요",
+            "같은 줄이 양쪽에서 달라서 충돌이 날 수 있어요",
+            "feature/login이 지워져요"
+          ],
+          "answer": 2,
+          "explain": "`-` 줄과 `+` 줄이 같은 자리의 서로 다른 제목이에요. 양쪽에서 같은 줄을 고쳤으니 merge할 때 충돌이 날 수 있어요.",
+          "page": 23
+        },
+        {
+          "id": "r2",
+          "q": "충돌을 풀고 `git add login.md`를 했어요. 커밋 전에 `git diff --staged`로 한 번 더 볼 때 확인할 것이 아닌 것은 무엇인가요?",
+          "choices": [
+            "`<<<` 같은 충돌 표시가 남지 않았나",
+            "남긴 제목이 맞나",
+            "main에 들어올 줄이 이게 다인가",
+            "GitHub에 이미 올라갔나"
+          ],
+          "answer": 3,
+          "explain": "커밋 전에는 충돌 표시가 남지 않았는지, 남긴 제목이 맞는지, main에 들어올 줄이 이게 다인지 봐요. 아직 commit 전이라 GitHub과는 상관없어요.",
+          "page": 25
+        },
+        {
+          "id": "r3",
+          "q": "`login.md`와 `signup.md` 두 파일을 만들었는데 `git diff --staged --stat`이 아래처럼 나왔어요. 무엇을 해야 하나요?",
+          "code": "$ git diff --staged --stat\n login.md | 1 +\n 1 file changed, 1 insertion(+)",
+          "choices": [
+            "`git add signup.md`를 한 뒤 다시 `--stat`으로 두 파일을 확인해요",
+            "그대로 commit해요",
+            "`git rm --cached login.md`를 쳐요",
+            "`signup.md`를 `.gitignore`에 적어요"
+          ],
+          "answer": 0,
+          "explain": "파일 개수가 하나뿐이라 `signup.md`가 빠졌어요. 새 파일은 `git diff`에 안 나와서 놓치기 쉬워요. add한 뒤 `--stat`으로 두 파일을 확인하고 커밋해요.",
+          "page": 26
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,255 @@
+{
+  "parts": [
+    {
+      "part": "개념 잡기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "`git add`를 치면 파일은 네 공간 중 어디로 가나요?",
+          "choices": [
+            "① 작업 폴더",
+            "② 대기실",
+            "③ 내 저장소",
+            "④ 원격 저장소(GitHub)"
+          ],
+          "answer": 1,
+          "explain": "`add`는 커밋할 것을 대기실에 올려요. 대기실에 있는 것을 `commit`이 내 저장소에 기록하고, `push origin main`이 GitHub으로 보내요.",
+          "page": 4
+        },
+        {
+          "id": "c2",
+          "q": "`origin`은 무엇인가요?",
+          "choices": [
+            "GitHub에 보내는 명령어",
+            "기본 브랜치 이름",
+            "GitHub 주소의 별명",
+            "내가 지금 서 있는 커밋"
+          ],
+          "answer": 2,
+          "explain": "`origin`은 명령어가 아니라 GitHub 주소에 붙인 별명이에요. 기본 브랜치 이름은 `main`, 지금 서 있는 곳은 `HEAD`예요.",
+          "page": 7
+        },
+        {
+          "id": "c3",
+          "q": "`git status`에 `Changes not staged for commit:` 아래로 파일이 보여요. 이 파일은 어떤 상태인가요?",
+          "choices": [
+            "처음 보는 새 파일(Untracked)",
+            "대기실에 올라감(Staged)",
+            "고쳤지만 add 전(Modified)",
+            "마지막 커밋과 같음(Committed)"
+          ],
+          "answer": 2,
+          "explain": "`Changes not staged for commit:`은 고쳤지만 아직 `add`하지 않은 상태예요. 대기실에 올라간 파일은 `Changes to be committed:` 아래에 보여요.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "part": "혼자 기록하기",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "`hello.md`를 `git add`한 뒤에 `echo \"more\" >> hello.md`로 한 줄을 더 고쳤어요. 지금 바로 `git commit`하면 어떻게 되나요?",
+          "choices": [
+            "more까지 모두 커밋돼요",
+            "오류가 나서 커밋이 안 돼요",
+            "add할 때의 모습만 커밋되고 more는 빠져요",
+            "hello.md가 대기실에서 빠져요"
+          ],
+          "answer": 2,
+          "explain": "`add`는 그 순간의 사진을 대기실에 올려요. 그 뒤에 고친 more는 작업 폴더에만 있어서 커밋에 들어가지 않아요. 다시 `git add hello.md`를 해야 해요.",
+          "page": 15
+        },
+        {
+          "id": "s2",
+          "q": "커밋 메시지 규칙에 맞는 것은 무엇인가요?",
+          "choices": [
+            "`수정`",
+            "`feat 회원가입 이메일 인증 추가`",
+            "`feat: 회원가입 이메일 인증 추가`",
+            "`진짜최종`"
+          ],
+          "answer": 2,
+          "explain": "타입, 콜론과 공백, 무엇을 했는지 순서로 써요. 새 기능은 `feat`, 버그 수정은 `fix`, 문서는 `docs`예요.",
+          "page": 18
+        },
+        {
+          "id": "s3",
+          "q": "`git config --global user.name \"홍길동\"`의 `--global`은 무슨 뜻인가요?",
+          "choices": [
+            "GitHub에도 이름을 등록해요",
+            "이 폴더에만 적용돼요",
+            "다음 커밋 하나에만 적용돼요",
+            "이 컴퓨터 전체에 적용돼서 한 번만 하면 돼요"
+          ],
+          "answer": 3,
+          "explain": "`--global`은 이 컴퓨터 전체에 적용돼요. 그래서 컴퓨터마다 처음 한 번만 하면 되고, 이름은 커밋마다 작성자로 붙어요.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "part": "GitHub과 연결",
+      "questions": [
+        {
+          "id": "g1",
+          "q": "`git remote add origin https://github.com/kim/hello-git.git`을 쳤어요. 무엇이 바뀌었나요?",
+          "choices": [
+            "주소에 별명 origin을 붙였고, 아직 보낸 것은 없어요",
+            "커밋이 GitHub으로 올라갔어요",
+            "GitHub에 빈 저장소가 생겼어요",
+            "GitHub의 파일을 받아 왔어요"
+          ],
+          "answer": 0,
+          "explain": "`remote add`는 주소를 origin이라는 이름으로 등록만 해요. 출력이 없으면 성공이고, 커밋을 보내는 건 `git push origin main`이에요.",
+          "page": 20
+        },
+        {
+          "id": "g2",
+          "q": "커밋을 하고 `git status`가 `working tree clean`이에요. 그런데 `git log --oneline`에서 `main`이 `origin/main`보다 한 칸 위에 있어요. 무슨 뜻인가요?",
+          "choices": [
+            "GitHub에 내가 모르는 커밋이 있어요",
+            "커밋이 지워졌어요",
+            "GitHub에 아직 안 보낸 커밋이 하나 있어요",
+            "모두 GitHub과 같아요"
+          ],
+          "answer": 2,
+          "explain": "`status`는 작업 폴더와 대기실만 봐요. `main`이 `origin/main`보다 위면 아직 push하지 않은 커밋이 있는 거예요. `git push origin main`으로 맞춰요.",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "part": "함께 작업하기",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "`git fetch origin`을 치면 어떻게 되나요?",
+          "choices": [
+            "받아서 내 main에 합쳐요",
+            "내 커밋을 GitHub으로 보내요",
+            "저장소를 통째로 새 폴더에 받아요",
+            "GitHub 소식을 받아만 오고 작업 폴더는 그대로예요"
+          ],
+          "answer": 3,
+          "explain": "`fetch`는 받아만 와서 `origin/main`만 올라가요. 내 `main`과 작업 폴더는 그대로예요. 받아서 합치기까지 하는 건 `git pull origin main`이에요.",
+          "page": 25
+        },
+        {
+          "id": "t2",
+          "q": "`git pull origin main`은 어떤 두 일을 한 번에 하나요?",
+          "choices": [
+            "`add`와 `commit`",
+            "`fetch`와 `merge`",
+            "`clone`과 `cd`",
+            "`commit`과 `push`"
+          ],
+          "answer": 1,
+          "explain": "`pull`은 `git fetch origin`으로 받아 오고 `git merge origin/main`으로 내 것과 합치는 일을 한 번에 해요.",
+          "page": 27
+        },
+        {
+          "id": "t3",
+          "q": "GitHub에 이미 있는 저장소로 작업을 시작할 때 쓰는 명령은 무엇인가요?",
+          "choices": [
+            "`git init`",
+            "`git clone 주소`",
+            "`git remote add origin 주소`",
+            "`git fetch origin`"
+          ],
+          "answer": 1,
+          "explain": "GitHub에 있으면 `git clone 주소`로 받고 새로 생긴 폴더로 `cd`해요. origin 등록도 저절로 돼요. GitHub에 아직 없을 때 `git init`과 `remote add`를 써요.",
+          "page": 28
+        }
+      ]
+    },
+    {
+      "part": "되돌리기",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "잘못한 커밋을 이미 GitHub에 push했어요. 어떻게 되돌리나요?",
+          "choices": [
+            "`git reset HEAD~1`",
+            "`git reflog`",
+            "`.git` 폴더를 지워요",
+            "`git revert HEAD`"
+          ],
+          "answer": 3,
+          "explain": "push한 커밋은 `revert`로 반대로 고친 커밋을 더해요. 팀원 기록은 그대로 둬요. `reset`은 push 전, 나만 가진 커밋에 써요.",
+          "page": 29
+        },
+        {
+          "id": "r2",
+          "q": "`git reset HEAD~1`처럼 옵션 없이 reset하면 커밋했던 변경은 어디에 남나요?",
+          "choices": [
+            "어디에도 남지 않고 사라져요",
+            "② 대기실",
+            "① 작업 폴더",
+            "④ GitHub"
+          ],
+          "answer": 2,
+          "explain": "옵션이 없으면 `--mixed`예요. 커밋을 취소하고 대기실은 비우고, 변경은 작업 폴더에 남아요. 그래서 `hello.md`가 Modified로 보여요. `--hard`만 변경까지 지워요.",
+          "page": 32
+        },
+        {
+          "id": "r3",
+          "q": "`reset`으로 지운 커밋을 다시 찾을 때 보는 명령은 무엇인가요?",
+          "choices": [
+            "`git log --oneline`",
+            "`git status`",
+            "`git fetch origin`",
+            "`git reflog`"
+          ],
+          "answer": 3,
+          "explain": "지운 커밋은 `log`에 안 보여요. `git reflog`에는 HEAD가 움직인 기록이 최신순으로 남아서 해시를 찾을 수 있어요. reflog는 내 컴퓨터에만 있어요.",
+          "page": 33
+        }
+      ]
+    },
+    {
+      "part": "문제 해결",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "`git push`만 쳤더니 `fatal: The current branch main has no upstream branch.`가 나요. 수업에서는 어떻게 치나요?",
+          "choices": [
+            "`git push -u origin main`",
+            "`git push --force`",
+            "`git push origin main`",
+            "`git push --set-upstream origin main`"
+          ],
+          "answer": 2,
+          "explain": "어디로(`origin`), 무엇을(`main`) 항상 끝까지 적어요. 에러가 `--set-upstream`(`-u`)을 권해도 쓰지 않아요.",
+          "page": 41
+        },
+        {
+          "id": "p2",
+          "q": "`git add hello.md`에서 `index.lock': File exists.`가 났어요. 다른 git 작업이 끝난 것을 확인한 뒤 무엇을 지우나요?",
+          "choices": [
+            "`.git` 폴더 전체",
+            "`.git/index`",
+            "`.git/index.lock` 하나",
+            "`hello.md`"
+          ],
+          "answer": 2,
+          "explain": "index.lock은 Git의 사용 중 팻말이에요. `rm .git/index.lock`으로 팻말만 떼고 아까 명령을 다시 쳐요. index나 .git 폴더는 지우지 않아요.",
+          "page": 38
+        },
+        {
+          "id": "p3",
+          "q": "push가 거절돼서 `git pull origin main`을 쳤더니 `fatal: Need to specify how to reconcile divergent branches.`가 나요. 처음 한 번 쳐 둘 설정은 무엇인가요?",
+          "choices": [
+            "`git config --global pull.rebase false`",
+            "`git config --global pull.rebase true`",
+            "`git config --global pull.ff only`",
+            "`git push --force`"
+          ],
+          "answer": 0,
+          "explain": "`pull.rebase false`는 받아서 merge로 합치라는 설정이에요. 처음 한 번만 치고 다시 `git pull origin main`, `git push origin main`을 해요. `--force`는 쓰지 않아요.",
+          "page": 43
+        }
+      ]
+    }
+  ]
+}

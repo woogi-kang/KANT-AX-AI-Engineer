@@ -1,0 +1,281 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "money = 10000\ncups = 0\nwhile money >= 4500:\n    money -= 4500\n    cups += 1\nprint(cups, money)",
+          "choices": [
+            "`3 -3500`",
+            "`2 1000`",
+            "`2 5500`",
+            "`1 5500`"
+          ],
+          "answer": 1,
+          "explain": "10000일 때 True, 5500일 때 True라서 두 잔을 사요. 1000이 되면 `1000 >= 4500`이 False라서 멈춰요. for로 세 번을 정했을 때처럼 돈이 마이너스가 되지 않아요.",
+          "page": 6,
+          "verify": "py"
+        },
+        {
+          "id": "w2",
+          "q": "for와 비교해서 while이 하는 일로 맞는 것은 무엇인가요?",
+          "choices": [
+            "리스트의 값을 하나씩 꺼내고, 값이 떨어지면 끝나요",
+            "조건을 한 번만 묻고 지나가요",
+            "조건이 True인 동안 들여쓴 줄을 실행하고 다시 조건을 물어요",
+            "조건과 상관없이 정해진 횟수만큼 돌아요"
+          ],
+          "answer": 2,
+          "explain": "while은 조건이 True면 들여쓴 줄을 실행하고 다시 조건으로 돌아가 물어요. False가 나오면 끝나요. 한 번 묻고 지나가는 건 if예요.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "part": "range와 번호",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(list(range(5)))",
+          "choices": [
+            "`[1, 2, 3, 4, 5]`",
+            "`[0, 1, 2, 3, 4, 5]`",
+            "`range(0, 5)`",
+            "`[0, 1, 2, 3, 4]`"
+          ],
+          "answer": 3,
+          "explain": "`range(5)`는 0부터 4까지 다섯 개예요. 끝 숫자 5는 들어가지 않아요. `list()`로 감싸지 않고 찍으면 `range(0, 5)`라고만 나와요.",
+          "page": 7,
+          "verify": "py"
+        },
+        {
+          "id": "r2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(list(range(5, 0, -1)))",
+          "choices": [
+            "`[5, 4, 3, 2, 1]`",
+            "`[5, 4, 3, 2, 1, 0]`",
+            "`[]`",
+            "`[4, 3, 2, 1, 0]`"
+          ],
+          "answer": 0,
+          "explain": "간격이 -1이면 거꾸로 세요. 시작 5부터 끝 0 바로 앞인 1까지예요. 거꾸로 셀 때도 끝 숫자는 빠져요.",
+          "page": 8,
+          "verify": "py"
+        },
+        {
+          "id": "r3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "menus = [\"coffee\", \"latte\", \"cake\"]\nfor i, m in enumerate(menus, 1):\n    print(i, m, end=\" \")",
+          "choices": [
+            "`0 coffee 1 latte 2 cake`",
+            "`1 coffee 2 latte 3 cake`",
+            "`coffee 1 latte 2 cake 3`",
+            "`1 latte 2 cake`"
+          ],
+          "answer": 1,
+          "explain": "enumerate는 번호와 값을 한 쌍씩 줘요. 둘째 자리에 1을 넣으면 번호가 1부터 시작해요. 1을 빼면 0부터예요.",
+          "page": 11,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "while",
+      "questions": [
+        {
+          "id": "h1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "count = 1\nwhile count <= 3:\n    count += 1\nprint(count)",
+          "choices": [
+            "`3`",
+            "`1`",
+            "`4`",
+            "끝나지 않아요"
+          ],
+          "answer": 2,
+          "explain": "count가 1, 2, 3일 때는 조건이 True라 1을 더해요. 4가 되면 `4 <= 3`이 False라 멈추고, 끝난 뒤에도 count는 4로 남아 있어요.",
+          "page": 12,
+          "verify": "py"
+        },
+        {
+          "id": "h2",
+          "q": "아래 셀이 끝나지 않고 `1`만 계속 찍어요. 무엇이 빠졌나요?",
+          "code": "count = 1\nwhile count <= 3:\n    print(count)",
+          "choices": [
+            "while 줄 끝의 콜론",
+            "while 안에서 값을 바꾸는 `count += 1`",
+            "while 앞의 시작값 `count = 1`",
+            "while 아래의 `print(\"끝\")`"
+          ],
+          "answer": 1,
+          "explain": "count가 늘 1이라 조건이 늘 True예요. while 안에 값을 바꾸는 줄이 있어야 언젠가 False가 돼요. 노트북에서는 ■ 정지 버튼이나 Interrupt로 멈춰요.",
+          "page": 14
+        },
+        {
+          "id": "h3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "stock = 0\nwhile stock > 0:\n    stock -= 1\n    print(\"주문 받았어요\")\nprint(\"품절이에요\")",
+          "choices": [
+            "`품절이에요`",
+            "`주문 받았어요 품절이에요`",
+            "아무것도 찍히지 않아요",
+            "끝나지 않아요"
+          ],
+          "answer": 0,
+          "explain": "while은 들여쓴 줄을 실행하기 전에 조건부터 물어요. 처음부터 `0 > 0`이 False라 들여쓴 줄은 한 번도 실행하지 않고 품절이에요만 찍어요.",
+          "page": 13,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "break와 continue",
+      "questions": [
+        {
+          "id": "b1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "for i in range(1, 6):\n    if i == 3:\n        break\n    print(i, end=\" \")",
+          "choices": [
+            "`1 2 4 5`",
+            "`1 2 3`",
+            "`3`",
+            "`1 2`"
+          ],
+          "answer": 3,
+          "explain": "break는 반복을 그 자리에서 끝내요. 3에서 반복 아래로 나가서 4, 5는 돌지도 않아요. 3만 건너뛰는 건 continue예요.",
+          "page": 18,
+          "verify": "py"
+        },
+        {
+          "id": "b2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "for i in range(1, 6):\n    if i == 3:\n        continue\n    print(i, end=\" \")",
+          "choices": [
+            "`1 2`",
+            "`1 2 4 5`",
+            "`1 2 3 4 5`",
+            "`3`"
+          ],
+          "answer": 1,
+          "explain": "continue는 아래 줄을 건너뛰고 반복 맨 위로 돌아가 다음 차례를 꺼내요. 3만 빠지고 4, 5는 계속 돌아요.",
+          "page": 18,
+          "verify": "py"
+        },
+        {
+          "id": "b3",
+          "q": "`while True:`로 시작하는 반복은 어떻게 끝나나요?",
+          "choices": [
+            "안쪽의 `break`를 만날 때 끝나요",
+            "조건이 False가 되면 저절로 끝나요",
+            "들여쓴 줄을 한 번 실행하면 끝나요",
+            "`continue`를 만나면 끝나요"
+          ],
+          "answer": 0,
+          "explain": "`while True:`는 조건이 늘 True라 스스로는 끝나지 않아요. 안쪽의 break가 나가는 문이에요. break를 빼먹으면 무한 반복이 돼요.",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "part": "쌓기와 겹친 반복",
+      "questions": [
+        {
+          "id": "a1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "prices = [4500, 5000, 6500, 4500]\nn = 0\nfor p in prices:\n    if p >= 5000:\n        n += 1\nprint(n, prices.count(5000))",
+          "choices": [
+            "`2 2`",
+            "`1 1`",
+            "`2 1`",
+            "`4 1`"
+          ],
+          "answer": 2,
+          "explain": "5000 이상은 5000과 6500, 두 개라 n은 2예요. `count(5000)`은 5000과 같은 값 하나만 세서 1이에요. 범위가 붙은 조건은 count로 못 세요.",
+          "page": 22,
+          "verify": "py"
+        },
+        {
+          "id": "a2",
+          "q": "아래 코드에서 `print(\"---\")`는 모두 몇 번 찍히나요?",
+          "code": "for dan in range(2, 4):\n    for i in range(1, 4):\n        print(dan * i)\n    print(\"---\")",
+          "choices": [
+            "6번",
+            "2번",
+            "3번",
+            "1번"
+          ],
+          "answer": 1,
+          "explain": "`print(\"---\")`는 4칸 들여써서 바깥 for 안, 안쪽 for 밖이에요. 바깥은 dan이 2, 3으로 두 번 돌아서 두 번 찍혀요. 6번은 안쪽 print가 찍히는 횟수예요.",
+          "page": 24
+        },
+        {
+          "id": "a3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "scores = [[90, 85, 77], [70, 95, 88]]\nfor row in scores:\n    for s in row:\n        if s < 80:\n            print(s, end=\" \")\n            break",
+          "choices": [
+            "`77`",
+            "`77 70`",
+            "`77 70 95 88`",
+            "`70`"
+          ],
+          "answer": 1,
+          "explain": "break는 자기를 감싼 가장 가까운 반복 하나만 끝내요. 첫 행은 77에서 안쪽만 끝나고, 바깥 for는 다음 행으로 가서 70을 찾아요.",
+          "page": 26,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "함정과 실습",
+      "questions": [
+        {
+          "id": "g1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "orders = [\"tea\", \"tea\", \"coffee\", \"tea\", \"cake\"]\nfor o in orders:\n    if o == \"tea\":\n        orders.remove(o)\nprint(orders)",
+          "choices": [
+            "`['coffee', 'cake']`",
+            "`['tea', 'coffee', 'cake']`",
+            "`['coffee', 'tea', 'cake']`",
+            "`['tea', 'tea', 'coffee', 'tea', 'cake']`"
+          ],
+          "answer": 2,
+          "explain": "0번 tea를 지우면 뒤가 한 칸씩 당겨지는데, for는 다음 차례인 1번으로 가서 당겨진 tea를 못 봐요. 돌고 있는 리스트는 지우지 말고 남길 것만 새 리스트에 모아요.",
+          "page": 27,
+          "verify": "py"
+        },
+        {
+          "id": "g2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "for p in [4500, 5000, 6500]:\n    total = 0\n    total += p\nprint(total)",
+          "choices": [
+            "`16000`",
+            "`6500`",
+            "`4500`",
+            "`0`"
+          ],
+          "answer": 1,
+          "explain": "`total = 0`이 for 안에 있어서 돌 때마다 0으로 돌아가요. 마지막 가격 6500만 남아요. 쌓을 변수는 for 위에서 0으로 둬요.",
+          "page": 28,
+          "verify": "py"
+        },
+        {
+          "id": "g3",
+          "q": "`menus`가 3칸인데 `for i in range(len(menus) + 1):` 안에서 `menus[i]`를 찍으면 어떻게 되나요?",
+          "choices": [
+            "세 개를 찍고 끝나요",
+            "처음부터 `IndexError`가 나서 아무것도 안 찍혀요",
+            "마지막 칸을 두 번 찍어요",
+            "세 개를 찍은 뒤 `IndexError: list index out of range`가 나요"
+          ],
+          "answer": 3,
+          "explain": "`range(len(menus))`가 0, 1, 2로 이미 딱 맞아요. 1을 더하면 없는 3번 칸을 꺼내려다 IndexError가 나요. 오류가 나기 전까지 coffee, latte, cake는 찍혀요.",
+          "page": 29
+        }
+      ]
+    }
+  ]
+}

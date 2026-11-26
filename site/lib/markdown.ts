@@ -64,7 +64,9 @@ function rewrite(map: Mapper) {
   };
 }
 
-export type ReadmeOpts = { dropTitle?: boolean };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Plugin = any;
+export type ReadmeOpts = { dropTitle?: boolean; plugins?: Plugin[] };
 
 /** README.md를 읽어 본문 HTML과 첫 제목을 돌려줘요. relDir은 레포 기준 폴더예요. */
 export async function renderReadme(relDir: string, opts: ReadmeOpts = { dropTitle: true }) {
@@ -72,20 +74,20 @@ export async function renderReadme(relDir: string, opts: ReadmeOpts = { dropTitl
   md = md.replace(/<!-- curriculum:(\w+) -->[\s\S]*?<!-- \/curriculum:\1 -->\n?/g, "");
   const title = md.match(/^# (.+)$/m)?.[1]?.trim() ?? "";
   if (opts.dropTitle) md = md.replace(/^# .+\n+/m, "");
-  return { title, html: await renderMarkdown(md, (h) => mapRepoLink(relDir, h)) };
+  return { title, html: await renderMarkdown(md, (h) => mapRepoLink(relDir, h), opts.plugins) };
 }
 
 /** 마크다운 글을 HTML로 바꿔요. map은 링크와 그림 주소를 바꾸는 함수예요. */
-export async function renderMarkdown(md: string, map: Mapper = (h) => h) {
-  const file = await unified()
+export async function renderMarkdown(md: string, map: Mapper = (h) => h, plugins: Plugin[] = []) {
+  let u = unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
     .use(rehypeSlug)
-    .use(rewrite, map)
-    .use(rehypeStringify)
-    .process(md);
+    .use(rewrite, map);
+  for (const p of plugins) u = u.use(p);
+  const file = await u.use(rehypeStringify).process(md);
   return String(file);
 }
 

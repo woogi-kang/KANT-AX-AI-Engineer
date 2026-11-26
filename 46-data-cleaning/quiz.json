@@ -1,0 +1,237 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "`df = sns.load_dataset(\"titanic\")` 뒤 `df.shape`가 `(891, 15)`예요. 891은 무엇인가요?",
+          "choices": [
+            "열 수",
+            "승객 수(행 수)",
+            "빈칸 수"
+          ],
+          "answer": 1,
+          "explain": "`shape`는 45에서 본 것처럼 (행, 열)이에요. 한 행이 승객 한 명이라 891명, 열은 15개예요.",
+          "page": 6
+        },
+        {
+          "id": "w2",
+          "q": "정리 다섯 단계에서 가장 먼저 하는 일은 무엇인가요?",
+          "choices": [
+            "`fillna()`로 빈칸 채우기",
+            "`ax.hist()`로 그래프 그리기",
+            "`duplicated()`로 중복 찾기",
+            "`info()`, `describe()`로 표 훑어보기"
+          ],
+          "answer": 3,
+          "explain": "훑어보기, 빈칸 채우기, 튀는 값, 중복 찾기, 그래프 순서로 해요. 먼저 훑어봐야 어느 열에 빈칸이 있는지 알아요.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "part": "훑어보고 빈칸 찾기",
+      "questions": [
+        {
+          "id": "h1",
+          "q": "891행인 표에서 `info()`가 age 열을 `714 non-null`로 보여 줘요. age 빈칸은 몇 칸인가요?",
+          "choices": [
+            "177칸",
+            "714칸",
+            "891칸"
+          ],
+          "answer": 0,
+          "explain": "Non-Null Count는 비어 있지 않은 칸 수예요. 891에서 714를 빼면 177칸이 비었어요.",
+          "page": 7
+        },
+        {
+          "id": "h2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"age\": [22.0, None, 26.0, None]\n})\nprint(df[\"age\"].isnull().sum())",
+          "choices": [
+            "`4`",
+            "`0`",
+            "`2`"
+          ],
+          "answer": 2,
+          "explain": "`isnull()`은 칸마다 비었으면 True예요. `sum()`이 True를 1로 세서 빈칸 2개가 나와요.",
+          "page": 9,
+          "verify": "py"
+        },
+        {
+          "id": "h3",
+          "q": "`describe()`에서 fare의 평균은 32.20인데 50%(가운데 값)는 14.45예요. 무엇을 알 수 있나요?",
+          "choices": [
+            "빈칸이 많아요",
+            "아주 큰 값이 섞여 있어요",
+            "요금이 모두 비슷해요"
+          ],
+          "answer": 1,
+          "explain": "평균이 가운데 값보다 훨씬 크면 큰 값이 평균만 끌어올린 거예요. fare에는 최대 512 같은 값이 있어요.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "part": "빈칸 채우기",
+      "questions": [
+        {
+          "id": "f1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"age\": [22.0, None, 26.0]\n})\ndf[\"age\"] = df[\"age\"].fillna(24.0)\nprint(df[\"age\"].isnull().sum())",
+          "choices": [
+            "`1`",
+            "`0`",
+            "`3`"
+          ],
+          "answer": 1,
+          "explain": "`fillna`가 채운 새 열을 돌려주고, 그 열을 `df[\"age\"]`에 다시 담았어요. 그래서 남은 빈칸이 0이에요.",
+          "page": 12,
+          "verify": "py"
+        },
+        {
+          "id": "f2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"town\": [\"S\", \"C\", \"S\", None]\n})\nprint(df[\"town\"].mode()[0])",
+          "choices": [
+            "`C`",
+            "`None`",
+            "`S`"
+          ],
+          "answer": 2,
+          "explain": "`mode()`는 가장 많이 나온 값을 0번 칸에 담은 Series로 돌려줘요. `[0]`으로 첫 값 하나를 꺼내면 두 번 나온 `S`예요.",
+          "page": 14,
+          "verify": "py"
+        },
+        {
+          "id": "f3",
+          "q": "category 열 deck의 빈칸을 \"Unknown\"으로 채우는 코드는 무엇인가요?",
+          "choices": [
+            "`df[\"deck\"] = df[\"deck\"].fillna(\"Unknown\")`",
+            "`df[\"deck\"] = df[\"deck\"].cat.add_categories(\"Unknown\").fillna(\"Unknown\")`",
+            "`df[\"deck\"] = df[\"deck\"].fillna(\"Unknown\").cat.add_categories(\"Unknown\")`"
+          ],
+          "answer": 1,
+          "explain": "category 열은 칸 목록에 없는 값을 넣을 수 없어요. `cat.add_categories`로 Unknown 칸을 먼저 늘리고 `fillna`를 붙여요.",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "part": "튀는 값과 중복",
+      "questions": [
+        {
+          "id": "o1",
+          "q": "Q1이 8, Q3가 30일 때 위 기준(Q3 + 1.5 × IQR)은 얼마인가요?",
+          "code": "q1 = 8\nq3 = 30\niqr = q3 - q1\nprint(q3 + 1.5 * iqr)",
+          "choices": [
+            "`63.0`",
+            "`33.0`",
+            "`52.0`"
+          ],
+          "answer": 0,
+          "explain": "IQR은 Q3에서 Q1을 뺀 22예요. 22의 1.5배인 33을 Q3 30에 더하면 63.0이에요.",
+          "page": 18,
+          "verify": "py"
+        },
+        {
+          "id": "o2",
+          "q": "아래 기준보다 작거나 위 기준보다 큰 행을 고르려고 `df[(df[\"fare\"] < lower) & (df[\"fare\"] > upper)]`를 쳤더니 0행이 나왔어요. 왜 그런가요?",
+          "choices": [
+            "괄호가 빠져서요",
+            "`fare` 열 이름이 틀려서요",
+            "둘 다 맞는 요금은 없어서요. 또는은 `|`로 써요"
+          ],
+          "answer": 2,
+          "explain": "`&`는 두 조건을 모두 만족하는 행만 남겨요. 위 기준보다 크면서 아래 기준보다 작은 값은 없어요. 하나만 맞아도 고르려면 `|`를 써요.",
+          "page": 19
+        },
+        {
+          "id": "o3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"pclass\": [3, 3, 1, 3],\n    \"fare\": [7.9, 7.9, 71.3, 7.9]\n})\nprint(df.duplicated().sum())",
+          "choices": [
+            "`3`",
+            "`2`",
+            "`1`"
+          ],
+          "answer": 1,
+          "explain": "`duplicated()`는 앞에 나온 행과 모든 칸이 같은 행에 True를 붙여요. 처음 나온 0번 행은 빼고 1번, 3번 두 줄을 세요.",
+          "page": 21,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "그래프와 오류",
+      "questions": [
+        {
+          "id": "g1",
+          "q": "`df[\"deck\"].fillna(\"Unknown\")`에서 `TypeError: Cannot setitem on a Categorical with a new category (Unknown)`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "`fillna` 앞에 `.cat.add_categories(\"Unknown\")`를 붙여요",
+            "`inplace=True`를 붙여요",
+            "`mode()[0]`으로 채워요"
+          ],
+          "answer": 0,
+          "explain": "Unknown이 칸 목록에 없어서 나는 오류예요. 칸부터 늘리고 채워요.",
+          "page": 26
+        },
+        {
+          "id": "g2",
+          "q": "`df[\"embark_town\"].fillna(df[\"embark_town\"].mode())`처럼 `[0]`을 빼고 채우면 어떻게 되나요?",
+          "choices": [
+            "`KeyError`가 나요",
+            "오류 없이 빈칸 2개가 그대로 남아요",
+            "빈칸이 모두 Southampton으로 채워져요"
+          ],
+          "answer": 1,
+          "explain": "`mode()`는 0번 칸 하나짜리 Series예요. fillna는 같은 행 번호끼리만 채우는데, 비어 있는 61번과 829번은 짝이 없어요. 채운 뒤에는 `value_counts(dropna=False)`로 다시 세요.",
+          "page": 28
+        },
+        {
+          "id": "g3",
+          "q": "나이 빈칸을 중앙값 28로 채웠더니 중복 행이 107에서 110으로 늘었어요. 왜 그런가요?",
+          "choices": [
+            "중앙값 계산이 틀려서요",
+            "`copy()`를 안 붙여서요",
+            "원래 28살인 승객과 모든 칸이 같아진 행이 생겨서요"
+          ],
+          "answer": 2,
+          "explain": "28은 원래 있던 나이라서 나이만 비어 있던 승객 세 명이 다른 승객과 15칸이 모두 같아졌어요. 평균 29.699…는 원래 없던 값이라 107 그대로였어요.",
+          "page": 29
+        }
+      ]
+    },
+    {
+      "part": "실제 상황",
+      "questions": [
+        {
+          "id": "x1",
+          "q": "튀는 요금 116명 중 104명이 1등석이었어요. 수업에서는 어떻게 했나요?",
+          "choices": [
+            "116명을 모두 지웠어요",
+            "혼자 동떨어진 512인 세 명만 지웠어요",
+            "요금을 평균으로 바꿨어요"
+          ],
+          "answer": 1,
+          "explain": "1등석은 원래 비싸서 틀린 값이 아니에요. 다 지우면 1등석 승객이 거의 사라져요. IQR은 살펴볼 후보만 알려 주고, 지울지는 사람이 정해요.",
+          "page": 30
+        },
+        {
+          "id": "x2",
+          "q": "`df.isnull().sum().sum()`은 무엇을 알려 주나요?",
+          "choices": [
+            "표 전체의 빈칸 수",
+            "열마다 빈칸 수",
+            "행 수"
+          ],
+          "answer": 0,
+          "explain": "`isnull().sum()`이 열마다 빈칸 수를 내고, `sum()`을 한 번 더 붙이면 그 수를 모두 더해요. 정리를 마친 표에서는 0이에요.",
+          "page": 32
+        }
+      ]
+    }
+  ]
+}

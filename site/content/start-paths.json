@@ -1,0 +1,32 @@
+{
+  "_설명": "시작하기 화면(/start/)의 길마다 이어서 볼 로드맵 주제와 강의 챕터예요. 키는 홈 시작 타일과 같아요(#new #dev #biz #run). 근거는 로드맵 레포 README '나에게 맞는 시작점'과 learning-paths/entry-routes.md예요. route는 entry-routes.md '내 경험과 가까운 경로' 표의 줄 번호(0부터), start는 README 표의 줄 번호예요.",
+  "paths": {
+    "new": {
+      "start": 0,
+      "route": 0,
+      "topics": ["software-and-api", "01-safe-assistant", "02-human-approved-workflow"],
+      "chapters": ["01", "09", "12", "19"],
+      "chaptersWhy": "코드 실행, 오류 읽기, 함수 작성을 먼저 익혀요"
+    },
+    "dev": {
+      "start": 1,
+      "route": 1,
+      "topics": ["01-outcomes-and-boundaries", "evaluation-and-testing", "01-safe-assistant", "02-human-approved-workflow", "03-sandbox-integration"],
+      "chapters": []
+    },
+    "biz": {
+      "start": 2,
+      "route": 2,
+      "topics": ["01-outcomes-and-boundaries", "02-workflow-discovery", "01-safe-assistant", "02-human-approved-workflow"],
+      "chapters": ["01", "09", "12"],
+      "chaptersWhy": "엔지니어로 전환하려면 코드 실행과 오류 수정부터 익혀요"
+    },
+    "run": {
+      "start": 4,
+      "case": "beauty-d2c-voc",
+      "topics": ["01-safe-assistant"],
+      "chapters": ["01", "09"],
+      "chaptersWhy": "터미널에서 파이썬 파일을 실행하는 법이에요"
+    }
+  }
+}

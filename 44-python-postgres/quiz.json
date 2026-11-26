@@ -1,0 +1,257 @@
+{
+  "parts": [
+    {
+      "part": "준비하고 접속하기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "psycopg를 넣는 명령으로 수업에서 쓰는 것은 무엇인가요?",
+          "choices": [
+            "`pip install psycopg`",
+            "`uv add psycopg`",
+            "`uv add \"psycopg[binary]\"`",
+            "`uv add [binary]psycopg`"
+          ],
+          "answer": 2,
+          "explain": "`[binary]`를 붙이면 PostgreSQL에 접속하는 부품까지 같이 받아요. 대괄호 때문에 큰따옴표로 감싸요. 빼면 컴퓨터에 따라 `no pq wrapper available` 오류가 나요.",
+          "page": 6
+        },
+        {
+          "id": "c2",
+          "q": "컨테이너를 `docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 postgres:18`로 켰어요. DSN의 `port`와 `password`는 무엇인가요?",
+          "choices": [
+            "`port=5432 password=admin1234`",
+            "`port=5433 password=admin1234`",
+            "`port=5432 password=postgres`",
+            "`port=80 password=admin1234`"
+          ],
+          "answer": 0,
+          "explain": "포트는 `-p 5432:5432`의 왼쪽, 내 컴퓨터 쪽 번호예요. 비밀번호는 `POSTGRES_PASSWORD`에 적은 값이에요. 수업 코드의 5433은 `-p 5433:5432`로 켰을 때 맞는 값이에요.",
+          "page": 7
+        },
+        {
+          "id": "c3",
+          "q": "`with psycopg.connect(DSN) as conn:` 블록이 끝난 뒤 들여쓰기 밖에서 `conn.execute(...)`를 부르면 어떻게 되나요?",
+          "choices": [
+            "다시 접속해서 실행해요",
+            "`psycopg.OperationalError: the connection is closed`",
+            "`None`을 돌려줘요",
+            "`ModuleNotFoundError`"
+          ],
+          "answer": 1,
+          "explain": "연결은 with 블록 안에서만 열려 있어요. 블록이 끝나면 연결이 닫혀서 밖에서 쓰면 오류가 나요.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "part": "결과 꺼내기",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "`fetchall()`이 돌려준 값이 아래와 같아요. 이 코드를 실행하면 무엇이 찍히나요?",
+          "code": "rows = [(1, '수영 초급 아침반', 70000), (2, '수영 초급 저녁반', 70000)]\nprint(rows[0][1])",
+          "choices": [
+            "`1`",
+            "`(1, '수영 초급 아침반', 70000)`",
+            "`수영 초급 아침반`",
+            "`2`"
+          ],
+          "answer": 2,
+          "explain": "`rows[0]`은 첫 줄 튜플이고 `[1]`은 그 안의 두 번째 칸이에요. 번호는 0부터, SELECT에 적은 열 순서 그대로예요.",
+          "page": 9,
+          "verify": "py"
+        },
+        {
+          "id": "r2",
+          "q": "`conn.execute(\"SELECT name FROM members WHERE member_id = 99\").fetchone()`에서 99번 회원이 없으면 무엇이 나오나요?",
+          "choices": [
+            "`[]`",
+            "`None`",
+            "`(0,)`",
+            "오류가 나요"
+          ],
+          "answer": 1,
+          "explain": "`fetchone()`은 첫 줄 하나를 튜플로 주고, 줄이 없으면 `None`이에요. `fetchall()`은 줄이 없으면 빈 리스트 `[]`예요.",
+          "page": 11
+        },
+        {
+          "id": "r3",
+          "q": "`psycopg.connect(DSN, row_factory=dict_row)`로 연결하면 수강료 칸을 어떻게 꺼내나요?",
+          "choices": [
+            "`c[\"fee\"]`",
+            "`c.fee()`",
+            "`c[fee]`",
+            "`c(2)`"
+          ],
+          "answer": 0,
+          "explain": "`dict_row`를 붙이면 줄 하나가 `{열 이름: 값}` 딕셔너리예요. 몇 번째 칸인지 세지 않고 15처럼 열 이름을 키로 써요.",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "part": "%s로 값 넣기",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "`WHERE s.sport_name = %s`에 \"테니스\" 하나를 넘길 때 맞는 것은 무엇인가요?",
+          "choices": [
+            "`conn.execute(SQL, (\"테니스\"))`",
+            "`conn.execute(SQL, \"테니스\")`",
+            "`conn.execute(SQL, (\"테니스\",))`",
+            "`conn.execute(SQL % \"테니스\")`"
+          ],
+          "answer": 2,
+          "explain": "값이 하나여도 튜플로 넘겨요. 쉼표가 있어야 튜플이고, `(\"테니스\")`는 그냥 글자라 `got str` 오류가 나요.",
+          "page": 15
+        },
+        {
+          "id": "s2",
+          "q": "`name = \"x' OR '1'='1\"`을 f-string으로 `WHERE name = '{name}'`에 붙이면 회원 40명이 다 나와요. `%s`로 넘기면 몇 명인가요?",
+          "choices": [
+            "40명",
+            "1명",
+            "오류가 나요",
+            "0명"
+          ],
+          "answer": 3,
+          "explain": "`%s`는 SQL과 값을 따로 보내서 값이 문장을 못 바꿔요. 이름이 글자 그대로 `x' OR '1'='1`인 회원을 찾으니 0명이에요. f-string으로 붙여 조건을 늘리는 공격이 SQL 인젝션이에요.",
+          "page": 16
+        },
+        {
+          "id": "s3",
+          "q": "`WHERE fee BETWEEN %s AND %s`에 `(60000, 70000)`을 넘기면 값은 어떻게 들어가나요?",
+          "choices": [
+            "첫 번째 %s에 60000, 두 번째 %s에 70000",
+            "작은 값이 저절로 앞으로 가요",
+            "두 %s에 모두 60000",
+            "튜플 전체가 첫 번째 %s에 들어가요"
+          ],
+          "answer": 0,
+          "explain": "%s가 여러 개면 튜플에 적은 순서대로 들어가요. %s 개수와 튜플의 값 개수를 똑같이 맞춰요.",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "part": "저장되는 순간",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "with 블록 안에서 `enroll(conn, 10, 5)` 뒤 `enroll(conn, 10, 30)`이 오류로 멈췄어요(30번 강좌 없음). 5번 강좌 신청은 어떻게 되나요?",
+          "choices": [
+            "먼저 성공했으니 저장돼요",
+            "오류로 블록을 빠져나가서 psycopg가 ROLLBACK해 저장되지 않아요",
+            "반만 저장돼요",
+            "다음 실행 때 저장돼요"
+          ],
+          "answer": 1,
+          "explain": "with 블록은 끝까지 성공하면 COMMIT, 중간에 오류가 나면 ROLLBACK해요. 신청했다는 메시지는 찍혔지만 psql에서 보면 187줄 그대로였어요.",
+          "page": 21
+        },
+        {
+          "id": "t2",
+          "q": "with 없이 `conn = psycopg.connect(DSN)`으로 연결해 UPDATE를 했어요. 저장하려면 무엇을 불러야 하나요?",
+          "choices": [
+            "`conn.close()`만",
+            "`conn.fetchone()`",
+            "`conn.commit()`",
+            "아무것도 안 불러도 저장돼요"
+          ],
+          "answer": 2,
+          "explain": "psql은 문장마다 바로 저장했지만 psycopg는 commit해야 저장해요. commit 없이 `close()`로 닫으면 바꾼 것이 취소돼요. 그래서 연결은 with 블록으로 열어요.",
+          "page": 22
+        },
+        {
+          "id": "t3",
+          "q": "수업 TODO에서 INSERT할 수강료를 손으로 적지 않으려면 어떻게 하나요?",
+          "choices": [
+            "`SELECT fee FROM courses WHERE course_id = %s`로 꺼낸 `row[\"fee\"]`를 INSERT의 %s에 넘겨요",
+            "INSERT에 `fee`라고만 적어요",
+            "`input()`으로 받아요",
+            "f-string으로 SQL에 붙여요"
+          ],
+          "answer": 0,
+          "explain": "`fetchone()`으로 강좌 한 줄을 받고 `row[\"fee\"]`로 수강료를 꺼내요. 5번 강좌면 60000이에요. 번호는 41의 `MAX + 1` 서브쿼리가 정해요.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "part": "비교와 오류",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "`row = conn.execute(...).fetchone`처럼 괄호를 빼고 print했어요. 무엇이 찍히나요?",
+          "choices": [
+            "`None`",
+            "첫 줄 튜플",
+            "`TypeError`",
+            "`<bound method Cursor.fetchone of ...>`"
+          ],
+          "answer": 3,
+          "explain": "괄호가 없으면 메서드를 실행하지 않고 메서드 자체가 담겨요. 오류 없이 이상한 글자가 찍히니 bound method가 보이면 괄호부터 봐요.",
+          "page": 26
+        },
+        {
+          "id": "e2",
+          "q": "`psycopg.errors.IndeterminateDatatype: could not determine data type of parameter $1`이 났어요. 무엇을 고치나요?",
+          "choices": [
+            "`(MONTH)`를 `(MONTH,)`로",
+            "SQL의 `'%s'`에서 따옴표를 빼고 `%s`로",
+            "`port=5433`을 `port=5432`로",
+            "`uv add \"psycopg[binary]\"`를 쳐요"
+          ],
+          "answer": 1,
+          "explain": "따옴표는 psycopg가 붙여요. `%s`를 따옴표 안에 넣으면 자리가 아니라 글자로 읽혀서 이 오류가 나요.",
+          "page": 27
+        },
+        {
+          "id": "e3",
+          "q": "`connection to server at \"127.0.0.1\", port 5433 failed: Connection refused`가 났어요. 컨테이너는 `-p 5432:5432`로 켰어요. 무엇이 틀렸나요?",
+          "choices": [
+            "비밀번호",
+            "데이터베이스 이름",
+            "DSN의 포트 번호",
+            "psycopg 설치"
+          ],
+          "answer": 2,
+          "explain": "5433에는 서버가 없어서 접속을 거절해요. `port=5432`로 고치고 `docker ps`로 켜졌는지도 봐요. 비밀번호가 틀리면 `password authentication failed`가 나요.",
+          "page": 25
+        }
+      ]
+    },
+    {
+      "part": "실제 상황",
+      "questions": [
+        {
+          "id": "x1",
+          "q": "신청 전에 없는 강좌를 막는 코드예요. `row = conn.execute(FEE_SQL, (course_id,)).fetchone()` 다음 줄로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`if not row:` 뒤에 안내를 찍고 `return`",
+            "`if row == []:` 뒤에 `return`",
+            "`fee = row[\"fee\"]`를 바로 써요",
+            "`for r in row:`"
+          ],
+          "answer": 0,
+          "explain": "강좌가 없으면 `fetchone()`이 `None`이라 `if not row`가 참이에요. 그냥 `row[\"fee\"]`를 쓰면 `'NoneType' object is not subscriptable`이 나요.",
+          "page": 30
+        },
+        {
+          "id": "x2",
+          "q": "11월 남은 자리를 셀 때 신청이 0건인 강좌도 목록에 남기려면 courses와 enrollments를 어떻게 붙이나요?",
+          "choices": [
+            "`FROM enrollments e JOIN courses c`",
+            "`FROM courses c LEFT JOIN enrollments e ON ...`",
+            "`FROM courses c UNION enrollments e`",
+            "`FROM courses c WHERE EXISTS (...)`"
+          ],
+          "answer": 1,
+          "explain": "강좌 표를 왼쪽에 두고 `LEFT JOIN`하면 짝이 없는 강좌도 남고 `COUNT(e.enrollment_id)`는 0이에요(39, 40). 남은 자리는 파이썬에서 `capacity - taken`으로 뺐어요.",
+          "page": 29
+        }
+      ]
+    }
+  ]
+}

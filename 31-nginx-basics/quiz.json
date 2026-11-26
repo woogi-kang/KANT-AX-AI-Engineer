@@ -1,0 +1,170 @@
+{
+  "parts": [
+    {
+      "part": "nginx로 파일 내주기",
+      "questions": [
+        {
+          "id": "f1",
+          "q": "`-v ./site:/usr/share/nginx/html`로 켠 nginx에 `curl localhost:8080/event.html`을 쳤더니 `404 Not Found`가 나와요. 무슨 뜻인가요?",
+          "choices": [
+            "포트가 겹쳤어요",
+            "curl이 설치되지 않았어요",
+            "site 폴더에 event.html이 없어요",
+            "nginx가 꺼져 있어요"
+          ],
+          "answer": 2,
+          "explain": "주소 뒤의 경로가 폴더 속 파일 이름이에요. 404는 찾는 파일이 없다는 번호예요. site 폴더에 event.html을 만들면 nginx를 다시 켜지 않아도 바로 나와요.",
+          "page": 8
+        },
+        {
+          "id": "f2",
+          "q": "`docker logs web`에 남은 아래 줄에서 `404`는 무엇인가요?",
+          "code": "172.17.0.1 - - [12/Nov/2026:02:02:30 +0000] \"GET /event.html HTTP/1.1\" 404 153 \"-\" \"curl/8.5.0\" \"-\"",
+          "choices": [
+            "컨테이너 포트",
+            "요청한 시각",
+            "요청을 보낸 쪽 주소",
+            "결과 번호(그런 파일이 없어요)"
+          ],
+          "answer": 3,
+          "explain": "한 줄은 보낸 쪽 주소, 시각, 받은 요청, 결과 번호 순서예요. 200은 잘 줬다, 404는 그런 파일이 없다는 뜻이에요.",
+          "page": 9
+        },
+        {
+          "id": "f3",
+          "q": "아래 설정에서 `root /usr/share/nginx/html;`은 무엇을 정하나요?",
+          "code": "server {\n    listen 80;\n    location / {\n        root /usr/share/nginx/html;\n        index index.html;\n    }\n}",
+          "choices": [
+            "기다릴 포트 번호",
+            "파일을 찾을 폴더",
+            "넘겨줄 앱 이름",
+            "파일 이름 없이 오면 줄 파일"
+          ],
+          "answer": 1,
+          "explain": "`listen`은 기다릴 포트, `root`는 파일을 찾을 폴더, `index`는 파일 이름 없이 오면 줄 파일이에요. `{ }`는 상자, 줄 끝의 `;`는 한 줄이 끝났다는 표시예요.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "part": "리버스 프록시",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "리버스 프록시를 카페에 빗대면 nginx는 무엇인가요?",
+          "choices": [
+            "카운터",
+            "손님",
+            "주방",
+            "메뉴판"
+          ],
+          "answer": 0,
+          "explain": "손님(브라우저)이 카운터(nginx)에 주문하면 카운터가 주방(앱 서버)에 전하고, 나온 답을 손님에게 그대로 건네요. 손님은 주방이 어디 있는지 몰라도 돼요.",
+          "page": 13
+        },
+        {
+          "id": "p2",
+          "q": "`location /menu/ { proxy_pass http://menu/; }`에서 `menu`는 무엇과 같아야 하나요?",
+          "choices": [
+            "compose.yaml에 적은 서비스 이름",
+            "Docker Hub 이미지 이름",
+            "내 컴퓨터 이름",
+            "site 폴더 안 파일 이름"
+          ],
+          "answer": 0,
+          "explain": "compose로 함께 띄운 컨테이너끼리는 서비스 이름으로 서로를 찾아요. 그래서 proxy_pass에 적은 `menu`가 compose.yaml의 서비스 이름 `menu`와 같아야 해요.",
+          "page": 15
+        },
+        {
+          "id": "p3",
+          "q": "conf/default.conf에 `/order/` 상자를 더하고 저장했는데 `curl localhost/order/`가 아직 404예요. 어떤 순서로 하나요?",
+          "choices": [
+            "`docker compose ps`만 다시 쳐요",
+            "`docker exec cafe-web-1 nginx -t`로 검사하고 `nginx -s reload`로 다시 읽혀요",
+            "site 폴더에 order 폴더를 만들어요",
+            "`docker compose down` 뒤 컴퓨터를 다시 켜요"
+          ],
+          "answer": 1,
+          "explain": "nginx는 켜질 때 한 번 읽은 설정을 계속 써요. `nginx -t`로 틀린 곳이 없는지 보고, `nginx -s reload`로 끄지 않고 다시 읽혀요.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "part": "자주 나는 오류",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "`proxy_pass http://localhost:8001/;`로 적었더니 `502 Bad Gateway`가 나와요. 까닭은 무엇인가요?",
+          "choices": [
+            "80번 포트가 겹쳐서",
+            "menu 앱이 꺼져 있어서",
+            "세미콜론이 빠져서",
+            "컨테이너 안의 localhost는 nginx 자신이라 8001번에서 기다리는 앱이 없어서"
+          ],
+          "answer": 3,
+          "explain": "컨테이너 안에서 localhost는 nginx 컨테이너 자신이에요. 서비스 이름 `menu`로 적어요. 앱이 꺼져 있을 때는 1분쯤 기다리다 504 Gateway Time-out이 나와요.",
+          "page": 22
+        },
+        {
+          "id": "e2",
+          "q": "`nginx -t`가 아래처럼 11번 줄을 알려 줘요. 실제로 고칠 곳은 어디인가요?",
+          "code": "location /menu/ {\n    proxy_pass http://menu/\n}\n\nnginx: [emerg] unexpected \"}\" in /etc/nginx/conf.d/default.conf:11",
+          "choices": [
+            "11번 줄의 `}`를 지워요",
+            "`location`을 `server`로 바꿔요",
+            "윗줄(10번 줄) `proxy_pass` 끝에 `;`를 붙여요",
+            "compose.yaml의 서비스 이름을 바꿔요"
+          ],
+          "answer": 2,
+          "explain": "10번 줄이 `;` 없이 끝나지 않은 채로 다음 줄까지 읽어서 11번 줄의 `}`에서 걸렸어요. 알려 준 줄과 바로 윗줄을 같이 봐요.",
+          "page": 23
+        },
+        {
+          "id": "e3",
+          "q": "`proxy_pass http://menu/;`(끝에 `/` 있음)일 때 `curl localhost/menu/today`를 치면 whoami 앱은 어떤 경로를 받나요?",
+          "choices": [
+            "`GET /today`",
+            "`GET /menu/today`",
+            "`GET /menu/`",
+            "`GET /`"
+          ],
+          "answer": 0,
+          "explain": "끝에 `/`가 있으면 location에 적은 `/menu/`를 떼고 남은 `/today`만 넘겨요. 끝에 `/`가 없으면 `/menu/today`를 그대로 넘겨요.",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "part": "실제 상황 예제",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "홈페이지 index.html의 링크에 포트 번호 없이 `/menu/`, `/order/`만 적어도 잘 눌리는 까닭은 무엇인가요?",
+          "choices": [
+            "모두 nginx 하나의 같은 주소(80번) 안에 있어서",
+            "menu와 order에 `ports`를 열어 두어서",
+            "브라우저가 포트를 알아서 찾아서",
+            "whoami가 링크를 바꿔 줘서"
+          ],
+          "answer": 0,
+          "explain": "nginx 하나만 80번을 열고 경로로 앱을 골라요. 앱마다 포트가 달랐다면 링크마다 포트 번호를 적어야 했어요.",
+          "page": 26
+        },
+        {
+          "id": "s2",
+          "q": "이벤트 앱을 새로 붙이려고 compose.yaml에 event 서비스를, 설정 파일에 `/event/` 상자를 더했어요. `docker compose up -d`를 다시 치면 어떻게 되나요?",
+          "choices": [
+            "web, menu, order, event 넷을 모두 지우고 새로 켜요",
+            "event만 새로 켜고 나머지는 Running 그대로 둬요",
+            "오류가 나서 down부터 해야 해요",
+            "아무것도 바뀌지 않아요"
+          ],
+          "answer": 1,
+          "explain": "바뀐 event만 `Started`로 켜지고 web, menu, order는 `Running` 그대로예요. 그다음 `nginx -t`와 `reload`를 하면 `/menu/`, `/order/`는 끊기지 않고 `/event/`가 열려요.",
+          "page": 27
+        }
+      ]
+    }
+  ]
+}

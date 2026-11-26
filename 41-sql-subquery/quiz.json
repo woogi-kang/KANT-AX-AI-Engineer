@@ -1,0 +1,229 @@
+{
+  "parts": [
+    {
+      "part": "값 하나와 비교하기",
+      "questions": [
+        {
+          "id": "v1",
+          "q": "`SELECT course_name, fee FROM courses WHERE fee = (SELECT MAX(fee) FROM courses);`에서 무엇이 먼저 계산되나요?",
+          "choices": [
+            "괄호 안 `SELECT MAX(fee) FROM courses`가 먼저 풀려 160000이 돼요",
+            "바깥 SELECT가 먼저 14줄을 고르고 괄호 안을 나중에 계산해요",
+            "두 SELECT가 줄마다 번갈아 돌아요",
+            "적은 순서대로 왼쪽부터 계산해요"
+          ],
+          "answer": 0,
+          "explain": "수학 괄호처럼 안쪽이 먼저 풀려 값 하나가 돼요. 그 값과 같은 강좌인 필라테스 중급이 나와요.",
+          "page": 7
+        },
+        {
+          "id": "v2",
+          "q": "수영 강좌 중 수영 평균(74000)보다 비싼 강좌를 찾으려고 해요. 맞는 문장은 무엇인가요?",
+          "choices": [
+            "`... WHERE sport_id = 1 AND fee > (SELECT AVG(fee) FROM courses)`",
+            "`... WHERE fee > (SELECT AVG(fee) FROM courses WHERE sport_id = 1)`",
+            "`... WHERE sport_id = 1 AND fee > (SELECT AVG(fee) FROM courses WHERE sport_id = 1)`",
+            "`... WHERE sport_id = 1 AND fee > AVG(fee)`"
+          ],
+          "answer": 2,
+          "explain": "바깥 WHERE와 안쪽 WHERE는 서로 몰라요. 수영끼리 비교하려면 두 곳에 다 `sport_id = 1`을 적어요. 수영 중급 새벽반과 수영 고급반이 나와요.",
+          "page": 8
+        },
+        {
+          "id": "v3",
+          "q": "평균 97857을 손으로 옮겨 적은 `WHERE fee > 97857` 대신 서브쿼리를 쓰면 무엇이 좋은가요?",
+          "choices": [
+            "결과가 항상 더 많이 나와요",
+            "강좌가 늘면 그때의 새 평균으로 다시 계산해요",
+            "평균이 소수 없이 나와요",
+            "실행이 반드시 더 빨라요"
+          ],
+          "answer": 1,
+          "explain": "20만 원 강좌를 넣으니 평균이 104666.67로 올랐어요. 손으로 적은 숫자는 옛 평균에 멈춰서 7개, 서브쿼리는 새 평균으로 6개가 나왔어요.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "part": "목록과 IN",
+      "questions": [
+        {
+          "id": "i1",
+          "q": "안쪽 쿼리가 11, 25 두 줄을 돌려줘요. `WHERE member_id = (SELECT member_id FROM enrollments WHERE ...)`는 어떻게 되나요?",
+          "choices": [
+            "11번만 골라요",
+            "11번과 25번을 골라요",
+            "0줄이 나와요",
+            "`more than one row returned by a subquery used as an expression`이 나요"
+          ],
+          "answer": 3,
+          "explain": "`=`는 값 하나와만 비교해요. 목록이 나오는 서브쿼리는 `IN (...)` 괄호 안에 넣어요.",
+          "page": 10
+        },
+        {
+          "id": "i2",
+          "q": "`NOT IN (서브쿼리)`를 쓸 때 조심할 점은 무엇인가요?",
+          "choices": [
+            "목록 안에 NULL이 하나라도 있으면 결과가 0줄이 돼요",
+            "목록이 두 줄 이상이면 오류가 나요",
+            "`NOT IN`은 JOIN과 같이 쓸 수 없어요",
+            "목록이 비어 있으면 오류가 나요"
+          ],
+          "answer": 0,
+          "explain": "목록에 NULL이 섞이면 아무 줄도 남지 않아요. 안쪽 열에 빈 값이 없는지 먼저 봐요. 수업에서는 빈 값이 없는 member_id를 썼어요.",
+          "page": 12
+        },
+        {
+          "id": "i3",
+          "q": "신청월과 회원 이름을 한 줄에 같이 보여 주려고 해요. IN 서브쿼리와 JOIN 중 무엇을 쓰나요?",
+          "choices": [
+            "IN 서브쿼리",
+            "둘 다 돼요",
+            "JOIN",
+            "둘 다 안 돼요"
+          ],
+          "answer": 2,
+          "explain": "IN 서브쿼리는 바깥 표(members)의 열만 보여 줘요. 두 표의 열을 같이 보여 주려면 JOIN을 써요.",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "part": "FROM에 넣는 임시 표",
+      "questions": [
+        {
+          "id": "f1",
+          "q": "회원별 합계로 거르려고 FROM에 서브쿼리를 넣었어요. 빠진 곳을 채우면 무엇인가요? `SELECT * FROM (SELECT member_id, SUM(pay_amount) AS total_paid FROM enrollments GROUP BY member_id) ___ WHERE paid.total_paid >= 600000;`",
+          "choices": [
+            "`;`",
+            "`AS paid`",
+            "`GROUP BY paid`",
+            "`AS total_paid`"
+          ],
+          "answer": 1,
+          "explain": "괄호로 감싼 결과에 `AS paid`로 임시 표 이름을 붙여야 `paid.total_paid`처럼 열을 가리킬 수 있어요. 빼면 `missing FROM-clause entry for table \"paid\"`가 나요.",
+          "page": 16
+        },
+        {
+          "id": "f2",
+          "q": "회원별 합계의 평균을 내려고 `SELECT ROUND(AVG(SUM(pay_amount))) FROM enrollments GROUP BY member_id;`를 치면 어떻게 되나요?",
+          "choices": [
+            "378974가 나와요",
+            "회원마다 한 줄씩 39줄이 나와요",
+            "`aggregate function calls cannot be nested`가 나요",
+            "`aggregate functions are not allowed in WHERE`가 나요"
+          ],
+          "answer": 2,
+          "explain": "`AVG` 안에 `SUM`을 바로 넣을 수 없어요. 회원별 합계를 FROM 서브쿼리로 먼저 만들고 그 표의 `AVG(total_paid)`를 구하면 378974예요.",
+          "page": 19
+        },
+        {
+          "id": "f3",
+          "q": "묶은 결과를 한 번 거르기만 할 때 FROM 서브쿼리 대신 더 짧게 쓰는 방법은 무엇인가요?",
+          "choices": [
+            "`HAVING`",
+            "`WHERE`",
+            "`DISTINCT`",
+            "`UNION`"
+          ],
+          "answer": 0,
+          "explain": "`GROUP BY member_id HAVING SUM(pay_amount) >= 600000`도 같은 6명이에요. 묶은 결과로 또 계산하거나 다른 표와 JOIN할 때 FROM 서브쿼리를 써요.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "part": "SELECT 칸에 넣기",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "`SELECT course_name, (SELECT ROUND(AVG(fee), 2) FROM courses) AS 전체평균 FROM courses;`에서 전체평균 칸은 어떻게 나오나요?",
+          "choices": [
+            "줄마다 다른 평균",
+            "첫 줄에만 97857.14",
+            "14줄 모두에 같은 97857.14",
+            "오류가 나요"
+          ],
+          "answer": 2,
+          "explain": "안쪽 쿼리가 한 번 계산한 값이 모든 줄 옆에 붙어요. SELECT 칸에는 1줄 1칸이 나오는 서브쿼리만 넣어요.",
+          "page": 20
+        },
+        {
+          "id": "s2",
+          "q": "`(SELECT AVG(fee), MAX(fee) FROM courses)`를 SELECT 칸 하나에 넣으면 어떻게 되나요?",
+          "choices": [
+            "평균과 최고가 두 칸으로 나와요",
+            "`subquery must return only one column`이 나요",
+            "평균만 나와요",
+            "`more than one row returned ...`이 나요"
+          ],
+          "answer": 1,
+          "explain": "SELECT 칸 하나에는 값 하나만 들어가요. 열마다 서브쿼리를 하나씩 따로 둬요.",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "part": "비교하고 속 들여다보기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "서브쿼리를 넣는 자리와 결과 모양이 맞지 않는 짝은 무엇인가요?",
+          "choices": [
+            "`WHERE fee > (...)`에 값 하나",
+            "`WHERE member_id IN (...)`에 목록",
+            "`FROM (...) AS paid`에 표",
+            "`SELECT (...) AS 전체`에 목록"
+          ],
+          "answer": 3,
+          "explain": "SELECT 칸에는 값 하나만 들어가요. 어떤 모양이 나오는지는 안쪽 SELECT만 따로 쳐서 확인해요.",
+          "page": 24
+        },
+        {
+          "id": "c2",
+          "q": "파이썬 `avg = sum(fees) / len(fees)` 뒤 `[f for f in fees if f > avg]`와 같은 일을 하는 SQL은 무엇인가요?",
+          "choices": [
+            "`SELECT fee FROM courses WHERE fee > (SELECT AVG(fee) FROM courses);`",
+            "`SELECT AVG(fee) FROM courses WHERE fee > fee;`",
+            "`SELECT fee FROM courses GROUP BY fee HAVING fee > AVG(fee);`",
+            "`SELECT fee, AVG(fee) FROM courses;`"
+          ],
+          "answer": 0,
+          "explain": "파이썬은 평균을 변수 avg에 담고 두 줄로 걸러요. SQL은 괄호 안 SELECT가 평균 자리를 맡아서 한 문장이에요.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "part": "오류와 실제 상황",
+      "questions": [
+        {
+          "id": "x1",
+          "q": "`... WHERE fee > SELECT AVG(fee) FROM courses;`처럼 괄호 없이 쳤어요. 무엇이 나오나요?",
+          "choices": [
+            "평균보다 비싼 강좌가 나와요",
+            "`syntax error at or near \"SELECT\"`",
+            "`missing FROM-clause entry`",
+            "`(#` 프롬프트가 나와 기다려요"
+          ],
+          "answer": 1,
+          "explain": "서브쿼리는 꼭 괄호로 감싸요. 여는 괄호만 치고 닫지 않으면 그때는 `(#` 프롬프트로 바뀌어 기다려요.",
+          "page": 27
+        },
+        {
+          "id": "x2",
+          "q": "가장 많이 신청한 강좌의 이름을 `WHERE course_id = (SELECT course_id ... GROUP BY course_id ORDER BY COUNT(*) DESC LIMIT 1)`로 찾았어요. `LIMIT 1`은 왜 붙이나요?",
+          "choices": [
+            "실행을 빠르게 하려고",
+            "`=` 뒤에 값 하나만 남기려고",
+            "취소한 신청을 빼려고",
+            "강좌 번호를 이름으로 바꾸려고"
+          ],
+          "answer": 1,
+          "explain": "`=` 뒤 서브쿼리는 값 하나여야 해요. 많은 순으로 세운 뒤 `LIMIT 1`로 맨 위 2번 강좌만 남겨서 수영 초급 저녁반이 나와요.",
+          "page": 29
+        }
+      ]
+    }
+  ]
+}

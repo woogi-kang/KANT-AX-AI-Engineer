@@ -1,0 +1,31 @@
+{
+  "_설명": "용어 사전(/glossary/)의 용어와 로드맵 주제, 강의 챕터를 잇는 표예요. 키는 로드맵 레포 용어 안내 표의 '용어' 칸 그대로예요. topics는 그 용어가 '알아야 할 것'이나 본문에서 직접 다뤄지는 주제, chapters는 같은 동작을 수업에서 실제로 해 보는 챕터예요. 근거가 없으면 비워 둬요.",
+  "terms": {
+    "LLM": { "topics": ["llm-foundations"] },
+    "프롬프트": { "topics": ["llm-foundations"] },
+    "토큰": { "topics": ["llm-foundations"] },
+    "컨텍스트": { "topics": ["llm-foundations", "04-data-and-context"] },
+    "RAG": { "topics": ["llm-foundations"] },
+    "에이전트(Agent)": { "topics": ["agent-systems"] },
+    "에이전트 루프(Agent Loop)": { "topics": ["agent-systems"], "chapters": ["18"] },
+    "도구 호출": { "topics": ["tools-and-mcp"], "chapters": ["19"] },
+    "API": { "topics": ["software-and-api"], "chapters": ["31"] },
+    "MCP": { "topics": ["tools-and-mcp"] },
+    "스키마": { "topics": ["software-and-api", "llm-foundations"], "chapters": ["37"] },
+    "평가 세트": { "topics": ["evaluation-and-testing", "01-safe-assistant"] },
+    "회귀 평가": { "topics": ["evaluation-and-testing"] },
+    "담당자 승인": { "topics": ["02-human-approved-workflow", "05-execution-contracts"] },
+    "최소 권한": { "topics": ["security-and-privacy"], "chapters": ["33", "34"] },
+    "샌드박스": { "topics": ["03-sandbox-integration", "tools-and-mcp"], "chapters": ["29"] },
+    "로그": { "topics": ["production-operations"], "chapters": ["29", "31"] },
+    "롤백": { "topics": ["production-operations", "06-production-deployment"], "chapters": ["43"] },
+    "수동 대체": { "topics": ["production-operations"] },
+    "하네스": { "topics": ["08-standardization-and-scale"] }
+  },
+  "codes": {
+    "P1~P5": { "href": "/roadmap/#stage-4" },
+    "A0~A4": { "href": "/roadmap/05-execution-contracts/" },
+    "M0~M4": { "repo": "organization-maturity" },
+    "근거 단계": { "href": "/library/" }
+  }
+}

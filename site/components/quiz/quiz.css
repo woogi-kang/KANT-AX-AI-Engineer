@@ -1,0 +1,53 @@
+/* 확인 문제 (components/quiz). 색은 tokens.css 변수만 써요. */
+.quiz-lede { margin: -6px 0 16px; color: var(--sub); font-size: 15px; }
+.qz-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; scrollbar-width: thin; }
+.qz-tabs button { flex: none; display: flex; gap: 8px; align-items: center; height: 40px; padding: 0 14px; border-radius: 20px; border: 1px solid var(--line2); background: var(--card); color: var(--ink); font-size: 14.5px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.qz-tabs button small { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--mute); }
+.qz-tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.qz-tabs button[aria-selected="true"] small { color: inherit; opacity: 0.75; }
+.qz-part { border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 20px 22px; }
+.qz-head { display: flex; gap: 10px; align-items: baseline; justify-content: space-between; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.qz-head b { font-size: 17px; }
+.qz-head span { font-size: 13.5px; color: var(--mute); white-space: nowrap; }
+.qz-list { list-style: none; margin: 0; padding: 0; }
+.qz-q { padding: 20px 0; border-bottom: 1px solid var(--line); }
+.qz-ask { display: flex; gap: 12px; align-items: flex-start; }
+.qz-ask p { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.6; min-width: 0; overflow-wrap: anywhere; }
+.qz-n { flex: none; width: 26px; height: 26px; border-radius: 8px; background: var(--ac-s); color: var(--ac); font-size: 13.5px; font-weight: 700; display: grid; place-items: center; margin-top: 1px; }
+.qz-code { margin: 12px 0 0 38px; padding: 12px 14px; background: var(--code); border-radius: 10px; overflow-x: auto; font-size: 14px; line-height: 1.55; }
+.qz-code code { background: none; padding: 0; font-size: inherit; white-space: pre; }
+.qz-choices { display: grid; gap: 8px; margin: 14px 0 0 38px; }
+.qz-c { display: flex; gap: 12px; align-items: center; width: 100%; min-height: 46px; padding: 9px 14px 9px 10px; text-align: left; border: 1px solid var(--line2); border-radius: 10px; background: var(--card); color: var(--ink); font-size: 15px; line-height: 1.5; cursor: pointer; }
+.qz-c:not(:disabled):hover { border-color: var(--ac); background: var(--ac-s); }
+.qz-c:focus-visible { outline: 2px solid var(--ac); outline-offset: 2px; }
+.qz-c:disabled { cursor: default; }
+.qz-k { flex: none; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line2); display: grid; place-items: center; font-size: 13px; font-weight: 700; color: var(--sub); }
+.qz-k svg { width: 16px; height: 16px; }
+.qz-t { min-width: 0; overflow-wrap: anywhere; }
+.qz-c.ok { border-color: var(--ok); background: var(--ok-s); }
+.qz-c.ok .qz-k { background: var(--ok); border-color: var(--ok); color: var(--bg); }
+.qz-c.no { border-color: var(--err); background: var(--err-s); }
+.qz-c.no .qz-k { background: var(--err); border-color: var(--err); color: var(--bg); }
+.qz-c.dim { opacity: 0.6; }
+.qz-fb { margin: 12px 0 0 38px; padding: 14px 16px; border-radius: 10px; border-left: 4px solid; background: var(--side); }
+.qz-fb.ok { border-color: var(--ok); }
+.qz-fb.no { border-color: var(--err); }
+.qz-fb > b { font-size: 15px; }
+.qz-fb.ok > b { color: var(--ok); }
+.qz-fb.no > b { color: var(--err); }
+.qz-fb p { margin: 6px 0 10px; color: var(--sub); font-size: 15px; line-height: 1.65; overflow-wrap: anywhere; }
+.qz-fb button, .qz-btns button { display: inline-flex; gap: 6px; align-items: center; height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid var(--line2); background: var(--card); color: var(--ink); font-size: 14px; font-weight: 600; cursor: pointer; }
+.qz-fb button svg, .qz-btns button svg { width: 16px; height: 16px; }
+.qz-fb button.pri, .qz-btns button.pri { background: var(--ac); border-color: var(--ac); color: var(--ac-ink); }
+.qz-foot { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding-top: 16px; }
+.qz-score { font-size: 15px; }
+.qz-btns { display: flex; gap: 8px; }
+@media (max-width: 640px) {
+  .qz-part { padding: 16px 14px; border-radius: 12px; }
+  .qz-code, .qz-choices, .qz-fb { margin-left: 0; }
+  .qz-ask p { font-size: 15.5px; }
+  .qz-c { font-size: 14.5px; }
+}
+.qz-t code { background: none; padding: 0; font-size: 0.95em; }
+.qz-tabs { scroll-snap-type: x proximity; }
+.qz-tabs button { scroll-snap-align: start; }

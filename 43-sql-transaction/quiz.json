@@ -1,0 +1,229 @@
+{
+  "parts": [
+    {
+      "part": "BEGIN, COMMIT, ROLLBACK",
+      "questions": [
+        {
+          "id": "b1",
+          "q": "`BEGIN` 없이 `UPDATE courses SET fee = 65000 WHERE course_id = 5;`를 쳤어요. 이 변경은 언제 저장되나요?",
+          "choices": [
+            "`COMMIT;`을 칠 때",
+            "psql을 `\\q`로 나갈 때",
+            "치자마자 바로",
+            "다음 SELECT를 칠 때"
+          ],
+          "answer": 2,
+          "explain": "psql은 문장마다 몰래 BEGIN과 COMMIT을 해요. 이것을 자동 커밋이라고 해서 BEGIN이 없으면 치자마자 저장돼요.",
+          "page": 7
+        },
+        {
+          "id": "b2",
+          "q": "`BEGIN;`을 친 뒤 프롬프트가 `kant_shop=*#`으로 바뀌었어요. `*`는 무슨 뜻인가요?",
+          "choices": [
+            "지금 트랜잭션 안이고 아직 확정 전이에요",
+            "오류가 나서 ROLLBACK만 받아요",
+            "관리자 계정으로 들어왔어요",
+            "문장이 덜 끝났어요"
+          ],
+          "answer": 0,
+          "explain": "`*`는 트랜잭션 안이라는 표시예요. `COMMIT`하면 사라지고 `kant_shop=#`으로 돌아와요. 오류 뒤에는 `!`로 바뀌어요.",
+          "page": 8
+        },
+        {
+          "id": "b3",
+          "q": "`BEGIN;` 뒤에 정원을 30으로 바꾸고 9월 신청 64줄을 지웠어요. 여기서 `ROLLBACK;`을 치면 어떻게 되나요?",
+          "choices": [
+            "마지막 DELETE만 되돌아가요",
+            "정원 변경만 되돌아가요",
+            "이미 저장돼서 아무것도 안 돌아가요",
+            "정원도 64줄도 한꺼번에 원래대로 돌아가요"
+          ],
+          "answer": 3,
+          "explain": "ROLLBACK은 BEGIN 뒤의 문장을 한꺼번에 되돌려요. 정원은 25, 9월 신청은 64줄 그대로였어요.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "part": "다른 창에서 보면",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "창 1에서 `BEGIN;` 뒤 수강료를 65000으로 바꾸고 아직 COMMIT하지 않았어요. 창 2에서 같은 강좌를 SELECT하면 무엇이 보이나요?",
+          "choices": [
+            "원래 값 60000",
+            "바꾼 값 65000",
+            "빈칸",
+            "오류가 나요"
+          ],
+          "answer": 0,
+          "explain": "확정하지 않은 변경은 바꾼 창에서만 보여요. 창 1에서 COMMIT한 뒤에야 창 2에도 65000이 보였어요.",
+          "page": 12
+        },
+        {
+          "id": "w2",
+          "q": "창 1이 BEGIN 안에서 5번 강좌 정원을 고치는 중이에요. 창 2가 같은 줄에 UPDATE를 치면 어떻게 되나요?",
+          "choices": [
+            "창 2의 UPDATE가 바로 실행되고 창 1의 변경이 사라져요",
+            "창 2에 오류가 나요",
+            "창 1이 COMMIT할 때까지 대답 없이 기다려요",
+            "창 2의 UPDATE가 무시돼요"
+          ],
+          "answer": 2,
+          "explain": "같은 줄을 고치려는 다른 창은 기다려요. 창 1이 COMMIT하는 순간 창 2가 실행돼서 25 + 5 + 1 = 31로 둘 다 반영됐어요.",
+          "page": 13
+        },
+        {
+          "id": "w3",
+          "q": "`BEGIN;` 뒤 UPDATE를 하고 COMMIT 없이 `\\q`로 psql을 나갔어요. 그 UPDATE는 어떻게 되나요?",
+          "choices": [
+            "나갈 때 저절로 COMMIT돼요",
+            "다음에 들어오면 이어서 COMMIT할 수 있어요",
+            "버려져서 바뀌지 않아요",
+            "반만 저장돼요"
+          ],
+          "answer": 2,
+          "explain": "COMMIT 없이 나가면 바꾼 내용은 버려져요. 다른 창에서 보니 수강료가 60000 그대로였어요. 끝내기 전에 프롬프트의 `*`를 확인해요.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "part": "모두 되거나 모두 안 되거나",
+      "questions": [
+        {
+          "id": "a1",
+          "q": "BEGIN 안에서 UPDATE는 됐는데 다음 INSERT가 `duplicate key` 오류로 실패했어요. 프롬프트가 `kant_shop=!#`일 때 SELECT를 치면 무엇이 나오나요?",
+          "choices": [
+            "UPDATE한 결과가 보여요",
+            "`current transaction is aborted, commands ignored until end of transaction block`",
+            "`there is no transaction in progress`",
+            "원래 값이 보여요"
+          ],
+          "answer": 1,
+          "explain": "오류가 난 트랜잭션은 ROLLBACK만 받아요. ROLLBACK을 치면 앞의 UPDATE까지 같이 되돌아가요.",
+          "page": 17
+        },
+        {
+          "id": "a2",
+          "q": "오류로 `!#`이 된 상태에서 `COMMIT;`을 쳤어요. psql은 무엇이라고 대답하나요?",
+          "choices": [
+            "`COMMIT`",
+            "`WARNING: there is no transaction in progress`",
+            "`ROLLBACK`",
+            "`ERROR: syntax error`"
+          ],
+          "answer": 2,
+          "explain": "실패한 트랜잭션은 확정할 수 없어서 COMMIT을 쳐도 ROLLBACK이라고 대답해요. 184번 신청은 원래대로 신청, 150000이었어요.",
+          "page": 18
+        },
+        {
+          "id": "a3",
+          "q": "PostgreSQL에서 `BEGIN;` 뒤 `DROP TABLE enrollments;`를 치고 `ROLLBACK;`하면 어떻게 되나요?",
+          "choices": [
+            "표가 돌아오고 187줄 그대로예요",
+            "표는 돌아오지만 줄은 비어 있어요",
+            "DROP TABLE은 치는 순간 저장돼서 안 돌아와요",
+            "BEGIN 안에서는 DROP TABLE을 칠 수 없어요"
+          ],
+          "answer": 0,
+          "explain": "PostgreSQL은 `DROP TABLE`과 `TRUNCATE`도 ROLLBACK으로 되돌려요. 모든 데이터베이스가 그렇지는 않아서 MySQL은 DROP TABLE을 치는 순간 저장돼요.",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "part": "지우기 전에 확인하기",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "지울 줄이 6줄인 것을 SELECT로 확인했어요. BEGIN 안에서 DELETE를 쳤더니 `DELETE 77`이 나왔어요. 무엇을 하나요?",
+          "choices": [
+            "`COMMIT;`으로 확정해요",
+            "`ROLLBACK;`으로 되돌리고 WHERE를 다시 봐요",
+            "psql을 나갔다 들어와요",
+            "지운 71줄을 INSERT로 다시 넣어요"
+          ],
+          "answer": 1,
+          "explain": "숫자가 다르면 WHERE가 잘못된 거예요. 실제로 AND를 OR로 쳤고, ROLLBACK 뒤 187줄 그대로였어요.",
+          "page": 21
+        },
+        {
+          "id": "d2",
+          "q": "BEGIN 안에서 DELETE할 때 지운 줄을 바로 보려면 무엇을 붙이나요?",
+          "choices": [
+            "`LIMIT`",
+            "`ORDER BY`",
+            "`RETURNING`",
+            "`IF EXISTS`"
+          ],
+          "answer": 2,
+          "explain": "`DELETE ... RETURNING enrollment_id, member_id, course_id`로 지운 6줄을 보고, 먼저 센 숫자와 같으면 COMMIT해요.",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "part": "비교와 오류",
+      "questions": [
+        {
+          "id": "g1",
+          "q": "Git의 `git restore 파일`(07)과 닮은 트랜잭션 명령은 무엇인가요?",
+          "choices": [
+            "`BEGIN;`",
+            "`COMMIT;`",
+            "`ROLLBACK;`",
+            "`\\q`"
+          ],
+          "answer": 2,
+          "explain": "확정 전에 고친 것을 버리는 쪽이 `ROLLBACK`이에요. `git commit`은 `COMMIT`과 닮았지만, COMMIT한 뒤에는 Git처럼 되돌아갈 기록이 남지 않아요.",
+          "page": 22
+        },
+        {
+          "id": "g2",
+          "q": "`BEGIN;` 상태에서 `BEGIN;`을 한 번 더 치면 어떻게 되나요?",
+          "choices": [
+            "`ERROR`가 나고 트랜잭션이 실패해요",
+            "`WARNING: there is already a transaction in progress`가 나오고 그대로 이어져요",
+            "앞 트랜잭션이 COMMIT돼요",
+            "트랜잭션이 두 겹으로 생겨요"
+          ],
+          "answer": 1,
+          "explain": "WARNING은 오류가 아니라 안내예요. 이미 트랜잭션 안이니 그대로 이어서 쳐요.",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "part": "실제 상황",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "요가 수강료를 5% 올리면 얼마가 되는지 미리 보고 싶어요. 저장하지 않고 보는 방법은 무엇인가요?",
+          "choices": [
+            "`UPDATE ... RETURNING`만 치고 나중에 원래 값으로 다시 UPDATE해요",
+            "`BEGIN;` 뒤 `UPDATE ... RETURNING`으로 보고 `ROLLBACK;`해요",
+            "`BEGIN;` 뒤 UPDATE하고 `COMMIT;`해요",
+            "`SELECT ... RETURNING`을 쳐요"
+          ],
+          "answer": 1,
+          "explain": "BEGIN 안에서 바꾼 값을 RETURNING으로 보고 ROLLBACK하면 원래 값(65000, 75000)으로 돌아가요.",
+          "page": 25
+        },
+        {
+          "id": "s2",
+          "q": "신청 기록이 있는 10번 회원을 탈퇴시키려고 해요. 한 묶음으로 처리하는 순서로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`BEGIN;` 회원 DELETE, 신청 DELETE, `COMMIT;`",
+            "`BEGIN;` 신청 DELETE, 회원 DELETE, `COMMIT;`",
+            "회원 DELETE만 치면 신청도 같이 지워져요",
+            "신청 DELETE, `COMMIT;`, 회원 DELETE, `ROLLBACK;`"
+          ],
+          "answer": 1,
+          "explain": "회원부터 지우면 외래 키에 막혀요(37). 자식 표인 신청 5줄부터 지우고 회원을 지운 뒤 둘을 한 번에 확정해요.",
+          "page": 27
+        }
+      ]
+    }
+  ]
+}

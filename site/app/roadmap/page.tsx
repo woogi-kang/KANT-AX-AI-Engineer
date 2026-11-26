@@ -6,7 +6,8 @@ import { topicChapters, links } from "@/lib/links";
 import { chapterLogo, type LogoKey } from "@/lib/logos";
 import { AREA_IC, STAGE_IC, caseIcon } from "@/lib/site";
 import { stageCount } from "@/lib/home";
-import { Crumb, Ict, Ic, Logos, More, NumBox, PageHead } from "@/components/ui";
+import { Crumb, Diff, Ict, Ic, Logos, More, NumBox, PageHead } from "@/components/ui";
+import "./roadmap.css";
 
 export const metadata: Metadata = { title: "로드맵" };
 
@@ -37,6 +38,16 @@ export default function RoadmapPage() {
                       <Ict n={caseIcon(c.area)} size="sm" tone="n" />
                       <b>{c.t}</b>
                     </span>
+                    <span className="rm-cf">
+                      <Diff v={c.diff} />
+                      <span className="muted">{c.area}</span>
+                      {c.runnable && (
+                        <span className="run">
+                          <Ic n="play" />
+                          실행 예제
+                        </span>
+                      )}
+                    </span>
                   </Link>
                 ))
               : s.topics.map((t) => {
@@ -48,6 +59,7 @@ export default function RoadmapPage() {
                         {AREA_IC[t.slug] ? <Ict n={AREA_IC[t.slug]} size="sm" /> : <NumBox>{`${s.no}.${t.n}`}</NumBox>}
                         <b>{t.t}</b>
                       </span>
+                      {t.kind === "project" && t.q && <small className="rm-q">{t.q}</small>}
                       {nos.length ? <Logos ks={logos(nos)} size={22} /> : t.kind === "area" ? <span className="soon">강의 준비 중{soon ? `: ${soon}` : ""}</span> : null}
                     </Link>
                   );
