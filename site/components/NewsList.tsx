@@ -27,7 +27,7 @@ export default function NewsList({ items }: { items: NewsItem[] }) {
     <>
       <div className="filter" role="group" aria-label="종류" style={{ marginTop: 22 }}>
         {btn("all", "전체", items.length)}
-        {btn("update", "릴리스 노트", items.filter((i) => i.kind === "update").length)}
+        {btn("update", "업데이트 노트", items.filter((i) => i.kind === "update").length)}
         {btn("chapter", "새 챕터", items.filter((i) => i.kind === "chapter").length)}
       </div>
       <div className="news-list">

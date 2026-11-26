@@ -4,6 +4,8 @@ import { ChevronRight, Download, ExternalLink } from "lucide-react";
 import DeckLayout from "@/components/DeckLayout";
 import ChapterBody from "@/components/ChapterBody";
 import Level from "@/components/Level";
+import LogoTile from "@/components/LogoTile";
+import { LOGOS, chapterLogos, type Logo } from "@/lib/logos";
 import { deckUrl, getChapter, load, pdfUrl, slidesOf } from "@/lib/content";
 import { renderReadme } from "@/lib/markdown";
 import { plainInline, renderInline } from "@/lib/inline";
@@ -28,7 +30,7 @@ export default async function ChapterPage({ params }: Params) {
   const top = (
     <>
       <nav className="crumb" aria-label="위치">
-        <Link href="/">커리큘럼</Link>
+        <Link href="/">학습 로드맵</Link>
         <ChevronRight className="i" />
         <Link href={`/#stage-${c.stageNo}`}>
           {c.stageNo}단계 {c.stageTitle}
@@ -39,6 +41,9 @@ export default async function ChapterPage({ params }: Params) {
       <div className="ov-head">
         <div>
           <span className="no" style={{ color }}>
+            {chapterLogos(c.no, c.track).map((k) => (
+              <LogoTile key={k} logo={LOGOS[k] as Logo} size={30} label />
+            ))}
             {c.no}
             <span className={`chip ${c.trackKey}`}>{c.track}</span>
             <Level level={c.level} />

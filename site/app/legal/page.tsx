@@ -9,6 +9,7 @@ const OSS = [
   ["Pretendard", "본문 글꼴", "SIL OFL 1.1"],
   ["JetBrains Mono, D2Coding", "코드 글꼴 (D2Coding은 한글만)", "SIL OFL 1.1"],
   ["Lucide", "아이콘", "ISC"],
+  ["Simple Icons", "도구 로고 모양", "CC0 1.0"],
   ["Next.js, React", "사이트 틀", "MIT"],
   ["unified, remark, rehype", "README를 화면으로 바꾸기", "MIT"],
 ];
@@ -75,6 +76,9 @@ export default function LegalPage() {
           ))}
         </tbody>
       </table>
+      <p className="note" style={{ marginTop: 12 }}>
+        Git, GitHub, Python, uv, Jupyter, Docker, NGINX, MySQL, PostgreSQL, NumPy, pandas 로고와 이름은 각 상표권자의 것이에요. 이 사이트는 어떤 도구를 배우는지 알려 주는 데만 쓰고, 상표권자와 제휴하거나 후원받지 않아요.
+      </p>
     </AppShell>
   );
 }

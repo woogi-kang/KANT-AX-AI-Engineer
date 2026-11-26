@@ -18,6 +18,7 @@ type RawChapter = {
   commands?: string;
   slides: string;
   level: LevelName;
+  keyword?: string;
 };
 type RawExtra = { dir: string; title: string; related: string[]; summary: string; slides: string };
 type RawUpdate = { dir: string; date: string; title: string; summary: string };
@@ -151,7 +152,7 @@ export function news(): NewsItem[] {
       title: u.title,
       summary: u.summary,
       href: `/updates/${u.dir}/`,
-      tag: "릴리스 노트",
+      tag: "업데이트 노트",
     })),
     ...chapters
       .filter((c) => c.added)

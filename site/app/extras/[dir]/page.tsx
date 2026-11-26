@@ -22,7 +22,7 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const e = get((await params).dir);
-  return { title: `번외 ${e.title}`, description: plainInline(e.summary) };
+  return { title: `가이드 ${e.title}`, description: plainInline(e.summary) };
 }
 
 export default async function ExtraPage({ params }: Params) {
@@ -32,14 +32,14 @@ export default async function ExtraPage({ params }: Params) {
   const top = (
     <>
       <nav className="crumb" aria-label="위치">
-        <Link href="/">커리큘럼</Link>
+        <Link href="/">학습 로드맵</Link>
         <ChevronRight className="i" />
-        <Link href="/#extras">번외</Link>
+        <Link href="/#guides">가이드</Link>
       </nav>
       <div className="ov-head">
         <div>
-          <span className="no" style={{ color: "var(--muted)" }}>
-            번외
+          <span className="no" style={{ color: "var(--check)" }}>
+            가이드
           </span>
           <h1>{e.title}</h1>
           <p dangerouslySetInnerHTML={{ __html: renderInline(e.summary) }} />
@@ -66,7 +66,7 @@ export default async function ExtraPage({ params }: Params) {
     </>
   );
   return (
-    <DeckLayout head={{ no: "번외", title: e.title, color: "var(--muted)" }} slides={slides.map((s) => ({ n: s.n, title: s.title }))} src={deckUrl(e.dir, e.slides, true)} deckTitle={e.title} top={top}>
+    <DeckLayout head={{ no: "가이드", title: e.title, color: "var(--muted)" }} slides={slides.map((s) => ({ n: s.n, title: s.title }))} src={deckUrl(e.dir, e.slides, true)} deckTitle={e.title} top={top}>
       <ChapterBody html={html} slides={slides} />
     </DeckLayout>
   );
