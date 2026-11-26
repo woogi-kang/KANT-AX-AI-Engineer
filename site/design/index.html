@@ -414,6 +414,205 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
 .open-q p{margin:0;font-size:14.5px;color:var(--sub);grid-column:1}
 .open-q .badge{grid-row:1/3;grid-column:2}
 
+
+/* ===== 2차: 대시보드, 사이드바 접기, 검색, 설정 ===== */
+.app{display:grid;grid-template-columns:220px minmax(0,1fr);transition:grid-template-columns var(--dur-ui) var(--ease-travel)}
+.app.collapsed{grid-template-columns:60px minmax(0,1fr)}
+.appnav{background:var(--surface);border-right:1px solid var(--line);padding:14px 10px;display:flex;flex-direction:column;gap:2px;min-height:100%;overflow:hidden}
+.appnav a,.appnav button.nav{display:flex;align-items:center;gap:12px;height:38px;padding:0 11px;border-radius:var(--r-sm);font-size:14.5px;font-weight:500;color:var(--sub);text-decoration:none;white-space:nowrap;border:0;background:none;cursor:pointer;width:100%;text-align:left}
+.appnav a:hover,.appnav button.nav:hover{background:var(--sunken);color:var(--ink)}
+.appnav a.on{background:var(--accent-soft);color:var(--accent)}
+.appnav .lbl{transition:opacity var(--dur-fast)}
+.app.collapsed .appnav .lbl,.app.collapsed .appnav .cnt{opacity:0;pointer-events:none}
+.appnav .cnt{margin-left:auto;font-size:12px;color:var(--muted);font-family:var(--font-mono)}
+.appnav .sep{height:1px;background:var(--line);margin:8px 4px}
+.appnav .grow{flex:1}
+.s-header .toggle{margin-left:-6px}
+.dash{padding:28px 32px 36px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-content:start}
+.dash .full{grid-column:1/-1}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 20px;min-width:0}
+.panel h5{margin:0 0 12px;font-size:15px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.panel h5 span{font-weight:400;font-size:13px;color:var(--muted)}
+.big{font-size:44px;font-weight:900;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:84px;margin-top:16px}
+.week i{display:block;background:var(--accent-soft);border-radius:4px 4px 2px 2px}
+.week i.today{background:var(--accent)}
+.week-l{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:6px;font-size:12px;color:var(--muted);text-align:center}
+.tracks{display:grid;gap:12px}
+.trk{display:grid;grid-template-columns:96px minmax(0,1fr) 64px;gap:14px;align-items:center;font-size:14px}
+.trk .bar{height:10px;background:var(--paper-2);border-radius:999px;overflow:hidden}
+.trk .bar i{display:block;height:100%;border-radius:999px}
+.trk .v{text-align:right;font-family:var(--font-mono);font-size:12.5px;color:var(--muted)}
+.mini-row{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.45}
+.mini-row:first-of-type{border-top:0;padding-top:0}
+.mini-row .n{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--t-db)}
+.mini-row small{display:block;color:var(--muted);font-size:12.5px}
+.mock-note{font-size:12.5px;color:var(--muted);margin:0}
+
+/* 챕터 사이드바 접기 */
+.chap{transition:grid-template-columns var(--dur-ui) var(--ease-travel)}
+.chap.collapsed{grid-template-columns:56px minmax(0,1fr)}
+.sb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+.rail{display:none;flex-direction:column;align-items:center;gap:6px;padding-top:4px}
+.chap.collapsed .sidebar > :not(.rail){display:none}
+.chap.collapsed .rail{display:flex}
+.chap.collapsed .sidebar{padding:16px 0}
+.rail .dot{width:8px;height:8px;border-radius:50%;background:var(--paper-2)}
+.rail .dot.seen{background:var(--run)}
+.rail .dot.cur{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.rail .gap{height:10px}
+.rail .pct{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:6px}
+.chap.collapsed .main{padding-left:72px;padding-right:72px}
+
+/* 검색 창 */
+.overlay{position:relative}
+.overlay .dim{position:absolute;inset:0;background:rgba(15,18,24,.42)}
+.cmdk{position:absolute;left:50%;top:76px;transform:translateX(-50%);width:640px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-float);overflow:hidden}
+.cmdk .in{display:flex;align-items:center;gap:10px;height:56px;padding:0 18px;border-bottom:1px solid var(--line);font-size:17px}
+.cmdk .in .caret{display:inline-block;width:2px;height:20px;background:var(--accent);margin-left:-8px}
+.cmdk .in .kbd{margin-left:auto}
+.cmdk .tabs{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line)}
+.cmdk .tabs span{font-size:13px;padding:3px 10px;border-radius:999px;color:var(--sub);background:var(--sunken)}
+.cmdk .tabs span.on{background:var(--ink);color:var(--paper)}
+.cmdk .grp{padding:8px 8px 4px}
+.cmdk .grp > p{margin:4px 10px 6px;font-size:12.5px;font-weight:700;color:var(--muted);display:flex;justify-content:space-between}
+.hit-row{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 10px;border-radius:var(--r-sm);font-size:14.5px;line-height:1.45}
+.hit-row.sel{background:var(--accent-soft)}
+.hit-row .n{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--t-db)}
+.hit-row small{display:block;font-size:12.5px;color:var(--muted)}
+.hit-row .m{font-family:var(--font-mono);font-size:13px;color:var(--error)}
+.hit-row svg.i{color:var(--muted)}
+.cmdk footer{display:flex;gap:16px;padding:10px 18px;border-top:1px solid var(--line);background:var(--sunken);font-size:12.5px;color:var(--muted)}
+.cmdk footer span{display:inline-flex;gap:6px;align-items:center}
+.empty{display:grid;justify-items:center;text-align:center;gap:6px;padding:28px 24px 26px}
+.empty b{font-size:16px}
+.empty p{margin:0;font-size:14px;color:var(--muted);max-width:420px}
+
+/* 실습 칸 상태 */
+.states{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.state-cap{font-size:13px;font-weight:700;color:var(--sub);margin:0 0 8px}
+.loader{padding:18px 16px;border-top:1px solid var(--line)}
+.loader p{margin:0 0 10px;font-size:14px;color:var(--sub);display:flex;gap:8px;align-items:center}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.out-err{border-top:1px solid var(--line);padding:12px 16px}
+.out-err pre{margin:0;font-family:var(--font-mono);font-size:13.5px;color:var(--error);background:var(--error-soft);padding:10px 12px;border-radius:var(--r-sm);white-space:pre-wrap}
+.out-err a{display:inline-flex;gap:6px;align-items:center;margin-top:10px;font-size:13.5px}
+.verdict.diff{background:var(--check-soft);color:var(--ink)}
+.verdict.diff svg{color:var(--check)}
+
+/* 챕터 첫 화면 */
+.ov{padding:32px 40px 40px}
+.ov-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 32px;align-items:end;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.ov-head .no{font-family:var(--font-mono);font-weight:700;color:var(--t-db);font-size:14px;display:flex;gap:10px;align-items:center}
+.ov-head h2{margin:4px 0 6px;font-size:34px;font-weight:900;line-height:1.3;letter-spacing:-.01em}
+.ov-head p{margin:0;color:var(--sub);font-size:16px;max-width:680px}
+.ov-head .act{display:flex;gap:8px;flex-direction:column;align-items:stretch;min-width:220px}
+.ov-head .act small{text-align:center;font-size:12.5px;color:var(--muted)}
+.ov-body{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:32px;padding-top:24px}
+.ov h4{margin:0 0 10px;font-size:16px}
+.goals{margin:0 0 28px;padding:0;list-style:none;display:grid;gap:8px}
+.goals li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;font-size:15.5px;line-height:1.6}
+.goals li svg.i{color:var(--run);margin-top:4px}
+.goals code{background:var(--sunken);padding:0 5px;border-radius:4px;font-size:13.5px}
+.pre-t{width:100%;border-collapse:collapse;font-size:14.5px;margin-bottom:16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.pre-t td{padding:9px 14px;border-top:1px solid var(--line)}
+.pre-t tr:first-child td{border-top:0}
+.pre-t td:first-child{width:1%;white-space:nowrap}
+.pre-t td:last-child{width:1%;white-space:nowrap;text-align:right}
+.pre-t code{font-size:13px}
+.parts{display:grid;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px}
+.parts a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:11px 16px;border-top:1px solid var(--line);color:inherit;text-decoration:none;font-size:14.5px}
+.parts a:first-child{border-top:0}
+.parts a:hover{background:var(--sunken)}
+.parts a small{font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+.parts .pips{display:flex;gap:3px;grid-column:1/-1}
+.parts .pips i{width:10px;height:4px;border-radius:2px;background:var(--paper-2)}
+.parts .pips i.s{background:var(--run)}
+.parts .pips i.c{background:var(--accent)}
+.task-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 18px}
+.task-card b{display:block;font-size:15px;margin:4px 0 4px}
+.task-card p{margin:0 0 12px;font-size:14px;color:var(--sub)}
+.replay{margin-top:4px}
+.replay .line-in{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid rgba(255,255,255,.07);font-family:var(--font-mono);font-size:14px}
+.replay .line-in .cursor{width:8px;height:17px;background:var(--term-ink);opacity:.8}
+.replay .hint{font-family:var(--font-sans);font-size:13px;color:#F2C97A;padding:0 16px 12px}
+
+/* 과제 */
+.asg{padding:32px 40px 40px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:28px}
+.asg .goal{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 20px;margin-bottom:16px}
+.asg .goal b{font-size:20px;display:block;margin:4px 0 6px}
+.asg .goal p{margin:0;color:var(--sub);font-size:15px}
+.hints{display:grid;gap:10px}
+.hint-step{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.hint-step header{display:flex;align-items:center;gap:10px;padding:11px 14px;font-size:14.5px;font-weight:700}
+.hint-step header .k{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--check-soft);color:var(--check);font-family:var(--font-mono);font-size:12px}
+.hint-step .body{padding:0 14px 12px 46px;font-size:14.5px;color:var(--sub);line-height:1.6}
+.hint-step .body code{font-size:13px;background:var(--sunken);padding:0 5px;border-radius:4px;color:var(--ink)}
+.hint-step.locked header{color:var(--muted);font-weight:500}
+.hint-step.locked header .k{background:var(--sunken);color:var(--muted)}
+.hint-step.locked .body{display:none}
+.hint-step.locked button{margin-left:auto}
+
+/* 용어 모음 */
+.gl{padding:32px 40px 40px;display:grid;grid-template-columns:56px minmax(0,1fr);gap:24px}
+.jamo{display:flex;flex-direction:column;gap:2px;position:sticky;top:0}
+.jamo a{display:grid;place-items:center;height:32px;border-radius:var(--r-sm);font-size:16px;font-weight:700;color:var(--muted);text-decoration:none}
+.jamo a.on{background:var(--ink);color:var(--paper)}
+.jamo a.off{color:var(--faint);font-weight:400}
+.gl-group h4{margin:0 0 8px;font-size:22px;font-weight:900;color:var(--muted)}
+.gl-list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);margin-bottom:24px;overflow:hidden}
+.gl-item{display:grid;grid-template-columns:200px minmax(0,1fr);column-gap:20px;padding:14px 18px;border-top:1px solid var(--line)}
+.gl-item:first-child{border-top:0}
+.gl-item b{font-size:16px;grid-row:1/3}
+.gl-item b small{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:2px}
+.gl-item p{margin:0 0 6px;font-size:14.5px;color:var(--sub);line-height:1.6}
+.gl-item footer{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--muted)}
+
+/* 설정, 단축키, 알림 */
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-float);overflow:hidden}
+.sheet > header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);font-weight:700;font-size:15px}
+.set-row{padding:14px 18px;border-top:1px solid var(--line)}
+.set-row:first-of-type{border-top:0}
+.set-row > p{margin:0 0 8px;font-size:13px;font-weight:700;color:var(--sub);display:flex;justify-content:space-between}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--sunken);border-radius:var(--r-sm);padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:4px;padding:6px 0;font-size:13.5px;color:var(--sub);cursor:pointer}
+.seg button.on{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:var(--shadow-raised)}
+.tgl{display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.tgl i{width:38px;height:22px;border-radius:999px;background:var(--line-strong);position:relative;flex:none}
+.tgl i::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left var(--dur-fast)}
+.tgl i.on{background:var(--accent)} .tgl i.on::after{left:19px}
+.set-row .btns{display:flex;gap:6px;flex-wrap:wrap}
+.keys-l{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 16px;padding:16px 18px;font-size:14px;align-items:center}
+.keys-l .k{display:flex;gap:4px;justify-content:flex-end}
+.toast{display:flex;align-items:center;gap:12px;background:var(--ink);color:var(--paper);border-radius:var(--r-md);padding:12px 14px 12px 16px;font-size:14.5px;box-shadow:var(--shadow-float)}
+.toast button{margin-left:auto;border:0;background:none;color:var(--accent-soft);font-weight:700;cursor:pointer;font-size:14px}
+:root[data-theme="dark"] .toast button{color:var(--accent-ink)}
+.toast svg.i{color:var(--term-prompt)}
+
+/* 첫 방문 */
+.first{padding:40px 40px 44px}
+.first h4{margin:0 0 6px;font-size:24px;font-weight:900}
+.first > p{margin:0 0 20px;color:var(--sub);font-size:15.5px}
+.starts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.start{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 18px 16px;display:flex;flex-direction:column;gap:6px;color:inherit;text-decoration:none}
+.start:hover{border-color:var(--line-strong)}
+.start.main{border:1.5px solid var(--accent);box-shadow:var(--shadow-raised)}
+.start b{font-size:16px}
+.start p{margin:0;font-size:14px;color:var(--sub);flex:1}
+.start .go{display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--accent);margin-top:8px}
+
+/* 기획 점검 표 */
+.gap-t{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;font-size:14.5px}
+.gap-t th{text-align:left;font-size:13px;color:var(--muted);font-weight:700;background:var(--sunken);padding:9px 16px}
+.gap-t td{padding:10px 16px;border-top:1px solid var(--line);vertical-align:top;line-height:1.55}
+.gap-t td:first-child{font-weight:700;white-space:nowrap}
+.gap-t td:last-child{white-space:nowrap;text-align:right}
+.gap-t td:last-child a{font-family:var(--font-mono);font-size:13px}
+.gap-t tr.later td{color:var(--muted)}
+@media (max-width: 900px){ .states,.trio{grid-template-columns:minmax(0,1fr)} }
+
 @media (max-width: 900px){
   .principles,.row-specs,.comp-grid,.specimens{grid-template-columns:minmax(0,1fr)}
   .swatch-group{grid-template-columns:minmax(0,1fr);gap:10px}
@@ -423,6 +622,7 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
   .cmp{grid-template-columns:minmax(0,1fr)}
 }
 @media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important} }
+.dash .continue{align-content:center;gap:10px 24px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -445,6 +645,17 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
   <symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
   <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-dash" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></symbol>
+  <symbol id="i-library" viewBox="0 0 24 24"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></symbol>
+  <symbol id="i-booka" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="m8 13 4-7 4 7"/><path d="M9.1 11h5.7"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-panel-close" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></symbol>
+  <symbol id="i-panel-open" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></symbol>
+  <symbol id="i-keyboard" viewBox="0 0 24 24"><path d="M10 8h.01"/><path d="M12 12h.01"/><path d="M14 8h.01"/><path d="M16 12h.01"/><path d="M18 8h.01"/><path d="M6 8h.01"/><path d="M7 16h10"/><path d="M8 12h.01"/><rect width="20" height="16" x="2" y="4" rx="2"/></symbol>
+  <symbol id="i-loader" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></symbol>
 </svg>
 
 <div class="wrap">
@@ -455,7 +666,7 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
     <h1 class="doc">덱의 모양을 웹 화면으로 옮겨요</h1>
     <p class="lede">지금 덱의 종이 바탕, 글꼴, 색 뜻을 그대로 쓰고, 화면은 컴포넌트를 조립해서 만들어요. 챕터가 늘어나도 새 컴포넌트 없이 내용만 더하면 되게 나눴어요.</p>
     <nav class="toc" aria-label="이 문서의 차례">
-      <a href="#principles">원칙</a><a href="#tokens">토큰</a><a href="#components">컴포넌트</a><a href="#screens">화면 시안</a><a href="#code">코드 구조</a><a href="#questions">정할 것</a>
+      <a href="#principles">원칙</a><a href="#tokens">토큰</a><a href="#components">컴포넌트</a><a href="#gaps">빠진 화면 점검</a><a href="#screens">화면 시안</a><a href="#code">코드 구조</a><a href="#questions">정할 것</a>
     </nav>
   </div>
   <div class="theme-switch" role="group" aria-label="화면 밝기">
@@ -591,6 +802,9 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
         <tr><td>ProgressBar</td><td>진도 막대. 숫자가 바뀌면 왼쪽부터 늘어나요</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>Popover</td><td>용어 풀이, 단축키 안내 같은 떠 있는 칸</td><td><span class="phase p3">3</span></td></tr>
         <tr><td>Icon</td><td>덱과 같은 Lucide 한 벌. 16px, 선 굵기 2</td><td><span class="phase p0">0</span></td></tr>
+        <tr><td>Segmented · Toggle</td><td>설정의 단계 고르기와 켜고 끄기</td><td><span class="phase p0">0</span></td></tr>
+        <tr><td>Toast</td><td>화면 아래 알림. 되돌리기 버튼을 붙일 수 있어요</td><td><span class="phase p0">0</span></td></tr>
+        <tr><td>EmptyState</td><td>결과 없음, 기록 없음 칸</td><td><span class="phase p0">0</span></td></tr>
       </table>
     </div>
     <div class="comp-card"><header><b>2층 · 틀과 길 찾기</b><p>화면의 뼈대예요. 페이지마다 한 번씩 들어가요.</p></header>
@@ -603,6 +817,11 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
         <tr><td>ContinueCard</td><td>마지막으로 본 장으로 바로 가기</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>ChapterRow</td><td>커리큘럼 목록 한 줄. 번호, 제목, 한 줄 목표, 진도</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>MobileBar</td><td>휴대폰 아래 막대. 목차, 진도, 다음 장</td><td><span class="phase p0">0</span></td></tr>
+        <tr><td>AppSidebar</td><td>사이트 메뉴. 접으면 아이콘 줄만 남아요</td><td><span class="phase p0">0</span></td></tr>
+        <tr><td>SettingsPanel</td><td>글자 크기, 밝기, 움직임, 진도 파일</td><td><span class="phase p0">0</span></td></tr>
+        <tr><td>ShortcutSheet</td><td><span class="kbd">?</span>로 여는 단축키 안내</td><td><span class="phase p0">0</span></td></tr>
+        <tr><td>Dashboard 칸</td><td>StatPanel, WeekBars, TrackProgress, RecentList</td><td><span class="phase p0">0</span></td></tr>
+        <tr><td>ChapterOverview 칸</td><td>GoalList, PrereqTable, PartList, TaskCard</td><td><span class="phase p0">0</span></td></tr>
       </table>
     </div>
     <div class="comp-card"><header><b>3층 · 내용 블록</b><p>덱의 장 하나를 웹으로 옮길 때 쓰는 블록이에요. 내용은 레포에서 읽어 와요.</p></header>
@@ -619,13 +838,13 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
     </div>
     <div class="comp-card"><header><b>4층 · 배움 장치 일곱 가지</b><p>제안서의 장치 하나에 컴포넌트 하나예요. 실행 엔진은 Web Worker에서 돌아요.</p></header>
       <table>
-        <tr><td>PracticeCell</td><td>바로 쳐 보기. 실행, 처음으로, 수업 출력과 비교 (SQL은 PGlite, 파이썬은 Pyodide)</td><td><span class="phase p1">1</span></td></tr>
+        <tr><td>PracticeCell</td><td>바로 쳐 보기. 실행, 처음으로, 수업 출력과 비교 (SQL은 PGlite, 파이썬은 Pyodide). 상태 다섯 가지</td><td><span class="phase p1">1</span></td></tr>
         <tr><td>ReplayTerminal</td><td>터미널, Git, Docker 재생 칸. 맞게 치면 demo 출력을 보여 줘요</td><td><span class="phase p1">1</span></td></tr>
         <tr><td>QuizCard</td><td>파트 끝 확인 문제. 틀리면 다시 볼 장으로 이어요</td><td><span class="phase p2">2</span></td></tr>
         <tr><td>ErrorEntry</td><td>오류 모음 한 칸. 실제 오류 문장, 뜻, 고치는 법, 나온 장</td><td><span class="phase p3">3</span></td></tr>
         <tr><td>GlossaryTerm</td><td>밑줄 친 용어와 풀이 풍선, 처음 나온 장</td><td><span class="phase p3">3</span></td></tr>
         <tr><td>PrereqLinks</td><td>이 장에서 쓰는 앞 챕터 개념 링크</td><td><span class="phase p0">0</span></td></tr>
-        <tr><td>Assignment</td><td>챕터 과제와 한 단계씩 여는 힌트</td><td><span class="phase p3">4</span></td></tr>
+        <tr><td>Assignment</td><td>챕터 과제, 한 단계씩 여는 힌트(HintSteps), 맞는 결과</td><td><span class="phase p3">4</span></td></tr>
         <tr><td>ProgressStore</td><td>본 장, 복습할 장을 브라우저에 저장 (화면 없음)</td><td><span class="phase p0">0</span></td></tr>
       </table>
     </div>
@@ -683,63 +902,168 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
   </div>
 </section>
 
+<!-- ===== 기획 점검 ===== -->
+<section class="block" id="gaps">
+  <h2 class="sec">빠진 화면이 없는지 다시 봤어요</h2>
+  <p class="sec-lede">수강생이 사이트에 들어와서 나갈 때까지 거치는 화면과 상태를 하나씩 짚었어요. 오른쪽 번호는 아래 화면 시안 번호예요.</p>
+  <div class="scroll-x">
+  <table class="gap-t" style="min-width:760px">
+    <thead><tr><th>화면, 상태</th><th>정한 것</th><th>시안</th></tr></thead>
+    <tbody>
+      <tr><td>전체 틀</td><td>왼쪽 사이드바는 두 가지예요. 처음 화면에서는 사이트 메뉴, 챕터 안에서는 그 챕터의 목차예요. 둘 다 접으면 아이콘 줄(60px)만 남고, 접은 상태는 브라우저에 기억해요. 단축키는 <span class="kbd">[</span>예요.</td><td><a href="#s-dash">1</a> · <a href="#s-chap">3</a></td></tr>
+      <tr><td>내 학습 (대시보드)</td><td>이어서 보기 하나를 가장 크게 두고, 이번 주에 본 장, 분류별 진도, 복습할 장, 최근 실습을 둘러 놓아요. 큰 숫자는 하나만 써요.</td><td><a href="#s-dash">1</a></td></tr>
+      <tr><td>처음 들어왔을 때</td><td>진도가 없으면 대시보드 대신 시작할 곳 세 가지(01부터, 12부터, 배운 데까지 표시)를 보여 줘요.</td><td><a href="#s-first">11</a></td></tr>
+      <tr><td>챕터 첫 화면</td><td>챕터 README의 학습 목표, 시작하기 전에(본 챕터는 표시), 파트별 진도, 챕터 과제를 한 화면에 모아요.</td><td><a href="#s-ov">2</a></td></tr>
+      <tr><td>장 화면</td><td>목차를 접으면 본문 폭은 그대로 두고 양옆 여백만 넓어져요. 한 줄 길이가 길어지지 않게 해요.</td><td><a href="#s-chap">3</a></td></tr>
+      <tr><td>검색</td><td><span class="kbd">/</span>, <span class="kbd">Ctrl K</span>로 여는 창 하나에서 장, 오류, 용어를 묶어 보여 줘요. 아무것도 안 쳤을 때는 최근 본 장, 결과가 없으면 비슷한 말을 보여 줘요.</td><td><a href="#s-search">4</a></td></tr>
+      <tr><td>실습 칸 상태</td><td>엔진 받는 중, 실행됨, 오류(오류 모음으로 이어 줌), 수업과 같음, 수업과 다름(이유 한 줄) 다섯 가지예요.</td><td><a href="#s-chap">3</a> · <a href="#s-states">5</a></td></tr>
+      <tr><td>터미널 재생 칸</td><td>Git, Docker, 준비 명령은 실행하지 않고, 맞게 치면 미리 실행한 출력을 보여 줘요. 틀리면 그 명령으로 실제로 나는 오류와 힌트를 보여 줘요.</td><td><a href="#s-ov">2</a></td></tr>
+      <tr><td>확인 문제, 과제</td><td>틀리면 다시 볼 장으로 이어요. 과제 힌트는 하나씩 열고, 정답 쿼리는 힌트를 다 연 뒤에 보여 줘요.</td><td><a href="#s-quiz">6</a> · <a href="#s-asg">7</a></td></tr>
+      <tr><td>오류 모음, 용어 모음</td><td>오류 문장을 붙여 넣어 찾고, 용어는 첫 글자(ㄱ, ㄴ, …)로 훑어요. 둘 다 처음 나온 장으로 이어요.</td><td><a href="#s-err">8</a> · <a href="#s-gl">9</a></td></tr>
+      <tr><td>설정</td><td>글자 크기 네 단계, 화면 밝기, 움직임 줄이기, 진도 파일로 받기와 불러오기예요. 로그인이 없어서 기기를 옮길 때 파일로 옮겨요.</td><td><a href="#s-set">10</a></td></tr>
+      <tr><td>단축키 안내, 알림</td><td><span class="kbd">?</span>로 여는 안내와 화면 아래 알림(복습 표시, 복사, 실행기 받기 실패)이에요.</td><td><a href="#s-set">10</a></td></tr>
+      <tr><td>휴대폰</td><td>목차는 위 버튼으로 여는 판, 이전과 다음 장은 아래 막대예요.</td><td><a href="#s-phone">12</a></td></tr>
+      <tr class="later"><td>다음 판으로 미룬 것</td><td>번외 목록, 새 소식(릴리스 노트) 목록, 찾는 페이지가 없을 때(404), 인쇄 화면. 앞의 둘은 커리큘럼 목록과 같은 부품으로 만들어요.</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
 <!-- ===== 화면 시안 ===== -->
 <section class="block" id="screens">
   <h2 class="sec">핵심 화면 시안</h2>
-  <p class="sec-lede">41 SQL 6 (서브쿼리) 챕터로 그렸어요. 장 제목, 노트, psql 출력, 오류 문장은 모두 레포의 실제 내용이에요. 화면 폭 1200px 기준이고, 좁은 화면에서는 옆으로 밀어 보세요.</p>
+  <p class="sec-lede">41 SQL 6 (서브쿼리) 챕터로 그렸어요. 장 제목, 노트, psql 출력, 오류 문장은 모두 레포의 실제 내용이고, 진도 숫자만 예시예요. 화면 폭 1200px 기준이고, 좁은 화면에서는 옆으로 밀어 보세요.</p>
 
-  <!-- A 홈 -->
-  <div class="screen-head"><h3>1. 처음 화면</h3><p>이어서 보기, 복습할 장, 커리큘럼</p></div>
+  <!-- 1 대시보드 -->
+  <div class="screen-head" id="s-dash"><h3>1. 내 학습 (처음 화면)</h3><p>왼쪽 위 버튼으로 사이드바를 접고 펴 보세요</p></div>
   <div class="frame-scroll"><div class="frame">
     <div class="s-header">
+      <button class="icon-btn toggle" id="app-toggle" type="button" aria-label="사이드바 접기" aria-expanded="true"><svg class="i"><use href="#i-panel-close"/></svg></button>
       <span class="logo">풀스택 AI/AX<span>엔지니어</span></span>
-      <nav class="s-nav"><a class="on" href="#">커리큘럼</a><a href="#">오류 모음</a><a href="#">용어</a></nav>
       <div class="search"><svg class="i"><use href="#i-search"/></svg>장 제목, 명령, 오류 문장 찾기<span class="kbd">/</span></div>
-      <button class="icon-btn" type="button" aria-label="화면 밝기"><svg class="i"><use href="#i-moon"/></svg></button>
+      <button class="icon-btn" type="button" aria-label="설정"><svg class="i"><use href="#i-settings"/></svg></button>
     </div>
-    <div class="home">
-      <div>
-        <div class="continue">
+    <div class="app" id="app">
+      <nav class="appnav" aria-label="사이트 메뉴">
+        <a class="on" href="#"><svg class="i"><use href="#i-dash"/></svg><span class="lbl">내 학습</span></a>
+        <a href="#"><svg class="i"><use href="#i-list"/></svg><span class="lbl">커리큘럼</span><span class="cnt">46</span></a>
+        <a href="#"><svg class="i"><use href="#i-library"/></svg><span class="lbl">번외</span><span class="cnt">1</span></a>
+        <div class="sep"></div>
+        <a href="#"><svg class="i"><use href="#i-alert"/></svg><span class="lbl">오류 모음</span></a>
+        <a href="#"><svg class="i"><use href="#i-booka"/></svg><span class="lbl">용어</span></a>
+        <a href="#"><svg class="i"><use href="#i-bell"/></svg><span class="lbl">새 소식</span></a>
+        <div class="grow"></div>
+        <button class="nav" type="button"><svg class="i"><use href="#i-keyboard"/></svg><span class="lbl">단축키</span><span class="cnt">?</span></button>
+        <button class="nav" type="button"><svg class="i"><use href="#i-settings"/></svg><span class="lbl">설정</span></button>
+      </nav>
+      <div class="dash">
+        <div class="continue" style="margin:0">
           <span class="k">이어서 보기 · 어제 오후 9:40</span>
           <div><h4>IN 괄호 안에 서브쿼리를 넣으면 목록이 들어가요</h4><p>41 · SQL 6 (서브쿼리) · 2파트 목록과 IN</p>
             <div class="meta"><div class="progress"><i style="width:34%"></i></div>32장 중 11장</div></div>
           <a class="btn primary" href="#">11장부터 보기<svg class="i"><use href="#i-arrow"/></svg></a>
         </div>
-        <div class="filter"><button class="" type="button">전체 46</button><button type="button">터미널</button><button type="button">Git</button><button type="button">GitHub</button><button type="button">파이썬</button><button type="button">Docker</button><button class="on" type="button">데이터베이스</button></div>
-        <div class="ch-list">
-          <a class="ch-row" href="#"><span class="no">39</span><div><div class="t">SQL 4 (집계 함수와 GROUP BY)</div><div class="g">여러 줄을 COUNT, SUM, AVG로 접고, GROUP BY로 묶어 묶음마다 세고, HAVING으로 묶음을 골라요</div></div><div class="pg done">다 봤어요<div class="progress"><i style="width:100%"></i></div></div><svg class="i" style="color:var(--faint)"><use href="#i-right"/></svg></a>
-          <a class="ch-row" href="#"><span class="no">40</span><div><div class="t">SQL 5 (UNION과 JOIN으로 결과 합치기)</div><div class="g">결과 두 개를 UNION으로 위아래로 잇고, 두 표를 JOIN으로 옆에 붙여 신청 번호 옆에 회원 이름과 강좌 이름을 보여 줘요</div></div><div class="pg done">다 봤어요<div class="progress"><i style="width:100%"></i></div></div><svg class="i" style="color:var(--faint)"><use href="#i-right"/></svg></a>
-          <a class="ch-row" href="#" style="background:var(--sunken)"><span class="no">41</span><div><div class="t">SQL 6 (서브쿼리)</div><div class="g">괄호 안 SELECT가 먼저 값, 목록, 표가 되게 해서 평균과 비교하고 목록으로 고르고 임시 표로 다시 묶어요</div></div><div class="pg">11 / 32<div class="progress"><i style="width:34%"></i></div></div><svg class="i" style="color:var(--faint)"><use href="#i-right"/></svg></a>
-          <a class="ch-row" href="#"><span class="no">42</span><div><div class="t">SQL 7 (다른 표를 보고 넣고, 고치고, 지우기)</div><div class="g">SELECT로 고른 줄을 INSERT, UPDATE, DELETE에 붙이고 EXISTS로 다른 표에 있는지 물어서 넣고 고치고 지워요</div></div><div class="pg">아직 안 봤어요<div class="progress"><i style="width:0"></i></div></div><svg class="i" style="color:var(--faint)"><use href="#i-right"/></svg></a>
-          <a class="ch-row" href="#"><span class="no">43</span><div><div class="t">SQL 8 (트랜잭션)</div><div class="g">문장 여러 개를 BEGIN으로 묶고 COMMIT으로 확정하거나 ROLLBACK으로 한꺼번에 되돌려서, 실수한 UPDATE와 DELETE를 살려요</div></div><div class="pg">아직 안 봤어요<div class="progress"><i style="width:0"></i></div></div><svg class="i" style="color:var(--faint)"><use href="#i-right"/></svg></a>
+        <div class="panel"><h5>이번 주에 본 장<span>월~일</span></h5>
+          <span class="big">47</span>
+          <div class="week" aria-hidden="true"><i style="height:30%"></i><i style="height:55%"></i><i style="height:12%"></i><i style="height:80%"></i><i style="height:100%" class="today"></i><i style="height:4%"></i><i style="height:4%"></i></div>
+          <div class="week-l"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div>
+        </div>
+        <div class="panel"><h5>분류별 진도<span>끝낸 챕터 / 전체</span></h5>
+          <div class="tracks">
+            <div class="trk"><span>터미널</span><div class="bar"><i style="width:100%;background:var(--t-term)"></i></div><span class="v">1 / 1</span></div>
+            <div class="trk"><span>Git</span><div class="bar"><i style="width:100%;background:var(--t-git)"></i></div><span class="v">7 / 7</span></div>
+            <div class="trk"><span>GitHub</span><div class="bar"><i style="width:100%;background:var(--t-gh)"></i></div><span class="v">1 / 1</span></div>
+            <div class="trk"><span>파이썬</span><div class="bar"><i style="width:81%;background:var(--t-py)"></i></div><span class="v">17 / 21</span></div>
+            <div class="trk"><span>Docker</span><div class="bar"><i style="width:100%;background:var(--t-docker)"></i></div><span class="v">6 / 6</span></div>
+            <div class="trk"><span>데이터베이스</span><div class="bar"><i style="width:50%;background:var(--t-db)"></i></div><span class="v">5 / 10</span></div>
+          </div>
+        </div>
+        <div class="panel"><h5>복습할 장<span>3</span></h5>
+          <div class="mini-row"><span class="n">39·23</span><div>WHERE에 COUNT를 넣으면 오류가 나요<small>확인 문제에서 틀렸어요</small></div><svg class="i" style="color:var(--faint)"><use href="#i-right"/></svg></div>
+          <div class="mini-row"><span class="n">40·30</span><div>LEFT JOIN 뒤 WHERE에서 NULL 줄이 사라져요<small>직접 표시했어요</small></div><svg class="i" style="color:var(--faint)"><use href="#i-right"/></svg></div>
+          <div class="mini-row"><span class="n">41·10</span><div>여러 줄이 나오는 서브쿼리는 = 뒤에 못 둬요<small>실습에서 오류가 났어요</small></div><svg class="i" style="color:var(--faint)"><use href="#i-right"/></svg></div>
+        </div>
+        <div class="panel full"><h5>최근 실습<span>이 브라우저에서 실행한 것</span></h5>
+          <div class="mini-row" style="grid-template-columns:52px minmax(0,1fr) auto auto"><span class="n">41·11</span><div>IN 괄호 안에 서브쿼리를 넣으면 목록이 들어가요</div><span class="note">2번 실행</span><span class="badge run"><svg class="i"><use href="#i-check"/></svg>수업 출력과 같아요</span></div>
+          <div class="mini-row" style="grid-template-columns:52px minmax(0,1fr) auto auto"><span class="n">41·10</span><div>여러 줄이 나오는 서브쿼리는 = 뒤에 못 둬요</div><span class="note">1번 실행</span><span class="badge error"><svg class="i"><use href="#i-x"/></svg>ERROR</span></div>
+          <div class="mini-row" style="grid-template-columns:52px minmax(0,1fr) auto auto"><span class="n">41·7</span><div>= 뒤에 두면 가장 비싼 강좌, 가장 나이 많은 회원을 찾아요</div><span class="note">3번 실행</span><span class="badge run"><svg class="i"><use href="#i-check"/></svg>수업 출력과 같아요</span></div>
+        </div>
+        <p class="mock-note full">진도 숫자는 시안용 예시예요. 실제로는 이 브라우저에 저장된 기록으로 채워요.</p>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- 2 챕터 첫 화면 -->
+  <div class="screen-head" id="s-ov"><h3>2. 챕터 첫 화면</h3><p>학습 목표, 시작하기 전에, 파트, 과제. 준비 명령은 터미널 재생 칸으로</p></div>
+  <div class="frame-scroll"><div class="frame">
+    <div class="s-header">
+      <button class="icon-btn toggle" type="button" aria-label="사이드바 펴기"><svg class="i"><use href="#i-panel-open"/></svg></button>
+      <span class="logo">풀스택 AI/AX<span>엔지니어</span></span>
+      <div class="search"><svg class="i"><use href="#i-search"/></svg>장 제목, 명령, 오류 문장 찾기<span class="kbd">/</span></div>
+      <button class="icon-btn" type="button" aria-label="설정"><svg class="i"><use href="#i-settings"/></svg></button>
+    </div>
+    <div class="ov">
+      <div class="crumb">커리큘럼<svg class="i"><use href="#i-right"/></svg>데이터베이스</div>
+      <div class="ov-head" style="margin-top:14px">
+        <div><span class="no">41<span class="chip db">데이터베이스</span></span><h2>SQL 6 (서브쿼리)</h2><p>괄호 안 SELECT가 먼저 값, 목록, 표가 되게 해서 평균과 비교하고 목록으로 고르고 임시 표로 다시 묶어요.</p></div>
+        <div class="act"><a class="btn primary" href="#">11장부터 이어서 보기<svg class="i"><use href="#i-arrow"/></svg></a><a class="btn secondary" href="#">1장부터 보기</a><small>32장 · 파트 6개</small></div>
+      </div>
+      <div class="ov-body">
+        <div>
+          <h4>이 챕터에서 할 수 있게 돼요</h4>
+          <ul class="goals">
+            <li><svg class="i"><use href="#i-check"/></svg><span>평균을 손으로 옮겨 적는 대신 <code>WHERE fee &gt; (SELECT AVG(fee) FROM courses)</code>처럼 한 문장으로 써요.</span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>안쪽 SELECT만 따로 쳐서 결과가 값 하나인지, 목록인지, 표인지 먼저 확인해요.</span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>목록이 나오는 서브쿼리는 <code>IN (...)</code>과 <code>NOT IN (...)</code> 안에 넣고, 같은 일을 <code>JOIN</code>으로도 써 봐요.</span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>회원별 합계 같은 결과를 <code>FROM (...) AS paid</code>로 임시 표로 만들어요.</span></li>
+          </ul>
+          <h4>시작하기 전에</h4>
+          <table class="pre-t">
+            <tr><td><span class="badge run"><svg class="i"><use href="#i-check"/></svg>봤어요</span></td><td>컨테이너 <code>my-pg</code>, 데이터베이스 <code>kant_shop</code>, <code>docker exec -i ... &lt; 파일</code></td><td><a href="#">35</a></td></tr>
+            <tr><td><span class="badge run"><svg class="i"><use href="#i-check"/></svg>봤어요</span></td><td><code>WHERE</code>, <code>IN</code>, <code>ORDER BY</code>, <code>LIMIT</code>, <code>AS</code></td><td><a href="#">36</a></td></tr>
+            <tr><td><span class="badge check">반쯤 봤어요</span></td><td><code>AVG</code>, <code>SUM</code>, <code>COUNT</code>, <code>GROUP BY</code>, <code>HAVING</code></td><td><a href="#">39</a></td></tr>
+            <tr><td><span class="badge run"><svg class="i"><use href="#i-check"/></svg>봤어요</span></td><td><code>JOIN ... ON</code>, <code>LEFT JOIN</code>, 표 별명</td><td><a href="#">40</a></td></tr>
+          </table>
+          <div class="term replay">
+            <div class="bar"><i></i><i></i><i></i><span>터미널 재생 · sports.sql 넣기</span></div>
+<pre><span class="p">$</span> docker exec -it my-pg psql -U postgres -d kant_shop &lt; sports.sql
+<span class="er">cannot attach stdin to a TTY-enabled container because stdin is not a terminal</span></pre>
+            <div class="hint">파일을 &lt; 로 넣을 때는 -it 대신 -i만 써요. 35에서 본 오류예요.</div>
+            <div class="line-in"><span class="p">$</span> docker exec -i my-pg psql -U postgres -d kant_shop &lt; sports.sql<span class="cursor"></span></div>
+          </div>
+          <p class="note" style="margin:8px 0 0">맞게 치고 Enter를 누르면 수업에서 실행한 출력(DROP TABLE, CREATE TABLE 5개, INSERT 5줄)이 나와요. 명령은 실행되지 않고, 미리 실행한 화면을 보여 줘요.</p>
+        </div>
+        <div>
+          <h4>파트</h4>
+          <div class="parts">
+            <a href="#"><span>들어가기</span><small>1–6</small><span class="pips"><i class="s"></i><i class="s"></i><i class="s"></i><i class="s"></i><i class="s"></i><i class="s"></i></span></a>
+            <a href="#"><span>1. 값 하나와 비교하기</span><small>7–9</small><span class="pips"><i class="s"></i><i class="s"></i><i class="s"></i></span></a>
+            <a href="#"><span>2. 목록과 IN</span><small>10–13</small><span class="pips"><i class="s"></i><i class="c"></i><i></i><i></i></span></a>
+            <a href="#"><span>3. FROM에 넣는 임시 표</span><small>14–19</small><span class="pips"><i></i><i></i><i></i><i></i><i></i><i></i></span></a>
+            <a href="#"><span>4. SELECT 칸에 넣기</span><small>20–22</small><span class="pips"><i></i><i></i><i></i></span></a>
+            <a href="#"><span>5. 비교하고 속 들여다보기</span><small>23–25</small><span class="pips"><i></i><i></i><i></i></span></a>
+            <a href="#"><span>6. 오류와 실제 상황</span><small>26–30</small><span class="pips"><i></i><i></i><i></i><i></i><i></i></span></a>
+            <a href="#"><span>정리</span><small>31–32</small><span class="pips"><i></i><i></i></span></a>
+          </div>
+          <div class="task-card"><span class="badge check">챕터 과제</span><b>가장 많이 신청한 강좌의 이름 찾기</b><p>서브쿼리 하나로 강좌 이름과 수강료를 꺼내요. 힌트는 세 단계예요.</p><a class="btn secondary sm" href="#">과제 열기<svg class="i"><use href="#i-arrow"/></svg></a></div>
         </div>
       </div>
-      <aside style="display:grid;gap:16px;align-content:start">
-        <div class="side-card"><h5>복습할 장<span>3</span></h5>
-          <div class="review"><span class="n">39·23</span><div>18건 넘는 강좌만 보려고 WHERE에 COUNT를 넣으면 오류가 나요<small>확인 문제에서 틀렸어요</small></div></div>
-          <div class="review"><span class="n">40·30</span><div>LEFT JOIN 뒤 WHERE에서 오른쪽 표 열을 비교하면 NULL 줄이 사라져요<small>직접 표시했어요</small></div></div>
-          <div class="review"><span class="n">41·10</span><div>여러 줄이 나오는 서브쿼리는 = 뒤에 못 둬요<small>실습에서 오류가 났어요</small></div></div>
-        </div>
-        <div class="side-card"><h5>이번 주에 본 장</h5>
-          <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:34px;font-weight:900;line-height:1">47</span><span style="color:var(--muted);font-size:14px">장 · 챕터 2개를 끝냈어요</span></div>
-          <p class="note" style="margin:10px 0 0">진도는 이 브라우저에만 저장돼요. 다른 기기에서는 처음부터 보여요.</p>
-        </div>
-      </aside>
     </div>
   </div></div>
 
   <!-- B 장 화면 -->
-  <div class="screen-head"><h3>2. 장 화면과 바로 쳐 보기</h3><p>실행과 비교 버튼을 눌러 볼 수 있어요</p></div>
+  <div class="screen-head" id="s-chap"><h3>3. 장 화면과 바로 쳐 보기</h3><p>목차 접기, 실행, 비교 버튼을 눌러 볼 수 있어요</p></div>
   <div class="frame-scroll"><div class="frame">
     <div class="s-header">
       <span class="logo">풀스택 AI/AX<span>엔지니어</span></span>
-      <nav class="s-nav"><a class="on" href="#">커리큘럼</a><a href="#">오류 모음</a><a href="#">용어</a></nav>
+      <nav class="s-nav"><a href="#">내 학습</a><a class="on" href="#">커리큘럼</a><a href="#">오류 모음</a><a href="#">용어</a></nav>
       <div class="search"><svg class="i"><use href="#i-search"/></svg>장 제목, 명령, 오류 문장 찾기<span class="kbd">/</span></div>
       <button class="icon-btn" type="button" aria-label="화면 밝기"><svg class="i"><use href="#i-moon"/></svg></button>
     </div>
-    <div class="chap">
+    <div class="chap" id="chap">
       <nav class="sidebar" aria-label="41 챕터 목차">
-        <div class="head"><span class="no">41 · 데이터베이스</span><b>SQL 6 (서브쿼리)</b><small><span>32장 중 11장</span><span>34%</span></small><div class="progress"><i style="width:34%"></i></div></div>
+        <div class="rail"><button class="icon-btn" id="chap-open" type="button" aria-label="목차 펴기"><svg class="i"><use href="#i-panel-open"/></svg></button><span class="gap"></span><i class="dot seen"></i><i class="dot seen"></i><i class="dot seen"></i><i class="dot seen"></i><i class="dot seen"></i><i class="dot seen"></i><span class="gap"></span><i class="dot seen"></i><i class="dot seen"></i><i class="dot seen"></i><span class="gap"></span><i class="dot seen"></i><i class="dot cur"></i><i class="dot"></i><i class="dot"></i><span class="gap"></span><i class="dot"></i><i class="dot"></i><i class="dot"></i><span class="pct">34%</span></div>
+        <div class="head"><div class="sb-top"><span class="no">41 · 데이터베이스</span><button class="icon-btn" id="chap-close" type="button" aria-label="목차 접기" title="목차 접기 ["><svg class="i"><use href="#i-panel-close"/></svg></button></div><b>SQL 6 (서브쿼리)</b><small><span>32장 중 11장</span><span>34%</span></small><div class="progress"><i style="width:34%"></i></div></div>
         <div class="part"><p>들어가기</p>
           <a class="seen" href="#"><span class="s">✓</span>평균을 보고 손으로 옮겨 적으면 쿼리를 두 번 쳐요</a>
           <a class="seen" href="#"><span class="s">✓</span>괄호 안이 먼저 풀려서 값 하나가 돼요</a>
@@ -816,8 +1140,84 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
     </div>
   </div></div>
 
+  <!-- 검색 -->
+  <div class="screen-head" id="s-search"><h3>4. 검색 창</h3><p><span class="kbd">/</span> 또는 <span class="kbd">Ctrl K</span>로 어디서나 열어요. 장, 오류, 용어를 한 번에 찾아요</p></div>
+  <div class="frame-scroll"><div class="frame overlay" style="height:640px;overflow:hidden">
+    <div class="s-header">
+      <button class="icon-btn toggle" type="button" aria-label="사이드바 접기"><svg class="i"><use href="#i-panel-close"/></svg></button>
+      <span class="logo">풀스택 AI/AX<span>엔지니어</span></span>
+      <div class="search"><svg class="i"><use href="#i-search"/></svg>장 제목, 명령, 오류 문장 찾기<span class="kbd">/</span></div>
+      <button class="icon-btn" type="button" aria-label="설정"><svg class="i"><use href="#i-settings"/></svg></button>
+    </div>
+    <div style="padding:32px 56px;opacity:.9"><div class="crumb">데이터베이스<svg class="i"><use href="#i-right"/></svg>41 SQL 6 (서브쿼리)</div><h2 class="slide-title" style="margin-top:20px">IN 괄호 안에 서브쿼리를 넣으면 목록이 들어가요</h2></div>
+    <div class="dim"></div>
+    <div class="cmdk" role="dialog" aria-label="검색">
+      <div class="in"><svg class="i" style="color:var(--accent)"><use href="#i-search"/></svg>서브쿼리<span class="caret"></span><span class="kbd">Esc</span></div>
+      <div class="tabs"><span class="on">전체 9</span><span>장 6</span><span>오류 2</span><span>용어 1</span></div>
+      <div class="grp"><p><span>용어</span></p>
+        <div class="hit-row sel"><svg class="i"><use href="#i-booka"/></svg><div><mark class="hit">서브쿼리</mark><small>괄호로 감싸 다른 SELECT 안에 넣은 SELECT예요. 안쪽이 먼저 실행돼요.</small></div><svg class="i"><use href="#i-arrow"/></svg></div>
+      </div>
+      <div class="grp"><p><span>장</span><span>6개 중 3개</span></p>
+        <div class="hit-row"><span class="n">41·5</span><div><mark class="hit">서브쿼리</mark> 결과의 모양이 들어갈 자리를 정해요<small>41 SQL 6 · 들어가기</small></div><span></span></div>
+        <div class="hit-row"><span class="n">41·10</span><div>여러 줄이 나오는 <mark class="hit">서브쿼리</mark>는 = 뒤에 못 둬요<small>41 SQL 6 · 2. 목록과 IN</small></div><span></span></div>
+        <div class="hit-row"><span class="n">41·11</span><div>IN 괄호 안에 <mark class="hit">서브쿼리</mark>를 넣으면 목록이 들어가요<small>41 SQL 6 · 2. 목록과 IN · 지금 보는 장</small></div><span></span></div>
+      </div>
+      <div class="grp"><p><span>오류</span></p>
+        <div class="hit-row"><span class="n">41·10</span><div class="m">more than one row returned by a <mark class="hit">subquery</mark> used as an expression</div><span></span></div>
+      </div>
+      <footer><span><span class="kbd">↑</span><span class="kbd">↓</span>고르기</span><span><span class="kbd">Enter</span>열기</span><span><span class="kbd">Esc</span>닫기</span><span style="margin-left:auto">최근 검색: IN, HAVING</span></footer>
+    </div>
+  </div></div>
+  <div class="states" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-top:16px">
+    <div><p class="state-cap">찾는 말이 없을 때</p>
+      <div class="sheet"><div class="cmdk" style="position:static;transform:none;width:auto;box-shadow:none;border:0">
+        <div class="in"><svg class="i" style="color:var(--accent)"><use href="#i-search"/></svg>서브커리<span class="kbd">Esc</span></div>
+        <div class="empty"><b>"서브커리"와 맞는 장이 없어요</b><p>비슷한 말: <a href="#">서브쿼리</a>. 오류 문장은 ERROR: 뒤 문장만 붙여 넣어도 찾아요.</p></div>
+      </div></div></div>
+    <div><p class="state-cap">아무것도 안 쳤을 때</p>
+      <div class="sheet"><div class="cmdk" style="position:static;transform:none;width:auto;box-shadow:none;border:0">
+        <div class="in" style="color:var(--muted)"><svg class="i"><use href="#i-search"/></svg>장 제목, 명령, 오류 문장 찾기<span class="kbd">Esc</span></div>
+        <div class="grp"><p><span>최근 본 장</span></p>
+          <div class="hit-row sel"><span class="n">41·11</span><div>IN 괄호 안에 서브쿼리를 넣으면 목록이 들어가요</div><span></span></div>
+          <div class="hit-row"><span class="n">41·10</span><div>여러 줄이 나오는 서브쿼리는 = 뒤에 못 둬요</div><span></span></div>
+        </div>
+      </div></div></div>
+  </div>
+
+  <!-- 실습 칸 상태 -->
+  <div class="screen-head" id="s-states"><h3>5. 실습 칸 상태</h3><p>엔진을 받는 동안, 오류가 났을 때, 수업 출력과 다를 때</p></div>
+  <div class="states">
+    <div><p class="state-cap">처음 실행: 엔진 받는 중</p>
+      <div class="practice" style="margin:0">
+        <header><svg class="i" style="color:var(--t-py)"><use href="#i-code"/></svg><b>바로 쳐 보기</b><span class="badge mark">파이썬 3.14</span></header>
+        <div class="editor"><div class="gut">1<br>2</div><pre>score = <span class="nu">85</span>
+<span class="fn">print</span>(score)</pre></div>
+        <div class="loader"><p><svg class="i spin"><use href="#i-loader"/></svg>파이썬 실행기를 받는 중이에요</p><div class="progress"><i style="width:64%;background:var(--accent)"></i></div><p class="note" style="margin:8px 0 0">처음 한 번만 받아요. 다음부터는 바로 실행돼요.</p></div>
+      </div></div>
+    <div><p class="state-cap">오류가 났을 때</p>
+      <div class="practice" style="margin:0">
+        <header><svg class="i" style="color:var(--t-py)"><use href="#i-code"/></svg><b>바로 쳐 보기</b><span class="badge mark">파이썬 3.14</span></header>
+        <div class="editor"><div class="gut">1<br>2<br>3<br>4</div><pre><span style="background:var(--error-soft);box-shadow:-3px 0 0 var(--error)">welcome()</span>
+
+<span class="kw">def</span> <span class="fn">welcome</span>():
+    <span class="fn">print</span>(<span class="st">"어서 오세요"</span>)</pre></div>
+        <div class="out-err"><pre>NameError: name 'welcome' is not defined</pre><a href="#"><svg class="i"><use href="#i-alert"/></svg>이 오류 풀이 보기 (19 · 22장)</a></div>
+      </div></div>
+    <div><p class="state-cap">수업 출력과 다를 때</p>
+      <div class="practice" style="margin:0">
+        <header><svg class="i" style="color:var(--t-db)"><use href="#i-db"/></svg><b>바로 쳐 보기</b><span class="badge mark">PostgreSQL 19</span></header>
+        <div style="padding:14px 16px">
+          <div class="cmp" style="grid-template-columns:1fr 1fr;gap:10px">
+            <div><h6>내 결과</h6><div class="result"><table><tbody><tr><td>한수아</td></tr><tr><td>손현우</td></tr></tbody></table></div></div>
+            <div><h6>수업 화면</h6><div class="result"><table><tbody><tr><td>손현우</td></tr><tr><td>한수아</td></tr></tbody></table></div></div>
+          </div>
+          <div class="verdict diff"><svg class="i"><use href="#i-alert"/></svg>줄은 같고 순서만 달라요. ORDER BY가 없으면 순서는 정해져 있지 않아요.</div>
+        </div>
+      </div></div>
+  </div>
+
   <!-- C 확인 문제 -->
-  <div class="screen-head"><h3>3. 파트 끝 확인 문제</h3><p>보기를 눌러 보세요. 틀리면 다시 볼 장으로 이어요</p></div>
+  <div class="screen-head" id="s-quiz"><h3>6. 파트 끝 확인 문제</h3><p>보기를 눌러 보세요. 틀리면 다시 볼 장으로 이어요</p></div>
   <div class="frame-scroll"><div class="frame">
     <div class="quiz-wrap">
       <div class="quiz">
@@ -837,12 +1237,42 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
     </div>
   </div></div>
 
+  <!-- 과제 -->
+  <div class="screen-head" id="s-asg"><h3>7. 챕터 과제와 단계별 힌트</h3><p>힌트는 하나씩 열어요. 눌러 보세요</p></div>
+  <div class="frame-scroll"><div class="frame">
+    <div class="asg">
+      <div>
+        <div class="goal"><span class="badge check">41 챕터 과제</span><b>가장 많이 신청한 강좌의 이름 찾기</b><p>취소한 신청은 빼고 세요. 서브쿼리 하나로 강좌 이름과 수강료를 꺼내요.</p></div>
+        <div class="practice" style="margin:0">
+          <header><svg class="i" style="color:var(--t-db)"><use href="#i-db"/></svg><b>내 답</b><span class="badge mark">PostgreSQL 19</span></header>
+          <div class="editor"><div class="gut">1<br>2<br>3<br>4</div><pre><span class="kw">SELECT</span> course_name, fee
+<span class="kw">FROM</span> courses
+<span class="kw">WHERE</span> course_id = (
+    <span class="cm">-- 여기에 서브쿼리</span></pre></div>
+          <div class="tools"><button class="btn primary sm" type="button"><svg class="i"><use href="#i-play"/></svg>실행</button><button class="btn secondary sm" type="button"><svg class="i"><use href="#i-reset"/></svg>처음으로</button><span class="sp"></span><span class="hint">답이 맞으면 저절로 알려 줘요</span></div>
+        </div>
+      </div>
+      <div>
+        <h4 style="margin:0 0 10px;font-size:16px">힌트</h4>
+        <div class="hints" id="hints">
+          <div class="hint-step"><header><span class="k">1</span>강좌마다 신청 수를 세요</header><div class="body"><code>WHERE status &lt;&gt; '취소'</code>로 거른 뒤 <code>GROUP BY course_id</code>로 묶어요.</div></div>
+          <div class="hint-step locked"><header><span class="k">2</span>힌트 2<button class="btn ghost sm" type="button">열기</button></header><div class="body"><code>ORDER BY COUNT(*) DESC LIMIT 1</code>을 붙이면 번호 하나만 남아요.</div></div>
+          <div class="hint-step locked"><header><span class="k">3</span>힌트 3<button class="btn ghost sm" type="button">열기</button></header><div class="body">그 쿼리를 괄호째 <code>WHERE course_id = ( )</code> 안에 넣어요. 안쪽 끝에는 <code>;</code>를 붙이지 않아요.</div></div>
+        </div>
+        <div class="panel" style="margin-top:14px"><h5>이렇게 나오면 맞아요</h5>
+          <div class="result"><table><thead><tr><th>course_name</th><th style="text-align:right">fee</th></tr></thead><tbody><tr><td>수영 초급 저녁반</td><td class="n">70000</td></tr></tbody></table></div>
+          <p class="note" style="margin:10px 0 0">정답 쿼리는 힌트 셋을 다 연 뒤에 보여 줘요. 41 · 29장과 같은 문제예요.</p>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
   <!-- D 오류 모음 -->
-  <div class="screen-head"><h3>4. 오류 모음</h3><p>터미널에 나온 오류 문장을 그대로 붙여 넣어 찾아요</p></div>
+  <div class="screen-head" id="s-err"><h3>8. 오류 모음</h3><p>터미널에 나온 오류 문장을 그대로 붙여 넣어 찾아요</p></div>
   <div class="frame-scroll"><div class="frame">
     <div class="s-header">
       <span class="logo">풀스택 AI/AX<span>엔지니어</span></span>
-      <nav class="s-nav"><a href="#">커리큘럼</a><a class="on" href="#">오류 모음</a><a href="#">용어</a></nav>
+      <nav class="s-nav"><a href="#">내 학습</a><a href="#">커리큘럼</a><a class="on" href="#">오류 모음</a><a href="#">용어</a></nav>
       <div class="search"><svg class="i"><use href="#i-search"/></svg>장 제목, 명령, 오류 문장 찾기<span class="kbd">/</span></div>
       <button class="icon-btn" type="button" aria-label="화면 밝기"><svg class="i"><use href="#i-moon"/></svg></button>
     </div>
@@ -869,8 +1299,87 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
     </div>
   </div></div>
 
+  <!-- 용어 -->
+  <div class="screen-head" id="s-gl"><h3>9. 용어 모음</h3><p>수업에서 쓴 말 그대로, 처음 나온 장으로 이어요</p></div>
+  <div class="frame-scroll"><div class="frame">
+    <div class="gl">
+      <nav class="jamo" aria-label="첫 글자"><a class="on" href="#">ㄱ</a><a href="#">ㄴ</a><a href="#">ㄷ</a><a href="#">ㄹ</a><a class="off" href="#">ㅁ</a><a href="#">ㅂ</a><a href="#">ㅅ</a><a href="#">ㅇ</a><a href="#">ㅈ</a><a href="#">ㅋ</a><a href="#">ㅌ</a><a class="off" href="#">ㅍ</a><a href="#">ㅎ</a><a href="#">A</a></nav>
+      <div>
+        <div class="err-search" style="border-color:var(--line);font-family:var(--font-sans);color:var(--muted);margin-bottom:20px"><svg class="i"><use href="#i-search"/></svg>용어 찾기<span>모두 보기</span></div>
+        <div class="gl-group"><h4>ㄱ</h4>
+          <div class="gl-list">
+            <div class="gl-item"><b>기본 키<small>Primary Key</small></b><p>겹치지 않고 비울 수 없는 번호예요. 카페 진동벨 번호처럼 한 줄을 하나로 집어 줘요.</p><footer><span class="chip db">32</span>처음 나온 챕터 · <span class="chip db">37</span>에서 다시</footer></div>
+            <div class="gl-item"><b>가상환경<small>.venv</small></b><p>프로젝트마다 따로 두는 파이썬 패키지 보관함이에요. uv가 만들어 줘요.</p><footer><span class="chip py">09</span>처음 나온 챕터</footer></div>
+          </div>
+        </div>
+        <div class="gl-group"><h4>ㄹ</h4>
+          <div class="gl-list">
+            <div class="gl-item"><b>리버스 프록시</b><p>요청을 대신 받아 뒤에 있는 앱 서버로 넘겨 주는 것이에요. nginx가 카운터, 앱 서버가 주방이에요.</p><footer><span class="chip docker">31</span>처음 나온 챕터</footer></div>
+          </div>
+        </div>
+        <div class="gl-group"><h4>ㅅ</h4>
+          <div class="gl-list">
+            <div class="gl-item"><b>서브쿼리</b><p>괄호로 감싸 다른 SELECT 안에 넣은 SELECT예요. 안쪽이 먼저 실행돼서 값, 목록, 표 중 하나가 돼요.</p><footer><span class="chip db">41</span>처음 나온 챕터 · <span class="chip db">42</span>에서 다시</footer></div>
+            <div class="gl-item"><b>스테이징 영역<small>대기실</small></b><p>커밋하기 전에 <code>git add</code>로 올려 두는 곳이에요.</p><footer><span class="chip git">02</span>처음 나온 챕터</footer></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- 설정, 단축키, 알림 -->
+  <div class="screen-head" id="s-set"><h3>10. 설정, 단축키 안내, 알림</h3><p>글자 크기는 나이대가 넓은 수강생을 위해 네 단계로 둬요</p></div>
+  <div class="trio">
+    <div class="sheet"><header>설정<button class="icon-btn" type="button" aria-label="닫기"><svg class="i"><use href="#i-x"/></svg></button></header>
+      <div class="set-row"><p>글자 크기<span>본문 17px</span></p><div class="seg" id="fs-seg"><button type="button">작게</button><button class="on" type="button">보통</button><button type="button">크게</button><button type="button">아주 크게</button></div></div>
+      <div class="set-row"><p>화면 밝기</p><div class="seg"><button type="button">밝게</button><button type="button">어둡게</button><button class="on" type="button">기기 설정</button></div></div>
+      <div class="set-row"><div class="tgl"><span>움직임 줄이기</span><i></i></div></div>
+      <div class="set-row"><p>내 진도</p><div class="btns"><button class="btn secondary sm" type="button">파일로 받기</button><button class="btn secondary sm" type="button">파일에서 불러오기</button><button class="btn ghost sm" type="button" style="color:var(--error)">지우기</button></div><p class="note" style="margin:8px 0 0;font-weight:400">진도는 이 브라우저에만 있어요. 다른 기기로 옮길 때 파일로 받아요.</p></div>
+    </div>
+    <div class="sheet"><header>단축키<button class="icon-btn" type="button" aria-label="닫기"><svg class="i"><use href="#i-x"/></svg></button></header>
+      <div class="keys-l">
+        <span class="k"><span class="kbd">/</span></span><span>검색 창 열기</span>
+        <span class="k"><span class="kbd">←</span><span class="kbd">→</span></span><span>이전 장, 다음 장</span>
+        <span class="k"><span class="kbd">[</span></span><span>목차 접기, 펴기</span>
+        <span class="k"><span class="kbd">Ctrl</span><span class="kbd">Enter</span></span><span>실습 칸 실행 (Mac은 ⌘ Enter)</span>
+        <span class="k"><span class="kbd">B</span></span><span>복습할 장에 넣기, 빼기</span>
+        <span class="k"><span class="kbd">P</span></span><span>지금 장을 슬라이드 플레이어로 보기</span>
+        <span class="k"><span class="kbd">?</span></span><span>이 안내</span>
+        <span class="k"><span class="kbd">Esc</span></span><span>창 닫기</span>
+      </div>
+      <p class="note" style="margin:0;padding:0 18px 16px">실습 칸에 글자를 치는 동안에는 방향키와 글자 키가 넘기기에 쓰이지 않아요.</p>
+    </div>
+    <div style="display:grid;gap:12px">
+      <p class="state-cap" style="margin:0">알림 (화면 아래 가운데, 4초)</p>
+      <div class="toast"><svg class="i"><use href="#i-check"/></svg>복습할 장에 넣었어요<button type="button">되돌리기</button></div>
+      <div class="toast"><svg class="i"><use href="#i-check"/></svg>코드를 복사했어요</div>
+      <div class="toast" style="background:var(--error);color:#fff"><svg class="i" style="color:#fff"><use href="#i-alert"/></svg>실행기를 받지 못했어요. 인터넷 연결을 확인해요<button type="button" style="color:#fff">다시</button></div>
+    </div>
+  </div>
+
+  <!-- 첫 방문 -->
+  <div class="screen-head" id="s-first"><h3>11. 처음 들어왔을 때</h3><p>진도 기록이 없는 브라우저</p></div>
+  <div class="frame-scroll"><div class="frame">
+    <div class="s-header">
+      <button class="icon-btn toggle" type="button" aria-label="사이드바 접기"><svg class="i"><use href="#i-panel-close"/></svg></button>
+      <span class="logo">풀스택 AI/AX<span>엔지니어</span></span>
+      <div class="search"><svg class="i"><use href="#i-search"/></svg>장 제목, 명령, 오류 문장 찾기<span class="kbd">/</span></div>
+      <button class="icon-btn" type="button" aria-label="설정"><svg class="i"><use href="#i-settings"/></svg></button>
+    </div>
+    <div class="first">
+      <h4>어디서부터 볼지 골라요</h4>
+      <p>46챕터가 배우는 순서대로 이어져요. 수업을 이미 들었다면 배운 데까지 표시하고 이어서 봐요.</p>
+      <div class="starts">
+        <a class="start main" href="#"><span class="chip term" style="align-self:flex-start">01</span><b>터미널 기초부터</b><p>터미널에서 폴더와 파일을 만들고 옮기고 지워요. 처음 배우는 분은 여기서 시작해요.</p><span class="go">01 챕터부터 보기<svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="start" href="#"><span class="chip py" style="align-self:flex-start">12</span><b>파이썬부터</b><p>터미널과 Git을 이미 안다면 파이썬 기초 1(변수, 타입, 연산)부터 봐요.</p><span class="go">12 챕터부터 보기<svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="start" href="#"><span class="chip db" style="align-self:flex-start">✓</span><b>배운 데까지 표시하기</b><p>커리큘럼에서 들은 챕터를 골라 한 번에 다 본 것으로 표시해요.</p><span class="go">챕터 고르기<svg class="i"><use href="#i-arrow"/></svg></span></a>
+      </div>
+      <p class="note" style="margin:18px 0 0">로그인은 없어요. 본 장과 복습 표시는 이 브라우저에만 저장돼요.</p>
+    </div>
+  </div></div>
+
   <!-- E 휴대폰 -->
-  <div class="screen-head"><h3>5. 휴대폰 폭</h3><p>390px, 같은 장 화면</p></div>
+  <div class="screen-head" id="s-phone"><h3>12. 휴대폰 폭</h3><p>390px, 같은 장 화면</p></div>
   <div class="ph-wrap">
     <div class="frame-scroll"><div class="frame phone">
       <div class="s-header"><button class="icon-btn" type="button" aria-label="목차"><svg class="i"><use href="#i-menu"/></svg></button><span class="logo">풀스택 AI/AX<span>엔지니어</span></span><span style="flex:1"></span><button class="icon-btn" type="button" aria-label="찾기"><svg class="i"><use href="#i-search"/></svg></button></div>
@@ -991,5 +1500,12 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
     var ok=o.dataset.ok==='1'; o.classList.add(ok?'right':'wrong');
     no.classList.toggle('show', !ok); yes.classList.toggle('show', ok);
   }); });
+  var app=document.getElementById('app'), at=document.getElementById('app-toggle');
+  at.addEventListener('click', function(){ var c=app.classList.toggle('collapsed'); at.setAttribute('aria-expanded',String(!c)); at.setAttribute('aria-label', c?'사이드바 펴기':'사이드바 접기'); at.querySelector('use').setAttribute('href', c?'#i-panel-open':'#i-panel-close'); });
+  var chap=document.getElementById('chap');
+  document.getElementById('chap-close').addEventListener('click', function(){ chap.classList.add('collapsed'); });
+  document.getElementById('chap-open').addEventListener('click', function(){ chap.classList.remove('collapsed'); });
+  document.querySelectorAll('#hints .hint-step button').forEach(function(b){ b.addEventListener('click', function(){ var s=b.closest('.hint-step'); var prev=s.previousElementSibling; if(prev && prev.classList.contains('locked')) return; s.classList.remove('locked'); var h=s.querySelector('header'); b.remove(); var k=h.querySelector('.k').textContent; h.lastChild.textContent = k==='2' ? '번호 하나만 남겨요' : '바깥 쿼리 괄호 안에 넣어요'; }); });
+  document.querySelectorAll('.seg').forEach(function(g){ g.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ g.querySelectorAll('button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on'); }); }); });
 })();
 </script>
