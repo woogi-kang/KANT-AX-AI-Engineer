@@ -637,6 +637,35 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
 .curr-sub{margin:32px 0 12px;font-size:17px;display:flex;gap:12px;align-items:baseline}
 .curr-sub span{font-size:14px;font-weight:400;color:var(--muted)}
 .app.collapsed{grid-template-columns:60px minmax(0,1fr)}
+
+/* 새 소식 */
+.notice{display:flex;align-items:center;gap:12px;margin-top:20px;background:var(--check-soft);border:1px solid color-mix(in srgb,var(--check) 30%,transparent);border-radius:var(--r-lg);padding:12px 12px 12px 18px;font-size:15px;color:var(--ink)}
+.notice > .i{color:var(--check);flex:none}
+.notice b{margin-right:10px;color:var(--check)}
+.notice > div{flex:1;min-width:0}
+.notice .ex{font-size:12px;color:var(--muted);border:1px dashed var(--line-strong);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.news-head{display:flex;align-items:baseline;justify-content:space-between;margin:28px 0 12px}
+.news-head h3{margin:0;font-size:17px}
+.news-head a{display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:500;color:var(--accent);text-decoration:none}
+.news-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.news-card{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;color:inherit;text-decoration:none;transition:border-color var(--dur-fast)}
+.news-card:hover{border-color:var(--line-strong)}
+.news-card .top{display:flex;align-items:center;justify-content:space-between}
+.news-card time,.news-row time{font-family:var(--font-mono);font-size:12.5px;color:var(--muted)}
+.news-card b{font-size:15.5px;line-height:1.45}
+.news-card p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.new-dot{display:inline-block;margin-left:8px;vertical-align:2px;font-size:11.5px;font-weight:700;color:var(--run);background:var(--run-soft);border-radius:999px;padding:0 7px;line-height:19px}
+.news-page{padding:32px 40px 40px;max-width:920px}
+.news-page h2{margin:0;font-size:28px}
+.news-page .lede{margin:6px 0 0;color:var(--sub);font-size:16px}
+.news-page .filter{margin:22px 0 8px}
+.news-list h4{margin:18px 0 8px;font-size:14px;color:var(--muted)}
+.news-row{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:16px;align-items:start;padding:16px 0;border-top:1px solid var(--line)}
+.news-row time{padding-top:3px}
+.news-row b{display:block;font-size:16px;margin:6px 0 2px;line-height:1.45}
+.news-row p{margin:0;font-size:14.5px;color:var(--sub);line-height:1.6}
+.news-row > a{display:inline-flex;align-items:center;gap:4px;font-size:13.5px;font-weight:500;color:var(--accent);text-decoration:none;white-space:nowrap;padding-top:2px}
+.news-row[hidden]{display:none}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -663,6 +692,7 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
   <symbol id="i-list" viewBox="0 0 24 24"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></symbol>
   <symbol id="i-library" viewBox="0 0 24 24"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></symbol>
   <symbol id="i-booka" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="m8 13 4-7 4 7"/><path d="M9.1 11h5.7"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
   <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-panel-close" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></symbol>
@@ -1004,6 +1034,7 @@ print("점수:", score)  # 0O 1lI {}[] == != =&gt;</pre>
         <tr><td>SettingsPanel</td><td>글자 크기, 밝기, 움직임 줄이기</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>ShortcutSheet</td><td><span class="kbd">?</span>로 여는 단축키 안내</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>CurriculumList 칸</td><td>TrackFilter, ChapterRow, 번외 목록</td><td><span class="phase p0">0</span></td></tr>
+        <tr><td>News 칸</td><td>NoticeBanner(닫으면 그 공지는 다시 안 떠요), NewsCard, NewsRow, KindFilter</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>ChapterOverview 칸</td><td>GoalList, PrereqTable, PartList, TaskCard</td><td><span class="phase p0">0</span></td></tr>
       </table>
     </div>
@@ -1093,7 +1124,8 @@ print("점수:", score)  # 0O 1lI {}[] == != =&gt;</pre>
     <thead><tr><th>화면, 상태</th><th>정한 것</th><th>시안</th></tr></thead>
     <tbody>
       <tr><td>전체 틀</td><td>왼쪽 사이드바는 두 가지예요. 처음 화면에서는 사이트 메뉴, 챕터 안에서는 그 챕터의 목차예요. 둘 다 접으면 아이콘 줄(60px)만 남고, 접은 상태는 브라우저에 기억해요. 단축키는 <span class="kbd">[</span>예요.</td><td><a href="#s-dash">1</a> · <a href="#s-chap">3</a></td></tr>
-      <tr><td>처음 화면</td><td>46챕터를 배우는 순서대로 한 줄씩 늘어놓아요. 분류 버튼으로 거르고, 줄마다 슬라이드와 PDF로 바로 가요. 번외는 맨 아래에 따로 둬요.</td><td><a href="#s-dash">1</a></td></tr>
+      <tr><td>처음 화면</td><td>맨 위에 공지 한 줄과 새 소식 세 개를 두고, 아래에 46챕터를 배우는 순서대로 한 줄씩 늘어놓아요. 분류 버튼으로 거르고, 줄마다 슬라이드와 PDF로 바로 가요. 올린 지 7일이 안 된 챕터에는 "새 챕터"를 붙여요. 번외는 맨 아래에 따로 둬요.</td><td><a href="#s-dash">1</a></td></tr>
+      <tr><td>새 소식</td><td>공지, 릴리스 노트, 새 챕터를 날짜순으로 모은 목록이에요. 릴리스 노트는 curriculum.json의 updates를 그대로 읽고, 공지는 같은 파일에 notices를 새로 둬서 적어요. 공지는 닫으면 그 브라우저에서 다시 뜨지 않아요.</td><td><a href="#s-news">1-2</a></td></tr>
       <tr><td>챕터 첫 화면</td><td>챕터 README의 학습 목표, 시작하기 전에(먼저 볼 챕터 링크), 파트 목록, 챕터 과제를 한 화면에 모아요.</td><td><a href="#s-ov">2</a></td></tr>
       <tr><td>장 화면</td><td>목차를 접으면 본문 폭은 그대로 두고 양옆 여백만 넓어져요. 한 줄 길이가 길어지지 않게 해요.</td><td><a href="#s-chap">3</a></td></tr>
       <tr><td>검색</td><td><span class="kbd">/</span>, <span class="kbd">Ctrl K</span>로 여는 창 하나에서 장, 오류, 용어를 묶어 보여 줘요. 아무것도 안 쳤을 때는 찾는 법 세 가지, 결과가 없으면 비슷한 말을 보여 줘요.</td><td><a href="#s-search">4</a></td></tr>
@@ -1104,7 +1136,7 @@ print("점수:", score)  # 0O 1lI {}[] == != =&gt;</pre>
       <tr><td>설정</td><td>글자 크기 네 단계, 화면 밝기, 움직임 줄이기예요. 고른 값만 브라우저에 남겨요.</td><td><a href="#s-set">10</a></td></tr>
       <tr><td>단축키 안내, 알림</td><td><span class="kbd">?</span>로 여는 안내와 화면 아래 알림(코드 복사, 실행기 받기 실패)이에요.</td><td><a href="#s-set">10</a></td></tr>
       <tr><td>휴대폰</td><td>목차는 위 버튼으로 여는 판, 이전과 다음 장은 아래 막대예요.</td><td><a href="#s-phone">11</a></td></tr>
-      <tr class="later"><td>빼거나 미룬 것</td><td>로그인한 것처럼 보이는 학습 기록(이어서 보기, 본 장 표시, 복습할 장, 최근 실습)은 지금은 넣지 않아요. 새 소식(릴리스 노트) 목록, 찾는 페이지가 없을 때(404), 인쇄 화면은 다음 판으로 미뤄요. 새 소식은 커리큘럼 목록과 같은 부품으로 만들어요.</td><td>—</td></tr>
+      <tr class="later"><td>빼거나 미룬 것</td><td>로그인한 것처럼 보이는 학습 기록(이어서 보기, 본 장 표시, 복습할 장, 최근 실습)은 지금은 넣지 않아요. 찾는 페이지가 없을 때(404)와 인쇄 화면은 다음 판으로 미뤄요.</td><td>—</td></tr>
     </tbody>
   </table>
   </div>
@@ -1139,6 +1171,10 @@ print("점수:", score)  # 0O 1lI {}[] == != =&gt;</pre>
       <div class="curr">
         <h2>풀스택 AI/AX 엔지니어</h2>
         <p class="lede">46챕터를 배우는 순서대로 이어 놨어요. 처음이면 01부터 봐요. 챕터를 누르면 학습 목표와 파트가 나와요.</p>
+        <div class="notice" role="note"><svg class="i"><use href="#i-megaphone"/></svg><div><b>공지</b>학습 사이트를 열었어요. 지금까지 쓰던 슬라이드 주소와 PDF 주소는 그대로 쓸 수 있어요.</div><span class="ex">내용은 예시</span><button class="icon-btn" type="button" aria-label="공지 닫기"><svg class="i"><use href="#i-x"/></svg></button></div>
+        <div class="news-head"><h3>새 소식</h3><a href="#s-news">전체 보기<svg class="i"><use href="#i-arrow"/></svg></a></div>
+        <div class="news-strip"><a class="news-card" href="#"><span class="top"><span class="badge run">새 챕터</span><time>11.23</time></span><b>46 데이터 정리하기 (타이타닉 전처리)</b><p>타이타닉 승객 891명의 빈칸을 채우고 튀는 값과 겹친 행을 찾아 머신러닝에 넣을 표로 다듬어요</p></a><a class="news-card" href="#"><span class="top"><span class="badge mark">릴리스 노트</span><time>11.23</time></span><b>챕터마다 슬라이드 PDF를 받을 수 있어요</b><p>커리큘럼 표의 PDF, 챕터 README의 PDF 받기, 슬라이드 아래 막대의 받기 버튼(⤓)으로 PDF를 받아요. 애니메이션이 끝난 화면이 한 장에 한 쪽씩 담겨요</p></a><a class="news-card" href="#"><span class="top"><span class="badge run">새 챕터</span><time>11.20</time></span><b>45 NumPy와 pandas 맛보기</b><p>한 달 지출 12건을 NumPy 배열과 pandas 표로 옮겨 합계, 고르기, 정렬, 분류별 합계를 한 줄로 구해요</p></a></div>
+        <h3 class="curr-sub" style="margin-top:32px">커리큘럼<span>배우는 순서대로 이어져요</span></h3>
         <div class="filter" id="curr-filter" role="group" aria-label="분류"><button class="on" type="button" data-f="all">전체 46</button><button type="button" data-f="term">터미널 1</button><button type="button" data-f="git">Git 7</button><button type="button" data-f="gh">GitHub 1</button><button type="button" data-f="py">파이썬 21</button><button type="button" data-f="docker">Docker 6</button><button type="button" data-f="db">데이터베이스 10</button></div>
         <div class="ch-list" id="curr-list">
           <a class="ch-row" data-t="term" href="#"><span class="no" style="color:var(--t-term)">01</span><div><div class="t">터미널 기초</div><div class="g">터미널에서 폴더와 파일을 만들고 옮기고 지워요</div></div><span class="chip term">터미널</span><span class="links"><span>슬라이드</span><span>PDF</span></span></a>
@@ -1185,12 +1221,46 @@ print("점수:", score)  # 0O 1lI {}[] == != =&gt;</pre>
           <a class="ch-row" data-t="db" href="#"><span class="no" style="color:var(--t-db)">42</span><div><div class="t">SQL 7 (다른 표를 보고 넣고, 고치고, 지우기)</div><div class="g">SELECT로 고른 줄을 INSERT, UPDATE, DELETE에 붙이고 EXISTS로 다른 표에 있는지 물어서 넣고 고치고 지워요</div></div><span class="chip db">데이터베이스</span><span class="links"><span>슬라이드</span><span>PDF</span></span></a>
           <a class="ch-row" data-t="db" href="#"><span class="no" style="color:var(--t-db)">43</span><div><div class="t">SQL 8 (트랜잭션)</div><div class="g">문장 여러 개를 BEGIN으로 묶고 COMMIT으로 확정하거나 ROLLBACK으로 한꺼번에 되돌려서, 실수한 UPDATE와 DELETE를 살려요</div></div><span class="chip db">데이터베이스</span><span class="links"><span>슬라이드</span><span>PDF</span></span></a>
           <a class="ch-row" data-t="db" href="#"><span class="no" style="color:var(--t-db)">44</span><div><div class="t">파이썬에서 PostgreSQL 쓰기 (psycopg)</div><div class="g">파이썬 프로그램이 psycopg로 kant_shop에 접속해서 강좌 목록을 받아 찍고, %s로 값을 넘겨 수강 신청을 저장해요</div></div><span class="chip db">데이터베이스</span><span class="links"><span>슬라이드</span><span>PDF</span></span></a>
-          <a class="ch-row" data-t="py" href="#"><span class="no" style="color:var(--t-py)">45</span><div><div class="t">NumPy와 pandas 맛보기</div><div class="g">한 달 지출 12건을 NumPy 배열과 pandas 표로 옮겨 합계, 고르기, 정렬, 분류별 합계를 한 줄로 구해요</div></div><span class="chip py">파이썬</span><span class="links"><span>슬라이드</span><span>PDF</span></span></a>
-          <a class="ch-row" data-t="py" href="#"><span class="no" style="color:var(--t-py)">46</span><div><div class="t">데이터 정리하기 (타이타닉 전처리)</div><div class="g">타이타닉 승객 891명의 빈칸을 채우고 튀는 값과 겹친 행을 찾아 머신러닝에 넣을 표로 다듬어요</div></div><span class="chip py">파이썬</span><span class="links"><span>슬라이드</span><span>PDF</span></span></a>
+          <a class="ch-row" data-t="py" href="#"><span class="no" style="color:var(--t-py)">45</span><div><div class="t">NumPy와 pandas 맛보기<span class="new-dot">새 챕터</span></div><div class="g">한 달 지출 12건을 NumPy 배열과 pandas 표로 옮겨 합계, 고르기, 정렬, 분류별 합계를 한 줄로 구해요</div></div><span class="chip py">파이썬</span><span class="links"><span>슬라이드</span><span>PDF</span></span></a>
+          <a class="ch-row" data-t="py" href="#"><span class="no" style="color:var(--t-py)">46</span><div><div class="t">데이터 정리하기 (타이타닉 전처리)<span class="new-dot">새 챕터</span></div><div class="g">타이타닉 승객 891명의 빈칸을 채우고 튀는 값과 겹친 행을 찾아 머신러닝에 넣을 표로 다듬어요</div></div><span class="chip py">파이썬</span><span class="links"><span>슬라이드</span><span>PDF</span></span></a>
         </div>
         <h3 class="curr-sub">번외<span>배우는 순서와 상관없이 막혔을 때 봐요</span></h3>
         <div class="ch-list"><a class="ch-row" href="#"><span class="no" style="color:var(--muted)">+</span><div><div class="t">터미널 환경에 적응하기</div><div class="g">탐색기와 터미널 맞춰 보기(cd .. cd - cd ~), 위치에 따라 달라지는 명령, -h와 --help, origin과 main 이름의 관례, git과 uv 도움말 읽기</div></div><span class="chip term">터미널</span><span class="links"><span>슬라이드</span><span>PDF</span></span></a></div>
       </div>
+    </div>
+  </div></div>
+
+  <!-- 새 소식 -->
+  <div class="screen-head" id="s-news"><h3>1-2. 새 소식</h3><p>공지, 릴리스 노트, 새 챕터를 날짜순으로 모아요. 위 버튼으로 걸러 보세요</p></div>
+  <div class="frame-scroll"><div class="frame">
+    <div class="s-header">
+      <button class="icon-btn toggle" type="button" aria-label="사이드바 펴기"><svg class="i"><use href="#i-panel-open"/></svg></button>
+      <span class="logo">풀스택 AI/AX<span>엔지니어</span></span>
+      <div class="search"><svg class="i"><use href="#i-search"/></svg>장 제목, 명령, 오류 문장 찾기<span class="kbd">/</span></div>
+      <button class="icon-btn" type="button" aria-label="설정"><svg class="i"><use href="#i-settings"/></svg></button>
+    </div>
+    <div class="news-page">
+      <h2>새 소식</h2>
+      <p class="lede">슬라이드와 사이트가 달라진 점, 새로 올린 챕터를 알려 드려요.</p>
+      <div class="filter" id="news-filter" role="group" aria-label="소식 종류"><button class="on" type="button" data-f="all">전체 14</button><button type="button" data-f="notice">공지 0</button><button type="button" data-f="rel">릴리스 노트 7</button><button type="button" data-f="new">새 챕터 7</button></div>
+      <div class="news-list" id="news-list">
+        <h4>2026년 11월</h4>
+        <article class="news-row" data-k="new"><time>11.23</time><div><span class="badge run">새 챕터</span><b>46 데이터 정리하기 (타이타닉 전처리)</b><p>타이타닉 승객 891명의 빈칸을 채우고 튀는 값과 겹친 행을 찾아 머신러닝에 넣을 표로 다듬어요</p></div><a href="#">챕터 열기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="rel"><time>11.23</time><div><span class="badge mark">릴리스 노트</span><b>챕터마다 슬라이드 PDF를 받을 수 있어요</b><p>커리큘럼 표의 PDF, 챕터 README의 PDF 받기, 슬라이드 아래 막대의 받기 버튼(⤓)으로 PDF를 받아요. 애니메이션이 끝난 화면이 한 장에 한 쪽씩 담겨요</p></div><a href="#">자세히 보기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="new"><time>11.20</time><div><span class="badge run">새 챕터</span><b>45 NumPy와 pandas 맛보기</b><p>한 달 지출 12건을 NumPy 배열과 pandas 표로 옮겨 합계, 고르기, 정렬, 분류별 합계를 한 줄로 구해요</p></div><a href="#">챕터 열기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="new"><time>11.19</time><div><span class="badge run">새 챕터</span><b>42 SQL 7 (다른 표를 보고 넣고, 고치고, 지우기)</b><p>SELECT로 고른 줄을 INSERT, UPDATE, DELETE에 붙이고 EXISTS로 다른 표에 있는지 물어서 넣고 고치고 지워요</p></div><a href="#">챕터 열기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="new"><time>11.19</time><div><span class="badge run">새 챕터</span><b>43 SQL 8 (트랜잭션)</b><p>문장 여러 개를 BEGIN으로 묶고 COMMIT으로 확정하거나 ROLLBACK으로 한꺼번에 되돌려서, 실수한 UPDATE와 DELETE를 살려요</p></div><a href="#">챕터 열기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="new"><time>11.19</time><div><span class="badge run">새 챕터</span><b>44 파이썬에서 PostgreSQL 쓰기 (psycopg)</b><p>파이썬 프로그램이 psycopg로 kant_shop에 접속해서 강좌 목록을 받아 찍고, %s로 값을 넘겨 수강 신청을 저장해요</p></div><a href="#">챕터 열기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="new"><time>11.18</time><div><span class="badge run">새 챕터</span><b>40 SQL 5 (UNION과 JOIN으로 결과 합치기)</b><p>결과 두 개를 UNION으로 위아래로 잇고, 두 표를 JOIN으로 옆에 붙여 신청 번호 옆에 회원 이름과 강좌 이름을 보여 줘요</p></div><a href="#">챕터 열기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="new"><time>11.18</time><div><span class="badge run">새 챕터</span><b>41 SQL 6 (서브쿼리)</b><p>괄호 안 SELECT가 먼저 값, 목록, 표가 되게 해서 평균과 비교하고 목록으로 고르고 임시 표로 다시 묶어요</p></div><a href="#">챕터 열기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="rel"><time>11.18</time><div><span class="badge mark">릴리스 노트</span><b>어떤 화면에서도 슬라이드를 편하게 볼 수 있어요</b><p>화살표와 아래 막대가 마우스를 멈추면 사라져서 슬라이드를 가리지 않아요. 16:10 화면의 띠는 연한 색이 되고, 작은 창과 휴대폰에서는 크게 보는 방법을 알려 줘요</p></div><a href="#">자세히 보기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="rel"><time>11.13</time><div><span class="badge mark">릴리스 노트</span><b>코드 복사 버튼이 아이콘으로 깔끔해졌어요</b><p>코드 칸의 "복사" 글자 버튼이 작은 아이콘으로 바뀌었어요. 누르면 체크 표시가 나오고, 짧은 칸에서는 코드를 가리지 않는 자리로 옮겨 가요</p></div><a href="#">자세히 보기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="rel"><time>11.9</time><div><span class="badge mark">릴리스 노트</span><b>발표자 노트를 원하는 자리로 옮기고 크기를 바꿀 수 있어요</b><p>노트 카드 위쪽을 끌면 옮겨지고, 가장자리나 모서리를 끌면 크기가 바뀌어요. 자리와 크기는 브라우저가 기억하고, 위쪽을 두 번 누르면 처음 자리로 돌아가요</p></div><a href="#">자세히 보기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="rel"><time>11.8</time><div><span class="badge mark">릴리스 노트</span><b>애니메이션 다시 보기가 추가되고 아래 막대와 발표자 노트가 보기 좋아졌어요</b><p>R 키나 ↻ 버튼으로 지금 장의 애니메이션을 처음부터 다시 봐요. 아래 막대는 아이콘만 남겨 간단해졌고, 단축키는 ?로 열어 봐요. 발표자 노트는 요점이 먼저 보이는 카드로 바뀌었어요</p></div><a href="#">자세히 보기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="rel"><time>11.5</time><div><span class="badge mark">릴리스 노트</span><b>클래스 슬라이드에 직접 눌러 보는 장이 추가되었어요</b><p>24 붕어빵 기계, 25 누가 불릴까, 26 어디서부터 찾을까. 버튼을 누르면 코드가 한 줄씩 실행되고 메서드를 찾는 순서가 그림으로 보여요</p></div><a href="#">자세히 보기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+        <article class="news-row" data-k="rel"><time>11.3</time><div><span class="badge mark">릴리스 노트</span><b>슬라이드 보는 방법이 개선되었어요</b><p>화살표 버튼으로 바로 넘기기, 코드 복사 버튼, 이전 장으로 돌아가면 완성된 화면, A로 애니메이션 끄기, 쪽 번호 뒤 Enter로 이동</p></div><a href="#">자세히 보기<svg class="i"><use href="#i-arrow"/></svg></a></article>
+      </div>
+      <p class="note" style="margin:14px 0 0">릴리스 노트는 레포 curriculum.json의 updates, 새 챕터 날짜는 챕터가 main에 처음 올라간 날이에요. 공지는 아직 없어서 0이에요.</p>
     </div>
   </div></div>
 
@@ -1682,6 +1752,8 @@ print("점수:", score)  # 0O 1lI {}[] == != =&gt;</pre>
   at.addEventListener('click', function(){ var c=app.classList.toggle('collapsed'); at.setAttribute('aria-expanded',String(!c)); at.setAttribute('aria-label', c?'사이드바 펴기':'사이드바 접기'); at.querySelector('use').setAttribute('href', c?'#i-panel-open':'#i-panel-close'); });
   var chap=document.getElementById('chap');
   document.querySelectorAll('#curr-filter button').forEach(function(b){ b.addEventListener('click', function(){ document.querySelectorAll('#curr-filter button').forEach(function(x){x.classList.toggle('on', x===b)}); var f=b.dataset.f; document.querySelectorAll('#curr-list .ch-row').forEach(function(r){ r.hidden = !(f==='all' || r.dataset.t===f); }); }); });
+  document.querySelectorAll('#news-filter button').forEach(function(b){ b.addEventListener('click', function(){ document.querySelectorAll('#news-filter button').forEach(function(x){x.classList.toggle('on', x===b)}); var f=b.dataset.f; document.querySelectorAll('#news-list .news-row').forEach(function(r){ r.hidden = !(f==='all' || r.dataset.k===f); }); }); });
+  document.querySelectorAll('.notice .icon-btn').forEach(function(b){ b.addEventListener('click', function(){ b.closest('.notice').remove(); }); });
   document.getElementById('chap-close').addEventListener('click', function(){ chap.classList.add('collapsed'); });
   document.getElementById('chap-open').addEventListener('click', function(){ chap.classList.remove('collapsed'); });
   document.querySelectorAll('#hints .hint-step button').forEach(function(b){ b.addEventListener('click', function(){ var s=b.closest('.hint-step'); var prev=s.previousElementSibling; if(prev && prev.classList.contains('locked')) return; s.classList.remove('locked'); var h=s.querySelector('header'); b.remove(); var k=h.querySelector('.k').textContent; h.lastChild.textContent = k==='2' ? '번호 하나만 남겨요' : '바깥 쿼리 괄호 안에 넣어요'; }); });
