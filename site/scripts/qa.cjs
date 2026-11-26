@@ -1,5 +1,5 @@
 // 사이트 전체 검수: npm run build 뒤 out/을 띄우고(cd out && python3 -m http.server 8766) node scripts/qa.cjs [주소 일부]
-// 모든 화면을 1440, 390 폭으로 열어 가로 넘침, 콘솔 오류, 깨진 내부 링크, 깨진 그림을 찾아요. SHOT=폴더 를 주면 화면을 찍어요.
+// THEME=dark 를 주면 어두운 화면으로 봐요. 모든 화면을 1440, 390 폭으로 열어 가로 넘침, 콘솔 오류, 깨진 내부 링크, 깨진 그림을 찾아요. SHOT=폴더 를 주면 화면을 찍어요.
 const { chromium } = require("playwright");
 const fs = require("fs"), path = require("path");
 const OUT = path.resolve(__dirname, "..", "out");
@@ -15,6 +15,8 @@ const exists = (u) => { const p = u.split("#")[0].split("?")[0]; if (!p.startsWi
   let bad = 0; const broken = new Set();
   for (const w of [1440, 390]) {
     const ctx = await b.newContext({ viewport: { width: w, height: w > 500 ? 900 : 844 }, deviceScaleFactor: 1 });
+    // THEME=dark 이면 어두운 화면으로 검수해요
+    if (process.env.THEME === "dark") await ctx.addInitScript(() => { try { localStorage.setItem("theme", "dark"); } catch {} });
     const pg = await ctx.newPage();
     const errs = []; pg.on("pageerror", (e) => errs.push(e.message)); pg.on("console", (m) => m.type() === "error" && errs.push(m.text()));
     for (const u of list) {
@@ -34,7 +36,7 @@ const exists = (u) => { const p = u.split("#")[0].split("?")[0]; if (!p.startsWi
       if (r.imgs.length) prob.push("깨진 그림 " + r.imgs.join(" "));
       if (errs.length) prob.push("오류 " + [...new Set(errs)].slice(0, 2).join(" / "));
       if (prob.length) { bad++; console.log(`[${w}] ${u}\n   ` + prob.join("\n   ")); }
-      if (SHOT) { fs.mkdirSync(SHOT, { recursive: true }); await pg.screenshot({ path: path.join(SHOT, `${(u.replace(/\//g, "_") || "_home").replace(/^_|_$/g, "") || "home"}-${w}.png`), fullPage: true }); }
+      if (SHOT) { fs.mkdirSync(SHOT, { recursive: true }); await pg.screenshot({ path: path.join(SHOT, `${(u.replace(/\//g, "_") || "_home").replace(/^_|_$/g, "") || "home"}-${w}${process.env.THEME === "dark" ? "-dark" : ""}.png`), fullPage: true }); }
     }
     await ctx.close();
   }

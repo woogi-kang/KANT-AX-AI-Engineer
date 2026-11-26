@@ -13,7 +13,8 @@
     "covers": "node scripts/shoot-covers.mjs",
     "qa": "node scripts/qa.cjs",
     "practice:check": "node scripts/practice-check.mjs",
-    "quiz": "node scripts/check-quiz.mjs"
+    "quiz": "node scripts/check-quiz.mjs",
+    "qa:click": "node scripts/qa-interact.cjs"
   },
   "engines": {
     "node": ">=26"

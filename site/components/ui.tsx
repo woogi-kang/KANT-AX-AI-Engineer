@@ -32,7 +32,7 @@ const DARK: LogoKey[] = ["github", "terminal", "mysql", "postgresql", "pandas", 
 export function Logo({ k, size = 28 }: { k: LogoKey; size?: number }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img className={DARK.includes(k) ? "lg dk" : "lg"} src={logoSrc(k)} alt={LOGOS[k].title} title={LOGOS[k].title} width={size} height={size} style={{ "--s": `${size}px` } as React.CSSProperties} />
+    <img className={`lg${DARK.includes(k) ? " dk" : ""} lg-${k}`} src={logoSrc(k)} alt={LOGOS[k].title} title={LOGOS[k].title} width={size} height={size} style={{ "--s": `${size}px` } as React.CSSProperties} />
   );
 }
 export function Logos({ ks, size = 28 }: { ks: LogoKey[]; size?: number }) {

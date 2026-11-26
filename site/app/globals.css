@@ -86,6 +86,7 @@ h3 { font-size: 17px; font-weight: 700; line-height: 1.35; }
 .lg { width: var(--s); height: var(--s); object-fit: contain; flex: none; }
 .lgs { display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 /* 어두운 화면에서 검은 로고가 묻히지 않게 밝은 바탕을 깔아요 */
+:root[data-theme="dark"] .lg-database { filter: brightness(1.75) saturate(0.85); }
 :root[data-theme="dark"] .lg.dk { background: #f4f3f0; border-radius: 6px; padding: 2px; }
 
 /* ===== 큰 타일 ===== */
