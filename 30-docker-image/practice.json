@@ -1,0 +1,409 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "30-docker-image/tools/out.json(tools/demo.py)로 실제 실행한 출력",
+ "cells": [
+  {
+   "id": "run-web",
+   "page": 6,
+   "title": "29처럼 nginx 컨테이너를 하나 띄워요",
+   "part": "1. 컨테이너 안에 들어가기",
+   "steps": [
+    {
+     "cmd": "docker run -d --name web -p 8080:80 nginx",
+     "out": [
+      "Unable to find image 'nginx:latest' locally",
+      "latest: Pulling from library/nginx",
+      "6d2e43921e9e: Pull complete",
+      "512ac5e7ce8e: Pull complete",
+      "37fb86c2a767: Pull complete",
+      "bbb080c71d50: Pull complete",
+      "1724c05f72c6: Pull complete",
+      "1962e1ff75b4: Pull complete",
+      "7cb4701ce7cd: Pull complete",
+      "4582dace95e2: Download complete",
+      "d2c7e31f04a3: Download complete",
+      "Digest: sha256:165ddde8751e75a1c907d24ef10d9f6deb08b57e0fe56caf67512486aff76d82",
+      "Status: Downloaded newer image for nginx:latest",
+      "0828f05b4674b6a7e52e35a9383e86efb2ab65d31e1eba65aa420d58ab973f01"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "port-busy",
+   "page": 6,
+   "title": "29처럼 nginx 컨테이너를 하나 띄워요",
+   "part": "1. 컨테이너 안에 들어가기",
+   "steps": [
+    {
+     "cmd": "docker run -d --name web -p 8080:80 nginx",
+     "out": [
+      "d9e7faca2fea3fce726d54b2d30b1f2b5ff28c607d1096311f1f79bd895ffd17",
+      "docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint web (1807d8fbf76a1f96cf9aa20f9b0b1d0e15fd8a274e059bb2c75f032b75b72e1b): Bind for 0.0.0.0:8080 failed: port is already allocated",
+      "",
+      "Run 'docker run --help' for more information"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "exec",
+   "page": 7,
+   "title": "docker exec -it로 실행 중인 컨테이너 안에 들어가요",
+   "part": "1. 컨테이너 안에 들어가기",
+   "steps": [
+    {
+     "cmd": "docker exec -it web bash",
+     "out": [
+      "root@0828f05b4674:/# ls",
+      "bin   docker-entrypoint.d   home   media  proc  sbin  tmp",
+      "boot  docker-entrypoint.sh  lib    mnt    root  srv   usr",
+      "dev   etc                   lib64  opt    run   sys   var",
+      "root@0828f05b4674:/# cd /usr/share/nginx/html",
+      "root@0828f05b4674:/usr/share/nginx/html# ls",
+      "50x.html  index.html",
+      "root@0828f05b4674:/usr/share/nginx/html# echo \"<h1>KANT Cafe</h1>\" > index.html",
+      "root@0828f05b4674:/usr/share/nginx/html# cat index.html",
+      "<h1>KANT Cafe</h1>",
+      "root@0828f05b4674:/usr/share/nginx/html# exit",
+      "exit"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "gone",
+   "page": 9,
+   "title": "컨테이너를 지우면 안에서 바꾼 것도 같이 사라져요",
+   "part": "1. 컨테이너 안에 들어가기",
+   "steps": [
+    {
+     "cmd": "docker stop web",
+     "out": [
+      "web"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker rm web",
+     "out": [
+      "web"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker run -d --name web -p 8080:80 nginx",
+     "out": [
+      "f52feff89539cab9fd7733b5d12efee72401513a506e138f2336a44649f61dcc"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "exec-stopped",
+   "page": 9,
+   "title": "컨테이너를 지우면 안에서 바꾼 것도 같이 사라져요",
+   "part": "1. 컨테이너 안에 들어가기",
+   "steps": [
+    {
+     "cmd": "docker stop web",
+     "out": [
+      "web"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker exec -it web bash",
+     "out": [
+      "Error response from daemon: container f52feff89539cab9fd7733b5d12efee72401513a50",
+      "6e138f2336a44649f61dcc is not running"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "vol",
+   "page": 11,
+   "title": "-v 볼륨이름:경로를 붙이면 지웠다 만들어도 남아요",
+   "part": "2. 볼륨으로 남기기",
+   "steps": [
+    {
+     "cmd": "docker run -d --name web -p 8080:80 -v cafe-html:/usr/share/nginx/html nginx",
+     "out": [
+      "74a1a1c605522a5125ecb9c000c93abce7ecd116871300a6f052be67b636f9eb"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker exec -it web bash",
+     "out": [
+      "root@74a1a1c60552:/# cd /usr/share/nginx/html",
+      "root@74a1a1c60552:/usr/share/nginx/html# echo \"<h1>KANT Cafe</h1>\" > index.html",
+      "root@74a1a1c60552:/usr/share/nginx/html# exit",
+      "exit"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker stop web",
+     "out": [
+      "web"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker rm web",
+     "out": [
+      "web"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker run -d --name web -p 8080:80 -v cafe-html:/usr/share/nginx/html nginx",
+     "out": [
+      "5eb2f44d2736ae268339144abfd81d70a8d89cb84c548a0888b383c318190bfc"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "vol-ls",
+   "page": 12,
+   "title": "docker volume ls로 남아 있는 볼륨을 봐요",
+   "part": "2. 볼륨으로 남기기",
+   "steps": [
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME",
+      "local     cafe-html"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "bind",
+   "page": 14,
+   "title": "남길 때는 볼륨, 고치면서 볼 때는 폴더 연결을 써요",
+   "part": "2. 볼륨으로 남기기",
+   "steps": [
+    {
+     "cmd": "ls site",
+     "out": [
+      "index.html"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker run -d --name web -p 8080:80 -v ./site:/usr/share/nginx/html nginx",
+     "out": [
+      "3e31b385089825bae2d34a89c113d60c2a71057ec671f857c20edceb507a7391"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "compose-down",
+   "page": 16,
+   "title": "docker compose up -d로 켜고 down으로 지워요",
+   "part": "3. docker compose 맛보기",
+   "steps": [
+    {
+     "cmd": "docker compose down",
+     "out": [
+      "[+] down 2/2",
+      " ✔ Container cafe-web-1 Removed                                             0.2s",
+      " ✔ Network cafe_default Removed                                             0.2s"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "compose-none",
+   "page": 16,
+   "title": "docker compose up -d로 켜고 down으로 지워요",
+   "part": "3. docker compose 맛보기",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "no configuration file provided: not found"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bind-typo",
+   "page": 18,
+   "title": "-v에서 ./를 빼면 폴더가 아니라 새 볼륨이 생겨요",
+   "part": "4. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker run -d --name web -p 8080:80 -v site:/usr/share/nginx/html nginx",
+     "out": [
+      "960cc30556270fd3538cb66b68a080aec342867b29a94d79035d6595b911d61a"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME",
+      "local     cafe-html",
+      "local     site"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "cafe-ls",
+   "page": 18,
+   "title": "-v에서 ./를 빼면 폴더가 아니라 새 볼륨이 생겨요",
+   "part": "4. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "ls",
+     "out": [
+      "compose.yaml",
+      "site"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "friend",
+   "page": 18,
+   "title": "-v에서 ./를 빼면 폴더가 아니라 새 볼륨이 생겨요",
+   "part": "4. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "ls",
+     "out": [
+      "compose.yaml",
+      "site"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "[+] up 12/12",
+      " ✔ Image nginx          Pulled                                              2.7s",
+      " ✔ Network cafe_default Created                                             0.0s",
+      " ✔ Container cafe-web-1 Started                                             0.5s"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker compose ps",
+     "out": [
+      "NAME         IMAGE     COMMAND                  SERVICE   CREATED        STATUS                  PORTS",
+      "cafe-web-1   nginx     \"/docker-entrypoint.…\"   web       1 second ago   Up Less than a second   0.0.0.0:8080->80/tcp"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker compose down",
+     "out": [
+      "[+] down 2/2",
+      " ✔ Container cafe-web-1 Removed                                             0.2s",
+      " ✔ Network cafe_default Removed                                             0.2s"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "compose-up",
+   "page": 19,
+   "title": "예제 1 · 카페 메뉴판을 compose로 띄우고 고쳐요",
+   "part": "5. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "[+] up 2/2",
+      " ✔ Network cafe_default Created                                             0.0s",
+      " ✔ Container cafe-web-1 Started                                             0.2s"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "clean",
+   "page": 21,
+   "title": "예제 3 · 다 쓴 컨테이너와 볼륨을 정리해요",
+   "part": "5. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "docker ps -a",
+     "out": [
+      "CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME",
+      "local     cafe-html",
+      "local     site"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker volume rm cafe-html site",
+     "out": [
+      "cafe-html",
+      "site"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME"
+     ],
+     "cwd": "~/cafe"
+    },
+    {
+     "cmd": "docker images",
+     "out": [
+      "IMAGE          ID             DISK USAGE   CONTENT SIZE   EXTRA",
+      "nginx:latest   165ddde8751e        243MB         66.8MB        "
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  },
+  {
+   "id": "compose-ps",
+   "page": 23,
+   "title": "한 장 요약",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker compose ps",
+     "out": [
+      "NAME         IMAGE     COMMAND                  SERVICE   CREATED                  STATUS                  PORTS",
+      "cafe-web-1   nginx     \"/docker-entrypoint.…\"   web       Less than a second ago   Up Less than a second   0.0.0.0:8080->80/tcp"
+     ],
+     "cwd": "~/cafe"
+    }
+   ]
+  }
+ ]
+}

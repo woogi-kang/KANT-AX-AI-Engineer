@@ -1,0 +1,86 @@
+/* 바로 쳐 보기(실습 칸). 색은 tokens.css 변수만 써요. */
+.practice .pc-lead { color: var(--sub); margin: 4px 0 0; font-size: 15px; }
+.pc-parts { margin: 14px 0 6px; }
+.pc-list { display: grid; gap: 14px; margin-top: 10px; }
+
+.pc { border: 1px solid var(--line); border-radius: 14px; background: var(--card); padding: 14px; min-width: 0; }
+.pc-h { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; min-width: 0; }
+.pc-h h3 { font-size: 15.5px; font-weight: 700; margin: 0; flex: 1; min-width: 0; line-height: 1.4; }
+.pc-pg { display: inline-flex; align-items: center; gap: 5px; flex: none; height: 28px; padding: 0 10px; border-radius: 14px; border: 1px solid var(--ac-line); background: var(--ac-s); color: var(--ac); font-size: 13px; font-weight: 700; cursor: pointer; }
+.pc-pg svg { width: 14px; height: 14px; }
+.pc-pg:hover { border-color: var(--ac); }
+.pc-tag { flex: none; font-size: 12.5px; color: var(--sub); border: 1px solid var(--line2); border-radius: 12px; padding: 2px 9px; }
+
+/* 코드 칸 */
+.pc-ed { border: 1px solid var(--line2); border-radius: 10px; background: var(--code); overflow: hidden; font-family: var(--font-mono); font-size: 14.5px; line-height: 1.6; }
+.pc-ed:focus-within { border-color: var(--ac); box-shadow: 0 0 0 3px var(--ac-s); }
+.pc-static { margin: 0; padding: 8px 12px 8px 0; overflow-x: auto; font: inherit; color: var(--ink); white-space: pre; }
+.pc-static i { display: inline-block; width: 38px; padding-right: 12px; text-align: right; color: var(--mute); font-style: normal; user-select: none; }
+.pc-ed .cm-editor { background: transparent; color: var(--ink); max-height: 420px; }
+.pc-ed .cm-editor.cm-focused { outline: none; }
+.pc-ed .cm-scroller { font-family: var(--font-mono); line-height: 1.6; padding: 8px 0; }
+.pc-ed .cm-gutters { background: transparent; border: none; color: var(--mute); }
+.pc-ed .cm-lineNumbers .cm-gutterElement { min-width: 26px; padding: 0 12px 0 0; }
+.pc-ed .cm-activeLine, .pc-ed .cm-activeLineGutter { background: color-mix(in srgb, var(--ac) 7%, transparent); }
+.pc-ed .cm-cursor { border-left-color: var(--ink); }
+.pc-ed .cm-selectionBackground, .pc-ed .cm-focused .cm-selectionBackground { background: color-mix(in srgb, var(--ac) 24%, transparent) !important; }
+.pc-ed .cm-matchingBracket { background: color-mix(in srgb, var(--ac) 18%, transparent); outline: none; }
+.pc-ed .tok-keyword, .pc-ed .tok-operatorKeyword { color: var(--ac); font-weight: 600; }
+.pc-ed .tok-string, .pc-ed .tok-string2 { color: var(--ok); }
+.pc-ed .tok-number, .pc-ed .tok-bool, .pc-ed .tok-atom { color: var(--warn); }
+.pc-ed .tok-comment { color: var(--mute); font-style: italic; }
+.pc-ed .tok-variableName.tok-definition, .pc-ed .tok-definition { color: var(--ink); font-weight: 600; }
+.pc-ed .tok-typeName, .pc-ed .tok-className { color: var(--err); }
+
+/* 버튼 줄 */
+.pc-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+.pc-bar .btn { height: 38px; padding: 0 14px; font-size: 14.5px; }
+.pc-bar .btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.pc-bar .btn:disabled { opacity: 0.45; cursor: default; pointer-events: none; }
+.pc-st { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--sub); min-height: 24px; }
+.pc-st svg { width: 16px; height: 16px; }
+.pc-st .ok, .pc-st .warn { display: inline-flex; align-items: center; gap: 5px; font-weight: 700; }
+.pc-st .ok { color: var(--ok); }
+.pc-st .warn { color: var(--warn); }
+.spin { animation: pc-spin 0.9s linear infinite; }
+@keyframes pc-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+
+.pc-diff, .pc-note { margin: 10px 0 0; font-size: 13.5px; border-radius: 8px; padding: 8px 12px; line-height: 1.5; }
+.pc-diff { background: var(--warn-s); color: var(--warn); }
+.pc-note { background: var(--hover); color: var(--sub); }
+
+/* 출력 */
+.pc-res { margin-top: 10px; display: grid; gap: 10px; min-width: 0; }
+.pc-res.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.pc-res > div { min-width: 0; }
+.pc-res small { display: block; font-size: 12.5px; font-weight: 700; color: var(--sub); margin: 0 0 4px; }
+.pc-out { margin: 0; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-family: var(--font-mono); font-size: 13.5px; line-height: 1.55; white-space: pre; overflow: auto; max-height: 420px; color: var(--ink); -webkit-overflow-scrolling: touch; }
+.pc-out.empty { color: var(--mute); }
+.pc-out .e { color: var(--err); }
+.pc-out .d { background: var(--warn-s); }
+.pc-out .more-lines { color: var(--mute); }
+
+/* 재생형 칸 */
+.rp-term { margin: 0; background: var(--cover-bg); color: #e8e6df; border-radius: 10px; padding: 12px 14px; font-family: var(--font-mono); font-size: 13.5px; line-height: 1.6; white-space: pre; overflow: auto; max-height: 440px; min-height: 64px; -webkit-overflow-scrolling: touch; }
+.rp-term .c b { color: #7fd6a4; font-weight: 600; }
+.rp-term .c { color: #ffffff; }
+.rp-term .m { color: #9aa3b2; }
+.rp-in { display: flex; gap: 8px; align-items: center; margin-top: 10px; border: 1px solid var(--line2); border-radius: 10px; background: var(--code); padding: 4px 4px 4px 12px; }
+.rp-in:focus-within { border-color: var(--ac); box-shadow: 0 0 0 3px var(--ac-s); }
+.rp-in > span { font-family: var(--font-mono); color: var(--mute); }
+.rp-in input { flex: 1; min-width: 0; border: none; background: transparent; font-family: var(--font-mono); font-size: 16px; color: var(--ink); height: 36px; outline: none; }
+.rp-in .btn { height: 36px; padding: 0 12px; }
+
+@media (max-width: 720px) {
+  .pc { padding: 12px; border-radius: 12px; }
+  .pc-res.two { grid-template-columns: minmax(0, 1fr); }
+  .pc-ed { font-size: 16px; } /* iOS가 입력할 때 화면을 키우지 않게 16px */
+  .pc-bar .btn { padding: 0 12px; flex: 1; justify-content: center; }
+  .pc-bar .wide { display: none; }
+  .pc-st { flex-basis: 100%; }
+  .pc-st:empty { display: none; }
+  .pc-h { flex-wrap: wrap; }
+  .pc-h h3 { flex-basis: 100%; order: 3; }
+}
+.pc-more { margin-top: 12px; width: 100%; justify-content: center; }

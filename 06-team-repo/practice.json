@@ -1,0 +1,882 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "06-team-repo 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+ "cells": [
+  {
+   "id": "clone-1",
+   "page": 7,
+   "title": "셋이 각자 컴퓨터에 clone해요",
+   "part": "1. 팀 레포 준비",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "kim, lee, park의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git clone https://github.com/kim/team-intro.git",
+     "out": [
+      "Cloning into 'team-intro'...",
+      "done."
+     ]
+    },
+    {
+     "cmd": "cd team-intro",
+     "out": []
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "7f7794e (HEAD -> main, origin/main, origin/HEAD) Initial commit"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a1-1",
+   "page": 9,
+   "title": "먼저 push한 kim은 그냥 올라가요",
+   "part": "2. 다른 파일은 저절로",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "kim의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "echo \"안녕하세요, kim이에요\" > kim.md",
+     "out": []
+    },
+    {
+     "cmd": "git add kim.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"docs: kim 자기소개 추가\"",
+     "out": [
+      "[main 11f6ff4] docs: kim 자기소개 추가",
+      " 1 file changed, 1 insertion(+)",
+      " create mode 100644 kim.md"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "To https://github.com/kim/team-intro.git",
+      "   7f7794e..11f6ff4  main -> main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a2-1",
+   "page": 10,
+   "title": "lee의 push는 거절돼요",
+   "part": "2. 다른 파일은 저절로",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "echo \"안녕하세요, lee예요\" > lee.md",
+     "out": []
+    },
+    {
+     "cmd": "git add lee.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"docs: lee 자기소개 추가\"",
+     "out": [
+      "[main a078082] docs: lee 자기소개 추가"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "To https://github.com/kim/team-intro.git",
+      " ! [rejected]        main -> main (fetch first)",
+      "error: failed to push some refs to 'https://github.com/kim/team-intro.git'",
+      "hint: ...",
+      "hint: 'git pull' before pushing again."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a3-1",
+   "page": 11,
+   "title": "pull 하면 다른 파일이라 저절로 합쳐져요",
+   "part": "2. 다른 파일은 저절로",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/team-intro",
+      " * branch            main       -> FETCH_HEAD",
+      "   7f7794e..11f6ff4  main       -> origin/main",
+      "Merge made by the 'ort' strategy.",
+      " kim.md | 1 +",
+      " 1 file changed, 1 insertion(+)"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "3c66163 (HEAD -> main) Merge branch 'main' of https://github.com/kim/team-intro",
+      "a078082 docs: lee 자기소개 추가",
+      "11f6ff4 (origin/main, origin/HEAD) docs: kim 자기소개 추가",
+      "7f7794e Initial commit"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nocfg-1",
+   "page": 13,
+   "title": "설정을 안 했다면 pull이 멈춰요",
+   "part": "2. 다른 파일은 저절로",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/team-intro",
+      " * branch            main       -> FETCH_HEAD",
+      "hint: You have divergent branches and need to specify how to reconcile them.",
+      "hint: ...",
+      "hint:   git config pull.rebase false  # merge",
+      "hint:   git config pull.rebase true   # rebase",
+      "hint:   git config pull.ff only       # fast-forward only",
+      "hint: ...",
+      "fatal: Need to specify how to reconcile divergent branches."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a4-1",
+   "page": 14,
+   "title": "합친 뒤에 다시 push하면 올라가요",
+   "part": "2. 다른 파일은 저절로",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "To https://github.com/kim/team-intro.git",
+      "   11f6ff4..3c66163  main -> main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a5-1",
+   "page": 15,
+   "title": "새 커밋이 없는 kim은 fast-forward로 따라와요",
+   "part": "2. 다른 파일은 저절로",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "kim의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/team-intro",
+      " * branch            main       -> FETCH_HEAD",
+      "   11f6ff4..3c66163  main       -> origin/main",
+      "Updating 11f6ff4..3c66163",
+      "Fast-forward",
+      " lee.md | 1 +",
+      " 1 file changed, 1 insertion(+)",
+      " create mode 100644 lee.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a6-1",
+   "page": 16,
+   "title": "park은 fetch로 먼저 보고 시작해요",
+   "part": "2. 다른 파일은 저절로",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "park의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git fetch origin",
+     "out": [
+      "From https://github.com/kim/team-intro",
+      "   7f7794e..3c66163  main       -> origin/main"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "7f7794e (HEAD -> main) Initial commit"
+     ]
+    },
+    {
+     "cmd": "git log --oneline origin/main",
+     "out": [
+      "3c66163 (origin/main, origin/HEAD) Merge branch 'main' of https://github.com/kim/team-intro",
+      "a078082 docs: lee 자기소개 추가",
+      "11f6ff4 docs: kim 자기소개 추가",
+      "7f7794e (HEAD -> main) Initial commit"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "a7-1",
+   "page": 17,
+   "title": "pull 하면 넷이 같아져요",
+   "part": "2. 다른 파일은 저절로",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "park의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/team-intro",
+      " * branch            main       -> FETCH_HEAD",
+      "Updating 7f7794e..3c66163",
+      "Fast-forward",
+      " kim.md | 1 +",
+      " lee.md | 1 +",
+      " 2 files changed, 2 insertions(+)",
+      " create mode 100644 kim.md",
+      " create mode 100644 lee.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1-1",
+   "page": 18,
+   "title": "kim이 README.md 첫 줄을 바꿔 먼저 올려요",
+   "part": "3. 같은 줄은 충돌",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "kim의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git diff",
+     "out": [
+      "--- a/README.md",
+      "+++ b/README.md",
+      "@@ -1 +1 @@",
+      "-# team-intro",
+      "+# 깃벗 팀"
+     ]
+    },
+    {
+     "cmd": "git add README.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"docs: 팀 이름을 깃벗으로 정하기\"",
+     "out": [
+      "[main 0586354] docs: 팀 이름을 깃벗으로 정하기"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "   3c66163..0586354  main -> main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b2-1",
+   "page": 19,
+   "title": "lee도 같은 줄을 바꿔서 또 거절돼요",
+   "part": "3. 같은 줄은 충돌",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git diff",
+     "out": [
+      "-# team-intro",
+      "+# 커밋조 팀"
+     ]
+    },
+    {
+     "cmd": "git add README.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"docs: 팀 이름을 커밋조로 정하기\"",
+     "out": [
+      "[main f08005f] docs: 팀 이름을 커밋조로 정하기"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      " ! [rejected]        main -> main (fetch first)",
+      "error: failed to push some refs to 'https://github.com/kim/team-intro.git'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b3-1",
+   "page": 20,
+   "title": "pull 하면 같은 줄이라 CONFLICT가 나요",
+   "part": "3. 같은 줄은 충돌",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/team-intro",
+      "   3c66163..0586354  main       -> origin/main",
+      "Auto-merging README.md",
+      "CONFLICT (content): Merge conflict in README.md",
+      "Automatic merge failed; fix conflicts and then commit the result."
+     ]
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "You have unmerged paths.",
+      "  (fix conflicts and run \"git commit\")",
+      "  (use \"git merge --abort\" to abort the merge)",
+      "        both modified:   README.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b5-1",
+   "page": 22,
+   "title": "고쳐서 commit 하면 두 갈래가 이어지고 push가 돼요",
+   "part": "3. 같은 줄은 충돌",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro",
+      "# README.md를 # 깃벗 팀 한 줄만 남기고 저장"
+     ]
+    },
+    {
+     "cmd": "git add README.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"fix: 팀 이름 충돌 해결\"",
+     "out": [
+      "[main b13c5dc] fix: 팀 이름 충돌 해결"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "To https://github.com/kim/team-intro.git",
+      "   0586354..b13c5dc  main -> main"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "b13c5dc (HEAD -> main, origin/main, origin/HEAD) fix: 팀 이름 충돌 해결",
+      "f08005f docs: 팀 이름을 커밋조로 정하기",
+      "0586354 docs: 팀 이름을 깃벗으로 정하기"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b6-1",
+   "page": 23,
+   "title": "나머지는 pull로 받으면 다시 넷이 같아져요",
+   "part": "3. 같은 줄은 충돌",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "kim, park의 터미널",
+      "~/team-intro",
+      "# kim"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Updating 0586354..b13c5dc",
+      "Fast-forward",
+      "# park"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Updating 3c66163..b13c5dc",
+      "Fast-forward",
+      " README.md | 2 +-"
+     ]
+    },
+    {
+     "cmd": "cat README.md",
+     "out": [
+      "# 깃벗 팀"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c1-1",
+   "page": 28,
+   "title": "일을 시작할 땐 main을 받고 새 브랜치를 만들어요",
+   "part": "5. 브랜치로 일할 때",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git checkout main",
+     "out": [
+      "Already on 'main'",
+      "Your branch is up to date with 'origin/main'."
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/team-intro",
+      " * branch            main       -> FETCH_HEAD",
+      "Already up to date."
+     ]
+    },
+    {
+     "cmd": "git checkout -b feature/lee-intro",
+     "out": [
+      "Switched to a new branch 'feature/lee-intro'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c2-1",
+   "page": 29,
+   "title": "커밋하고 내 브랜치를 push해요",
+   "part": "5. 브랜치로 일할 때",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "echo \"안녕하세요, lee예요\" > lee.md",
+     "out": []
+    },
+    {
+     "cmd": "git add lee.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"docs: lee 자기소개 추가\"",
+     "out": [
+      "[feature/lee-intro 6fb7cc2] docs: lee 자기소개 추가",
+      " 1 file changed, 1 insertion(+)",
+      " create mode 100644 lee.md"
+     ]
+    },
+    {
+     "cmd": "git push origin feature/lee-intro",
+     "out": [
+      "To https://github.com/kim/team-intro.git",
+      " * [new branch]      feature/lee-intro -> feature/lee-intro"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c3-1",
+   "page": 31,
+   "title": "PR이 합쳐지면 main을 받고 다음 브랜치로 가요",
+   "part": "5. 브랜치로 일할 때",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git checkout main",
+     "out": [
+      "Switched to branch 'main'"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "   93715e4..ec7283e  main       -> origin/main",
+      "Updating 93715e4..ec7283e",
+      "Fast-forward",
+      " lee.md | 1 +"
+     ]
+    },
+    {
+     "cmd": "git branch -d feature/lee-intro",
+     "out": [
+      "Deleted branch feature/lee-intro (was 6fb7cc2)."
+     ]
+    },
+    {
+     "cmd": "git checkout -b feature/lee-hobby",
+     "out": [
+      "Switched to a new branch 'feature/lee-hobby'"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "ec7283e (HEAD -> feature/lee-hobby, ..., main) Merge pull request #1 from lee/feature/lee-intro"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c4-1",
+   "page": 32,
+   "title": "다른 파일을 고친 PR 두 개는 둘 다 바로 합쳐져요",
+   "part": "5. 브랜치로 일할 때",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "kim의 터미널",
+      "~/team-intro",
+      "# GitHub에서 PR #2, #3을 차례로 Merge"
+     ]
+    },
+    {
+     "cmd": "git checkout main",
+     "out": []
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Updating ec7283e..09e7497",
+      "Fast-forward",
+      " kim.md | 1 +",
+      " lee.md | 1 +",
+      " 2 files changed, 2 insertions(+)"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "09e7497 (HEAD -> main, origin/main, origin/HEAD) Merge pull request #3 from lee/feature/lee-hobby",
+      "4da19b6 Merge pull request #2 from kim/feature/kim-intro"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c5-1",
+   "page": 34,
+   "title": "내 브랜치에서 main을 받아 충돌을 풀어요",
+   "part": "5. 브랜치로 일할 때",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "   09e7497..66421a6  main       -> origin/main",
+      "Auto-merging README.md",
+      "CONFLICT (content): Merge conflict in README.md"
+     ]
+    },
+    {
+     "cmd": "cat README.md",
+     "out": [
+      "# 깃벗 팀",
+      "",
+      "<<<<<<< HEAD",
+      "소개: 매주 화요일 스터디",
+      "=======",
+      "소개: 깃 공부 모임",
+      ">>>>>>> 66421a6213c2e39598e99a657405f57421cbd26d",
+      "",
+      "## 멤버"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c5b-1",
+   "page": 35,
+   "title": "고쳐서 같은 브랜치로 다시 push하면 PR이 살아나요",
+   "part": "5. 브랜치로 일할 때",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro",
+      "# README.md를 고쳐 저장"
+     ]
+    },
+    {
+     "cmd": "git add README.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"fix: 팀 소개 충돌 해결\"",
+     "out": [
+      "[feature/team-about-lee da0214b] fix: 팀 소개 충돌 해결"
+     ]
+    },
+    {
+     "cmd": "git push origin feature/team-about-lee",
+     "out": [
+      "To https://github.com/kim/team-intro.git",
+      "   af3284d..da0214b  feature/team-about-lee -> feature/team-about-lee",
+      "# PR #5가 다시 초록색이 되면 Merge, 그다음 모두 main에서 pull"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c6-1",
+   "page": 36,
+   "title": "고친 파일이 있는데 pull 하면 멈춰요",
+   "part": "5. 브랜치로 일할 때",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "echo \"- lee\" >> README.md",
+     "out": []
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "   2647d0e..1ef2620  main       -> origin/main",
+      "error: Your local changes to the following files would be overwritten by merge:",
+      "        README.md",
+      "Please commit your changes or stash them before you merge.",
+      "Aborting"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c6b-1",
+   "page": 37,
+   "title": "브랜치를 만들어 커밋하면 pull이 진행돼요",
+   "part": "5. 브랜치로 일할 때",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "lee의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git checkout -b feature/lee-member",
+     "out": [
+      "Switched to a new branch 'feature/lee-member'"
+     ]
+    },
+    {
+     "cmd": "git add README.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"docs: 멤버에 lee 추가\"",
+     "out": [
+      "[feature/lee-member 2e4ddbd] docs: 멤버에 lee 추가"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Auto-merging README.md",
+      "CONFLICT (content): Merge conflict in README.md",
+      "Automatic merge failed; fix conflicts and then commit the result."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c7-1",
+   "page": 38,
+   "title": "고친 파일이 있는데 브랜치를 옮기면 멈춰요",
+   "part": "5. 브랜치로 일할 때",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "kim의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "echo \"좋아하는 음식: 김밥\" >> kim.md",
+     "out": []
+    },
+    {
+     "cmd": "git checkout main",
+     "out": [
+      "error: Your local changes to the following files would be overwritten by checkout:",
+      "        kim.md",
+      "Please commit your changes or stash them before you switch branches.",
+      "Aborting"
+     ]
+    },
+    {
+     "cmd": "git add kim.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"docs: kim 좋아하는 음식 추가\"",
+     "out": [
+      "[feature/kim-hobby 1cd6246] docs: kim 좋아하는 음식 추가"
+     ]
+    },
+    {
+     "cmd": "git checkout main",
+     "out": [
+      "Switched to branch 'main'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c8-1",
+   "page": 39,
+   "title": "main에 커밋했는데 아직 push 전이면 브랜치로 옮겨요",
+   "part": "5. 브랜치로 일할 때",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "kim의 터미널",
+      "~/team-intro"
+     ]
+    },
+    {
+     "cmd": "git commit -m \"docs: 다음 모임 날짜 추가\"",
+     "out": [
+      "[main 0af5f5a] docs: 다음 모임 날짜 추가"
+     ]
+    },
+    {
+     "cmd": "git branch feature/next-meeting",
+     "out": [
+      "# 지금 커밋에 브랜치 이름표를 하나 더 붙여요"
+     ]
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "Your branch is ahead of 'origin/main' by 1 commit.",
+      "nothing to commit, working tree clean"
+     ]
+    },
+    {
+     "cmd": "git reset --hard HEAD~1",
+     "out": [
+      "HEAD is now at 1ef2620 Merge pull request #6 from kim/feature/kim-member"
+     ]
+    },
+    {
+     "cmd": "git checkout feature/next-meeting",
+     "out": []
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "0af5f5a (HEAD -> feature/next-meeting) docs: 다음 모임 날짜 추가",
+      "1ef2620 (origin/main, origin/HEAD, main) Merge pull request #6 ..."
+     ]
+    }
+   ]
+  }
+ ]
+}

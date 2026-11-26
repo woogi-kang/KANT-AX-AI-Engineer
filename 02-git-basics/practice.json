@@ -1,0 +1,652 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "02-git-basics 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+ "cells": [
+  {
+   "id": "s0-config-1",
+   "page": 9,
+   "title": "Git에게 내 이름을 알려 줘요",
+   "part": "2. 혼자 기록하기",
+   "steps": [
+    {
+     "cmd": "git config --global user.name \"홍길동\"",
+     "out": []
+    },
+    {
+     "cmd": "git config --global user.email \"gildong@example.com\"",
+     "out": []
+    },
+    {
+     "cmd": "git config --global init.defaultBranch main",
+     "out": []
+    },
+    {
+     "cmd": "git config --global --list",
+     "out": [
+      "user.name=홍길동",
+      "user.email=gildong@example.com",
+      "init.defaultbranch=main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s1-init-1",
+   "page": 10,
+   "title": "폴더를 Git 저장소로 만들어요",
+   "part": "2. 혼자 기록하기",
+   "steps": [
+    {
+     "cmd": "mkdir hello-git && cd hello-git",
+     "out": []
+    },
+    {
+     "cmd": "git init",
+     "out": [
+      "Initialized empty Git repository in /Users/kim/hello-git/.git/"
+     ]
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "",
+      "No commits yet",
+      "",
+      "nothing to commit (create/copy files and use \"git add\" to track)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s2-create-1",
+   "page": 11,
+   "title": "새 파일을 하나 만들어요",
+   "part": "2. 혼자 기록하기",
+   "steps": [
+    {
+     "cmd": "echo \"hello\" > hello.md",
+     "out": []
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "No commits yet",
+      "Untracked files:",
+      "  (use \"git add <file>...\" to include in what will be committed)",
+      "        hello.md",
+      "nothing added to commit but untracked files present"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s3-add-1",
+   "page": 12,
+   "title": "파일을 대기실에 올려요",
+   "part": "2. 혼자 기록하기",
+   "steps": [
+    {
+     "cmd": "git add hello.md",
+     "out": [
+      "# 아무 출력이 없으면 성공"
+     ]
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "No commits yet",
+      "Changes to be committed:",
+      "  (use \"git rm --cached <file>...\" to unstage)",
+      "        new file:   hello.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s4-commit-1",
+   "page": 13,
+   "title": "대기실에 올린 모습을 커밋해요",
+   "part": "2. 혼자 기록하기",
+   "steps": [
+    {
+     "cmd": "git commit -m \"feat: 인사 파일 추가\"",
+     "out": [
+      "[main (root-commit) 538dd06] feat: 인사 파일 추가",
+      " 1 file changed, 1 insertion(+)",
+      " create mode 100644 hello.md"
+     ]
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "nothing to commit, working tree clean"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s5-edit-1",
+   "page": 14,
+   "title": "커밋한 파일을 다시 고쳐요",
+   "part": "2. 혼자 기록하기",
+   "steps": [
+    {
+     "cmd": "echo \"world\" >> hello.md",
+     "out": []
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "Changes not staged for commit:",
+      "  (use \"git add <file>...\" to update what will be committed)",
+      "        modified:   hello.md",
+      "no changes added to commit (use \"git add\" and/or \"git commit -a\")"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s6-mixed-1",
+   "page": 15,
+   "title": "add 한 뒤에 또 고치면 어떻게 될까요?",
+   "part": "2. 혼자 기록하기",
+   "steps": [
+    {
+     "cmd": "git add hello.md",
+     "out": []
+    },
+    {
+     "cmd": "echo \"more\" >> hello.md",
+     "out": []
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "Changes to be committed:",
+      "        modified:   hello.md",
+      "Changes not staged for commit:",
+      "        modified:   hello.md",
+      "# 안내 문구(use ...)는 생략"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s7-commit2-1",
+   "page": 16,
+   "title": "add, commit을 한 번 더 해요",
+   "part": "2. 혼자 기록하기",
+   "steps": [
+    {
+     "cmd": "git add hello.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 인사말 추가\"",
+     "out": [
+      "[main a7c21f4] feat: 인사말 추가",
+      " 1 file changed, 2 insertions(+)"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "a7c21f4 (HEAD -> main) feat: 인사말 추가",
+      "538dd06 feat: 인사 파일 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "commit-why-1",
+   "page": 17,
+   "title": "한 달 뒤, 어느 쪽 기록을 읽고 싶나요?",
+   "part": "2. 혼자 기록하기",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "아무렇게나"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "9f1c2aa 수정",
+      "4b7e0d1 ㅇㅇ",
+      "c21a9f3 asdf",
+      "7d0e5b2 최종",
+      "1a2b3c4 진짜최종"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "commit-why-2",
+   "page": 17,
+   "title": "한 달 뒤, 어느 쪽 기록을 읽고 싶나요?",
+   "part": "2. 혼자 기록하기",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "규칙대로"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "9f1c2aa fix: 로그인 버튼이 안 눌리는 문제 수정",
+      "4b7e0d1 feat: 회원가입 이메일 인증 추가",
+      "c21a9f3 docs: README에 설치 방법 추가",
+      "7d0e5b2 style: 들여쓰기 정리",
+      "1a2b3c4 refactor: 로그인 함수 분리"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s9-remote-1",
+   "page": 20,
+   "title": "GitHub 주소를 origin이라는 이름으로 등록해요",
+   "part": "3. GitHub과 연결",
+   "steps": [
+    {
+     "cmd": "git remote add origin https://github.com/kim/hello-git.git",
+     "out": [
+      "# 출력 없음 = 등록 성공"
+     ]
+    },
+    {
+     "cmd": "git remote -v",
+     "out": [
+      "origin  https://github.com/kim/hello-git.git (fetch)",
+      "origin  https://github.com/kim/hello-git.git (push)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s10-push-1",
+   "page": 21,
+   "title": "내 커밋을 GitHub으로 보내요",
+   "part": "3. GitHub과 연결",
+   "steps": [
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "Enumerating objects: 6, done.",
+      "Writing objects: 100% (6/6), 466 bytes | 466.00 KiB/s, done.",
+      "To https://github.com/kim/hello-git.git",
+      " * [new branch]      main -> main"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "a7c21f4 (HEAD -> main, origin/main) feat: 인사말 추가",
+      "538dd06 feat: 인사 파일 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s11-ahead-1",
+   "page": 22,
+   "title": "status는 깨끗한데, GitHub에는 없어요",
+   "part": "3. GitHub과 연결",
+   "steps": [
+    {
+     "cmd": "git add hello.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 끝인사 추가\"",
+     "out": [
+      "[main 3f9a2c1] feat: 끝인사 추가"
+     ]
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "nothing to commit, working tree clean"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "3f9a2c1 (HEAD -> main) feat: 끝인사 추가",
+      "a7c21f4 (origin/main) feat: 인사말 추가",
+      "538dd06 feat: 인사 파일 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s12-push2-1",
+   "page": 23,
+   "title": "한 번 더 push 해서 맞춰요",
+   "part": "3. GitHub과 연결",
+   "steps": [
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "To https://github.com/kim/hello-git.git",
+      "   a7c21f4..3f9a2c1  main -> main"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "3f9a2c1 (HEAD -> main, origin/main) feat: 끝인사 추가",
+      "a7c21f4 feat: 인사말 추가",
+      "538dd06 feat: 인사 파일 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s13-clone-1",
+   "page": 24,
+   "title": "팀원이 저장소를 통째로 받아요",
+   "part": "4. 함께 작업하기",
+   "steps": [
+    {
+     "cmd": "cd ~/projects",
+     "out": []
+    },
+    {
+     "cmd": "git clone https://github.com/kim/hello-git.git",
+     "out": [
+      "Cloning into 'hello-git'...",
+      "Receiving objects: 100% (9/9), done."
+     ]
+    },
+    {
+     "cmd": "cd hello-git",
+     "out": [
+      "# 새로 생긴 폴더로 꼭 들어가기"
+     ]
+    },
+    {
+     "cmd": "ls",
+     "out": [
+      "hello.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s14-fetch-1",
+   "page": 25,
+   "title": "GitHub 소식을 받아만 와요",
+   "part": "4. 함께 작업하기",
+   "steps": [
+    {
+     "cmd": "git fetch origin",
+     "out": [
+      "From https://github.com/kim/hello-git",
+      "   3f9a2c1..e73617d  main       -> origin/main"
+     ]
+    },
+    {
+     "cmd": "git log --oneline origin/main",
+     "out": [
+      "e73617d (origin/main) docs: README 추가",
+      "3f9a2c1 (HEAD -> main) feat: 끝인사 추가",
+      "a7c21f4 feat: 인사말 추가",
+      "538dd06 feat: 인사 파일 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s15-pull-1",
+   "page": 26,
+   "title": "받아서 내 것에 합쳐요",
+   "part": "4. 함께 작업하기",
+   "steps": [
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/hello-git",
+      " * branch            main       -> FETCH_HEAD",
+      "Updating 3f9a2c1..e73617d",
+      "Fast-forward",
+      " README.md | 1 +",
+      " 1 file changed, 1 insertion(+)",
+      " create mode 100644 README.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s16-oops-1",
+   "page": 30,
+   "title": "앗, 잘못 커밋했어요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "echo \"oops\" >> hello.md",
+     "out": []
+    },
+    {
+     "cmd": "git add hello.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 실수한 커밋\"",
+     "out": [
+      "[main b81d4e2] feat: 실수한 커밋",
+      " 1 file changed, 1 insertion(+)"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "b81d4e2 (HEAD -> main) feat: 실수한 커밋",
+      "e73617d (origin/main) docs: README 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s17-reset-1",
+   "page": 31,
+   "title": "push 전이면 reset으로 커밋을 취소해요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git reset HEAD~1",
+     "out": [
+      "Unstaged changes after reset:",
+      "M        hello.md"
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "e73617d (HEAD -> main, origin/main) docs: README 추가",
+      "3f9a2c1 feat: 끝인사 추가",
+      "# HEAD~1 = 지금보다 한 칸 아래 커밋"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "reflog-1",
+   "page": 33,
+   "title": "reset으로 지운 커밋, git reflog로 찾아요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git reflog",
+     "out": [
+      "e73617d HEAD@{0}: reset: moving to HEAD~1",
+      "b81d4e2 HEAD@{1}: commit: feat: 실수한 커밋",
+      "e73617d HEAD@{2}: pull origin main: Fast-forward",
+      "3f9a2c1 HEAD@{3}: commit: feat: 끝인사 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "reflog-2",
+   "page": 33,
+   "title": "reset으로 지운 커밋, git reflog로 찾아요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git reset --hard b81d4e2",
+     "out": [
+      "HEAD is now at b81d4e2 feat: 실수한 커밋"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s18-revert-1",
+   "page": 34,
+   "title": "push 한 커밋은 revert로 되돌려요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "# b81d4e2(실수한 커밋)을 이미 push한 상태"
+     ]
+    },
+    {
+     "cmd": "git revert HEAD",
+     "out": [
+      "[main c4e9a07] Revert \"feat: 실수한 커밋\"",
+      " 1 file changed, 1 deletion(-)"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "To https://github.com/kim/hello-git.git",
+      "   b81d4e2..c4e9a07  main -> main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "err-lock-fix-1",
+   "page": 38,
+   "title": "이 메시지가 보이면 팻말만 떼요",
+   "part": "6. 문제 해결",
+   "steps": [
+    {
+     "cmd": "git add hello.md",
+     "out": [
+      "fatal: Unable to create '/Users/kim/hello-git/.git/index.lock': File exists.",
+      "Another git process seems to be running in this repository, ..."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "err-nothing-1",
+   "page": 39,
+   "title": "commit 했는데 아무 일도 없어요",
+   "part": "6. 문제 해결",
+   "steps": [
+    {
+     "cmd": "git commit -m \"feat: 새 파일\"",
+     "out": [
+      "Untracked files:",
+      "        new.md",
+      "nothing added to commit but untracked files present"
+     ]
+    },
+    {
+     "cmd": "git commit -m \"fix: 오타 수정\"",
+     "out": [
+      "Changes not staged for commit:",
+      "        modified:   hello.md",
+      "no changes added to commit"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "err-upstream-1",
+   "page": 41,
+   "title": "git push만 쳤더니 멈춰요",
+   "part": "6. 문제 해결",
+   "steps": [
+    {
+     "cmd": "git push",
+     "out": [
+      "fatal: The current branch main has no upstream branch."
+     ]
+    },
+    {
+     "cmd": "git pull",
+     "out": [
+      "There is no tracking information for the current branch."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "err-rejected-1",
+   "page": 42,
+   "title": "push 했더니 rejected가 나와요",
+   "part": "6. 문제 해결",
+   "steps": [
+    {
+     "cmd": "git push origin main",
+     "out": [
+      " ! [rejected]        main -> main (fetch first)",
+      "error: failed to push some refs to 'https://github.com/kim/hello-git.git'",
+      "hint: Updates were rejected because the remote contains work that you do not",
+      "hint: have locally. ..."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "err-rejected-fix-1",
+   "page": 43,
+   "title": "pull 설정을 한 번 해 두고 받아서 합쳐요",
+   "part": "6. 문제 해결",
+   "steps": [
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/hello-git",
+      " * branch            main       -> FETCH_HEAD",
+      "hint: You have divergent branches and need to specify how to reconcile them.",
+      "fatal: Need to specify how to reconcile divergent branches."
+     ]
+    },
+    {
+     "cmd": "git config --global pull.rebase false",
+     "out": []
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Merge made by the 'ort' strategy.",
+      " README.md | 1 +"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "   dac2ff4..71f86b2  main -> main"
+     ]
+    }
+   ]
+  }
+ ]
+}

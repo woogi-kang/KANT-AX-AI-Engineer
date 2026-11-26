@@ -1,0 +1,577 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "08-git-merge-ways 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+ "cells": [
+  {
+   "id": "why-1",
+   "page": 3,
+   "title": "같은 브랜치를 합쳤는데 기록이 달라요",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "8818bb8 (HEAD -> main) Merge branch 'feature/login-button'",
+      "d51d818 docs: README 추가",
+      "3573c9a (feature/login-button) fix: 버튼 글자 고치기",
+      "6a9792d feat: 로그인 버튼 추가",
+      "6d19f01 feat: 아이디 입력 추가",
+      "9f452aa feat: 로그인 화면 추가"
+     ]
+    },
+    {
+     "cmd": "cat login.md",
+     "out": [
+      "# 로그인",
+      "아이디",
+      "[로그인] 버튼"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "why-2",
+   "page": 3,
+   "title": "같은 브랜치를 합쳤는데 기록이 달라요",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "8a6fe21 (HEAD -> main) feat: 로그인 버튼 추가",
+      "d51d818 docs: README 추가",
+      "6d19f01 feat: 아이디 입력 추가",
+      "9f452aa feat: 로그인 화면 추가"
+     ]
+    },
+    {
+     "cmd": "cat login.md",
+     "out": [
+      "# 로그인",
+      "아이디",
+      "[로그인] 버튼"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "story1-1",
+   "page": 5,
+   "title": "A, B까지 main에 있어요",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "6d19f01 (HEAD -> main) feat: 아이디 입력 추가",
+      "9f452aa feat: 로그인 화면 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "story2-1",
+   "page": 6,
+   "title": "브랜치에서 D, E를 커밋해요",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "git checkout -b feature/login-button",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 로그인 버튼 추가\"",
+     "out": [
+      "[feature/login-button 6a9792d] feat: 로그인 버튼 추가"
+     ]
+    },
+    {
+     "cmd": "git commit -m \"fix: 버튼 글자 고치기\"",
+     "out": [
+      "[feature/login-button 3573c9a] fix: 버튼 글자 고치기"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ff-1",
+   "page": 7,
+   "title": "fast-forward: main 이름표만 앞으로 가요",
+   "part": "1. 갈라지지 않았을 때",
+   "steps": [
+    {
+     "cmd": "git checkout main",
+     "out": []
+    },
+    {
+     "cmd": "git merge feature/login-button",
+     "out": [
+      "Updating 6d19f01..3573c9a",
+      "Fast-forward"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "noff-1",
+   "page": 8,
+   "title": "--no-ff: 그래도 합치기 커밋을 만들어요",
+   "part": "1. 갈라지지 않았을 때",
+   "steps": [
+    {
+     "cmd": "git merge --no-ff feature/login-button",
+     "out": [
+      "Merge made by the 'ort' strategy."
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "d847d12 (HEAD -> main) Merge branch 'feature/login-button'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "split-1",
+   "page": 9,
+   "title": "main에 C가 생기면 길이 갈라져요",
+   "part": "2. 갈라졌을 때",
+   "steps": [
+    {
+     "cmd": "git add README.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"docs: README 추가\"",
+     "out": [
+      "[main d51d818] docs: README 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "merge-1",
+   "page": 10,
+   "title": "merge: 두 길을 잇는 합치기 커밋이 생겨요",
+   "part": "2. 갈라졌을 때",
+   "steps": [
+    {
+     "cmd": "git merge feature/login-button",
+     "out": [
+      "Merge made by the 'ort' strategy."
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "8818bb8 (HEAD -> main) Merge branch 'feature/login-button'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rb1-1",
+   "page": 11,
+   "title": "rebase: D, E를 C 뒤로 옮겨 붙여요",
+   "part": "2. 갈라졌을 때",
+   "steps": [
+    {
+     "cmd": "git checkout feature/login-button",
+     "out": []
+    },
+    {
+     "cmd": "git rebase main",
+     "out": [
+      "Successfully rebased and updated refs/heads/feature/login-button."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rb-hash-1",
+   "page": 12,
+   "title": "rebase하면 커밋 해시가 바뀌어요",
+   "part": "2. 갈라졌을 때",
+   "steps": [
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "3573c9a (HEAD -> feature/login-button) fix: 버튼 글자 고치기",
+      "6a9792d feat: 로그인 버튼 추가",
+      "6d19f01 feat: 아이디 입력 추가",
+      "9f452aa feat: 로그인 화면 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rb-hash-2",
+   "page": 12,
+   "title": "rebase하면 커밋 해시가 바뀌어요",
+   "part": "2. 갈라졌을 때",
+   "steps": [
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "6852264 (HEAD -> feature/login-button) fix: 버튼 글자 고치기",
+      "a40dc47 feat: 로그인 버튼 추가",
+      "d51d818 (main) docs: README 추가",
+      "6d19f01 feat: 아이디 입력 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rb2-1",
+   "page": 13,
+   "title": "main에서 merge하면 fast-forward로 끝나요",
+   "part": "2. 갈라졌을 때",
+   "steps": [
+    {
+     "cmd": "git checkout main",
+     "out": []
+    },
+    {
+     "cmd": "git merge feature/login-button",
+     "out": [
+      "Updating d51d818..6852264",
+      "Fast-forward"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sq1-1",
+   "page": 14,
+   "title": "squash: D, E의 변경을 모아 대기실에 올려요",
+   "part": "2. 갈라졌을 때",
+   "steps": [
+    {
+     "cmd": "git merge --squash feature/login-button",
+     "out": [
+      "Automatic merge went well; stopped before committing as requested",
+      "Squash commit -- not updating HEAD"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sq2-1",
+   "page": 15,
+   "title": "커밋하면 S 하나가 생겨요",
+   "part": "2. 갈라졌을 때",
+   "steps": [
+    {
+     "cmd": "git commit -m \"feat: 로그인 버튼 추가\"",
+     "out": [
+      "[main 8a6fe21] feat: 로그인 버튼 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sq3-1",
+   "page": 16,
+   "title": "squash 뒤에는 브랜치가 -d로 안 지워져요",
+   "part": "2. 갈라졌을 때",
+   "steps": [
+    {
+     "cmd": "git branch -d feature/login-button",
+     "out": [
+      "error: the branch 'feature/login-button' is not fully merged.",
+      "If you are sure you want to delete it, run 'git branch -D feature/login-button'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pl0-1",
+   "page": 19,
+   "title": "pull도 합치기예요",
+   "part": "4. git pull은 무엇을 하나",
+   "steps": [
+    {
+     "cmd": "git fetch origin",
+     "out": []
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "521bc6f (HEAD -> main) feat: 로그인 버튼 추가"
+     ]
+    },
+    {
+     "cmd": "git log --oneline origin/main",
+     "out": [
+      "c4ea069 (origin/main) docs: README 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pl-none-1",
+   "page": 20,
+   "title": "설정이 없으면 pull이 멈추고 셋 중 고르라고 해요",
+   "part": "4. git pull은 무엇을 하나",
+   "steps": [
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "hint: You have divergent branches and need to specify how to reconcile them.",
+      "hint: You can do so by running one of the following commands sometime before",
+      "hint: your next pull:",
+      "hint:   git config pull.rebase false  # merge",
+      "hint:   git config pull.rebase true   # rebase",
+      "hint:   git config pull.ff only       # fast-forward only",
+      "fatal: Need to specify how to reconcile divergent branches."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pl-false-1",
+   "page": 21,
+   "title": "pull.rebase false: 합치기 커밋으로 합쳐요",
+   "part": "4. git pull은 무엇을 하나",
+   "steps": [
+    {
+     "cmd": "git config --global pull.rebase",
+     "out": [
+      "false"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Merge made by the 'ort' strategy."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pl-true-1",
+   "page": 22,
+   "title": "pull.rebase true: 내 커밋을 C 뒤로 옮겨요",
+   "part": "4. git pull은 무엇을 하나",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "# pull.rebase true인 컴퓨터"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Successfully rebased and updated refs/heads/main."
+     ]
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "b63da4a (HEAD -> main) feat: 로그인 버튼 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pl-ff-1",
+   "page": 23,
+   "title": "pull.ff only: 갈라졌으면 받지 않아요",
+   "part": "4. git pull은 무엇을 하나",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "# pull.ff only인 컴퓨터"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "fatal: Not possible to fast-forward, aborting."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pl-why-1",
+   "page": 24,
+   "title": "수업은 pull.rebase false로 통일해요",
+   "part": "4. git pull은 무엇을 하나",
+   "steps": [
+    {
+     "cmd": "git config --global pull.rebase false",
+     "out": []
+    }
+   ]
+  },
+  {
+   "id": "cf-all-5",
+   "page": 27,
+   "title": "충돌은 어느 방법이든 같은 줄이면 나요",
+   "part": "6. 충돌과 오류",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "# main에서"
+     ]
+    },
+    {
+     "cmd": "git merge feature/login-title",
+     "out": [
+      "CONFLICT (content): Merge conflict in login.md",
+      "",
+      "# feature/login-title에서"
+     ]
+    },
+    {
+     "cmd": "git rebase main",
+     "out": [
+      "CONFLICT (content): Merge conflict in login.md",
+      "",
+      "# main에서"
+     ]
+    },
+    {
+     "cmd": "git merge --squash feature/login-title",
+     "out": [
+      "CONFLICT (content): Merge conflict in login.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cf-rb-1",
+   "page": 28,
+   "title": "rebase 중 충돌은 add 뒤 --continue로 이어 가요",
+   "part": "6. 충돌과 오류",
+   "steps": [
+    {
+     "cmd": "cat login.md",
+     "out": [
+      "<<<<<<< HEAD",
+      "# 로그인 페이지",
+      "=======",
+      "# 로그인하기",
+      ">>>>>>> bf59624 (feat: 로그인 제목 바꾸기)",
+      "아이디"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "warn-1",
+   "page": 29,
+   "title": "push한 브랜치는 rebase하지 않아요",
+   "part": "6. 충돌과 오류",
+   "steps": [
+    {
+     "cmd": "git rebase main",
+     "out": []
+    },
+    {
+     "cmd": "git push origin feature/login-button",
+     "out": [
+      " ! [rejected]        feature/login-button -> feature/login-button (non-fast-forward)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ex1-1",
+   "page": 31,
+   "title": "PR을 올리기 전에 main이 앞서 갔어요",
+   "part": "7. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "git checkout main",
+     "out": []
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Updating 6d19f01..5649c8c",
+      "Fast-forward"
+     ]
+    },
+    {
+     "cmd": "git checkout feature/login-button",
+     "out": []
+    },
+    {
+     "cmd": "git rebase main",
+     "out": [
+      "Successfully rebased and updated refs/heads/feature/login-button."
+     ]
+    },
+    {
+     "cmd": "git push origin feature/login-button",
+     "out": [
+      " * [new branch]      feature/login-button -> feature/login-button"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ex2-1",
+   "page": 32,
+   "title": "PR을 올린 뒤에 main이 또 앞서 갔어요",
+   "part": "7. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "# feature/login-button에서"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Merge made by the 'ort' strategy."
+     ]
+    },
+    {
+     "cmd": "git push origin feature/login-button",
+     "out": [
+      "   f1538e4..149b2f0  feature/login-button -> feature/login-button"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ex3-1",
+   "page": 33,
+   "title": "팀이 Squash and merge로 PR을 합쳤어요",
+   "part": "7. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "git checkout main",
+     "out": []
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Updating 5649c8c..f70ca73",
+      "Fast-forward"
+     ]
+    },
+    {
+     "cmd": "git branch -d feature/login-button",
+     "out": [
+      "error: the branch 'feature/login-button' is not fully merged."
+     ]
+    },
+    {
+     "cmd": "git branch -D feature/login-button",
+     "out": [
+      "Deleted branch feature/login-button (was 149b2f0)."
+     ]
+    }
+   ]
+  }
+ ]
+}

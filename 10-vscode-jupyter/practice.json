@@ -1,0 +1,39 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "10-vscode-jupyter 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+ "cells": [
+  {
+   "id": "why-1",
+   "page": 3,
+   "title": "파일은 실행할 때마다 처음부터 다시 돌아요",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "20",
+      "​"
+     ]
+    },
+    {
+     "cmd": "cat main.py",
+     "out": [
+      "x = 10",
+      "print(x * 2)",
+      "x = x + 1",
+      "print(x)",
+      "​"
+     ]
+    },
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "20",
+      "11"
+     ]
+    }
+   ]
+  }
+ ]
+}

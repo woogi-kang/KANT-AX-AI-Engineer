@@ -1,0 +1,649 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "45-numpy-pandas/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "shops = [\"편의점\", \"버스\", \"영화관\", \"분식집\", \"온라인쇼핑\", \"카페\",\n         \"음원앱\", \"버스\", \"편의점\", \"웹툰\", \"온라인쇼핑\", \"분식집\"]\ncategories = [\"식비\", \"교통\", \"문화\", \"식비\", \"쇼핑\", \"식비\",\n              \"문화\", \"교통\", \"식비\", \"문화\", \"쇼핑\", \"식비\"]\namounts = [3200, 1500, 15000, 6500, 32000, 4800,\n           10900, 1500, 2700, 3000, 18500, 7000]",
+   "expect": [],
+   "page": 4,
+   "title": "리스트로는 식비 합계 하나에 다섯 줄을 써요",
+   "part": "1 · 왜 필요한가"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "import pandas as pd\n\nspend = pd.DataFrame({\n    \"day\": [2, 3, 4, 5, 7, 9, 12, 14, 16, 19, 20, 25],\n    \"shop\": shops,\n    \"category\": categories,\n    \"amount\": amounts\n})\nspend",
+   "expect": [
+    "    day   shop category  amount",
+    "0     2    편의점       식비    3200",
+    "1     3     버스       교통    1500",
+    "2     4    영화관       문화   15000",
+    "3     5    분식집       식비    6500",
+    "4     7  온라인쇼핑       쇼핑   32000",
+    "5     9     카페       식비    4800",
+    "6    12    음원앱       문화   10900",
+    "7    14     버스       교통    1500",
+    "8    16    편의점       식비    2700",
+    "9    19     웹툰       문화    3000",
+    "10   20  온라인쇼핑       쇼핑   18500",
+    "11   25    분식집       식비    7000"
+   ],
+   "page": 13,
+   "title": "딕셔너리로 DataFrame을 만들면 키가 열 이름이 돼요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r1c3",
+   "chain": "r1",
+   "code": "spend.groupby(\"category\")[\"amount\"].sum()",
+   "expect": [
+    "category",
+    "교통     3000",
+    "문화    28900",
+    "쇼핑    50500",
+    "식비    24200",
+    "Name: amount, dtype: int64"
+   ],
+   "page": 24,
+   "title": "groupby로 분류마다 묶어서 합계를 내요",
+   "part": "4 · 열 더하고 묶기"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "shops = [\"편의점\", \"버스\", \"영화관\", \"분식집\", \"온라인쇼핑\", \"카페\",\n         \"음원앱\", \"버스\", \"편의점\", \"웹툰\", \"온라인쇼핑\", \"분식집\"]\ncategories = [\"식비\", \"교통\", \"문화\", \"식비\", \"쇼핑\", \"식비\",\n              \"문화\", \"교통\", \"식비\", \"문화\", \"쇼핑\", \"식비\"]\namounts = [3200, 1500, 15000, 6500, 32000, 4800,\n           10900, 1500, 2700, 3000, 18500, 7000]",
+   "expect": [],
+   "page": 4,
+   "title": "리스트로는 식비 합계 하나에 다섯 줄을 써요",
+   "part": "1 · 왜 필요한가"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "food = 0\nfor i in range(len(amounts)):\n    if categories[i] == \"식비\":\n        food = food + amounts[i]\nprint(food)",
+   "expect": [
+    "24200"
+   ],
+   "page": 4,
+   "title": "리스트로는 식비 합계 하나에 다섯 줄을 써요",
+   "part": "1 · 왜 필요한가"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "food = 0\nfor c, a in zip(categories, amounts):\n    if c == \"식비\":\n        food = food + a\nprint(food)",
+   "expect": [
+    "24200"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r2c4",
+   "chain": "r2",
+   "code": "import numpy as np\n\nprint(np.array([3200, 1500, 15000]) * 2)",
+   "expect": [
+    "[ 6400  3000 30000]"
+   ],
+   "page": 6,
+   "title": "가장 짧은 NumPy: 배열에 2를 곱하기",
+   "part": "1 · 왜 필요한가"
+  },
+  {
+   "id": "r2c5",
+   "chain": "r2",
+   "code": "prices = [3200, 1500, 15000]\nprint(prices * 2)\nprint(np.array(prices) * 2)",
+   "expect": [
+    "[3200, 1500, 15000, 3200, 1500, 15000]",
+    "[ 6400  3000 30000]"
+   ],
+   "page": 7,
+   "title": "리스트 * 2는 이어 붙이고, 배열 * 2는 칸마다 곱해요",
+   "part": "2 · NumPy 배열"
+  },
+  {
+   "id": "r2c6",
+   "chain": "r2",
+   "code": "print(prices + 500)",
+   "expect": [
+    "TypeError: can only concatenate list (not \"int\") to list"
+   ],
+   "err": true,
+   "page": 8,
+   "title": "리스트에 숫자를 더하면 오류, 배열은 칸마다 더해요",
+   "part": "2 · NumPy 배열"
+  },
+  {
+   "id": "r2c7",
+   "chain": "r2",
+   "code": "print(np.array(prices) + 500)",
+   "expect": [
+    "[ 3700  2000 15500]"
+   ],
+   "page": 8,
+   "title": "리스트에 숫자를 더하면 오류, 배열은 칸마다 더해요",
+   "part": "2 · NumPy 배열"
+  },
+  {
+   "id": "r2c8",
+   "chain": "r2",
+   "code": "arr = np.array(amounts)\nprint(arr)",
+   "expect": [
+    "[ 3200  1500 15000  6500 32000  4800 10900  1500  2700  3000 18500  7000]"
+   ],
+   "page": 9,
+   "title": "합계, 평균, 최소, 최대를 배열에 바로 물어요",
+   "part": "2 · NumPy 배열"
+  },
+  {
+   "id": "r2c9",
+   "chain": "r2",
+   "code": "print(\"합계:\", arr.sum())\nprint(\"평균:\", round(arr.mean()))\nprint(\"최소:\", arr.min())\nprint(\"최대:\", arr.max())",
+   "expect": [
+    "합계: 106600",
+    "평균: 8883",
+    "최소: 1500",
+    "최대: 32000"
+   ],
+   "page": 9,
+   "title": "합계, 평균, 최소, 최대를 배열에 바로 물어요",
+   "part": "2 · NumPy 배열"
+  },
+  {
+   "id": "r2c10",
+   "chain": "r2",
+   "code": "print(sum(amounts) / len(amounts))\nprint(amounts.mean())",
+   "expect": [
+    "8883.333333333334",
+    "AttributeError: 'list' object has no attribute 'mean'"
+   ],
+   "err": true,
+   "page": 30,
+   "title": "패키지를 안 넣었거나 리스트에 mean을 부르면",
+   "part": "5 · 비교와 오류"
+  },
+  {
+   "id": "r2c11",
+   "chain": "r2",
+   "code": "print(\"모양:\", arr.shape)\nprint(\"타입:\", arr.dtype)",
+   "expect": [
+    "모양: (12,)",
+    "타입: int64"
+   ],
+   "page": 10,
+   "title": "shape는 칸 수, dtype은 칸에 든 값의 종류예요",
+   "part": "2 · NumPy 배열",
+   "diff": "브라우저 안 파이썬(32비트)에서는 기본 정수 타입이 int32로 나와요. 수업 컴퓨터(64비트)는 int64예요."
+  },
+  {
+   "id": "r2c12",
+   "chain": "r2",
+   "code": "print(arr >= 10000)",
+   "expect": [
+    "[False False  True False  True False  True False False False  True False]"
+   ],
+   "page": 11,
+   "title": "배열에 비교를 하면 칸마다 True, False가 나와요",
+   "part": "2 · NumPy 배열"
+  },
+  {
+   "id": "r2c13",
+   "chain": "r2",
+   "code": "print(arr[arr >= 10000])",
+   "expect": [
+    "[15000 32000 10900 18500]"
+   ],
+   "page": 12,
+   "title": "배열[조건]은 True 자리의 값만 남겨요",
+   "part": "2 · NumPy 배열"
+  },
+  {
+   "id": "r2c14",
+   "chain": "r2",
+   "code": "import pandas as pd\n\nspend = pd.DataFrame({\n    \"day\": [2, 3, 4, 5, 7, 9, 12, 14, 16, 19, 20, 25],\n    \"shop\": shops,\n    \"category\": categories,\n    \"amount\": amounts\n})\nspend",
+   "expect": [
+    "    day   shop category  amount",
+    "0     2    편의점       식비    3200",
+    "1     3     버스       교통    1500",
+    "2     4    영화관       문화   15000",
+    "3     5    분식집       식비    6500",
+    "4     7  온라인쇼핑       쇼핑   32000",
+    "5     9     카페       식비    4800",
+    "6    12    음원앱       문화   10900",
+    "7    14     버스       교통    1500",
+    "8    16    편의점       식비    2700",
+    "9    19     웹툰       문화    3000",
+    "10   20  온라인쇼핑       쇼핑   18500",
+    "11   25    분식집       식비    7000"
+   ],
+   "page": 13,
+   "title": "딕셔너리로 DataFrame을 만들면 키가 열 이름이 돼요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c15",
+   "chain": "r2",
+   "code": "spend.shape",
+   "expect": [
+    "(12, 4)"
+   ],
+   "page": 14,
+   "title": "shape로 크기를, head로 앞 몇 줄만 봐요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c16",
+   "chain": "r2",
+   "code": "spend.head(3)",
+   "expect": [
+    "   day shop category  amount",
+    "0    2  편의점       식비    3200",
+    "1    3   버스       교통    1500",
+    "2    4  영화관       문화   15000"
+   ],
+   "page": 14,
+   "title": "shape로 크기를, head로 앞 몇 줄만 봐요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c17",
+   "chain": "r2",
+   "code": "spend[\"amount\"]",
+   "expect": [
+    "0      3200",
+    "1      1500",
+    "2     15000",
+    "3      6500",
+    "4     32000",
+    "5      4800",
+    "6     10900",
+    "7      1500",
+    "8      2700",
+    "9      3000",
+    "10    18500",
+    "11     7000",
+    "Name: amount, dtype: int64"
+   ],
+   "page": 15,
+   "title": "열 이름 하나를 대괄호에 넣으면 그 열만 나와요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c18",
+   "chain": "r2",
+   "code": "print(\"합계:\", spend[\"amount\"].sum())\nprint(\"평균:\", round(spend[\"amount\"].mean(), 2))",
+   "expect": [
+    "합계: 106600",
+    "평균: 8883.33"
+   ],
+   "page": 15,
+   "title": "열 이름 하나를 대괄호에 넣으면 그 열만 나와요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c19",
+   "chain": "r2",
+   "code": "spend[[\"shop\", \"amount\"]]",
+   "expect": [
+    "     shop  amount",
+    "0     편의점    3200",
+    "1      버스    1500",
+    "2     영화관   15000",
+    "3     분식집    6500",
+    "4   온라인쇼핑   32000",
+    "5      카페    4800",
+    "6     음원앱   10900",
+    "7      버스    1500",
+    "8     편의점    2700",
+    "9      웹툰    3000",
+    "10  온라인쇼핑   18500",
+    "11    분식집    7000"
+   ],
+   "page": 16,
+   "title": "열 여러 개는 이름 리스트를 넣어서 대괄호가 두 겹이에요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c20",
+   "chain": "r2",
+   "code": "spend[\"category\"] == \"문화\"",
+   "expect": [
+    "0     False",
+    "1     False",
+    "2      True",
+    "3     False",
+    "4     False",
+    "5     False",
+    "6      True",
+    "7     False",
+    "8     False",
+    "9      True",
+    "10    False",
+    "11    False",
+    "Name: category, dtype: bool"
+   ],
+   "page": 17,
+   "title": "열에 비교를 하면 행마다 True, False가 나와요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c21",
+   "chain": "r2",
+   "code": "spend[spend[\"category\"] == \"문화\"]",
+   "expect": [
+    "   day shop category  amount",
+    "2    4  영화관       문화   15000",
+    "6   12  음원앱       문화   10900",
+    "9   19   웹툰       문화    3000"
+   ],
+   "page": 18,
+   "title": "표[조건]은 True인 행만 남겨요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c22",
+   "chain": "r2",
+   "code": "spend[spend[\"amount\"] >= 10000]",
+   "expect": [
+    "    day   shop category  amount",
+    "2     4    영화관       문화   15000",
+    "4     7  온라인쇼핑       쇼핑   32000",
+    "6    12    음원앱       문화   10900",
+    "10   20  온라인쇼핑       쇼핑   18500"
+   ],
+   "page": 18,
+   "title": "표[조건]은 True인 행만 남겨요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c23",
+   "chain": "r2",
+   "code": "spend[(spend[\"category\"] == \"식비\") & (spend[\"amount\"] >= 5000)]",
+   "expect": [
+    "    day shop category  amount",
+    "3     5  분식집       식비    6500",
+    "11   25  분식집       식비    7000"
+   ],
+   "page": 19,
+   "title": "조건 두 개는 &로 잇고, 조건마다 괄호로 감싸요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c24",
+   "chain": "r2",
+   "code": "spend.sort_values(by=\"amount\", ascending=False).head(3)",
+   "expect": [
+    "    day   shop category  amount",
+    "4     7  온라인쇼핑       쇼핑   32000",
+    "10   20  온라인쇼핑       쇼핑   18500",
+    "2     4    영화관       문화   15000"
+   ],
+   "page": 20,
+   "title": "sort_values로 금액이 큰 순서로 세워요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r2c25",
+   "chain": "r2",
+   "code": "spend[\"amount\"] / 100",
+   "expect": [
+    "0      32.0",
+    "1      15.0",
+    "2     150.0",
+    "3      65.0",
+    "4     320.0",
+    "5      48.0",
+    "6     109.0",
+    "7      15.0",
+    "8      27.0",
+    "9      30.0",
+    "10    185.0",
+    "11     70.0",
+    "Name: amount, dtype: float64"
+   ],
+   "page": 21,
+   "title": "/는 소수까지, //는 몫만 남겨요",
+   "part": "4 · 열 더하고 묶기"
+  },
+  {
+   "id": "r2c26",
+   "chain": "r2",
+   "code": "spend[\"amount\"] // 100",
+   "expect": [
+    "0      32",
+    "1      15",
+    "2     150",
+    "3      65",
+    "4     320",
+    "5      48",
+    "6     109",
+    "7      15",
+    "8      27",
+    "9      30",
+    "10    185",
+    "11     70",
+    "Name: amount, dtype: int64"
+   ],
+   "page": 21,
+   "title": "/는 소수까지, //는 몫만 남겨요",
+   "part": "4 · 열 더하고 묶기"
+  },
+  {
+   "id": "r2c27",
+   "chain": "r2",
+   "code": "spend[\"point\"] = spend[\"amount\"] // 100\nprint(spend[\"point\"].sum())\nspend.head(3)",
+   "expect": [
+    "1066",
+    "   day shop category  amount  point",
+    "0    2  편의점       식비    3200     32",
+    "1    3   버스       교통    1500     15",
+    "2    4  영화관       문화   15000    150"
+   ],
+   "page": 22,
+   "title": "없는 열 이름에 값을 넣으면 새 열이 생겨요",
+   "part": "4 · 열 더하고 묶기"
+  },
+  {
+   "id": "r2c28",
+   "chain": "r2",
+   "code": "spend.loc[2, \"amount\"] = 14000\nspend.head(3)",
+   "expect": [
+    "   day shop category  amount  point",
+    "0    2  편의점       식비    3200     32",
+    "1    3   버스       교통    1500     15",
+    "2    4  영화관       문화   14000    150"
+   ],
+   "page": 23,
+   "title": "loc[행 번호, 열 이름]으로 칸 하나를 고쳐요",
+   "part": "4 · 열 더하고 묶기"
+  },
+  {
+   "id": "r2c29",
+   "chain": "r2",
+   "code": "spend[\"point\"] = spend[\"amount\"] // 100\nspend.head(3)",
+   "expect": [
+    "   day shop category  amount  point",
+    "0    2  편의점       식비    3200     32",
+    "1    3   버스       교통    1500     15",
+    "2    4  영화관       문화   14000    140"
+   ],
+   "page": 23,
+   "title": "loc[행 번호, 열 이름]으로 칸 하나를 고쳐요",
+   "part": "4 · 열 더하고 묶기"
+  },
+  {
+   "id": "r2c30",
+   "chain": "r2",
+   "code": "spend.groupby(\"category\")[\"amount\"].sum()",
+   "expect": [
+    "category",
+    "교통     3000",
+    "문화    27900",
+    "쇼핑    50500",
+    "식비    24200",
+    "Name: amount, dtype: int64"
+   ],
+   "page": 24,
+   "title": "groupby로 분류마다 묶어서 합계를 내요",
+   "part": "4 · 열 더하고 묶기"
+  },
+  {
+   "id": "r2c31",
+   "chain": "r2",
+   "code": "spend.groupby(\"category\")[\"amount\"].sum().sort_values(ascending=False)",
+   "expect": [
+    "category",
+    "쇼핑    50500",
+    "문화    27900",
+    "식비    24200",
+    "교통     3000",
+    "Name: amount, dtype: int64"
+   ],
+   "page": 24,
+   "title": "groupby로 분류마다 묶어서 합계를 내요",
+   "part": "4 · 열 더하고 묶기"
+  },
+  {
+   "id": "r2c32",
+   "chain": "r2",
+   "code": "spend[\"category\"].value_counts()",
+   "expect": [
+    "category",
+    "식비    5",
+    "문화    3",
+    "교통    2",
+    "쇼핑    2",
+    "Name: count, dtype: int64"
+   ],
+   "page": 25,
+   "title": "value_counts는 값마다 몇 번 나왔는지 세요",
+   "part": "4 · 열 더하고 묶기"
+  },
+  {
+   "id": "r2c33",
+   "chain": "r2",
+   "code": "spend[spend[\"category\"] == \"식비\" and spend[\"amount\"] >= 5000]",
+   "expect": [
+    "ValueError: The truth value of a Series is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all()."
+   ],
+   "err": true,
+   "page": 28,
+   "title": "and를 쓰거나 괄호를 빼면 오류가 나요",
+   "part": "5 · 비교와 오류"
+  },
+  {
+   "id": "r2c34",
+   "chain": "r2",
+   "code": "spend[spend[\"category\"] == \"식비\" & spend[\"amount\"] >= 5000]",
+   "expect": [
+    "TypeError: Cannot perform 'rand_' with a dtyped [int64] array and scalar of type [bool]"
+   ],
+   "err": true,
+   "page": 28,
+   "title": "and를 쓰거나 괄호를 빼면 오류가 나요",
+   "part": "5 · 비교와 오류"
+  },
+  {
+   "id": "r2c35",
+   "chain": "r2",
+   "code": "spend[\"amout\"]",
+   "expect": [
+    "KeyError: 'amout'"
+   ],
+   "err": true,
+   "page": 29,
+   "title": "열 이름이 틀리거나 대괄호가 한 겹이면 KeyError",
+   "part": "5 · 비교와 오류"
+  },
+  {
+   "id": "r2c36",
+   "chain": "r2",
+   "code": "spend[\"shop\", \"amount\"]",
+   "expect": [
+    "KeyError: ('shop', 'amount')"
+   ],
+   "err": true,
+   "page": 29,
+   "title": "열 이름이 틀리거나 대괄호가 한 겹이면 KeyError",
+   "part": "5 · 비교와 오류"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "shops = [\"편의점\", \"버스\", \"영화관\", \"분식집\", \"온라인쇼핑\", \"카페\",\n         \"음원앱\", \"버스\", \"편의점\", \"웹툰\", \"온라인쇼핑\", \"분식집\"]\ncategories = [\"식비\", \"교통\", \"문화\", \"식비\", \"쇼핑\", \"식비\",\n              \"문화\", \"교통\", \"식비\", \"문화\", \"쇼핑\", \"식비\"]\namounts = [3200, 1500, 15000, 6500, 32000, 4800,\n           10900, 1500, 2700, 3000, 18500, 7000]",
+   "expect": [],
+   "page": 4,
+   "title": "리스트로는 식비 합계 하나에 다섯 줄을 써요",
+   "part": "1 · 왜 필요한가"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "import pandas as pd\n\nspend = pd.DataFrame({\n    \"day\": [2, 3, 4, 5, 7, 9, 12, 14, 16, 19, 20, 25],\n    \"shop\": shops,\n    \"category\": categories,\n    \"amount\": amounts\n})\nspend",
+   "expect": [
+    "    day   shop category  amount",
+    "0     2    편의점       식비    3200",
+    "1     3     버스       교통    1500",
+    "2     4    영화관       문화   15000",
+    "3     5    분식집       식비    6500",
+    "4     7  온라인쇼핑       쇼핑   32000",
+    "5     9     카페       식비    4800",
+    "6    12    음원앱       문화   10900",
+    "7    14     버스       교통    1500",
+    "8    16    편의점       식비    2700",
+    "9    19     웹툰       문화    3000",
+    "10   20  온라인쇼핑       쇼핑   18500",
+    "11   25    분식집       식비    7000"
+   ],
+   "page": 13,
+   "title": "딕셔너리로 DataFrame을 만들면 키가 열 이름이 돼요",
+   "part": "3 · pandas 표 고르기"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "top = spend.sort_values(by=\"amount\", ascending=False).head(3)\ntop[[\"shop\", \"amount\"]]",
+   "expect": [
+    "     shop  amount",
+    "4   온라인쇼핑   32000",
+    "10  온라인쇼핑   18500",
+    "2     영화관   15000"
+   ],
+   "page": 31,
+   "title": "이번 달 가장 많이 쓴 곳 세 군데를 뽑아요",
+   "part": "6 · 실제 상황"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "food = spend[spend[\"category\"] == \"식비\"][\"amount\"].sum()\nprint(f\"식비 {food}원, 예산 20000원보다 {food - 20000}원 더 썼어요\")",
+   "expect": [
+    "식비 24200원, 예산 20000원보다 4200원 더 썼어요"
+   ],
+   "page": 32,
+   "title": "식비가 예산 2만 원을 넘었는지 계산해요",
+   "part": "6 · 실제 상황"
+  },
+  {
+   "id": "r3c5",
+   "chain": "r3",
+   "code": "big = spend[spend[\"amount\"] >= 10000]\ntotal = big[\"amount\"].sum()\nprint(f\"1만 원 넘는 지출 {len(big)}번, 합계 {total}원\")\nbig[\"category\"].value_counts()",
+   "expect": [
+    "1만 원 넘는 지출 4번, 합계 76400원",
+    "category",
+    "문화    2",
+    "쇼핑    2",
+    "Name: count, dtype: int64"
+   ],
+   "page": 33,
+   "title": "1만 원 넘는 지출이 몇 번, 얼마인지 세요",
+   "part": "6 · 실제 상황"
+  }
+ ],
+ "packages": [
+  "numpy",
+  "pandas"
+ ]
+}

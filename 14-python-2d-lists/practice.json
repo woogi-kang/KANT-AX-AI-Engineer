@@ -1,0 +1,329 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "14-python-2d-lists/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "menu = [\"coffee\", \"latte\", \"cake\"]\nprint(menu.count(\"juice\"))\nmenu.index(\"juice\")",
+   "expect": [
+    "0",
+    "ValueError: list.index(x): x not in list"
+   ],
+   "err": true,
+   "page": 4,
+   "title": "count나 index로 있는지 물으면 한 번 더 따져야 해요",
+   "part": "1. in과 not in"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "print(\"latte\" in menu)\nprint(\"juice\" in menu)\nprint(\"juice\" not in menu)\nprint(\"latte\" not in menu)",
+   "expect": [
+    "True",
+    "False",
+    "True",
+    "False"
+   ],
+   "page": 5,
+   "title": "in은 들어 있으면 True, 없으면 False예요",
+   "part": "1. in과 not in"
+  },
+  {
+   "id": "r1c3",
+   "chain": "r1",
+   "code": "order = (\"coffee\", 4500, 2)\nprint(4500 in order)\nprint(\"4500\" in order)",
+   "expect": [
+    "True",
+    "False"
+   ],
+   "page": 6,
+   "title": "튜플과 문자열에도 in을 써요",
+   "part": "1. in과 not in"
+  },
+  {
+   "id": "r1c4",
+   "chain": "r1",
+   "code": "word = \"python\"\nprint(\"th\" in word)\nprint(\"pt\" in word)\nprint(\"P\" in word)",
+   "expect": [
+    "True",
+    "False",
+    "False"
+   ],
+   "page": 6,
+   "title": "튜플과 문자열에도 in을 써요",
+   "part": "1. in과 not in"
+  },
+  {
+   "id": "r1c5",
+   "chain": "r1",
+   "code": "has_both = \"latte\" in menu and \"cake\" in menu\nprint(has_both)\nprint(\"juice\" in menu or \"tea\" in menu)\nprint(not \"juice\" in menu)",
+   "expect": [
+    "True",
+    "False",
+    "True"
+   ],
+   "page": 7,
+   "title": "in의 답은 and, or, not과 섞어 써요",
+   "part": "1. in과 not in"
+  },
+  {
+   "id": "r1c6",
+   "chain": "r1",
+   "code": "orders = [(\"coffee\", 4500, 2), (\"latte\", 5000, 1), (\"cake\", 6500, 3)]\nprint((\"cake\", 6500, 3) in orders)\nprint(\"cake\" in orders)\nprint(\"cake\" in orders[2])",
+   "expect": [
+    "True",
+    "False",
+    "True"
+   ],
+   "page": 8,
+   "title": "in은 바깥 한 겹만 들여다봐요",
+   "part": "1. in과 not in"
+  },
+  {
+   "id": "r1c7",
+   "chain": "r1",
+   "code": "3 in word",
+   "expect": [
+    "TypeError: 'in <string>' requires string as left operand, not int"
+   ],
+   "err": true,
+   "hidden": true
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "kim = [90, 85, 77]\nlee = [70, 95, 88]\npark = [60, 75, 99]\nprint(sum(kim) + sum(lee) + sum(park))",
+   "expect": [
+    "739"
+   ],
+   "page": 9,
+   "title": "학생마다 변수를 따로 두면 학생 수만큼 코드가 늘어요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "scores = [[90, 85, 77],\n          [70, 95, 88],\n          [60, 75, 99]]\nprint(scores)\nprint(len(scores))\nprint(len(scores[0]))",
+   "expect": [
+    "[[90, 85, 77], [70, 95, 88], [60, 75, 99]]",
+    "3",
+    "3"
+   ],
+   "page": 10,
+   "title": "리스트 안에 리스트를 넣으면 표가 돼요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "print(scores[1])\nprint(scores[1][2])\nprint(scores[0][0])\nprint(scores[-1][-1])",
+   "expect": [
+    "[70, 95, 88]",
+    "88",
+    "90",
+    "99"
+   ],
+   "page": 11,
+   "title": "[행][열] 순서로 칸 하나를 꺼내요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c4",
+   "chain": "r2",
+   "code": "scores[0][1] = 100\nprint(scores[0])\nscores[2] = [65, 80, 90]\nprint(scores)",
+   "expect": [
+    "[90, 100, 77]",
+    "[[90, 100, 77], [70, 95, 88], [65, 80, 90]]"
+   ],
+   "page": 12,
+   "title": "번호 두 개면 칸 하나, 번호 하나면 행 하나를 바꿔요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c5",
+   "chain": "r2",
+   "code": "for row in scores:\n    print(row, \"합계:\", sum(row), \"최고:\", max(row))",
+   "expect": [
+    "[90, 100, 77] 합계: 267 최고: 100",
+    "[70, 95, 88] 합계: 253 최고: 95",
+    "[65, 80, 90] 합계: 235 최고: 90"
+   ],
+   "page": 13,
+   "title": "for로 한 행씩 꺼내면 row에는 리스트가 들어가요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c6",
+   "chain": "r2",
+   "code": "eng = []\nfor row in scores:\n    eng.append(row[1])\nprint(eng)\nprint(\"영어 합계:\", sum(eng))",
+   "expect": [
+    "[100, 95, 80]",
+    "영어 합계: 275"
+   ],
+   "page": 14,
+   "title": "열 하나는 행마다 같은 번호의 칸을 모아요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c7",
+   "chain": "r2",
+   "code": "total = 0\ncount = 0\nfor row in scores:\n    total += sum(row)\n    count += len(row)\nprint(\"전체 합계:\", total)\nprint(\"칸 수:\", count)\nprint(f\"평균: {total / count:.1f}\")",
+   "expect": [
+    "전체 합계: 755",
+    "칸 수: 9",
+    "평균: 83.9"
+   ],
+   "page": 15,
+   "title": "표 전체 합계는 행 합계를 차례로 쌓아요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c8",
+   "chain": "r2",
+   "code": "print(scores[:2])\nprint(scores[1][:2])\nprint(scores[0][::-1])",
+   "expect": [
+    "[[90, 100, 77], [70, 95, 88]]",
+    "[70, 95]",
+    "[77, 100, 90]"
+   ],
+   "page": 16,
+   "title": "자르기도 앞 번호는 행, 뒤 번호는 열에 써요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c9",
+   "chain": "r2",
+   "code": "print(95 in scores)\nprint(95 in scores[1])\nprint([70, 95, 88] in scores)\nfor row in scores:\n    print(row, 100 in row)",
+   "expect": [
+    "False",
+    "True",
+    "True",
+    "[90, 100, 77] True",
+    "[70, 95, 88] False",
+    "[65, 80, 90] False"
+   ],
+   "page": 17,
+   "title": "2차원 리스트에서 in은 바깥의 행만 봐요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c10",
+   "chain": "r2",
+   "code": "scores.append([80, 70, 60])\nprint(len(scores))\nfor row in scores:\n    row.append(0)\nfor row in scores:\n    print(row)",
+   "expect": [
+    "4",
+    "[90, 100, 77, 0]",
+    "[70, 95, 88, 0]",
+    "[65, 80, 90, 0]",
+    "[80, 70, 60, 0]"
+   ],
+   "page": 18,
+   "title": "행은 append 한 번, 열은 행마다 append해요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c11",
+   "chain": "r2",
+   "code": "board = [[0] * 3] * 3\nboard[0][0] = 9\nprint(board)",
+   "expect": [
+    "[[9, 0, 0], [9, 0, 0], [9, 0, 0]]"
+   ],
+   "page": 20,
+   "title": "[[0] * 3] * 3은 같은 행 하나를 세 번 담아요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c12",
+   "chain": "r2",
+   "code": "board = [[0, 0, 0],\n         [0, 0, 0],\n         [0, 0, 0]]\nboard[0][0] = 9\nprint(board)",
+   "expect": [
+    "[[9, 0, 0], [0, 0, 0], [0, 0, 0]]"
+   ],
+   "page": 20,
+   "title": "[[0] * 3] * 3은 같은 행 하나를 세 번 담아요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c13",
+   "chain": "r2",
+   "code": "scores[5][0]",
+   "expect": [
+    "IndexError: list index out of range"
+   ],
+   "err": true,
+   "page": 21,
+   "title": "번호가 넘치면 IndexError, 개수가 다르면 ValueError예요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c14",
+   "chain": "r2",
+   "code": "scores[0][9]",
+   "expect": [
+    "IndexError: list index out of range"
+   ],
+   "err": true,
+   "page": 21,
+   "title": "번호가 넘치면 IndexError, 개수가 다르면 ValueError예요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r2c15",
+   "chain": "r2",
+   "code": "kor, eng, math = scores[0]",
+   "expect": [
+    "ValueError: too many values to unpack (expected 3, got 4)"
+   ],
+   "err": true,
+   "page": 21,
+   "title": "번호가 넘치면 IndexError, 개수가 다르면 ValueError예요",
+   "part": "2. 2차원 리스트"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "students = [[\"kim\", 90, 85, 77],\n            [\"lee\", 70, 95, 88],\n            [\"park\", 60, 75, 99]]\nprint(f\"{'name':<6}{'kor':>5}{'eng':>5}{'math':>5}\")\nprint(\"-\" * 21)\nfor name, kor, eng, math in students:\n    print(f\"{name:<6}{kor:>5}{eng:>5}{math:>5}\")",
+   "expect": [
+    "name    kor  eng math",
+    "---------------------",
+    "kim      90   85   77",
+    "lee      70   95   88",
+    "park     60   75   99"
+   ],
+   "page": 22,
+   "title": "이름을 넣은 성적표를 칸 맞춰 찍어요",
+   "part": "3. 실제로 써 보기"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "seats = [[\"O\", \"O\", \"X\", \"O\"],\n         [\"X\", \"O\", \"O\", \"O\"],\n         [\"O\", \"X\", \"X\", \"O\"]]\nseats[0][1] = \"X\"\nfor row in seats:\n    print(\" \".join(row))\nprint(seats[2].count(\"X\"))\nprint(len(seats) * len(seats[0]))",
+   "expect": [
+    "O X X O",
+    "X O O O",
+    "O X X O",
+    "2",
+    "12"
+   ],
+   "page": 23,
+   "title": "좌석표도 행과 열이 있는 2차원 리스트예요",
+   "part": "3. 실제로 써 보기"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "menu = [\"coffee\", \"latte\", \"cake\"]\nsales = [[12, 8, 5],\n         [10, 9, 7],\n         [15, 11, 4]]\nfor row in sales:\n    print(row, \"하루 합계:\", sum(row))\ncol = menu.index(\"latte\")\nlatte = []\nfor row in sales:\n    latte.append(row[col])\nprint(\"latte:\", latte, \"합계:\", sum(latte))",
+   "expect": [
+    "[12, 8, 5] 하루 합계: 25",
+    "[10, 9, 7] 하루 합계: 26",
+    "[15, 11, 4] 하루 합계: 30",
+    "latte: [8, 9, 11] 합계: 28"
+   ],
+   "page": 24,
+   "title": "카페 판매표에서 하루 합계와 메뉴 합계를 구해요",
+   "part": "3. 실제로 써 보기"
+  }
+ ]
+}

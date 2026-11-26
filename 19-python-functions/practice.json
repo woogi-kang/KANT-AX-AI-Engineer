@@ -1,0 +1,347 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "19-python-functions/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\ncart = [\"coffee\", \"cake\"]\ntotal = 0\nfor m in cart:\n    total += menu[m]\nprint(f\"합계 {total:,}원\")\ncart = [\"latte\", \"latte\", \"cake\"]\ntotal = 0\nfor m in cart:\n    total += menu[m]\nprint(f\"합계 {total:,}원\")",
+   "expect": [
+    "합계 11,000원",
+    "합계 16,500원"
+   ],
+   "page": 4,
+   "title": "같은 계산을 손님마다 복사하고 있어요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "cart = [\"coffee\", \"cake\"]\nprint(len(cart))\nprint(sorted([6500, 4500, 5000]))\nprint(sum([4500, 6500]))",
+   "expect": [
+    "2",
+    "[4500, 5000, 6500]",
+    "11000"
+   ],
+   "page": 5,
+   "title": "함수는 재료를 넣으면 결과가 나오는 상자예요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c3",
+   "chain": "r1",
+   "code": "def hello():\n    print(\"어서 오세요\")\n\nhello()\nhello()",
+   "expect": [
+    "어서 오세요",
+    "어서 오세요"
+   ],
+   "page": 6,
+   "title": "def로 만들고, 이름()으로 불러요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "def hello():\n    print(\"어서 오세요\")\n    print(\"주문하시겠어요?\")",
+   "expect": [],
+   "page": 8,
+   "title": "정의만 하면 아무것도 찍히지 않아요",
+   "part": "2. 정의와 호출"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "hello()",
+   "expect": [
+    "어서 오세요",
+    "주문하시겠어요?"
+   ],
+   "page": 8,
+   "title": "정의만 하면 아무것도 찍히지 않아요",
+   "part": "2. 정의와 호출"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "print(\"가게 문 열어요\")\nhello()\nprint(\"다음 손님\")\nhello()",
+   "expect": [
+    "가게 문 열어요",
+    "어서 오세요",
+    "주문하시겠어요?",
+    "다음 손님",
+    "어서 오세요",
+    "주문하시겠어요?"
+   ],
+   "page": 9,
+   "title": "부르면 몸통으로 갔다가 제자리로 돌아와요",
+   "part": "2. 정의와 호출"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "def greet(name):\n    print(f\"{name}님, 어서 오세요\")\n\ngreet(\"kim\")\ngreet(\"lee\")",
+   "expect": [
+    "kim님, 어서 오세요",
+    "lee님, 어서 오세요"
+   ],
+   "page": 10,
+   "title": "괄호 안에 재료 칸을 만들어요",
+   "part": "3. 매개변수와 인자"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "def order(menu_name, qty):\n    print(f\"{menu_name} {qty}잔 주문 받았어요\")\n\norder(\"latte\", 2)\norder(\"coffee\", 1)",
+   "expect": [
+    "latte 2잔 주문 받았어요",
+    "coffee 1잔 주문 받았어요"
+   ],
+   "page": 11,
+   "title": "재료 칸은 쉼표로 여러 개 만들어요",
+   "part": "3. 매개변수와 인자"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "order(2, \"latte\")",
+   "expect": [
+    "2 latte잔 주문 받았어요"
+   ],
+   "page": 12,
+   "title": "인자는 적은 순서대로 칸에 들어가요",
+   "part": "3. 매개변수와 인자"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "def price_of(qty):\n    return 4500 * qty\n\nx = price_of(2)\nprint(x)\nprint(price_of(3) + 1000)",
+   "expect": [
+    "9000",
+    "14500"
+   ],
+   "page": 13,
+   "title": "return은 결과를 부른 자리로 돌려줘요",
+   "part": "4. return"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "def show(qty):\n    print(4500 * qty)\n\na = show(2)\nprint(\"a:\", a)",
+   "expect": [
+    "9000",
+    "a: None"
+   ],
+   "page": 14,
+   "title": "print는 화면에 찍기만, return은 값을 돌려줘요",
+   "part": "4. return"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "def calc(qty):\n    return 4500 * qty\n\nb = calc(2)\nprint(\"b:\", b)\nprint(b + 1000)",
+   "expect": [
+    "b: 9000",
+    "10000"
+   ],
+   "page": 14,
+   "title": "print는 화면에 찍기만, return은 값을 돌려줘요",
+   "part": "4. return"
+  },
+  {
+   "id": "r4c4",
+   "chain": "r4",
+   "code": "result = print(\"안녕\")\nprint(result)\nprint(type(result))",
+   "expect": [
+    "안녕",
+    "None",
+    "<class 'NoneType'>"
+   ],
+   "page": 15,
+   "title": "return이 없으면 None을 돌려줘요",
+   "part": "4. return"
+  },
+  {
+   "id": "r4c5",
+   "chain": "r4",
+   "code": "def hi():\n    print(\"안녕\")\nprint(hi())",
+   "expect": [
+    "안녕",
+    "None"
+   ],
+   "page": 15,
+   "title": "return이 없으면 None을 돌려줘요",
+   "part": "4. return"
+  },
+  {
+   "id": "r4c6",
+   "chain": "r4",
+   "code": "def check(stock):\n    if stock == 0:\n        return \"품절\"\n    return \"주문 가능\"\n\nprint(check(0))\nprint(check(3))",
+   "expect": [
+    "품절",
+    "주문 가능"
+   ],
+   "page": 16,
+   "title": "return을 만나면 함수가 바로 끝나요",
+   "part": "4. return"
+  },
+  {
+   "id": "r4c7",
+   "chain": "r4",
+   "code": "def summary(prices):\n    return sum(prices), len(prices)\n\nprint(summary([4500, 5000, 6500]))\ntotal, n = summary([4500, 5000, 6500])\nprint(total, n)",
+   "expect": [
+    "(16000, 3)",
+    "16000 3"
+   ],
+   "page": 17,
+   "title": "쉼표로 값 여러 개를 한 번에 돌려줘요",
+   "part": "4. return"
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "def hello():\n    print(\"어서 오세요\")\n\nhello",
+   "expect": [
+    "<function __main__.hello()>"
+   ],
+   "page": 18,
+   "title": "괄호를 빼면 실행하지 않고 함수 자체가 나와요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c2",
+   "chain": "r5",
+   "code": "print(hello)",
+   "expect": [
+    "<function hello at 0x7ffa03ac94e0>"
+   ],
+   "page": 18,
+   "title": "괄호를 빼면 실행하지 않고 함수 자체가 나와요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c3",
+   "chain": "r5",
+   "code": "def order(menu_name, qty):\n    print(f\"{menu_name} {qty}잔 주문 받았어요\")\n\norder(\"latte\")",
+   "expect": [
+    "TypeError: order() missing 1 required positional argument: 'qty'"
+   ],
+   "err": true,
+   "page": 19,
+   "title": "칸 수와 인자 수가 다르면 TypeError가 나요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c4",
+   "chain": "r5",
+   "code": "order(\"latte\", 2, \"L\")",
+   "expect": [
+    "TypeError: order() takes 2 positional arguments but 3 were given"
+   ],
+   "err": true,
+   "page": 19,
+   "title": "칸 수와 인자 수가 다르면 TypeError가 나요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c5",
+   "chain": "r5",
+   "code": "def calc(qty):\n    total = 4500 * qty\n    return total\n    print(\"계산 끝\")\n\nprint(calc(2))",
+   "expect": [
+    "9000"
+   ],
+   "page": 20,
+   "title": "return 아래에 적은 줄은 실행되지 않아요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c6",
+   "chain": "r5",
+   "code": "def show(qty):\n    print(4500 * qty)\n\nshow(2) + 1000",
+   "expect": [
+    "9000",
+    "TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'"
+   ],
+   "err": true,
+   "page": 21,
+   "title": "찍기만 하는 함수로 계산하면 TypeError가 나요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "welcome()\n\ndef welcome():\n    print(\"어서 오세요\")",
+   "expect": [
+    "NameError: name 'welcome' is not defined"
+   ],
+   "err": true,
+   "page": 22,
+   "title": "정의보다 먼저 부르면 NameError가 나요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "welcome()",
+   "expect": [
+    "NameError: name 'welcome' is not defined"
+   ],
+   "err": true,
+   "page": 22,
+   "title": "정의보다 먼저 부르면 NameError가 나요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r7c1",
+   "chain": "r7",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\n\ndef calc_total(cart, menu):\n    total = 0\n    for m in cart:\n        total += menu[m]\n    return total\n\ncart1 = [\"coffee\", \"cake\"]\ncart2 = [\"latte\", \"latte\", \"cake\"]\nprint(f\"합계 {calc_total(cart1, menu):,}원\")\nprint(f\"합계 {calc_total(cart2, menu):,}원\")",
+   "expect": [
+    "합계 11,000원",
+    "합계 16,500원"
+   ],
+   "page": 23,
+   "title": "장바구니 총액을 함수로 만들어요",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r7c2",
+   "chain": "r7",
+   "code": "def can_order(stock, name):\n    if stock[name] > 0:\n        return True\n    return False\n\nstock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2}\nfor o in [\"coffee\", \"latte\", \"cake\"]:\n    if can_order(stock, o):\n        print(o, \"주문 받았어요\")\n    else:\n        print(o, \"품절이에요\")",
+   "expect": [
+    "coffee 주문 받았어요",
+    "latte 품절이에요",
+    "cake 주문 받았어요"
+   ],
+   "page": 24,
+   "title": "주문할 수 있는지 True, False로 돌려줘요",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r7c3",
+   "chain": "r7",
+   "code": "def grade(score):\n    if score >= 90:\n        return \"A\"\n    elif score >= 80:\n        return \"B\"\n    elif score >= 70:\n        return \"C\"\n    return \"F\"\n\nscores = [[\"kim\", 92], [\"lee\", 78], [\"park\", 85], [\"choi\", 59]]\nfor name, score in scores:\n    print(f\"{name:<5}{score:>3}  {grade(score)}\")",
+   "expect": [
+    "kim   92  A",
+    "lee   78  C",
+    "park  85  B",
+    "choi  59  F"
+   ],
+   "page": 25,
+   "title": "17의 등급 계산을 함수로 바꿔요",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r7c4",
+   "chain": "r7",
+   "code": "def discount_rate(total):\n    if total >= 20000:\n        return 10\n    elif total >= 10000:\n        return 5\n    return 0\n\ndef pay(total):\n    rate = discount_rate(total)\n    sale = total * rate // 100\n    return total - sale\n\nprint(pay(8000))\nprint(pay(15500))\nprint(pay(22000))",
+   "expect": [
+    "8000",
+    "14725",
+    "19800"
+   ],
+   "page": 26,
+   "title": "함수 안에서 다른 함수를 불러요",
+   "part": "6. 실습"
+  }
+ ]
+}

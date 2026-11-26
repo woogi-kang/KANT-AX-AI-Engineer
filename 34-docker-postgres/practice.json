@@ -1,0 +1,1449 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "34-docker-postgres/tools/out.json(tools/demo.py)로 실제 실행한 출력",
+ "cells": [
+  {
+   "id": "why",
+   "page": 3,
+   "title": "MySQL 명령을 그대로 치면 PostgreSQL에서는 안 돼요",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg mysql -u root -p",
+     "out": [
+      "OCI runtime exec failed: exec failed: unable to start container process: exec: \"mysql\": executable file not found in $PATH"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pull",
+   "page": 5,
+   "title": "Docker Hub의 공식 이미지 postgres:18을 받아요",
+   "part": "1. PostgreSQL 컨테이너 켜기",
+   "steps": [
+    {
+     "cmd": "docker pull postgres:18",
+     "out": [
+      "18: Pulling from library/postgres",
+      "37fb86c2a767: Pull complete",
+      "fcd0e9514062: Pull complete",
+      "6d141360b363: Pull complete",
+      "a28de24f57c0: Pull complete",
+      "e9dd37612d7b: Pull complete",
+      "369949eb0229: Pull complete",
+      "7e0f86eb8508: Pull complete",
+      "da434b32d480: Pull complete",
+      "bcc75ab4e010: Pull complete",
+      "eac25292b613: Pull complete",
+      "fc6c21aca07c: Pull complete",
+      "cbe0afc9eb7b: Pull complete",
+      "2a59118cca0e: Pull complete",
+      "2f3707deb487: Download complete",
+      "a82d2da6710e: Download complete",
+      "Digest: sha256:e3d24f6906d0760bf4da0dae872415391ededefad23fd471c47dc53b0ddf3c42",
+      "Status: Downloaded newer image for postgres:18",
+      "docker.io/library/postgres:18"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "images",
+   "page": 5,
+   "title": "Docker Hub의 공식 이미지 postgres:18을 받아요",
+   "part": "1. PostgreSQL 컨테이너 켜기",
+   "steps": [
+    {
+     "cmd": "docker images postgres",
+     "out": [
+      "IMAGE         ID             DISK USAGE   CONTENT SIZE   EXTRA",
+      "postgres:18   e3d24f6906d0        650MB          169MB        "
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run",
+   "page": 6,
+   "title": "docker run 한 줄로 PostgreSQL 서버를 켜요",
+   "part": "1. PostgreSQL 컨테이너 켜기",
+   "steps": [
+    {
+     "cmd": "docker run -d --name pg -e POSTGRES_PASSWORD=cafe1234 -p 5432:5432 postgres:18",
+     "out": [
+      "b0771208641d3ea65dd6d5fc40f00ff656f22a770051d86555e155230e78155c"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "env",
+   "page": 7,
+   "title": "-e로 건네는 이름 세 개가 계정과 데이터베이스를 정해요",
+   "part": "1. PostgreSQL 컨테이너 켜기",
+   "steps": [
+    {
+     "cmd": "docker exec pg env",
+     "out": [
+      "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/18/bin",
+      "HOSTNAME=b0771208641d",
+      "POSTGRES_PASSWORD=cafe1234",
+      "GOSU_VERSION=1.19",
+      "LANG=en_US.utf8",
+      "PG_MAJOR=18",
+      "PG_VERSION=18.6-1.pgdg13+2",
+      "PGDATA=/var/lib/postgresql/18/docker",
+      "HOME=/root"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "early",
+   "page": 9,
+   "title": "docker exec -it로 컨테이너 안의 psql을 열어요",
+   "part": "1. PostgreSQL 컨테이너 켜기",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql: error: connection to server on socket \"/var/run/postgresql/.s.PGSQL.5432\" failed: No such file or directory",
+      "        Is the server running locally and accepting connections on that socket?"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "enter",
+   "page": 9,
+   "title": "docker exec -it로 컨테이너 안의 psql을 열어요",
+   "part": "1. PostgreSQL 컨테이너 켜기",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "psql",
+   "page": 9,
+   "title": "docker exec -it로 컨테이너 안의 psql을 열어요",
+   "part": "1. PostgreSQL 컨테이너 켜기",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# \\conninfo",
+      "           Connection Information",
+      "      Parameter       |        Value",
+      "----------------------+---------------------",
+      " Database             | postgres",
+      " Client User          | postgres",
+      " Socket Directory     | /var/run/postgresql",
+      " Server Port          | 5432",
+      " Options              |",
+      " Protocol Version     | 3.0",
+      " Password Used        | false",
+      " GSSAPI Authenticated | false",
+      " Backend PID          | 108",
+      " SSL Connection       | false",
+      " Superuser            | on",
+      " Hot Standby          | off",
+      "(12 rows)",
+      "",
+      "postgres=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "du",
+   "page": 9,
+   "title": "docker exec -it로 컨테이너 안의 psql을 열어요",
+   "part": "1. PostgreSQL 컨테이너 켜기",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# \\du",
+      "                             List of roles",
+      " Role name |                         Attributes",
+      "-----------+------------------------------------------------------------",
+      " postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS",
+      "",
+      "postgres=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g-gone",
+   "page": 12,
+   "title": "\\c shop으로 옮기면 앞의 이름이 shop=#로 바뀌어요",
+   "part": "2. 데이터베이스와 표 만들기",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres -d shop",
+     "out": [
+      "psql: error: connection to server on socket \"/var/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  database \"shop\" does not exist"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g-gone2",
+   "page": 12,
+   "title": "\\c shop으로 옮기면 앞의 이름이 shop=#로 바뀌어요",
+   "part": "2. 데이터베이스와 표 만들기",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# \\l",
+      "                                                    List of databases",
+      "   Name    |  Owner   | Encoding | Locale Provider |  Collate   |   Ctype    | Locale | ICU Rules |   Access privileges",
+      "-----------+----------+----------+-----------------+------------+------------+--------+-----------+-----------------------",
+      " postgres  | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           |",
+      " template0 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/postgres          +",
+      "           |          |          |                 |            |            |        |           | postgres=CTc/postgres",
+      " template1 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/postgres          +",
+      "           |          |          |                 |            |            |        |           | postgres=CTc/postgres",
+      "(3 rows)",
+      "",
+      "postgres=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-deny",
+   "page": 16,
+   "title": "관리자는 =#, 일반 계정은 =>로 표시가 달라요",
+   "part": "3. 계정과 접속 방법",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U app -d postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=> CREATE DATABASE test;",
+      "ERROR:  permission denied to create database",
+      "postgres=> \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-run",
+   "page": 17,
+   "title": "POSTGRES_USER를 주면 그 이름이 관리자가 되고 postgres는 없어요",
+   "part": "3. 계정과 접속 방법",
+   "steps": [
+    {
+     "cmd": "docker run -d --name pg2 -e POSTGRES_USER=cafe -e POSTGRES_PASSWORD=cafe1234 -p 5433:5432 postgres:18",
+     "out": [
+      "4087ba29a61a6b3ecab1d8b7ca56a4ba9368244cc11736a3cf9106f4619c7f7b"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-nopg",
+   "page": 17,
+   "title": "POSTGRES_USER를 주면 그 이름이 관리자가 되고 postgres는 없어요",
+   "part": "3. 계정과 접속 방법",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg2 psql -U postgres",
+     "out": [
+      "psql: error: connection to server on socket \"/var/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  role \"postgres\" does not exist"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-cafe",
+   "page": 17,
+   "title": "POSTGRES_USER를 주면 그 이름이 관리자가 되고 postgres는 없어요",
+   "part": "3. 계정과 접속 방법",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg2 psql -U cafe",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "cafe=# \\du",
+      "                             List of roles",
+      " Role name |                         Attributes",
+      "-----------+------------------------------------------------------------",
+      " cafe      | Superuser, Create role, Create DB, Replication, Bypass RLS",
+      "",
+      "cafe=# CREATE DATABASE test;",
+      "CREATE DATABASE",
+      "cafe=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bash",
+   "page": 18,
+   "title": "bash로 들어가서 psql을 쳐도 돼요. 안에서는 비밀번호를 안 물어요",
+   "part": "3. 계정과 접속 방법",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg bash",
+     "out": [
+      "root@b0771208641d:/# psql -U postgres",
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# \\q",
+      "root@b0771208641d:/# psql -U postgres -h localhost",
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# \\conninfo",
+      "      Connection Information",
+      "      Parameter       |   Value",
+      "----------------------+-----------",
+      " Database             | postgres",
+      " Client User          | postgres",
+      " Host                 | localhost",
+      " Host Address         | 127.0.0.1",
+      " Server Port          | 5432",
+      " Options              |",
+      " Protocol Version     | 3.0",
+      " Password Used        | false",
+      " GSSAPI Authenticated | false",
+      " Backend PID          | 125",
+      " SSL Connection       | false",
+      " Superuser            | on",
+      " Hot Standby          | off",
+      "(13 rows)",
+      "",
+      "postgres=# \\q",
+      "root@b0771208641d:/# exit",
+      "exit"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "out",
+   "page": 19,
+   "title": "밖에서 5432번으로 붙으면 비밀번호를 물어요",
+   "part": "3. 계정과 접속 방법",
+   "steps": [
+    {
+     "cmd": "docker run --rm -it --add-host host.docker.internal:host-gateway postgres:18 psql -h host.docker.internal -U postgres",
+     "out": [
+      "Password for user postgres:",
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# \\conninfo",
+      "           Connection Information",
+      "      Parameter       |        Value",
+      "----------------------+----------------------",
+      " Database             | postgres",
+      " Client User          | postgres",
+      " Host                 | host.docker.internal",
+      " Host Address         | 172.17.0.1",
+      " Server Port          | 5432",
+      " Options              |",
+      " Protocol Version     | 3.0",
+      " Password Used        | true",
+      " GSSAPI Authenticated | false",
+      " Backend PID          | 127",
+      " SSL Connection       | false",
+      " Superuser            | on",
+      " Hot Standby          | off",
+      "(13 rows)",
+      "",
+      "postgres=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "badpw",
+   "page": 19,
+   "title": "밖에서 5432번으로 붙으면 비밀번호를 물어요",
+   "part": "3. 계정과 접속 방법",
+   "steps": [
+    {
+     "cmd": "docker run --rm -it --add-host host.docker.internal:host-gateway postgres:18 psql -h host.docker.internal -U postgres",
+     "out": [
+      "Password for user postgres:",
+      "psql: error: connection to server at \"host.docker.internal\" (172.17.0.1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\""
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t-newpw-in",
+   "page": 19,
+   "title": "밖에서 5432번으로 붙으면 비밀번호를 물어요",
+   "part": "3. 계정과 접속 방법",
+   "steps": [
+    {
+     "cmd": "docker run --rm -it --add-host host.docker.internal:host-gateway postgres:18 psql -h host.docker.internal -U postgres",
+     "out": [
+      "Password for user postgres:",
+      "psql: error: connection to server at \"host.docker.internal\" (172.17.0.1), port 5432 failed: FATAL:  password authentication failed for user \"postgres\""
+     ]
+    }
+   ]
+  },
+  {
+   "id": "oneshot",
+   "page": 20,
+   "title": "-c를 붙이면 SQL 한 문장만 실행하고 바로 나와요",
+   "part": "3. 계정과 접속 방법",
+   "steps": [
+    {
+     "cmd": "docker exec pg psql -U postgres -c \"SELECT version();\"",
+     "out": [
+      "                                                      version                                                       ",
+      "--------------------------------------------------------------------------------------------------------------------",
+      " PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+      "(1 row)"
+     ]
+    },
+    {
+     "cmd": "docker exec pg psql -U postgres -c \"\\l\"",
+     "out": [
+      "                                                    List of databases",
+      "   Name    |  Owner   | Encoding | Locale Provider |  Collate   |   Ctype    | Locale | ICU Rules |   Access privileges   ",
+      "-----------+----------+----------+-----------------+------------+------------+--------+-----------+-----------------------",
+      " postgres  | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | ",
+      " template0 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/postgres          +",
+      "           |          |          |                 |            |            |        |           | postgres=CTc/postgres",
+      " template1 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/postgres          +",
+      "           |          |          |                 |            |            |        |           | postgres=CTc/postgres",
+      "(3 rows)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s-db",
+   "page": 21,
+   "title": "볼륨 없이 켠 컨테이너를 지우면 데이터베이스도 같이 사라져요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# CREATE DATABASE shop;",
+      "CREATE DATABASE",
+      "postgres=# \\l",
+      "                                                    List of databases",
+      "   Name    |  Owner   | Encoding | Locale Provider |  Collate   |   Ctype    | Locale | ICU Rules |   Access privileges",
+      "-----------+----------+----------+-----------------+------------+------------+--------+-----------+-----------------------",
+      " postgres  | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           |",
+      " shop      | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           |",
+      " template0 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/postgres          +",
+      "           |          |          |                 |            |            |        |           | postgres=CTc/postgres",
+      " template1 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/postgres          +",
+      "           |          |          |                 |            |            |        |           | postgres=CTc/postgres",
+      "(4 rows)",
+      "",
+      "postgres=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s-c",
+   "page": 21,
+   "title": "볼륨 없이 켠 컨테이너를 지우면 데이터베이스도 같이 사라져요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# \\c shop",
+      "You are now connected to database \"shop\" as user \"postgres\".",
+      "shop=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s-table",
+   "page": 21,
+   "title": "볼륨 없이 켠 컨테이너를 지우면 데이터베이스도 같이 사라져요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres -d shop",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "shop=# CREATE TABLE orders (id INT PRIMARY KEY, menu VARCHAR(20), qty INT);",
+      "CREATE TABLE",
+      "shop=# \\dt",
+      "           List of tables",
+      " Schema |  Name  | Type  |  Owner",
+      "--------+--------+-------+----------",
+      " public | orders | table | postgres",
+      "(1 row)",
+      "",
+      "shop=# \\d orders",
+      "                      Table \"public.orders\"",
+      " Column |         Type          | Collation | Nullable | Default",
+      "--------+-----------------------+-----------+----------+---------",
+      " id     | integer               |           | not null |",
+      " menu   | character varying(20) |           |          |",
+      " qty    | integer               |           |          |",
+      "Indexes:",
+      "    \"orders_pkey\" PRIMARY KEY, btree (id)",
+      "",
+      "shop=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s-insert",
+   "page": 21,
+   "title": "볼륨 없이 켠 컨테이너를 지우면 데이터베이스도 같이 사라져요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres -d shop",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "shop=# INSERT INTO orders VALUES (1, 'latte', 2);",
+      "INSERT 0 1",
+      "shop=# INSERT INTO orders VALUES (2, 'americano', 1);",
+      "INSERT 0 1",
+      "shop=# SELECT * FROM orders;",
+      " id |   menu    | qty",
+      "----+-----------+-----",
+      "  1 | latte     |   2",
+      "  2 | americano |   1",
+      "(2 rows)",
+      "",
+      "shop=# SELECT menu, qty FROM orders;",
+      "   menu    | qty",
+      "-----------+-----",
+      " latte     |   2",
+      " americano |   1",
+      "(2 rows)",
+      "",
+      "shop=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s-semi",
+   "page": 21,
+   "title": "볼륨 없이 켠 컨테이너를 지우면 데이터베이스도 같이 사라져요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres -d shop",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "shop=# SELECT * FROM orders",
+      "shop-# ;",
+      " id |   menu    | qty",
+      "----+-----------+-----",
+      "  1 | latte     |   2",
+      "  2 | americano |   1",
+      "(2 rows)",
+      "",
+      "shop=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s-typo",
+   "page": 21,
+   "title": "볼륨 없이 켠 컨테이너를 지우면 데이터베이스도 같이 사라져요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# \\c shopp",
+      "connection to server on socket \"/var/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  database \"shopp\" does not exist",
+      "Previous connection kept",
+      "postgres=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s-drop",
+   "page": 21,
+   "title": "볼륨 없이 켠 컨테이너를 지우면 데이터베이스도 같이 사라져요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres -d shop",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "shop=# DROP TABLE orders;",
+      "DROP TABLE",
+      "shop=# \\dt",
+      "Did not find any tables.",
+      "shop=# DROP DATABASE shop;",
+      "ERROR:  cannot drop the currently open database",
+      "shop=# \\c postgres",
+      "You are now connected to database \"postgres\" as user \"postgres\".",
+      "postgres=# DROP DATABASE shop;",
+      "DROP DATABASE",
+      "postgres=# \\l",
+      "                                                    List of databases",
+      "   Name    |  Owner   | Encoding | Locale Provider |  Collate   |   Ctype    | Locale | ICU Rules |   Access privileges",
+      "-----------+----------+----------+-----------------+------------+------------+--------+-----------+-----------------------",
+      " postgres  | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           |",
+      " template0 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/postgres          +",
+      "           |          |          |                 |            |            |        |           | postgres=CTc/postgres",
+      " template1 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |        |           | =c/postgres          +",
+      "           |          |          |                 |            |            |        |           | postgres=CTc/postgres",
+      "(3 rows)",
+      "",
+      "postgres=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-app",
+   "page": 21,
+   "title": "볼륨 없이 켠 컨테이너를 지우면 데이터베이스도 같이 사라져요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# CREATE USER app WITH PASSWORD 'app1234';",
+      "CREATE ROLE",
+      "postgres=# \\du",
+      "                             List of roles",
+      " Role name |                         Attributes",
+      "-----------+------------------------------------------------------------",
+      " app       |",
+      " postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS",
+      "",
+      "postgres=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g-rm",
+   "page": 21,
+   "title": "볼륨 없이 켠 컨테이너를 지우면 데이터베이스도 같이 사라져요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker stop pg",
+     "out": [
+      "pg"
+     ]
+    },
+    {
+     "cmd": "docker rm pg",
+     "out": [
+      "pg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "logs",
+   "page": 23,
+   "title": "-v pg-data:/var/lib/postgresql을 붙이면 지웠다 켜도 남아요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker logs pg",
+     "out": [
+      "The files belonging to this database system will be owned by user \"postgres\".",
+      "This user must also own the server process.",
+      "",
+      "The database cluster will be initialized with locale \"en_US.utf8\".",
+      "The default database encoding has accordingly been set to \"UTF8\".",
+      "The default text search configuration will be set to \"english\".",
+      "",
+      "Data page checksums are enabled.",
+      "",
+      "fixing permissions on existing directory /var/lib/postgresql/18/docker ... ok",
+      "creating subdirectories ... ok",
+      "selecting dynamic shared memory implementation ... posix",
+      "selecting default \"max_connections\" ... 100",
+      "selecting default \"shared_buffers\" ... 128MB",
+      "selecting default time zone ... Etc/UTC",
+      "creating configuration files ... ok",
+      "running bootstrap script ... ok",
+      "performing post-bootstrap initialization ... ok",
+      "syncing data to disk ... ok",
+      "",
+      "",
+      "Success. You can now start the database server using:",
+      "",
+      "    pg_ctl -D /var/lib/postgresql/18/docker -l logfile start",
+      "",
+      "waiting for server to start....2026-11-12 05:22:42.741 UTC [59] LOG:  starting PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+      "2026-11-12 05:22:42.742 UTC [59] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"",
+      "2026-11-12 05:22:42.745 UTC [65] LOG:  database system was shut down at 2026-11-12 05:22:42 UTC",
+      "2026-11-12 05:22:42.747 UTC [59] LOG:  database system is ready to accept connections",
+      " done",
+      "server started",
+      "",
+      "/usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*",
+      "",
+      "2026-11-12 05:22:42.862 UTC [59] LOG:  received fast shutdown request",
+      "waiting for server to shut down....2026-11-12 05:22:42.863 UTC [59] LOG:  aborting any active transactions",
+      "2026-11-12 05:22:42.864 UTC [59] LOG:  background worker \"logical replication launcher\" (PID 68) exited with exit code 1",
+      "2026-11-12 05:22:42.864 UTC [63] LOG:  shutting down",
+      "2026-11-12 05:22:42.864 UTC [63] LOG:  checkpoint starting: shutdown immediate",
+      "2026-11-12 05:22:42.866 UTC [63] LOG:  checkpoint complete: wrote 0 buffers (0.0%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1761918, redo lsn=0/1761918",
+      "2026-11-12 05:22:42.871 UTC [59] LOG:  database system is shut down",
+      " done",
+      "server stopped",
+      "",
+      "PostgreSQL init process complete; ready for start up.",
+      "",
+      "initdb: warning: enabling \"trust\" authentication for local connections",
+      "initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.",
+      "2026-11-12 05:22:42.982 UTC [1] LOG:  starting PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+      "2026-11-12 05:22:42.982 UTC [1] LOG:  listening on IPv4 address \"0.0.0.0\", port 5432",
+      "2026-11-12 05:22:42.983 UTC [1] LOG:  could not create IPv6 socket for address \"::\": Address family not supported by protocol",
+      "2026-11-12 05:22:42.983 UTC [1] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"",
+      "2026-11-12 05:22:42.985 UTC [79] LOG:  database system was shut down at 2026-11-12 05:22:42 UTC",
+      "2026-11-12 05:22:42.988 UTC [1] LOG:  database system is ready to accept connections"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "v-anon",
+   "page": 23,
+   "title": "-v pg-data:/var/lib/postgresql을 붙이면 지웠다 켜도 남아요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME",
+      "local     42de0b89b0e320580f4387ca7dc5ba483ac1a96c2e0675781975ac4527949d4d",
+      "local     44c84e23a79b5f1ac385335ef62982d2fb257a6f2c5e0db344e9f1b8454338a2",
+      "local     a12db8fe090a303d0abe13150445236f54ec01fb4fe9481b5bfc98fe350f51ba",
+      "local     eff158e6f02c4f097e64c221486149974c9612e1b1981a00ae355d5cdcd93ddc"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "v-make",
+   "page": 23,
+   "title": "-v pg-data:/var/lib/postgresql을 붙이면 지웠다 켜도 남아요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# CREATE DATABASE shop;",
+      "CREATE DATABASE",
+      "postgres=# \\c shop",
+      "You are now connected to database \"shop\" as user \"postgres\".",
+      "shop=# CREATE TABLE orders (id INT PRIMARY KEY, menu VARCHAR(20), qty INT);",
+      "CREATE TABLE",
+      "shop=# INSERT INTO orders VALUES (1, 'latte', 2);",
+      "INSERT 0 1",
+      "shop=# INSERT INTO orders VALUES (2, 'americano', 1);",
+      "INSERT 0 1",
+      "shop=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "v-rm",
+   "page": 23,
+   "title": "-v pg-data:/var/lib/postgresql을 붙이면 지웠다 켜도 남아요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker stop pg",
+     "out": [
+      "pg"
+     ]
+    },
+    {
+     "cmd": "docker rm pg",
+     "out": [
+      "pg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "v-ls",
+   "page": 23,
+   "title": "-v pg-data:/var/lib/postgresql을 붙이면 지웠다 켜도 남아요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME",
+      "local     pg-data"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "v-logs",
+   "page": 23,
+   "title": "-v pg-data:/var/lib/postgresql을 붙이면 지웠다 켜도 남아요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker logs pg",
+     "out": [
+      "",
+      "PostgreSQL Database directory appears to contain a database; Skipping initialization",
+      "",
+      "2026-11-12 05:23:44.853 UTC [1] LOG:  starting PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+      "2026-11-12 05:23:44.853 UTC [1] LOG:  listening on IPv4 address \"0.0.0.0\", port 5432",
+      "2026-11-12 05:23:44.853 UTC [1] LOG:  could not create IPv6 socket for address \"::\": Address family not supported by protocol",
+      "2026-11-12 05:23:44.854 UTC [1] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"",
+      "2026-11-12 05:23:44.857 UTC [32] LOG:  database system was shut down at 2026-11-12 05:23:44 UTC",
+      "2026-11-12 05:23:44.860 UTC [1] LOG:  database system is ready to accept connections"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "v-kept",
+   "page": 23,
+   "title": "-v pg-data:/var/lib/postgresql을 붙이면 지웠다 켜도 남아요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres -d shop",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "shop=# SELECT * FROM orders;",
+      " id |   menu    | qty",
+      "----+-----------+-----",
+      "  1 | latte     |   2",
+      "  2 | americano |   1",
+      "(2 rows)",
+      "",
+      "shop=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t-newpw-rm",
+   "page": 23,
+   "title": "-v pg-data:/var/lib/postgresql을 붙이면 지웠다 켜도 남아요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker stop pg",
+     "out": [
+      "pg"
+     ]
+    },
+    {
+     "cmd": "docker rm pg",
+     "out": [
+      "pg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t-newpw-logs",
+   "page": 23,
+   "title": "-v pg-data:/var/lib/postgresql을 붙이면 지웠다 켜도 남아요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker logs pg",
+     "out": [
+      "",
+      "PostgreSQL Database directory appears to contain a database; Skipping initialization",
+      "",
+      "2026-11-12 05:23:48.497 UTC [1] LOG:  starting PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+      "2026-11-12 05:23:48.497 UTC [1] LOG:  listening on IPv4 address \"0.0.0.0\", port 5432",
+      "2026-11-12 05:23:48.497 UTC [1] LOG:  could not create IPv6 socket for address \"::\": Address family not supported by protocol",
+      "2026-11-12 05:23:48.498 UTC [1] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"",
+      "2026-11-12 05:23:48.500 UTC [33] LOG:  database system was shut down at 2026-11-12 05:23:48 UTC",
+      "2026-11-12 05:23:48.503 UTC [1] LOG:  database system is ready to accept connections"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c-ps",
+   "page": 25,
+   "title": "docker compose up -d로 켜고, 서비스 이름 pg로 들어가요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose ps",
+     "out": [
+      "NAME           IMAGE         COMMAND                  SERVICE   CREATED         STATUS         PORTS",
+      "cafe-pg-pg-1   postgres:18   \"docker-entrypoint.s…\"   pg        3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  },
+  {
+   "id": "c-sql",
+   "page": 25,
+   "title": "docker compose up -d로 켜고, 서비스 이름 pg로 들어가요",
+   "part": "4. 볼륨과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose exec pg psql -U postgres -d cafe",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "cafe=# CREATE TABLE orders (id INT PRIMARY KEY, menu VARCHAR(20), qty INT);",
+      "CREATE TABLE",
+      "cafe=# INSERT INTO orders VALUES (1, 'latte', 2);",
+      "INSERT 0 1",
+      "cafe=# INSERT INTO orders VALUES (2, 'americano', 1);",
+      "INSERT 0 1",
+      "cafe=# SELECT * FROM orders;",
+      " id |   menu    | qty",
+      "----+-----------+-----",
+      "  1 | latte     |   2",
+      "  2 | americano |   1",
+      "(2 rows)",
+      "",
+      "cafe=# \\q"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  },
+  {
+   "id": "ps",
+   "page": 26,
+   "title": "비밀번호 -e를 빠뜨리면 켜지자마자 꺼져요",
+   "part": "5. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker ps",
+     "out": [
+      "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS         PORTS                    NAMES",
+      "b0771208641d   postgres:18   \"docker-entrypoint.s…\"   3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   pg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t-nopw",
+   "page": 26,
+   "title": "비밀번호 -e를 빠뜨리면 켜지자마자 꺼져요",
+   "part": "5. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker run -d --name pg postgres:18",
+     "out": [
+      "37d52c826c5d3e01027a298b22f37b1c2cb62a80a0b1a85220b607ba9b832c72"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t-nopw-ps",
+   "page": 26,
+   "title": "비밀번호 -e를 빠뜨리면 켜지자마자 꺼져요",
+   "part": "5. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker ps -a",
+     "out": [
+      "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS                     PORTS     NAMES",
+      "37d52c826c5d   postgres:18   \"docker-entrypoint.s…\"   3 seconds ago   Exited (1) 2 seconds ago             pg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t-nopw-logs",
+   "page": 26,
+   "title": "비밀번호 -e를 빠뜨리면 켜지자마자 꺼져요",
+   "part": "5. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker logs pg",
+     "out": [
+      "Error: Database is uninitialized and superuser password is not specified.",
+      "       You must specify POSTGRES_PASSWORD to a non-empty value for the",
+      "       superuser. For example, \"-e POSTGRES_PASSWORD=password\" on \"docker run\".",
+      "",
+      "       You may also use \"POSTGRES_HOST_AUTH_METHOD=trust\" to allow all",
+      "       connections without a password. This is *not* recommended.",
+      "",
+      "       See PostgreSQL documentation about \"trust\":",
+      "       https://www.postgresql.org/docs/current/auth-trust.html"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t-nopw-rm",
+   "page": 26,
+   "title": "비밀번호 -e를 빠뜨리면 켜지자마자 꺼져요",
+   "part": "5. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker rm pg",
+     "out": [
+      "pg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g-rerun",
+   "page": 27,
+   "title": "켜자마자 들어가면 아직 준비 중이라 접속이 안 돼요",
+   "part": "5. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker run -d --name pg -e POSTGRES_PASSWORD=cafe1234 -p 5432:5432 postgres:18",
+     "out": [
+      "02bc8151523b67571bc383c594550a4f340eb08b5f4ffcd0293f52212de58709"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-port",
+   "page": 28,
+   "title": "5432번을 이미 쓰고 있으면 port is already allocated가 나요",
+   "part": "5. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker run -d --name pg3 -e POSTGRES_PASSWORD=cafe1234 -p 5432:5432 postgres:18",
+     "out": [
+      "e18a2c2ced7731646db874278923520cdfb34a5e34e2868cda1b6113228d859f",
+      "docker: Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint pg3 (aefa57cd7ba24e64d17bfc3b31c0ae4eb0b7713a9145ae62afc4c453e74eeb37): Bind for 0.0.0.0:5432 failed: port is already allocated",
+      "",
+      "Run 'docker run --help' for more information"
+     ]
+    },
+    {
+     "cmd": "docker ps -a",
+     "out": [
+      "CONTAINER ID   IMAGE         COMMAND                  CREATED                  STATUS          PORTS                    NAMES",
+      "e18a2c2ced77   postgres:18   \"docker-entrypoint.s…\"   Less than a second ago   Created                                  pg3",
+      "4087ba29a61a   postgres:18   \"docker-entrypoint.s…\"   5 seconds ago            Up 4 seconds    0.0.0.0:5433->5432/tcp   pg2",
+      "b0771208641d   postgres:18   \"docker-entrypoint.s…\"   44 seconds ago           Up 43 seconds   0.0.0.0:5432->5432/tcp   pg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t-old",
+   "page": 30,
+   "title": "예전 글처럼 /var/lib/postgresql/data에 붙이면 18은 켜지지 않아요",
+   "part": "5. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker run -d --name pg -e POSTGRES_PASSWORD=cafe1234 -p 5432:5432 -v old-data:/var/lib/postgresql/data postgres:18",
+     "out": [
+      "e9a6d4089ae5c9e6a1513c63d2a360c673c306297070d79d00306036116b3b7b"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t-old-ps",
+   "page": 30,
+   "title": "예전 글처럼 /var/lib/postgresql/data에 붙이면 18은 켜지지 않아요",
+   "part": "5. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker ps -a",
+     "out": [
+      "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS                     PORTS     NAMES",
+      "e9a6d4089ae5   postgres:18   \"docker-entrypoint.s…\"   4 seconds ago   Exited (1) 3 seconds ago             pg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t-old-logs",
+   "page": 30,
+   "title": "예전 글처럼 /var/lib/postgresql/data에 붙이면 18은 켜지지 않아요",
+   "part": "5. 자주 나는 오류",
+   "steps": [
+    {
+     "cmd": "docker logs pg",
+     "out": [
+      "Error: in 18+, these Docker images are configured to store database data in a",
+      "       format which is compatible with \"pg_ctlcluster\" (specifically, using",
+      "       major-version-specific directory names).  This better reflects how",
+      "       PostgreSQL itself works, and how upgrades are to be performed.",
+      "",
+      "       See also https://github.com/docker-library/postgres/pull/1259",
+      "",
+      "       Counter to that, there appears to be PostgreSQL data in:",
+      "         /var/lib/postgresql/data (unused mount/volume)",
+      "",
+      "       This is usually the result of upgrading the Docker image without",
+      "       upgrading the underlying database using \"pg_upgrade\" (which requires both",
+      "       versions).",
+      "",
+      "       The suggested container configuration for 18+ is to place a single mount",
+      "       at /var/lib/postgresql which will then place PostgreSQL data in a",
+      "       subdirectory, allowing usage of \"pg_upgrade --link\" without mount point",
+      "       boundary issues.",
+      "",
+      "       See https://github.com/docker-library/postgres/issues/37 for a (long)",
+      "       discussion around this process, and suggestions for how to do so."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c-up",
+   "page": 32,
+   "title": "compose down 하고 다음 날 up 해도 어제 주문이 남아 있어요",
+   "part": "6. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "[+] up 3/3",
+      " ✔ Network cafe-pg_default Created                                          0.0s",
+      " ✔ Volume cafe-pg_pg-data  Created                                          0.0s",
+      " ✔ Container cafe-pg-pg-1  Started                                          0.2s"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  },
+  {
+   "id": "c-down",
+   "page": 32,
+   "title": "compose down 하고 다음 날 up 해도 어제 주문이 남아 있어요",
+   "part": "6. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "docker compose down",
+     "out": [
+      "[+] down 2/2",
+      " ✔ Container cafe-pg-pg-1  Removed                                          0.2s",
+      " ✔ Network cafe-pg_default Removed                                          0.2s"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  },
+  {
+   "id": "c-vol",
+   "page": 32,
+   "title": "compose down 하고 다음 날 up 해도 어제 주문이 남아 있어요",
+   "part": "6. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME",
+      "local     cafe-pg_pg-data"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "e-up",
+   "page": 32,
+   "title": "compose down 하고 다음 날 up 해도 어제 주문이 남아 있어요",
+   "part": "6. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "[+] up 2/2",
+      " ✔ Network cafe-pg_default Created                                          0.0s",
+      " ✔ Container cafe-pg-pg-1  Started                                          0.2s"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  },
+  {
+   "id": "e-sql",
+   "page": 32,
+   "title": "compose down 하고 다음 날 up 해도 어제 주문이 남아 있어요",
+   "part": "6. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "docker compose exec pg psql -U postgres -d cafe",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "cafe=# INSERT INTO orders VALUES (3, 'cake', 1);",
+      "INSERT 0 1",
+      "cafe=# SELECT * FROM orders;",
+      " id |   menu    | qty",
+      "----+-----------+-----",
+      "  1 | latte     |   2",
+      "  2 | americano |   1",
+      "  3 | cake      |   1",
+      "(3 rows)",
+      "",
+      "cafe=# \\q"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  },
+  {
+   "id": "i-logs",
+   "page": 33,
+   "title": "init 폴더에 SQL 파일을 두면 처음 켤 때 메뉴가 들어가요",
+   "part": "6. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "docker compose logs pg",
+     "out": [
+      "pg-1  | The files belonging to this database system will be owned by user \"postgres\".",
+      "pg-1  | This user must also own the server process.",
+      "pg-1  | ",
+      "pg-1  | The database cluster will be initialized with locale \"en_US.utf8\".",
+      "pg-1  | The default database encoding has accordingly been set to \"UTF8\".",
+      "pg-1  | The default text search configuration will be set to \"english\".",
+      "pg-1  | ",
+      "pg-1  | Data page checksums are enabled.",
+      "pg-1  | ",
+      "pg-1  | fixing permissions on existing directory /var/lib/postgresql/18/docker ... ok",
+      "pg-1  | creating subdirectories ... ok",
+      "pg-1  | selecting dynamic shared memory implementation ... posix",
+      "pg-1  | selecting default \"max_connections\" ... 100",
+      "pg-1  | selecting default \"shared_buffers\" ... 128MB",
+      "pg-1  | selecting default time zone ... Etc/UTC",
+      "pg-1  | creating configuration files ... ok",
+      "pg-1  | running bootstrap script ... ok",
+      "pg-1  | performing post-bootstrap initialization ... ok",
+      "pg-1  | initdb: warning: enabling \"trust\" authentication for local connections",
+      "pg-1  | initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.",
+      "pg-1  | syncing data to disk ... ok",
+      "pg-1  | ",
+      "pg-1  | ",
+      "pg-1  | Success. You can now start the database server using:",
+      "pg-1  | ",
+      "pg-1  |     pg_ctl -D /var/lib/postgresql/18/docker -l logfile start",
+      "pg-1  | ",
+      "pg-1  | waiting for server to start....2026-11-12 05:24:15.639 UTC [53] LOG:  starting PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+      "pg-1  | 2026-11-12 05:24:15.640 UTC [53] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"",
+      "pg-1  | 2026-11-12 05:24:15.643 UTC [59] LOG:  database system was shut down at 2026-11-12 05:24:15 UTC",
+      "pg-1  | 2026-11-12 05:24:15.645 UTC [53] LOG:  database system is ready to accept connections",
+      "pg-1  |  done",
+      "pg-1  | server started",
+      "pg-1  | CREATE DATABASE",
+      "pg-1  | ",
+      "pg-1  | ",
+      "pg-1  | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/menu.sql",
+      "pg-1  | CREATE TABLE",
+      "pg-1  | INSERT 0 1",
+      "pg-1  | INSERT 0 1",
+      "pg-1  | INSERT 0 1",
+      "pg-1  | ",
+      "pg-1  | ",
+      "pg-1  | waiting for server to shut down....2026-11-12 05:24:15.910 UTC [53] LOG:  received fast shutdown request",
+      "pg-1  | 2026-11-12 05:24:15.910 UTC [53] LOG:  aborting any active transactions",
+      "pg-1  | 2026-11-12 05:24:15.913 UTC [53] LOG:  background worker \"logical replication launcher\" (PID 62) exited with exit code 1",
+      "pg-1  | 2026-11-12 05:24:15.913 UTC [57] LOG:  shutting down",
+      "pg-1  | 2026-11-12 05:24:15.913 UTC [57] LOG:  checkpoint starting: shutdown immediate",
+      "pg-1  | 2026-11-12 05:24:15.945 UTC [57] LOG:  checkpoint complete: wrote 946 buffers (5.8%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.012 s, sync=0.018 s, total=0.032 s; sync files=305, longest=0.006 s, average=0.001 s; distance=4361 kB, estimate=4361 kB; lsn=0/1BA4088, redo lsn=0/1BA4088",
+      "pg-1  | 2026-11-12 05:24:15.955 UTC [53] LOG:  database system is shut down",
+      "pg-1  |  done",
+      "pg-1  | server stopped",
+      "pg-1  | ",
+      "pg-1  | PostgreSQL init process complete; ready for start up.",
+      "pg-1  | ",
+      "pg-1  | 2026-11-12 05:24:16.030 UTC [1] LOG:  starting PostgreSQL 18.6 (Debian 18.6-1.pgdg13+2) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit",
+      "pg-1  | 2026-11-12 05:24:16.030 UTC [1] LOG:  listening on IPv4 address \"0.0.0.0\", port 5432",
+      "pg-1  | 2026-11-12 05:24:16.030 UTC [1] LOG:  could not create IPv6 socket for address \"::\": Address family not supported by protocol",
+      "pg-1  | 2026-11-12 05:24:16.031 UTC [1] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"",
+      "pg-1  | 2026-11-12 05:24:16.034 UTC [77] LOG:  database system was shut down at 2026-11-12 05:24:15 UTC",
+      "pg-1  | 2026-11-12 05:24:16.037 UTC [1] LOG:  database system is ready to accept connections"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  },
+  {
+   "id": "i-sql",
+   "page": 33,
+   "title": "init 폴더에 SQL 파일을 두면 처음 켤 때 메뉴가 들어가요",
+   "part": "6. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "docker compose exec pg psql -U postgres -d cafe",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "cafe=# \\dt",
+      "          List of tables",
+      " Schema | Name | Type  |  Owner",
+      "--------+------+-------+----------",
+      " public | menu | table | postgres",
+      "(1 row)",
+      "",
+      "cafe=# SELECT * FROM menu;",
+      " id |   name    | price",
+      "----+-----------+-------",
+      "  1 | americano |  4000",
+      "  2 | latte     |  4500",
+      "  3 | cake      |  5000",
+      "(3 rows)",
+      "",
+      "cafe=# \\q"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  },
+  {
+   "id": "g-make",
+   "page": 34,
+   "title": "33 MySQL과 컨테이너 쪽에서 다른 점이에요",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker exec -it pg psql -U postgres",
+     "out": [
+      "psql (18.6 (Debian 18.6-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "postgres=# CREATE DATABASE shop;",
+      "CREATE DATABASE",
+      "postgres=# \\c shop",
+      "You are now connected to database \"shop\" as user \"postgres\".",
+      "shop=# CREATE TABLE orders (id INT PRIMARY KEY, menu VARCHAR(20), qty INT);",
+      "CREATE TABLE",
+      "shop=# INSERT INTO orders VALUES (1, 'latte', 2);",
+      "INSERT 0 1",
+      "shop=# INSERT INTO orders VALUES (2, 'americano', 1);",
+      "INSERT 0 1",
+      "shop=# \\q"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "e-down",
+   "page": 37,
+   "title": "한 장 요약",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker compose down -v",
+     "out": [
+      "[+] down 3/3",
+      " ✔ Container cafe-pg-pg-1  Removed                                          0.2s",
+      " ✔ Volume cafe-pg_pg-data  Removed                                          0.1s",
+      " ✔ Network cafe-pg_default Removed                                          0.1s"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  },
+  {
+   "id": "i-up",
+   "page": 37,
+   "title": "한 장 요약",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "[+] up 3/3",
+      " ✔ Network cafe-pg_default Created                                          0.0s",
+      " ✔ Volume cafe-pg_pg-data  Created                                          0.0s",
+      " ✔ Container cafe-pg-pg-1  Started                                          0.2s"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  },
+  {
+   "id": "i-down",
+   "page": 37,
+   "title": "한 장 요약",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker compose down -v",
+     "out": [
+      "[+] down 3/3",
+      " ✔ Container cafe-pg-pg-1  Removed                                          0.2s",
+      " ✔ Volume cafe-pg_pg-data  Removed                                          0.1s",
+      " ✔ Network cafe-pg_default Removed                                          0.1s"
+     ],
+     "cwd": "~/cafe-pg"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,417 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "11-gh-cli/tools/demo-output.txt(tools/demo.sh)로 실제 실행한 출력",
+ "cells": [
+  {
+   "id": "part-1",
+   "page": 6,
+   "title": "brew나 winget으로 설치하고 gh --version으로 확인해요",
+   "part": "1. 설치하고 로그인하기",
+   "steps": [
+    {
+     "cmd": "gh --version",
+     "out": [
+      "gh version 2.89.0 (2026-03-26)",
+      "https://github.com/cli/cli/releases/tag/v2.89.0"
+     ]
+    },
+    {
+     "cmd": "gh auth status",
+     "out": [
+      "You are not logged into any GitHub hosts. To log in, run: gh auth login"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "part-2-login",
+   "page": 7,
+   "title": "gh auth status로 로그인했는지 물어봐요",
+   "part": "1. 설치하고 로그인하기",
+   "steps": [
+    {
+     "cmd": "gh auth login",
+     "out": [
+      "? Where do you use GitHub? GitHub.com",
+      "? What is your preferred protocol for Git operations on this host? HTTPS",
+      "? Authenticate Git with your GitHub credentials? Yes",
+      "? How would you like to authenticate GitHub CLI? Login with a web browser",
+      "",
+      "! First copy your one-time code: 8F2A-71C4",
+      "Press Enter to open https://github.com/login/device in your browser...",
+      "✓ Authentication complete.",
+      "- gh config set -h github.com git_protocol https",
+      "✓ Configured git protocol",
+      "! Authentication credentials saved in plain text",
+      "✓ Logged in as kim"
+     ]
+    },
+    {
+     "cmd": "gh auth status",
+     "out": [
+      "github.com",
+      "  ✓ Logged in to github.com account kim (/home/kim/.config/gh/hosts.yml)",
+      "  - Active account: true",
+      "  - Git operations protocol: https",
+      "  - Token: gho_*********",
+      "  - Token scopes: 'gist', 'read:org', 'repo', 'workflow'"
+     ]
+    },
+    {
+     "cmd": "cat ~/.gitconfig",
+     "out": [
+      "[user]",
+      "\tname = kim",
+      "\temail = kim@example.com",
+      "[init]",
+      "\tdefaultBranch = main",
+      "[pull]",
+      "\trebase = false",
+      "[credential \"https://github.com\"]",
+      "\thelper =",
+      "\thelper = !/usr/local/bin/gh auth git-credential",
+      "[credential \"https://gist.github.com\"]",
+      "\thelper =",
+      "\thelper = !/usr/local/bin/gh auth git-credential"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "part-3-clone",
+   "page": 16,
+   "title": "gh repo clone은 주소 대신 주인/이름만 적어요",
+   "part": "2. 이미 있는 레포 연결하기",
+   "steps": [
+    {
+     "cmd": "gh repo clone kim/team-intro",
+     "out": [
+      "Cloning into 'team-intro'...",
+      "remote: Enumerating objects: 6, done.",
+      "remote: Counting objects: 100% (6/6), done.",
+      "remote: Compressing objects: 100% (3/3), done.",
+      "remote: Total 6 (delta 0), reused 0 (delta 0), pack-reused 0",
+      "Unpacking objects: 100% (6/6), 512 bytes | 512.00 KiB/s, done."
+     ],
+     "cwd": "~/kant"
+    },
+    {
+     "cmd": "git remote -v",
+     "out": [
+      "origin\thttps://github.com/kim/team-intro.git (fetch)",
+      "origin\thttps://github.com/kim/team-intro.git (push)"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "1baff03 (HEAD -> main, origin/main, origin/HEAD) feat: kim 소개 추가",
+      "a2a187e docs: README 추가"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "gh repo view",
+     "out": [
+      "kim/team-intro",
+      "No description provided",
+      "",
+      "",
+      "  # team-intro",
+      "",
+      "  우리 팀 소개 페이지예요.",
+      "",
+      "",
+      "",
+      "View this repository on GitHub: https://github.com/kim/team-intro"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "gh browse",
+     "out": [
+      "Opening https://github.com/kim/team-intro in your browser."
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "gh repo list",
+     "out": [
+      "",
+      "Showing 2 of 2 repositories in @kim",
+      "",
+      "NAME            DESCRIPTION  INFO    UPDATED",
+      "kim/hello-git                public  about 3 minutes ago",
+      "kim/team-intro               public  about 3 minutes ago"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "part-4-create",
+   "page": 21,
+   "title": "먼저 내 컴퓨터에 저장소와 커밋 하나를 만들어요",
+   "part": "3. 새 레포 만들기",
+   "steps": [
+    {
+     "cmd": "git init",
+     "out": [
+      "Initialized empty Git repository in /home/kim/kant/my-notes/.git/"
+     ],
+     "cwd": "~/kant/my-notes"
+    },
+    {
+     "cmd": "echo '# my-notes' > README.md && git add README.md && git commit -m 'docs: README 추가'",
+     "out": [
+      "[main (root-commit) f5c3a4c] docs: README 추가",
+      " 1 file changed, 1 insertion(+)",
+      " create mode 100644 README.md"
+     ],
+     "cwd": "~/kant/my-notes"
+    },
+    {
+     "cmd": "gh repo create my-notes --public --source=. --remote=origin",
+     "out": [
+      "✓ Created repository kim/my-notes on github.com",
+      "  https://github.com/kim/my-notes",
+      "✓ Added remote https://github.com/kim/my-notes.git"
+     ],
+     "cwd": "~/kant/my-notes"
+    },
+    {
+     "cmd": "git remote -v",
+     "out": [
+      "origin\thttps://github.com/kim/my-notes.git (fetch)",
+      "origin\thttps://github.com/kim/my-notes.git (push)"
+     ],
+     "cwd": "~/kant/my-notes"
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "Enumerating objects: 3, done.",
+      "Counting objects: 100% (3/3), done.",
+      "Writing objects: 100% (3/3), 230 bytes | 230.00 KiB/s, done.",
+      "Total 3 (delta 0), reused 0 (delta 0), pack-reused 0",
+      "To https://github.com/kim/my-notes.git",
+      " * [new branch]      main -> main"
+     ],
+     "cwd": "~/kant/my-notes"
+    },
+    {
+     "cmd": "gh repo list",
+     "out": [
+      "",
+      "Showing 3 of 3 repositories in @kim",
+      "",
+      "NAME            DESCRIPTION  INFO    UPDATED",
+      "kim/hello-git                public  about 3 minutes ago",
+      "kim/my-notes                 public  about 3 minutes ago",
+      "kim/team-intro               public  about 3 minutes ago"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "part-5-delete",
+   "page": 26,
+   "title": "처음 gh repo delete는 권한이 없어서 막혀요",
+   "part": "4. 레포 지우기와 권한 추가",
+   "steps": [
+    {
+     "cmd": "gh repo delete kim/my-notes",
+     "out": [
+      "",
+      "? Type kim/my-notes to confirm deletion: kim/my-notes",
+      "HTTP 403: Must have admin rights to Repository. (https://api.github.com/repos/kim/my-notes)",
+      "This API operation needs the \"delete_repo\" scope. To request it, run:  gh auth refresh -h github.com -s delete_repo"
+     ]
+    },
+    {
+     "cmd": "gh auth refresh -h github.com -s delete_repo",
+     "out": [
+      "",
+      "! First copy your one-time code: 8F2A-71C4",
+      "Press Enter to open https://github.com/login/device in your browser...",
+      "✓ Authentication complete."
+     ]
+    },
+    {
+     "cmd": "gh auth status",
+     "out": [
+      "github.com",
+      "  ✓ Logged in to github.com account kim (/home/kim/.config/gh/hosts.yml)",
+      "  - Active account: true",
+      "  - Git operations protocol: https",
+      "  - Token: gho_*********",
+      "  - Token scopes: 'delete_repo', 'gist', 'read:org', 'repo', 'workflow'"
+     ]
+    },
+    {
+     "cmd": "gh repo delete kim/my-notes",
+     "out": [
+      "",
+      "? Type kim/my-notes to confirm deletion: kim/my-notes",
+      "✓ Deleted repository kim/my-notes"
+     ]
+    },
+    {
+     "cmd": "gh repo list",
+     "out": [
+      "",
+      "Showing 2 of 2 repositories in @kim",
+      "",
+      "NAME            DESCRIPTION  INFO    UPDATED",
+      "kim/hello-git                public  about 3 minutes ago",
+      "kim/team-intro               public  about 3 minutes ago"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "fatal: repository 'https://github.com/kim/my-notes.git/' not found"
+     ],
+     "cwd": "~/kant/my-notes"
+    }
+   ]
+  },
+  {
+   "id": "part-6-simple",
+   "page": 31,
+   "title": "gh issue create로 할 일을 이슈로 남겨요",
+   "part": "5. 자주 쓰는 gh 명령",
+   "steps": [
+    {
+     "cmd": "gh issue create --title \"소개 페이지에 사진 넣기\" --body \"각자 사진 한 장씩 넣어요\"",
+     "out": [
+      "",
+      "Creating issue in kim/team-intro",
+      "",
+      "https://github.com/kim/team-intro/issues/1"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "gh issue list",
+     "out": [
+      "",
+      "Showing 1 of 1 open issue in kim/team-intro",
+      "",
+      "ID  TITLE                    LABELS  UPDATED",
+      "#1  소개 페이지에 사진 넣기          less than a minute ago"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "git checkout -b feature/kim-hobby",
+     "out": [
+      "Switched to a new branch 'feature/kim-hobby'"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "echo '취미: 등산' >> kim.md && git add kim.md && git commit -m 'feat: kim 취미 추가'",
+     "out": [
+      "[feature/kim-hobby 8039736] feat: kim 취미 추가",
+      " 1 file changed, 1 insertion(+)"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "git push origin feature/kim-hobby",
+     "out": [
+      "Enumerating objects: 5, done.",
+      "Counting objects: 100% (5/5), done.",
+      "Delta compression using up to 4 threads",
+      "Compressing objects: 100% (2/2), done.",
+      "Writing objects: 100% (3/3), 308 bytes | 308.00 KiB/s, done.",
+      "Total 3 (delta 0), reused 0 (delta 0), pack-reused 0",
+      "To https://github.com/kim/team-intro.git",
+      " * [new branch]      feature/kim-hobby -> feature/kim-hobby"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "gh pr create --title \"feat: kim 취미 추가\" --body \"kim.md에 취미를 적었어요\"",
+     "out": [
+      "",
+      "Creating pull request for feature/kim-hobby into main in kim/team-intro",
+      "",
+      "https://github.com/kim/team-intro/pull/2"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "gh pr list",
+     "out": [
+      "",
+      "Showing 1 of 1 open pull request in kim/team-intro",
+      "",
+      "ID  TITLE                BRANCH             CREATED AT",
+      "#2  feat: kim 취미 추가  feature/kim-hobby  less than a minute ago"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "gh pr view 2",
+     "out": [
+      "feat: kim 취미 추가 kim/team-intro#2",
+      "Open • kim (kim) wants to merge 1 commit into main from feature/kim-hobby • less than a minute ago",
+      "+1 -0 • No checks",
+      "",
+      "",
+      "  kim.md에 취미를 적었어요",
+      "",
+      "",
+      "View this pull request on GitHub: https://github.com/kim/team-intro/pull/2"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "gh pr merge 2 --merge",
+     "out": [
+      "✓ Merged pull request kim/team-intro#2 (feat: kim 취미 추가)"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "git checkout main",
+     "out": [
+      "Switched to branch 'main'",
+      "Your branch is up to date with 'origin/main'."
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "remote: Enumerating objects: 1, done.",
+      "remote: Counting objects: 100% (1/1), done.",
+      "remote: Total 1 (delta 0), reused 0 (delta 0), pack-reused 0",
+      "Unpacking objects: 100% (1/1), 495 bytes | 495.00 KiB/s, done.",
+      "From https://github.com/kim/team-intro",
+      " * branch            main       -> FETCH_HEAD",
+      "   1baff03..5487d25  main       -> origin/main",
+      "Updating 1baff03..5487d25",
+      "Fast-forward",
+      " kim.md | 1 +",
+      " 1 file changed, 1 insertion(+)"
+     ],
+     "cwd": "~/kant/team-intro"
+    },
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "5487d25 (HEAD -> main, origin/main, origin/HEAD) Merge pull request #2 from kim/feature/kim-hobby",
+      "8039736 (origin/feature/kim-hobby, feature/kim-hobby) feat: kim 취미 추가",
+      "1baff03 feat: kim 소개 추가",
+      "a2a187e docs: README 추가"
+     ],
+     "cwd": "~/kant/team-intro"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,404 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "07-git-restore-stash 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+ "cells": [
+  {
+   "id": "cover-1",
+   "page": 1,
+   "title": "커밋 전 변경 취소하기와 잠깐 보관하기",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "git restore login.md",
+     "out": [
+      "  고친 걸 버려요"
+     ]
+    },
+    {
+     "cmd": "git stash",
+     "out": [
+      "  서랍에 넣어요"
+     ]
+    },
+    {
+     "cmd": "git stash pop",
+     "out": [
+      "  서랍에서 꺼내요"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "r1-1",
+   "page": 5,
+   "title": "실수로 login.md를 덮어썼어요",
+   "part": "1. git restore",
+   "steps": [
+    {
+     "cmd": "echo \"로그인 버튼\" > login.md",
+     "out": []
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "Changes not staged for commit:",
+      "  (use \"git add <file>...\" to update what will be committed)",
+      "  (use \"git restore <file>...\" to discard changes in working directory)",
+      "        modified:   login.md",
+      "",
+      "no changes added to commit (use \"git add\" and/or \"git commit -a\")"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "r2-1",
+   "page": 6,
+   "title": "버리기 전에 무엇이 사라질지 봐요",
+   "part": "1. git restore",
+   "steps": [
+    {
+     "cmd": "git diff",
+     "out": [
+      "diff --git a/login.md b/login.md",
+      "index ef88ce3..b4b694b 100644",
+      "--- a/login.md",
+      "+++ b/login.md",
+      "@@ -1,3 +1 @@",
+      "-# 로그인",
+      "-아이디",
+      "-비밀번호",
+      "+로그인 버튼"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "r3-1",
+   "page": 7,
+   "title": "git restore로 마지막 커밋 모습으로 돌려요",
+   "part": "1. git restore",
+   "steps": [
+    {
+     "cmd": "git restore login.md",
+     "out": []
+    },
+    {
+     "cmd": "cat login.md",
+     "out": [
+      "# 로그인",
+      "아이디",
+      "비밀번호"
+     ]
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "nothing to commit, working tree clean"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s1-1",
+   "page": 9,
+   "title": "git add . 으로 memo.md까지 올라갔어요",
+   "part": "2. git restore --staged",
+   "steps": [
+    {
+     "cmd": "echo \"로그인 버튼\" >> login.md",
+     "out": []
+    },
+    {
+     "cmd": "echo \"내일 할 일: 디자인 묻기\" > memo.md",
+     "out": []
+    },
+    {
+     "cmd": "git add .",
+     "out": []
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "Changes to be committed:",
+      "  (use \"git restore --staged <file>...\" to unstage)",
+      "        modified:   login.md",
+      "        new file:   memo.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s2-1",
+   "page": 10,
+   "title": "memo.md만 대기실에서 내려요",
+   "part": "2. git restore --staged",
+   "steps": [
+    {
+     "cmd": "git restore --staged memo.md",
+     "out": []
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "Changes to be committed:",
+      "  (use \"git restore --staged <file>...\" to unstage)",
+      "        modified:   login.md",
+      "",
+      "Untracked files:",
+      "  (use \"git add <file>...\" to include in what will be committed)",
+      "        memo.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s3-1",
+   "page": 11,
+   "title": "--staged가 붙으면 대기실만 바꿔요",
+   "part": "2. git restore --staged",
+   "steps": [
+    {
+     "cmd": "echo \"아이디 저장\" >> login.md",
+     "out": []
+    },
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git restore --staged login.md",
+     "out": []
+    },
+    {
+     "cmd": "git diff",
+     "out": [
+      "diff --git a/login.md b/login.md",
+      "index 6e22a11..b8c799e 100644",
+      "--- a/login.md",
+      "+++ b/login.md",
+      "@@ -2,3 +2,4 @@",
+      " 아이디",
+      " 비밀번호",
+      " 로그인 버튼",
+      "+아이디 저장"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "st0-1",
+   "page": 12,
+   "title": "고치던 중에 pull하면 Git이 멈춰요",
+   "part": "3. git stash",
+   "steps": [
+    {
+     "cmd": "echo \"비밀번호 찾기\" >> login.md",
+     "out": []
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/hello-git",
+      " * branch            main       -> FETCH_HEAD",
+      "   15d92cb..0be6431  main       -> origin/main",
+      "Updating 15d92cb..0be6431",
+      "error: Your local changes to the following files would be overwritten by merge:",
+      "        login.md",
+      "Please commit your changes or stash them before you merge.",
+      "Aborting"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "st1-1",
+   "page": 13,
+   "title": "git stash로 고치던 걸 서랍에 넣어요",
+   "part": "3. git stash",
+   "steps": [
+    {
+     "cmd": "git stash",
+     "out": [
+      "Saved working directory and index state WIP on main: 15d92cb feat: 로그인 버튼 추가"
+     ]
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "nothing to commit, working tree clean"
+     ]
+    },
+    {
+     "cmd": "git stash list",
+     "out": [
+      "stash@{0}: WIP on main: 15d92cb feat: 로그인 버튼 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "st-read-1",
+   "page": 14,
+   "title": "stash list 한 줄은 네 부분이에요",
+   "part": "3. git stash",
+   "steps": [
+    {
+     "cmd": "git stash",
+     "out": []
+    },
+    {
+     "cmd": "git stash list",
+     "out": [
+      "stash@{0}: WIP on main: dd746b3 feat: 비밀번호 재설정에 이메일 안내 추가",
+      "stash@{1}: WIP on main: dd746b3 feat: 비밀번호 재설정에 이메일 안내 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "st2-1",
+   "page": 15,
+   "title": "작업 폴더가 깨끗하니 pull이 돼요",
+   "part": "3. git stash",
+   "steps": [
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/hello-git",
+      " * branch            main       -> FETCH_HEAD",
+      "Updating 15d92cb..0be6431",
+      "Fast-forward",
+      " login.md | 2 +-",
+      " 1 file changed, 1 insertion(+), 1 deletion(-)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "st3-1",
+   "page": 16,
+   "title": "git stash pop으로 서랍에서 꺼내요",
+   "part": "3. git stash",
+   "steps": [
+    {
+     "cmd": "git stash pop",
+     "out": [
+      "Auto-merging login.md",
+      "On branch main",
+      "Changes not staged for commit:",
+      "        modified:   login.md",
+      "",
+      "Dropped refs/stash@{0} (ea47a275d168793f5d750db2514463f36986122d)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pop-c-1",
+   "page": 19,
+   "title": "pop에서 충돌이 나면 서랍이 비워지지 않아요",
+   "part": "5. 막힐 때",
+   "steps": [
+    {
+     "cmd": "git stash pop",
+     "out": [
+      "Auto-merging login.md",
+      "CONFLICT (content): Merge conflict in login.md",
+      "On branch main",
+      "Unmerged paths:",
+      "  (use \"git restore --staged <file>...\" to unstage)",
+      "  (use \"git add <file>...\" to mark resolution)",
+      "        both modified:   login.md",
+      "",
+      "The stash entry is kept in case you need it again."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pop-r-1",
+   "page": 20,
+   "title": "03처럼 풀고, 서랍을 비워요",
+   "part": "5. 막힐 때",
+   "steps": [
+    {
+     "cmd": "cat login.md",
+     "out": [
+      "# 로그인 페이지",
+      "아이디",
+      "비밀번호",
+      "로그인 버튼",
+      "비밀번호 재설정 (이메일)"
+     ]
+    },
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git stash drop",
+     "out": [
+      "Dropped refs/stash@{0} (30ebc16b62d989d22d6cf5dc856d28b138dee3ba)"
+     ]
+    },
+    {
+     "cmd": "git stash list",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 비밀번호 재설정에 이메일 안내 추가\"",
+     "out": [
+      "[main dd746b3] feat: 비밀번호 재설정에 이메일 안내 추가"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "   365260f..dd746b3  main -> main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "team-flow-1",
+   "page": 22,
+   "title": "stash, pull, pop 뒤에 커밋해요",
+   "part": "6. 팀에서 쓰기",
+   "steps": [
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "8eacb89 (HEAD -> main, origin/main) feat: 비밀번호 찾기 추가",
+      "0be6431 feat: 로그인 제목 바꾸기",
+      "15d92cb feat: 로그인 버튼 추가",
+      "e12ffc2 feat: 로그인 화면 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "st-co-1",
+   "page": 23,
+   "title": "checkout이 막혀도 stash로 치우고 가요",
+   "part": "6. 팀에서 쓰기",
+   "steps": [
+    {
+     "cmd": "git checkout main",
+     "out": [
+      "error: Your local changes to the following files would be overwritten by checkout:",
+      "        login.md",
+      "Please commit your changes or stash them before you switch branches.",
+      "Aborting"
+     ]
+    }
+   ]
+  }
+ ]
+}

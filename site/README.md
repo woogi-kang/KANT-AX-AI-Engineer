@@ -12,7 +12,7 @@ Node는 최신 LTS(26)를 써요(`.node-version`). 패키지와 프레임워크�
 cd site
 npm ci
 npm run dev      # http://localhost:3000 (로드맵 레포를 받고 그림을 복사한 뒤 켜요)
-npm run build    # out/에 정적 파일을 만들고, 페이지가 빠짐없이 생겼는지 세요
+npm run build    # out/에 정적 파일을 만들고, 페이지가 빠짐없이 생겼는지 세고, 실습 칸을 모두 실행해 수업 출력과 견줘요
 cd out && python3 -m http.server 8766 &   # 만든 사이트 띄우기
 npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, 깨진 링크를 찾아요
 ```
@@ -27,6 +27,7 @@ npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, �
 | 챕터 교안, 학습 목표, 구성(파트와 쪽) | 챕터 `README.md` (`lib/chapter.ts`) |
 | 슬라이드, PDF | 덱 HTML과 PDF (`scripts/copy-assets.mjs`가 `public/decks/`로 복사) |
 | 로드맵 5단계, 주제 문서, 업무 사례, 공개 사례, 실패·중단 사례, 템플릿, 채용 현황, 용어 사전 | 로드맵 레포 [woogi-kang/ax-engineer-roadmap](https://github.com/woogi-kang/ax-engineer-roadmap) (MIT). 빌드할 때 `scripts/fetch-roadmap.mjs`가 `site/.roadmap`에 받아요. 다른 폴더를 쓰려면 `ROADMAP_DIR=폴더` |
+| 챕터 실습 칸(바로 쳐 보기) | 챕터 폴더의 `practice.json` (`scripts/practice/`의 스크립트가 수업 출력에서 만들어요. 형식과 만드는 법은 `scripts/practice/README.md`) |
 | 로드맵 주제와 강의 챕터 잇기 | `content/roadmap-links.json` |
 | 덱 표지 그림 | `assets/covers/` (`npm run covers -- 폴더`로 찍어요. 표지의 KANT 글자는 사이트 이름으로 바꿔 찍어요) |
 | 도구 로고 | `assets/logos/` (devicon MIT 컬러 로고, uv는 Simple Icons CC0) |
@@ -55,6 +56,7 @@ npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, �
 | `components/` | `SideNav`, `SearchDialog`, `FilterChips`(거르기), `Player`(표지 뒤 덱), `LecCard`, `LibTiles` |
 | `lib/` | `content.ts`(강의), `roadmap.ts`(로드맵 레포), `links.ts`, `chapter.ts`, `markdown.ts`, `search.ts`, `site.ts`(이름, 메뉴, 아이콘), `logos.ts` |
 | `scripts/` | `fetch-roadmap.mjs`, `copy-assets.mjs`, `check-build.mjs`, `shoot-covers.mjs`, `qa.cjs` |
+| `engines/` | 실습 칸 엔진 코드(파이썬 Pyodide, SQL PGlite, psql 화면 모양). 브라우저 워커와 `scripts/practice-check.mjs`가 같이 써요. `scripts/copy-engines.mjs`가 빌드 전에 `public/engines/`로 복사해요 |
 | `design/` | 디자인 시안. 사이트에서는 `/design/`으로 열려요 |
 
 ## 여러 작업이 동시에 고칠 때

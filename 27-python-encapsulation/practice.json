@@ -1,0 +1,430 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "27-python-encapsulation/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "class Card:\n    def __init__(self, name):\n        self.name = name\n        self.stamps = 0\n\n    def add(self):\n        self.stamps = self.stamps + 1\n\nkim = Card(\"kim\")\nkim.add()\nkim.stamps = 100\nprint(kim.name, kim.stamps)",
+   "expect": [
+    "kim 100"
+   ],
+   "page": 4,
+   "title": "도장 수를 밖에서 아무 값으로나 바꿀 수 있어요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "kim.stamps = -5\nprint(kim.name, kim.stamps)",
+   "expect": [
+    "kim -5"
+   ],
+   "page": 4,
+   "title": "도장 수를 밖에서 아무 값으로나 바꿀 수 있어요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "class Card:\n    def __init__(self, name):\n        self.name = name\n        self._stamps = 0\n\n    def add(self):\n        self._stamps = self._stamps + 1\n\n    def count(self):\n        return self._stamps\n\nkim = Card(\"kim\")\nkim.add()\nkim.add()\nprint(kim.count())",
+   "expect": [
+    "2"
+   ],
+   "page": 6,
+   "title": "밑줄 하나로 시작하는 칸은 안에서만 써요",
+   "part": "2. 밑줄 하나 `_`"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "kim._stamps = 100\nprint(kim.count())",
+   "expect": [
+    "100"
+   ],
+   "page": 8,
+   "title": "밖에서 _stamps에 넣어도 오류가 나지 않아요",
+   "part": "2. 밑줄 하나 `_`"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\n\nmypass = Secret()\nprint(mypass.__password)",
+   "expect": [
+    "AttributeError: 'Secret' object has no attribute '__password'"
+   ],
+   "err": true,
+   "page": 9,
+   "title": "밑줄 두 개로 시작하는 칸은 밖에서 이름으로 못 찾아요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\n\n    def check(self, pw):\n        return self.__password == pw\n\nmypass = Secret()\nprint(mypass.check(1234))\nprint(mypass.check(1111))",
+   "expect": [
+    "True",
+    "False"
+   ],
+   "page": 10,
+   "title": "클래스 안의 메서드는 self.__password를 그대로 써요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "print(mypass.__dict__)",
+   "expect": [
+    "{'_Secret__password': 1234}"
+   ],
+   "page": 11,
+   "title": "파이썬이 __password를 _Secret__password로 바꿔 둬요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "print(mypass._Secret__password)",
+   "expect": [
+    "1234"
+   ],
+   "page": 12,
+   "title": "바뀐 이름을 알면 밖에서도 꺼내고 바꿀 수 있어요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r3c5",
+   "chain": "r3",
+   "code": "mypass._Secret__password = 5678\nprint(mypass.check(5678))",
+   "expect": [
+    "True"
+   ],
+   "page": 12,
+   "title": "바뀐 이름을 알면 밖에서도 꺼내고 바꿀 수 있어요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "class Secret:\n    def __init__(self):\n        self.password = 1234\n\nmypass = Secret()\nprint(mypass.__dict__)",
+   "expect": [
+    "{'password': 1234}"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "print(mypass.password)",
+   "expect": [
+    "1234"
+   ],
+   "page": 15,
+   "title": "setter가 검사해서 틀린 값은 안 넣어요",
+   "part": "4. getter와 setter"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "print(mypass._password)",
+   "expect": [
+    "AttributeError: 'Secret' object has no attribute '_password'"
+   ],
+   "err": true,
+   "hidden": true
+  },
+  {
+   "id": "r4c4",
+   "chain": "r4",
+   "code": "print(mypass.__password)",
+   "expect": [
+    "AttributeError: 'Secret' object has no attribute '__password'"
+   ],
+   "err": true,
+   "page": 9,
+   "title": "밑줄 두 개로 시작하는 칸은 밖에서 이름으로 못 찾아요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r4c5",
+   "chain": "r4",
+   "code": "print(mypass._Secret__password)",
+   "expect": [
+    "AttributeError: 'Secret' object has no attribute '_Secret__password'"
+   ],
+   "err": true,
+   "page": 12,
+   "title": "바뀐 이름을 알면 밖에서도 꺼내고 바꿀 수 있어요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "class Secret:\n    def __init__(self):\n        self._password = 1234\n\nmypass = Secret()\nprint(mypass.__dict__)",
+   "expect": [
+    "{'_password': 1234}"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r5c2",
+   "chain": "r5",
+   "code": "print(mypass.password)",
+   "expect": [
+    "AttributeError: 'Secret' object has no attribute 'password'"
+   ],
+   "err": true,
+   "page": 15,
+   "title": "setter가 검사해서 틀린 값은 안 넣어요",
+   "part": "4. getter와 setter"
+  },
+  {
+   "id": "r5c3",
+   "chain": "r5",
+   "code": "print(mypass._password)",
+   "expect": [
+    "1234"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r5c4",
+   "chain": "r5",
+   "code": "print(mypass.__password)",
+   "expect": [
+    "AttributeError: 'Secret' object has no attribute '__password'"
+   ],
+   "err": true,
+   "page": 9,
+   "title": "밑줄 두 개로 시작하는 칸은 밖에서 이름으로 못 찾아요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r5c5",
+   "chain": "r5",
+   "code": "print(mypass._Secret__password)",
+   "expect": [
+    "AttributeError: 'Secret' object has no attribute '_Secret__password'"
+   ],
+   "err": true,
+   "page": 12,
+   "title": "바뀐 이름을 알면 밖에서도 꺼내고 바꿀 수 있어요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\n\nmypass = Secret()\nprint(mypass.__dict__)",
+   "expect": [
+    "{'_Secret__password': 1234}"
+   ],
+   "page": 19,
+   "title": "밖에서 mypass.__password = 0 이라고 적으면 새 칸이 생겨요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "print(mypass.password)",
+   "expect": [
+    "AttributeError: 'Secret' object has no attribute 'password'"
+   ],
+   "err": true,
+   "page": 15,
+   "title": "setter가 검사해서 틀린 값은 안 넣어요",
+   "part": "4. getter와 setter"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "print(mypass._password)",
+   "expect": [
+    "AttributeError: 'Secret' object has no attribute '_password'"
+   ],
+   "err": true,
+   "hidden": true
+  },
+  {
+   "id": "r6c4",
+   "chain": "r6",
+   "code": "print(mypass.__password)",
+   "expect": [
+    "AttributeError: 'Secret' object has no attribute '__password'"
+   ],
+   "err": true,
+   "page": 9,
+   "title": "밑줄 두 개로 시작하는 칸은 밖에서 이름으로 못 찾아요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r6c5",
+   "chain": "r6",
+   "code": "print(mypass._Secret__password)",
+   "expect": [
+    "1234"
+   ],
+   "page": 12,
+   "title": "바뀐 이름을 알면 밖에서도 꺼내고 바꿀 수 있어요",
+   "part": "3. 밑줄 두 개 `__`"
+  },
+  {
+   "id": "r7c1",
+   "chain": "r7",
+   "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\n\n    def get_password(self):\n        return self.__password\n\n    def set_password(self, new):\n        if 1000 <= new <= 9999:\n            self.__password = new\n        else:\n            print(\"비밀번호는 네 자리 숫자예요\")\n\nmypass = Secret()\nprint(mypass.get_password())",
+   "expect": [
+    "1234"
+   ],
+   "page": 14,
+   "title": "꺼내는 문은 getter, 넣는 문은 setter예요",
+   "part": "4. getter와 setter"
+  },
+  {
+   "id": "r7c2",
+   "chain": "r7",
+   "code": "mypass.set_password(12)\nprint(mypass.get_password())\nmypass.set_password(5678)\nprint(mypass.get_password())",
+   "expect": [
+    "비밀번호는 네 자리 숫자예요",
+    "1234",
+    "5678"
+   ],
+   "page": 15,
+   "title": "setter가 검사해서 틀린 값은 안 넣어요",
+   "part": "4. getter와 setter"
+  },
+  {
+   "id": "r7c3",
+   "chain": "r7",
+   "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\n\n    @property\n    def password(self):\n        return self.__password\n\nmypass = Secret()\nprint(mypass.password)",
+   "expect": [
+    "1234"
+   ],
+   "page": 16,
+   "title": "@property를 붙이면 괄호 없이 꺼내요",
+   "part": "4. getter와 setter"
+  },
+  {
+   "id": "r7c4",
+   "chain": "r7",
+   "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\n\n    @property\n    def password(self):\n        return self.__password\n\n    @password.setter\n    def password(self, new):\n        if 1000 <= new <= 9999:\n            self.__password = new\n        else:\n            print(\"비밀번호는 네 자리 숫자예요\")\n\nmypass = Secret()\nmypass.password = 12\nprint(mypass.password)\nmypass.password = 5678\nprint(mypass.password)",
+   "expect": [
+    "비밀번호는 네 자리 숫자예요",
+    "1234",
+    "5678"
+   ],
+   "page": 17,
+   "title": "@password.setter를 붙이면 = 으로 넣어도 검사해요",
+   "part": "4. getter와 setter"
+  },
+  {
+   "id": "r8c1",
+   "chain": "r8",
+   "code": "class Secret:\n    def __init__(self):\n        self.password = 1234\n\nmypass = Secret()\nmypass.password = 12\nprint(mypass.password)",
+   "expect": [
+    "12"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r9c1",
+   "chain": "r9",
+   "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\n\n    def check(self, pw):\n        return self.__password == pw\n\nmypass = Secret()\nmypass.__password = 0\nprint(mypass.check(1234))\nprint(mypass.__dict__)",
+   "expect": [
+    "True",
+    "{'_Secret__password': 1234, '__password': 0}"
+   ],
+   "page": 19,
+   "title": "밖에서 mypass.__password = 0 이라고 적으면 새 칸이 생겨요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r9c2",
+   "chain": "r9",
+   "code": "class Card:\n    def __init__(self, name):\n        self.name = name\n        self.__stamps = 0\n\n    def add(self):\n        self.__stamps = self.__stamps + 1\n\nclass VipCard(Card):\n    def add(self):\n        self.__stamps = self.__stamps + 2\n\nlee = VipCard(\"lee\")\nlee.add()",
+   "expect": [
+    "AttributeError: 'VipCard' object has no attribute '_VipCard__stamps'"
+   ],
+   "err": true,
+   "page": 20,
+   "title": "자식 틀에서 부모의 __stamps를 쓰면 이름이 달라서 못 찾아요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r9c3",
+   "chain": "r9",
+   "code": "class Card:\n    def __init__(self, name):\n        self.name = name\n        self.__stamps = 0\n\n    @property\n    def stamps(self):\n        return self.__stamps\n\nkim = Card(\"kim\")\nprint(kim.stamps())",
+   "expect": [
+    "TypeError: 'int' object is not callable"
+   ],
+   "err": true,
+   "page": 21,
+   "title": "property에 괄호를 붙이면 'int' object is not callable",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r9c4",
+   "chain": "r9",
+   "code": "kim.stamps = 100",
+   "expect": [
+    "AttributeError: property 'stamps' of 'Card' object has no setter"
+   ],
+   "err": true,
+   "page": 22,
+   "title": "setter가 없는 property에 넣으면 has no setter",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r9c5",
+   "chain": "r9",
+   "code": "class Card:\n    def __init__(self, name):\n        self.name = name\n        self._stamps = 0\n\n    def add(self):\n        self._stamps = self._stamps + 1\n\nclass VipCard(Card):\n    def add(self):\n        self._stamps = self._stamps + 2\n\nlee = VipCard(\"lee\")\nlee.add()\nprint(lee._stamps)",
+   "expect": [
+    "2"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r10c1",
+   "chain": "r10",
+   "code": "class Card:\n    goal = 10\n\n    def __init__(self, name):\n        self.name = name\n        self.__stamps = 0\n\n    def add(self):\n        if self.__stamps < Card.goal:\n            self.__stamps = self.__stamps + 1\n\n    @property\n    def stamps(self):\n        return self.__stamps\n\n    def __str__(self):\n        return f\"{self.name}: 도장 {self.__stamps}/{Card.goal}\"",
+   "expect": [],
+   "page": 23,
+   "title": "도장 카드 ①: 열 개에서 멈추고, 읽기만 열어 두기",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r10c2",
+   "chain": "r10",
+   "code": "kim = Card(\"kim\")\nfor i in range(12):\n    kim.add()\nprint(kim)\nprint(kim.stamps)",
+   "expect": [
+    "kim: 도장 10/10",
+    "10"
+   ],
+   "page": 24,
+   "title": "도장 카드 ②: 열두 번 찍어도 열 개",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r10c3",
+   "chain": "r10",
+   "code": "class Kiosk:\n    def __init__(self, password):\n        self.__password = password\n\n    def login(self, pw):\n        if pw == self.__password:\n            print(\"관리자 화면을 열어요\")\n        else:\n            print(\"비밀번호가 틀렸어요\")\n\n    def change(self, old, new):\n        if old == self.__password:\n            self.__password = new\n            print(\"비밀번호를 바꿨어요\")\n        else:\n            print(\"지금 비밀번호가 틀려서 못 바꿔요\")",
+   "expect": [],
+   "page": 25,
+   "title": "키오스크 비밀번호 ①: 옛 번호를 알아야 바꿔요",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r10c4",
+   "chain": "r10",
+   "code": "k = Kiosk(1234)\nk.login(1111)\nk.change(1111, 5678)\nk.change(1234, 5678)\nk.login(5678)",
+   "expect": [
+    "비밀번호가 틀렸어요",
+    "지금 비밀번호가 틀려서 못 바꿔요",
+    "비밀번호를 바꿨어요",
+    "관리자 화면을 열어요"
+   ],
+   "page": 26,
+   "title": "키오스크 비밀번호 ②: 틀리면 안 열리고 안 바뀌어요",
+   "part": "6. 실습"
+  }
+ ]
+}

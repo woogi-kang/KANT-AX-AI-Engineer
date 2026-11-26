@@ -1,0 +1,486 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "17-python-if/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\norder = \"tea\"\nprint(menu[order])",
+   "expect": [
+    "KeyError: 'tea'"
+   ],
+   "err": true,
+   "page": 4,
+   "title": "메뉴판에 없는 주문이 오면 셀이 멈춰요",
+   "part": "1. 참과 거짓으로 길 고르기"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "money = 5000\nprice = 4500\nif money >= price:\n    print(\"주문할 수 있어요\")\nprint(\"다음 손님\")",
+   "expect": [
+    "주문할 수 있어요",
+    "다음 손님"
+   ],
+   "page": 6,
+   "title": "가장 짧은 if는 조건 한 줄, 들여쓴 줄 하나예요",
+   "part": "1. 참과 거짓으로 길 고르기"
+  },
+  {
+   "id": "r1c3",
+   "chain": "r1",
+   "code": "print(money >= price)\nprint(money == price)\nprint(\"tea\" in menu)\nprint(\"tea\" not in menu)\nprint(type(money >= price))",
+   "expect": [
+    "True",
+    "False",
+    "False",
+    "True",
+    "<class 'bool'>"
+   ],
+   "page": 7,
+   "title": "조건 자리에는 True나 False가 나오는 식을 적어요",
+   "part": "1. 참과 거짓으로 길 고르기"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "price = 4500\nmoney = 5000\nif money >= price:\n    print(\"주문할 수 있어요\")\nprint(\"다음 손님\")",
+   "expect": [
+    "주문할 수 있어요",
+    "다음 손님"
+   ],
+   "page": 8,
+   "title": "조건이 False면 들여쓴 줄을 건너뛰어요",
+   "part": "2. if, else, elif"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "money = 3000\nif money >= price:\n    print(\"주문할 수 있어요\")\nprint(\"다음 손님\")",
+   "expect": [
+    "다음 손님"
+   ],
+   "page": 8,
+   "title": "조건이 False면 들여쓴 줄을 건너뛰어요",
+   "part": "2. if, else, elif"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "money = 3000\nif money >= price:\n    print(\"주문할 수 있어요\")\n    print(\"커피 나왔어요\")\nprint(\"다음 손님\")",
+   "expect": [
+    "다음 손님"
+   ],
+   "page": 9,
+   "title": "들여쓴 줄까지가 if에 속해요",
+   "part": "2. if, else, elif"
+  },
+  {
+   "id": "r2c4",
+   "chain": "r2",
+   "code": "money = 3000\nif money >= price:\n    print(\"주문할 수 있어요\")\nprint(\"커피 나왔어요\")\nprint(\"다음 손님\")",
+   "expect": [
+    "커피 나왔어요",
+    "다음 손님"
+   ],
+   "page": 9,
+   "title": "들여쓴 줄까지가 if에 속해요",
+   "part": "2. if, else, elif"
+  },
+  {
+   "id": "r2c5",
+   "chain": "r2",
+   "code": "money = 3000\nif money >= price:\n    print(\"주문할 수 있어요\")\nelse:\n    print(f\"{price - money}원 더 필요해요\")",
+   "expect": [
+    "1500원 더 필요해요"
+   ],
+   "page": 10,
+   "title": "else는 조건이 False일 때 갈 길이에요",
+   "part": "2. if, else, elif"
+  },
+  {
+   "id": "r2c6",
+   "chain": "r2",
+   "code": "total = 12000\nif total >= 20000:\n    print(\"10% 할인\")\nelif total >= 10000:\n    print(\"5% 할인\")\nelse:\n    print(\"할인 없음\")",
+   "expect": [
+    "5% 할인"
+   ],
+   "page": 11,
+   "title": "elif로 갈림길을 셋 이상 만들어요",
+   "part": "2. if, else, elif"
+  },
+  {
+   "id": "r2c7",
+   "chain": "r2",
+   "code": "total = 25000\nif total >= 20000:\n    print(\"10% 할인\")\nelif total >= 10000:\n    print(\"5% 할인\")\nelse:\n    print(\"할인 없음\")",
+   "expect": [
+    "10% 할인"
+   ],
+   "page": 11,
+   "title": "elif로 갈림길을 셋 이상 만들어요",
+   "part": "2. if, else, elif"
+  },
+  {
+   "id": "r2c8",
+   "chain": "r2",
+   "code": "total = 3000\nif total >= 20000:\n    print(\"10% 할인\")\nelif total >= 10000:\n    print(\"5% 할인\")\nelse:\n    print(\"할인 없음\")",
+   "expect": [
+    "할인 없음"
+   ],
+   "page": 11,
+   "title": "elif로 갈림길을 셋 이상 만들어요",
+   "part": "2. if, else, elif"
+  },
+  {
+   "id": "r2c9",
+   "chain": "r2",
+   "code": "total = 25000\nif total >= 10000:\n    print(\"5% 할인\")\nelif total >= 20000:\n    print(\"10% 할인\")\nelse:\n    print(\"할인 없음\")",
+   "expect": [
+    "5% 할인"
+   ],
+   "page": 12,
+   "title": "조건 순서를 바꾸면 결과가 달라져요",
+   "part": "2. if, else, elif"
+  },
+  {
+   "id": "r2c10",
+   "chain": "r2",
+   "code": "total = 25000\nif total >= 20000:\n    print(\"10% 할인\")\nif total >= 10000:\n    print(\"5% 할인\")",
+   "expect": [
+    "10% 할인",
+    "5% 할인"
+   ],
+   "page": 12,
+   "title": "조건 순서를 바꾸면 결과가 달라져요",
+   "part": "2. if, else, elif"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "height = 130\nage = 9\nif height >= 120 and age >= 7:\n    print(\"탈 수 있어요\")\nelse:\n    print(\"다음에 타요\")",
+   "expect": [
+    "탈 수 있어요"
+   ],
+   "page": 14,
+   "title": "and는 두 조건이 모두 True일 때만 True예요",
+   "part": "3. 조건 합치기"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "height = 110\nif height >= 120 and age >= 7:\n    print(\"탈 수 있어요\")\nelse:\n    print(\"다음에 타요\")",
+   "expect": [
+    "다음에 타요"
+   ],
+   "page": 14,
+   "title": "and는 두 조건이 모두 True일 때만 True예요",
+   "part": "3. 조건 합치기"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "height = 130\nif height >= 120:\n    if age >= 7:\n        print(\"탈 수 있어요\")",
+   "expect": [
+    "탈 수 있어요"
+   ],
+   "page": 15,
+   "title": "if 안의 if는 and 한 줄로 줄일 수 있어요",
+   "part": "3. 조건 합치기"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "is_member = False\ntotal = 60000\nif is_member or total >= 50000:\n    print(\"할인해 드려요\")",
+   "expect": [
+    "할인해 드려요"
+   ],
+   "page": 16,
+   "title": "or는 하나만 True여도 True예요",
+   "part": "3. 조건 합치기"
+  },
+  {
+   "id": "r3c5",
+   "chain": "r3",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\norder = \"tea\"\nif not order in menu:\n    print(\"메뉴판에 없어요\")\nif order not in menu:\n    print(\"메뉴판에 없어요\")",
+   "expect": [
+    "메뉴판에 없어요",
+    "메뉴판에 없어요"
+   ],
+   "page": 17,
+   "title": "not과 not in으로 반대를 물어요",
+   "part": "3. 조건 합치기"
+  },
+  {
+   "id": "r3c6",
+   "chain": "r3",
+   "code": "hour = 14\nif 9 <= hour < 18:\n    print(\"영업 중이에요\")\nif hour >= 9 and hour < 18:\n    print(\"영업 중이에요\")",
+   "expect": [
+    "영업 중이에요",
+    "영업 중이에요"
+   ],
+   "page": 18,
+   "title": "범위는 9 <= hour < 18처럼 이어 적어요",
+   "part": "3. 조건 합치기"
+  },
+  {
+   "id": "r3c7",
+   "chain": "r3",
+   "code": "hour = 20\nif 9 <= hour < 18:\n    print(\"영업 중이에요\")\nelse:\n    print(\"문 닫았어요\")",
+   "expect": [
+    "문 닫았어요"
+   ],
+   "page": 18,
+   "title": "범위는 9 <= hour < 18처럼 이어 적어요",
+   "part": "3. 조건 합치기"
+  },
+  {
+   "id": "r3c8",
+   "chain": "r3",
+   "code": "print(bool(0), bool(4500))\nprint(bool(\"\"), bool(\"tea\"))\nprint(bool([]), bool([\"tea\"]))\nprint(bool({}), bool(set()))\nprint(bool(None))",
+   "expect": [
+    "False True",
+    "False True",
+    "False True",
+    "False False",
+    "False"
+   ],
+   "page": 19,
+   "title": "비어 있는 값은 False로 봐요",
+   "part": "3. 조건 합치기"
+  },
+  {
+   "id": "r3c9",
+   "chain": "r3",
+   "code": "orders = []\nif orders:\n    print(len(orders), \"잔 주문\")\nelse:\n    print(\"아직 주문이 없어요\")\nif len(orders) > 0:\n    print(len(orders), \"잔 주문\")\nelse:\n    print(\"아직 주문이 없어요\")",
+   "expect": [
+    "아직 주문이 없어요",
+    "아직 주문이 없어요"
+   ],
+   "page": 20,
+   "title": "if orders:는 하나라도 있는지 묻는 거예요",
+   "part": "3. 조건 합치기"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\nprices = [4500, 5000, 6500, 4000]\ncheap = []\nfor p in prices:\n    if p <= 5000:\n        cheap.append(p)\nprint(cheap)",
+   "expect": [
+    "[4500, 5000, 4000]"
+   ],
+   "page": 21,
+   "title": "for 안의 if로 골라 담아요",
+   "part": "4. for와 함께, 줄여 쓰기"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "orders = [\"coffee\", \"latte\", \"coffee\", \"cake\", \"tea\", \"coffee\"]\nn = 0\nfor o in orders:\n    if o == \"coffee\":\n        n += 1\nprint(n)\nprint(orders.count(\"coffee\"))",
+   "expect": [
+    "3",
+    "3"
+   ],
+   "page": 22,
+   "title": "조건에 맞는 것만 세요",
+   "part": "4. for와 함께, 줄여 쓰기"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "for name, price in menu.items():\n    if price <= 5000:\n        print(name, price)",
+   "expect": [
+    "coffee 4500",
+    "latte 5000"
+   ],
+   "page": 23,
+   "title": "딕셔너리에서 조건에 맞는 메뉴를 찾아요",
+   "part": "4. for와 함께, 줄여 쓰기"
+  },
+  {
+   "id": "r4c4",
+   "chain": "r4",
+   "code": "total = 12000\nif total >= 10000:\n    msg = \"5% 할인\"\nelse:\n    msg = \"할인 없음\"\nprint(msg)\nmsg = \"5% 할인\" if total >= 10000 else \"할인 없음\"\nprint(msg)",
+   "expect": [
+    "5% 할인",
+    "5% 할인"
+   ],
+   "page": 24,
+   "title": "if와 else를 한 줄로 줄여 쓸 수 있어요",
+   "part": "4. for와 함께, 줄여 쓰기"
+  },
+  {
+   "id": "r4c5",
+   "chain": "r4",
+   "code": "if \"cakee\" in menu:\n    price = menu[\"cakee\"]\nelse:\n    price = 5000\nprint(price)\nprint(menu[\"cakee\"] if \"cakee\" in menu else 5000)\nprint(menu.get(\"cakee\", 5000))",
+   "expect": [
+    "5000",
+    "5000",
+    "5000"
+   ],
+   "page": 25,
+   "title": "15의 get을 이제 if로 풀어서 읽어요",
+   "part": "4. for와 함께, 줄여 쓰기"
+  },
+  {
+   "id": "r4c6",
+   "chain": "r4",
+   "code": "menus = {\"coffee\", \"cake\"}\nif \"juice\" in menus:\n    menus.remove(\"juice\")\nprint(sorted(menus))\nmenus.discard(\"juice\")\nprint(sorted(menus))",
+   "expect": [
+    "['cake', 'coffee']",
+    "['cake', 'coffee']"
+   ],
+   "page": 26,
+   "title": "16에서 읽기만 한 코드를 직접 쳐 봐요",
+   "part": "4. for와 함께, 줄여 쓰기"
+  },
+  {
+   "id": "r4c7",
+   "chain": "r4",
+   "code": "kinds = []\nfor o in orders:\n    if o not in kinds:\n        kinds.append(o)\nprint(kinds)\nprint(sorted(set(orders)))",
+   "expect": [
+    "['coffee', 'latte', 'cake', 'tea']",
+    "['cake', 'coffee', 'latte', 'tea']"
+   ],
+   "page": 26,
+   "title": "16에서 읽기만 한 코드를 직접 쳐 봐요",
+   "part": "4. for와 함께, 줄여 쓰기"
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "order = \"coffee\"\nif order = \"coffee\":\n    print(\"커피예요\")",
+   "expect": [
+    "SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?"
+   ],
+   "err": true,
+   "page": 27,
+   "title": "if 뒤에는 = 하나가 아니라 == 두 개예요",
+   "part": "5. 자주 나는 오류"
+  },
+  {
+   "id": "r5c2",
+   "chain": "r5",
+   "code": "if order == \"coffee\"\n    print(\"커피예요\")",
+   "expect": [
+    "SyntaxError: expected ':'"
+   ],
+   "err": true,
+   "page": 27,
+   "title": "if 뒤에는 = 하나가 아니라 == 두 개예요",
+   "part": "5. 자주 나는 오류"
+  },
+  {
+   "id": "r5c3",
+   "chain": "r5",
+   "code": "if order == \"coffee\":\nprint(\"커피예요\")",
+   "expect": [
+    "IndentationError: expected an indented block after 'if' statement on line 1"
+   ],
+   "err": true,
+   "page": 27,
+   "title": "if 뒤에는 = 하나가 아니라 == 두 개예요",
+   "part": "5. 자주 나는 오류"
+  },
+  {
+   "id": "r5c4",
+   "chain": "r5",
+   "code": "if order == \"coffee\":\n    print(\"커피예요\")\n      print(\"나왔어요\")",
+   "expect": [
+    "IndentationError: unexpected indent"
+   ],
+   "err": true,
+   "page": 28,
+   "title": "콜론과 들여쓰기를 빠뜨리면 실행 전에 멈춰요",
+   "part": "5. 자주 나는 오류"
+  },
+  {
+   "id": "r5c5",
+   "chain": "r5",
+   "code": "order = \"cake\"\nif order == \"coffee\" or \"latte\":\n    print(\"커피 종류예요\")\nprint(order == \"coffee\" or \"latte\")",
+   "expect": [
+    "커피 종류예요",
+    "latte"
+   ],
+   "page": 29,
+   "title": "or 뒤에도 비교를 다시 적어요",
+   "part": "5. 자주 나는 오류"
+  },
+  {
+   "id": "r5c6",
+   "chain": "r5",
+   "code": "if order == \"coffee\" or order == \"latte\":\n    print(\"커피 종류예요\")\nelse:\n    print(\"커피 종류가 아니에요\")\nprint(order in [\"coffee\", \"latte\"])",
+   "expect": [
+    "커피 종류가 아니에요",
+    "False"
+   ],
+   "page": 29,
+   "title": "or 뒤에도 비교를 다시 적어요",
+   "part": "5. 자주 나는 오류"
+  },
+  {
+   "id": "r5c7",
+   "chain": "r5",
+   "code": "price = \"4500\"\nif price >= 4000:\n    print(\"4000원 넘어요\")",
+   "expect": [
+    "TypeError: '>=' not supported between instances of 'str' and 'int'"
+   ],
+   "err": true,
+   "page": 30,
+   "title": "글자와 숫자는 크기를 비교할 수 없어요",
+   "part": "5. 자주 나는 오류"
+  },
+  {
+   "id": "r5c8",
+   "chain": "r5",
+   "code": "if int(price) >= 4000:\n    print(\"4000원 넘어요\")",
+   "expect": [
+    "4000원 넘어요"
+   ],
+   "page": 30,
+   "title": "글자와 숫자는 크기를 비교할 수 없어요",
+   "part": "5. 자주 나는 오류"
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\ncart = {\"coffee\": 2, \"cake\": 1}\ntotal = 0\nfor name, qty in cart.items():\n    total += menu[name] * qty\nif total >= 20000:\n    rate = 10\nelif total >= 10000:\n    rate = 5\nelse:\n    rate = 0\nsale = total * rate // 100\nprint(f\"합계 {total:>7,}원\")\nprint(f\"할인 {sale:>7,}원 ({rate}%)\")\nprint(f\"결제 {total - sale:>7,}원\")",
+   "expect": [
+    "합계  15,500원",
+    "할인     775원 (5%)",
+    "결제  14,725원"
+   ],
+   "page": 31,
+   "title": "장바구니 금액에 따라 할인해요",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "scores = [[\"kim\", 92], [\"lee\", 78], [\"park\", 85], [\"choi\", 59]]\nfor name, score in scores:\n    if score >= 90:\n        grade = \"A\"\n    elif score >= 80:\n        grade = \"B\"\n    elif score >= 70:\n        grade = \"C\"\n    else:\n        grade = \"F\"\n    print(f\"{name:<5}{score:>3}  {grade}\")",
+   "expect": [
+    "kim   92  A",
+    "lee   78  C",
+    "park  85  B",
+    "choi  59  F"
+   ],
+   "page": 32,
+   "title": "점수로 등급을 매겨요",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "orders = [\"coffee\", \"tea\", \"cake\", \"coffee\", \"juice\"]\ntotal = 0\nskipped = []\nfor o in orders:\n    if o in menu:\n        print(f\"{o:<8}{menu[o]:>6,}원\")\n        total += menu[o]\n    else:\n        skipped.append(o)\nprint(f\"합계 {total:,}원\")\nif skipped:\n    print(\"준비 중:\", skipped)",
+   "expect": [
+    "coffee   4,500원",
+    "cake     6,500원",
+    "coffee   4,500원",
+    "합계 15,500원",
+    "준비 중: ['tea', 'juice']"
+   ],
+   "page": 33,
+   "title": "메뉴판에 없는 주문은 빼고 계산해요",
+   "part": "6. 실습"
+  }
+ ]
+}

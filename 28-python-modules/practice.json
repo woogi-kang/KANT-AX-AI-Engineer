@@ -1,0 +1,471 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "28-python-modules 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+ "cells": [
+  {
+   "id": "ready-1",
+   "page": 3,
+   "title": "수업에서 만든 shopping-cart 폴더에서 해요",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "uv run cart.py",
+     "out": []
+    }
+   ]
+  },
+  {
+   "id": "i-show-1",
+   "page": 7,
+   "title": "print(line) 한 줄의 칸 수만 다른데 출력이 달라요",
+   "part": "2. 들여쓰기는 상자",
+   "steps": [
+    {
+     "cmd": "uv run cart.py",
+     "out": [
+      "텀블러 1개를 담았습니다.",
+      "무선 이어폰 2개를 담았습니다.",
+      "----------------------------------------",
+      "텀블러        x 1   =       15,000원",
+      "무선 이어폰     x 2   =      178,000원",
+      "----------------------------------------",
+      "상품 합계              193,000원",
+      "배송비                      0원",
+      "결제 금액              193,000원",
+      "----------------------------------------"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "i-show-2",
+   "page": 7,
+   "title": "print(line) 한 줄의 칸 수만 다른데 출력이 달라요",
+   "part": "2. 들여쓰기는 상자",
+   "steps": [
+    {
+     "cmd": "uv run cart.py",
+     "out": [
+      "텀블러 1개를 담았습니다.",
+      "무선 이어폰 2개를 담았습니다.",
+      "----------------------------------------",
+      "텀블러        x 1   =       15,000원",
+      "----------------------------------------",
+      "무선 이어폰     x 2   =      178,000원",
+      "----------------------------------------",
+      "상품 합계              193,000원",
+      "배송비                      0원",
+      "결제 금액              193,000원",
+      "----------------------------------------"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "i-return-1",
+   "page": 8,
+   "title": "return이 if 밖으로 나오면 아무것도 담기지 않아요",
+   "part": "2. 들여쓰기는 상자",
+   "steps": [
+    {
+     "cmd": "uv run cart.py",
+     "out": [
+      "----------------------------------------",
+      "장바구니 비어있습니다.",
+      "----------------------------------------",
+      "상품 합계                    0원",
+      "배송비                      0원",
+      "결제 금액                    0원",
+      "----------------------------------------"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "i-error-1",
+   "page": 10,
+   "title": "칸이 안 맞으면 IndentationError가 나요",
+   "part": "2. 들여쓰기는 상자",
+   "steps": [
+    {
+     "cmd": "uv run cart.py",
+     "out": [
+      "  File \"/home/kim/shopping-cart/cart.py\", line 43",
+      "    return len(self.items) == 0",
+      "    ^^^^^^",
+      "IndentationError: expected an indented block after function definition on line 42"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "i-error-2",
+   "page": 10,
+   "title": "칸이 안 맞으면 IndentationError가 나요",
+   "part": "2. 들여쓰기는 상자",
+   "steps": [
+    {
+     "cmd": "uv run cart.py",
+     "out": [
+      "  File \"/home/kim/shopping-cart/cart.py\", line 39",
+      "    print(f\"{product.name} {qty}개를 뺐습니다.\")",
+      "                                          ^",
+      "IndentationError: unindent does not match any outer indentation level"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-tuple-1",
+   "page": 12,
+   "title": "a, b = (1, 2)는 두 값을 두 칸에 나눠 담아요",
+   "part": "3. `for p, q in items()`",
+   "steps": [
+    {
+     "cmd": "uv run play.py",
+     "out": [
+      "1",
+      "2",
+      "텀블러 1"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-pairs-1",
+   "page": 13,
+   "title": "items()는 키와 값을 튜플 한 쌍씩 묶어 줘요",
+   "part": "3. `for p, q in items()`",
+   "steps": [
+    {
+     "cmd": "uv run play.py",
+     "out": [
+      "dict_items([('텀블러', 1), ('무선 이어폰', 2)])",
+      "[('텀블러', 1), ('무선 이어폰', 2)]"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-for-1",
+   "page": 14,
+   "title": "for가 한 쌍씩 꺼내서 name과 qty에 나눠 담아요",
+   "part": "3. `for p, q in items()`",
+   "steps": [
+    {
+     "cmd": "uv run play.py",
+     "out": []
+    }
+   ]
+  },
+  {
+   "id": "u-long-1",
+   "page": 15,
+   "title": "for 옆에 이름 두 개는 pair[0], pair[1]을 줄인 모양이에요",
+   "part": "3. `for p, q in items()`",
+   "steps": [
+    {
+     "cmd": "uv run play.py",
+     "out": [
+      "텀블러 1",
+      "무선 이어폰 2"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-two-1",
+   "page": 16,
+   "title": "cart.items는 칸 이름, .items()는 딕셔너리 메서드예요",
+   "part": "3. `for p, q in items()`",
+   "steps": [
+    {
+     "cmd": "uv run play.py",
+     "out": [
+      "텀블러 1개를 담았습니다.",
+      "무선 이어폰 2개를 담았습니다.",
+      "텀블러 15000 1",
+      "무선 이어폰 89000 2"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-sum-1",
+   "page": 17,
+   "title": "합계는 for로 쌓아도, sum에 넘겨도 같아요",
+   "part": "3. `for p, q in items()`",
+   "steps": [
+    {
+     "cmd": "uv run play.py",
+     "out": [
+      "텀블러 1개를 담았습니다.",
+      "무선 이어폰 2개를 담았습니다.",
+      "193000",
+      "193000",
+      "193000"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-error-1",
+   "page": 18,
+   "title": ".items()를 빠뜨리면 키만 나와서 둘로 못 나눠요",
+   "part": "3. `for p, q in items()`",
+   "steps": [
+    {
+     "cmd": "uv run play.py",
+     "out": [
+      "텀블러 1개를 담았습니다.",
+      "Traceback (most recent call last):",
+      "  File \"/home/kim/shopping-cart/play.py\", line 8, in <module>",
+      "    for p, q in cart.items:",
+      "        ^^^^",
+      "TypeError: cannot unpack non-iterable Product object"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u-error-2",
+   "page": 18,
+   "title": ".items()를 빠뜨리면 키만 나와서 둘로 못 나눠요",
+   "part": "3. `for p, q in items()`",
+   "steps": [
+    {
+     "cmd": "uv run play.py",
+     "out": [
+      "Traceback (most recent call last):",
+      "  File \"/home/kim/shopping-cart/play.py\", line 3, in <module>",
+      "    for name, qty in cart_items:",
+      "        ^^^^^^^^^",
+      "ValueError: too many values to unpack (expected 2)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m-import-1",
+   "page": 21,
+   "title": "import product는 모듈을 통째로 불러와요",
+   "part": "4. 모듈과 `import`",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "1: 텀블러          15,000 재고 10개"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m-many-1",
+   "page": 23,
+   "title": "from coupon import COUPONS, discount로 여러 개를 꺼내요",
+   "part": "4. 모듈과 `import`",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "{'WELCOME': 3000, 'VIP': 5000}",
+      "5000",
+      "0"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m-as-1",
+   "page": 24,
+   "title": "as로 모듈에 짧은 별명을 붙여요",
+   "part": "4. 모듈과 `import`",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "5000"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m-error-1",
+   "page": 26,
+   "title": "이름이 틀리면 ModuleNotFoundError, ImportError가 나요",
+   "part": "4. 모듈과 `import`",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "Traceback (most recent call last):",
+      "  File \"/home/kim/shopping-cart/main.py\", line 1, in <module>",
+      "    import prodcut",
+      "ModuleNotFoundError: No module named 'prodcut'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m-error-2",
+   "page": 26,
+   "title": "이름이 틀리면 ModuleNotFoundError, ImportError가 나요",
+   "part": "4. 모듈과 `import`",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "Traceback (most recent call last):",
+      "  File \"/home/kim/shopping-cart/main.py\", line 1, in <module>",
+      "    from product import product",
+      "ImportError: cannot import name 'product' from 'product' (/home/kim/shopping-cart/product.py). Did you mean: 'Product'?"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m-error2-1",
+   "page": 27,
+   "title": "import product만 하고 Product라고 쓰면 NameError예요",
+   "part": "4. 모듈과 `import`",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "Traceback (most recent call last):",
+      "  File \"/home/kim/shopping-cart/main.py\", line 3, in <module>",
+      "    tumbler = Product(\"텀블러\", 15_000, 10)",
+      "              ^^^^^^^",
+      "NameError: name 'Product' is not defined. Did you mean: 'product'?"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "n-leak-1",
+   "page": 28,
+   "title": "cart.py를 import했더니 테스트 출력이 먼저 나와요",
+   "part": "5. `if __name__ == \"__main__\"`",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "----------------------------------------",
+      "장바구니 비어있습니다.",
+      "----------------------------------------",
+      "상품 합계                    0원",
+      "배송비                      0원",
+      "결제 금액                    0원",
+      "----------------------------------------",
+      "텀블러 1개를 담았습니다.",
+      "----------------------------------------",
+      "텀블러        x 1   =       15,000원",
+      "----------------------------------------",
+      "상품 합계               15,000원",
+      "배송비                  3,000원",
+      "결제 금액               18,000원",
+      "----------------------------------------",
+      "무선 이어폰 2개를 담았습니다.",
+      "----------------------------------------",
+      "텀블러        x 1   =       15,000원",
+      "무선 이어폰     x 2   =      178,000원",
+      "----------------------------------------",
+      "상품 합계              193,000원",
+      "배송비                      0원",
+      "결제 금액              193,000원",
+      "----------------------------------------",
+      "main.py 시작"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "n-name-1",
+   "page": 29,
+   "title": "직접 실행한 파일만 __name__이 \"__main__\"이에요",
+   "part": "5. `if __name__ == \"__main__\"`",
+   "steps": [
+    {
+     "cmd": "uv run cart.py",
+     "out": [
+      "cart.py의 __name__: __main__"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "n-name-2",
+   "page": 29,
+   "title": "직접 실행한 파일만 __name__이 \"__main__\"이에요",
+   "part": "5. `if __name__ == \"__main__\"`",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "cart.py의 __name__: cart",
+      "main.py의 __name__: __main__"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "n-fix-1",
+   "page": 30,
+   "title": "테스트 코드는 if __name__ == \"__main__\": 안에 넣어요",
+   "part": "5. `if __name__ == \"__main__\"`",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "main.py 시작"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "x-shop-1",
+   "page": 31,
+   "title": "main.py에서 상품과 장바구니를 불러 주문해요",
+   "part": "6. 실습",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "텀블러 2개를 담았습니다.",
+      "무선 이어폰 1개를 담았습니다.",
+      "품절된 상품입니다.",
+      "----------------------------------------",
+      "텀블러        x 2   =       30,000원",
+      "무선 이어폰     x 1   =       89,000원",
+      "----------------------------------------",
+      "상품 합계              119,000원",
+      "배송비                      0원",
+      "결제 금액              119,000원",
+      "----------------------------------------",
+      "결제가 완료되었습니다. 감사합니다!",
+      "1: 텀블러          15,000 재고 8개",
+      "2: 무선 이어폰       89,000 재고 2개"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "x-coupon-1",
+   "page": 32,
+   "title": "coupon.py를 더해 세 가지를 한 번에 써요",
+   "part": "6. 실습",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "WELCOME   3,000원 할인",
+      "VIP       5,000원 할인",
+      "텀블러 3개를 담았습니다.",
+      "결제할 금액: 40,000원"
+     ]
+    }
+   ]
+  }
+ ]
+}

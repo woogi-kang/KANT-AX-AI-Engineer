@@ -1,0 +1,342 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "21-python-lambda/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "prices = [4500, 5000, 6500]\nup = []\nfor p in prices:\n    up.append(p + 500)\nprint(up)\ndown = []\nfor p in prices:\n    down.append(p - 500)\nprint(down)",
+   "expect": [
+    "[5000, 5500, 7000]",
+    "[4000, 4500, 6000]"
+   ],
+   "page": 4,
+   "title": "가격을 바꿀 때마다 for 네 줄을 다시 적어요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "print(list(map(lambda p: p + 500, prices)))\nprint(list(filter(lambda p: p >= 5000, prices)))",
+   "expect": [
+    "[5000, 5500, 7000]",
+    "[5000, 6500]"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r1c3",
+   "chain": "r1",
+   "code": "numbers = [1, 2, 3]\nprint(list(map(lambda x: x + 10, numbers)))",
+   "expect": [
+    "[11, 12, 13]"
+   ],
+   "page": 6,
+   "title": "가장 짧은 map: 값마다 10 더하기",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "def add10(x):\n    return x + 10\n\nplus = add10\nprint(plus(5))\nprint(add10)",
+   "expect": [
+    "15",
+    "<function add10 at 0x7fd6c746d590>"
+   ],
+   "page": 7,
+   "title": "함수도 변수에 담을 수 있어요",
+   "part": "2. 함수를 값처럼, lambda"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "def double(x):\n    return x * 2\n\ndef apply(f, x):\n    return f(x)\n\nprint(apply(add10, 5))\nprint(apply(double, 5))",
+   "expect": [
+    "15",
+    "10"
+   ],
+   "page": 8,
+   "title": "함수를 다른 함수에 넘길 수 있어요",
+   "part": "2. 함수를 값처럼, lambda"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "add10 = lambda x: x + 10\nprint(add10(5))\nprint(add10)",
+   "expect": [
+    "15",
+    "<function <lambda> at 0x7fd6c746d430>"
+   ],
+   "page": 10,
+   "title": "lambda는 다른 함수에 바로 넘길 때 써요",
+   "part": "2. 함수를 값처럼, lambda"
+  },
+  {
+   "id": "r2c4",
+   "chain": "r2",
+   "code": "print(apply(lambda x: x * 3, 5))",
+   "expect": [
+    "15"
+   ],
+   "page": 10,
+   "title": "lambda는 다른 함수에 바로 넘길 때 써요",
+   "part": "2. 함수를 값처럼, lambda"
+  },
+  {
+   "id": "r2c5",
+   "chain": "r2",
+   "code": "price_of = lambda price, qty: price * qty\nprint(price_of(4500, 2))\nlabel = lambda p: \"비쌈\" if p >= 5000 else \"보통\"\nprint(label(6500), label(4500))",
+   "expect": [
+    "9000",
+    "비쌈 보통"
+   ],
+   "page": 11,
+   "title": "매개변수 여러 개, 한 줄 if else도 돼요",
+   "part": "2. 함수를 값처럼, lambda"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "prices = [4500, 5000, 6500]\n\ndef add500(p):\n    return p + 500\n\nprint(list(map(add500, prices)))\nprint(list(map(lambda p: p + 500, prices)))\nprint(prices)",
+   "expect": [
+    "[5000, 5500, 7000]",
+    "[5000, 5500, 7000]",
+    "[4500, 5000, 6500]"
+   ],
+   "page": 12,
+   "title": "for 네 줄이 map 한 줄이 돼요",
+   "part": "3. map"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "m = map(lambda p: p + 500, prices)\nprint(m)\nprint(list(m))",
+   "expect": [
+    "<map object at 0x7f31e9718400>",
+    "[5000, 5500, 7000]"
+   ],
+   "page": 14,
+   "title": "map만 찍으면 <map object>가 나와요",
+   "part": "3. map"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "for p in map(lambda p: p + 500, prices):\n    print(p)",
+   "expect": [
+    "5000",
+    "5500",
+    "7000"
+   ],
+   "page": 14,
+   "title": "map만 찍으면 <map object>가 나와요",
+   "part": "3. map"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "print(list(map(str, prices)))\nprint(\", \".join(map(str, prices)))\nprint(list(map(int, [\"3\", \"1\", \"2\"])))\nprint(list(map(len, [\"coffee\", \"latte\", \"tea\"])))",
+   "expect": [
+    "['4500', '5000', '6500']",
+    "4500, 5000, 6500",
+    "[3, 1, 2]",
+    "[6, 5, 3]"
+   ],
+   "page": 15,
+   "title": "이미 있는 함수도 이름만 넘겨요",
+   "part": "3. map"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "prices = [4500, 5000, 6500, 3000]\nbig = []\nfor p in prices:\n    if p >= 5000:\n        big.append(p)\nprint(big)\nprint(list(filter(lambda p: p >= 5000, prices)))",
+   "expect": [
+    "[5000, 6500]",
+    "[5000, 6500]"
+   ],
+   "page": 16,
+   "title": "for와 if로 골라 담던 일을 filter 한 줄로",
+   "part": "4. filter"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "check = lambda p: p >= 5000\nprint(check(4500), check(5000))\nprint(check(6500), check(3000))",
+   "expect": [
+    "False True",
+    "True False"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "stock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2, \"tea\": 0}\nprint(list(filter(lambda m: stock[m] > 0, stock)))",
+   "expect": [
+    "['coffee', 'cake']"
+   ],
+   "page": 18,
+   "title": "딕셔너리를 넘기면 키가 하나씩 들어가요",
+   "part": "4. filter"
+  },
+  {
+   "id": "r4c4",
+   "chain": "r4",
+   "code": "big = list(filter(lambda p: p >= 5000, prices))\nprint(big)\nprint(list(map(lambda p: p * 9 // 10, big)))\nprint(list(map(lambda p: p * 9 // 10, filter(lambda p: p >= 5000, prices))))",
+   "expect": [
+    "[5000, 6500]",
+    "[4500, 5850]",
+    "[4500, 5850]"
+   ],
+   "page": 19,
+   "title": "고른 다음 바꾸려면 filter 결과를 map에 넘겨요",
+   "part": "4. filter"
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "doubled = map(lambda x: x * 2, [1, 2, 3])\nprint(doubled[0])",
+   "expect": [
+    "TypeError: 'map' object is not subscriptable"
+   ],
+   "err": true,
+   "page": 20,
+   "title": "map 결과에는 번호도 len도 못 써요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c2",
+   "chain": "r5",
+   "code": "print(len(doubled))",
+   "expect": [
+    "TypeError: object of type 'map' has no len()"
+   ],
+   "err": true,
+   "page": 20,
+   "title": "map 결과에는 번호도 len도 못 써요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c3",
+   "chain": "r5",
+   "code": "doubled = list(map(lambda x: x * 2, [1, 2, 3]))\nprint(doubled[0])\nprint(len(doubled))",
+   "expect": [
+    "2",
+    "3"
+   ],
+   "page": 20,
+   "title": "map 결과에는 번호도 len도 못 써요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c4",
+   "chain": "r5",
+   "code": "m = map(lambda p: p + 500, [4500, 5000])\nprint(list(m))\nprint(list(m))",
+   "expect": [
+    "[5000, 5500]",
+    "[]"
+   ],
+   "page": 21,
+   "title": "map 결과는 한 번 꺼내면 비어요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c5",
+   "chain": "r5",
+   "code": "m = map(lambda p: p + 500, [4500, 5000])\nups = list(m)\nprint(ups)\nprint(ups)",
+   "expect": [
+    "[5000, 5500]",
+    "[5000, 5500]"
+   ],
+   "page": 21,
+   "title": "map 결과는 한 번 꺼내면 비어요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c6",
+   "chain": "r5",
+   "code": "def add10(x):\n    return x + 10\n\nprint(list(map(add10(), [1, 2, 3])))",
+   "expect": [
+    "TypeError: add10() missing 1 required positional argument: 'x'"
+   ],
+   "err": true,
+   "page": 22,
+   "title": "넘길 함수에 괄호를 붙이면 바로 실행돼요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c7",
+   "chain": "r5",
+   "code": "add10 = lambda x: return x + 10",
+   "expect": [
+    "SyntaxError: invalid syntax"
+   ],
+   "err": true,
+   "page": 23,
+   "title": "lambda 안에 return을 쓰면 SyntaxError가 나요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c8",
+   "chain": "r5",
+   "code": "label = lambda p: \"비쌈\" if p >= 6000 else (\"보통\" if p >= 4500 else \"쌈\")\nprint(label(6500), label(5000), label(3000))",
+   "expect": [
+    "비쌈 보통 쌈"
+   ],
+   "page": 24,
+   "title": "lambda가 길어지면 def로 바꿔요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c9",
+   "chain": "r5",
+   "code": "def label(p):\n    if p >= 6000:\n        return \"비쌈\"\n    elif p >= 4500:\n        return \"보통\"\n    return \"쌈\"\n\nprint(label(6500), label(5000), label(3000))",
+   "expect": [
+    "비쌈 보통 쌈"
+   ],
+   "page": 24,
+   "title": "lambda가 길어지면 def로 바꿔요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\nprint(list(map(lambda m: menu[m] * 11 // 10, menu)))\n\ndef line(m):\n    new = menu[m] * 11 // 10\n    return f\"{m:<7}{menu[m]:>6,}원 → {new:>6,}원\"\n\nprint(\"\\n\".join(map(line, menu)))",
+   "expect": [
+    "[4950, 5500, 7150]",
+    "coffee  4,500원 →  4,950원",
+    "latte   5,000원 →  5,500원",
+    "cake    6,500원 →  7,150원"
+   ],
+   "page": 25,
+   "title": "메뉴 가격을 10% 올린 표를 만들어요",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500, \"tea\": 4000}\nstock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2, \"tea\": 5}\nprint(list(filter(lambda m: stock[m] > 0, menu)))\nprint(list(filter(lambda m: stock[m] > 0 and menu[m] < 5000, menu)))",
+   "expect": [
+    "['coffee', 'cake', 'tea']",
+    "['coffee', 'tea']"
+   ],
+   "page": 26,
+   "title": "품절이 아니고 5000원 미만인 메뉴를 골라요",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "orders = [(\"kim\", \"latte\", 2), (\"lee\", \"cake\", 1), (\"park\", \"coffee\", 3), (\"kim\", \"tea\", 1)]\nmany = list(filter(lambda o: o[2] >= 2, orders))\nprint(many)\nprint(list(map(lambda o: o[0], many)))\nprint(sum(map(lambda o: o[2], orders)))",
+   "expect": [
+    "[('kim', 'latte', 2), ('park', 'coffee', 3)]",
+    "['kim', 'park']",
+    "7"
+   ],
+   "page": 27,
+   "title": "튜플로 적은 주문 기록을 고르고 꺼내요",
+   "part": "6. 실습"
+  }
+ ]
+}

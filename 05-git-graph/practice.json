@@ -1,0 +1,265 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "05-git-graph 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+ "cells": [
+  {
+   "id": "why-2",
+   "page": 3,
+   "title": "git log --oneline으로는 갈라진 길이 안 보여요",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "5991c36 (HEAD -> main, origin/main) Merge branch 'feature/login'",
+      "ad50d35 docs: README에 실행 방법 추가",
+      "dd7f15a (feature/login) feat: 비밀번호 찾기 추가",
+      "b9f30e5 docs: README 추가",
+      "15d92cb feat: 로그인 버튼 추가",
+      "e12ffc2 feat: 로그인 화면 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bigpic-2",
+   "page": 4,
+   "title": "Git Graph는 내 컴퓨터에 있는 기록을 읽어서 그려요",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "git commit -m ...",
+     "out": []
+    },
+    {
+     "cmd": "git push origin main",
+     "out": []
+    },
+    {
+     "cmd": "git fetch origin",
+     "out": []
+    }
+   ]
+  },
+  {
+   "id": "labels-2",
+   "page": 9,
+   "title": "굵은 이름표가 지금 있는 브랜치예요",
+   "part": "2. 화면 읽기",
+   "steps": [
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "b9f30e5 (HEAD -> feature/login, origin/main, main) docs: README 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc1-2",
+   "page": 11,
+   "title": "맨 위에 회색 빈 점이 생겨요",
+   "part": "3. 명령 치고 확인하기",
+   "steps": [
+    {
+     "cmd": "echo \"로그인 버튼\" >> login.md",
+     "out": []
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "Changes not staged for commit:",
+      "        modified:   login.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc2-2",
+   "page": 12,
+   "title": "새 점이 위에 생기고 main이 따라 올라가요",
+   "part": "3. 명령 치고 확인하기",
+   "steps": [
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 로그인 버튼 추가\"",
+     "out": [
+      "[main 15d92cb] feat: 로그인 버튼 추가",
+      " 1 file changed, 1 insertion(+)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc3-2",
+   "page": 13,
+   "title": "origin이 main 옆에 붙어요",
+   "part": "3. 명령 치고 확인하기",
+   "steps": [
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "To https://github.com/kim/hello-git.git",
+      "   e12ffc2..15d92cb  main -> main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc4-2",
+   "page": 14,
+   "title": "팀원 커밋이 받아지고 origin/main이 main보다 위로 가요",
+   "part": "3. 명령 치고 확인하기",
+   "steps": [
+    {
+     "cmd": "",
+     "out": [
+      "# 팀원 lee가 GitHub에 push했어요"
+     ]
+    },
+    {
+     "cmd": "git fetch origin",
+     "out": [
+      "From https://github.com/kim/hello-git",
+      "   15d92cb..b9f30e5  main       -> origin/main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc5-2",
+   "page": 15,
+   "title": "main이 올라가서 origin과 다시 붙어요",
+   "part": "3. 명령 치고 확인하기",
+   "steps": [
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "From https://github.com/kim/hello-git",
+      " * branch            main       -> FETCH_HEAD",
+      "Updating 15d92cb..b9f30e5",
+      "Fast-forward",
+      " README.md | 1 +",
+      " 1 file changed, 1 insertion(+)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc6-2",
+   "page": 16,
+   "title": "같은 점에 이름표가 하나 더 붙어요",
+   "part": "3. 명령 치고 확인하기",
+   "steps": [
+    {
+     "cmd": "git checkout -b feature/login",
+     "out": [
+      "Switched to a new branch 'feature/login'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc7-2",
+   "page": 17,
+   "title": "feature/login만 위로 올라가요",
+   "part": "3. 명령 치고 확인하기",
+   "steps": [
+    {
+     "cmd": "echo \"비밀번호 찾기\" >> login.md",
+     "out": []
+    },
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 비밀번호 찾기 추가\"",
+     "out": [
+      "[feature/login dd7f15a] feat: 비밀번호 찾기 추가",
+      " 1 file changed, 1 insertion(+)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc8-2",
+   "page": 18,
+   "title": "길이 둘로 갈라져요",
+   "part": "3. 명령 치고 확인하기",
+   "steps": [
+    {
+     "cmd": "git checkout main",
+     "out": [
+      "Switched to branch 'main'"
+     ]
+    },
+    {
+     "cmd": "echo \"실행 방법은 준비 중이에요\" >> README.md",
+     "out": []
+    },
+    {
+     "cmd": "git add README.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"docs: README에 실행 방법 추가\"",
+     "out": [
+      "[main ad50d35] docs: README에 실행 방법 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc9-2",
+   "page": 19,
+   "title": "두 선이 merge 커밋에서 만나요",
+   "part": "3. 명령 치고 확인하기",
+   "steps": [
+    {
+     "cmd": "git merge feature/login",
+     "out": [
+      "# vim이 열리면 Esc, :wq, Enter",
+      "Merge made by the 'ort' strategy.",
+      " login.md | 1 +",
+      " 1 file changed, 1 insertion(+)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc10-2",
+   "page": 20,
+   "title": "main | origin이 맨 위에 같이 있어요",
+   "part": "3. 명령 치고 확인하기",
+   "steps": [
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "To https://github.com/kim/hello-git.git",
+      "   b9f30e5..5991c36  main -> main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "case2-2",
+   "page": 25,
+   "title": "다 쓴 브랜치를 지우면 이름표만 사라져요",
+   "part": "4. 막힐 때와 실제 상황",
+   "steps": [
+    {
+     "cmd": "git branch -d feature/login",
+     "out": [
+      "Deleted branch feature/login (was dd7f15a)."
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,335 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "25-python-str-repr/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "print(3)\nprint(\"팥\")\nprint([1, 2])",
+   "expect": [
+    "3",
+    "팥",
+    "[1, 2]"
+   ],
+   "page": 4,
+   "title": "숫자와 리스트는 잘 보이는데, 붕어빵은 안 보여요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint(a)\nprint([a, b])",
+   "expect": [
+    "<__main__.Bread object at 0x7f32d56002f0>",
+    "[<__main__.Bread object at 0x7f32d56002f0>, <__main__.Bread object at 0x7f32e40fb750>]"
+   ],
+   "page": 4,
+   "title": "숫자와 리스트는 잘 보이는데, 붕어빵은 안 보여요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c3",
+   "chain": "r1",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def __str__(self):\n        return \"붕어빵이에요\"\n\na = Bread(\"팥\", 1000)\nprint(a)",
+   "expect": [
+    "붕어빵이에요"
+   ],
+   "page": 6,
+   "title": "가장 짧은 __str__: 글자 하나를 돌려주기",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def __str__(self):\n        return f\"{self.flavor} 붕어빵 {self.price:,}원\"\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint(a)\nprint(b)",
+   "expect": [
+    "팥 붕어빵 1,000원",
+    "슈크림 붕어빵 1,200원"
+   ],
+   "page": 7,
+   "title": "__str__에 self의 값을 넣어 붕어빵마다 다르게",
+   "part": "2. `__str__`"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "print(str(a))\nprint(f\"주문: {a}\")\nprint(\"오늘의 빵:\", b)",
+   "expect": [
+    "팥 붕어빵 1,000원",
+    "주문: 팥 붕어빵 1,000원",
+    "오늘의 빵: 슈크림 붕어빵 1,200원"
+   ],
+   "page": 8,
+   "title": "print 말고도 글자가 필요한 곳에서 불려요",
+   "part": "2. `__str__`"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "msg = \"포장할게요: \" + str(a)\nprint(msg)\nprint(len(str(a)))",
+   "expect": [
+    "포장할게요: 팥 붕어빵 1,000원",
+    "12"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def __str__(self):\n        return f\"{self.flavor} 붕어빵 {self.price:,}원\"\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\na",
+   "expect": [
+    "<__main__.Bread at 0x7f81bf7f81a0>"
+   ],
+   "page": 10,
+   "title": "__str__을 만들었는데도 낯선 글자가 남아요",
+   "part": "3. `__repr__`"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "print([a, b])",
+   "expect": [
+    "[<__main__.Bread object at 0x7f81bf7f81a0>, <__main__.Bread object at 0x7f81dc00b250>]"
+   ],
+   "page": 10,
+   "title": "__str__을 만들었는데도 낯선 글자가 남아요",
+   "part": "3. `__repr__`"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "\"팥\"",
+   "expect": [
+    "'팥'"
+   ],
+   "page": 10,
+   "title": "__str__을 만들었는데도 낯선 글자가 남아요",
+   "part": "3. `__repr__`"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "print(\"팥\")\nprint([\"팥\", \"슈크림\"])\nprint(str(\"팥\"))\nprint(repr(\"팥\"))",
+   "expect": [
+    "팥",
+    "['팥', '슈크림']",
+    "팥",
+    "'팥'"
+   ],
+   "page": 11,
+   "title": "이 차이는 \"팥\"에서 이미 봤어요",
+   "part": "3. `__repr__`"
+  },
+  {
+   "id": "r3c5",
+   "chain": "r3",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def __str__(self):\n        return f\"{self.flavor} 붕어빵 {self.price:,}원\"\n\n    def __repr__(self):\n        return f\"Bread('{self.flavor}', {self.price})\"\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\na",
+   "expect": [
+    "Bread('팥', 1000)"
+   ],
+   "page": 12,
+   "title": "__repr__까지 만들면 어디서나 보여요",
+   "part": "3. `__repr__`"
+  },
+  {
+   "id": "r3c6",
+   "chain": "r3",
+   "code": "print(a)\nprint([a, b])",
+   "expect": [
+    "팥 붕어빵 1,000원",
+    "[Bread('팥', 1000), Bread('슈크림', 1200)]"
+   ],
+   "page": 12,
+   "title": "__repr__까지 만들면 어디서나 보여요",
+   "part": "3. `__repr__`"
+  },
+  {
+   "id": "r3c7",
+   "chain": "r3",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def __repr__(self):\n        return f\"Bread('{self.flavor}', {self.price})\"\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint(a)\nprint([a, b])",
+   "expect": [
+    "Bread('팥', 1000)",
+    "[Bread('팥', 1000), Bread('슈크림', 1200)]"
+   ],
+   "page": 12,
+   "title": "__repr__까지 만들면 어디서나 보여요",
+   "part": "3. `__repr__`"
+  },
+  {
+   "id": "r3c8",
+   "chain": "r3",
+   "code": "print(len([1, 2, 3]))\nprint([1, 2, 3].__len__())\nprint(3 + 4)\nprint((3).__add__(4))",
+   "expect": [
+    "3",
+    "3",
+    "7",
+    "7"
+   ],
+   "page": 16,
+   "title": "len과 +도 같은 원리예요",
+   "part": "3. `__repr__`"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def __str__(self):\n        return f\"{self.flavor} 붕어빵 {self.price:,}원\"\n\n    def __repr__(self):\n        return f\"Bread('{self.flavor}', {self.price})\"\n\nbreads = [Bread(\"팥\", 1000), Bread(\"슈크림\", 1200), Bread(\"피자\", 1500)]\nfor b in breads:\n    print(b)",
+   "expect": [
+    "팥 붕어빵 1,000원",
+    "슈크림 붕어빵 1,200원",
+    "피자 붕어빵 1,500원"
+   ],
+   "page": 17,
+   "title": "붕어빵 여러 개를 리스트에 담아 하나씩 찍어요",
+   "part": "4. 붕어빵 여러 개 다루기"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "print([b.flavor for b in breads])\nprint(sum([b.price for b in breads]))\nprint([b for b in breads if b.price >= 1200])",
+   "expect": [
+    "['팥', '슈크림', '피자']",
+    "3700",
+    "[Bread('슈크림', 1200), Bread('피자', 1500)]"
+   ],
+   "page": 18,
+   "title": "23의 컴프리헨션으로 맛만, 가격만, 비싼 것만",
+   "part": "4. 붕어빵 여러 개 다루기"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "print(sorted(breads, key=lambda b: b.price, reverse=True))\nprint(max(breads, key=lambda b: b.price))",
+   "expect": [
+    "[Bread('피자', 1500), Bread('슈크림', 1200), Bread('팥', 1000)]",
+    "피자 붕어빵 1,500원"
+   ],
+   "page": 19,
+   "title": "22의 key=lambda로 가격순 정렬과 가장 비싼 붕어빵",
+   "part": "4. 붕어빵 여러 개 다루기"
+  },
+  {
+   "id": "r4c4",
+   "chain": "r4",
+   "code": "print(sorted(breads))",
+   "expect": [
+    "TypeError: '<' not supported between instances of 'Bread' and 'Bread'"
+   ],
+   "err": true,
+   "page": 19,
+   "title": "22의 key=lambda로 가격순 정렬과 가장 비싼 붕어빵",
+   "part": "4. 붕어빵 여러 개 다루기"
+  },
+  {
+   "id": "r4c5",
+   "chain": "r4",
+   "code": "class Stall:\n    def __init__(self, name, stock):\n        self.name = name\n        self.stock = stock\n        self.sold = 0\n\n    def sell(self, qty):\n        self.stock = self.stock - qty\n        self.sold = self.sold + qty\n\n    def __str__(self):\n        return f\"{self.name}: 남은 {self.stock}개, 판매 {self.sold}개\"\n\ns = Stall(\"팥\", 10)\nprint(s)\ns.sell(3)\nprint(s)",
+   "expect": [
+    "팥: 남은 10개, 판매 0개",
+    "팥: 남은 7개, 판매 3개"
+   ],
+   "page": 20,
+   "title": "메서드로 재고와 판매 개수를 바꿔요",
+   "part": "4. 붕어빵 여러 개 다루기"
+  },
+  {
+   "id": "r4c6",
+   "chain": "r4",
+   "code": "class Stall:\n    def __init__(self, name, stock):\n        self.name = name\n        self.stock = stock\n        self.sold = 0\n\n    def sell(self, qty):\n        if qty > self.stock:\n            return \"재고가 모자라요\"\n        self.stock = self.stock - qty\n        self.sold = self.sold + qty\n        return \"판매 완료\"\n\ns = Stall(\"팥\", 5)\nprint(s.sell(3))\nprint(s.sell(4))\nprint(s.stock, s.sold)",
+   "expect": [
+    "판매 완료",
+    "재고가 모자라요",
+    "2 3"
+   ],
+   "page": 21,
+   "title": "재고가 모자라면 팔지 않게 if로 막아요",
+   "part": "4. 붕어빵 여러 개 다루기"
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def __str__(self):\n        print(self.flavor, \"붕어빵\")\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint(a)",
+   "expect": [
+    "팥 붕어빵",
+    "TypeError: __str__ returned non-string (type NoneType)"
+   ],
+   "err": true,
+   "page": 22,
+   "title": "__str__ 안에서 print하면 returned non-string",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c2",
+   "chain": "r5",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def __str__(self):\n        return self.price\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint(a)",
+   "expect": [
+    "TypeError: __str__ returned non-string (type int)"
+   ],
+   "err": true,
+   "page": 23,
+   "title": "숫자를 돌려줘도 returned non-string",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c3",
+   "chain": "r5",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def _str_(self):\n        return f\"{self.flavor} 붕어빵\"\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint(a)",
+   "expect": [
+    "<__main__.Bread object at 0x7ff3ddc73770>"
+   ],
+   "page": 24,
+   "title": "밑줄이 하나면 오류 없이 그냥 무시돼요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c4",
+   "chain": "r5",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def __str__(self):\n        return f\"{self.flavor} 붕어빵 {self.price:,}원\"\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint(\"주문: \" + a)",
+   "expect": [
+    "TypeError: can only concatenate str (not \"Bread\") to str"
+   ],
+   "err": true,
+   "page": 25,
+   "title": "글자에 붕어빵을 바로 더하면 can only concatenate",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "class Stall:\n    def __init__(self, flavor, price, stock):\n        self.flavor = flavor\n        self.price = price\n        self.stock = stock\n        self.sold = 0\n\n    def sell(self, qty):\n        if qty > self.stock:\n            return f\"{self.flavor} 재고가 모자라요\"\n        self.stock = self.stock - qty\n        self.sold = self.sold + qty\n        return f\"{self.flavor} {qty}개 판매\"\n\n    def __str__(self):\n        return f\"{self.flavor}: 판매 {self.sold}개, 매출 {self.sold * self.price:,}원\"",
+   "expect": [],
+   "page": 26,
+   "title": "붕어빵 노점의 하루 ①: 노점 틀 만들기",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "pat = Stall(\"팥\", 1000, 20)\ncream = Stall(\"슈크림\", 1200, 10)\nprint(pat.sell(5))\nprint(cream.sell(12))\nprint(cream.sell(4))\nprint(pat)\nprint(cream)",
+   "expect": [
+    "팥 5개 판매",
+    "슈크림 재고가 모자라요",
+    "슈크림 4개 판매",
+    "팥: 판매 5개, 매출 5,000원",
+    "슈크림: 판매 4개, 매출 4,800원"
+   ],
+   "page": 27,
+   "title": "붕어빵 노점의 하루 ②: 팔고, 막고, 매출 찍기",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "class Drink:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\n    def __str__(self):\n        return f\"{self.name:<7}{self.price:>6,}원\"\n\n    def __repr__(self):\n        return f\"Drink('{self.name}', {self.price})\"\n\nmenu = [Drink(\"latte\", 5000), Drink(\"tea\", 4000), Drink(\"coffee\", 4500)]\nfor d in sorted(menu, key=lambda d: d.price):\n    print(d)\nprint([d for d in menu if d.price < 5000])",
+   "expect": [
+    "tea     4,000원",
+    "coffee  4,500원",
+    "latte   5,000원",
+    "[Drink('tea', 4000), Drink('coffee', 4500)]"
+   ],
+   "page": 28,
+   "title": "카페 메뉴판: 손님용 줄 맞춤과 개발자용 확인",
+   "part": "6. 실습"
+  }
+ ]
+}

@@ -9,3 +9,6 @@ public/updates/
 public/design/
 .roadmap/
 public/img/
+public/engines/
+public/practice/
+.pyodide-packages/

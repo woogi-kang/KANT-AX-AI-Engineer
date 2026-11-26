@@ -1,0 +1,315 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "20-python-scope/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "def order(menu_name, size):\n    print(f\"{menu_name} {size} 사이즈\")\n\norder(\"latte\", \"M\")\norder(\"coffee\", \"M\")\norder(\"tea\", \"M\")",
+   "expect": [
+    "latte M 사이즈",
+    "coffee M 사이즈",
+    "tea M 사이즈"
+   ],
+   "page": 4,
+   "title": "19의 함수로 쓰다 보면 두 군데서 막혀요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "order(\"cake\")",
+   "expect": [
+    "TypeError: order() missing 1 required positional argument: 'size'"
+   ],
+   "err": true,
+   "page": 4,
+   "title": "19의 함수로 쓰다 보면 두 군데서 막혀요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c3",
+   "chain": "r1",
+   "code": "def calc():\n    total = 4500 * 2\n\ncalc()\nprint(total)",
+   "expect": [
+    "NameError: name 'total' is not defined"
+   ],
+   "err": true,
+   "page": 4,
+   "title": "19의 함수로 쓰다 보면 두 군데서 막혀요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c4",
+   "chain": "r1",
+   "code": "def order(menu_name, size=\"M\"):\n    print(f\"{menu_name} {size} 사이즈\")\n\norder(\"latte\")\norder(\"latte\", \"L\")",
+   "expect": [
+    "latte M 사이즈",
+    "latte L 사이즈"
+   ],
+   "page": 6,
+   "title": "def 줄에서 칸 = 값으로 기본값을 정해요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "def order(menu_name, size=\"M\", qty=1):\n    print(f\"{menu_name} {size} {qty}잔\")\n\norder(\"latte\")\norder(\"latte\", \"L\")\norder(\"latte\", \"L\", 2)\norder(\"latte\", qty=3)",
+   "expect": [
+    "latte M 1잔",
+    "latte L 1잔",
+    "latte L 2잔",
+    "latte M 3잔"
+   ],
+   "page": 7,
+   "title": "기본값이 여러 개면 앞에서부터 채워요",
+   "part": "2. 기본값과 키워드 인자"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "order(size=\"L\", menu_name=\"tea\")\norder(\"tea\", qty=2, size=\"S\")",
+   "expect": [
+    "tea L 1잔",
+    "tea S 2잔"
+   ],
+   "page": 8,
+   "title": "칸 이름을 붙이면 순서를 바꿔도 돼요",
+   "part": "2. 기본값과 키워드 인자"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "def order(size=\"M\", menu_name):\n    print(menu_name, size)",
+   "expect": [
+    "SyntaxError: parameter without a default follows parameter with a default"
+   ],
+   "err": true,
+   "page": 9,
+   "title": "기본값과 키워드 인자는 뒤에 적어요",
+   "part": "2. 기본값과 키워드 인자"
+  },
+  {
+   "id": "r2c4",
+   "chain": "r2",
+   "code": "order(size=\"L\", \"tea\")",
+   "expect": [
+    "SyntaxError: positional argument follows keyword argument"
+   ],
+   "err": true,
+   "page": 9,
+   "title": "기본값과 키워드 인자는 뒤에 적어요",
+   "part": "2. 기본값과 키워드 인자"
+  },
+  {
+   "id": "r2c5",
+   "chain": "r2",
+   "code": "print(\"coffee\", \"latte\", sep=\" / \")\nprint(\"coffee\", end=\" \")\nprint(\"latte\")\nprint(sorted([5000, 4500, 6500], reverse=True))",
+   "expect": [
+    "coffee / latte",
+    "coffee latte",
+    "[6500, 5000, 4500]"
+   ],
+   "page": 10,
+   "title": "키워드 인자는 이미 써 봤어요",
+   "part": "2. 기본값과 키워드 인자"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "def calc():\n    total = 4500 * 2\n    print(\"안:\", total)\n\ncalc()\nprint(\"밖:\", total)",
+   "expect": [
+    "안: 9000",
+    "NameError: name 'total' is not defined"
+   ],
+   "err": true,
+   "page": 11,
+   "title": "함수 안에서 만든 변수는 밖에서 안 보여요",
+   "part": "3. 지역 변수"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "def greet(name):\n    print(f\"{name}님, 어서 오세요\")\n\ngreet(\"kim\")\nprint(name)",
+   "expect": [
+    "kim님, 어서 오세요",
+    "NameError: name 'name' is not defined"
+   ],
+   "err": true,
+   "page": 12,
+   "title": "매개변수도 함수 안에서만 쓰는 변수예요",
+   "part": "3. 지역 변수"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "def add_stamp():\n    stamp = 0\n    stamp += 1\n    print(\"도장\", stamp)\n\nadd_stamp()\nadd_stamp()\nadd_stamp()",
+   "expect": [
+    "도장 1",
+    "도장 1",
+    "도장 1"
+   ],
+   "page": 13,
+   "title": "부를 때마다 처음부터 새로 만들어요",
+   "part": "3. 지역 변수"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "shop = \"KANT 카페\"\n\ndef hello():\n    print(f\"{shop}에 어서 오세요\")\n\nhello()",
+   "expect": [
+    "KANT 카페에 어서 오세요"
+   ],
+   "page": 14,
+   "title": "함수 밖에서 만든 변수는 안에서 읽을 수 있어요",
+   "part": "4. 전역 변수"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "price = 4500\n\ndef set_price():\n    price = 5000\n    print(\"안:\", price)\n\nset_price()\nprint(\"밖:\", price)",
+   "expect": [
+    "안: 5000",
+    "밖: 4500"
+   ],
+   "page": 15,
+   "title": "안에서 같은 이름에 넣으면 새 지역 변수가 생겨요",
+   "part": "4. 전역 변수"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "count = 0\n\ndef visit():\n    count = count + 1\n\nvisit()",
+   "expect": [
+    "UnboundLocalError: cannot access local variable 'count' where it is not associated with a value"
+   ],
+   "err": true,
+   "page": 16,
+   "title": "읽다가 바꾸면 UnboundLocalError가 나요",
+   "part": "4. 전역 변수"
+  },
+  {
+   "id": "r4c4",
+   "chain": "r4",
+   "code": "count = 0\n\ndef visit():\n    global count\n    count = count + 1\n\nvisit()\nvisit()\nvisit()\nprint(count)",
+   "expect": [
+    "3"
+   ],
+   "page": 17,
+   "title": "global을 적으면 바깥 변수를 바꿔요",
+   "part": "4. 전역 변수"
+  },
+  {
+   "id": "r4c5",
+   "chain": "r4",
+   "code": "def visit(count):\n    return count + 1\n\ncount = 0\ncount = visit(count)\ncount = visit(count)\ncount = visit(count)\nprint(count)",
+   "expect": [
+    "3"
+   ],
+   "page": 18,
+   "title": "바깥 값을 바꿀 땐 return으로 돌려받아요",
+   "part": "4. 전역 변수"
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "def add_item(cart, name):\n    cart.append(name)\n\nmy_cart = [\"coffee\"]\nadd_item(my_cart, \"cake\")\nadd_item(my_cart, \"latte\")\nprint(my_cart)",
+   "expect": [
+    "['coffee', 'cake', 'latte']"
+   ],
+   "page": 19,
+   "title": "리스트를 넘기고 안에서 append하면 원본이 바뀌어요",
+   "part": "5. 리스트와 딕셔너리 넘기기"
+  },
+  {
+   "id": "r5c2",
+   "chain": "r5",
+   "code": "def add_one(n):\n    n += 1\n    print(\"안:\", n)\n\nx = 1\nadd_one(x)\nprint(\"밖:\", x)",
+   "expect": [
+    "안: 2",
+    "밖: 1"
+   ],
+   "page": 20,
+   "title": "숫자는 안에서 바꿔도 밖이 그대로예요",
+   "part": "5. 리스트와 딕셔너리 넘기기"
+  },
+  {
+   "id": "r5c3",
+   "chain": "r5",
+   "code": "def sell(stock, name):\n    stock[name] -= 1\n\nstock = {\"coffee\": 3, \"latte\": 1}\nsell(stock, \"latte\")\nsell(stock, \"coffee\")\nprint(stock)",
+   "expect": [
+    "{'coffee': 2, 'latte': 0}"
+   ],
+   "page": 21,
+   "title": "딕셔너리를 넘기면 재고를 바로 줄일 수 있어요",
+   "part": "5. 리스트와 딕셔너리 넘기기"
+  },
+  {
+   "id": "r5c4",
+   "chain": "r5",
+   "code": "def with_item(cart, name):\n    new_cart = cart.copy()\n    new_cart.append(name)\n    return new_cart\n\nmy_cart = [\"coffee\"]\nbig_cart = with_item(my_cart, \"cake\")\nprint(my_cart)\nprint(big_cart)",
+   "expect": [
+    "['coffee']",
+    "['coffee', 'cake']"
+   ],
+   "page": 22,
+   "title": "원본을 지키려면 copy()로 새로 만들어 돌려줘요",
+   "part": "5. 리스트와 딕셔너리 넘기기"
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "def take_order(stock, name, qty=1):\n    if stock[name] < qty:\n        print(f\"{name} {qty}개: 재고가 {stock[name]}개뿐이에요\")\n        return False\n    stock[name] -= qty\n    print(f\"{name} {qty}개 나갔어요\")\n    return True\n\nstock = {\"coffee\": 3, \"latte\": 1, \"cake\": 2}\ntake_order(stock, \"coffee\", 2)\ntake_order(stock, \"latte\")\ntake_order(stock, \"latte\")\ntake_order(stock, \"cake\", qty=3)\nprint(stock)",
+   "expect": [
+    "coffee 2개 나갔어요",
+    "latte 1개 나갔어요",
+    "latte 1개: 재고가 0개뿐이에요",
+    "cake 3개: 재고가 2개뿐이에요",
+    "{'coffee': 1, 'latte': 0, 'cake': 2}"
+   ],
+   "page": 23,
+   "title": "주문 함수: 기본값과 재고 딕셔너리",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\n\ndef calc_total(cart, menu):\n    total = 0\n    for name, qty in cart.items():\n        total += menu[name] * qty\n    return total\n\ndef print_receipt(cart, menu, rate=0):\n    total = calc_total(cart, menu)\n    sale = total * rate // 100\n    for name, qty in cart.items():\n        print(f\"{name:<7}{qty}개 {menu[name] * qty:>7,}원\")\n    print(f\"할인   {rate:>2}% {sale:>7,}원\")\n    print(f\"결제       {total - sale:>7,}원\")",
+   "expect": [],
+   "page": 24,
+   "title": "영수증 함수: 함수 안에서 함수 부르기",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "cart1 = {\"coffee\": 2, \"cake\": 1}\ncart2 = {\"latte\": 3, \"cake\": 2}\nprint_receipt(cart1, menu)\nprint(\"---\")\nprint_receipt(cart2, menu, rate=10)",
+   "expect": [
+    "coffee 2개   9,000원",
+    "cake   1개   6,500원",
+    "할인    0%       0원",
+    "결제        15,500원",
+    "---",
+    "latte  3개  15,000원",
+    "cake   2개  13,000원",
+    "할인   10%   2,800원",
+    "결제        25,200원"
+   ],
+   "page": 24,
+   "title": "영수증 함수: 함수 안에서 함수 부르기",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c4",
+   "chain": "r6",
+   "code": "def add_point(points, name, amount, rate=5):\n    points[name] = points.get(name, 0) + amount * rate // 100\n\npoints = {\"kim\": 300}\nadd_point(points, \"kim\", 9000)\nadd_point(points, \"lee\", 6500)\nadd_point(points, \"lee\", 10000, rate=10)\nprint(points)",
+   "expect": [
+    "{'kim': 750, 'lee': 1325}"
+   ],
+   "page": 25,
+   "title": "적립 함수: get과 기본값으로 포인트 쌓기",
+   "part": "6. 실습"
+  }
+ ]
+}

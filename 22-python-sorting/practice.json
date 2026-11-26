@@ -1,0 +1,376 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "22-python-sorting/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "sales = {\"coffee\": 12, \"latte\": 30, \"cake\": 8, \"tea\": 15}\nprint(sorted(sales))\nprint(max(sales))",
+   "expect": [
+    "['cake', 'coffee', 'latte', 'tea']",
+    "tea"
+   ],
+   "page": 4,
+   "title": "가장 많이 팔린 메뉴를 물었는데 tea가 나와요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "names = [\"latte\", \"tea\", \"coffee\"]\nprint(sorted(names))\nprint(sorted(names, key=len))\nprint(max(sales, key=sales.get))",
+   "expect": [
+    "['coffee', 'latte', 'tea']",
+    "['tea', 'latte', 'coffee']",
+    "latte"
+   ],
+   "page": 6,
+   "title": "가장 짧은 key: 이름을 길이순으로",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "prices = [6500, 4500, 5000]\na = sorted(prices)\nprint(a)\nprint(prices)\nprices.sort()\nprint(prices)",
+   "expect": [
+    "[4500, 5000, 6500]",
+    "[6500, 4500, 5000]",
+    "[4500, 5000, 6500]"
+   ],
+   "page": 7,
+   "title": "sorted는 새 리스트, sort는 원본을 바꿔요",
+   "part": "2. sorted, sort, key"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "prices = [6500, 4500, 5000]\nprices = prices.sort()\nprint(prices)",
+   "expect": [
+    "None"
+   ],
+   "page": 8,
+   "title": "prices = prices.sort()를 하면 None만 남아요",
+   "part": "2. sorted, sort, key"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "prices = [6500, 4500, 5000]\nprint(sorted(prices, reverse=True))\nprices.sort(reverse=True)\nprint(prices)",
+   "expect": [
+    "[6500, 5000, 4500]",
+    "[6500, 5000, 4500]"
+   ],
+   "page": 9,
+   "title": "큰 것부터 세우려면 reverse=True",
+   "part": "2. sorted, sort, key"
+  },
+  {
+   "id": "r2c4",
+   "chain": "r2",
+   "code": "print(sorted([\"Latte\", \"cake\", \"Tea\", \"coffee\"]))\nprint(sorted([\"라떼\", \"커피\", \"녹차\"]))\nprint(sorted([\"10\", \"9\", \"100\"]))",
+   "expect": [
+    "['Latte', 'Tea', 'cake', 'coffee']",
+    "['녹차', '라떼', '커피']",
+    "['10', '100', '9']"
+   ],
+   "page": 10,
+   "title": "글자는 앞 글자부터 하나씩 비교해요",
+   "part": "2. sorted, sort, key"
+  },
+  {
+   "id": "r2c5",
+   "chain": "r2",
+   "code": "names = [\"latte\", \"tea\", \"coffee\", \"mocha\"]\nprint(list(map(len, names)))\nprint(sorted(names, key=len))\nprint(sorted(names, key=len, reverse=True))",
+   "expect": [
+    "[5, 3, 6, 5]",
+    "['tea', 'latte', 'mocha', 'coffee']",
+    "['coffee', 'latte', 'mocha', 'tea']"
+   ],
+   "page": 11,
+   "title": "key=len: 길이를 재서 비교해요",
+   "part": "2. sorted, sort, key"
+  },
+  {
+   "id": "r2c6",
+   "chain": "r2",
+   "code": "print(\"Latte\".lower())\nprint(sorted([\"Latte\", \"cake\", \"Tea\", \"coffee\"], key=str.lower))\nprint(sorted([\"10\", \"9\", \"100\"], key=int))",
+   "expect": [
+    "latte",
+    "['cake', 'coffee', 'Latte', 'Tea']",
+    "['9', '10', '100']"
+   ],
+   "page": 12,
+   "title": "key=str.lower, key=int로 비교 방법을 바꿔요",
+   "part": "2. sorted, sort, key"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "items = [(\"latte\", 5000), (\"cake\", 6500), (\"coffee\", 4500), (\"cake\", 6000)]\nprint(sorted(items))",
+   "expect": [
+    "[('cake', 6000), ('cake', 6500), ('coffee', 4500), ('latte', 5000)]"
+   ],
+   "page": 13,
+   "title": "튜플은 앞 칸부터 비교해요",
+   "part": "3. 튜플과 딕셔너리 정렬"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "items = [(\"latte\", 5000), (\"cake\", 6500), (\"coffee\", 4500)]\nprint(sorted(items, key=lambda m: m[1]))\nprint(sorted(items, key=lambda m: m[1], reverse=True))",
+   "expect": [
+    "[('coffee', 4500), ('latte', 5000), ('cake', 6500)]",
+    "[('cake', 6500), ('latte', 5000), ('coffee', 4500)]"
+   ],
+   "page": 14,
+   "title": "key=lambda m: m[1]로 둘째 칸 기준",
+   "part": "3. 튜플과 딕셔너리 정렬"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "sales = [(\"latte\", 30), (\"cake\", 8), (\"coffee\", 30), (\"tea\", 15)]\nprint(sorted(sales, key=lambda m: m[1], reverse=True))\nprint(list(map(lambda m: (-m[1], m[0]), sales)))\nprint(sorted(sales, key=lambda m: (-m[1], m[0])))",
+   "expect": [
+    "[('latte', 30), ('coffee', 30), ('tea', 15), ('cake', 8)]",
+    "[(-30, 'latte'), (-8, 'cake'), (-30, 'coffee'), (-15, 'tea')]",
+    "[('coffee', 30), ('latte', 30), ('tea', 15), ('cake', 8)]"
+   ],
+   "page": 15,
+   "title": "판매량 많은 순, 같으면 이름순으로 세워요",
+   "part": "3. 튜플과 딕셔너리 정렬"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "sales = {\"coffee\": 12, \"latte\": 30, \"cake\": 8, \"tea\": 15}\nprint(sorted(sales))\nprint(sorted(sales.values()))\nprint(sorted(sales.items()))",
+   "expect": [
+    "['cake', 'coffee', 'latte', 'tea']",
+    "[8, 12, 15, 30]",
+    "[('cake', 8), ('coffee', 12), ('latte', 30), ('tea', 15)]"
+   ],
+   "page": 16,
+   "title": "딕셔너리는 키, 값, 짝 중 무엇을 줄 세울지 골라요",
+   "part": "3. 튜플과 딕셔너리 정렬"
+  },
+  {
+   "id": "r3c5",
+   "chain": "r3",
+   "code": "rank = sorted(sales.items(), key=lambda kv: kv[1], reverse=True)\nprint(rank)\nfor name, n in rank:\n    print(f\"{name:<7}{n:>3}잔\")",
+   "expect": [
+    "[('latte', 30), ('tea', 15), ('coffee', 12), ('cake', 8)]",
+    "latte   30잔",
+    "tea     15잔",
+    "coffee  12잔",
+    "cake     8잔"
+   ],
+   "page": 17,
+   "title": "items()에 key=lambda kv: kv[1]로 판매 순위",
+   "part": "3. 튜플과 딕셔너리 정렬"
+  },
+  {
+   "id": "r3c6",
+   "chain": "r3",
+   "code": "print(sales.get(\"latte\"))\nprint(sorted(sales, key=sales.get))\nprint(sorted(sales, key=sales.get, reverse=True))",
+   "expect": [
+    "30",
+    "['cake', 'coffee', 'tea', 'latte']",
+    "['latte', 'tea', 'coffee', 'cake']"
+   ],
+   "page": 18,
+   "title": "키만 필요하면 key=sales.get",
+   "part": "3. 튜플과 딕셔너리 정렬"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "prices = [4500, 5000, 6500, 3000]\nprint(max(prices), min(prices))\nnames = [\"latte\", \"tea\", \"coffee\"]\nprint(max(names), min(names))\nprint(max(names, key=len))",
+   "expect": [
+    "6500 3000",
+    "tea coffee",
+    "coffee"
+   ],
+   "page": 19,
+   "title": "max와 min도 key를 받아요",
+   "part": "4. max와 min"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "sales = {\"coffee\": 12, \"latte\": 30, \"cake\": 8, \"tea\": 15}\nprint(max(sales))\nprint(max(sales, key=sales.get))\nprint(min(sales, key=sales.get))\nprint(max(sales.items(), key=lambda kv: kv[1]))",
+   "expect": [
+    "tea",
+    "latte",
+    "cake",
+    "('latte', 30)"
+   ],
+   "page": 20,
+   "title": "가장 많이 팔린 메뉴는 max(sales, key=sales.get)",
+   "part": "4. max와 min"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "print(max([]))",
+   "expect": [
+    "ValueError: max() iterable argument is empty"
+   ],
+   "err": true,
+   "page": 21,
+   "title": "빈 리스트에 max를 쓰면 ValueError가 나요",
+   "part": "4. max와 min"
+  },
+  {
+   "id": "r4c4",
+   "chain": "r4",
+   "code": "big = list(filter(lambda p: p > 10000, prices))\nprint(big)\nprint(max(big, default=0))",
+   "expect": [
+    "[]",
+    "0"
+   ],
+   "page": 21,
+   "title": "빈 리스트에 max를 쓰면 ValueError가 나요",
+   "part": "4. max와 min"
+  },
+  {
+   "id": "r4c5",
+   "chain": "r4",
+   "code": "print(sum(sales.values()), len(sales))\nprint(sum(sales.values()) / len(sales))\ntop3 = sorted(sales, key=sales.get, reverse=True)[:3]\nprint(top3)",
+   "expect": [
+    "65 4",
+    "16.25",
+    "['latte', 'tea', 'coffee']"
+   ],
+   "page": 22,
+   "title": "sum, len, 자르기와 같이 써요",
+   "part": "4. max와 min"
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "print(sorted([4500, \"5000\", 6500]))",
+   "expect": [
+    "TypeError: '<' not supported between instances of 'str' and 'int'"
+   ],
+   "err": true,
+   "page": 23,
+   "title": "숫자와 글자를 섞으면 비교할 수 없어요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c2",
+   "chain": "r5",
+   "code": "print(sorted([4500, \"5000\", 6500], key=int))",
+   "expect": [
+    "[4500, '5000', 6500]"
+   ],
+   "page": 23,
+   "title": "숫자와 글자를 섞으면 비교할 수 없어요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c3",
+   "chain": "r5",
+   "code": "print(sorted([\"latte\", \"tea\"], key=len()))",
+   "expect": [
+    "TypeError: len() takes exactly one argument (0 given)"
+   ],
+   "err": true,
+   "page": 24,
+   "title": "key에 괄호를 붙이면 TypeError가 나요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c4",
+   "chain": "r5",
+   "code": "sales = {\"coffee\": 12, \"latte\": 30, \"cake\": 8, \"tea\": 15}\nprint(sorted(sales, key=sales.get()))",
+   "expect": [
+    "TypeError: get expected at least 1 argument, got 0"
+   ],
+   "err": true,
+   "page": 24,
+   "title": "key에 괄호를 붙이면 TypeError가 나요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c5",
+   "chain": "r5",
+   "code": "print(sorted(sales.items(), key=kv[1]))",
+   "expect": [
+    "NameError: name 'kv' is not defined"
+   ],
+   "err": true,
+   "page": 25,
+   "title": "lambda나 key=를 빠뜨리면 생기는 오류",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c6",
+   "chain": "r5",
+   "code": "print(sorted(sales, sales.get))",
+   "expect": [
+    "TypeError: sorted expected 1 argument, got 2"
+   ],
+   "err": true,
+   "page": 25,
+   "title": "lambda나 key=를 빠뜨리면 생기는 오류",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "sales = {\"coffee\": 12, \"latte\": 30, \"cake\": 8, \"tea\": 15, \"juice\": 15}\nrank = sorted(sales.items(), key=lambda kv: (-kv[1], kv[0]))\nfor i, kv in enumerate(rank[:3], 1):\n    print(f\"{i}위 {kv[0]:<6}{kv[1]:>3}잔\")",
+   "expect": [
+    "1위 latte  30잔",
+    "2위 juice  15잔",
+    "3위 tea    15잔"
+   ],
+   "page": 26,
+   "title": "판매 순위표 3위까지 찍기",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500, \"tea\": 4000}\nhi = max(menu, key=menu.get)\nlo = min(menu, key=menu.get)\nprint(f\"가장 비싼 메뉴 {hi} {menu[hi]:,}원\")\nprint(f\"가장 싼 메뉴 {lo} {menu[lo]:,}원\")\nfor m in sorted(menu, key=menu.get):\n    print(f\"{m:<7}{menu[m]:>6,}원\")",
+   "expect": [
+    "가장 비싼 메뉴 cake 6,500원",
+    "가장 싼 메뉴 tea 4,000원",
+    "tea     4,000원",
+    "coffee  4,500원",
+    "latte   5,000원",
+    "cake    6,500원"
+   ],
+   "page": 27,
+   "title": "가장 비싼 메뉴, 가장 싼 메뉴, 가격순 메뉴판",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "names = [\"mocha\", \"tea\", \"latte\", \"americano\", \"cake\"]\nprint(sorted(names, key=len))\nprint(sorted(names, key=lambda n: (len(n), n)))",
+   "expect": [
+    "['tea', 'cake', 'mocha', 'latte', 'americano']",
+    "['tea', 'cake', 'latte', 'mocha', 'americano']"
+   ],
+   "page": 28,
+   "title": "메뉴판을 이름 길이순, 같으면 abc 순으로",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c4",
+   "chain": "r6",
+   "code": "scores = [(\"kim\", 92), (\"lee\", 78), (\"park\", 85), (\"choi\", 59)]\nranked = sorted(scores, key=lambda s: s[1], reverse=True)\nfor name, score in ranked:\n    print(f\"{name:<5}{score:>3}\")\nprint(\"1등:\", max(scores, key=lambda s: s[1])[0])\nprint(\"평균:\", sum(map(lambda s: s[1], scores)) / len(scores))",
+   "expect": [
+    "kim   92",
+    "park  85",
+    "lee   78",
+    "choi  59",
+    "1등: kim",
+    "평균: 78.5"
+   ],
+   "page": 29,
+   "title": "성적표를 점수순으로 세우고 1등과 평균 구하기",
+   "part": "6. 실습"
+  }
+ ]
+}

@@ -1,0 +1,300 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "24-python-class/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "b1 = {\"flavor\": \"팥\", \"price\": 1000}\nb2 = {\"flavor\": \"슈크림\", \"price\": 1200}\n\ndef intro(bread):\n    print(bread[\"flavor\"], \"붕어빵\", bread[\"price\"], \"원\")\n\nintro(b1)\nintro(b2)",
+   "expect": [
+    "팥 붕어빵 1000 원",
+    "슈크림 붕어빵 1200 원"
+   ],
+   "page": 4,
+   "title": "붕어빵을 딕셔너리로 담으면 값과 할 일이 따로 놀아요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "b3 = {\"flavr\": \"피자\", \"price\": 1500}\nintro(b3)",
+   "expect": [
+    "KeyError: 'flavor'"
+   ],
+   "err": true,
+   "page": 4,
+   "title": "붕어빵을 딕셔너리로 담으면 값과 할 일이 따로 놀아요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c3",
+   "chain": "r1",
+   "code": "print(type(3))\nprint(type(\"팥\"))\nprint(type([1, 2]))",
+   "expect": [
+    "<class 'int'>",
+    "<class 'str'>",
+    "<class 'list'>"
+   ],
+   "page": 6,
+   "title": "사실 int, str, list도 틀이에요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c4",
+   "chain": "r1",
+   "code": "xs = [1, 2]\nxs.append(3)\nprint(xs)\nprint(\"Pat\".lower())",
+   "expect": [
+    "[1, 2, 3]",
+    "pat"
+   ],
+   "page": 6,
+   "title": "사실 int, str, list도 틀이에요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "class Bread:\n    pass\n\na = Bread()\nb = Bread()\nprint(type(a))",
+   "expect": [
+    "<class '__main__.Bread'>"
+   ],
+   "page": 7,
+   "title": "빈 틀을 만들고 붕어빵 두 개를 찍어요",
+   "part": "2. 가장 작은 틀"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "a.flavor = \"팥\"\na.price = 1000\nb.flavor = \"슈크림\"\nb.price = 1200\nprint(a.flavor, a.price)\nprint(b.flavor, b.price)",
+   "expect": [
+    "팥 1000",
+    "슈크림 1200"
+   ],
+   "page": 8,
+   "title": "점(.)으로 붕어빵에 값을 붙여요",
+   "part": "2. 가장 작은 틀"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "c = Bread()\nc.flavor = \"피자\"\nprint(c.price)",
+   "expect": [
+    "AttributeError: 'Bread' object has no attribute 'price'"
+   ],
+   "err": true,
+   "page": 9,
+   "title": "손으로 붙이면 길고, 하나 빠뜨리기 쉬워요",
+   "part": "2. 가장 작은 틀"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "class Bread:\n    pass\n\ndef setup(bread, flavor, price):\n    bread.flavor = flavor\n    bread.price = price\n\na = Bread()\nsetup(a, \"팥\", 1000)\nprint(a.flavor, a.price)",
+   "expect": [
+    "팥 1000"
+   ],
+   "page": 10,
+   "title": "먼저 19에서 배운 함수로 한 번에 붙여 봐요",
+   "part": "3. self와 `__init__`"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\na = Bread(\"팥\", 1000)\nprint(a.flavor, a.price)",
+   "expect": [
+    "팥 1000"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        print(\"반죽 붓는 중:\", flavor)\n        self.flavor = flavor\n        self.price = price\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint(a.flavor, b.flavor)",
+   "expect": [
+    "반죽 붓는 중: 팥",
+    "반죽 붓는 중: 슈크림",
+    "팥 슈크림"
+   ],
+   "page": 13,
+   "title": "__init__은 찍는 순간 저절로 불려요",
+   "part": "3. self와 `__init__`"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        flavor = flavor\n        price = price\n\na = Bread(\"팥\", 1000)\nprint(a.flavor)",
+   "expect": [
+    "AttributeError: 'Bread' object has no attribute 'flavor'"
+   ],
+   "err": true,
+   "page": 19,
+   "title": "self.를 빼면 재료가 붕어빵에 안 붙어요",
+   "part": "3. self와 `__init__`"
+  },
+  {
+   "id": "r3c5",
+   "chain": "r3",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n        self.baked = False\n\na = Bread(\"팥\", 1000)\nprint(a.flavor, a.price, a.baked)",
+   "expect": [
+    "팥 1000 False"
+   ],
+   "page": 20,
+   "title": "재료로 받지 않는 칸도 만들 수 있어요",
+   "part": "3. self와 `__init__`"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def intro(self):\n        print(self.flavor, \"붕어빵\", self.price, \"원\")\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\na.intro()\nb.intro()",
+   "expect": [
+    "팥 붕어빵 1000 원",
+    "슈크림 붕어빵 1200 원"
+   ],
+   "page": 21,
+   "title": "틀 안의 함수가 메서드예요",
+   "part": "4. 메서드"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "Bread.intro(a)\nBread.intro(b)",
+   "expect": [
+    "팥 붕어빵 1000 원",
+    "슈크림 붕어빵 1200 원"
+   ],
+   "page": 22,
+   "title": "a.intro()는 Bread.intro(a)와 같아요",
+   "part": "4. 메서드"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def discount(self, won):\n        self.price = self.price - won\n\n    def total(self, qty):\n        return self.price * qty\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\na.discount(200)\nprint(a.price, b.price)\nprint(a.total(3))",
+   "expect": [
+    "800 1200",
+    "2400"
+   ],
+   "page": 23,
+   "title": "메서드로 값을 바꾸고, return으로 돌려받아요",
+   "part": "4. 메서드"
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def intro():\n        print(\"붕어빵\")\n\na = Bread(\"팥\")",
+   "expect": [
+    "TypeError: Bread.__init__() missing 1 required positional argument: 'price'"
+   ],
+   "err": true,
+   "page": 25,
+   "title": "재료 수가 모자라면 missing argument",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c2",
+   "chain": "r5",
+   "code": "a = Bread(\"팥\", 1000)\na.intro()",
+   "expect": [
+    "TypeError: Bread.intro() takes 0 positional arguments but 1 was given"
+   ],
+   "err": true,
+   "page": 26,
+   "title": "메서드에 self를 빼면 takes 0 positional arguments",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c3",
+   "chain": "r5",
+   "code": "class Bread:\n    def _init_(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\na = Bread(\"팥\", 1000)",
+   "expect": [
+    "TypeError: Bread() takes no arguments"
+   ],
+   "err": true,
+   "page": 27,
+   "title": "밑줄을 하나만 적으면 takes no arguments",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c4",
+   "chain": "r5",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\na = Bread(\"팥\", 1000)\nprint(a)",
+   "expect": [
+    "<__main__.Bread object at 0x7fe6b3317620>"
+   ],
+   "page": 28,
+   "title": "붕어빵을 print하면 이상한 글자가 나와요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c5",
+   "chain": "r5",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def intro(self):\n        print(flavor, \"붕어빵\")\n\na = Bread(\"팥\", 1000)\na.intro()",
+   "expect": [
+    "NameError: name 'flavor' is not defined"
+   ],
+   "err": true,
+   "hidden": true
+  },
+  {
+   "id": "r5c6",
+   "chain": "r5",
+   "code": "a = Bread\na.intro()",
+   "expect": [
+    "TypeError: Bread.intro() missing 1 required positional argument: 'self'"
+   ],
+   "err": true,
+   "page": 21,
+   "title": "틀 안의 함수가 메서드예요",
+   "part": "4. 메서드"
+  },
+  {
+   "id": "r5c7",
+   "chain": "r5",
+   "code": "a = Bread(\"팥\", 1000)\nprint(a.flavr)",
+   "expect": [
+    "AttributeError: 'Bread' object has no attribute 'flavr'"
+   ],
+   "err": true,
+   "hidden": true
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "class Bread:\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\n    def intro(self):\n        print(self.flavor, \"붕어빵\", self.price, \"원\")\n\norder = [Bread(\"팥\", 1000), Bread(\"슈크림\", 1200), Bread(\"팥\", 1000)]\nfor b in order:\n    b.intro()\ntotal = sum([b.price for b in order])\nprint(\"합계\", total, \"원\")",
+   "expect": [
+    "팥 붕어빵 1000 원",
+    "슈크림 붕어빵 1200 원",
+    "팥 붕어빵 1000 원",
+    "합계 3200 원"
+   ],
+   "page": 29,
+   "title": "붕어빵 가게: 주문 받은 붕어빵을 소개하고 합계 내기",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "class Drink:\n    def __init__(self, name, price, size=\"M\"):\n        self.name = name\n        self.price = price\n        self.size = size\n\n    def label(self):\n        return f\"{self.name}({self.size}) {self.price:,}원\"\n\nd1 = Drink(\"latte\", 5000)\nd2 = Drink(\"tea\", 4000, \"L\")\nprint(d1.label())\nprint(d2.label())",
+   "expect": [
+    "latte(M) 5,000원",
+    "tea(L) 4,000원"
+   ],
+   "page": 30,
+   "title": "카페 음료: 기본값 사이즈와 메뉴 이름표 만들기",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "class Card:\n    def __init__(self, name):\n        self.name = name\n        self.stamps = 0\n\n    def add(self):\n        self.stamps = self.stamps + 1\n\nkim = Card(\"kim\")\nlee = Card(\"lee\")\nkim.add()\nkim.add()\nkim.add()\nlee.add()\nprint(kim.name, kim.stamps)\nprint(lee.name, lee.stamps)",
+   "expect": [
+    "kim 3",
+    "lee 1"
+   ],
+   "page": 31,
+   "title": "도장 카드: 처음 0개에서 손님마다 따로 쌓기",
+   "part": "6. 실습"
+  }
+ ]
+}

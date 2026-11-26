@@ -1,0 +1,788 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "03-git-branch 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+ "cells": [
+  {
+   "id": "g1-dots-1",
+   "page": 4,
+   "title": "점 하나가 커밋 하나예요",
+   "part": "1. 브랜치란?",
+   "steps": [
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "d6b044a (HEAD -> main, origin/main) docs: README 추가",
+      "5ec913c feat: 인사말 추가",
+      "9e6cce4 feat: 인사 파일 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1-list-1",
+   "page": 7,
+   "title": "* 표시가 지금 있는 브랜치예요",
+   "part": "2. 만들고 옮기기",
+   "steps": [
+    {
+     "cmd": "git branch",
+     "out": [
+      "* main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b2-create-1",
+   "page": 8,
+   "title": "브랜치 만들기: 이름표가 하나 더 생겨요",
+   "part": "2. 만들고 옮기기",
+   "steps": [
+    {
+     "cmd": "git branch feature/login",
+     "out": []
+    }
+   ]
+  },
+  {
+   "id": "b3-move-1",
+   "page": 9,
+   "title": "브랜치로 옮겨 가기: HEAD가 움직여요",
+   "part": "2. 만들고 옮기기",
+   "steps": [
+    {
+     "cmd": "git checkout feature/login",
+     "out": [
+      "Switched to branch 'feature/login'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b4-commit-1",
+   "page": 10,
+   "title": "커밋하면 feature/login만 앞으로 가요",
+   "part": "2. 만들고 옮기기",
+   "steps": [
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 로그인 화면 추가\"",
+     "out": [
+      "[feature/login eb05b65] feat: 로그인 화면 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b5-commit2-1",
+   "page": 11,
+   "title": "한 번 더 커밋하면 한 칸 더",
+   "part": "2. 만들고 옮기기",
+   "steps": [
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 비밀번호 입력 추가\"",
+     "out": [
+      "[feature/login 4e60a09] feat: 비밀번호 입력 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b6-back-1",
+   "page": 12,
+   "title": "main으로 돌아와도 feature/login 커밋은 남아요",
+   "part": "2. 만들고 옮기기",
+   "steps": [
+    {
+     "cmd": "git checkout main",
+     "out": [
+      "Switched to branch 'main'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "switch-1",
+   "page": 14,
+   "title": "브랜치만 옮기는 명령, git switch",
+   "part": "2. 만들고 옮기기",
+   "steps": [
+    {
+     "cmd": "git switch feature/login",
+     "out": [
+      "Switched to branch 'feature/login'"
+     ]
+    },
+    {
+     "cmd": "git switch -c feature/login-button",
+     "out": [
+      "Switched to a new branch 'feature/login-button'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b7-ff-1",
+   "page": 16,
+   "title": "Fast-forward: main 이름표만 앞으로",
+   "part": "3. 합치기",
+   "steps": [
+    {
+     "cmd": "git merge feature/login",
+     "out": [
+      "Updating d6b044a..4e60a09",
+      "Fast-forward"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b8-delete-1",
+   "page": 17,
+   "title": "합친 브랜치는 -d로 지워요",
+   "part": "3. 합치기",
+   "steps": [
+    {
+     "cmd": "git branch -d feature/login",
+     "out": [
+      "Deleted branch feature/login (was 4e60a09)."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d1-create-1",
+   "page": 20,
+   "title": "새 브랜치 docs/login-guide 만들고 옮겨 가기",
+   "part": "4. 갈라진 길",
+   "steps": [
+    {
+     "cmd": "git checkout -b docs/login-guide",
+     "out": [
+      "Switched to a new branch 'docs/login-guide'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d2-commit-1",
+   "page": 21,
+   "title": "docs/login-guide에서 커밋해요",
+   "part": "4. 갈라진 길",
+   "steps": [
+    {
+     "cmd": "git add README.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"docs: README에 로그인 안내 추가\"",
+     "out": [
+      "[docs/login-guide 29bd96c] docs: README에 로그인 안내 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d4-main-1",
+   "page": 23,
+   "title": "main에도 새 커밋: 길이 두 갈래가 됐어요",
+   "part": "4. 갈라진 길",
+   "steps": [
+    {
+     "cmd": "git add hello.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 반가움 인사 추가\"",
+     "out": [
+      "[main f0e6c3e] feat: 반가움 인사 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d5-merge-1",
+   "page": 24,
+   "title": "merge 커밋이 두 길을 이어요",
+   "part": "4. 갈라진 길",
+   "steps": [
+    {
+     "cmd": "git merge docs/login-guide",
+     "out": [
+      "Merge made by the 'ort' strategy."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "r1-oops-1",
+   "page": 27,
+   "title": "실수로 커밋했어요, 아직 push 전이에요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git add hello.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 실수한 커밋\"",
+     "out": [
+      "[main 42209fe] feat: 실수한 커밋"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "r2-soft-1",
+   "page": 28,
+   "title": "--soft: 변경이 대기실에 남아요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git reset --soft HEAD~1",
+     "out": []
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "Changes to be committed:",
+      "    modified:   hello.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "r3-mixed-1",
+   "page": 29,
+   "title": "--mixed (기본값): 변경이 작업 폴더에 남아요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git reset HEAD~1",
+     "out": [
+      "Unstaged changes after reset:",
+      "M    hello.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "r4-hard-1",
+   "page": 30,
+   "title": "--hard: 변경까지 지워요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git reset --hard HEAD~1",
+     "out": [
+      "HEAD is now at 486cb9c Merge branch 'docs/login-guide'"
+     ]
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "nothing to commit, working tree clean"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u1-oops-1",
+   "page": 31,
+   "title": "이번엔 merge 커밋을 되돌려요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git log --oneline",
+     "out": [
+      "486cb9c (HEAD -> main) Merge branch 'docs/login-guide'",
+      "f0e6c3e feat: 반가움 인사 추가",
+      "29bd96c (docs/login-guide) docs: README에 로그인 안내 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u2-soft-1",
+   "page": 32,
+   "title": "--soft: 변경이 대기실에 남아요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git reset --soft HEAD~1",
+     "out": []
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "Changes to be committed:",
+      "    modified:   README.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u3-mixed-1",
+   "page": 33,
+   "title": "--mixed (기본값): 변경이 작업 폴더에 남아요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git reset HEAD~1",
+     "out": [
+      "Unstaged changes after reset:",
+      "M    README.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u4-hard-1",
+   "page": 34,
+   "title": "--hard: 변경까지 지워요",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git reset --hard HEAD~1",
+     "out": [
+      "HEAD is now at f0e6c3e feat: 반가움 인사 추가"
+     ]
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "nothing to commit, working tree clean"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "d6-delete-1",
+   "page": 38,
+   "title": "확인이 끝나면 docs/login-guide 지우기",
+   "part": "5. 되돌리기",
+   "steps": [
+    {
+     "cmd": "git branch -d docs/login-guide",
+     "out": [
+      "Deleted branch docs/login-guide (was 29bd96c)."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c1-korean-1",
+   "page": 40,
+   "title": "feature/login-title에서 제목을 바꿔요",
+   "part": "6. 충돌 풀기",
+   "steps": [
+    {
+     "cmd": "git checkout -b feature/login-title",
+     "out": []
+    },
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 로그인 제목 바꾸기\"",
+     "out": [
+      "[feature/login-title 4ad88f3] feat: 로그인 제목 바꾸기"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c2-main-1",
+   "page": 41,
+   "title": "main에서는 같은 줄을 다르게",
+   "part": "6. 충돌 풀기",
+   "steps": [
+    {
+     "cmd": "git checkout main",
+     "out": []
+    },
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 로그인 제목 다듬기\"",
+     "out": [
+      "[main 84f4952] feat: 로그인 제목 다듬기"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c3-conflict-1",
+   "page": 42,
+   "title": "합치려니 멈췄어요: 충돌",
+   "part": "6. 충돌 풀기",
+   "steps": [
+    {
+     "cmd": "git merge feature/login-title",
+     "out": [
+      "CONFLICT (content): Merge conflict in login.md",
+      "Automatic merge failed; fix conflicts and then commit the result."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "c4-resolve-1",
+   "page": 44,
+   "title": "고치고 add, commit하면 끝",
+   "part": "6. 충돌 풀기",
+   "steps": [
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"fix: 로그인 제목 충돌 해결\"",
+     "out": [
+      "[main a4c0a4f] fix: 로그인 제목 충돌 해결"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "abort-1",
+   "page": 45,
+   "title": "헷갈리면 merge 전으로 돌아가요",
+   "part": "6. 충돌 풀기",
+   "steps": [
+    {
+     "cmd": "git merge feature/login-email",
+     "out": [
+      "CONFLICT (content): Merge conflict in login.md",
+      "Automatic merge failed; fix conflicts and then commit the result."
+     ]
+    },
+    {
+     "cmd": "git merge --abort",
+     "out": []
+    },
+    {
+     "cmd": "git status",
+     "out": [
+      "On branch main",
+      "nothing to commit, working tree clean"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p0-branch-1",
+   "page": 47,
+   "title": "새 브랜치에서 로그인 버튼을 만들어요",
+   "part": "7. GitHub에서 함께",
+   "steps": [
+    {
+     "cmd": "git checkout -b feature/login-button",
+     "out": []
+    },
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: 로그인 버튼 추가\"",
+     "out": [
+      "[feature/login-button 4776218] feat: 로그인 버튼 추가"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p1-push-1",
+   "page": 48,
+   "title": "브랜치째 GitHub에 올려요",
+   "part": "7. GitHub에서 함께",
+   "steps": [
+    {
+     "cmd": "git push origin feature/login-button",
+     "out": [
+      " * [new branch]      feature/login-button -> feature/login-button"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p3-fetch-1",
+   "page": 51,
+   "title": "main으로 가서 fetch로 받아만 와요",
+   "part": "7. GitHub에서 함께",
+   "steps": [
+    {
+     "cmd": "git checkout main",
+     "out": [
+      "Switched to branch 'main'"
+     ]
+    },
+    {
+     "cmd": "git fetch origin",
+     "out": [
+      "   a4c0a4f..0e04baf  main       -> origin/main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p3-log-1",
+   "page": 52,
+   "title": "GitHub 쪽 기록을 먼저 확인해요",
+   "part": "7. GitHub에서 함께",
+   "steps": [
+    {
+     "cmd": "git log --oneline origin/main",
+     "out": [
+      "0e04baf (origin/main) Merge pull request #1 from kim/feature/login-button",
+      "4776218 (origin/feature/login-button, feature/login-button) feat: 로그인 버튼 추가",
+      "a4c0a4f (HEAD -> main) fix: 로그인 제목 충돌 해결"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p3-pull-1",
+   "page": 53,
+   "title": "pull로 내 main을 맞춰요",
+   "part": "7. GitHub에서 함께",
+   "steps": [
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Updating a4c0a4f..0e04baf",
+      "Fast-forward"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p4-delete-1",
+   "page": 54,
+   "title": "합쳐진 feature/login-button는 지워요",
+   "part": "7. GitHub에서 함께",
+   "steps": [
+    {
+     "cmd": "git branch -d feature/login-button",
+     "out": [
+      "Deleted branch feature/login-button (was 4776218)."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "p5-next-1",
+   "page": 55,
+   "title": "다음 일은 최신 main에서 새 브랜치로",
+   "part": "7. GitHub에서 함께",
+   "steps": [
+    {
+     "cmd": "git checkout -b feature/login-error",
+     "out": [
+      "Switched to a new branch 'feature/login-error'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc-adjacent-1",
+   "page": 57,
+   "title": "다른 줄인데도 충돌이 나요",
+   "part": "8. 충돌 시나리오",
+   "steps": [
+    {
+     "cmd": "git merge feature/login-email",
+     "out": [
+      "CONFLICT (content): Merge conflict in login.md",
+      "Automatic merge failed; fix conflicts and then commit the result."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rs-adjacent-2",
+   "page": 58,
+   "title": "둘 다 남기면 돼요",
+   "part": "8. 충돌 시나리오",
+   "steps": [
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"fix: 로그인 입력 충돌 해결\"",
+     "out": [
+      "[main a7c76b5] fix: 로그인 입력 충돌 해결"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc-delete-1",
+   "page": 59,
+   "title": "한쪽은 파일을 지우고, 한쪽은 고쳤어요",
+   "part": "8. 충돌 시나리오",
+   "steps": [
+    {
+     "cmd": "git merge chore/remove-old-login",
+     "out": [
+      "CONFLICT (modify/delete): old-login.md deleted in chore/remove-old-login and modified in HEAD.",
+      "Automatic merge failed; fix conflicts and then commit the result."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rs-delete-1",
+   "page": 60,
+   "title": "지울지 남길지 골라요",
+   "part": "8. 충돌 시나리오",
+   "steps": [
+    {
+     "cmd": "git status",
+     "out": [
+      "Unmerged paths:",
+      "  (use \"git add/rm <file>...\" as appropriate to mark resolution)",
+      "    deleted by them: old-login.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc-addadd-1",
+   "page": 61,
+   "title": "둘 다 signup.md를 새로 만들었어요",
+   "part": "8. 충돌 시나리오",
+   "steps": [
+    {
+     "cmd": "git merge feature/signup",
+     "out": [
+      "CONFLICT (add/add): Merge conflict in signup.md",
+      "Automatic merge failed; fix conflicts and then commit the result."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rs-addadd-2",
+   "page": 62,
+   "title": "목록이면 둘 다 살려요",
+   "part": "8. 충돌 시나리오",
+   "steps": [
+    {
+     "cmd": "git add signup.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"fix: 회원가입 항목 합치기\"",
+     "out": [
+      "[main 23d0c5f] fix: 회원가입 항목 합치기"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sc-pull-1",
+   "page": 63,
+   "title": "팀원이 먼저 같은 줄을 push했어요",
+   "part": "8. 충돌 시나리오",
+   "steps": [
+    {
+     "cmd": "git push origin main",
+     "out": [
+      " ! [rejected]        main -> main (fetch first)"
+     ]
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "fatal: Need to specify how to reconcile divergent branches."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rs-pull-1",
+   "page": 65,
+   "title": "다시 pull하면 익숙한 충돌이에요",
+   "part": "8. 충돌 시나리오",
+   "steps": [
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "CONFLICT (content): Merge conflict in login.md"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rs-pull-3",
+   "page": 65,
+   "title": "다시 pull하면 익숙한 충돌이에요",
+   "part": "8. 충돌 시나리오",
+   "steps": [
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m",
+     "out": [
+      "  \"fix: 팀원과 로그인 제목 충돌 해결\""
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "   82b872c..1ebdd15  main -> main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rs-pr-1",
+   "page": 67,
+   "title": "내 브랜치에서 main을 받아 풀고, 다시 push",
+   "part": "8. 충돌 시나리오",
+   "steps": [
+    {
+     "cmd": "git checkout feature/login-title",
+     "out": []
+    },
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "CONFLICT (content): Merge conflict in login.md",
+      "# login.md 충돌 표시 지우고 저장"
+     ]
+    },
+    {
+     "cmd": "git add login.md",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"fix: main과 로그인 제목 충돌 해결\"",
+     "out": []
+    },
+    {
+     "cmd": "git push origin feature/login-title",
+     "out": [
+      "   c7149cd..8feb440  feature/login-title -> feature/login-title"
+     ]
+    }
+   ]
+  }
+ ]
+}

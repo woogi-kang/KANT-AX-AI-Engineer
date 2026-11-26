@@ -1,0 +1,550 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "09-python-uv 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+ "cells": [
+  {
+   "id": "cover-1",
+   "page": 1,
+   "title": "uv로 파이썬 시작하기",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "uv init hello-uv",
+     "out": [
+      "Initialized project `hello-uv`"
+     ]
+    },
+    {
+     "cmd": "cd hello-uv",
+     "out": []
+    },
+    {
+     "cmd": "uv add fastapi",
+     "out": [
+      "Installed 11 packages in 5ms"
+     ]
+    },
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "fastapi 버전: 0.162.2"
+     ]
+    },
+    {
+     "cmd": "uv sync",
+     "out": [
+      "Resolved 12 packages in 1ms"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "why-1",
+   "page": 3,
+   "title": "받은 프로젝트를 실행했더니 오류가 나요",
+   "part": "1. 왜 필요할까",
+   "steps": [
+    {
+     "cmd": "git clone https://github.com/kim/hello-uv.git",
+     "out": [
+      "Cloning into 'hello-uv'...",
+      "done."
+     ]
+    },
+    {
+     "cmd": "cd hello-uv",
+     "out": []
+    },
+    {
+     "cmd": "ls -a",
+     "out": [
+      ".  ..  .git  .gitignore  .python-version  README.md  main.py  pyproject.toml  uv.lock"
+     ]
+    },
+    {
+     "cmd": "python3 main.py",
+     "out": [
+      "Traceback (most recent call last):",
+      "  File \"/home/lee/hello-uv/main.py\", line 1, in <module>",
+      "    import fastapi",
+      "ModuleNotFoundError: No module named 'fastapi'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run-1",
+   "page": 4,
+   "title": "python이 .py 파일을 읽고 실행해요",
+   "part": "2. 큰 그림",
+   "steps": [
+    {
+     "cmd": "python3 hello.py",
+     "out": [
+      "안녕하세요"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "install-1",
+   "page": 8,
+   "title": "명령 한 줄로 uv를 설치해요",
+   "part": "3. uv 설치하기",
+   "steps": [
+    {
+     "cmd": "uv --version",
+     "out": [
+      "uv 0.11.32 (x86_64-unknown-linux-gnu)"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "init-1",
+   "page": 9,
+   "title": "uv init으로 프로젝트를 만들어요",
+   "part": "4. 프로젝트 만들고 실행하기",
+   "steps": [
+    {
+     "cmd": "cd ~",
+     "out": []
+    },
+    {
+     "cmd": "uv init hello-uv",
+     "out": [
+      "Downloading cpython-3.14.6-linux-x86_64-gnu",
+      "  (download) (34.3MiB)",
+      " Downloaded cpython-3.14.6-linux-x86_64-gnu",
+      "Initialized project `hello-uv`",
+      "  at `/home/kim/hello-uv`"
+     ]
+    },
+    {
+     "cmd": "cd hello-uv",
+     "out": []
+    },
+    {
+     "cmd": "ls -a",
+     "out": []
+    }
+   ]
+  },
+  {
+   "id": "run1-1",
+   "page": 11,
+   "title": "uv run으로 실행해요",
+   "part": "4. 프로젝트 만들고 실행하기",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "Using CPython 3.14.6",
+      "Creating virtual environment at: .venv",
+      "Hello from hello-uv!"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "run2-1",
+   "page": 12,
+   "title": "두 번째부터는 바로 실행돼요",
+   "part": "4. 프로젝트 만들고 실행하기",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "Hello from hello-uv!"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "act-1",
+   "page": 13,
+   "title": "가상환경을 직접 켤 수도 있어요",
+   "part": "4. 프로젝트 만들고 실행하기",
+   "steps": [
+    {
+     "cmd": "source .venv/bin/activate",
+     "out": [
+      "(hello-uv) $ which python",
+      "/home/kim/hello-uv/.venv/bin/python",
+      "(hello-uv) $ python main.py",
+      "Hello from hello-uv!",
+      "(hello-uv) $ deactivate",
+      "$"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pyver-1",
+   "page": 14,
+   "title": "파이썬 버전은 .python-version이 정해요",
+   "part": "4. 프로젝트 만들고 실행하기",
+   "steps": [
+    {
+     "cmd": "cd ~",
+     "out": []
+    },
+    {
+     "cmd": "uv init --python 3.13 hello-313",
+     "out": [
+      "Initialized project `hello-313` at `/home/kim/hello-313`"
+     ]
+    },
+    {
+     "cmd": "cd hello-313",
+     "out": []
+    },
+    {
+     "cmd": "cat .python-version",
+     "out": [
+      "3.13"
+     ]
+    },
+    {
+     "cmd": "uv run python --version",
+     "out": [
+      "Downloading cpython-3.13.14-linux-x86_64-gnu (download) (33.2MiB)",
+      " Downloaded cpython-3.13.14-linux-x86_64-gnu (download)",
+      "Using CPython 3.13.14",
+      "Creating virtual environment at: .venv",
+      "Python 3.13.14"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "add-1",
+   "page": 15,
+   "title": "uv add로 패키지를 넣어요",
+   "part": "5. 패키지 넣고 빼기",
+   "steps": [
+    {
+     "cmd": "uv add fastapi",
+     "out": [
+      "Resolved 12 packages in 1.77s",
+      "Downloading pydantic-core (2.2MiB)",
+      " Downloaded pydantic-core",
+      "Prepared 11 packages in 437ms",
+      "Installed 11 packages in 5ms",
+      " + annotated-doc==0.0.5",
+      " + annotated-types==0.8.0",
+      " + anyio==4.16.0",
+      " + fastapi==0.162.2",
+      " + idna==3.20",
+      " + opentelemetry-api==1.45.2",
+      " + pydantic==2.14.3",
+      " + pydantic-core==2.50.4",
+      " + starlette==1.10.0",
+      " + typing-extensions==4.16.0",
+      " + typing-inspection==0.4.5"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tree-1",
+   "page": 16,
+   "title": "하나를 넣었는데 11개가 들어왔어요",
+   "part": "5. 패키지 넣고 빼기",
+   "steps": [
+    {
+     "cmd": "uv tree --depth 2",
+     "out": [
+      "Resolved 12 packages in 1ms",
+      "hello-uv v0.1.0",
+      "└── fastapi v0.162.2",
+      "    ├── annotated-doc v0.0.5",
+      "    ├── opentelemetry-api v1.45.2",
+      "    ├── pydantic v2.14.3",
+      "    ├── starlette v1.10.0",
+      "    ├── typing-extensions v4.16.0",
+      "    └── typing-inspection v0.4.5"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "use-1",
+   "page": 17,
+   "title": "넣은 패키지를 코드에서 불러와요",
+   "part": "5. 패키지 넣고 빼기",
+   "steps": [
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "fastapi 버전: 0.162.2"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "remove-1",
+   "page": 18,
+   "title": "uv remove로 패키지를 빼요",
+   "part": "5. 패키지 넣고 빼기",
+   "steps": [
+    {
+     "cmd": "uv remove fastapi",
+     "out": [
+      "Resolved 1 package in 2ms",
+      "Uninstalled 11 packages in 15ms",
+      " - annotated-doc==0.0.5",
+      " - annotated-types==0.8.0",
+      " - anyio==4.16.0",
+      " - fastapi==0.162.2",
+      "   … 6줄 생략 …",
+      " - typing-inspection==0.4.5"
+     ]
+    },
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "Traceback (most recent call last):",
+      "  …",
+      "ModuleNotFoundError: No module named 'fastapi'"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "again-1",
+   "page": 19,
+   "title": "다시 넣으면 받지 않고 바로 들어가요",
+   "part": "5. 패키지 넣고 빼기",
+   "steps": [
+    {
+     "cmd": "uv add fastapi",
+     "out": [
+      "Resolved 12 packages in 8ms",
+      "Installed 11 packages in 2ms",
+      " + annotated-doc==0.0.5",
+      " + annotated-types==0.8.0",
+      " + anyio==4.16.0",
+      "   … 7줄 생략 …",
+      " + typing-inspection==0.4.5"
+     ]
+    },
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "fastapi 버전: 0.162.2"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "commit-1",
+   "page": 20,
+   "title": ".venv는 GitHub에 올리지 않아요",
+   "part": "6. 다른 컴퓨터에서 그대로",
+   "steps": [
+    {
+     "cmd": "git status --short",
+     "out": [
+      "?? .gitignore",
+      "?? .python-version",
+      "?? README.md",
+      "?? main.py",
+      "?? pyproject.toml",
+      "?? uv.lock"
+     ]
+    },
+    {
+     "cmd": "git add .",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: hello-uv 프로젝트 만들기\"",
+     "out": [
+      "[main (root-commit) a61cccf] feat: hello-uv",
+      "  프로젝트 만들기"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sync-term-1",
+   "page": 22,
+   "title": "lee 컴퓨터에서 uv sync를 쳐 봐요",
+   "part": "6. 다른 컴퓨터에서 그대로",
+   "steps": [
+    {
+     "cmd": "git clone https://github.com/kim/hello-uv.git",
+     "out": []
+    },
+    {
+     "cmd": "cd hello-uv",
+     "out": []
+    },
+    {
+     "cmd": "uv sync",
+     "out": [
+      "Downloading cpython-3.14.6-linux-x86_64-gnu (download) (34.3MiB)",
+      " Downloaded cpython-3.14.6-linux-x86_64-gnu (download)",
+      "Using CPython 3.14.6",
+      "Creating virtual environment at: .venv",
+      "Resolved 12 packages in 1ms",
+      "Prepared 11 packages in 5.63s",
+      "Installed 11 packages in 4ms",
+      " + annotated-doc==0.0.5",
+      "   … 10줄 생략 …"
+     ]
+    },
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "fastapi 버전: 0.162.2"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "jup-kernel-1",
+   "page": 26,
+   "title": "uv add --dev ipykernel로 커널을 넣어요",
+   "part": "7. VS Code에서 Jupyter 쓰기",
+   "steps": [
+    {
+     "cmd": "cd ~/hello-uv",
+     "out": []
+    },
+    {
+     "cmd": "uv add --dev ipykernel",
+     "out": [
+      "Resolved 44 packages in 1.43s",
+      "  … Downloading 줄 생략 …",
+      "Prepared 28 packages in 7.29s",
+      "Installed 28 packages in 61ms",
+      " + asttokens==3.0.2",
+      " + comm==0.2.3",
+      "   … 25줄 생략 …",
+      " + wcwidth==0.9.4"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "real-tutorial-1",
+   "page": 32,
+   "title": "튜토리얼에 pip install이 나오면 uv add로 바꿔요",
+   "part": "10. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "uv init cafe-order",
+     "out": [
+      "Initialized project `cafe-order` at `/home/kim/cafe-order`"
+     ]
+    },
+    {
+     "cmd": "cd cafe-order",
+     "out": []
+    },
+    {
+     "cmd": "uv add requests",
+     "out": [
+      "Using CPython 3.14.6",
+      "Creating virtual environment at: .venv",
+      "Resolved 6 packages in 223ms",
+      "Prepared 4 packages in 309ms",
+      "Installed 5 packages in 4ms",
+      " + requests==2.34.2  + urllib3==2.8.0  …"
+     ]
+    },
+    {
+     "cmd": "uv run main.py",
+     "out": [
+      "requests 버전: 2.34.2"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "real-notebook-1",
+   "page": 33,
+   "title": "노트북에서 없는 패키지는 터미널에서 uv add로 넣어요",
+   "part": "10. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "uv add requests",
+     "out": [
+      "Resolved 48 packages in 16ms",
+      "Installed 4 packages in 3ms",
+      " + certifi==2026.10.23",
+      " + charset-normalizer==3.5.2",
+      " + requests==2.34.2",
+      " + urllib3==2.8.0"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "real-team-1",
+   "page": 34,
+   "title": "팀원이 넣은 패키지는 pull 뒤 uv sync로 받아요",
+   "part": "10. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "git status --short",
+     "out": [
+      " M pyproject.toml",
+      " M uv.lock"
+     ]
+    },
+    {
+     "cmd": "git add pyproject.toml uv.lock",
+     "out": []
+    },
+    {
+     "cmd": "git commit -m \"feat: requests 패키지 넣기\"",
+     "out": [
+      "[main faabfb6] feat: requests 패키지 넣기"
+     ]
+    },
+    {
+     "cmd": "git push origin main",
+     "out": [
+      "   0a438ca..faabfb6  main -> main"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "real-team-2",
+   "page": 34,
+   "title": "팀원이 넣은 패키지는 pull 뒤 uv sync로 받아요",
+   "part": "10. 실제 상황 예제",
+   "steps": [
+    {
+     "cmd": "git pull origin main",
+     "out": [
+      "Fast-forward",
+      " pyproject.toml |   1 +",
+      " uv.lock        | 133 +++++++++…"
+     ]
+    },
+    {
+     "cmd": "uv sync",
+     "out": [
+      "Installed 4 packages in 3ms",
+      " + requests==2.34.2  …"
+     ]
+    },
+    {
+     "cmd": "uv tree --depth 1",
+     "out": [
+      "hello-uv v0.1.0",
+      "├── fastapi v0.162.2",
+      "├── requests v2.34.2",
+      "└── ipykernel v7.4.0 (group: dev)"
+     ]
+    }
+   ]
+  }
+ ]
+}

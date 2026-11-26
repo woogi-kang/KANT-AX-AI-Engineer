@@ -1,0 +1,518 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "16-python-sets/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "orders = [\"coffee\", \"latte\", \"coffee\", \"cake\", \"latte\"]\nprint(orders)\nprint(len(orders))",
+   "expect": [
+    "['coffee', 'latte', 'coffee', 'cake', 'latte']",
+    "5"
+   ],
+   "page": 4,
+   "title": "주문은 5잔인데, 메뉴는 몇 가지일까요",
+   "part": "1. 집합이 뭔가요"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "nums = [3, 1, 3, 2, 1]\nprint(nums)\nprint(set(nums))",
+   "expect": [
+    "[3, 1, 3, 2, 1]",
+    "{1, 2, 3}"
+   ],
+   "page": 6,
+   "title": "set()에 리스트를 넣으면 같은 값이 하나만 남아요",
+   "part": "1. 집합이 뭔가요"
+  },
+  {
+   "id": "r1c3",
+   "chain": "r1",
+   "code": "nums = {3, 1, 2, 3}\nprint(nums)\nprint(type(nums))\nprint(len(nums))",
+   "expect": [
+    "{1, 2, 3}",
+    "<class 'set'>",
+    "3"
+   ],
+   "page": 7,
+   "title": "중괄호 안에 값만 적으면 집합이에요",
+   "part": "1. 집합이 뭔가요"
+  },
+  {
+   "id": "r1c4",
+   "chain": "r1",
+   "code": "menus = {\"coffee\", \"latte\", \"cake\"}\nprint(menus)\nprint(sorted(menus))",
+   "expect": [
+    "{'latte', 'cake', 'coffee'}",
+    "['cake', 'coffee', 'latte']"
+   ],
+   "page": 8,
+   "title": "집합은 순서를 기억하지 않아요",
+   "part": "1. 집합이 뭔가요",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r1c5",
+   "chain": "r1",
+   "code": "kinds = set(orders)\nprint(kinds)\nprint(len(orders), len(kinds))\nprint(sorted(kinds))",
+   "expect": [
+    "{'latte', 'cake', 'coffee'}",
+    "5 3",
+    "['cake', 'coffee', 'latte']"
+   ],
+   "page": 9,
+   "title": "set(orders)로 메뉴 종류를 뽑아요",
+   "part": "1. 집합이 뭔가요",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r1c6",
+   "chain": "r1",
+   "code": "kinds = set()\nfor o in orders:\n    kinds.add(o)\nprint(sorted(kinds))",
+   "expect": [
+    "['cake', 'coffee', 'latte']"
+   ],
+   "page": 10,
+   "title": "set(orders)는 for와 add를 한 줄로 줄인 거예요",
+   "part": "1. 집합이 뭔가요"
+  },
+  {
+   "id": "r1c7",
+   "chain": "r1",
+   "code": "a = {}\nprint(type(a))\nb = set()\nprint(type(b))\nprint(b)\nprint(len(b))",
+   "expect": [
+    "<class 'dict'>",
+    "<class 'set'>",
+    "set()",
+    "0"
+   ],
+   "page": 11,
+   "title": "빈 집합은 {}가 아니라 set()이에요",
+   "part": "1. 집합이 뭔가요"
+  },
+  {
+   "id": "r1c8",
+   "chain": "r1",
+   "code": "cart = {}\ncart.add(\"coffee\")",
+   "expect": [
+    "AttributeError: 'dict' object has no attribute 'add'"
+   ],
+   "err": true,
+   "page": 11,
+   "title": "빈 집합은 {}가 아니라 set()이에요",
+   "part": "1. 집합이 뭔가요"
+  },
+  {
+   "id": "r1c9",
+   "chain": "r1",
+   "code": "ok = {1, \"kim\", (2, 3)}\nprint(len(ok))",
+   "expect": [
+    "3"
+   ],
+   "page": 12,
+   "title": "숫자, 문자열, 튜플은 담고 리스트는 못 담아요",
+   "part": "1. 집합이 뭔가요"
+  },
+  {
+   "id": "r1c10",
+   "chain": "r1",
+   "code": "bad = {[1, 2], 3}",
+   "expect": [
+    "TypeError: cannot use 'list' as a set element (unhashable type: 'list')"
+   ],
+   "err": true,
+   "page": 12,
+   "title": "숫자, 문자열, 튜플은 담고 리스트는 못 담아요",
+   "part": "1. 집합이 뭔가요"
+  },
+  {
+   "id": "r1c11",
+   "chain": "r1",
+   "code": "d = {[1, 2]: \"a\"}",
+   "expect": [
+    "TypeError: cannot use 'list' as a dict key (unhashable type: 'list')"
+   ],
+   "err": true,
+   "page": 12,
+   "title": "숫자, 문자열, 튜플은 담고 리스트는 못 담아요",
+   "part": "1. 집합이 뭔가요"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "menus = {\"coffee\", \"latte\", \"cake\"}\nprint(menus)\nprint(sorted(menus))",
+   "expect": [
+    "{'coffee', 'cake', 'latte'}",
+    "['cake', 'coffee', 'latte']"
+   ],
+   "page": 8,
+   "title": "집합은 순서를 기억하지 않아요",
+   "part": "1. 집합이 뭔가요",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "menus = {\"coffee\", \"latte\", \"cake\"}\nmenus.add(\"tea\")\nprint(menus)\nmenus.add(\"coffee\")\nprint(menus)\nprint(len(menus))",
+   "expect": [
+    "{'latte', 'cake', 'coffee', 'tea'}",
+    "{'latte', 'cake', 'coffee', 'tea'}",
+    "4"
+   ],
+   "page": 13,
+   "title": "add로 하나 넣어요. 이미 있으면 그대로예요",
+   "part": "2. 바꾸고 확인하기",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "menus.remove(\"latte\")\nprint(menus)",
+   "expect": [
+    "{'cake', 'coffee', 'tea'}"
+   ],
+   "page": 14,
+   "title": "remove는 없으면 오류, discard는 괜찮아요",
+   "part": "2. 바꾸고 확인하기",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "menus.remove(\"juice\")",
+   "expect": [
+    "KeyError: 'juice'"
+   ],
+   "err": true,
+   "page": 14,
+   "title": "remove는 없으면 오류, discard는 괜찮아요",
+   "part": "2. 바꾸고 확인하기"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "menus.discard(\"juice\")\nmenus.discard(\"tea\")\nprint(menus)",
+   "expect": [
+    "{'cake', 'coffee'}"
+   ],
+   "page": 14,
+   "title": "remove는 없으면 오류, discard는 괜찮아요",
+   "part": "2. 바꾸고 확인하기"
+  },
+  {
+   "id": "r3c5",
+   "chain": "r3",
+   "code": "menus.update([\"juice\", \"tea\", \"coffee\"])\nprint(menus)\nprint(len(menus))",
+   "expect": [
+    "{'tea', 'cake', 'coffee', 'juice'}",
+    "4"
+   ],
+   "page": 15,
+   "title": "update로 여러 개를 한 번에 넣어요",
+   "part": "2. 바꾸고 확인하기",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r3c6",
+   "chain": "r3",
+   "code": "one = menus.pop()\nprint(one)\nprint(menus)\nnums = [10, 20, 30]\nprint(nums.pop())",
+   "expect": [
+    "tea",
+    "{'cake', 'coffee', 'juice'}",
+    "30"
+   ],
+   "page": 16,
+   "title": "집합의 pop은 아무거나 하나 빼요",
+   "part": "2. 바꾸고 확인하기",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r3c7",
+   "chain": "r3",
+   "code": "menus.clear()\nprint(menus)\nprint(len(menus))",
+   "expect": [
+    "set()",
+    "0"
+   ],
+   "page": 16,
+   "title": "집합의 pop은 아무거나 하나 빼요",
+   "part": "2. 바꾸고 확인하기"
+  },
+  {
+   "id": "r3c8",
+   "chain": "r3",
+   "code": "menus = {\"coffee\", \"latte\", \"cake\"}\nprint(\"latte\" in menus)\nprint(\"tea\" in menus)\nprint(\"tea\" not in menus)",
+   "expect": [
+    "True",
+    "False",
+    "True"
+   ],
+   "page": 17,
+   "title": "in으로 들어 있는지 물어요",
+   "part": "2. 바꾸고 확인하기"
+  },
+  {
+   "id": "r3c9",
+   "chain": "r3",
+   "code": "menus[0]",
+   "expect": [
+    "TypeError: 'set' object is not subscriptable"
+   ],
+   "err": true,
+   "page": 18,
+   "title": "번호로 못 꺼내요. 필요하면 sorted()로 바꿔요",
+   "part": "2. 바꾸고 확인하기"
+  },
+  {
+   "id": "r3c10",
+   "chain": "r3",
+   "code": "print(sorted(menus))\nprint(sorted(menus)[0])\nprint(list(menus))",
+   "expect": [
+    "['cake', 'coffee', 'latte']",
+    "cake",
+    "['latte', 'cake', 'coffee']"
+   ],
+   "page": 18,
+   "title": "번호로 못 꺼내요. 필요하면 sorted()로 바꿔요",
+   "part": "2. 바꾸고 확인하기",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r3c11",
+   "chain": "r3",
+   "code": "menus.sort()",
+   "expect": [
+    "AttributeError: 'set' object has no attribute 'sort'"
+   ],
+   "err": true,
+   "page": 19,
+   "title": "집합에는 sort()가 없어요. sorted()를 써요",
+   "part": "2. 바꾸고 확인하기"
+  },
+  {
+   "id": "r3c12",
+   "chain": "r3",
+   "code": "nums = {30, 10, 20}\nprint(sorted(nums))\nprint(sorted(nums, reverse=True))\nprint(sorted(menus, reverse=True))\nprint(type(sorted(menus)))\nprint(menus)",
+   "expect": [
+    "[10, 20, 30]",
+    "[30, 20, 10]",
+    "['latte', 'coffee', 'cake']",
+    "<class 'list'>",
+    "{'latte', 'cake', 'coffee'}"
+   ],
+   "page": 19,
+   "title": "집합에는 sort()가 없어요. sorted()를 써요",
+   "part": "2. 바꾸고 확인하기",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r3c13",
+   "chain": "r3",
+   "code": "orders = [\"tea\", \"cake\", \"tea\",\n          \"coffee\", \"cake\"]\nprint(sorted(set(orders)))",
+   "expect": [
+    "['cake', 'coffee', 'tea']"
+   ],
+   "page": 19,
+   "title": "집합에는 sort()가 없어요. sorted()를 써요",
+   "part": "2. 바꾸고 확인하기"
+  },
+  {
+   "id": "r3c14",
+   "chain": "r3",
+   "code": "for m in menus:\n    print(m)",
+   "expect": [
+    "latte",
+    "cake",
+    "coffee"
+   ],
+   "page": 20,
+   "title": "for로 하나씩 꺼낼 수 있어요",
+   "part": "2. 바꾸고 확인하기",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r3c15",
+   "chain": "r3",
+   "code": "for m in sorted(menus):\n    print(m)",
+   "expect": [
+    "cake",
+    "coffee",
+    "latte"
+   ],
+   "page": 20,
+   "title": "for로 하나씩 꺼낼 수 있어요",
+   "part": "2. 바꾸고 확인하기"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nprint(a | b)\nprint(a.union(b))",
+   "expect": [
+    "{1, 2, 3, 4, 5, 6}",
+    "{1, 2, 3, 4, 5, 6}"
+   ],
+   "page": 22,
+   "title": "합집합 | 은 어느 쪽이든 있는 값이에요",
+   "part": "3. 집합 연산"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "print(a & b)\nprint(a.intersection(b))",
+   "expect": [
+    "{3, 4}",
+    "{3, 4}"
+   ],
+   "page": 23,
+   "title": "교집합 & 는 둘 다 있는 값이에요",
+   "part": "3. 집합 연산"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "print(a - b)\nprint(b - a)\nprint(a.difference(b))",
+   "expect": [
+    "{1, 2}",
+    "{5, 6}",
+    "{1, 2}"
+   ],
+   "page": 24,
+   "title": "차집합 - 는 앞에만 있는 값이에요",
+   "part": "3. 집합 연산"
+  },
+  {
+   "id": "r4c4",
+   "chain": "r4",
+   "code": "c = a | b\nprint(a, b)\nprint(len(c), len(a & b))",
+   "expect": [
+    "{1, 2, 3, 4} {3, 4, 5, 6}",
+    "6 2"
+   ],
+   "page": 25,
+   "title": "세 연산을 한 장에 모아요",
+   "part": "3. 집합 연산"
+  },
+  {
+   "id": "r4c5",
+   "chain": "r4",
+   "code": "c = set(a)\nfor x in b:\n    c.add(x)\nprint(c)",
+   "expect": [
+    "{1, 2, 3, 4, 5, 6}"
+   ],
+   "page": 26,
+   "title": "연산 기호도 for를 줄인 거예요",
+   "part": "3. 집합 연산"
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "print(set(\"banana\"))\nprint(len(set(\"banana\")))\nprint(set([\"banana\"]))\nprint({\"banana\"})",
+   "expect": [
+    "{'b', 'a', 'n'}",
+    "3",
+    "{'banana'}",
+    "{'banana'}"
+   ],
+   "page": 28,
+   "title": "set(\"banana\")는 글자로 쪼개져요",
+   "part": "4. 비교와 오류",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "orders = [\"coffee\", \"latte\", \"coffee\", \"cake\",\n          \"coffee\", \"latte\", \"tea\"]\nkinds = set(orders)\nprint(f\"주문 {len(orders)}잔, 메뉴 {len(kinds)}가지\")\nfor m in sorted(kinds):\n    print(m, orders.count(m))",
+   "expect": [
+    "주문 7잔, 메뉴 4가지",
+    "cake 1",
+    "coffee 3",
+    "latte 2",
+    "tea 1"
+   ],
+   "page": 30,
+   "title": "하루 주문에서 팔린 메뉴 종류를 뽑아요",
+   "part": "5. 실습"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "python_class = {\"kim\", \"lee\", \"park\", \"choi\"}\ndata_class = {\"park\", \"choi\", \"jung\", \"kang\"}\nboth = python_class & data_class\nprint(sorted(both))\nprint(sorted(python_class - data_class))\nprint(sorted(data_class - python_class))\nprint(f\"모두 {len(python_class | data_class)}명\")",
+   "expect": [
+    "['choi', 'park']",
+    "['kim', 'lee']",
+    "['jung', 'kang']",
+    "모두 6명"
+   ],
+   "page": 31,
+   "title": "두 반을 다 듣는 사람과 한쪽만 듣는 사람",
+   "part": "5. 실습"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\norders = [\"coffee\", \"tea\", \"cake\", \"juice\", \"coffee\"]\nprint(set(menu))\nprint(sorted(set(orders) - set(menu)))\nprint(sorted(set(orders) & set(menu)))",
+   "expect": [
+    "{'latte', 'cake', 'coffee'}",
+    "['juice', 'tea']",
+    "['cake', 'coffee']"
+   ],
+   "page": 32,
+   "title": "메뉴판에 없는 주문을 찾아요",
+   "part": "5. 실습",
+   "diff": "집합은 순서를 기억하지 않아서 찍히는 순서가 수업 화면과 다를 수 있어요. 담긴 값은 같아요."
+  },
+  {
+   "id": "r6c4",
+   "chain": "r6",
+   "code": "total = 0\nfor m in sorted(set(orders) & set(menu)):\n    qty = orders.count(m)\n    print(f\"{m:<8}{qty}개 {menu[m] * qty:>7,}원\")\n    total += menu[m] * qty\nprint(f\"합계 {total:,}원\")",
+   "expect": [
+    "cake    1개   6,500원",
+    "coffee  2개   9,000원",
+    "합계 15,500원"
+   ],
+   "page": 33,
+   "title": "팔 수 있는 주문만 계산해요",
+   "part": "5. 실습"
+  },
+  {
+   "id": "r7c1",
+   "chain": "r7",
+   "code": "orders = [\"coffee\", \"latte\", \"coffee\", \"cake\", \"latte\"]\nkinds = []\nfor o in orders:\n    if o not in kinds:\n        kinds.append(o)\nprint(kinds)",
+   "expect": [
+    "['coffee', 'latte', 'cake']"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r7c2",
+   "chain": "r7",
+   "code": "a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nboth = set()\nfor x in a:\n    if x in b:\n        both.add(x)\nprint(both)",
+   "expect": [
+    "{3, 4}"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r7c3",
+   "chain": "r7",
+   "code": "only_a = set()\nfor x in a:\n    if x not in b:\n        only_a.add(x)\nprint(only_a)",
+   "expect": [
+    "{1, 2}"
+   ],
+   "page": 26,
+   "title": "연산 기호도 for를 줄인 거예요",
+   "part": "3. 집합 연산"
+  },
+  {
+   "id": "r7c4",
+   "chain": "r7",
+   "code": "menus = {\"coffee\", \"cake\"}\nif \"juice\" in menus:\n    menus.remove(\"juice\")\nprint(sorted(menus))",
+   "expect": [
+    "['cake', 'coffee']"
+   ],
+   "hidden": true
+  }
+ ]
+}

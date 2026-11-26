@@ -1,0 +1,419 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "26-python-inheritance/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "class Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def eat(self):\n        print(f\"{self.name}가 밥을 먹어요\")\n\n    def speak(self):\n        print(f\"{self.name}가 멍멍 짖어요\")\n\nd = Dog(\"초코\")\nd.speak()",
+   "expect": [
+    "초코가 멍멍 짖어요"
+   ],
+   "page": 4,
+   "title": "개와 고양이 클래스를 따로 만들면 같은 코드를 두 번 적어요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "class Cat:\n    def __init__(self, name):\n        self.name = name\n\n    def eat(self):\n        print(f\"{self.name}가 밥을 먹어요\")\n\n    def speak(self):\n        print(f\"{self.name}가 야옹 울어요\")\n\nc = Cat(\"나비\")\nc.speak()",
+   "expect": [
+    "나비가 야옹 울어요"
+   ],
+   "page": 4,
+   "title": "개와 고양이 클래스를 따로 만들면 같은 코드를 두 번 적어요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "class Bread:\n    shop = \"붕어빵 1호점\"\n\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint(a.shop)\nprint(b.shop)\nprint(Bread.shop)",
+   "expect": [
+    "붕어빵 1호점",
+    "붕어빵 1호점",
+    "붕어빵 1호점"
+   ],
+   "page": 6,
+   "title": "틀에 바로 적은 값은 모든 붕어빵이 같이 봐요",
+   "part": "2. 클래스 변수"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "Bread.shop = \"붕어빵 2호점\"\nprint(a.shop)\nprint(b.shop)",
+   "expect": [
+    "붕어빵 2호점",
+    "붕어빵 2호점"
+   ],
+   "page": 7,
+   "title": "틀의 값을 바꾸면 모든 붕어빵에 한 번에 바뀌어요",
+   "part": "2. 클래스 변수"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "class Bread:\n    count = 0\n\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n        Bread.count = Bread.count + 1\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nc = Bread(\"피자\", 1500)\nprint(Bread.count)",
+   "expect": [
+    "3"
+   ],
+   "page": 8,
+   "title": "찍을 때마다 틀에 개수를 세요",
+   "part": "2. 클래스 변수"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def eat(self):\n        print(f\"{self.name}가 밥을 먹어요\")\n\n    def speak(self):\n        print(f\"{self.name}가 소리를 내요\")\n",
+   "expect": [],
+   "page": 10,
+   "title": "괄호에 부모 클래스를 적으면 전부 물려받아요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "class Dog(Animal):\n    pass\n\nd = Dog(\"초코\")\nd.eat()\nd.speak()",
+   "expect": [
+    "초코가 밥을 먹어요",
+    "초코가 소리를 내요"
+   ],
+   "page": 10,
+   "title": "괄호에 부모 클래스를 적으면 전부 물려받아요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "class Dog(Animal):\n    def fetch(self):\n        print(f\"{self.name}가 공을 물어 와요\")\n\na = Animal(\"하마\")\nd = Dog(\"초코\")\nd.eat()\nd.fetch()",
+   "expect": [
+    "초코가 밥을 먹어요",
+    "초코가 공을 물어 와요"
+   ],
+   "page": 11,
+   "title": "자식 클래스에는 더 할 일을 적어요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "a.fetch()",
+   "expect": [
+    "AttributeError: 'Animal' object has no attribute 'fetch'"
+   ],
+   "err": true,
+   "page": 11,
+   "title": "자식 클래스에는 더 할 일을 적어요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r3c5",
+   "chain": "r3",
+   "code": "class Dog(Animal):\n    def speak(self):\n        print(f\"{self.name}가 멍멍 짖어요\")\n\nd = Dog(\"초코\")\nd.speak()",
+   "expect": [
+    "초코가 멍멍 짖어요"
+   ],
+   "page": 12,
+   "title": "같은 이름의 메서드를 다시 적으면 자식 것이 쓰여요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r3c6",
+   "chain": "r3",
+   "code": "class Cat(Animal):\n    def speak(self):\n        print(f\"{self.name}가 야옹 울어요\")\n\nc = Cat(\"나비\")\nc.speak()",
+   "expect": [
+    "나비가 야옹 울어요"
+   ],
+   "page": 12,
+   "title": "같은 이름의 메서드를 다시 적으면 자식 것이 쓰여요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r3c7",
+   "chain": "r3",
+   "code": "a.speak()",
+   "expect": [
+    "하마가 소리를 내요"
+   ],
+   "page": 12,
+   "title": "같은 이름의 메서드를 다시 적으면 자식 것이 쓰여요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r3c8",
+   "chain": "r3",
+   "code": "class Dog(Animal):\n    def eat(self):\n        super().eat()\n        print(f\"{self.name}가 꼬리를 흔들어요\")\n\nd = Dog(\"초코\")\nd.eat()",
+   "expect": [
+    "초코가 밥을 먹어요",
+    "초코가 꼬리를 흔들어요"
+   ],
+   "page": 13,
+   "title": "super()로 부모 것을 부르고 조금만 더할 수도 있어요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r3c9",
+   "chain": "r3",
+   "code": "class Dog(Animal):\n    def __init__(self, name, breed):\n        super().__init__(name)\n        self.breed = breed\n\n    def speak(self):\n        print(f\"{self.name}가 멍멍 짖어요\")\n\nd = Dog(\"초코\", \"푸들\")\nprint(d.name, d.breed)\nd.speak()",
+   "expect": [
+    "초코 푸들",
+    "초코가 멍멍 짖어요"
+   ],
+   "page": 14,
+   "title": "칸을 더할 땐 super().__init__으로 부모에게 맡겨요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r3c10",
+   "chain": "r3",
+   "code": "animals = [Dog(\"초코\", \"푸들\"), Cat(\"나비\"), Animal(\"하마\")]\nfor x in animals:\n    x.speak()",
+   "expect": [
+    "초코가 멍멍 짖어요",
+    "나비가 야옹 울어요",
+    "하마가 소리를 내요"
+   ],
+   "page": 16,
+   "title": "섞어 담아도 동물마다 자기 speak를 불러요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r3c11",
+   "chain": "r3",
+   "code": "print(isinstance(d, Dog))\nprint(isinstance(d, Animal))\nprint(isinstance(a, Dog))",
+   "expect": [
+    "True",
+    "True",
+    "False"
+   ],
+   "page": 16,
+   "title": "섞어 담아도 동물마다 자기 speak를 불러요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def eat(self):\n        print(f\"{self.name}가 밥을 먹어요\")\n\n    def speak(self):\n        print(f\"{self.name}가 소리를 내요\")\n\nclass Dog(Animal):\n    def __init__(self, name, breed):\n        self.breed = breed\n\nd = Dog(\"초코\", \"푸들\")\nd.eat()",
+   "expect": [
+    "AttributeError: 'Dog' object has no attribute 'name'"
+   ],
+   "err": true,
+   "page": 20,
+   "title": "super().__init__을 빼먹으면 부모 칸이 없어요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "class Dog(Animal):\n    def __init__(self, name, breed):\n        super().__init__(self, name)\n        self.breed = breed\n\nd = Dog(\"초코\", \"푸들\")",
+   "expect": [
+    "TypeError: Animal.__init__() takes 2 positional arguments but 3 were given"
+   ],
+   "err": true,
+   "page": 21,
+   "title": "super().__init__에 self를 넣으면 3 were given",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "class Dog(Animal):\n    def __init__(self, name, breed):\n        super().__init__(name)\n        self.breed = breed\n\nd = Dog(\"초코\")",
+   "expect": [
+    "TypeError: Dog.__init__() missing 1 required positional argument: 'breed'"
+   ],
+   "err": true,
+   "page": 22,
+   "title": "자식 클래스는 재료가 하나 더 필요해요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r4c4",
+   "chain": "r4",
+   "code": "class Bread:\n    shop = \"붕어빵 1호점\"\n\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\na.shop = \"옆 가게\"\nprint(a.shop)\nprint(b.shop)\nprint(Bread.shop)",
+   "expect": [
+    "옆 가게",
+    "붕어빵 1호점",
+    "붕어빵 1호점"
+   ],
+   "page": 23,
+   "title": "a.shop = 으로 바꾸면 a에만 새 칸이 생겨요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r4c5",
+   "chain": "r4",
+   "code": "class Bread:\n    count = 0\n\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n        self.count = self.count + 1\n\na = Bread(\"팥\", 1000)\nb = Bread(\"슈크림\", 1200)\nprint(a.count, b.count)\nprint(Bread.count)",
+   "expect": [
+    "1 1",
+    "0"
+   ],
+   "page": 24,
+   "title": "self.count로 세면 틀의 개수가 안 늘어요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r4c6",
+   "chain": "r4",
+   "code": "class Dog(Anmal):\n    pass",
+   "expect": [
+    "NameError: name 'Anmal' is not defined"
+   ],
+   "err": true,
+   "hidden": true
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "class Card:\n    shop = \"KANT 카페\"\n    goal = 10\n\n    def __init__(self, name):\n        self.name = name\n        self.stamps = 0\n\n    def add(self):\n        self.stamps = self.stamps + 1\n\n    def __str__(self):\n        left = Card.goal - self.stamps\n        return f\"[{Card.shop}] {self.name}: 도장 {self.stamps}개, {left}개 남음\"\n\nclass VipCard(Card):\n    def add(self):\n        self.stamps = self.stamps + 2",
+   "expect": [],
+   "page": 25,
+   "title": "도장 카드 ①: 틀에 가게와 목표, VIP는 두 배로",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r5c2",
+   "chain": "r5",
+   "code": "kim = Card(\"kim\")\nlee = VipCard(\"lee\")\nkim.add()\nkim.add()\nlee.add()\nlee.add()\nprint(kim)\nprint(lee)",
+   "expect": [
+    "[KANT 카페] kim: 도장 2개, 8개 남음",
+    "[KANT 카페] lee: 도장 4개, 6개 남음"
+   ],
+   "page": 26,
+   "title": "도장 카드 ②: 같은 add인데 카드마다 다르게",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r5c3",
+   "chain": "r5",
+   "code": "class Bread:\n    count = 0\n\n    def __init__(self, flavor, price):\n        self.flavor = flavor\n        self.price = price\n        Bread.count = Bread.count + 1\n\n    def __str__(self):\n        return f\"{self.flavor} 붕어빵 {self.price:,}원\"\n\nclass MiniBread(Bread):\n    def __init__(self, flavor, price, qty):\n        super().__init__(flavor, price)\n        self.qty = qty\n\n    def __str__(self):\n        return f\"미니 {self.flavor} {self.qty}개 {self.price * self.qty:,}원\"",
+   "expect": [],
+   "page": 27,
+   "title": "붕어빵 메뉴판 ①: 미니 붕어빵 틀을 물려받기",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r5c4",
+   "chain": "r5",
+   "code": "menu = [Bread(\"팥\", 1000), MiniBread(\"팥\", 300, 5), Bread(\"슈크림\", 1200), MiniBread(\"슈크림\", 400, 5)]\nfor m in menu:\n    print(m)\nprint(\"찍은 붕어빵:\", Bread.count)\nprint([m.flavor for m in menu if isinstance(m, MiniBread)])",
+   "expect": [
+    "팥 붕어빵 1,000원",
+    "미니 팥 5개 1,500원",
+    "슈크림 붕어빵 1,200원",
+    "미니 슈크림 5개 2,000원",
+    "찍은 붕어빵: 4",
+    "['팥', '슈크림']"
+   ],
+   "page": 28,
+   "title": "붕어빵 메뉴판 ②: 섞어 담고 찍고 세기",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def eat(self):\n        print(f\"{self.name}가 밥을 먹어요\")\n\n    def speak(self):\n        print(f\"{self.name}가 소리를 내요\")\n\nclass Dog(Animal):\n    def __init__(self, name, breed):\n        super().__init__(name)\n        self.breed = breed\n\n    def speak(self):\n        print(f\"{self.name}가 멍멍 짖어요\")\n\n    def fetch(self):\n        print(f\"{self.name}가 공을 물어 와요\")\n\na = Animal(\"하마\")\nd = Dog(\"초코\", \"푸들\")",
+   "expect": [],
+   "hidden": true
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "a.speak()",
+   "expect": [
+    "하마가 소리를 내요"
+   ],
+   "page": 12,
+   "title": "같은 이름의 메서드를 다시 적으면 자식 것이 쓰여요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "d.speak()",
+   "expect": [
+    "초코가 멍멍 짖어요"
+   ],
+   "page": 12,
+   "title": "같은 이름의 메서드를 다시 적으면 자식 것이 쓰여요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r6c4",
+   "chain": "r6",
+   "code": "a.eat()",
+   "expect": [
+    "하마가 밥을 먹어요"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r6c5",
+   "chain": "r6",
+   "code": "d.eat()",
+   "expect": [
+    "초코가 밥을 먹어요"
+   ],
+   "page": 13,
+   "title": "super()로 부모 것을 부르고 조금만 더할 수도 있어요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r6c6",
+   "chain": "r6",
+   "code": "a.fetch()",
+   "expect": [
+    "AttributeError: 'Animal' object has no attribute 'fetch'"
+   ],
+   "err": true,
+   "page": 11,
+   "title": "자식 클래스에는 더 할 일을 적어요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r6c7",
+   "chain": "r6",
+   "code": "d.fetch()",
+   "expect": [
+    "초코가 공을 물어 와요"
+   ],
+   "page": 11,
+   "title": "자식 클래스에는 더 할 일을 적어요",
+   "part": "3. 상속"
+  },
+  {
+   "id": "r6c8",
+   "chain": "r6",
+   "code": "print(a.breed)",
+   "expect": [
+    "AttributeError: 'Animal' object has no attribute 'breed'"
+   ],
+   "err": true,
+   "hidden": true
+  },
+  {
+   "id": "r6c9",
+   "chain": "r6",
+   "code": "print(d.breed)",
+   "expect": [
+    "푸들"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r6c10",
+   "chain": "r6",
+   "code": "print(a.name)",
+   "expect": [
+    "하마"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r6c11",
+   "chain": "r6",
+   "code": "print(d.name)",
+   "expect": [
+    "초코"
+   ],
+   "hidden": true
+  }
+ ]
+}

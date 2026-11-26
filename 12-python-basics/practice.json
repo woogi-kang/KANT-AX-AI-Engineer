@@ -1,0 +1,618 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "12-python-basics/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "print(4500 * 2 + 5000)",
+   "expect": [
+    "14000"
+   ],
+   "page": 3,
+   "title": "숫자만 적으면 무슨 계산인지 잊어요",
+   "part": "들어가기"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "print(20000 - (4500 * 2 + 5000))",
+   "expect": [
+    "6000"
+   ],
+   "page": 3,
+   "title": "숫자만 적으면 무슨 계산인지 잊어요",
+   "part": "들어가기"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "age = 25",
+   "expect": [],
+   "page": 6,
+   "title": "= 는 오른쪽 값을 왼쪽 이름에 넣어요",
+   "part": "1. 변수에 값 넣기"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "age",
+   "expect": [
+    "25"
+   ],
+   "page": 6,
+   "title": "= 는 오른쪽 값을 왼쪽 이름에 넣어요",
+   "part": "1. 변수에 값 넣기"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "print(age)\nprint(\"나이:\", age)",
+   "expect": [
+    "25",
+    "나이: 25"
+   ],
+   "page": 7,
+   "title": "넣은 값은 두 가지 방법으로 봐요",
+   "part": "1. 변수에 값 넣기"
+  },
+  {
+   "id": "r2c4",
+   "chain": "r2",
+   "code": "age = 26\nage",
+   "expect": [
+    "26"
+   ],
+   "page": 8,
+   "title": "다시 넣으면 새 값으로 바뀌어요",
+   "part": "1. 변수에 값 넣기"
+  },
+  {
+   "id": "r2c5",
+   "chain": "r2",
+   "code": "age = age + 1\nage",
+   "expect": [
+    "27"
+   ],
+   "page": 9,
+   "title": "age = age + 1은 오른쪽부터 계산해요",
+   "part": "1. 변수에 값 넣기"
+  },
+  {
+   "id": "r2c6",
+   "chain": "r2",
+   "code": "user_name = \"kim\"\nage\nuser_name",
+   "expect": [
+    "'kim'"
+   ],
+   "page": 10,
+   "title": "이름만 적으면 마지막 줄만 보여요",
+   "part": "1. 변수에 값 넣기"
+  },
+  {
+   "id": "r2c7",
+   "chain": "r2",
+   "code": "print(age)\nprint(user_name)",
+   "expect": [
+    "27",
+    "kim"
+   ],
+   "page": 10,
+   "title": "이름만 적으면 마지막 줄만 보여요",
+   "part": "1. 변수에 값 넣기"
+  },
+  {
+   "id": "r2c8",
+   "chain": "r2",
+   "code": "Age",
+   "expect": [
+    "NameError: name 'Age' is not defined"
+   ],
+   "err": true,
+   "page": 11,
+   "title": "이름을 틀리게 적으면 NameError가 나요",
+   "part": "1. 변수에 값 넣기"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "age = 25\nheight = 172.5\nuser_name = \"kim\"\nis_member = False\nprint(type(age))\nprint(type(height))\nprint(type(user_name))\nprint(type(is_member))",
+   "expect": [
+    "<class 'int'>",
+    "<class 'float'>",
+    "<class 'str'>",
+    "<class 'bool'>"
+   ],
+   "page": 12,
+   "title": "값마다 타입이 있어요",
+   "part": "2. 변수 타입"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "x = 10\nprint(type(x))\nx = \"ten\"\nprint(type(x))",
+   "expect": [
+    "<class 'int'>",
+    "<class 'str'>"
+   ],
+   "page": 13,
+   "title": "타입은 이름이 아니라 값을 따라가요",
+   "part": "2. 변수 타입"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "print(type(25))\nprint(type(\"25\"))\nprint(25 + 1)\nprint(\"25\" + \"1\")",
+   "expect": [
+    "<class 'int'>",
+    "<class 'str'>",
+    "26",
+    "251"
+   ],
+   "page": 14,
+   "title": "따옴표 하나로 숫자가 글자가 돼요",
+   "part": "2. 변수 타입"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "print(int(\"3\") + 3)\nprint(str(3) + \"3\")\nprint(float(\"3.5\"))\nprint(int(3.9))",
+   "expect": [
+    "6",
+    "33",
+    "3.5",
+    "3"
+   ],
+   "page": 15,
+   "title": "int(), float(), str()로 타입을 바꿔요",
+   "part": "2. 변수 타입"
+  },
+  {
+   "id": "r3c5",
+   "chain": "r3",
+   "code": "int(\"삼\")",
+   "expect": [
+    "ValueError: invalid literal for int() with base 10: '삼'"
+   ],
+   "err": true,
+   "page": 16,
+   "title": "숫자로 못 읽는 글자는 ValueError가 나요",
+   "part": "2. 변수 타입"
+  },
+  {
+   "id": "r3c6",
+   "chain": "r3",
+   "code": "int(\"3.5\")",
+   "expect": [
+    "ValueError: invalid literal for int() with base 10: '3.5'"
+   ],
+   "err": true,
+   "page": 16,
+   "title": "숫자로 못 읽는 글자는 ValueError가 나요",
+   "part": "2. 변수 타입"
+  },
+  {
+   "id": "r3c7",
+   "chain": "r3",
+   "code": "print(type(7 + 3))\nprint(type(7 + 0.5))\nprint(type(6 / 2))",
+   "expect": [
+    "<class 'int'>",
+    "<class 'float'>",
+    "<class 'float'>"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "print(7 + 3)\nprint(7 - 3)\nprint(7 * 3)\nprint(7 / 3)\nprint(6 / 2)",
+   "expect": [
+    "10",
+    "4",
+    "21",
+    "2.3333333333333335",
+    "3.0"
+   ],
+   "page": 17,
+   "title": "더하기, 빼기, 곱하기, 나누기",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "print(7 // 3)\nprint(7 % 3)\nprint(2 ** 3)",
+   "expect": [
+    "2",
+    "1",
+    "8"
+   ],
+   "page": 18,
+   "title": "몫 //, 나머지 %, 거듭제곱 **",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "2 + 3 * 4",
+   "expect": [
+    "14"
+   ],
+   "page": 19,
+   "title": "곱하기를 더하기보다 먼저 계산해요",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c4",
+   "chain": "r4",
+   "code": "(2 + 3) * 4",
+   "expect": [
+    "20"
+   ],
+   "page": 19,
+   "title": "곱하기를 더하기보다 먼저 계산해요",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c5",
+   "chain": "r4",
+   "code": "print(2 ** 3 // 3)\nprint(2 * 3 ** 2)\nprint(-2 ** 2)\nprint((-2) ** 2)",
+   "expect": [
+    "2",
+    "18",
+    "-4",
+    "4"
+   ],
+   "page": 21,
+   "title": "** 는 곱하기와 몫보다 먼저 계산해요",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c6",
+   "chain": "r4",
+   "code": "print(10 - 4 + 2)\nprint(8 / 2 * 4)\nprint(7 // 2 * 2)",
+   "expect": [
+    "8",
+    "16.0",
+    "6"
+   ],
+   "page": 22,
+   "title": "같은 순위끼리는 왼쪽부터 풀어요",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c7",
+   "chain": "r4",
+   "code": "print(10 - 2 * 3 ** 2 // 4)",
+   "expect": [
+    "6"
+   ],
+   "page": 23,
+   "title": "섞여 있으면 한 계단씩 풀어요",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c8",
+   "chain": "r4",
+   "code": "print(10 + 2 * 3)\nprint((10 + 2) * 3)\nprint(20 - 10 / 2)\nprint((20 - 10) / 2)\nprint(12 / 3 * 2)\nprint(12 / (3 * 2))\nprint(100 - 30 - 20)\nprint(100 - (30 - 20))",
+   "expect": [
+    "16",
+    "36",
+    "15.0",
+    "5.0",
+    "8.0",
+    "2.0",
+    "50",
+    "90"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r4c9",
+   "chain": "r4",
+   "code": "print(2 ** 2 * 3)\nprint(2 ** (2 * 3))\nprint(17 % 5 * 2)\nprint(17 % (5 * 2))\nprint(3 + 10 // 3)\nprint((3 + 10) // 3)\nprint(-3 ** 2)\nprint((-3) ** 2)",
+   "expect": [
+    "12",
+    "64",
+    "4",
+    "7",
+    "6",
+    "4",
+    "-9",
+    "9"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r4c10",
+   "chain": "r4",
+   "code": "print(7 // 2 ** 2)\nprint(10 % 3 ** 2)\nprint(2 + 3 * 4 ** 2 // 8)\nprint(50 - 5 * 2 ** 3 % 7)",
+   "expect": [
+    "1",
+    "1",
+    "8",
+    "45"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r4c11",
+   "chain": "r4",
+   "code": "score = 0\nscore += 10\nscore += 5\nscore",
+   "expect": [
+    "15"
+   ],
+   "page": 26,
+   "title": "+= 는 지금 값에 더해서 다시 넣어요",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c12",
+   "chain": "r4",
+   "code": "\"kim\" + \"lee\"",
+   "expect": [
+    "'kimlee'"
+   ],
+   "page": 27,
+   "title": "글자에도 + 와 * 를 써요",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c13",
+   "chain": "r4",
+   "code": "\"ha\" * 3",
+   "expect": [
+    "'hahaha'"
+   ],
+   "page": 27,
+   "title": "글자에도 + 와 * 를 써요",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c14",
+   "chain": "r4",
+   "code": "\"3\" + \"3\"",
+   "expect": [
+    "'33'"
+   ],
+   "page": 27,
+   "title": "글자에도 + 와 * 를 써요",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c15",
+   "chain": "r4",
+   "code": "\"3\" + 3",
+   "expect": [
+    "TypeError: can only concatenate str (not \"int\") to str"
+   ],
+   "err": true,
+   "page": 27,
+   "title": "글자에도 + 와 * 를 써요",
+   "part": "3. 사칙연산"
+  },
+  {
+   "id": "r4c16",
+   "chain": "r4",
+   "code": "10 / 0",
+   "expect": [
+    "ZeroDivisionError: division by zero"
+   ],
+   "err": true,
+   "hidden": true
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "2 ** 3 ** 2",
+   "expect": [
+    "512"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "age = 25\nprint(age > 20)\nprint(age < 20)\nprint(age == 25)\nprint(age != 25)\nprint(age >= 25)\nprint(age <= 24)",
+   "expect": [
+    "True",
+    "False",
+    "True",
+    "False",
+    "True",
+    "False"
+   ],
+   "page": 28,
+   "title": "비교하면 답은 True 아니면 False예요",
+   "part": "4. 비교와 논리연산"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "age == 30",
+   "expect": [
+    "False"
+   ],
+   "page": 29,
+   "title": "= 하나는 넣기, == 두 개는 묻기",
+   "part": "4. 비교와 논리연산"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "age = 30\nage",
+   "expect": [
+    "30"
+   ],
+   "page": 29,
+   "title": "= 하나는 넣기, == 두 개는 묻기",
+   "part": "4. 비교와 논리연산"
+  },
+  {
+   "id": "r6c4",
+   "chain": "r6",
+   "code": "age = 25\nis_adult = age >= 20\nprint(is_adult)\nprint(type(is_adult))",
+   "expect": [
+    "True",
+    "<class 'bool'>"
+   ],
+   "page": 30,
+   "title": "비교한 결과도 변수에 넣을 수 있어요",
+   "part": "4. 비교와 논리연산"
+  },
+  {
+   "id": "r6c5",
+   "chain": "r6",
+   "code": "print(True and True)\nprint(True and False)\nprint(False and True)\nprint(False and False)",
+   "expect": [
+    "True",
+    "False",
+    "False",
+    "False"
+   ],
+   "page": 31,
+   "title": "and 는 둘 다 True일 때만 True예요",
+   "part": "4. 비교와 논리연산"
+  },
+  {
+   "id": "r6c6",
+   "chain": "r6",
+   "code": "print(True or True)\nprint(True or False)\nprint(False or True)\nprint(False or False)",
+   "expect": [
+    "True",
+    "True",
+    "True",
+    "False"
+   ],
+   "page": 32,
+   "title": "or 는 하나만 True여도 True예요",
+   "part": "4. 비교와 논리연산"
+  },
+  {
+   "id": "r6c7",
+   "chain": "r6",
+   "code": "print(not True)\nprint(not False)",
+   "expect": [
+    "False",
+    "True"
+   ],
+   "page": 33,
+   "title": "not 은 True와 False를 뒤집어요",
+   "part": "4. 비교와 논리연산"
+  },
+  {
+   "id": "r6c8",
+   "chain": "r6",
+   "code": "height = 130\nage = 9\nheight >= 120 and age >= 7",
+   "expect": [
+    "True"
+   ],
+   "page": 34,
+   "title": "놀이기구 탑승 조건을 and로 적어요",
+   "part": "4. 비교와 논리연산"
+  },
+  {
+   "id": "r6c9",
+   "chain": "r6",
+   "code": "height = 110\nheight >= 120 and age >= 7",
+   "expect": [
+    "False"
+   ],
+   "page": 34,
+   "title": "놀이기구 탑승 조건을 and로 적어요",
+   "part": "4. 비교와 논리연산"
+  },
+  {
+   "id": "r6c10",
+   "chain": "r6",
+   "code": "2 + 3 > 4 and not False",
+   "expect": [
+    "True"
+   ],
+   "page": 35,
+   "title": "계산, 비교, not, and, or 순서로 풀어요",
+   "part": "4. 비교와 논리연산"
+  },
+  {
+   "id": "r6c11",
+   "chain": "r6",
+   "code": "age = 25\nage >= 20 and age < 30",
+   "expect": [
+    "True"
+   ],
+   "hidden": true
+  },
+  {
+   "id": "r6c12",
+   "chain": "r6",
+   "code": "is_member = true",
+   "expect": [
+    "NameError: name 'true' is not defined"
+   ],
+   "err": true,
+   "hidden": true
+  },
+  {
+   "id": "r7c1",
+   "chain": "r7",
+   "code": "americano = 4500\nlatte = 5000\ntotal = americano * 2 + latte\npaid = 20000\nprint(\"합계:\", total)\nprint(\"잔돈:\", paid - total)",
+   "expect": [
+    "합계: 14000",
+    "잔돈: 6000"
+   ],
+   "page": 36,
+   "title": "가격에 이름을 붙이면 한 줄만 고쳐요",
+   "part": "5. 카페 주문으로 풀어 보기"
+  },
+  {
+   "id": "r7c2",
+   "chain": "r7",
+   "code": "americano = 4800\ntotal = americano * 2 + latte\nprint(\"합계:\", total)\nprint(\"잔돈:\", paid - total)",
+   "expect": [
+    "합계: 14600",
+    "잔돈: 5400"
+   ],
+   "page": 36,
+   "title": "가격에 이름을 붙이면 한 줄만 고쳐요",
+   "part": "5. 카페 주문으로 풀어 보기"
+  },
+  {
+   "id": "r7c3",
+   "chain": "r7",
+   "code": "qty = \"3\"\ntotal = 4500 * int(qty) + 5000\npeople = 3\nprint(\"합계:\", total)\nprint(\"한 사람:\", total // people)\nprint(\"남는 돈:\", total % people)",
+   "expect": [
+    "합계: 18500",
+    "한 사람: 6166",
+    "남는 돈: 2"
+   ],
+   "page": 37,
+   "title": "글자로 온 수량을 숫자로 바꿔 나눠 내요",
+   "part": "5. 카페 주문으로 풀어 보기"
+  },
+  {
+   "id": "r7c4",
+   "chain": "r7",
+   "code": "qty = \"3\"\nprint(5000 + qty)",
+   "expect": [
+    "TypeError: unsupported operand type(s) for +: 'int' and 'str'"
+   ],
+   "err": true,
+   "page": 37,
+   "title": "글자로 온 수량을 숫자로 바꿔 나눠 내요",
+   "part": "5. 카페 주문으로 풀어 보기"
+  },
+  {
+   "id": "r7c5",
+   "chain": "r7",
+   "code": "is_member = False\nhas_coupon = True\ntotal = 18500\nsize_up = total >= 15000 and has_coupon\ndiscount = is_member or total >= 50000\nprint(\"사이즈 업:\", size_up)\nprint(\"할인:\", discount)\nprint(\"비회원:\", not is_member)",
+   "expect": [
+    "사이즈 업: True",
+    "할인: False",
+    "비회원: True"
+   ],
+   "page": 38,
+   "title": "사이즈 업과 할인 조건을 and, or로 적어요",
+   "part": "5. 카페 주문으로 풀어 보기"
+  }
+ ]
+}

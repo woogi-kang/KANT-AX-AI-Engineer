@@ -1,0 +1,1458 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "35-docker-cli/tools/out.json(tools/demo.py)로 실제 실행한 출력",
+ "cells": [
+  {
+   "id": "c-load",
+   "page": 1,
+   "title": "Docker 5",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "docker exec -i my-pg psql -U postgres < kant_shop.sql",
+     "out": [
+      "NOTICE:  database \"kant_shop\" does not exist, skipping",
+      "DROP DATABASE",
+      "CREATE DATABASE",
+      "You are now connected to database \"kant_shop\" as user \"postgres\".",
+      "CREATE TABLE",
+      "INSERT 0 5"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "run",
+   "page": 5,
+   "title": "docker 다음은 할 일, 그 뒤에 옵션과 이름이 와요",
+   "part": "1. 명령 읽는 법",
+   "steps": [
+    {
+     "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 postgres:18",
+     "out": [
+      "b64cc6816076fd241aa3b34121f80f477313a530b3931baf5b0b2e622c154793"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "conflict",
+   "page": 5,
+   "title": "docker 다음은 할 일, 그 뒤에 옵션과 이름이 와요",
+   "part": "1. 명령 읽는 법",
+   "steps": [
+    {
+     "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 postgres:18",
+     "out": [
+      "docker: Error response from daemon: Conflict. The container name \"/my-pg\" is already in use by container \"b64cc6816076fd241aa3b34121f80f477313a530b3931baf5b0b2e622c154793\". You have to remove (or rename) that container to be able to reuse that name.",
+      "",
+      "Run 'docker run --help' for more information"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "run-again",
+   "page": 5,
+   "title": "docker 다음은 할 일, 그 뒤에 옵션과 이름이 와요",
+   "part": "1. 명령 읽는 법",
+   "steps": [
+    {
+     "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 postgres:18",
+     "out": [
+      "0f29903380a9023e9b3b3d56997b80edc59464e073b6c482741e268a7f96f5c6"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "pull",
+   "page": 8,
+   "title": "이미지는 pull로 받고 images로 보고 rmi로 지워요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker pull postgres:18",
+     "out": [
+      "18: Pulling from library/postgres",
+      "c522c10deb9e: Pull complete",
+      "0f4e9e89c4f1: Pull complete",
+      "a0801e4a92e2: Pull complete",
+      "c7260c2ff2f1: Pull complete",
+      "37fb86c2a767: Pull complete",
+      "40460eaf9c40: Pull complete",
+      "da492ba3da26: Pull complete",
+      "203041b645ed: Pull complete",
+      "54d27a158f33: Pull complete",
+      "dc561e7040ab: Pull complete",
+      "886ba731412b: Pull complete",
+      "a2377f1d223b: Pull complete",
+      "d7059c4e68bc: Pull complete",
+      "74d8c6acba64: Download complete",
+      "734401bb022b: Download complete",
+      "Digest: sha256:b9f6b8ff03b62f3cfd9d9ba3fe56226a9991c79d3fb46fd46536263bf02be553",
+      "Status: Downloaded newer image for postgres:18",
+      "docker.io/library/postgres:18"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "images",
+   "page": 8,
+   "title": "이미지는 pull로 받고 images로 보고 rmi로 지워요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker images",
+     "out": [
+      "IMAGE         ID             DISK USAGE   CONTENT SIZE   EXTRA",
+      "postgres:18   b9f6b8ff03b6        676MB          175MB        "
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "ps",
+   "page": 9,
+   "title": "run으로 켜고 ps로 켜진 컨테이너를 봐요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker ps",
+     "out": [
+      "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS         PORTS                    NAMES",
+      "b64cc6816076   postgres:18   \"docker-entrypoint.s…\"   2 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "port-ps",
+   "page": 10,
+   "title": "stop, start, restart는 상태만 바꾸고 rm이 지워요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker ps -a",
+     "out": [
+      "CONTAINER ID   IMAGE         COMMAND                  CREATED                  STATUS         PORTS                    NAMES",
+      "95d0c81b1e27   postgres:18   \"docker-entrypoint.s…\"   Less than a second ago   Created                                 my-pg2",
+      "b64cc6816076   postgres:18   \"docker-entrypoint.s…\"   3 seconds ago            Up 2 seconds   0.0.0.0:5432->5432/tcp   my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "stop",
+   "page": 10,
+   "title": "stop, start, restart는 상태만 바꾸고 rm이 지워요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker stop my-pg",
+     "out": [
+      "my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "psa-stop",
+   "page": 10,
+   "title": "stop, start, restart는 상태만 바꾸고 rm이 지워요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker ps -a",
+     "out": [
+      "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS                              PORTS     NAMES",
+      "b64cc6816076   postgres:18   \"docker-entrypoint.s…\"   3 seconds ago   Exited (0) Less than a second ago             my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "start",
+   "page": 10,
+   "title": "stop, start, restart는 상태만 바꾸고 rm이 지워요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker start my-pg",
+     "out": [
+      "my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "logs-f",
+   "page": 11,
+   "title": "logs --tail은 마지막 몇 줄만, -f는 새 기록을 계속 보여 줘요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker logs -f --tail 1 my-pg",
+     "out": [
+      "2026-11-13 04:44:40.139 UTC [1] LOG:  database system is ready to accept connections",
+      "^C"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "rm-up",
+   "page": 12,
+   "title": "켜진 컨테이너는 못 지우고, 쓰는 이미지도 못 지워요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker rm my-pg",
+     "out": [
+      "Error response from daemon: cannot remove container \"my-pg\": container is running: stop the container before removing or force remove"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "rmi-used",
+   "page": 12,
+   "title": "켜진 컨테이너는 못 지우고, 쓰는 이미지도 못 지워요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker rmi postgres:18",
+     "out": [
+      "Error response from daemon: conflict: unable to delete postgres:18 (must be forced) - container b64cc6816076 is using its referenced image b9f6b8ff03b6"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "stop2",
+   "page": 12,
+   "title": "켜진 컨테이너는 못 지우고, 쓰는 이미지도 못 지워요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker stop my-pg",
+     "out": [
+      "my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "rm",
+   "page": 12,
+   "title": "켜진 컨테이너는 못 지우고, 쓰는 이미지도 못 지워요",
+   "part": "2. 이미지와 컨테이너",
+   "steps": [
+    {
+     "cmd": "docker rm my-pg",
+     "out": [
+      "my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "ls-before",
+   "page": 14,
+   "title": "docker cp는 내 폴더와 컨테이너 사이에서 파일을 복사해요",
+   "part": "3. 컨테이너 안에서 작업하기",
+   "steps": [
+    {
+     "cmd": "docker exec my-pg ls /tmp",
+     "out": [],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "cp",
+   "page": 14,
+   "title": "docker cp는 내 폴더와 컨테이너 사이에서 파일을 복사해요",
+   "part": "3. 컨테이너 안에서 작업하기",
+   "steps": [
+    {
+     "cmd": "docker cp kant_shop.sql my-pg:/tmp/kant_shop.sql",
+     "out": [
+      "Successfully copied 610B (transferred 2.56kB) to my-pg:/tmp/kant_shop.sql"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "ls-after",
+   "page": 14,
+   "title": "docker cp는 내 폴더와 컨테이너 사이에서 파일을 복사해요",
+   "part": "3. 컨테이너 안에서 작업하기",
+   "steps": [
+    {
+     "cmd": "docker exec my-pg ls /tmp",
+     "out": [
+      "kant_shop.sql"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "cp-out",
+   "page": 14,
+   "title": "docker cp는 내 폴더와 컨테이너 사이에서 파일을 복사해요",
+   "part": "3. 컨테이너 안에서 작업하기",
+   "steps": [
+    {
+     "cmd": "docker cp my-pg:/tmp/kant_shop.sql ./copy.sql",
+     "out": [
+      "Successfully copied 610B (transferred 2.56kB) to /home/kim/kant-shop/copy.sql"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "cp-out-ls",
+   "page": 14,
+   "title": "docker cp는 내 폴더와 컨테이너 사이에서 파일을 복사해요",
+   "part": "3. 컨테이너 안에서 작업하기",
+   "steps": [
+    {
+     "cmd": "ls",
+     "out": [
+      "copy.sql  kant_shop.sql"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "f",
+   "page": 16,
+   "title": "방법 1. 복사한 파일을 psql -f로 실행해요",
+   "part": "3. 컨테이너 안에서 작업하기",
+   "steps": [
+    {
+     "cmd": "docker exec -it my-pg psql -U postgres -f /tmp/kant_shop.sql",
+     "out": [
+      "psql:/tmp/kant_shop.sql:2: NOTICE:  database \"kant_shop\" does not exist, skipping",
+      "DROP DATABASE",
+      "CREATE DATABASE",
+      "You are now connected to database \"kant_shop\" as user \"postgres\".",
+      "CREATE TABLE",
+      "INSERT 0 5"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "it-redirect",
+   "page": 18,
+   "title": "< 로 넘길 때 -it를 쓰면 거절돼요",
+   "part": "3. 컨테이너 안에서 작업하기",
+   "steps": [
+    {
+     "cmd": "docker exec -it my-pg psql -U postgres < kant_shop.sql",
+     "out": [
+      "cannot attach stdin to a TTY-enabled container because stdin is not a terminal"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "i-redirect",
+   "page": 18,
+   "title": "< 로 넘길 때 -it를 쓰면 거절돼요",
+   "part": "3. 컨테이너 안에서 작업하기",
+   "steps": [
+    {
+     "cmd": "docker exec -i my-pg psql -U postgres < kant_shop.sql",
+     "out": [
+      "DROP DATABASE",
+      "CREATE DATABASE",
+      "You are now connected to database \"kant_shop\" as user \"postgres\".",
+      "CREATE TABLE",
+      "INSERT 0 5"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "sel",
+   "page": 20,
+   "title": "볼륨을 붙이면 컨테이너를 지워도 상품이 남아요",
+   "part": "4. 볼륨",
+   "steps": [
+    {
+     "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop -c \"SELECT * FROM product\"",
+     "out": [
+      " id |     name      | price  | stock",
+      "----+---------------+--------+-------",
+      "  1 | 무선 이어폰   |  35000 |   100",
+      "  2 | 게이밍 마우스 |  28000 |    85",
+      "  3 | 27인치 모니터 | 259000 |    15",
+      "  4 | USB-C 허브    |  19900 |   200",
+      "  5 | 노트북 거치대 |  24000 |     7",
+      "(5 rows)"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "enter",
+   "page": 20,
+   "title": "볼륨을 붙이면 컨테이너를 지워도 상품이 남아요",
+   "part": "4. 볼륨",
+   "steps": [
+    {
+     "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop",
+     "out": [
+      "psql (18.7 (Debian 18.7-1.pgdg13+2))",
+      "Type \"help\" for help.",
+      "",
+      "kant_shop=# \\dt",
+      "           List of tables",
+      " Schema |  Name   | Type  |  Owner",
+      "--------+---------+-------+----------",
+      " public | product | table | postgres",
+      "(1 row)",
+      "",
+      "kant_shop=# \\d product",
+      "                                    Table \"public.product\"",
+      " Column |          Type          | Collation | Nullable |               Default",
+      "--------+------------------------+-----------+----------+-------------------------------------",
+      " id     | integer                |           | not null | nextval('product_id_seq'::regclass)",
+      " name   | character varying(100) |           | not null |",
+      " price  | integer                |           | not null |",
+      " stock  | integer                |           | not null |",
+      "Indexes:",
+      "    \"product_pkey\" PRIMARY KEY, btree (id)",
+      "",
+      "kant_shop=# \\q"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-run",
+   "page": 20,
+   "title": "볼륨을 붙이면 컨테이너를 지워도 상품이 남아요",
+   "part": "4. 볼륨",
+   "steps": [
+    {
+     "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 -v pgdata:/var/lib/postgresql postgres:18",
+     "out": [
+      "1bb2985a53570708f7efc19cf0f1bd50e022dc9153fc14ce194908bf1cde8b62"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-load",
+   "page": 20,
+   "title": "볼륨을 붙이면 컨테이너를 지워도 상품이 남아요",
+   "part": "4. 볼륨",
+   "steps": [
+    {
+     "cmd": "docker exec -i my-pg psql -U postgres < kant_shop.sql",
+     "out": [
+      "DROP DATABASE",
+      "NOTICE:  database \"kant_shop\" does not exist, skipping",
+      "CREATE DATABASE",
+      "You are now connected to database \"kant_shop\" as user \"postgres\".",
+      "CREATE TABLE",
+      "INSERT 0 5"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-rerun",
+   "page": 20,
+   "title": "볼륨을 붙이면 컨테이너를 지워도 상품이 남아요",
+   "part": "4. 볼륨",
+   "steps": [
+    {
+     "cmd": "docker run -d --name my-pg -e POSTGRES_PASSWORD=admin1234 -p 5432:5432 -v pgdata:/var/lib/postgresql postgres:18",
+     "out": [
+      "715280d2bf1fb5ddcdd27f164e05901cabe17fc40b4f325114d1f335767480ec"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-kept",
+   "page": 20,
+   "title": "볼륨을 붙이면 컨테이너를 지워도 상품이 남아요",
+   "part": "4. 볼륨",
+   "steps": [
+    {
+     "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop -c \"SELECT * FROM product\"",
+     "out": [
+      " id |     name      | price  | stock",
+      "----+---------------+--------+-------",
+      "  1 | 무선 이어폰   |  35000 |   100",
+      "  2 | 게이밍 마우스 |  28000 |    85",
+      "  3 | 27인치 모니터 | 259000 |    15",
+      "  4 | USB-C 허브    |  19900 |   200",
+      "  5 | 노트북 거치대 |  24000 |     7",
+      "(5 rows)"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-rm-used",
+   "page": 21,
+   "title": "쓰고 있는 볼륨은 지울 수 없어요",
+   "part": "4. 볼륨",
+   "steps": [
+    {
+     "cmd": "docker volume rm pgdata",
+     "out": [
+      "Error response from daemon: remove pgdata: volume is in use - [1bb2985a53570708f7efc19cf0f1bd50e022dc9153fc14ce194908bf1cde8b62]"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-gone",
+   "page": 21,
+   "title": "쓰고 있는 볼륨은 지울 수 없어요",
+   "part": "4. 볼륨",
+   "steps": [
+    {
+     "cmd": "docker stop my-pg",
+     "out": [
+      "my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    },
+    {
+     "cmd": "docker rm my-pg",
+     "out": [
+      "my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-rm",
+   "page": 21,
+   "title": "쓰고 있는 볼륨은 지울 수 없어요",
+   "part": "4. 볼륨",
+   "steps": [
+    {
+     "cmd": "docker volume rm pgdata",
+     "out": [
+      "pgdata"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-ls2",
+   "page": 21,
+   "title": "쓰고 있는 볼륨은 지울 수 없어요",
+   "part": "4. 볼륨",
+   "steps": [
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-config",
+   "page": 26,
+   "title": "compose config는 파일을 읽은 그대로 펼쳐 보여 줘요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose config",
+     "out": [
+      "name: kant-shop",
+      "services:",
+      "  db:",
+      "    container_name: my-pg",
+      "    environment:",
+      "      POSTGRES_PASSWORD: admin1234",
+      "    image: postgres:18",
+      "    networks:",
+      "      default: null",
+      "    volumes:",
+      "      - type: volume",
+      "        source: pgdata",
+      "        target: /var/lib/postgresql",
+      "        volume: {}",
+      "    ports:",
+      "      - mode: ingress",
+      "        target: 5432",
+      "        published: \"5432\"",
+      "        protocol: tcp",
+      "networks:",
+      "  default:",
+      "    name: kant-shop_default",
+      "volumes:",
+      "  pgdata:",
+      "    name: kant-shop_pgdata"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-up",
+   "page": 27,
+   "title": "up -d로 켜고 ps로 보고 exec로 들어가요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "[+] up 3/3",
+      " ✔ Volume kant-shop_pgdata   Created                                        0.0s",
+      " ✔ Network kant-shop_default Created                                        0.0s",
+      " ✔ Container my-pg           Started                                        0.2s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-ps",
+   "page": 27,
+   "title": "up -d로 켜고 ps로 보고 exec로 들어가요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose ps",
+     "out": [
+      "NAME      IMAGE         COMMAND                  SERVICE   CREATED         STATUS         PORTS",
+      "my-pg     postgres:18   \"docker-entrypoint.s…\"   db        3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-exec",
+   "page": 27,
+   "title": "up -d로 켜고 ps로 보고 exec로 들어가요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose exec db psql -U postgres -d kant_shop -c \"SELECT * FROM product\"",
+     "out": [
+      " id |     name      | price  | stock ",
+      "----+---------------+--------+-------",
+      "  1 | 무선 이어폰   |  35000 |   100",
+      "  2 | 게이밍 마우스 |  28000 |    85",
+      "  3 | 27인치 모니터 | 259000 |    15",
+      "  4 | USB-C 허브    |  19900 |   200",
+      "  5 | 노트북 거치대 |  24000 |     7",
+      "(5 rows)"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-kept",
+   "page": 27,
+   "title": "up -d로 켜고 ps로 보고 exec로 들어가요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose exec db psql -U postgres -d kant_shop -c \"SELECT * FROM product\"",
+     "out": [
+      " id |     name      | price  | stock ",
+      "----+---------------+--------+-------",
+      "  1 | 무선 이어폰   |  35000 |   100",
+      "  2 | 게이밍 마우스 |  28000 |    85",
+      "  3 | 27인치 모니터 | 259000 |    15",
+      "  4 | USB-C 허브    |  19900 |   200",
+      "  5 | 노트북 거치대 |  24000 |     7",
+      "(5 rows)"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-logs",
+   "page": 28,
+   "title": "logs, stop, start, restart 앞에 compose만 붙여요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose logs --tail 3",
+     "out": [
+      "my-pg  | 2026-11-13 04:45:01.081 UTC [1] LOG:  listening on Unix socket \"/var/run/postgresql/.s.PGSQL.5432\"",
+      "my-pg  | 2026-11-13 04:45:01.084 UTC [73] LOG:  database system was shut down at 2026-11-13 04:45:00 UTC",
+      "my-pg  | 2026-11-13 04:45:01.086 UTC [1] LOG:  database system is ready to accept connections"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-logs-f",
+   "page": 28,
+   "title": "logs, stop, start, restart 앞에 compose만 붙여요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose logs -f --tail 2",
+     "out": [
+      "my-pg  | 2026-11-13 04:45:01.084 UTC [73] LOG:  database system was shut down at 2026-11-13 04:45:00 UTC",
+      "my-pg  | 2026-11-13 04:45:01.086 UTC [1] LOG:  database system is ready to accept connections",
+      "^C"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-stop",
+   "page": 28,
+   "title": "logs, stop, start, restart 앞에 compose만 붙여요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose stop",
+     "out": [
+      "[+] stop 1/1",
+      " ✔ Container my-pg Stopped                                                  0.2s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-ps-stop",
+   "page": 28,
+   "title": "logs, stop, start, restart 앞에 compose만 붙여요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose ps -a",
+     "out": [
+      "NAME      IMAGE         COMMAND                  SERVICE   CREATED         STATUS                              PORTS",
+      "my-pg     postgres:18   \"docker-entrypoint.s…\"   db        5 seconds ago   Exited (0) Less than a second ago   "
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-start",
+   "page": 28,
+   "title": "logs, stop, start, restart 앞에 compose만 붙여요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose start",
+     "out": [
+      "[+] start 1/1",
+      " ✔ Container my-pg Started                                                  0.1s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-restart",
+   "page": 28,
+   "title": "logs, stop, start, restart 앞에 compose만 붙여요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose restart",
+     "out": [
+      " Container my-pg Restarting ",
+      " Container my-pg Started "
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-downv",
+   "page": 29,
+   "title": "down은 컨테이너를 지우고 볼륨은 남겨요. down -v는 볼륨까지 지워요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose down -v",
+     "out": [
+      "[+] down 3/3",
+      " ✔ Container my-pg           Removed                                        0.2s",
+      " ✔ Network kant-shop_default Removed                                        0.2s",
+      " ✔ Volume kant-shop_pgdata   Removed                                        0.1s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-vol2",
+   "page": 29,
+   "title": "down은 컨테이너를 지우고 볼륨은 남겨요. down -v는 볼륨까지 지워요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "n-up",
+   "page": 29,
+   "title": "down은 컨테이너를 지우고 볼륨은 남겨요. down -v는 볼륨까지 지워요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "[+] up 3/3",
+      " ✔ Network kant-shop_default Created                                        0.0s",
+      " ✔ Volume kant-shop_pgdata   Created                                        0.0s",
+      " ✔ Container kant-shop-db-1  Started                                        0.2s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-ls",
+   "page": 30,
+   "title": "container_name을 빼면 이름이 \"폴더-서비스-1\"로 붙어요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose ls",
+     "out": [
+      "NAME                STATUS              CONFIG FILES",
+      "kant-shop           running(1)          /home/kim/kant-shop/compose.yaml"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-pull",
+   "page": 30,
+   "title": "container_name을 빼면 이름이 \"폴더-서비스-1\"로 붙어요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose pull",
+     "out": [
+      "[+] pull 1/1",
+      " ✔ Image postgres:18 Pulled                                                 0.5s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "n-ps",
+   "page": 30,
+   "title": "container_name을 빼면 이름이 \"폴더-서비스-1\"로 붙어요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker compose ps",
+     "out": [
+      "NAME             IMAGE         COMMAND                  SERVICE   CREATED                  STATUS                  PORTS",
+      "kant-shop-db-1   postgres:18   \"docker-entrypoint.s…\"   db        Less than a second ago   Up Less than a second   0.0.0.0:5432->5432/tcp"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "n-exec",
+   "page": 30,
+   "title": "container_name을 빼면 이름이 \"폴더-서비스-1\"로 붙어요",
+   "part": "5. YAML과 compose",
+   "steps": [
+    {
+     "cmd": "docker exec my-pg ls /tmp",
+     "out": [
+      "Error response from daemon: No such container: my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "four-config",
+   "page": 31,
+   "title": "오늘 만난 오류 여덟 가지를 한 장에 모았어요",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker compose config",
+     "out": [
+      "name: kant-shop",
+      "services:",
+      "  db:",
+      "    container_name: my-pg",
+      "    environment:",
+      "      POSTGRES_PASSWORD: admin1234",
+      "    image: postgres:18",
+      "    networks:",
+      "      default: null",
+      "    volumes:",
+      "      - type: volume",
+      "        source: pgdata",
+      "        target: /var/lib/postgresql",
+      "        volume: {}",
+      "    ports:",
+      "      - mode: ingress",
+      "        target: 5432",
+      "        published: \"5432\"",
+      "        protocol: tcp",
+      "networks:",
+      "  default:",
+      "    name: kant-shop_default",
+      "volumes:",
+      "  pgdata:",
+      "    name: kant-shop_pgdata"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "four-up",
+   "page": 33,
+   "title": "예제 2. compose로 같은 일을 해요: 파일 두 개, 명령 세 줄",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "[+] up 3/3",
+      " ✔ Network kant-shop_default Created                                        0.0s",
+      " ✔ Volume kant-shop_pgdata   Created                                        0.0s",
+      " ✔ Container my-pg           Started                                        0.2s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "y-tab",
+   "page": 33,
+   "title": "예제 2. compose로 같은 일을 해요: 파일 두 개, 명령 세 줄",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "go-yaml load error in scanner (while scanning for the next token) at L3.C1: found character that cannot start any token"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "y-mix",
+   "page": 33,
+   "title": "예제 2. compose로 같은 일을 해요: 파일 두 개, 명령 세 줄",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "go-yaml load error in scanner at L5.C16: mapping values are not allowed in this context"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "y-colon",
+   "page": 33,
+   "title": "예제 2. compose로 같은 일을 해요: 파일 두 개, 명령 세 줄",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "go-yaml load error in scanner at L4.C19: mapping values are not allowed in this context"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "e-up",
+   "page": 33,
+   "title": "예제 2. compose로 같은 일을 해요: 파일 두 개, 명령 세 줄",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "[+] up 3/3",
+      " ✔ Network kant-shop_default Created                                        0.0s",
+      " ✔ Volume kant-shop_pgdata   Created                                        0.0s",
+      " ✔ Container my-pg           Started                                        0.2s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "e-load",
+   "page": 33,
+   "title": "예제 2. compose로 같은 일을 해요: 파일 두 개, 명령 세 줄",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker exec -i my-pg psql -U postgres < kant_shop.sql",
+     "out": [
+      "DROP DATABASE",
+      "NOTICE:  database \"kant_shop\" does not exist, skipping",
+      "CREATE DATABASE",
+      "You are now connected to database \"kant_shop\" as user \"postgres\".",
+      "CREATE TABLE",
+      "INSERT 0 5"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "e-sel",
+   "page": 33,
+   "title": "예제 2. compose로 같은 일을 해요: 파일 두 개, 명령 세 줄",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker exec -it my-pg psql -U postgres -d kant_shop -c \"SELECT * FROM product\"",
+     "out": [
+      " id |     name      | price  | stock",
+      "----+---------------+--------+-------",
+      "  1 | 무선 이어폰   |  35000 |   100",
+      "  2 | 게이밍 마우스 |  28000 |    85",
+      "  3 | 27인치 모니터 | 259000 |    15",
+      "  4 | USB-C 허브    |  19900 |   200",
+      "  5 | 노트북 거치대 |  24000 |     7",
+      "(5 rows)"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-dps",
+   "page": 34,
+   "title": "예제 3. 다 쓴 것은 컨테이너, 볼륨, 이미지 순서로 지워요",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker ps",
+     "out": [
+      "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS         PORTS                    NAMES",
+      "4bfbe86d72b7   postgres:18   \"docker-entrypoint.s…\"   3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-down",
+   "page": 34,
+   "title": "예제 3. 다 쓴 것은 컨테이너, 볼륨, 이미지 순서로 지워요",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker compose down",
+     "out": [
+      "[+] down 2/2",
+      " ✔ Container my-pg           Removed                                        0.2s",
+      " ✔ Network kant-shop_default Removed                                        0.1s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-vol",
+   "page": 34,
+   "title": "예제 3. 다 쓴 것은 컨테이너, 볼륨, 이미지 순서로 지워요",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME",
+      "local     kant-shop_pgdata"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "e-down",
+   "page": 34,
+   "title": "예제 3. 다 쓴 것은 컨테이너, 볼륨, 이미지 순서로 지워요",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker compose down -v",
+     "out": [
+      "[+] down 3/3",
+      " ✔ Container my-pg           Removed                                        0.2s",
+      " ✔ Volume kant-shop_pgdata   Removed                                        0.1s",
+      " ✔ Network kant-shop_default Removed                                        0.2s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "e-psa",
+   "page": 34,
+   "title": "예제 3. 다 쓴 것은 컨테이너, 볼륨, 이미지 순서로 지워요",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker ps -a",
+     "out": [
+      "CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "e-vol",
+   "page": 34,
+   "title": "예제 3. 다 쓴 것은 컨테이너, 볼륨, 이미지 순서로 지워요",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "e-rmi",
+   "page": 34,
+   "title": "예제 3. 다 쓴 것은 컨테이너, 볼륨, 이미지 순서로 지워요",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker rmi postgres:18",
+     "out": [
+      "Untagged: postgres:18",
+      "Deleted: sha256:b9f6b8ff03b62f3cfd9d9ba3fe56226a9991c79d3fb46fd46536263bf02be553"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "e-images",
+   "page": 34,
+   "title": "예제 3. 다 쓴 것은 컨테이너, 볼륨, 이미지 순서로 지워요",
+   "part": "6. 오류와 실제 상황",
+   "steps": [
+    {
+     "cmd": "docker images",
+     "out": [
+      "IMAGE   ID             DISK USAGE   CONTENT SIZE   EXTRA"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "image-ls",
+   "page": 35,
+   "title": "인터넷 자료에는 같은 명령의 긴 이름도 나와요",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker image ls",
+     "out": [
+      "IMAGE         ID             DISK USAGE   CONTENT SIZE   EXTRA",
+      "postgres:18   b9f6b8ff03b6        676MB          175MB        "
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "container-ls",
+   "page": 35,
+   "title": "인터넷 자료에는 같은 명령의 긴 이름도 나와요",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker container ls",
+     "out": [
+      "CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS         PORTS                    NAMES",
+      "b64cc6816076   postgres:18   \"docker-entrypoint.s…\"   2 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "bash",
+   "page": 35,
+   "title": "인터넷 자료에는 같은 명령의 긴 이름도 나와요",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker exec -it my-pg bash",
+     "out": [
+      "root@0f29903380a9:/# ls /tmp",
+      "kant_shop.sql",
+      "root@0f29903380a9:/# exit",
+      "exit"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "help",
+   "page": 36,
+   "title": "옵션이 기억 안 나면 명령 뒤에 --help를 붙여요",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker cp --help",
+     "out": [
+      "Usage:  docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-",
+      "\tdocker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH",
+      "",
+      "Copy files/folders between a container and the local filesystem",
+      "",
+      "Use '-' as the source to read a tar archive from stdin",
+      "and extract it to a directory destination in a container.",
+      "Use '-' as the destination to stream a tar archive of a",
+      "container source to stdout.",
+      "",
+      "Aliases:",
+      "  docker container cp, docker cp",
+      "",
+      "Options:",
+      "  -a, --archive       Archive mode (copy all uid/gid information)",
+      "  -L, --follow-link   Always follow symlinks in SRC_PATH",
+      "  -q, --quiet         Suppress progress output during copy. Progress",
+      "                      output is automatically suppressed if no terminal",
+      "                      is attached"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "restart",
+   "page": 37,
+   "title": "docker 명령 한 장",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker restart my-pg",
+     "out": [
+      "my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "psa-up",
+   "page": 37,
+   "title": "docker 명령 한 장",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker ps -a",
+     "out": [
+      "CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS                  PORTS                    NAMES",
+      "b64cc6816076   postgres:18   \"docker-entrypoint.s…\"   14 seconds ago   Up Less than a second   0.0.0.0:5432->5432/tcp   my-pg"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "logs-tail",
+   "page": 37,
+   "title": "docker 명령 한 장",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker logs --tail 3 my-pg",
+     "out": [
+      "2026-11-13 04:44:40.135 UTC [30] LOG:  checkpoint starting: end-of-recovery immediate wait",
+      "2026-11-13 04:44:40.137 UTC [30] LOG:  checkpoint complete: wrote 0 buffers (0.0%), wrote 3 SLRU buffers; 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/1774018, redo lsn=0/1774018",
+      "2026-11-13 04:44:40.139 UTC [1] LOG:  database system is ready to accept connections"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "run3",
+   "page": 37,
+   "title": "docker 명령 한 장",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker run -d --name my-pg \\\n-e POSTGRES_PASSWORD=admin1234 \\\n-p 5432:5432 postgres:18",
+     "out": [
+      "48d1c194469c97d81d48c27d4b50f3a34ea926ed98d99eb8c4245d057a0dc59f"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "runsp",
+   "page": 37,
+   "title": "docker 명령 한 장",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker run -d --name my-pg \\ \n-e POSTGRES_PASSWORD=admin1234 \\\n-p 5432:5432 postgres:18",
+     "out": [
+      "docker: invalid reference format",
+      "",
+      "Run 'docker run --help' for more information",
+      "bash: line 2: -e: command not found"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-create",
+   "page": 37,
+   "title": "docker 명령 한 장",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker volume create pgdata",
+     "out": [
+      "pgdata"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-ls",
+   "page": 37,
+   "title": "docker 명령 한 장",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker volume ls",
+     "out": [
+      "DRIVER    VOLUME NAME",
+      "local     pgdata"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "v-inspect",
+   "page": 37,
+   "title": "docker 명령 한 장",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker volume inspect pgdata",
+     "out": [
+      "[",
+      "    {",
+      "        \"CreatedAt\": \"2026-11-13T04:44:54Z\",",
+      "        \"Driver\": \"local\",",
+      "        \"Labels\": null,",
+      "        \"Mountpoint\": \"/var/lib/docker/volumes/pgdata/_data\",",
+      "        \"Name\": \"pgdata\",",
+      "        \"Options\": null,",
+      "        \"Scope\": \"local\"",
+      "    }",
+      "]"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  },
+  {
+   "id": "c-up2",
+   "page": 38,
+   "title": "docker compose 명령 한 장",
+   "part": "정리",
+   "steps": [
+    {
+     "cmd": "docker compose up -d",
+     "out": [
+      "[+] up 2/2",
+      " ✔ Network kant-shop_default Created                                        0.0s",
+      " ✔ Container my-pg           Started                                        0.2s"
+     ],
+     "cwd": "~/kant-shop"
+    }
+   ]
+  }
+ ]
+}

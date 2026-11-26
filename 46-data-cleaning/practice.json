@@ -1,0 +1,32 @@
+{
+ "v": 1,
+ "kind": "replay",
+ "source": "46-data-cleaning 덱의 터미널 화면(챕터 도구로 실제 실행한 출력)",
+ "cells": [
+  {
+   "id": "setup-1",
+   "page": 3,
+   "title": "45의 ml-basics에 seaborn과 matplotlib을 더해요",
+   "part": "들어가기",
+   "steps": [
+    {
+     "cmd": "cd ml-basics",
+     "out": []
+    },
+    {
+     "cmd": "uv add seaborn matplotlib",
+     "out": [
+      "Resolved 44 packages in 15ms",
+      "Installed 8 packages in 7ms",
+      " + contourpy==1.4.0",
+      "…",
+      " + matplotlib==3.11.2",
+      " + pillow==13.0.0",
+      " + pyparsing==3.3.3",
+      " + seaborn==0.13.2"
+     ]
+    }
+   ]
+  }
+ ]
+}

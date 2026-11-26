@@ -1,0 +1,266 @@
+{
+ "v": 1,
+ "kind": "python",
+ "source": "23-python-comprehension/tools/run_nb.py를 실제 Jupyter 커널(Python 3.14.6)로 실행한 출력",
+ "cells": [
+  {
+   "id": "r1c1",
+   "chain": "r1",
+   "code": "prices = [4500, 5000, 6500]\nup = []\nfor p in prices:\n    up.append(p + 500)\nprint(up)\nprint(list(map(lambda p: p + 500, prices)))",
+   "expect": [
+    "[5000, 5500, 7000]",
+    "[5000, 5500, 7000]"
+   ],
+   "page": 4,
+   "title": "for는 길고, map은 lambda까지 읽어야 해요",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r1c2",
+   "chain": "r1",
+   "code": "numbers = [1, 2, 3]\nprint([x + 10 for x in numbers])",
+   "expect": [
+    "[11, 12, 13]"
+   ],
+   "page": 6,
+   "title": "가장 짧은 컴프리헨션: 값마다 10 더하기",
+   "part": "1. 왜 필요한가"
+  },
+  {
+   "id": "r2c1",
+   "chain": "r2",
+   "code": "prices = [4500, 5000, 6500, 3000]\nup = []\nfor p in prices:\n    up.append(p + 500)\nprint(up)\nprint(list(map(lambda p: p + 500, prices)))\nprint([p + 500 for p in prices])",
+   "expect": [
+    "[5000, 5500, 7000, 3500]",
+    "[5000, 5500, 7000, 3500]",
+    "[5000, 5500, 7000, 3500]"
+   ],
+   "page": 7,
+   "title": "같은 일을 세 가지로 써요",
+   "part": "2. 만들기와 고르기"
+  },
+  {
+   "id": "r2c2",
+   "chain": "r2",
+   "code": "big = []\nfor p in prices:\n    if p >= 5000:\n        big.append(p)\nprint(big)\nprint(list(filter(lambda p: p >= 5000, prices)))\nprint([p for p in prices if p >= 5000])",
+   "expect": [
+    "[5000, 6500]",
+    "[5000, 6500]",
+    "[5000, 6500]"
+   ],
+   "page": 9,
+   "title": "뒤에 if를 붙이면 골라 담아요",
+   "part": "2. 만들기와 고르기"
+  },
+  {
+   "id": "r2c3",
+   "chain": "r2",
+   "code": "print([p * 9 // 10 for p in prices if p >= 5000])\nprint(list(map(lambda p: p * 9 // 10, filter(lambda p: p >= 5000, prices))))",
+   "expect": [
+    "[4500, 5850]",
+    "[4500, 5850]"
+   ],
+   "page": 10,
+   "title": "고르고 바꾸기를 한 번에 해요",
+   "part": "2. 만들기와 고르기"
+  },
+  {
+   "id": "r2c4",
+   "chain": "r2",
+   "code": "print([\"비쌈\" if p >= 5000 else \"보통\" for p in prices])",
+   "expect": [
+    "['보통', '비쌈', '비쌈', '보통']"
+   ],
+   "page": 11,
+   "title": "앞에 한 줄 if else를 넣으면 값을 바꿔 적어요",
+   "part": "2. 만들기와 고르기"
+  },
+  {
+   "id": "r2c5",
+   "chain": "r2",
+   "code": "print([p for p in prices if p >= 5000])\nprint([p if p >= 5000 else 0 for p in prices])",
+   "expect": [
+    "[5000, 6500]",
+    "[0, 5000, 6500, 0]"
+   ],
+   "page": 12,
+   "title": "if가 뒤에 있으면 고르기, 앞에 있으면 바꾸기",
+   "part": "2. 만들기와 고르기"
+  },
+  {
+   "id": "r3c1",
+   "chain": "r3",
+   "code": "names = [\"latte\", \"tea\", \"coffee\"]\nprint([len(m) for m in names])\nprint([m[0] for m in names])\nprint([n * n for n in range(1, 6)])",
+   "expect": [
+    "[5, 3, 6]",
+    "['l', 't', 'c']",
+    "[1, 4, 9, 16, 25]"
+   ],
+   "page": 13,
+   "title": "길이, 글자, range로도 만들어요",
+   "part": "3. 여러 데이터에 쓰기"
+  },
+  {
+   "id": "r3c2",
+   "chain": "r3",
+   "code": "orders = [(\"kim\", \"latte\", 2), (\"lee\", \"cake\", 1), (\"park\", \"coffee\", 3), (\"kim\", \"tea\", 1)]\nprint([o[0] for o in orders])\nprint([menu_name for name, menu_name, qty in orders if qty >= 2])",
+   "expect": [
+    "['kim', 'lee', 'park', 'kim']",
+    "['latte', 'coffee']"
+   ],
+   "page": 14,
+   "title": "튜플 리스트는 꺼내 담기로 이름을 붙여요",
+   "part": "3. 여러 데이터에 쓰기"
+  },
+  {
+   "id": "r3c3",
+   "chain": "r3",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\nprint({m: p * 11 // 10 for m, p in menu.items()})\nstock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2}\nprint({m: n for m, n in stock.items() if n > 0})\nprint([m for m in stock if stock[m] == 0])",
+   "expect": [
+    "{'coffee': 4950, 'latte': 5500, 'cake': 7150}",
+    "{'coffee': 3, 'cake': 2}",
+    "['latte']"
+   ],
+   "page": 15,
+   "title": "중괄호와 키: 값으로 딕셔너리도 만들어요",
+   "part": "3. 여러 데이터에 쓰기"
+  },
+  {
+   "id": "r3c4",
+   "chain": "r3",
+   "code": "buyers = {o[0] for o in orders}\nprint(len(buyers))\nprint(sorted(buyers))",
+   "expect": [
+    "3",
+    "['kim', 'lee', 'park']"
+   ],
+   "page": 16,
+   "title": "중괄호에 값만 적으면 집합이 돼요",
+   "part": "3. 여러 데이터에 쓰기"
+  },
+  {
+   "id": "r4c1",
+   "chain": "r4",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500, \"tea\": 4000}\ncart = [\"coffee\", \"cake\", \"latte\", \"latte\"]\nprint(sum([menu[m] for m in cart]))\nprint(max([len(m) for m in menu]))",
+   "expect": [
+    "21000",
+    "6"
+   ],
+   "page": 17,
+   "title": "sum, max에 바로 넘겨요",
+   "part": "4. 함수와 함께 쓰기"
+  },
+  {
+   "id": "r4c2",
+   "chain": "r4",
+   "code": "stock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2, \"tea\": 5}\nok = [m for m in menu if stock[m] > 0]\nprint(ok)\nprint(sorted(ok, key=menu.get))\nprint(min(ok, key=menu.get))",
+   "expect": [
+    "['coffee', 'cake', 'tea']",
+    "['tea', 'coffee', 'cake']",
+    "tea"
+   ],
+   "page": 18,
+   "title": "고른 다음 22의 sorted, min으로 이어요",
+   "part": "4. 함수와 함께 쓰기"
+  },
+  {
+   "id": "r4c3",
+   "chain": "r4",
+   "code": "scores = [[90, 80], [70, 60]]\nprint([x for row in scores\n       for x in row])",
+   "expect": [
+    "[90, 80, 70, 60]"
+   ],
+   "page": 19,
+   "title": "이럴 땐 for가 더 읽기 쉬워요",
+   "part": "4. 함수와 함께 쓰기"
+  },
+  {
+   "id": "r5c1",
+   "chain": "r5",
+   "code": "prices = [4500, 5000, 6500, 3000]\nprint([p for p in prices if p >= 5000 else 0])",
+   "expect": [
+    "SyntaxError: invalid syntax"
+   ],
+   "err": true,
+   "page": 20,
+   "title": "뒤의 if에 else를 붙이면 SyntaxError가 나요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c2",
+   "chain": "r5",
+   "code": "[print(m) for m in [\"latte\", \"tea\"]]",
+   "expect": [
+    "latte",
+    "tea",
+    "[None, None]"
+   ],
+   "page": 21,
+   "title": "print를 넣으면 None 리스트가 생겨요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c3",
+   "chain": "r5",
+   "code": "prices = [4500, 5000, 6500, 3000]\nprint((p + 500 for p in prices))\nprint(list(p + 500 for p in prices))",
+   "expect": [
+    "<generator object <genexpr> at 0x7f8d9d602f60>",
+    "[5000, 5500, 7000, 3500]"
+   ],
+   "page": 22,
+   "title": "소괄호로 감싸면 리스트가 아니에요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r5c4",
+   "chain": "r5",
+   "code": "print([x + 10 for p in prices])",
+   "expect": [
+    "NameError: name 'x' is not defined"
+   ],
+   "err": true,
+   "page": 23,
+   "title": "앞과 뒤의 이름이 다르면 NameError가 나요",
+   "part": "5. 오류와 함정"
+  },
+  {
+   "id": "r6c1",
+   "chain": "r6",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\ncart = [\"latte\", \"cake\", \"coffee\"]\nlines = [f\"{m:<7}{menu[m]:>6,}원\" for m in cart]\nprint(\"\\n\".join(lines))\nprint(f\"합계   {sum([menu[m] for m in cart]):>6,}원\")",
+   "expect": [
+    "latte   5,000원",
+    "cake    6,500원",
+    "coffee  4,500원",
+    "합계   16,000원"
+   ],
+   "page": 24,
+   "title": "장바구니 영수증을 컴프리헨션으로 찍어요",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c2",
+   "chain": "r6",
+   "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500, \"tea\": 4000}\nstock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2, \"tea\": 0}\nsoldout = [m for m in stock if stock[m] == 0]\nprint(\"품절:\", \", \".join(soldout))\nboard = {m: menu[m] * 11 // 10 for m in menu if stock[m] > 0}\nprint(board)",
+   "expect": [
+    "품절: latte, tea",
+    "{'coffee': 4950, 'cake': 7150}"
+   ],
+   "page": 25,
+   "title": "품절 목록과 주문 가능 메뉴판을 만들어요",
+   "part": "6. 실습"
+  },
+  {
+   "id": "r6c3",
+   "chain": "r6",
+   "code": "scores = [[\"kim\", 92], [\"lee\", 78], [\"park\", 85], [\"choi\", 59]]\nprint([name for name, score in scores if score >= 80])\nprint([\"합격\" if score >= 60 else \"재시험\" for name, score in scores])\nprint(sum([score for name, score in scores]) / len(scores))\nprint(max(scores, key=lambda s: s[1])[0])",
+   "expect": [
+    "['kim', 'park']",
+    "['합격', '합격', '합격', '재시험']",
+    "78.5",
+    "kim"
+   ],
+   "page": 26,
+   "title": "성적표에서 합격자, 결과표, 평균, 1등을 뽑아요",
+   "part": "6. 실습"
+  }
+ ]
+}
