@@ -1,0 +1,167 @@
+{
+  "parts": [
+    {
+      "part": "데이터베이스와 표",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "orders 표에서 주문 하나를 담은 가로 한 줄을 무엇이라고 하나요?",
+          "choices": [
+            "기본 키",
+            "열(column)",
+            "데이터베이스",
+            "행(row)"
+          ],
+          "answer": 3,
+          "explain": "가로 한 줄이 행(row, 레코드), 세로 한 줄이 열(column, 필드)이에요. 15의 딕셔너리 리스트로 보면 딕셔너리 하나가 행, 키가 열이에요.",
+          "page": 8
+        },
+        {
+          "id": "t2",
+          "q": "기본 키(Primary Key)에 맞는 설명은 무엇인가요?",
+          "choices": [
+            "표마다 열 이름이 꼭 `key`여야 해요",
+            "다른 행과 겹쳐도 되고 비워 둘 수 있어요",
+            "다른 행과 겹치면 안 되고 비워 둘 수 없어요",
+            "글자만 담을 수 있어요"
+          ],
+          "answer": 2,
+          "explain": "기본 키는 행마다 다른 번호예요. 카페 진동벨 번호처럼 이 번호만 보면 행 하나가 정해져요. 겹치면 안 되고 비워 둘 수도 없어요.",
+          "page": 10
+        },
+        {
+          "id": "t3",
+          "q": "`menu VARCHAR(20)` 열에 담을 수 있는 값은 무엇인가요?",
+          "choices": [
+            "20개까지의 행",
+            "20 이하의 정수",
+            "20자까지의 글자",
+            "소수 20자리"
+          ],
+          "answer": 2,
+          "explain": "`VARCHAR(20)`은 20자까지의 글자예요. 파이썬의 str과 같고 괄호 안 숫자가 최대 글자 수예요. 정수는 `INT`예요.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "part": "SQL 네 문장 맛보기",
+      "questions": [
+        {
+          "id": "q1",
+          "q": "cafe 데이터베이스를 만든 뒤 그 안으로 들어가는 명령이 MySQL과 PostgreSQL에서 어떻게 다른가요?",
+          "choices": [
+            "둘 다 `CREATE DATABASE cafe;`",
+            "MySQL `USE cafe;`, PostgreSQL `\\c cafe`",
+            "둘 다 `USE cafe;`",
+            "MySQL `\\c cafe`, PostgreSQL `USE cafe;`"
+          ],
+          "answer": 1,
+          "explain": "`CREATE DATABASE cafe;`는 두 서버에서 같아요. 들어가는 명령만 MySQL은 `USE cafe;`, PostgreSQL은 `\\c cafe`예요. `\\c`는 psql 프로그램의 명령이라 끝에 `;`가 없어요.",
+          "page": 13
+        },
+        {
+          "id": "q2",
+          "q": "`id, menu, qty` 순서로 만든 orders 표에 `INSERT INTO orders VALUES (1, 'latte', 2);`를 보냈어요. `'latte'`는 어느 열에 들어가나요?",
+          "choices": [
+            "qty",
+            "menu",
+            "id",
+            "열 이름이 없어서 오류가 나요"
+          ],
+          "answer": 1,
+          "explain": "열 이름을 적지 않으면 괄호 안 값이 표를 만들 때 정한 열 순서대로 들어가요. 그래서 1은 id, `'latte'`는 menu, 2는 qty예요.",
+          "page": 15
+        },
+        {
+          "id": "q3",
+          "q": "orders 표에서 id가 2인 행만 고르는 문장은 무엇인가요?",
+          "choices": [
+            "`SELECT * FROM orders WHERE id = 2;`",
+            "`SELECT id = 2 FROM orders;`",
+            "`SELECT * FROM orders IF id = 2;`",
+            "`SELECT * FROM orders WHERE id == 2;`"
+          ],
+          "answer": 0,
+          "explain": "`WHERE` 뒤에 조건을 적으면 맞는 행만 나와요. 같다는 파이썬은 `==`, SQL은 `=` 하나로 써요.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "part": "자주 나는 오류",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "1번 행이 이미 있는데 `INSERT INTO orders VALUES (1, 'tea', 1);`을 보냈어요. PostgreSQL은 무엇이라고 하나요?",
+          "choices": [
+            "`ERROR:  value too long for type character varying(20)`",
+            "`INSERT 0 1`",
+            "`ERROR:  column \"tea\" does not exist`",
+            "`ERROR:  duplicate key value violates unique constraint \"orders_pkey\"`"
+          ],
+          "answer": 3,
+          "explain": "기본 키가 겹쳐서 서버가 막아요. MySQL은 `Duplicate entry '1'`이라고 해요. 오류가 나면 행은 하나도 들어가지 않으니 아직 안 쓴 번호로 바꿔서 다시 넣어요.",
+          "page": 20
+        },
+        {
+          "id": "e2",
+          "q": "`INSERT INTO orders VALUES (4, latte, 1);`처럼 글자 값에 작은따옴표를 빠뜨리면 서버는 `latte`를 무엇으로 읽나요?",
+          "choices": [
+            "데이터베이스 이름",
+            "숫자",
+            "그대로 글자 값",
+            "열 이름"
+          ],
+          "answer": 3,
+          "explain": "따옴표가 없으면 열 이름으로 읽고, 그런 열이 없다고 해요. MySQL은 `Unknown column 'latte'`, PostgreSQL은 `column \"latte\" does not exist`예요. 숫자 값은 따옴표 없이 적어요.",
+          "page": 23
+        },
+        {
+          "id": "e3",
+          "q": "`SELECT * FROM orders`를 `;` 없이 치고 Enter를 눌렀더니 프롬프트가 `->`나 `cafe-#`로 바뀌었어요. 어떻게 하나요?",
+          "choices": [
+            "문장 전체를 지우고 처음부터 쳐요",
+            "서버가 멈췄으니 다시 접속해요",
+            "`;`만 치고 Enter를 눌러요",
+            "`\\c cafe`를 쳐요"
+          ],
+          "answer": 2,
+          "explain": "오류가 아니라 서버가 문장 끝을 기다리는 중이에요. `;`만 치면 앞에서 친 줄과 합쳐서 한 문장으로 실행해요.",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "part": "실제 상황 예제",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "orders에 1번 latte 2잔이 있고, 오늘 `INSERT INTO orders VALUES (4, 'latte', 1), (5, 'tea', 2);`로 두 줄을 넣었어요. `SELECT * FROM orders WHERE menu = 'latte';`를 보내면 몇 행이 나오나요?",
+          "choices": [
+            "1행(4번만)",
+            "2행(1번과 4번)",
+            "3행",
+            "5행 모두"
+          ],
+          "answer": 1,
+          "explain": "메뉴가 latte인 행만 골라요. 아침에 넣은 1번과 오늘 넣은 4번이 나와요. MySQL은 `2 rows in set`, PostgreSQL은 `(2 rows)`로 알려 줘요.",
+          "page": 25
+        },
+        {
+          "id": "s2",
+          "q": "메뉴판을 보고 menu 표를 설계해요. 원 단위 가격(4000, 4500, 5500)을 담는 `price` 열의 타입으로 알맞은 것은 무엇인가요?",
+          "choices": [
+            "타입은 정하지 않아요",
+            "`PRIMARY KEY`",
+            "`VARCHAR(20)`",
+            "`INT`"
+          ],
+          "answer": 3,
+          "explain": "가격은 원 단위 정수라서 `INT`, 이름은 글자라서 `VARCHAR(20)`, id는 새로 붙인 번호라서 기본 키로 정해요. 숫자 열이라 `WHERE price < 5000`처럼 따옴표 없이 비교해요.",
+          "page": 26
+        }
+      ]
+    }
+  ]
+}
