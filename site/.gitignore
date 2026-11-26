@@ -7,3 +7,5 @@ next-env.d.ts
 public/decks/
 public/updates/
 public/design/
+.roadmap/
+public/img/

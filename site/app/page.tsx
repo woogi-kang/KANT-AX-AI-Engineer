@@ -1,137 +1,131 @@
 import Link from "next/link";
-import { ArrowRight, Lightbulb, Megaphone, Sparkles } from "lucide-react";
-import AppShell from "@/components/AppShell";
-import CurriculumList from "@/components/CurriculumList";
-import LogoTile from "@/components/LogoTile";
-import { TRACKS, isNew, load, news, type TrackKey } from "@/lib/content";
-import { LOGOS, chapterLogos, stageLogos, type Logo, type LogoKey } from "@/lib/logos";
-import { plainInline } from "@/lib/inline";
-
-const TRACK_LOGO: Record<TrackKey, LogoKey> = { term: "terminal", git: "git", gh: "github", py: "python", docker: "docker", db: "postgresql" };
-const CLOUD: LogoKey[] = ["terminal", "git", "github", "uv", "jupyter", "python", "docker", "nginx", "mysql", "postgresql", "numpy", "pandas"];
+import { ArrowRight, Search } from "lucide-react";
+import { load, news } from "@/lib/content";
+import { roadmap } from "@/lib/roadmap";
+import { logosOf } from "@/lib/logos";
+import { STAGE_IC, LIB_IC, LIB_HREF, LIB_NAME, stageShort, type LibKey } from "@/lib/site";
+import { libCounts, stageCount, START } from "@/lib/home";
+import { Ict, Logos, Cover, coverSrc, More, SecHead } from "@/components/ui";
 
 export default function Home() {
-  const { stages, chapters, extras } = load();
-  const filters = [
-    { key: "all" as const, label: "전체", count: chapters.length },
-    ...Object.entries(TRACKS).map(([label, key]) => ({
-      key,
-      label,
-      count: chapters.filter((c) => c.trackKey === key).length,
-      logo: LOGOS[TRACK_LOGO[key]] as Logo,
-    })),
-  ];
-  const logos: Record<string, Logo[]> = Object.fromEntries(chapters.map((c) => [c.dir, chapterLogos(c.no, c.track).map((k) => LOGOS[k] as Logo)]));
-  const fresh = chapters.filter((c) => isNew(c)).map((c) => c.dir);
-  const latest = news().slice(0, 3);
+  const { stages, chapters } = load();
+  const r = roadmap();
+  const counts = libCounts();
   return (
-    <AppShell current="home">
-      <section className="hero">
-        <div className="hero-t">
-          <span className="eyebrow">
-            <Sparkles className="i" />
-            무료 학습 로드맵
-          </span>
-          <h1>
-            터미널부터 데이터 분석까지
-            <br />
-            배우는 순서대로 한 길로
-          </h1>
-          <p>개발이 처음이어도 따라올 수 있게, 애니메이션 슬라이드와 실제로 실행한 화면으로 배워요.</p>
-          <div className="hero-cta">
-            <Link className="btn primary" href={`/chapters/${chapters[0].dir}/`}>
-              01부터 시작하기 <ArrowRight className="i" />
-            </Link>
-            <a className="btn secondary" href="#roadmap">
-              강의 둘러보기
-            </a>
-          </div>
-          <dl className="stats">
-            <div>
-              <dt>챕터</dt>
-              <dd>{chapters.length}</dd>
-            </div>
-            <div>
-              <dt>단계</dt>
-              <dd>{stages.length}</dd>
-            </div>
-            <div>
-              <dt>도구</dt>
-              <dd>{CLOUD.length}</dd>
-            </div>
-          </dl>
-        </div>
-        <div className="cloud" aria-label="배우는 도구">
-          {CLOUD.map((k, i) => (
-            <span className="cloud-i" key={k} style={{ animationDelay: `${i * 60}ms` }}>
-              <LogoTile logo={LOGOS[k] as Logo} size={52} label />
-              <small>{LOGOS[k].title}</small>
-            </span>
-          ))}
-        </div>
-      </section>
-
-      <section className="news-bar" aria-label="소식">
-        <Megaphone className="i" />
-        <div className="news-items">
-          {latest.map((n) => (
-            <Link key={n.href} href={n.href}>
-              <span className={`badge ${n.kind === "chapter" ? "run" : "mark"}`}>{n.kind === "chapter" ? "새 챕터" : "업데이트"}</span>
-              {n.title}
-            </Link>
-          ))}
-        </div>
-        <Link className="more" href="/updates/">
-          전체 <ArrowRight className="i" />
-        </Link>
-      </section>
-
-      <h2 className="sec-h" id="roadmap">
-        강의<span>다섯 단계를 차례로 밟아요</span>
-      </h2>
-      <nav className="road" aria-label="단계">
-        {stages.map((s) => {
-          const ks = stageLogos(s.groups.flatMap((g) => g.chapters)).slice(0, 4);
-          return (
-            <a className="road-step" href={`#stage-${s.no}`} key={s.no}>
-              <span className="k">STEP {s.no}</span>
-              <b>{s.title}</b>
-              <span className="road-logos">
-                {ks.map((k) => (
-                  <LogoTile key={k} logo={LOGOS[k] as Logo} size={26} />
-                ))}
-              </span>
-              <small>{s.count}챕터</small>
-            </a>
-          );
-        })}
-      </nav>
-      <CurriculumList stages={stages} filters={filters} fresh={fresh} logos={logos} />
-
-      <h2 className="sec-h" id="tips">
-        꿀팁<span>순서와 상관없이 막혔을 때 꺼내 봐요</span>
-      </h2>
-      <div className="guides">
-        {extras.map((e) => (
-          <Link className="guide" key={e.dir} href={`/extras/${e.dir}/`}>
-            <span className="guide-i">
-              <Lightbulb width={26} height={26} />
-            </span>
-            <div>
-              <b>{e.title}</b>
-              <p>{plainInline(e.summary).split(", ").slice(0, 2).join(", ")}</p>
-              <span className="guide-rel">
-                {e.relatedChapters.map((r) => (
-                  <span className="prereq" key={r.dir} title={r.title}>
-                    <b>{r.no}</b>
-                    {r.title.length > 10 ? r.title.slice(0, 10) + "…" : r.title}
-                  </span>
-                ))}
-              </span>
-            </div>
+    <>
+      <h1>AX 엔지니어 핸드북</h1>
+      <p className="lede">AX 엔지니어가 되는 길과 그 길에 필요한 기초 강의를 한곳에 모았어요.</p>
+      <button className="search" type="button" data-search>
+        <Search aria-hidden="true" />
+        <span>트랜잭션, MCP, 법인카드 정산처럼 찾아요</span>
+        <kbd>/</kbd>
+      </button>
+      <More label="AX 엔지니어는 어떤 일을 하나요?">
+        <p>{r.defn}</p>
+        <p>
+          <Link href="/roadmap/" style={{ color: "var(--ac)" }}>
+            로드맵에서 자세히 보기
           </Link>
-        ))}
-      </div>
-    </AppShell>
+        </p>
+      </More>
+
+      <section className="sec" id="start">
+        <SecHead title="어디서 시작할까요?" />
+        <div className="tiles t6">
+          {START.map((s) => (
+            <Link key={s.key} className="tile c" href={s.href}>
+              <Ict n={s.icon} size="lg" />
+              <b>{s.label}</b>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="sec">
+        <SecHead
+          title="로드맵 5단계"
+          right={
+            <Link href="/roadmap/">
+              전체 보기 <ArrowRight aria-hidden="true" />
+            </Link>
+          }
+        />
+        <div className="tiles t5">
+          {r.stages.map((s) => (
+            <Link key={s.no} className="tile" href={`/roadmap/#stage-${s.no}`}>
+              <span className="no">{s.no}단계</span>
+              <Ict n={STAGE_IC[s.no]} size="lg" />
+              <b>{stageShort(s.title)}</b>
+              <small>{stageCount(s.no)}</small>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="sec">
+        <SecHead
+          title="기초 강의"
+          right={
+            <Link href="/lectures/">
+              {chapters.length}챕터 모두 <ArrowRight aria-hidden="true" />
+            </Link>
+          }
+        />
+        <div className="tiles t5">
+          {stages.map((s) => {
+            const list = chapters.filter((c) => c.stageNo === s.no);
+            return (
+              <Link key={s.no} className="lc" href={`/lectures/#stage-${s.no}`}>
+                <Cover src={coverSrc(s.from)} />
+                <div className="bd">
+                  <Logos ks={logosOf(list).slice(0, 4)} size={26} />
+                  <b>{s.title}</b>
+                  <small>
+                    {s.from}–{s.to} · {list.length}챕터
+                  </small>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="sec">
+        <SecHead title="사례와 자료" />
+        <div className="tiles t5">
+          {(Object.keys(LIB_IC) as LibKey[]).map((k) => (
+            <Link key={k} className="tile" href={LIB_HREF[k]}>
+              <Ict n={LIB_IC[k]} />
+              <span className="num">{counts[k]}</span>
+              <b>{LIB_NAME[k]}</b>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="sec" id="news">
+        <SecHead
+          title={<span style={{ fontSize: 18 }}>소식</span>}
+          right={
+            <Link href="/updates/">
+              모두 보기 <ArrowRight aria-hidden="true" />
+            </Link>
+          }
+        />
+        <ul className="news">
+          {news()
+            .slice(0, 3)
+            .map((n) => (
+              <li key={n.href}>
+                <Link href={n.href}>
+                  <time dateTime={n.date}>{n.date}</time>
+                  <span className={n.kind === "update" ? "badge" : "badge ac"}>{n.kind === "update" ? "업데이트" : "새 챕터"}</span>
+                  <span>{n.title}</span>
+                </Link>
+              </li>
+            ))}
+        </ul>
+      </section>
+    </>
   );
 }

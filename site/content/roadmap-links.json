@@ -1,0 +1,17 @@
+{
+  "_설명": "로드맵 주제(사이트 주소 /roadmap/<주제>/)와 먼저 볼 강의 챕터 번호를 잇는 표예요. chapters는 주제 화면의 '먼저 익힐 기초 강의', know는 '알아야 할 것' 줄마다 붙일 챕터(로드맵 문서의 줄 순서), soon은 아직 강의가 없을 때 보여 줄 말이에요. 챕터 번호는 curriculum.json에 있어야 해요.",
+  "topics": {
+    "software-and-api": {
+      "chapters": ["01", "02", "12", "19", "28", "31", "36", "44"],
+      "know": [["31"], ["33", "34"], [], ["32", "36", "37", "43"], ["37"], [], ["29", "30", "33"], ["28"]]
+    },
+    "llm-foundations": { "chapters": ["12", "13", "15"], "soon": "LLM 호출, 토큰과 비용" },
+    "agent-systems": { "chapters": ["19", "21", "24"], "soon": "에이전트 루프, 중단 조건" },
+    "tools-and-mcp": { "chapters": ["11", "19", "44"], "soon": "도구 정의, MCP" },
+    "evaluation-and-testing": { "chapters": ["39", "45", "46"], "soon": "평가 세트 만들기" },
+    "production-operations": { "chapters": ["29", "30", "31", "35"] },
+    "security-and-privacy": { "chapters": ["33", "37", "43", "44"] },
+    "04-data-and-context": { "chapters": ["32", "45", "46"] },
+    "01-safe-assistant": { "chapters": ["09", "10", "44"] }
+  }
+}

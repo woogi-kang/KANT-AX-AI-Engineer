@@ -3,19 +3,22 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "prebuild": "node scripts/copy-assets.mjs",
+    "prebuild": "node scripts/fetch-roadmap.mjs && node scripts/copy-assets.mjs",
     "build": "next build",
     "postbuild": "node scripts/check-build.mjs",
-    "predev": "node scripts/copy-assets.mjs",
+    "predev": "node scripts/fetch-roadmap.mjs && node scripts/copy-assets.mjs",
     "dev": "next dev",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "fetch-roadmap": "node scripts/fetch-roadmap.mjs",
+    "covers": "node scripts/shoot-covers.mjs",
+    "qa": "node scripts/qa.cjs"
   },
   "engines": {
     "node": ">=26"
   },
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "5.3.0",
-    "lucide-react": "1.80.0",
+    "lucide-react": "1.81.0",
     "next": "16.4.6",
     "pretendard": "1.3.9",
     "react": "19.3.1",

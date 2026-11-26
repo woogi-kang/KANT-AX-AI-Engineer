@@ -1,38 +1,67 @@
 # 학습 사이트 (site/)
 
-레포의 챕터를 웹 페이지로 묶은 학습 사이트예요. Next.js(App Router, TypeScript)를 정적 파일로만 내보내 Cloudflare Pages에 올려요. 작업은 `develop` 브랜치에서 하고, 미리보기는 https://fullstack-ax-preview.pages.dev 예요.
+AX 엔지니어 로드맵과 기초 강의를 한곳에 모은 공개 학습 사이트예요. Next.js(App Router, TypeScript)를 정적 파일로만 내보내 Cloudflare Pages에 올려요. 작업은 `develop` 브랜치에서 하고, 미리보기는 https://fullstack-ax-preview.pages.dev 예요. main은 수강생이 쓰고 있어서 사이트 작업으로 건드리지 않아요.
+
+디자인 기준은 핸드북 시안 v16(`design/v16`, 미리보기 `/design/v16/home.html`)이에요. 그림(로고, 표지, 아이콘)은 크게, 글은 짧게 두고 긴 설명은 "펼쳐 보기" 안에 넣어요.
 
 ## 실행
 
-Node는 최신 LTS(26)를 써요(`.node-version`). 패키지와 프레임워크는 모두 최신 안정 버전으로 맞춰요.
+Node는 최신 LTS(26)를 써요(`.node-version`). 패키지와 프레임워크는 모두 최신 안정 버전으로 맞춰요(`npm outdated`로 확인).
 
 ```bash
 cd site
 npm ci
-npm run dev      # http://localhost:3000
+npm run dev      # http://localhost:3000 (로드맵 레포를 받고 그림을 복사한 뒤 켜요)
 npm run build    # out/에 정적 파일을 만들고, 페이지가 빠짐없이 생겼는지 세요
+cd out && python3 -m http.server 8766 &   # 만든 사이트 띄우기
+npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, 깨진 링크를 찾아요
 ```
 
 ## 내용이 오는 곳
 
-원본은 레포예요. 사이트에서 내용을 고치지 않아요.
+원본은 두 레포예요. 사이트에서 내용을 고치지 않아요.
 
-| 사이트 | 레포 |
+| 사이트 | 원본 |
 | --- | --- |
-| 단계, 묶음, 레벨, 챕터 목록, 번외, 새 소식 | `curriculum.json` |
-| 챕터 본문 | 챕터 `README.md` (맨 위 표와 맨 아래 이동 링크는 빼요) |
-| 장 목록, 발표자 노트 | 덱 HTML의 `section` 제목과 `aside` |
-| 슬라이드 플레이어, PDF | 덱 HTML과 PDF를 빌드 전에 `public/decks/`로 복사 (`scripts/copy-assets.mjs`) |
-| 새 챕터 날짜 | 챕터 README가 처음 커밋된 날 (git log) |
+| 강의 단계, 묶음, 레벨, 챕터, 꿀팁, 소식 | 이 레포 `curriculum.json` |
+| 챕터 교안, 학습 목표, 구성(파트와 쪽) | 챕터 `README.md` (`lib/chapter.ts`) |
+| 슬라이드, PDF | 덱 HTML과 PDF (`scripts/copy-assets.mjs`가 `public/decks/`로 복사) |
+| 로드맵 5단계, 주제 문서, 업무 사례, 공개 사례, 실패·중단 사례, 템플릿, 채용 현황, 용어 사전 | 로드맵 레포 [woogi-kang/ax-engineer-roadmap](https://github.com/woogi-kang/ax-engineer-roadmap) (MIT). 빌드할 때 `scripts/fetch-roadmap.mjs`가 `site/.roadmap`에 받아요. 다른 폴더를 쓰려면 `ROADMAP_DIR=폴더` |
+| 로드맵 주제와 강의 챕터 잇기 | `content/roadmap-links.json` |
+| 덱 표지 그림 | `assets/covers/` (`npm run covers -- 폴더`로 찍어요. 표지의 KANT 글자는 사이트 이름으로 바꿔 찍어요) |
+| 도구 로고 | `assets/logos/` (devicon MIT 컬러 로고, uv는 Simple Icons CC0) |
+
+## 주소
+
+| 주소 | 화면 | 영역 |
+| --- | --- | --- |
+| `/` | 홈 | 공통 |
+| `/start/`, `/glossary/` | 시작하기, 용어 사전 | 로드맵 |
+| `/roadmap/`, `/roadmap/<주제>/` | 로드맵 5단계, 주제 | 로드맵 |
+| `/lectures/`, `/chapters/<폴더>/`, `/tips/`, `/extras/<폴더>/` | 강의 목록, 챕터, 꿀팁 | 강의 |
+| `/library/`, `/library/cases/<id>/` | 업무 사례 목록과 상세 | 사례와 자료 |
+| `/library/public/`, `/library/failures/`, `/library/templates/`(+`<양식>/`), `/library/jobs/` | 공개 사례, 실패·중단, 템플릿, 채용 현황 | 사례와 자료 |
+| `/updates/`, `/updates/<폴더>/`, `/legal/` | 소식, 이 사이트에 대해 | 공통 |
+| `/search.json` | 찾기 창 목록(`lib/search.ts`) | 공통 |
 
 ## 폴더
 
 | 폴더 | 내용 |
 | --- | --- |
-| `app/` | 페이지(홈, `chapters/[dir]`, `extras/[dir]`, `updates`, `legal`, 404), 토큰(`tokens.css`), 공통 모양(`globals.css`), 글꼴 |
-| `components/` | 머리, 왼쪽 메뉴, 커리큘럼 목록, 챕터 틀(플레이어와 장 목록), 바닥 저작권 줄 |
-| `lib/` | 레포 읽기(`content.ts`), README 바꾸기(`markdown.ts`) |
-| `scripts/` | 빌드 전 복사, 빌드 뒤 페이지 수 점검 |
+| `app/layout.tsx` | 공통 틀: 머리글(찾기, 메뉴, 시작하기, 밝은/어두운 화면 버튼), 왼쪽 목차, 바닥글, 찾기 창 |
+| `app/tokens.css` | 색 토큰. 밝은 화면과 어두운 화면(`[data-theme="dark"]`) 두 벌 |
+| `app/globals.css` | 여러 화면이 같이 쓰는 모양(타일, 표지 카드, 펼쳐 보기, 거르기 버튼, 찾기 창) |
+| `components/ui.tsx` | `Ic`(lucide 아이콘 이름으로), `Ict`(아이콘 칸), `Logo`, `Cover`, `More`(펼쳐 보기), `Crumb`, `PageHead`, `SecHead`, `Diff` |
+| `components/` | `SideNav`, `SearchDialog`, `FilterChips`(거르기), `Player`(표지 뒤 덱), `LecCard`, `LibTiles` |
+| `lib/` | `content.ts`(강의), `roadmap.ts`(로드맵 레포), `links.ts`, `chapter.ts`, `markdown.ts`, `search.ts`, `site.ts`(이름, 메뉴, 아이콘), `logos.ts` |
+| `scripts/` | `fetch-roadmap.mjs`, `copy-assets.mjs`, `check-build.mjs`, `shoot-covers.mjs`, `qa.cjs` |
 | `design/` | 디자인 시안. 사이트에서는 `/design/`으로 열려요 |
 
-토큰을 바꾸면 `design/index.html` 시안도 같이 고쳐요.
+## 여러 작업이 동시에 고칠 때
+
+- 한 화면에만 쓰는 모양은 그 화면 폴더에 `.css`를 두고 `page.tsx`에서 불러요. `globals.css`에는 여러 화면이 같이 쓰는 것만 더해요.
+- `layout.tsx`, `tokens.css`, `components/ui.tsx`, `lib/roadmap.ts`는 공통 틀이에요. 고칠 때는 있던 이름을 바꾸지 말고 더하기만 해요.
+- 올리기 전에 `git pull origin develop`으로 받고, merge로 합쳐요.
+- 아이콘은 뜻이 있는 자리(단계, 기술 영역, 자료 묶음, 업무 분야)에만 써요. 색은 강조 파랑과 도구 로고 고유색만 써요.
+- 숫자와 사례는 두 레포에 있는 값만 써요. 지어낸 숫자, 점검 질문, 출력은 넣지 않아요. 사이트에는 KANT라는 말을 쓰지 않아요.
+- 올리기 전에 `npm run build`와 `npm run qa`가 문제 0건으로 끝나는지 보고, 고친 화면은 1440과 390 폭 스크린샷을 직접 열어 봐요(밝은 화면, 어두운 화면 모두).

@@ -1,25 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ChevronRight, Download, ExternalLink } from "lucide-react";
-import DeckLayout from "@/components/DeckLayout";
-import ChapterBody from "@/components/ChapterBody";
-import { deckUrl, load, pdfUrl, slidesOf } from "@/lib/content";
+import { Download, Presentation, ChevronDown } from "lucide-react";
+import { deckUrl, load, pdfUrl } from "@/lib/content";
 import { renderReadme } from "@/lib/markdown";
+import { splitSections } from "@/lib/chapter";
 import { plainInline, renderInline } from "@/lib/inline";
+import { shortTitle } from "@/lib/site";
+import { Crumb, extraCoverSrc, Ict, PageHead, SecHead } from "@/components/ui";
+import Player from "@/components/Player";
 
 type Params = { params: Promise<{ dir: string }> };
-
 const get = (dir: string) => {
   const e = load().extras.find((x) => x.dir === dir);
-  if (!e) throw new Error(`없는 번외 ${dir}`);
+  if (!e) throw new Error(`없는 꿀팁 ${dir}`);
   return e;
 };
-
+export const dynamicParams = false;
 export function generateStaticParams() {
   return load().extras.map((e) => ({ dir: e.dir }));
 }
-export const dynamicParams = false;
-
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const e = get((await params).dir);
   return { title: `꿀팁 ${e.title}`, description: plainInline(e.summary) };
@@ -28,46 +27,46 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function ExtraPage({ params }: Params) {
   const e = get((await params).dir);
   const { html } = await renderReadme(`extras/${e.dir}`);
-  const slides = slidesOf(`extras/${e.dir}/${e.slides}`);
-  const top = (
-    <>
-      <nav className="crumb" aria-label="위치">
-        <Link href="/">강의</Link>
-        <ChevronRight className="i" />
-        <Link href="/#tips">꿀팁</Link>
-      </nav>
-      <div className="ov-head">
-        <div>
-          <span className="no" style={{ color: "var(--check)" }}>
-            꿀팁
-          </span>
-          <h1>{e.title}</h1>
-          <p dangerouslySetInnerHTML={{ __html: renderInline(e.summary) }} />
-        </div>
-        <div className="act">
-          <a className="btn secondary sm" href={deckUrl(e.dir, e.slides, true)} target="_blank" rel="noopener">
-            <ExternalLink className="i" />새 창으로 보기
-          </a>
-          <a className="btn secondary sm" href={pdfUrl(e.dir, e.slides, true)} target="_blank" rel="noopener">
-            <Download className="i" />
-            PDF 받기
-          </a>
-        </div>
-      </div>
-      <div className="related" style={{ margin: "0 0 16px" }}>
-        관련 챕터
-        {e.relatedChapters.map((r) => (
-          <Link className="prereq" key={r.dir} href={`/chapters/${r.dir}/`}>
-            <b>{r.no}</b>
-            {r.title}
-          </Link>
-        ))}
-      </div>
-    </>
-  );
+  const secs = splitSections(html).filter((s) => !/^강사용/.test(s.title));
+  const deck = deckUrl(e.dir, e.slides, true);
   return (
-    <DeckLayout head={{ no: "꿀팁", title: e.title, color: "var(--muted)" }} slides={slides.map((s) => ({ n: s.n, title: s.title }))} src={deckUrl(e.dir, e.slides, true)} deckTitle={e.title} top={top}>
-      <ChapterBody html={html} slides={slides} />
-    </DeckLayout>
+    <>
+      <Crumb items={[["강의", "/lectures/"], ["꿀팁", "/tips/"], [e.title]]} />
+      <PageHead icon={<Ict n="lightbulb" size="lg" />} eyebrow="꿀팁" title={e.title} lede={<span dangerouslySetInnerHTML={{ __html: renderInline(e.summary) }} />} />
+      <Player src={deck} cover={extraCoverSrc(e.dir)} title={e.title} />
+      <div className="acts">
+        <a href={deck} target="_blank" rel="noopener">
+          <Presentation aria-hidden="true" />
+          크게 보기
+        </a>
+        <a href={pdfUrl(e.dir, e.slides, true)} target="_blank" rel="noopener">
+          <Download aria-hidden="true" />
+          PDF 받기
+        </a>
+      </div>
+      <p className="muted" style={{ marginTop: 16, fontSize: 14 }}>
+        관련 챕터:{" "}
+        {e.relatedChapters.map((c, n) => (
+          <span key={c.dir}>
+            {n > 0 && ", "}
+            <Link href={`/chapters/${c.dir}/`} style={{ color: "var(--ac)" }}>
+              {c.no} {shortTitle(c.title)}
+            </Link>
+          </span>
+        ))}
+      </p>
+      <section className="sec doc">
+        <SecHead title="교안" />
+        {secs.map((s) => (
+          <details key={s.id} id={s.id}>
+            <summary>
+              {s.title}
+              <ChevronDown aria-hidden="true" />
+            </summary>
+            <div className="in prose" dangerouslySetInnerHTML={{ __html: s.html }} />
+          </details>
+        ))}
+      </section>
+    </>
   );
 }

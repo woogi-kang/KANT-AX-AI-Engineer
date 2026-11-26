@@ -25,7 +25,7 @@ export function mapRepoLink(fromDir: string, href: string): string {
   if (rel === "README.md" || rel === "." || rel === "") return `/${h}`;
   if ((m = rel.match(/^(\d\d-[a-z0-9-]+)(\/README\.md)?$/))) return `/chapters/${m[1]}/${h}`;
   if ((m = rel.match(/^extras\/([a-z0-9-]+)(\/README\.md)?$/))) return `/extras/${m[1]}/${h}`;
-  if (/^extras(\/README\.md)?$/.test(rel)) return `/#extras`;
+  if (/^extras(\/README\.md)?$/.test(rel)) return `/tips/${h}`;
   if ((m = rel.match(/^updates\/([^/]+)(\/README\.md)?$/))) return `/updates/${m[1]}/${h}`;
   if (/^updates(\/README\.md)?$/.test(rel)) return `/updates/${h}`;
   if ((m = rel.match(/^updates\/([^/]+)\/img\/(.+)$/))) return `/updates/${m[1]}/img/${m[2]}`;
@@ -33,14 +33,16 @@ export function mapRepoLink(fromDir: string, href: string): string {
   return `${REPO_URL}/${isDir ? "tree" : "blob"}/main/${encodeURI(rel)}${h}`;
 }
 
-function rewrite(fromDir: string) {
+type Mapper = (href: string) => string;
+
+function rewrite(map: Mapper) {
   return (tree: Root) => {
     visit(tree, "element", (el: Element) => {
       const key = el.tagName === "a" ? "href" : el.tagName === "img" ? "src" : null;
       if (!key) return;
       const v = el.properties?.[key];
       if (typeof v !== "string") return;
-      const nv = mapRepoLink(fromDir, v);
+      const nv = map(v);
       el.properties[key] = nv;
       if (el.tagName === "a" && /^https?:/.test(nv)) {
         el.properties.target = "_blank";
@@ -70,14 +72,25 @@ export async function renderReadme(relDir: string, opts: ReadmeOpts = { dropTitl
   md = md.replace(/<!-- curriculum:(\w+) -->[\s\S]*?<!-- \/curriculum:\1 -->\n?/g, "");
   const title = md.match(/^# (.+)$/m)?.[1]?.trim() ?? "";
   if (opts.dropTitle) md = md.replace(/^# .+\n+/m, "");
+  return { title, html: await renderMarkdown(md, (h) => mapRepoLink(relDir, h)) };
+}
+
+/** 마크다운 글을 HTML로 바꿔요. map은 링크와 그림 주소를 바꾸는 함수예요. */
+export async function renderMarkdown(md: string, map: Mapper = (h) => h) {
   const file = await unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
     .use(rehypeSlug)
-    .use(rewrite, relDir)
+    .use(rewrite, map)
     .use(rehypeStringify)
     .process(md);
-  return { title, html: String(file) };
+  return String(file);
+}
+
+/** 로드맵 레포 문서를 HTML로. 링크는 사이트 주소나 로드맵 레포 GitHub 주소로 바꿔요. */
+export async function renderRoadmapMd(fromFile: string, md: string) {
+  const { mapRoadmapLink } = await import("./roadmap");
+  return renderMarkdown(md, (h) => mapRoadmapLink(fromFile, h));
 }

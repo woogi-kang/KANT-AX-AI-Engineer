@@ -11,6 +11,8 @@ const need = [
   "updates/index.html",
   "legal/index.html",
   "design/index.html",
+  "search.json",
+  ...["roadmap", "start", "glossary", "lectures", "tips", "library", "library/public", "library/failures", "library/templates", "library/jobs"].map((d) => `${d}/index.html`),
   ...cur.chapters.map((c) => `chapters/${c.dir}/index.html`),
   ...cur.chapters.map((c) => `decks/${c.dir}/${c.slides}`),
   ...cur.chapters.map((c) => `decks/${c.dir}/${c.slides.replace(/\.html$/, ".pdf")}`),

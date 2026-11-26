@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
-import AppShell from "@/components/AppShell";
+import { Crumb, Ict, PageHead } from "@/components/ui";
 import { load } from "@/lib/content";
 import { renderReadme } from "@/lib/markdown";
 
@@ -26,21 +24,10 @@ export default async function UpdatePage({ params }: Params) {
   const u = get((await params).dir);
   const { html } = await renderReadme(`updates/${u.dir}`);
   return (
-    <AppShell current="news">
-      <nav className="crumb" aria-label="위치">
-        <Link href="/updates/">소식</Link>
-        <ChevronRight className="i" />
-        <span>릴리스 노트</span>
-      </nav>
-      <div className="ov-head" style={{ paddingBottom: 0 }}>
-        <div>
-          <span className="no" style={{ color: "var(--muted)" }}>
-            <time dateTime={u.date}>{u.date}</time>
-          </span>
-          <h1>{u.title}</h1>
-        </div>
-      </div>
-      <article className="prose" style={{ marginTop: 16 }} dangerouslySetInnerHTML={{ __html: html }} />
-    </AppShell>
+    <>
+      <Crumb items={[["소식", "/updates/"], [u.title]]} />
+      <PageHead icon={<Ict n="megaphone" size="lg" />} eyebrow={<time dateTime={u.date}>{u.date}</time>} title={u.title} lede={u.summary} />
+      <article className="prose sec" style={{ marginTop: 32 }} dangerouslySetInnerHTML={{ __html: html }} />
+    </>
   );
 }

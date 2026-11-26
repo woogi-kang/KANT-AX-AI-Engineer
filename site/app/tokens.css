@@ -1,53 +1,57 @@
-/* 디자인 토큰: site/design/index.html 시안과 같은 값이에요. 바꾸면 시안도 같이 고쳐요. */
-:root{
-  /* 바탕과 글자 */
-  --paper:#F6F5F1; --paper-2:#ECEAE3; --surface:#FFFFFF; --sunken:#F1EFE9; --line:#E1DED6; --line-strong:#C9C5BA;
-  --ink:#1D2330; --sub:#4A5262; --muted:#6A7180; --faint:#A9AEB8;
-  /* 강조색 하나 */
-  --accent:#2459C9; --accent-ink:#FFFFFF; --accent-soft:#E5ECFA;
-  /* 뜻이 있는 색: 줄 칠하기와 같은 뜻 */
-  --run:#1F8A4C; --run-soft:#E6F4EC; --skip:#6A7180; --skip-soft:#EEEFF2;
-  --error:#A33131; --error-soft:#F8E6E6; --mark:#2459C9; --mark-soft:#E5ECFA; --check:#B26A00; --check-soft:#F7EEDD;
-  /* 분류색 6개 */
-  --t-term:#4A5262; --t-term-soft:#E9EBEF; --t-git:#A0620A; --t-git-soft:#F7EEDD; --t-gh:#5A3BB8; --t-gh-soft:#ECE7F8;
-  --t-py:#1E5FA8; --t-py-soft:#E5EEF8; --t-docker:#0F7C86; --t-docker-soft:#E2F2F3; --t-db:#A23B72; --t-db-soft:#F6E7EF;
-  /* 코드 */
-  --code-bg:#FFFFFF; --code-gutter:#A9AEB8; --term-bg:#1D2330; --term-ink:#E6E9EF; --term-dim:#8E96A6; --term-prompt:#7EE2A0; --term-err:#F2A0A0;
-  --syn-kw:#5A3BB8; --syn-str:#1F8A4C; --syn-num:#B26A00; --syn-fn:#0F7C86; --syn-cm:#6A7180;
-  /* 글자 */
-  --font-sans:'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
-  --font-mono:'JetBrains Mono', 'D2Coding Hangul', ui-monospace, Menlo, Consolas, monospace;
-  /* 모서리, 그림자 */
-  --r-sm:6px; --r-md:10px; --r-lg:14px;
-  --shadow-raised:0 1px 2px rgba(29,35,48,.06), 0 2px 8px rgba(29,35,48,.06);
-  --shadow-float:0 1px 2px rgba(29,35,48,.08), 0 12px 32px rgba(29,35,48,.14);
-  /* 움직임: Stageshow 두 곡선 */
-  --ease-travel:cubic-bezier(.45,0,.1,1); --ease-arrive:cubic-bezier(.25,.8,.25,1);
-  --dur-fast:120ms; --dur-ui:220ms; --dur-story:800ms;
+/* 디자인 토큰: 핸드북 시안 v16(site/design/v16)과 같은 값이에요. 처음에는 밝은 화면이고, 오른쪽 위 버튼으로 어둡게 바꿔요. */
+:root {
+  --bg: #ffffff;
+  --side: #fafaf9;
+  --card: #ffffff;
+  --hover: #f0efeb;
+  --code: #f4f3f0;
+  --ink: #1d2330;
+  --sub: #5f6675;
+  --mute: #8a909c;
+  --line: #eae9e6;
+  --line2: #d9d7d2;
+  --ac: #2459c9;
+  --ac-ink: #ffffff;
+  --ac-s: #eef3fd;
+  --ac-line: #c9d7f5;
+  --ok: #1f7a4d;
+  --ok-s: #e8f4ee;
+  --warn: #9a5b00;
+  --warn-s: #f8efdf;
+  --err: #a33131;
+  --err-s: #f8e6e6;
+  --cover-bg: #1d2330;
+  --scrim: rgba(29, 35, 48, 0.4);
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+  --font-sans: "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", "D2Coding Hangul", ui-monospace, Menlo, Consolas, monospace;
+  --top-h: 60px;
+  --side-w: 260px;
+  color-scheme: light;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --paper:#15181E; --paper-2:#1B1F26; --surface:#1F242C; --sunken:#191D23; --line:#2F3540; --line-strong:#454C59;
-  --ink:#ECEAE4; --sub:#B9BEC8; --muted:#8F96A3; --faint:#5E6573;
-  --accent:#6E9BF0; --accent-ink:#0E1420; --accent-soft:#1E2A42;
-  --run:#5CC48A; --run-soft:#173325; --skip:#8F96A3; --skip-soft:#262B33;
-  --error:#EE8A8A; --error-soft:#3A1E20; --mark:#6E9BF0; --mark-soft:#1E2A42; --check:#E2A64B; --check-soft:#36291A;
-  --t-term:#B9BEC8; --t-term-soft:#2A2F38; --t-git:#E2A64B; --t-git-soft:#36291A; --t-gh:#A894EC; --t-gh-soft:#2A2440;
-  --t-py:#72A5E8; --t-py-soft:#1C2A3D; --t-docker:#56BFC8; --t-docker-soft:#16302F; --t-db:#E58BB8; --t-db-soft:#3A1F2D;
-  --code-bg:#1A1E25; --code-gutter:#5E6573; --term-bg:#0F1217; --term-ink:#E6E9EF; --term-dim:#8E96A6; --term-prompt:#7EE2A0; --term-err:#F2A0A0;
-  --syn-kw:#B9A6F2; --syn-str:#7FD3A0; --syn-num:#E8B46A; --syn-fn:#6CCBD3; --syn-cm:#8F96A3;
-  --shadow-raised:0 0 0 1px rgba(255,255,255,.04); --shadow-float:0 0 0 1px rgba(255,255,255,.06), 0 12px 32px rgba(0,0,0,.5);
-  color-scheme:dark;
-}}
-:root[data-theme="dark"]{
-  --paper:#15181E; --paper-2:#1B1F26; --surface:#1F242C; --sunken:#191D23; --line:#2F3540; --line-strong:#454C59;
-  --ink:#ECEAE4; --sub:#B9BEC8; --muted:#8F96A3; --faint:#5E6573;
-  --accent:#6E9BF0; --accent-ink:#0E1420; --accent-soft:#1E2A42;
-  --run:#5CC48A; --run-soft:#173325; --skip:#8F96A3; --skip-soft:#262B33;
-  --error:#EE8A8A; --error-soft:#3A1E20; --mark:#6E9BF0; --mark-soft:#1E2A42; --check:#E2A64B; --check-soft:#36291A;
-  --t-term:#B9BEC8; --t-term-soft:#2A2F38; --t-git:#E2A64B; --t-git-soft:#36291A; --t-gh:#A894EC; --t-gh-soft:#2A2440;
-  --t-py:#72A5E8; --t-py-soft:#1C2A3D; --t-docker:#56BFC8; --t-docker-soft:#16302F; --t-db:#E58BB8; --t-db-soft:#3A1F2D;
-  --code-bg:#1A1E25; --code-gutter:#5E6573; --term-bg:#0F1217; --term-ink:#E6E9EF; --term-dim:#8E96A6; --term-prompt:#7EE2A0; --term-err:#F2A0A0;
-  --syn-kw:#B9A6F2; --syn-str:#7FD3A0; --syn-num:#E8B46A; --syn-fn:#6CCBD3; --syn-cm:#8F96A3;
-  --shadow-raised:0 0 0 1px rgba(255,255,255,.04); --shadow-float:0 0 0 1px rgba(255,255,255,.06), 0 12px 32px rgba(0,0,0,.5);
-  color-scheme:dark;
+:root[data-theme="dark"] {
+  --bg: #15181e;
+  --side: #1a1e25;
+  --card: #1f242c;
+  --hover: #262c35;
+  --code: #262c35;
+  --ink: #eceae4;
+  --sub: #b9bec8;
+  --mute: #8f96a3;
+  --line: #2c323c;
+  --line2: #434a57;
+  --ac: #7aa4f2;
+  --ac-ink: #0e1420;
+  --ac-s: #1e2a42;
+  --ac-line: #34507f;
+  --ok: #6fcf98;
+  --ok-s: #173325;
+  --warn: #e2a64b;
+  --warn-s: #36291a;
+  --err: #ee8a8a;
+  --err-s: #3a1e20;
+  --cover-bg: #0f1217;
+  --scrim: rgba(0, 0, 0, 0.55);
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
 }
