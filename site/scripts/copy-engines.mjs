@@ -41,19 +41,39 @@ for (const d of fs.readdirSync(ROOT)) {
   }
 }
 const cache = path.join(SITE, ".pyodide-packages");
+// Cloudflare 빌드(CF_PAGES)와 CI에서는 패키지를 꼭 받아야 해요. 받지 못하면 빌드를 멈춰요.
+// 그 밖(CDN이 막힌 클라우드 작업 환경 등)에서는 경고만 남기고 넘어가요. SKIP_PYODIDE_PACKAGES=1이면 받지 않아요.
+const strict = Boolean(process.env.CF_PAGES || process.env.CI || process.env.GITHUB_ACTIONS);
+const skipFetch = process.env.SKIP_PYODIDE_PACKAGES === "1" && !strict;
+const missing = [];
 for (const n of want) {
   const { file_name: f, sha256 } = lock.packages[n];
   const local = path.join(cache, f);
   if (!fs.existsSync(local)) {
     const url = `https://cdn.jsdelivr.net/pyodide/v${pyVer}/full/${f}`;
-    const r = await fetch(url);
-    if (!r.ok) throw new Error(`${url} 받기 실패 ${r.status}`);
+    let buf = null;
+    if (!skipFetch) {
+      try {
+        const r = await fetch(url);
+        if (!r.ok) throw new Error(`${r.status}`);
+        buf = Buffer.from(await r.arrayBuffer());
+      } catch (e) {
+        if (strict) throw new Error(`${url} 받기 실패 ${e.cause?.code ?? e.message}`);
+      }
+    }
+    if (!buf) {
+      missing.push(n);
+      continue;
+    }
     fs.mkdirSync(cache, { recursive: true });
-    fs.writeFileSync(local, Buffer.from(await r.arrayBuffer()));
+    fs.writeFileSync(local, buf);
   }
   const got = crypto.createHash("sha256").update(fs.readFileSync(local)).digest("hex");
   if (got !== sha256) throw new Error(`${f}의 sha256이 잠금 파일과 달라요`);
   copy(local, path.join(PUB, "engines/pyodide", f));
+}
+if (missing.length) {
+  console.warn(`copy-engines: 경고: 파이썬 패키지 ${missing.length}개를 받지 못해서 빼고 넘어가요(${missing.join(", ")}). 이 빌드에서는 그 패키지를 쓰는 실습 칸이 실행되지 않고, practice-check도 그 챕터를 건너뛰어요.`);
 }
 
 const PG = nm("@electric-sql/pglite/dist");
@@ -71,4 +91,4 @@ for (const d of fs.readdirSync(ROOT)) {
     n++;
   }
 }
-console.log(`copy-engines: 엔진 복사, 파이썬 패키지 ${want.size}개, 실습 데이터 ${n}개`);
+console.log(`copy-engines: 엔진 복사, 파이썬 패키지 ${want.size - missing.length}개, 실습 데이터 ${n}개`);

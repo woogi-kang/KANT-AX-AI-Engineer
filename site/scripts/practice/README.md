@@ -56,3 +56,5 @@ python3 build_replay_out.py 35-docker-cli
 ## 엔진 파일
 
 `scripts/copy-engines.mjs`가 빌드 전에 `engines/*.mjs`와 npm의 Pyodide 코어, PGlite를 `public/engines/`에 복사해요. CDN 대신 같은 사이트에서 내보내요. 그래서 학교나 회사 망에서 CDN이 막혀도 돌아가고, 엔진 버전은 `package.json`이 정해요. 처음 실행할 때만 받아요(파이썬 약 13MB, SQL 약 16MB). numpy, pandas 같은 패키지도 같은 사이트에 둬요. 빌드할 때 `practice.json`의 `packages`와 그 패키지가 기대는 패키지를 Pyodide 공식 CDN에서 `site/.pyodide-packages/`에 한 번 받아 두고, 잠금 파일(`pyodide-lock.json`)의 sha256과 맞는지 본 뒤 복사해요.
+
+CDN(`cdn.jsdelivr.net`)이 막힌 곳에서는 패키지를 받지 못해도 경고만 남기고 빌드를 이어 가요. 그 빌드에서는 패키지를 쓰는 챕터(45)의 칸이 실행되지 않고, `practice-check`도 그 챕터를 건너뛰어요. 받기를 아예 건너뛰려면 `SKIP_PYODIDE_PACKAGES=1 npm run build`로 쳐요. Cloudflare 빌드(`CF_PAGES`)와 CI에서는 꼭 받아야 해서, 받지 못하면 빌드가 멈춰요.
