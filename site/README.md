@@ -4,6 +4,8 @@
 
 ## 실행
 
+Node는 최신 LTS(26)를 써요(`.node-version`). 패키지와 프레임워크는 모두 최신 안정 버전으로 맞춰요.
+
 ```bash
 cd site
 npm ci
