@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>핸드북 전후 비교</title>
+<style>
+@font-face{font-family:"Pretendard";font-weight:45 920;font-display:swap;src:url("../v2/fonts/PretendardVariable.woff2") format("woff2-variations")}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#EDECE8;color:#1D2330;font:15px/1.6 "Pretendard",system-ui,sans-serif;word-break:keep-all}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:5;background:#EDECE8;border-bottom:1px solid #D9D6CE}
+.top-in{max-width:1680px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
+h1{margin:0;font-size:18px;letter-spacing:-.02em}
+.seg{display:inline-flex;background:#fff;border-radius:999px;padding:3px;box-shadow:0 0 0 1px #D9D6CE}
+.seg button{border:0;background:none;font:inherit;font-size:14px;font-weight:600;color:#6A7180;padding:6px 14px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#1D2330;color:#fff}
+.top p{margin:0 0 0 auto;font-size:13px;color:#6A7180}
+main{max-width:1680px;margin:0 auto;padding:20px 24px 48px;display:grid;gap:20px;grid-template-columns:repeat(2,minmax(0,1fr))}
+main.phone{grid-template-columns:repeat(2,minmax(0,1fr));max-width:900px}
+.v-h .ia{margin-top:10px;padding-top:8px;border-top:1px dashed #ECEAE4;font-size:12px;color:#4A5262;line-height:1.6}
+.note{max-width:1680px;margin:0 auto;padding:0 24px 40px;font-size:13px;color:#6A7180}
+.v{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px #D9D6CE;display:flex;flex-direction:column}
+.v-h{padding:14px 16px 12px;border-bottom:1px solid #ECEAE4}
+.v-h b{font-size:16px;letter-spacing:-.02em}
+.v-h b span{font:600 12px/1 ui-monospace,monospace;color:#2459C9;background:#E6EDFB;border-radius:4px;padding:3px 6px;margin-right:8px;vertical-align:2px}
+.v-h p{margin:4px 0 0;font-size:13px;color:#4A5262}
+.v-h ul{margin:8px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:12px;color:#6A7180}
+.v-h li::before{content:"+ ";color:#1F8A4C;font-weight:700}.v-h li.m::before{content:"− ";color:#A33131}
+.frame{position:relative;overflow:hidden;background:#F6F5F1}
+.frame iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0}
+.v-f{display:flex;gap:12px;padding:10px 16px;border-top:1px solid #ECEAE4;font-size:13px;font-weight:600}
+.v-f a{color:#2459C9;text-decoration:none}
+@media (max-width:1100px){main,main.phone{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:600px){main.phone{grid-template-columns:minmax(0,1fr)}.top p{display:none}}
+.lead{max-width:1680px;margin:0 auto;padding:18px 24px 0;font-size:14px;color:#4A5262}.lead b{color:#1D2330}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <h1>핸드북 시안 전후 비교</h1>
+  <div class="seg" role="group" aria-label="화면"><button type="button" data-p="home" aria-pressed="true">홈</button><button type="button" data-p="roadmap" aria-pressed="false">로드맵</button><button type="button" data-p="topic" aria-pressed="false">로드맵 주제</button><button type="button" data-p="chapter" aria-pressed="false">강의 챕터</button><button type="button" data-p="cases" aria-pressed="false">사례와 자료</button></div>
+  <div class="seg" role="group" aria-label="폭"><button type="button" data-w="1440" aria-pressed="true">넓은 화면</button><button type="button" data-w="390" aria-pressed="false">휴대폰</button></div>
+  <p>칸 안에서 스크롤하고 눌러 볼 수 있어요.</p>
+</div></header>
+<p class="lead">왼쪽이 전, 오른쪽이 후예요. 같은 화면 버튼을 누르면 두 칸이 같이 바뀌어요. 아이콘은 뜻이 있는 자리(단계, 기술 영역, 자료 묶음, 업무 분야)에만 넣고, 색은 로드맵 파랑과 도구 로고의 고유색만 썼어요.</p>
+<main id="grid">
+  <section class="v" data-v="v12"><div class="v-h"><b><span>v12</span>핸드북 (전)</b><p>고르신 시안 그대로예요. 목차, 본문, 찾기 중심이고 글과 표가 대부분이에요.</p></div>
+    <div class="frame"><iframe title="v12" loading="lazy"></iframe></div><div class="v-f"><a data-open>이 화면 크게 열기 →</a></div></section>
+  <section class="v" data-v="v15"><div class="v-h"><b><span>v15</span>핸드북 + 그림 (후)</b><p>같은 틀에 단계·영역·자료 묶음 아이콘, 도구 로고, 실제 덱 표지와 슬라이드 미리보기, 로드맵과 강의를 잇는 그림을 더했어요.</p></div>
+    <div class="frame"><iframe title="v15" loading="lazy"></iframe></div><div class="v-f"><a data-open>이 화면 크게 열기 →</a></div></section>
+</main>
+<p class="note">다섯 시안 비교는 <a href="../compare3/">기획안 기준 시안 비교</a>에 그대로 있어요.</p>
+<script>
+(()=>{let p='home',w=1440;const grid=document.getElementById('grid');
+function fit(){document.querySelectorAll('.v').forEach(v=>{const f=v.querySelector('.frame'),ifr=f.querySelector('iframe');const h=w===1440?900:844;const s=f.clientWidth/w;f.style.height=Math.round(h*s)+'px';ifr.style.width=w+'px';ifr.style.height=h+'px';ifr.style.transform='scale('+s+')'})}
+function load(){grid.classList.toggle('phone',w===390);document.querySelectorAll('.v').forEach(v=>{const u='../'+v.dataset.v+'/'+p+'.html';const ifr=v.querySelector('iframe');if(ifr.getAttribute('src')!==u)ifr.src=u;v.querySelector('[data-open]').href=u});requestAnimationFrame(fit)}
+document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{p=b.dataset.p;document.querySelectorAll('[data-p]').forEach(x=>x.setAttribute('aria-pressed',x===b));load()});
+document.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{w=+b.dataset.w;document.querySelectorAll('[data-w]').forEach(x=>x.setAttribute('aria-pressed',x===b));load()});
+addEventListener('resize',fit);load();})();
+</script>
+</body>
+</html>
