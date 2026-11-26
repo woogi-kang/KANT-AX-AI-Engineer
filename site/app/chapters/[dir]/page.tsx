@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Download, Presentation, SquareTerminal, TriangleExclamationPoint, CircleCheck, ChevronDown } from "lucide-react";
+import { ArrowRight, Download, Presentation, SquareTerminal, TriangleExclamationPoint, CircleCheck } from "lucide-react";
 import { deckUrl, getChapter, load, pdfUrl } from "@/lib/content";
-import { renderReadme } from "@/lib/markdown";
-import { chapterInfo, splitSections } from "@/lib/chapter";
+import { chapterInfo } from "@/lib/chapter";
 import { chapterTopics } from "@/lib/links";
 import { topicBySlug } from "@/lib/roadmap";
 import { chapterLogos } from "@/lib/logos";
 import { renderInline, plainInline } from "@/lib/inline";
 import { AREA_IC, shortTitle } from "@/lib/site";
-import { Cover, coverSrc, Crumb, Ict, Logo, More, SecHead } from "@/components/ui";
+import { Cover, coverSrc, Crumb, Ict, Logo, More, partSrc, SecHead } from "@/components/ui";
 import Player from "@/components/Player";
 import PartGo from "@/components/PartGo";
+import Lesson, { lessonSections } from "@/components/Lesson";
+import "./chapter.css";
 import ChapterPractice from "@/components/practice/ChapterPractice";
 import ChapterQuiz from "@/components/quiz/ChapterQuiz";
 
@@ -25,12 +26,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return { title: `${c.no} ${c.title}`, description: plainInline(c.goal) };
 }
 
-// 첫 판: 표지 플레이어, 파트(누르면 그 쪽으로), 학습 목표, README 절. 강의 영역에서 파트 그림, 실습 칸으로 다듬어요.
+// 표지 플레이어, 파트 카드(파트 첫 장 그림, 누르면 그 쪽으로), 학습 목표, 로드맵 주제, 실습 칸, 확인 문제, 교안, 이전/다음 챕터.
 export default async function ChapterPage({ params }: Params) {
   const c = getChapter((await params).dir);
   const { goals, parts } = chapterInfo(c.dir);
-  const { html } = await renderReadme(c.dir);
-  const secs = splitSections(html).filter((s) => !/^(학습 목표|구성|강사용)/.test(s.title));
+  const secs = await lessonSections(c.dir, /^(학습 목표|구성|강사용)/);
   const topics = chapterTopics(c.no).map(topicBySlug);
   const deck = deckUrl(c.dir, c.slides);
   const logos = chapterLogos(c.no, c.track);
@@ -77,9 +77,10 @@ export default async function ChapterPage({ params }: Params) {
       {parts.length > 0 && (
         <section className="sec">
           <SecHead title="구성" right={<span className="cnt">파트 {parts.length}개</span>} />
-          <div className="tiles t4">
+          <div className="tiles t4 parts-grid">
             {parts.map((p) => (
-              <PartGo key={p.from} page={p.from} className="part">
+              <PartGo key={p.from} page={p.from} className="part" label={`${p.name}, ${p.from}쪽부터 슬라이드 보기`}>
+                <Cover src={partSrc(c.dir, p.from)} />
                 <span className="pt">
                   <b>{p.name}</b>
                   <small>
@@ -129,18 +130,7 @@ export default async function ChapterPage({ params }: Params) {
       {/* 확인 문제 영역 자리: 파트별 문제. 내용은 components/quiz/ 에서 채워요 */}
       <ChapterQuiz dir={c.dir} no={c.no} parts={parts} />
 
-      <section className="sec doc">
-        <SecHead title="교안" />
-        {secs.map((s) => (
-          <details key={s.id} id={s.id}>
-            <summary>
-              {s.title}
-              <ChevronDown aria-hidden="true" />
-            </summary>
-            <div className="in prose" dangerouslySetInnerHTML={{ __html: s.html }} />
-          </details>
-        ))}
-      </section>
+      <Lesson secs={secs} />
 
       <nav className="pn" aria-label="이전, 다음 챕터">
         {c.prev ? (

@@ -25,10 +25,11 @@ npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, �
 | --- | --- |
 | 강의 단계, 묶음, 레벨, 챕터, 꿀팁, 소식 | 이 레포 `curriculum.json` |
 | 챕터 교안, 학습 목표, 구성(파트와 쪽) | 챕터 `README.md` (`lib/chapter.ts`) |
-| 슬라이드, PDF | 덱 HTML과 PDF (`scripts/copy-assets.mjs`가 `public/decks/`로 복사) |
+| 슬라이드, PDF | 덱 HTML과 PDF (`scripts/copy-assets.mjs`가 `public/decks/`로 복사하면서 표지의 "KANT AX/AI 엔지니어 트랙"만 사이트 이름으로 바꿔요. 레포 원본과 GitHub Pages 덱, PDF는 그대로예요) |
 | 로드맵 5단계, 주제 문서, 업무 사례, 공개 사례, 실패·중단 사례, 템플릿, 채용 현황, 용어 사전 | 로드맵 레포 [woogi-kang/ax-engineer-roadmap](https://github.com/woogi-kang/ax-engineer-roadmap) (MIT). 빌드할 때 `scripts/fetch-roadmap.mjs`가 `site/.roadmap`에 받아요. 다른 폴더를 쓰려면 `ROADMAP_DIR=폴더` |
 | 로드맵 주제와 강의 챕터 잇기 | `content/roadmap-links.json` |
 | 덱 표지 그림 | `assets/covers/` (`npm run covers -- 폴더`로 찍어요. 표지의 KANT 글자는 사이트 이름으로 바꿔 찍어요) |
+| 파트 첫 장 그림 | `assets/parts/<폴더>/<쪽>.jpg`, 꿀팁은 `assets/parts/extras/<폴더>/` (`node scripts/shoot-parts.mjs [폴더]`로 찍어요. 덱이나 README 구성 표를 고치면 다시 찍어요) |
 | 도구 로고 | `assets/logos/` (devicon MIT 컬러 로고, uv는 Simple Icons CC0) |
 
 ## 주소
@@ -52,9 +53,9 @@ npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, �
 | `app/tokens.css` | 색 토큰. 밝은 화면과 어두운 화면(`[data-theme="dark"]`) 두 벌 |
 | `app/globals.css` | 여러 화면이 같이 쓰는 모양(타일, 표지 카드, 펼쳐 보기, 거르기 버튼, 찾기 창) |
 | `components/ui.tsx` | `Ic`(lucide 아이콘 이름으로), `Ict`(아이콘 칸), `Logo`, `Cover`, `More`(펼쳐 보기), `Crumb`, `PageHead`, `SecHead`, `Diff` |
-| `components/` | `SideNav`, `SearchDialog`, `FilterChips`(거르기), `Player`(표지 뒤 덱), `LecCard`, `LibTiles` |
+| `components/` | `Lesson`(교안 절, `lib/lesson.ts`가 명령 카드, 문제 해결 카드, 코드 복사 버튼을 만들어요), `SideNav`, `SearchDialog`, `FilterChips`(거르기), `Player`(표지 뒤 덱), `LecCard`, `LibTiles` |
 | `lib/` | `content.ts`(강의), `roadmap.ts`(로드맵 레포), `links.ts`, `chapter.ts`, `markdown.ts`, `search.ts`, `site.ts`(이름, 메뉴, 아이콘), `logos.ts` |
-| `scripts/` | `fetch-roadmap.mjs`, `copy-assets.mjs`, `check-build.mjs`, `shoot-covers.mjs`, `qa.cjs` |
+| `scripts/` | `fetch-roadmap.mjs`, `copy-assets.mjs`, `check-build.mjs`, `shoot-covers.mjs`, `shoot-parts.mjs`, `qa.cjs` |
 | `design/` | 디자인 시안. 사이트에서는 `/design/`으로 열려요 |
 
 ## 여러 작업이 동시에 고칠 때

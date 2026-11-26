@@ -110,6 +110,7 @@ a.tile:hover, button.tile:hover { border-color: var(--ac); }
 .lc { display: block; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--card); min-width: 0; }
 .lc:hover { border-color: var(--ac); }
 .cv { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; background: var(--cover-bg); }
+.cv { height: auto; }
 .lc .bd { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; }
 .lc b { font-size: 15.5px; line-height: 1.35; }
 .lc small { color: var(--mute); font-size: 13px; }

@@ -1,0 +1,22 @@
+/* 강의 목록 화면에만 쓰는 모양 */
+.lec-filter { margin: 22px 0 6px; padding: 14px 16px 6px; border: 1px solid var(--line); border-radius: 14px; background: var(--side); }
+.lec-filter .fchips { margin: 0 0 10px; align-items: center; }
+.lec-filter .fl { font-size: 13px; font-weight: 700; color: var(--mute); width: 40px; flex: none; }
+.lec-filter .fchips button .lg { width: 18px; height: 18px; }
+.lf-res { margin: 2px 0 8px; font-size: 14px; color: var(--sub); }
+.lf-res button { all: unset; cursor: pointer; color: var(--ac); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; margin-left: 6px; }
+.lf-res button:focus-visible { outline: 2px solid var(--ac); outline-offset: 2px; }
+.stage .ss { margin: 8px 0 0; color: var(--sub); font-size: 15px; }
+@media (max-width: 760px) {
+  .lec-filter { padding: 12px 12px 4px; margin-left: -4px; margin-right: -4px; }
+  .lec-filter .fchips { gap: 6px; }
+  .lec-filter .fl { width: 100%; }
+  .lec-filter .fchips button { height: 34px; padding: 0 11px; font-size: 14px; }
+}
+@media (max-width: 560px) {
+  #lec-list .tiles.t4, #tips .tiles.t4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  #lec-list .lc .bd, #tips .lc .bd { padding: 10px 10px 12px; gap: 6px; }
+  #lec-list .lc b, #tips .lc b { font-size: 14px; }
+  #lec-list .lc small, #tips .lc small { font-size: 12px; }
+  #lec-list .lc .lg { width: 20px; height: 20px; }
+}

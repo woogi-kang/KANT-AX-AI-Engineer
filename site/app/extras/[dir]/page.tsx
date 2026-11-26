@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Download, Presentation, ChevronDown } from "lucide-react";
-import { deckUrl, load, pdfUrl } from "@/lib/content";
-import { renderReadme } from "@/lib/markdown";
-import { splitSections } from "@/lib/chapter";
+import { Download, Presentation } from "lucide-react";
+import { deckUrl, getChapter, load, pdfUrl } from "@/lib/content";
+import { chapterInfo } from "@/lib/chapter";
 import { plainInline, renderInline } from "@/lib/inline";
-import { shortTitle } from "@/lib/site";
-import { Crumb, extraCoverSrc, Ict, PageHead, SecHead } from "@/components/ui";
+import { Cover, Crumb, extraCoverSrc, Ict, PageHead, partSrc, SecHead } from "@/components/ui";
 import Player from "@/components/Player";
+import PartGo from "@/components/PartGo";
+import LecCard from "@/components/LecCard";
+import Lesson, { lessonSections } from "@/components/Lesson";
+import "../../chapters/[dir]/chapter.css";
 
 type Params = { params: Promise<{ dir: string }> };
 const get = (dir: string) => {
@@ -24,10 +25,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return { title: `꿀팁 ${e.title}`, description: plainInline(e.summary) };
 }
 
+// 꿀팁 화면: 챕터 화면과 같은 모양(표지 플레이어, 파트 카드, 관련 챕터, 교안)
 export default async function ExtraPage({ params }: Params) {
   const e = get((await params).dir);
-  const { html } = await renderReadme(`extras/${e.dir}`);
-  const secs = splitSections(html).filter((s) => !/^강사용/.test(s.title));
+  const rel = `extras/${e.dir}`;
+  const { parts } = chapterInfo(rel);
+  const secs = await lessonSections(rel, /^(학습 목표|구성|강사용)/);
   const deck = deckUrl(e.dir, e.slides, true);
   return (
     <>
@@ -44,29 +47,40 @@ export default async function ExtraPage({ params }: Params) {
           PDF 받기
         </a>
       </div>
-      <p className="muted" style={{ marginTop: 16, fontSize: 14 }}>
-        관련 챕터:{" "}
-        {e.relatedChapters.map((c, n) => (
-          <span key={c.dir}>
-            {n > 0 && ", "}
-            <Link href={`/chapters/${c.dir}/`} style={{ color: "var(--ac)" }}>
-              {c.no} {shortTitle(c.title)}
-            </Link>
-          </span>
-        ))}
-      </p>
-      <section className="sec doc">
-        <SecHead title="교안" />
-        {secs.map((s) => (
-          <details key={s.id} id={s.id}>
-            <summary>
-              {s.title}
-              <ChevronDown aria-hidden="true" />
-            </summary>
-            <div className="in prose" dangerouslySetInnerHTML={{ __html: s.html }} />
-          </details>
-        ))}
-      </section>
+
+      {parts.length > 0 && (
+        <section className="sec">
+          <SecHead title="구성" right={<span className="cnt">파트 {parts.length}개</span>} />
+          <div className="tiles t4 parts-grid">
+            {parts.map((p) => (
+              <PartGo key={p.from} page={p.from} className="part" label={`${p.name}, ${p.from}쪽부터 슬라이드 보기`}>
+                <Cover src={partSrc(rel, p.from)} />
+                <span className="pt">
+                  <b>{p.name}</b>
+                  <small>
+                    {p.from}
+                    {p.to > p.from ? `–${p.to}` : ""}
+                  </small>
+                </span>
+              </PartGo>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {e.relatedChapters.length > 0 && (
+        <section className="sec">
+          <SecHead title="관련 챕터" />
+          <div className="tiles t4">
+            {e.relatedChapters.map((r) => {
+              const c = getChapter(r.dir);
+              return <LecCard key={c.dir} c={c} sub={`${c.track} · ${c.level}`} />;
+            })}
+          </div>
+        </section>
+      )}
+
+      <Lesson secs={secs} />
     </>
   );
 }

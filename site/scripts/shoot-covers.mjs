@@ -35,6 +35,8 @@ for (const j of jobs) {
   await p.goto("file://" + j.file);
   await p.waitForTimeout(900);
   await p.evaluate(fix);
+  // 플레이어 단추와 막대, 안내는 그림에서 빼요(무대 #pl-stage만 남겨요)
+  await p.evaluate(() => document.querySelectorAll("[id^=pl-]:not(#pl-stage)").forEach((e) => (e.style.visibility = "hidden")));
   await p.screenshot({ path: path.join(OUT, j.out), type: "jpeg", quality: 82 });
   console.log("cover", j.out);
 }

@@ -1,0 +1,8 @@
+/* 챕터 화면에만 쓰는 모양 */
+.parts-grid .part .cv { aspect-ratio: 16 / 9; width: 100%; height: auto; object-fit: cover; display: block; background: var(--cover-bg); }
+.parts-grid .part .pt { align-items: flex-start; }
+@media (max-width: 560px) {
+  .tiles.t4.parts-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .parts-grid .part .pt { flex-direction: column; gap: 2px; padding: 8px 10px; }
+  .parts-grid .part b { font-size: 13.5px; }
+}

@@ -1,0 +1,56 @@
+/* 교안 절(components/Lesson.tsx, lib/lesson.ts): 챕터와 꿀팁 화면이 같이 써요 */
+.lesson summary .lt { flex: 1; min-width: 0; }
+.lesson summary .lc-n { font-size: 13px; font-weight: 600; color: var(--mute); font-family: var(--font-mono); white-space: nowrap; }
+.lesson .prose { max-width: none; }
+.lesson .prose > *:first-child { margin-top: 4px; }
+
+/* 복사 버튼 */
+.lesson .copy { all: unset; box-sizing: border-box; flex: none; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; color: var(--mute); cursor: pointer; }
+.lesson .copy:hover { background: var(--hover); color: var(--ink); }
+.lesson .copy:focus-visible { outline: 2px solid var(--ac); outline-offset: 1px; }
+.lesson .copy svg { width: 16px; height: 16px; }
+.lesson .copy .i-ok { display: none; }
+.lesson .copy.done { color: var(--ok); }
+.lesson .copy.done .i-copy { display: none; }
+.lesson .copy.done .i-ok { display: block; }
+
+/* 코드 칸 */
+.lesson .cb { margin: 12px 0; border-radius: 10px; background: var(--code); overflow: hidden; }
+.lesson .cb-h { display: flex; align-items: center; justify-content: space-between; padding: 2px 4px 0 14px; }
+.lesson .cb-l { font-size: 12px; font-weight: 600; color: var(--mute); letter-spacing: 0.02em; }
+.lesson .cb pre { margin: 0; border-radius: 0; padding: 4px 14px 14px; font-size: 14px; line-height: 1.6; }
+
+/* 명령어 요약: 명령 카드 */
+.lesson .cmds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 12px 0; }
+.lesson .cmd { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.lesson .cmd-c { display: flex; align-items: flex-start; gap: 4px; background: var(--code); padding: 6px 4px 6px 12px; min-height: 44px; }
+.lesson .cmd-c > code { flex: 1; min-width: 0; background: none; padding: 5px 0; font-size: 13.5px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.lesson .cmd-c.multi { padding: 10px 12px; font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.lesson .cmd-c.multi code { font-size: 13.5px; }
+.lesson .cmd-d { padding: 10px 12px; font-size: 14.5px; line-height: 1.55; color: var(--sub); overflow-wrap: anywhere; }
+
+/* 문제 해결: 메시지 카드 */
+.lesson .fixes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 12px 0; align-items: start; }
+.lesson .fix { border: 1px solid var(--line); border-left: 3px solid var(--err); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.lesson .fix-m { display: flex; flex-direction: column; gap: 4px; font-weight: 600; overflow-wrap: anywhere; }
+.lesson .fix-k, .lesson .fix dt { font-size: 12px; font-weight: 600; color: var(--mute); }
+.lesson .fix-m code { color: var(--err); background: var(--err-s); }
+.lesson .fix dl { margin: 10px 0 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; font-size: 14.5px; line-height: 1.55; }
+.lesson .fix dt { padding-top: 2px; }
+.lesson .fix dd { margin: 0; overflow-wrap: anywhere; }
+
+/* 실습 단계 번호 */
+.lesson h3.step { display: flex; align-items: center; gap: 10px; margin-top: 26px; font-size: 17px; }
+.lesson h3.step:first-of-type { margin-top: 10px; }
+.step-n { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--ac-s); color: var(--ac); font-size: 13px; font-weight: 700; font-family: var(--font-mono); }
+
+/* 표: 한글은 낱말 중간에서 줄을 바꾸지 않아요. 칸이 좁으면 표가 넓어지고 가로로 밀어 봐요 */
+.lesson .table-wrap td, .lesson .table-wrap th { word-break: keep-all; overflow-wrap: break-word; }
+
+@media (max-width: 760px) {
+  .lesson .table-wrap td, .lesson .table-wrap th { min-width: 7.5em; padding: 8px 10px; font-size: 14px; }
+  .lesson .cmds, .lesson .fixes { grid-template-columns: minmax(0, 1fr); }
+  .lesson .fix dl { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .lesson .fix dd + dt { margin-top: 6px; }
+  .lesson .cb pre { font-size: 13px; }
+}

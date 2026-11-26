@@ -47,6 +47,8 @@ export function Logos({ ks, size = 28 }: { ks: LogoKey[]; size?: number }) {
 /** 챕터 표지 그림 주소 */
 export const coverSrc = (no: string) => `/img/covers/${no}.jpg`;
 export const extraCoverSrc = (dir: string) => `/img/covers/x-${dir}.jpg`;
+/** 파트 첫 장 그림 주소(scripts/shoot-parts.mjs가 찍어요). 꿀팁은 dir에 "extras/폴더" */
+export const partSrc = (dir: string, page: number) => `/img/parts/${dir}/${page}.jpg`;
 export function Cover({ src, alt = "" }: { src: string; alt?: string }) {
   // eslint-disable-next-line @next/next/no-img-element
   return <img className="cv" src={src} alt={alt} loading="lazy" width={480} height={270} />;
