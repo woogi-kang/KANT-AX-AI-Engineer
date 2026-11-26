@@ -700,6 +700,29 @@ mark.hit{background:var(--check-soft);color:inherit;border-radius:3px;padding:0 
 .grp-b[hidden],.stage[hidden]{display:none}
 .curr .ch-row{grid-template-columns:36px minmax(0,1fr) 64px 92px 118px}
 .curr .ch-row .chip{justify-self:start}
+
+/* 저작권, 이용 안내 */
+.site-foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px 32px;flex-wrap:wrap;font-size:13px;color:var(--muted);line-height:1.6}
+.site-foot p{margin:0;max-width:640px}
+.site-foot nav{display:flex;gap:14px;white-space:nowrap}
+.site-foot a{color:var(--sub);text-decoration:underline;text-underline-offset:3px}
+.legal{padding:32px 40px 8px;max-width:920px}
+.legal h2{margin:0;font-size:28px}
+.legal .lede{margin:6px 0 22px;color:var(--sub);font-size:16px}
+.legal-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.legal-2 > div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 22px}
+.legal-2 h4{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:16px}
+.legal-2 .can h4{color:var(--run)} .legal-2 .cant h4{color:var(--error)}
+.legal-2 ul{margin:0;padding-left:18px;font-size:15px;line-height:1.75;color:var(--ink)}
+.legal-ask{margin-top:14px;background:var(--sunken);border-radius:var(--r-lg);padding:16px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:center}
+.legal-ask b{font-size:15px}
+.legal-ask p{margin:0;font-size:14.5px;color:var(--sub);grid-column:1}
+.legal-ask .ex{grid-row:1/3;grid-column:2;font-size:12px;color:var(--muted);border:1px dashed var(--line-strong);border-radius:999px;padding:2px 9px;white-space:nowrap}
+.legal-h{margin:28px 0 6px;font-size:16px}
+.legal-t{width:100%;border-collapse:collapse;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.legal-t th{text-align:left;font-size:12.5px;color:var(--muted);background:var(--sunken);padding:8px 14px}
+.legal-t td{padding:9px 14px;border-top:1px solid var(--line)}
+.legal-t td:last-child{font-family:var(--font-mono);font-size:13px;color:var(--sub)}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1066,6 +1089,7 @@ print("점수:", score)  # 0O 1lI {}[] == != =&gt;</pre>
         <tr><td>MobileBar</td><td>휴대폰 아래 막대. 목차, 쪽 번호, 다음 장</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>AppSidebar</td><td>사이트 메뉴. 접으면 아이콘 줄만 남아요</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>SettingsPanel</td><td>글자 크기, 밝기, 움직임 줄이기</td><td><span class="phase p0">0</span></td></tr>
+        <tr><td>SiteFooter</td><td>모든 화면 아래 저작권 줄과 이용 안내, 오픈 소스, 허락 문의 링크</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>ShortcutSheet</td><td><span class="kbd">?</span>로 여는 단축키 안내</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>CurriculumList 칸</td><td>StageRoad(단계 다섯 칸), StageSection(접기), GroupBlock, LevelMark, TrackFilter, ChapterRow, 번외 목록</td><td><span class="phase p0">0</span></td></tr>
         <tr><td>News 칸</td><td>NoticeBanner(닫으면 그 공지는 다시 안 떠요), NewsCard, NewsRow, KindFilter</td><td><span class="phase p0">0</span></td></tr>
@@ -1171,6 +1195,7 @@ print("점수:", score)  # 0O 1lI {}[] == != =&gt;</pre>
       <tr><td>설정</td><td>글자 크기 네 단계, 화면 밝기, 움직임 줄이기예요. 고른 값만 브라우저에 남겨요.</td><td><a href="#s-set">10</a></td></tr>
       <tr><td>단축키 안내, 알림</td><td><span class="kbd">?</span>로 여는 안내와 화면 아래 알림(코드 복사, 실행기 받기 실패)이에요.</td><td><a href="#s-set">10</a></td></tr>
       <tr><td>휴대폰</td><td>목차는 위 버튼으로 여는 판, 이전과 다음 장은 아래 막대예요.</td><td><a href="#s-phone">11</a></td></tr>
+      <tr><td>저작권, 이용 안내</td><td>모든 화면 아래에 저작권 줄을 두고, 이용 안내 화면에 할 수 있는 것과 허락이 필요한 것, 사용한 오픈 소스를 적어요. 슬라이드 PDF 마지막 쪽과 플레이어에도 같은 저작권 줄을 넣을 수 있어요.</td><td><a href="#s-legal">12</a></td></tr>
       <tr class="later"><td>빼거나 미룬 것</td><td>로그인한 것처럼 보이는 학습 기록(이어서 보기, 본 장 표시, 복습할 장, 최근 실습)은 지금은 넣지 않아요. 찾는 페이지가 없을 때(404)와 인쇄 화면은 다음 판으로 미뤄요.</td><td>—</td></tr>
     </tbody>
   </table>
@@ -1236,6 +1261,7 @@ print("점수:", score)  # 0O 1lI {}[] == != =&gt;</pre>
         </div>
         <h3 class="curr-sub">번외<span>배우는 순서와 상관없이 막혔을 때 봐요</span></h3>
         <div class="ch-list"><a class="ch-row" href="#"><span class="no" style="color:var(--muted)">+</span><div><div class="t">터미널 환경에 적응하기</div><div class="g">탐색기와 터미널 맞춰 보기(cd .. cd - cd ~), 위치에 따라 달라지는 명령, -h와 --help, origin과 main 이름의 관례, git과 uv 도움말 읽기</div></div><span class="chip term">터미널</span><span class="links"><span>슬라이드</span><span>PDF</span></span></a></div>
+        <footer class="site-foot"><p>© 2026 풀스택 AI/AX 엔지니어. 이 사이트의 슬라이드, 글, 그림, 코드 예제의 저작권은 만든 사람에게 있어요. 허락 없이 복제하거나 다른 곳에 올리고, 고쳐서 다시 배포하거나 판매할 수 없어요.</p><nav><a href="#s-legal">이용 안내</a><a href="#s-legal">사용한 오픈 소스</a><a href="#s-legal">허락 문의</a></nav></footer>
       </div>
     </div>
   </div></div>
@@ -1691,6 +1717,51 @@ print("점수:", score)  # 0O 1lI {}[] == != =&gt;</pre>
       </ul>
     </div>
   </div>
+
+  <!-- 이용 안내 -->
+  <div class="screen-head" id="s-legal"><h3>12. 이용 안내와 저작권</h3><p>모든 화면 아래 저작권 줄에서 들어와요. 개인 공부는 자유롭게, 배포는 허락을 받고</p></div>
+  <div class="frame-scroll"><div class="frame">
+    <div class="s-header">
+      <button class="icon-btn toggle" type="button" aria-label="사이드바 펴기"><svg class="i"><use href="#i-panel-open"/></svg></button>
+      <span class="logo">풀스택 AI/AX<span>엔지니어</span></span>
+      <div class="search"><svg class="i"><use href="#i-search"/></svg>장 제목, 명령, 오류 문장 찾기<span class="kbd">/</span></div>
+      <button class="icon-btn" type="button" aria-label="설정"><svg class="i"><use href="#i-settings"/></svg></button>
+    </div>
+    <div class="legal">
+      <h2>이용 안내와 저작권</h2>
+      <p class="lede">모든 챕터는 무료로 볼 수 있어요. 다만 자료의 저작권은 만든 사람에게 있어서, 혼자 공부하는 데까지만 쓸 수 있어요.</p>
+      <div class="legal-2">
+        <div class="can"><h4><svg class="i"><use href="#i-check"/></svg>할 수 있어요</h4><ul>
+          <li>사이트에서 슬라이드와 노트를 보고 실습 칸에서 쳐 보기</li>
+          <li>PDF를 받아 혼자 보거나 인쇄해서 공부하기</li>
+          <li>예제 코드를 내 컴퓨터에서 따라 치고 고쳐 보기</li>
+          <li>친구에게 사이트 주소(링크) 알려 주기</li>
+        </ul></div>
+        <div class="cant"><h4><svg class="i"><use href="#i-x"/></svg>허락 없이는 할 수 없어요</h4><ul>
+          <li>슬라이드, PDF, 글, 그림을 다른 사이트, 카페, 블로그, 메신저 방에 올리기</li>
+          <li>고치거나 번역해서 다시 배포하기</li>
+          <li>판매하거나 유료 강의, 다른 교육 자료, 회사 교육에 쓰기</li>
+          <li>저작권 표시와 출처를 지우고 쓰기</li>
+          <li>사이트 내용을 한꺼번에 내려받아 모으기(크롤링)</li>
+        </ul></div>
+      </div>
+      <div class="legal-ask"><b>허락이 필요할 때</b><p>쓰려는 곳과 범위를 적어 허락 문의로 보내 주세요. 허락받은 뒤에도 "출처: 풀스택 AI/AX 엔지니어"와 사이트 주소를 함께 적어 주세요.</p><span class="ex">연락처는 정해지면 넣어요</span></div>
+      <h4 class="legal-h">사용한 오픈 소스</h4>
+      <p class="note" style="margin:0 0 10px">아래는 각 라이선스대로 쓰고, 이 사이트의 저작권 범위에 들어가지 않아요.</p>
+      <table class="legal-t">
+        <thead><tr><th>이름</th><th>쓰는 곳</th><th>라이선스</th></tr></thead>
+        <tbody>
+          <tr><td>Pretendard</td><td>본문 글꼴 (추천안)</td><td>SIL OFL 1.1</td></tr>
+          <tr><td>JetBrains Mono, D2Coding</td><td>코드 글꼴 (추천안)</td><td>SIL OFL 1.1</td></tr>
+          <tr><td>Lucide</td><td>아이콘</td><td>ISC</td></tr>
+          <tr><td>PGlite</td><td>SQL 실습 칸 (PostgreSQL 19)</td><td>Apache 2.0, PostgreSQL License</td></tr>
+          <tr><td>Pyodide</td><td>파이썬 실습 칸</td><td>MPL 2.0</td></tr>
+          <tr><td>Next.js</td><td>사이트 틀</td><td>MIT</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:0 40px 28px"><footer class="site-foot"><p>© 2026 풀스택 AI/AX 엔지니어. 이 사이트의 슬라이드, 글, 그림, 코드 예제의 저작권은 만든 사람에게 있어요. 허락 없이 복제하거나 다른 곳에 올리고, 고쳐서 다시 배포하거나 판매할 수 없어요.</p><nav><a href="#s-legal">이용 안내</a><a href="#s-legal">사용한 오픈 소스</a><a href="#s-legal">허락 문의</a></nav></footer></div>
+  </div></div>
 </section>
 
 <!-- ===== 코드 구조 ===== -->
