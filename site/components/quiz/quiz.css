@@ -1,6 +1,6 @@
 /* 확인 문제 (components/quiz). 색은 tokens.css 변수만 써요. */
 .quiz-lede { margin: -6px 0 16px; color: var(--sub); font-size: 15px; }
-.qz-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; scrollbar-width: thin; }
+.qz-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 .qz-tabs button { flex: none; display: flex; gap: 8px; align-items: center; height: 40px; padding: 0 14px; border-radius: 20px; border: 1px solid var(--line2); background: var(--card); color: var(--ink); font-size: 14.5px; font-weight: 600; cursor: pointer; white-space: nowrap; }
 .qz-tabs button small { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--mute); }
 .qz-tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
@@ -43,11 +43,12 @@
 .qz-score { font-size: 15px; }
 .qz-btns { display: flex; gap: 8px; }
 @media (max-width: 640px) {
+  /* 휴대폰은 한 줄로 두고 옆으로 밀어요 */
+  .qz-tabs { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; scroll-snap-type: x proximity; }
+  .qz-tabs button { scroll-snap-align: start; }
   .qz-part { padding: 16px 14px; border-radius: 12px; }
   .qz-code, .qz-choices, .qz-fb { margin-left: 0; }
   .qz-ask p { font-size: 15.5px; }
   .qz-c { font-size: 14.5px; }
 }
 .qz-t code { background: none; padding: 0; font-size: 0.95em; }
-.qz-tabs { scroll-snap-type: x proximity; }
-.qz-tabs button { scroll-snap-align: start; }

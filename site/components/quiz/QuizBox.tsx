@@ -16,6 +16,10 @@ export default function QuizBox({ parts, no }: { parts: ViewPart[]; no: string }
   const pickPart = (k: number) => {
     setCur(k);
     box.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // 휴대폰에서 옆으로 밀린 파트 버튼도 보이게 해요
+    const tab = document.getElementById(`${uid}-t${k}`);
+    const row = tab?.parentElement;
+    if (tab && row) row.scrollTo({ left: tab.offsetLeft - row.offsetLeft - 8, behavior: "smooth" });
   };
   const part = parts[cur];
   const done = part.questions.filter((q) => picks[q.id] !== undefined);
