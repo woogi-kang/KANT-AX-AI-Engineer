@@ -18,8 +18,8 @@ const parts = (md) =>
     .map((l) => l.split("|").slice(1, -1).map((x) => x.trim()))
     .filter((r) => r.length >= 2 && /\d/.test(r[1]))
     .map(([name, range]) => {
-      const [a, b] = range.split(/[–-]/).map((x) => parseInt(x, 10));
-      return { name: name.replace(/^\d+\.\s*/, ""), from: a, to: b || a };
+      const [a, b] = range.split(/[–~-]/).map((x) => parseInt(x, 10));
+      return { name: name.replace(/^\d+\s*(?:\.|·)\s*/, ""), from: a, to: b || a };
     });
 const norm = (s) => s.replace(/`/g, "").trim();
 
