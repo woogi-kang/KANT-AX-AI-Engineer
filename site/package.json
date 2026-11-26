@@ -5,13 +5,14 @@
   "scripts": {
     "prebuild": "node scripts/fetch-roadmap.mjs && node scripts/copy-assets.mjs",
     "build": "next build",
-    "postbuild": "node scripts/check-build.mjs",
+    "postbuild": "node scripts/check-build.mjs && node scripts/check-quiz.mjs",
     "predev": "node scripts/fetch-roadmap.mjs && node scripts/copy-assets.mjs",
     "dev": "next dev",
     "typecheck": "tsc --noEmit",
     "fetch-roadmap": "node scripts/fetch-roadmap.mjs",
     "covers": "node scripts/shoot-covers.mjs",
-    "qa": "node scripts/qa.cjs"
+    "qa": "node scripts/qa.cjs",
+    "quiz": "node scripts/check-quiz.mjs"
   },
   "engines": {
     "node": ">=26"

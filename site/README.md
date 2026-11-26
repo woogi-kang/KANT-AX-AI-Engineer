@@ -56,6 +56,7 @@ npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, �
 | `components/` | `Lesson`(교안 절, `lib/lesson.ts`가 명령 카드, 문제 해결 카드, 코드 복사 버튼을 만들어요), `SideNav`, `SearchDialog`, `FilterChips`(거르기), `Player`(표지 뒤 덱), `LecCard`, `LibTiles` |
 | `lib/` | `content.ts`(강의), `roadmap.ts`(로드맵 레포), `links.ts`, `chapter.ts`, `markdown.ts`, `search.ts`, `site.ts`(이름, 메뉴, 아이콘), `logos.ts` |
 | `scripts/` | `fetch-roadmap.mjs`, `copy-assets.mjs`, `check-build.mjs`, `shoot-covers.mjs`, `shoot-parts.mjs`, `qa.cjs` |
+| `app/library/` | 사례와 자료 영역. 모양은 `library.css`, 데이터는 `lib/library.ts`(case.json, 공개·실패 사례 JSON, 월간 채용 JSON), 거르기는 `components/LibFilter.tsx`(묶음 여러 개와 찾기 칸, 주소 뒤 `?키=값`), 복사 버튼은 `components/CopyText.tsx` |
 | `design/` | 디자인 시안. 사이트에서는 `/design/`으로 열려요 |
 
 ## 여러 작업이 동시에 고칠 때
@@ -67,3 +68,35 @@ npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, �
 - 숫자와 사례는 두 레포에 있는 값만 써요. 지어낸 숫자, 점검 질문, 출력은 넣지 않아요. 사이트에는 KANT라는 말을 쓰지 않아요.
 - 챕터 화면의 실습 칸과 문제 칸 자리: `app/chapters/[dir]/page.tsx`가 교안 절 바로 위에서 `components/practice/ChapterPractice.tsx`(바로 쳐 보기, 코드 실행 영역)와 `components/quiz/ChapterQuiz.tsx`(확인 문제 영역)를 불러요. 두 영역은 그 폴더 안만 고치고 챕터 화면 파일은 건드리지 않아요. 내용이 없는 챕터는 `null`을 돌려줘요.
 - 올리기 전에 `npm run build`와 `npm run qa`가 문제 0건으로 끝나는지 보고, 고친 화면은 1440과 390 폭 스크린샷을 직접 열어 봐요(밝은 화면, 어두운 화면 모두).
+
+## 확인 문제
+
+챕터 화면의 "확인 문제"는 챕터 폴더의 `quiz.json`에서 와요(`components/quiz/`). 파트마다 2~3문제를 두고, 틀리면 "다시 보기" 버튼이 위 슬라이드를 그 내용이 있는 쪽으로 열어요(`deck-go`). 고른 답은 화면에만 있고 저장하지 않아요.
+
+```json
+{
+  "parts": [
+    {
+      "part": "문자열과 출력",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "word = \"python\"\nprint(word[2:5])",
+          "choices": ["`yth`", "`tho`", "`thon`"],
+          "answer": 1,
+          "explain": "`[2:5]`는 2번 선부터 5번 선까지 잘라요.",
+          "page": 7,
+          "verify": "py"
+        }
+      ]
+    }
+  ]
+}
+```
+
+- `part`는 챕터 README 구성 표의 파트 이름에서 앞 번호를 뺀 것이에요. 들어가기와 정리 파트에는 문제를 두지 않아요.
+- `answer`는 정답 보기 번호(0부터), `page`는 다시 볼 슬라이드 쪽이에요. 그 파트 쪽 안이어야 해요.
+- 문제, 정답, 해설은 교안과 덱의 실제 출력에만 근거해요. 그 챕터까지 배운 범위(CLAUDE.md 수업 규칙)를 넘지 않아요.
+- `verify: "py"`를 붙이면 점검할 때 `code`를 python3로 실행해서 출력이 정답 보기와 같은지 봐요.
+- `npm run quiz`(빌드 뒤에도 저절로 돌아요)가 형식, 파트 이름, 쪽 번호, 정답 번호, 실행 결과를 확인해요.

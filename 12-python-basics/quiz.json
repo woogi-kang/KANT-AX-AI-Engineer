@@ -1,0 +1,232 @@
+{
+  "parts": [
+    {
+      "part": "변수에 값 넣기",
+      "questions": [
+        {
+          "id": "v1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "age = 25\nage = 26\nage = age + 1\nprint(age)",
+          "choices": [
+            "`27`",
+            "`26`",
+            "`25`",
+            "`52`"
+          ],
+          "answer": 0,
+          "explain": "같은 이름에 다시 넣으면 마지막 값만 남아서 `age`는 26이에요. `age = age + 1`은 오른쪽부터 계산해서 26에 1을 더한 27을 다시 넣어요.",
+          "page": 9,
+          "verify": "py"
+        },
+        {
+          "id": "v2",
+          "q": "셀에 아래 세 줄을 적고 실행하면 출력에 무엇이 보이나요?",
+          "code": "user_name = \"kim\"\nage\nuser_name",
+          "choices": [
+            "`27`과 `'kim'` 두 줄",
+            "`kim` 한 줄",
+            "`'kim'` 한 줄",
+            "아무것도 안 보여요"
+          ],
+          "answer": 2,
+          "explain": "이름만 적는 방법은 셀의 마지막 줄 하나만 보여 줘요. `age` 줄도 실행은 되지만 화면에 안 나와요. 문자열이라 따옴표까지 붙은 `'kim'`이 보이고, 여러 값을 보려면 줄마다 `print()`를 써요.",
+          "page": 10
+        },
+        {
+          "id": "v3",
+          "q": "`age = 25`를 실행한 뒤 다른 셀에 `Age`를 적었더니 오류가 났어요. 어떤 오류인가요?",
+          "choices": [
+            "`TypeError: can only concatenate str (not \"int\") to str`",
+            "`NameError: name 'Age' is not defined`",
+            "`ValueError: invalid literal for int() with base 10: 'Age'`",
+            "오류 없이 `25`가 보여요"
+          ],
+          "answer": 1,
+          "explain": "파이썬은 대문자와 소문자를 다른 글자로 봐요. `age`에 값을 넣었어도 `Age`는 모르는 이름이라 `NameError`가 나요.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "part": "변수 타입",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(\"25\" + \"1\")",
+          "choices": [
+            "`26`",
+            "`TypeError`가 나요",
+            "`25 1`",
+            "`251`"
+          ],
+          "answer": 3,
+          "explain": "따옴표로 감싼 `\"25\"`와 `\"1\"`은 숫자가 아니라 글자(str)예요. 글자끼리 `+`는 이어 붙이기라서 26이 아니라 251이 나와요.",
+          "page": 14,
+          "verify": "py"
+        },
+        {
+          "id": "t2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(int(3.9))",
+          "choices": [
+            "`4`",
+            "`3.9`",
+            "`3`",
+            "`ValueError`가 나요"
+          ],
+          "answer": 2,
+          "explain": "`int()`에 실수를 넣으면 반올림하지 않고 소수점 아래를 버려요. 그래서 4가 아니라 3이에요.",
+          "page": 15,
+          "verify": "py"
+        },
+        {
+          "id": "t3",
+          "q": "`int(\"3.5\")`를 실행했더니 `ValueError: invalid literal for int() with base 10: '3.5'`가 났어요. 3.5를 숫자로 받으려면 무엇을 쓰나요?",
+          "choices": [
+            "`float(\"3.5\")`",
+            "`str(\"3.5\")`",
+            "`int(3.5)`",
+            "`int(\"삼\")`"
+          ],
+          "answer": 0,
+          "explain": "소수점이 있는 글자는 `int()`가 바로 못 읽어요. `float(\"3.5\")`로 바꾸면 3.5가 나와요. `int(3.5)`는 오류는 없지만 소수점 아래를 버려서 3이 돼요.",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "part": "사칙연산",
+      "questions": [
+        {
+          "id": "a1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(2 ** 3 // 3)",
+          "choices": [
+            "`1`",
+            "`8`",
+            "`2.6666666666666665`",
+            "`2`"
+          ],
+          "answer": 3,
+          "explain": "`**`는 `//`보다 한 계단 위라서 먼저 풀어요. 2 ** 3 = 8을 먼저 하고 8 // 3 = 2예요. 3 // 3을 먼저 하면 1이 나와서 틀려요.",
+          "page": 21,
+          "verify": "py"
+        },
+        {
+          "id": "a2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(8 / 2 * 4)",
+          "choices": [
+            "`1.0`",
+            "`16.0`",
+            "`16`",
+            "`1`"
+          ],
+          "answer": 1,
+          "explain": "`/`와 `*`는 같은 순위라서 왼쪽부터 풀어요. 8 / 2 = 4.0을 먼저 하고 4를 곱해 16.0이에요. 나누기가 들어가서 결과가 실수예요.",
+          "page": 22,
+          "verify": "py"
+        },
+        {
+          "id": "a3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(-3 ** 2)",
+          "choices": [
+            "`-9`",
+            "`9`",
+            "`-6`",
+            "`6`"
+          ],
+          "answer": 0,
+          "explain": "`**`가 앞의 빼기 기호보다 먼저라서 -(3 ** 2) = -9예요. -3을 제곱하려면 `(-3) ** 2`처럼 괄호로 묶어서 9를 얻어요.",
+          "page": 24,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "비교와 논리연산",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "`age = 25`에서 age가 30인지 확인하려고 셀에 `age = 30`을 적었어요. 어떻게 되나요?",
+          "choices": [
+            "`False`가 나와요",
+            "`SyntaxError`가 나요",
+            "오류 없이 age가 30으로 바뀌어요",
+            "`True`가 나와요"
+          ],
+          "answer": 2,
+          "explain": "`=` 하나는 넣기라서 age에 30이 들어가요. 같은지 물으려면 `==` 두 개를 써서 `age == 30`으로 적어요. 오류가 안 나서 알아채기 어려워요.",
+          "page": 29
+        },
+        {
+          "id": "c2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "height = 110\nage = 9\nprint(height >= 120 and age >= 7)",
+          "choices": [
+            "`True`",
+            "`9`",
+            "`110`",
+            "`False`"
+          ],
+          "answer": 3,
+          "explain": "`and`는 둘 다 True일 때만 True예요. 110 >= 120이 False라서 나이가 맞아도 결과는 False예요.",
+          "page": 34,
+          "verify": "py"
+        },
+        {
+          "id": "c3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "print(2 + 3 > 4 and not False)",
+          "choices": [
+            "`False`",
+            "`True`",
+            "`5`",
+            "`SyntaxError`가 나요"
+          ],
+          "answer": 1,
+          "explain": "계산, 비교, not, and 순서로 풀어요. 2 + 3이 5가 되고, 5 > 4가 True, not False가 True, 마지막에 True and True가 True예요.",
+          "page": 35,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "카페 주문으로 풀어 보기",
+      "questions": [
+        {
+          "id": "o1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "qty = \"3\"\ntotal = 4500 * int(qty) + 5000\nprint(\"한 사람:\", total // 3)",
+          "choices": [
+            "`한 사람: 6166.666666666667`",
+            "`한 사람: 2`",
+            "`한 사람: 6166`",
+            "`한 사람: 18500`"
+          ],
+          "answer": 2,
+          "explain": "`int(qty)`로 글자 \"3\"을 정수 3으로 바꿔서 합계는 18500이에요. 몫 `//`는 소수점 아래를 버려서 한 사람 몫은 6166이에요. 남는 2원은 나머지 `%`로 구해요.",
+          "page": 37,
+          "verify": "py"
+        },
+        {
+          "id": "o2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "is_member = False\ntotal = 18500\ndiscount = is_member or total >= 50000\nprint(\"할인:\", discount)",
+          "choices": [
+            "`할인: False`",
+            "`할인: True`",
+            "`할인: 18500`",
+            "`할인: None`"
+          ],
+          "answer": 0,
+          "explain": "`or`는 하나라도 True면 True예요. 회원이 아니라 False이고 18500 >= 50000도 False라서 False or False는 False예요.",
+          "page": 38,
+          "verify": "py"
+        }
+      ]
+    }
+  ]
+}

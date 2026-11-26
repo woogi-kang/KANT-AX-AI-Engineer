@@ -1,0 +1,133 @@
+{
+  "parts": [
+    {
+      "part": "문자열과 출력",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "word = \"python\"\nprint(word[2:5])",
+          "choices": [
+            "`tho`",
+            "`yth`",
+            "`thon`",
+            "`ytho`"
+          ],
+          "answer": 0,
+          "explain": "`[2:5]`는 2번 선부터 5번 선까지 잘라요. 2, 3, 4번 글자 `t`, `h`, `o` 세 글자예요. 5번 글자 `n`은 들어가지 않아요.",
+          "page": 7,
+          "verify": "py"
+        },
+        {
+          "id": "s2",
+          "q": "아래 코드는 무엇을 찍나요?",
+          "code": "pi = 3.141592\nprint(f\"{pi:.2f}\")",
+          "choices": [
+            "`3.14`",
+            "`3.141592`",
+            "`3.1416`",
+            "`3`"
+          ],
+          "answer": 0,
+          "explain": "콜론 뒤 `.2f`는 소수점 아래 두 자리까지 보여 줘요. 네 자리를 보려면 `.4f`를 써서 `3.1416`이 나와요.",
+          "page": 13,
+          "verify": "py"
+        },
+        {
+          "id": "s3",
+          "q": "`\"%,d\" % price`로 천 단위 콤마를 넣으려다 `ValueError: unsupported format character ','`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "`\"%d,\" % price`",
+            "`\"%s\" % price`",
+            "`f\"{price:,}\"`",
+            "`f\"{price}\" + \",\"`"
+          ],
+          "answer": 2,
+          "explain": "% 방식에는 콤마 옵션이 없어요. f-string에서 콜론 뒤에 쉼표를 적은 `f\"{price:,}\"`가 세 자리마다 콤마를 넣어요.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "part": "리스트, 튜플, for",
+      "questions": [
+        {
+          "id": "l1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "cart = [\"coffee\", \"latte\"]\ncart.append(\"cake\")\nlast = cart.pop()\nprint(cart, last)",
+          "choices": [
+            "`['coffee', 'latte', 'cake'] cake`",
+            "`['latte', 'cake'] coffee`",
+            "`['coffee'] latte`",
+            "`['coffee', 'latte'] cake`"
+          ],
+          "answer": 3,
+          "explain": "`append`로 맨 뒤에 `cake`가 들어가고, 괄호를 비운 `pop()`은 맨 뒤 값을 빼서 돌려줘요. 그래서 `cart`에는 두 개가 남고 `last`에는 `cake`가 담겨요.",
+          "page": 21,
+          "verify": "py"
+        },
+        {
+          "id": "l2",
+          "q": "튜플 `order = (\"coffee\", 4500, 2)`에서 `order[1] = 5000`을 치면 어떻게 되나요?",
+          "choices": [
+            "`order`가 `('coffee', 5000, 2)`로 바뀌어요",
+            "`IndexError: tuple index out of range`가 나요",
+            "맨 뒤에 5000이 하나 더 붙어요",
+            "`TypeError: 'tuple' object does not support item assignment`가 나요"
+          ],
+          "answer": 3,
+          "explain": "튜플은 만든 뒤에 못 바꿔요. 꺼내고 자르는 건 리스트와 같지만, 자리에 새 값을 넣으면 `TypeError`가 나요. 고쳐야 하면 `list()`로 바꿔서 써요.",
+          "page": 28
+        },
+        {
+          "id": "l3",
+          "q": "아래 코드의 마지막 줄은 무엇을 찍나요?",
+          "code": "orders = [(\"coffee\", 4500, 2), (\"latte\", 5000, 1), (\"cake\", 6500, 3)]\ntotal = 0\nfor menu, price, qty in orders:\n    total += price * qty\nprint(\"합계:\", total)",
+          "choices": [
+            "`합계: 16000`",
+            "`합계: 19500`",
+            "`합계: 33500`",
+            "`합계: 6`"
+          ],
+          "answer": 2,
+          "explain": "`for`가 주문마다 `price * qty`를 더해요. 9000, 5000, 19500을 차례로 쌓아서 33500이에요. `print`는 `for` 밖에 있어서 다 돈 뒤 한 번만 찍혀요.",
+          "page": 33,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "영수증 만들기",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "영수증 머리글에서 `{'메뉴명':<10}` 대신 `{'메뉴명':<7}`로 칸 수를 줄인 까닭은 무엇인가요?",
+          "choices": [
+            "한글은 f-string에 넣을 수 없어서",
+            "파이썬은 한글을 한 칸으로 세지만 화면에서는 두 칸을 차지해서",
+            "메뉴명이 영어 메뉴 이름보다 짧아서",
+            "`<`가 한글에서는 오른쪽 맞춤이 돼서"
+          ],
+          "answer": 1,
+          "explain": "파이썬은 한글 한 글자를 한 칸으로 세는데 화면에서는 두 칸이에요. 그래서 한글 머리글만 밀려요. 한글 글자 수만큼 칸 수를 빼서 세 글자인 메뉴명은 `<10` 대신 `<7`로 맞춰요.",
+          "page": 36
+        },
+        {
+          "id": "r2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "memo = \"latte,cake,latte,coffee,latte\"\nitems = memo.split(\",\")\nitems.remove(\"coffee\")\nprint(len(items), items.count(\"latte\"))",
+          "choices": [
+            "`5 3`",
+            "`4 3`",
+            "`4 2`",
+            "`1 3`"
+          ],
+          "answer": 1,
+          "explain": "`split(\",\")`이 쉼표에서 잘라 다섯 칸짜리 리스트를 만들어요. `remove`로 `coffee`를 지우면 네 칸이 남고, 그 안에 `latte`는 세 개예요.",
+          "page": 38,
+          "verify": "py"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,244 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Card:\n    def __init__(self, name):\n        self.name = name\n        self.stamps = 0\n    def add(self):\n        self.stamps = self.stamps + 1\nkim = Card(\"kim\")\nkim.add()\nkim.stamps = -5\nprint(kim.name, kim.stamps)",
+          "choices": [
+            "`kim 1`",
+            "`kim -5`",
+            "`kim 0`",
+            "`kim -4`"
+          ],
+          "answer": 1,
+          "explain": "칸을 그대로 열어 두면 밖에서 `kim.stamps = -5`처럼 아무 값이나 넣을 수 있어요. 오류도 경고도 없어서, 이걸 막으려고 캡슐화를 배워요.",
+          "page": 4,
+          "verify": "py"
+        },
+        {
+          "id": "w2",
+          "q": "캡슐화의 큰 그림에서 밖의 코드는 칸을 어떻게 바꾸나요?",
+          "choices": [
+            "`kim.stamps = 100`처럼 칸에 바로 넣어요",
+            "칸을 지우고 새로 만들어요",
+            "`kim.add()`처럼 메서드라는 문을 거쳐서, 문 안에서 검사한 뒤 바꿔요",
+            "클래스를 새로 만들어야 바뀌어요"
+          ],
+          "answer": 2,
+          "explain": "칸은 안에 두고 밖에서는 메서드라는 문으로만 드나들어요. 문 안에서 검사하니까 잘못된 값이 들어가지 않아요.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "part": "밑줄 하나 `_`",
+      "questions": [
+        {
+          "id": "u1",
+          "q": "`self._stamps`처럼 밑줄 하나로 시작하는 칸에 밖에서 `kim._stamps = 100`을 넣었어요. 아래 코드는 무엇을 찍나요?",
+          "code": "class Card:\n    def __init__(self, name):\n        self.name = name\n        self._stamps = 0\n    def count(self):\n        return self._stamps\nkim = Card(\"kim\")\nkim._stamps = 100\nprint(kim.count())",
+          "choices": [
+            "`100`",
+            "`0`",
+            "`AttributeError`가 나요",
+            "`None`"
+          ],
+          "answer": 0,
+          "explain": "밑줄 하나는 \"안에서만 쓸게요\"라는 표지판일 뿐이고 잠그지 않아요. 그래서 오류 없이 100이 들어가요. 밑줄을 보고도 밖에서 쓰는 건 약속을 어긴 코드예요.",
+          "page": 8,
+          "verify": "py"
+        },
+        {
+          "id": "u2",
+          "q": "밑줄 하나 `_`에 대한 설명으로 맞는 것은 무엇인가요?",
+          "choices": [
+            "파이썬이 칸을 잠가서 밖에서 못 읽어요",
+            "파이썬이 칸 이름을 `_클래스이름`으로 바꿔요",
+            "밖에서 읽으면 경고가 나와요",
+            "사람끼리 지키는 약속이에요. 밖에서 읽고 바꿀 수는 있어요"
+          ],
+          "answer": 3,
+          "explain": "밑줄 하나는 \"직원만 들어와요\" 표지판이에요. 문은 안 잠겨서 밖에서도 읽고 바꿀 수 있지만, 약속을 지켜 밖에서는 쓰지 않아요. 이름이 바뀌는 건 밑줄 두 개예요.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "part": "밑줄 두 개 `__`",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "아래 코드를 실행하면 어떻게 되나요?",
+          "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\nmypass = Secret()\nprint(mypass.__password)",
+          "choices": [
+            "`1234`가 찍혀요",
+            "`None`이 찍혀요",
+            "`AttributeError: 'Secret' object has no attribute '__password'`가 나요",
+            "`TypeError`가 나요"
+          ],
+          "answer": 2,
+          "explain": "칸은 분명히 있지만 파이썬이 이름을 `_Secret__password`로 바꿔 저장했어요. 그래서 밖에서 `__password`라는 이름으로는 못 찾아요.",
+          "page": 9
+        },
+        {
+          "id": "d2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\nmypass = Secret()\nprint(mypass.__dict__)",
+          "choices": [
+            "`{'__password': 1234}`",
+            "`{'_Secret__password': 1234}`",
+            "`{'password': 1234}`",
+            "`{}`"
+          ],
+          "answer": 1,
+          "explain": "밑줄 두 개로 시작하는 이름은 앞에 `_클래스이름`을 붙여서 저장해요. `__dict__`로 들여다보면 바뀐 이름 `_Secret__password`가 보여요.",
+          "page": 11,
+          "verify": "py"
+        },
+        {
+          "id": "d3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\n    def check(self, pw):\n        return self.__password == pw\nmypass = Secret()\nprint(mypass.check(1234), mypass.check(1111))",
+          "choices": [
+            "`True False`",
+            "`False False`",
+            "`1234 1111`",
+            "`False True`"
+          ],
+          "answer": 0,
+          "explain": "클래스 안의 메서드에서는 `self.__password`를 이름 그대로 쓸 수 있어요. 1234는 맞아서 `True`, 1111은 틀려서 `False`예요.",
+          "page": 10,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "getter와 setter",
+      "questions": [
+        {
+          "id": "g1",
+          "q": "아래 코드를 실행하면 마지막 줄에 무엇이 찍히나요?",
+          "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\n    def get_password(self):\n        return self.__password\n    def set_password(self, new):\n        if 1000 <= new <= 9999:\n            self.__password = new\n        else:\n            print(\"비밀번호는 네 자리 숫자예요\")\nmypass = Secret()\nmypass.set_password(12)\nprint(mypass.get_password())",
+          "choices": [
+            "`12`",
+            "`비밀번호는 네 자리 숫자예요`",
+            "`1234`",
+            "`None`"
+          ],
+          "answer": 2,
+          "explain": "setter가 12를 검사해서 네 자리가 아니니 넣지 않고 안내만 찍어요. 그래서 `get_password()`로 꺼낸 값은 그대로 1234예요.",
+          "page": 15
+        },
+        {
+          "id": "g2",
+          "q": "`@property`를 붙인 `def password(self):`가 있어요. 밖에서 비밀번호를 꺼내는 코드로 맞는 것은 무엇인가요?",
+          "choices": [
+            "`mypass.password()`",
+            "`mypass.password`",
+            "`mypass.get_password`",
+            "`mypass.__password`"
+          ],
+          "answer": 1,
+          "explain": "`@property`를 붙이면 메서드를 괄호 없이 칸처럼 읽어요. 괄호를 붙이면 꺼낸 값을 함수처럼 부르게 돼서 `TypeError`가 나요.",
+          "page": 16
+        },
+        {
+          "id": "g3",
+          "q": "`@property`와 `@password.setter`를 둘 다 만들었어요. 밖에서 `mypass.password = 5678`이라고 쓰면 어떻게 되나요?",
+          "choices": [
+            "setter가 불려서 검사한 뒤 넣어요",
+            "검사 없이 새 칸이 생겨요",
+            "`AttributeError`가 나요",
+            "`password` 메서드가 지워져요"
+          ],
+          "answer": 0,
+          "explain": "`@password.setter`가 있으면 `=`로 넣을 때도 setter가 불려요. `set_password(5678)`과 같은 일을 칸처럼 쓰는 모양으로 해요.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "part": "오류와 함정",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Secret:\n    def __init__(self):\n        self.__password = 1234\n    def check(self, pw):\n        return self.__password == pw\nmypass = Secret()\nmypass.__password = 0\nprint(mypass.check(1234))",
+          "choices": [
+            "`False`",
+            "`0`",
+            "`AttributeError`가 나요",
+            "`True`"
+          ],
+          "answer": 3,
+          "explain": "이름 바꾸기는 클래스 안에서만 일어나요. 밖에서 적은 `__password`는 그냥 새 칸이라 진짜 칸 `_Secret__password`는 1234 그대로예요.",
+          "page": 19,
+          "verify": "py"
+        },
+        {
+          "id": "e2",
+          "q": "부모 `Card`가 `self.__stamps`를 쓰고 자식 `VipCard`의 `add`에서도 `self.__stamps`를 썼더니 `AttributeError: 'VipCard' object has no attribute '_VipCard__stamps'`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "자식에서 `self.__Card__stamps`로 적어요",
+            "부모와 자식이 같이 쓰는 칸은 밑줄 하나 `self._stamps`로 바꿔요",
+            "`super().__stamps`로 적어요",
+            "자식 클래스에서 `__init__`을 지워요"
+          ],
+          "answer": 1,
+          "explain": "`Card` 안의 `__stamps`는 `_Card__stamps`로, `VipCard` 안의 것은 `_VipCard__stamps`로 바뀌어서 서로 못 찾아요. 같이 쓰는 칸은 밑줄 하나로 둬요.",
+          "page": 20
+        },
+        {
+          "id": "e3",
+          "q": "`@property`로 `stamps`를 만든 뒤 `print(kim.stamps())`를 쳤더니 오류가 났어요. 어떤 오류인가요?",
+          "choices": [
+            "`TypeError: 'int' object is not callable`",
+            "`AttributeError: property 'stamps' of 'Card' object has no setter`",
+            "`AttributeError: 'Card' object has no attribute 'stamps'`",
+            "`NameError: name 'stamps' is not defined`"
+          ],
+          "answer": 0,
+          "explain": "`kim.stamps`가 벌써 숫자 0이라서 `0()`처럼 숫자를 부르게 돼요. 괄호를 빼고 `kim.stamps`로 써요. `has no setter`는 setter 없는 property에 `=`로 넣을 때 나는 오류예요.",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "class Card:\n    goal = 10\n    def __init__(self, name):\n        self.name = name\n        self.__stamps = 0\n    def add(self):\n        if self.__stamps < Card.goal:\n            self.__stamps = self.__stamps + 1\n    @property\n    def stamps(self):\n        return self.__stamps\nkim = Card(\"kim\")\nfor i in range(12):\n    kim.add()\nprint(kim.stamps)",
+          "choices": [
+            "`12`",
+            "`11`",
+            "`10`",
+            "`0`"
+          ],
+          "answer": 2,
+          "explain": "`add`를 열두 번 불러도 11번째와 12번째는 `if`에서 막혀요. 문 안에서 검사해서 도장이 열 개를 넘지 않아요.",
+          "page": 24,
+          "verify": "py"
+        },
+        {
+          "id": "p2",
+          "q": "키오스크 `k = Kiosk(1234)`에서 `k.change(1111, 5678)`을 친 다음 `k.login(5678)`을 치면 무엇이 찍히나요?",
+          "code": "class Kiosk:\n    def __init__(self, password):\n        self.__password = password\n    def login(self, pw):\n        if pw == self.__password:\n            print(\"관리자 화면을 열어요\")\n        else:\n            print(\"비밀번호가 틀렸어요\")\n    def change(self, old, new):\n        if old == self.__password:\n            self.__password = new\n            print(\"비밀번호를 바꿨어요\")\n        else:\n            print(\"지금 비밀번호가 틀려서 못 바꿔요\")",
+          "choices": [
+            "`비밀번호를 바꿨어요` 다음 줄에 `관리자 화면을 열어요`",
+            "`지금 비밀번호가 틀려서 못 바꿔요` 다음 줄에 `비밀번호가 틀렸어요`",
+            "`지금 비밀번호가 틀려서 못 바꿔요` 다음 줄에 `관리자 화면을 열어요`",
+            "`비밀번호를 바꿨어요` 다음 줄에 `비밀번호가 틀렸어요`"
+          ],
+          "answer": 1,
+          "explain": "옛 번호 1111이 틀려서 비밀번호가 1234 그대로예요. 그래서 5678로 로그인하면 틀렸다고 나와요. 칸은 옛 번호를 맞혔을 때만 바뀌어요.",
+          "page": 26
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,282 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "numbers = [1, 2, 3]\nprint(list(map(lambda x: x + 10, numbers)))",
+          "choices": [
+            "`[1, 2, 3, 10]`",
+            "`[11, 12, 13]`",
+            "`<map object>`",
+            "`[10, 10, 10]`"
+          ],
+          "answer": 1,
+          "explain": "`map`은 `numbers`의 값마다 `x + 10`을 써요. 1, 2, 3이 11, 12, 13이 되고 `list`가 리스트로 모아요.",
+          "page": 6,
+          "verify": "py"
+        },
+        {
+          "id": "w2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "prices = [4500, 5000, 6500]\nprint(list(filter(lambda p: p >= 5000, prices)))",
+          "choices": [
+            "`[False, True, True]`",
+            "`[4500, 5000, 6500]`",
+            "`[5000, 6500]`",
+            "`[6500]`"
+          ],
+          "answer": 2,
+          "explain": "`filter`는 함수가 `True`를 돌려준 원래 값만 남겨요. `>=`라서 5000도 남아요. `True`, `False`를 모은 리스트는 `map`에 같은 함수를 넘겼을 때 나와요.",
+          "page": 5,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "함수를 값처럼, lambda",
+      "questions": [
+        {
+          "id": "f1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def add10(x):\n    return x + 10\nplus = add10\nprint(plus(5))",
+          "choices": [
+            "`15`",
+            "`5`",
+            "`add10`",
+            "`10`"
+          ],
+          "answer": 0,
+          "explain": "괄호 없이 `plus = add10`이라고 적으면 함수 그 자체를 담아요. `plus`와 `add10`은 같은 함수라서 `plus(5)`도 15예요.",
+          "page": 7,
+          "verify": "py"
+        },
+        {
+          "id": "f2",
+          "q": "`def add10(x): return x + 10`과 같은 일을 하는 `lambda`는 어느 것인가요?",
+          "choices": [
+            "`lambda x: return x + 10`",
+            "`lambda(x): x + 10`",
+            "`lambda: x + 10`",
+            "`lambda x: x + 10`"
+          ],
+          "answer": 3,
+          "explain": "`lambda` 뒤에 매개변수를 괄호 없이 적고, 콜론 뒤에 돌려줄 값을 적어요. `return`은 적지 않아요. 적으면 `SyntaxError`가 나요.",
+          "page": 9
+        },
+        {
+          "id": "f3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "label = lambda p: \"비쌈\" if p >= 5000 else \"보통\"\nprint(label(6500), label(4500))",
+          "choices": [
+            "`보통 비쌈`",
+            "`비쌈 보통`",
+            "`True False`",
+            "`비쌈 비쌈`"
+          ],
+          "answer": 1,
+          "explain": "`lambda` 안에도 17의 한 줄 if else를 쓸 수 있어요. 6500은 5000 이상이라 `비쌈`, 4500은 `보통`이에요.",
+          "page": 11,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "map",
+      "questions": [
+        {
+          "id": "m1",
+          "q": "`m = map(lambda p: p + 500, prices)` 다음에 `print(m)`을 치면 무엇이 나오나요?",
+          "choices": [
+            "`[5000, 5500, 7000]`",
+            "`None`",
+            "`<map object at 0x...>`",
+            "`TypeError`"
+          ],
+          "answer": 2,
+          "explain": "`map`은 결과를 바로 다 만들지 않고 값을 꺼내 줄 준비만 한 묶음을 돌려줘요. 오류는 아니에요. 리스트로 보려면 `list(m)`으로 감싸요.",
+          "page": 14
+        },
+        {
+          "id": "m2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "prices = [4500, 5000, 6500]\nprint(\", \".join(map(str, prices)))",
+          "choices": [
+            "`4500, 5000, 6500`",
+            "`['4500', '5000', '6500']`",
+            "`450050006500`",
+            "`[4500, 5000, 6500]`"
+          ],
+          "answer": 0,
+          "explain": "`map(str, prices)`가 가격마다 `str`을 써서 글자로 바꿔요. `join`은 글자만 이을 수 있어서, 글자로 바꾼 값을 쉼표와 띄어쓰기로 이어 한 줄이 돼요.",
+          "page": 15,
+          "verify": "py"
+        },
+        {
+          "id": "m3",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "prices = [4500, 5000, 6500]\nup = list(map(lambda p: p + 500, prices))\nprint(prices)",
+          "choices": [
+            "`[5000, 5500, 7000]`",
+            "`[]`",
+            "`None`",
+            "`[4500, 5000, 6500]`"
+          ],
+          "answer": 3,
+          "explain": "`map`은 새 결과를 만들고 원본 `prices`는 그대로 둬요. 500원 오른 값은 `up`에만 담겨 있어요.",
+          "page": 12,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "filter",
+      "questions": [
+        {
+          "id": "t1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "stock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2, \"tea\": 0}\nprint(list(filter(lambda m: stock[m] > 0, stock)))",
+          "choices": [
+            "`[3, 2]`",
+            "`['coffee', 'cake']`",
+            "`{'coffee': 3, 'cake': 2}`",
+            "`['latte', 'tea']`"
+          ],
+          "answer": 1,
+          "explain": "`filter`에 딕셔너리를 넘기면 키가 하나씩 들어가요. 재고가 0보다 큰 키만 남아서 메뉴 이름 리스트가 돼요. 재고 숫자는 들어 있지 않아요.",
+          "page": 18,
+          "verify": "py"
+        },
+        {
+          "id": "t2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "prices = [4500, 5000, 6500, 3000]\nprint(list(filter(lambda p: p >= 5000, prices)))",
+          "choices": [
+            "`[False, True, True, False]`",
+            "`[6500]`",
+            "`[5000, 6500]`",
+            "`[4500, 3000]`"
+          ],
+          "answer": 2,
+          "explain": "`filter`는 `True`를 받은 원래 값을 모아요. 4500과 3000은 `False`라서 버리고 5000과 6500이 남아요.",
+          "page": 17,
+          "verify": "py"
+        },
+        {
+          "id": "t3",
+          "q": "5000원 이상인 메뉴만 10% 할인했어요. 무엇이 찍히나요?",
+          "code": "prices = [4500, 5000, 6500, 3000]\nprint(list(map(lambda p: p * 9 // 10, filter(lambda p: p >= 5000, prices))))",
+          "choices": [
+            "`[5000, 6500]`",
+            "`[4050, 4500, 5850, 2700]`",
+            "`[4500, 5850, 2700]`",
+            "`[4500, 5850]`"
+          ],
+          "answer": 3,
+          "explain": "안쪽 `filter`가 먼저 5000과 6500만 골라요. 바깥 `map`이 고른 두 값만 9를 곱하고 10으로 몫 나누기해서 4500, 5850이 돼요.",
+          "page": 19,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "오류와 함정",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "아래 코드를 실행하면 어떻게 되나요?",
+          "code": "doubled = map(lambda x: x * 2, [1, 2, 3])\nprint(doubled[0])",
+          "choices": [
+            "`TypeError: 'map' object is not subscriptable`",
+            "`2`가 찍혀요",
+            "`IndexError: list index out of range`",
+            "`TypeError: object of type 'map' has no len()`"
+          ],
+          "answer": 0,
+          "explain": "`map` 결과는 리스트가 아니라서 번호로 꺼낼 수 없어요. `doubled = list(map(...))`처럼 먼저 리스트로 바꾸면 `doubled[0]`이 2예요.",
+          "page": 20
+        },
+        {
+          "id": "e2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "m = map(lambda p: p + 500, [4500, 5000])\nfirst = list(m)\nprint(list(m))",
+          "choices": [
+            "`[5000, 5500]`",
+            "`[]`",
+            "`None`",
+            "`<map object>`"
+          ],
+          "answer": 1,
+          "explain": "`map` 결과는 한 번 끝까지 꺼내면 비어요. `first = list(m)`이 이미 다 꺼냈으니 두 번째 `list(m)`은 빈 리스트예요. 두 번 쓸 결과는 리스트로 담아 두고 그 변수를 써요.",
+          "page": 21,
+          "verify": "py"
+        },
+        {
+          "id": "e3",
+          "q": "`list(map(add10(), [1, 2, 3]))`에서 `TypeError: add10() missing 1 required positional argument: 'x'`가 났어요. 어떻게 고치나요?",
+          "choices": [
+            "`list(map(add10(x), [1, 2, 3]))`",
+            "`list(map([1, 2, 3], add10))`",
+            "`list(map(add10, [1, 2, 3]))`",
+            "`list(map(add10(1), [1, 2, 3]))`"
+          ],
+          "answer": 2,
+          "explain": "함수에 괄호를 붙이면 `map`이 돌기 전에 그 자리에서 `x` 없이 실행돼요. 넘길 때는 괄호 없이 이름만 적고, 괄호는 `map`이 값을 넣으면서 붙여 줘요.",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "재고가 있고 5000원 미만인 메뉴를 골랐어요. 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500, \"tea\": 4000}\nstock = {\"coffee\": 3, \"latte\": 0, \"cake\": 2, \"tea\": 5}\nprint(list(filter(lambda m: stock[m] > 0 and menu[m] < 5000, menu)))",
+          "choices": [
+            "`['coffee', 'cake', 'tea']`",
+            "`['coffee', 'latte', 'tea']`",
+            "`['coffee', 'tea']`",
+            "`['tea']`"
+          ],
+          "answer": 2,
+          "explain": "두 조건을 `and`로 이어서 둘 다 `True`인 메뉴만 남아요. latte는 재고가 0이고, cake는 재고가 있지만 6500원이라 빠져요.",
+          "page": 26,
+          "verify": "py"
+        },
+        {
+          "id": "p2",
+          "q": "모든 주문의 잔 수를 더했어요. 무엇이 찍히나요?",
+          "code": "orders = [(\"kim\", \"latte\", 2), (\"lee\", \"cake\", 1), (\"park\", \"coffee\", 3), (\"kim\", \"tea\", 1)]\nprint(sum(map(lambda o: o[2], orders)))",
+          "choices": [
+            "`4`",
+            "`7`",
+            "`[2, 1, 3, 1]`",
+            "`TypeError`"
+          ],
+          "answer": 1,
+          "explain": "`map`이 튜플마다 `o[2]`, 곧 잔 수 2, 1, 3, 1을 꺼내요. `sum`은 `list`로 바꾸지 않아도 하나씩 꺼내 더해서 7이에요.",
+          "page": 27,
+          "verify": "py"
+        },
+        {
+          "id": "p3",
+          "q": "메뉴 가격을 10% 올렸어요. 무엇이 찍히나요?",
+          "code": "menu = {\"coffee\": 4500, \"latte\": 5000, \"cake\": 6500}\nprint(list(map(lambda m: menu[m] * 11 // 10, menu)))",
+          "choices": [
+            "`['coffee', 'latte', 'cake']`",
+            "`[4500, 5000, 6500]`",
+            "`[49500, 55000, 71500]`",
+            "`[4950, 5500, 7150]`"
+          ],
+          "answer": 3,
+          "explain": "딕셔너리를 넘겨서 `m`에는 메뉴 이름이 들어가고, 가격은 `menu[m]`으로 꺼내요. 11을 곱하고 10으로 몫 나누기하면 10% 오른 값이에요.",
+          "page": 25,
+          "verify": "py"
+        }
+      ]
+    }
+  ]
+}

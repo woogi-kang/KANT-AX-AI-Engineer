@@ -1,0 +1,257 @@
+{
+  "parts": [
+    {
+      "part": "Docker가 뭔가요",
+      "questions": [
+        {
+          "id": "w1",
+          "q": "이미지와 컨테이너를 붕어빵에 빗대면 어떻게 되나요?",
+          "choices": [
+            "이미지는 붕어빵 틀, 컨테이너는 그 틀로 찍은 붕어빵",
+            "둘 다 붕어빵 틀",
+            "이미지는 가게, 컨테이너는 손님",
+            "이미지는 붕어빵, 컨테이너는 붕어빵 틀"
+          ],
+          "answer": 0,
+          "explain": "이미지는 Docker Hub에서 받아 두는 틀이고 받은 뒤로 바뀌지 않아요. `docker run`으로 틀에서 찍어 낸 것이 컨테이너예요. 틀 하나로 web, web2, test처럼 컨테이너를 여러 개 켤 수 있어요.",
+          "page": 5
+        },
+        {
+          "id": "w2",
+          "q": "가상 머신과 비교했을 때 컨테이너가 가볍고 몇 초 만에 켜지는 까닭은 무엇인가요?",
+          "choices": [
+            "파이썬으로만 만들어서",
+            "아래 운영체제를 같이 쓰고 앱과 필요한 것만 담아서",
+            "운영체제를 하나 더 통째로 켜서",
+            "인터넷에서 실행되어서"
+          ],
+          "answer": 1,
+          "explain": "가상 머신은 컴퓨터 안에 운영체제를 하나 더 통째로 켜서 무거워요. 컨테이너는 아래 운영체제를 같이 쓰고 앱과 앱에 필요한 것만 담아요.",
+          "page": 7
+        },
+        {
+          "id": "w3",
+          "q": "터미널에서 `docker pull nginx`를 치면 무슨 일이 일어나나요?",
+          "choices": [
+            "nginx 컨테이너가 바로 켜져요",
+            "Docker Desktop이 Docker Hub에서 nginx 이미지를 받아 와요",
+            "GitHub에서 nginx 코드를 받아요",
+            "내 이미지를 Docker Hub에 올려요"
+          ],
+          "answer": 1,
+          "explain": "`pull`은 Docker Hub에서 이미지를 받아 오는 명령이에요. 받은 이미지로 컨테이너를 켜는 일은 `docker run`이 해요.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "part": "설치하기",
+      "questions": [
+        {
+          "id": "i1",
+          "q": "Windows에서 Docker Desktop을 쓰기 전에 작업 관리자의 성능 > CPU 화면에서 무엇을 확인하나요?",
+          "choices": [
+            "가상화가 사용인지",
+            "CPU 사용률이 50% 아래인지",
+            "속도가 3GHz 이상인지",
+            "코어가 8개 이상인지"
+          ],
+          "answer": 0,
+          "explain": "Docker Desktop은 Windows 안에 작은 리눅스를 켜요. 그러려면 CPU의 가상화 기능이 켜져 있어야 해요. 사용 안 함이면 BIOS(UEFI) 설정에서 켜요.",
+          "page": 8
+        },
+        {
+          "id": "i2",
+          "q": "Windows에 Docker Desktop을 설치할 때 수업에서 고르는 방법은 무엇인가요?",
+          "choices": [
+            "가상 머신 프로그램을 따로 설치",
+            "Hyper-V",
+            "아무것도 켜지 않아요",
+            "WSL 2"
+          ],
+          "answer": 3,
+          "explain": "WSL 2는 Windows Home과 Pro 모두에서 되고 Docker Desktop이 기본으로 골라요. Hyper-V는 Pro, Enterprise, Education에만 있어서 WSL 2를 못 쓸 때만 골라요.",
+          "page": 9
+        },
+        {
+          "id": "i3",
+          "q": "설치를 마치고 `docker run hello-world`를 처음 쳤더니 `Unable to find image 'hello-world:latest' locally`가 먼저 나왔어요. 무슨 뜻인가요?",
+          "code": "~ $ docker run hello-world\nUnable to find image 'hello-world:latest' locally\nlatest: Pulling from library/hello-world\n…\nHello from Docker!",
+          "choices": [
+            "인터넷이 끊겼어요",
+            "내 컴퓨터에 이미지가 없어서 Docker Hub에서 받아 와요",
+            "설치가 잘못되었어요",
+            "이름을 잘못 적었어요"
+          ],
+          "answer": 1,
+          "explain": "처음에는 내 컴퓨터에 이미지가 없어서 Hub에서 받아 와요. 뒤에 `Hello from Docker!`가 보이면 설치에 성공한 거예요.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "part": "Docker Desktop과 Docker Hub",
+      "questions": [
+        {
+          "id": "h1",
+          "q": "Docker Hub에서 nginx를 검색하면 비슷한 이미지가 아주 많아요. 수업에서는 어떤 이미지부터 고르나요?",
+          "choices": [
+            "별이 가장 많은 이미지",
+            "Docker Official Image 마크가 붙은 이미지",
+            "이름이 가장 긴 이미지",
+            "마크가 없는 이미지"
+          ],
+          "answer": 1,
+          "explain": "Docker Official Image는 Docker가 직접 관리하고 보안 업데이트를 꾸준히 해요. 마크가 없으면 누구나 올린 이미지라 안에 무엇이 있는지 알 수 없어요.",
+          "page": 18
+        },
+        {
+          "id": "h2",
+          "q": "`python:3.12-slim`에서 `3.12-slim`은 무엇인가요?",
+          "choices": [
+            "포트 번호",
+            "올린 회사 이름",
+            "컨테이너 이름",
+            "태그(버전)"
+          ],
+          "answer": 3,
+          "explain": "이미지 이름 뒤 콜론 다음이 태그예요. 태그로 버전을 골라요. `3.12-slim`은 파이썬 3.12에서 필요 없는 것을 빼서 작게 만든 버전이에요.",
+          "page": 19
+        },
+        {
+          "id": "h3",
+          "q": "태그 없이 `docker pull nginx`라고만 치면 어떤 태그를 받나요?",
+          "choices": [
+            "태그가 없어서 오류가 나요",
+            "`1.0`",
+            "`stable`",
+            "`latest`"
+          ],
+          "answer": 3,
+          "explain": "태그를 안 쓰면 가장 최신인 `latest`를 받아요. 출력에도 `Using default tag: latest`가 나와요.",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "part": "컨테이너 켜고 끄기",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "`docker run -d --name web nginx`에서 `-d`는 무엇을 하나요?",
+          "choices": [
+            "이미지를 받아만 둬요",
+            "컨테이너를 지워요",
+            "뒤에서 켜고 프롬프트를 바로 돌려줘요",
+            "디버그 기록을 켜요"
+          ],
+          "answer": 2,
+          "explain": "`-d`는 detach, 뒤에서 켜라는 옵션이에요. 긴 컨테이너 ID 한 줄만 찍고 프롬프트가 돌아와요. `-d` 없이 켜면 nginx가 터미널을 붙잡고 끝나지 않아요.",
+          "page": 23
+        },
+        {
+          "id": "r2",
+          "q": "`docker stop web`을 친 뒤 `docker ps`에 web이 안 보여요. web은 어디에서 볼 수 있나요?",
+          "choices": [
+            "`docker ps -a`에 Exited로 남아 있어요",
+            "지워져서 어디에도 없어요",
+            "`docker logs`에만 있어요",
+            "`docker images`"
+          ],
+          "answer": 0,
+          "explain": "`stop`은 끄기만 하고 지우지 않아요. `docker ps`는 켜진 것만, `docker ps -a`는 꺼진 것까지 전부 보여 줘서 web이 Exited로 남아 있어요. `docker start web`으로 같은 컨테이너를 다시 켤 수 있어요.",
+          "page": 24
+        },
+        {
+          "id": "r3",
+          "q": "`-p 8080:80`에서 콜론 왼쪽 8080은 무엇인가요?",
+          "choices": [
+            "이미지 버전",
+            "컨테이너 개수",
+            "내 컴퓨터의 문 번호",
+            "컨테이너 안의 문 번호"
+          ],
+          "answer": 2,
+          "explain": "콜론 왼쪽이 내 컴퓨터의 문 번호, 오른쪽이 컨테이너 안의 문 번호예요. 내 컴퓨터 8080번으로 들어온 요청이 컨테이너 80번으로 넘어가서 `localhost:8080`에서 nginx 화면이 열려요.",
+          "page": 29
+        }
+      ]
+    },
+    {
+      "part": "자주 나는 오류",
+      "questions": [
+        {
+          "id": "e1",
+          "q": "`docker ps`를 쳤더니 `failed to connect to the docker API`가 나와요. 먼저 무엇을 하나요?",
+          "choices": [
+            "Docker를 지우고 다시 설치해요",
+            "포트 번호를 바꿔요",
+            "`docker rm`을 쳐요",
+            "Docker Desktop을 열고 Engine running을 기다려요"
+          ],
+          "answer": 3,
+          "explain": "docker 명령은 Docker Desktop의 엔진에 일을 시켜요. 엔진이 꺼져 있으면 일을 받을 곳이 없어서 이 오류가 나요. 컴퓨터를 다시 켠 뒤에 자주 나요.",
+          "page": 33
+        },
+        {
+          "id": "e2",
+          "q": "켜져 있는 web을 `docker rm web`으로 지우려고 했더니 `container is running`이 나왔어요. 수업에서는 어떻게 지우나요?",
+          "choices": [
+            "`docker rmi web`",
+            "`docker restart web`",
+            "Docker Desktop을 껐다 켜요",
+            "`docker stop web` 뒤 `docker rm web`"
+          ],
+          "answer": 3,
+          "explain": "켜진 컨테이너는 바로 못 지워요. 수업에서는 `docker stop`으로 끄고 `docker rm`으로 지우는 두 단계로 해요.",
+          "page": 34
+        },
+        {
+          "id": "e3",
+          "q": "web과 web2를 다 지웠는데 `docker rmi nginx`가 `container a669a15ddb87 is using its referenced image`로 막혀요. 까닭은 무엇인가요?",
+          "choices": [
+            "포트 8080이 쓰이고 있어서",
+            "nginx로 만든 꺼진 컨테이너가 아직 남아 있어서",
+            "nginx 이미지가 Docker Hub에 없어서",
+            "Docker Desktop이 꺼져 있어서"
+          ],
+          "answer": 1,
+          "explain": "꺼진 컨테이너라도 그 이미지로 만든 것이 남아 있으면 이미지를 못 지워요. `docker ps -a`로 이름을 찾아 `docker rm`으로 지운 뒤 `rmi`를 다시 쳐요.",
+          "page": 37
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "같은 코드를 `python:3.11`과 `python:3.12` 이미지로 실행했어요. 어떤 결과가 나왔나요?",
+          "code": "docker run python:3.11 python -c 'menu = {\"latte\": 4500}; print(f\"라떼: {menu[\"latte\"]}원\")'\ndocker run python:3.12 python -c 'menu = {\"latte\": 4500}; print(f\"라떼: {menu[\"latte\"]}원\")'",
+          "choices": [
+            "둘 다 `라떼: 4500원`",
+            "3.11은 `라떼: 4500원`, 3.12는 `SyntaxError`",
+            "3.11은 `SyntaxError`, 3.12는 `라떼: 4500원`",
+            "둘 다 `SyntaxError`"
+          ],
+          "answer": 2,
+          "explain": "f-string 중괄호 안에서 같은 큰따옴표를 다시 쓰는 문법은 3.12부터 돼요. 파이썬을 따로 설치하지 않고도 이미지로 두 버전을 바로 비교할 수 있어요.",
+          "page": 38
+        },
+        {
+          "id": "p2",
+          "q": "web을 stop, rm으로 지우고 같은 명령으로 새로 켰어요. `docker logs web`에 전에 쌓인 GET 줄이 남아 있나요?",
+          "choices": [
+            "네, 4줄 그대로 남아 있어요",
+            "아니요, 컨테이너를 지우면 안에 쌓인 기록도 같이 사라져요",
+            "Docker Hub에 올라가 있어요",
+            "이미지에 저장되어서 남아요"
+          ],
+          "answer": 1,
+          "explain": "컨테이너 안에 쌓인 것은 컨테이너를 지우면 같이 사라져요. 그래서 남겨야 하는 데이터는 컨테이너 밖에 두고, 그 방법인 볼륨을 30에서 배워요.",
+          "page": 39
+        }
+      ]
+    }
+  ]
+}

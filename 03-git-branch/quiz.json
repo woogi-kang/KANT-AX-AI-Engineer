@@ -1,0 +1,394 @@
+{
+  "parts": [
+    {
+      "part": "브랜치란?",
+      "questions": [
+        {
+          "id": "a1",
+          "q": "팀에서 각자 브랜치를 따로 만들어 작업하는 까닭으로 맞는 것은 무엇인가요?",
+          "choices": [
+            "커밋을 더 빨리 GitHub에 올리려고",
+            "반쯤 만든 기능이 섞이지 않게 main을 늘 잘 돌아가는 상태로 두려고",
+            "커밋 메시지를 짧게 쓰려고",
+            "커밋 해시를 기억하지 않으려고"
+          ],
+          "answer": 1,
+          "explain": "모두 main에 바로 커밋하면 반쯤 만든 기능이 섞이고 누구 작업이 문제인지 찾기 어려워요. 각자 브랜치에서 다 만든 다음 main으로 합치면 main은 늘 잘 돌아가는 상태로 남아요.",
+          "page": 3
+        },
+        {
+          "id": "a2",
+          "q": "브랜치 main은 무엇인가요?",
+          "choices": [
+            "커밋을 여러 개 담아 두는 상자",
+            "GitHub 주소의 별명",
+            "커밋 하나를 가리키는 이름표",
+            "작업 폴더의 다른 이름"
+          ],
+          "answer": 2,
+          "explain": "브랜치는 커밋을 담는 상자가 아니라 커밋 하나를 가리키는 이름표예요. main 이름표는 마지막 커밋에 붙어요. 그래서 브랜치를 만들어도 무겁지 않아요.",
+          "page": 5
+        },
+        {
+          "id": "a3",
+          "q": "`git log --oneline`의 `d6b044a (HEAD -> main, origin/main)`에서 `HEAD -> main`은 무슨 뜻인가요?",
+          "choices": [
+            "지금 main 브랜치에 있어요",
+            "main이 GitHub에 올라갔어요",
+            "main이 지워졌어요",
+            "d6b044a가 가장 오래된 커밋이에요"
+          ],
+          "answer": 0,
+          "explain": "HEAD는 지금 내가 서 있는 브랜치를 가리켜요. `HEAD -> main`은 지금 main에 있다는 뜻이에요. GitHub에 올라간 위치는 `origin/main`이에요.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "part": "만들고 옮기기",
+      "questions": [
+        {
+          "id": "b1",
+          "q": "main에서 `git branch feature/login`을 쳤어요. 무엇이 바뀌나요?",
+          "choices": [
+            "feature/login으로 옮겨 가요",
+            "새 커밋이 하나 생겨요",
+            "main 이름표가 지워져요",
+            "같은 커밋에 이름표가 하나 더 생기고, HEAD는 main에 그대로 있어요"
+          ],
+          "answer": 3,
+          "explain": "`git branch 이름`은 출력 없이 이름표만 만들어요. 만들기만 했지 옮겨 가지는 않아요. 옮겨 가는 건 `git checkout feature/login`이에요.",
+          "page": 8
+        },
+        {
+          "id": "b2",
+          "q": "feature/login에서 login.md를 만들어 커밋한 뒤 `git checkout main`을 쳤어요. 작업 폴더에서 `ls`를 치면 login.md는 어떻게 되나요?",
+          "choices": [
+            "그대로 보여요",
+            "안 보여요. feature/login으로 가면 다시 보여요",
+            "영영 지워졌어요",
+            "내용이 빈 파일로 보여요"
+          ],
+          "answer": 1,
+          "explain": "checkout은 HEAD를 옮기면서 작업 폴더 파일도 그 브랜치의 마지막 커밋 모습으로 바꿔요. main에는 README.md와 hello.md만 보여요. login.md는 사라진 게 아니라 feature/login에 있어요.",
+          "page": 13
+        },
+        {
+          "id": "b3",
+          "q": "`git checkout -b 이름`과 하는 일이 같은 `git switch` 명령은 무엇인가요?",
+          "choices": [
+            "`git switch 이름`",
+            "`git switch -b 이름`",
+            "`git switch -c 이름`",
+            "`git switch -d 이름`"
+          ],
+          "answer": 2,
+          "explain": "브랜치를 만들고 바로 옮겨 가는 건 `git checkout -b 이름`, `git switch -c 이름`이에요. `-c`는 create(만들기)의 첫 글자예요. 옮겨 가기만 할 땐 `git switch 이름`이에요.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "part": "합치기",
+      "questions": [
+        {
+          "id": "m1",
+          "q": "feature/login의 커밋을 main으로 합치려고 해요. 맞는 순서는 무엇인가요?",
+          "choices": [
+            "`git checkout main` 뒤 `git merge feature/login`",
+            "`git checkout feature/login` 뒤 `git merge main`",
+            "`git merge main feature/login`",
+            "`git checkout feature/login` 뒤 `git merge feature/login`"
+          ],
+          "answer": 0,
+          "explain": "merge는 받는 쪽에서 해요. 먼저 받을 브랜치(main)로 checkout하고, 가져올 브랜치 이름을 적어요. feature/login에서 `git merge main`을 치면 main의 커밋이 feature/login으로 들어가요.",
+          "page": 15
+        },
+        {
+          "id": "m2",
+          "q": "`git merge feature/login`을 쳤더니 `Fast-forward`가 나왔어요. 무슨 일이 일어났나요?",
+          "code": "Updating d6b044a..4e60a09\nFast-forward",
+          "choices": [
+            "부모가 둘인 merge 커밋이 생겼어요",
+            "충돌이 나서 멈췄어요",
+            "feature/login이 지워졌어요",
+            "main에 새 커밋이 없어서 main 이름표만 feature/login 자리로 당겨졌어요"
+          ],
+          "answer": 3,
+          "explain": "main이 갈라진 뒤 main에 커밋이 없으면 Git은 main 이름표를 앞으로 옮기기만 해요. 빨리 감기(Fast-forward)라고 해요.",
+          "page": 16
+        },
+        {
+          "id": "m3",
+          "q": "브랜치 이름 규칙에 맞게 지은 것은 무엇인가요?",
+          "choices": [
+            "`Feature/Login Button`",
+            "`feature/login-button`",
+            "`내작업`",
+            "`feat: login-button`"
+          ],
+          "answer": 1,
+          "explain": "브랜치 이름은 타입/하는 일로 짓고 소문자와 하이픈(-)만 써요. 새 기능 브랜치는 `feature/`로 시작해요. `feat:`는 커밋 메시지 타입이라 헷갈리지 않게 봐요.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "part": "갈라진 길",
+      "questions": [
+        {
+          "id": "d1",
+          "q": "`git checkout -b docs/login-guide`는 어떤 두 명령을 한 번에 친 것과 같나요?",
+          "choices": [
+            "`git branch docs/login-guide`와 `git merge docs/login-guide`",
+            "`git add`와 `git commit`",
+            "`git branch docs/login-guide`와 `git checkout docs/login-guide`",
+            "`git checkout main`과 `git branch docs/login-guide`"
+          ],
+          "answer": 2,
+          "explain": "`-b`를 붙이면 이름표를 만들고 바로 옮겨 가요. 출력에도 `Switched to a new branch 'docs/login-guide'`가 나와요.",
+          "page": 20
+        },
+        {
+          "id": "d2",
+          "q": "main과 docs/login-guide 양쪽에 새 커밋이 하나씩 있어요. main에서 `git merge docs/login-guide`를 치면 어떻게 되나요?",
+          "choices": [
+            "부모가 둘인 merge 커밋이 새로 생겨요",
+            "Fast-forward로 이름표만 당겨져요",
+            "main의 새 커밋이 지워져요",
+            "docs/login-guide 이름표가 지워져요"
+          ],
+          "answer": 0,
+          "explain": "양쪽에 새 커밋이 있으면 Git이 둘을 잇는 merge 커밋을 새로 만들어요. 출력에 `Merge made by the 'ort' strategy.`가 나와요. 어느 쪽이 될지는 Git이 정하고, 명령은 똑같이 `git merge 브랜치이름`이에요.",
+          "page": 24
+        },
+        {
+          "id": "d3",
+          "q": "merge 커밋을 만들 때 편집기로 vim이 열렸어요. 미리 적힌 메시지 그대로 저장하고 나가려면 어떻게 하나요?",
+          "choices": [
+            "`Ctrl + C`를 눌러요",
+            "`Esc`를 누른 뒤 `:wq`와 `Enter`를 쳐요",
+            "터미널 창을 닫아요",
+            "`git commit -m`을 다시 쳐요"
+          ],
+          "answer": 1,
+          "explain": "편집기에 `Merge branch 'docs/login-guide'`가 미리 적혀 있어요. vim이 열리면 `Esc`를 누른 뒤 `:wq`와 `Enter`를 쳐서 저장하고 나가요.",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "part": "되돌리기",
+      "questions": [
+        {
+          "id": "r1",
+          "q": "push 전 실수한 커밋을 `git reset --soft HEAD~1`로 되돌렸어요. 변경은 어디에 남나요?",
+          "choices": [
+            "어디에도 남지 않아요",
+            "작업 폴더에만 있고 대기실은 비어요",
+            "대기실에 남아서 바로 다시 커밋할 수 있어요",
+            "GitHub에 남아요"
+          ],
+          "answer": 2,
+          "explain": "`--soft`는 커밋만 취소하고 변경은 대기실에 남겨요. `git status`에 `Changes to be committed:`로 보여요. 커밋 메시지만 고쳐서 다시 커밋하고 싶을 때 써요.",
+          "page": 28
+        },
+        {
+          "id": "r2",
+          "q": "merge 직후 `git reset --hard HEAD~1`로 merge를 되돌렸어요. docs/login-guide에서 한 로그인 안내 커밋 29bd96c는 어떻게 되나요?",
+          "code": "HEAD is now at f0e6c3e feat: 반가움 인사 추가",
+          "choices": [
+            "docs/login-guide 이름표가 가리키고 있어서 남아 있고, 다시 merge할 수 있어요",
+            "같이 지워져서 되찾을 수 없어요",
+            "main 기록에 그대로 남아 있어요",
+            "대기실에 남아요"
+          ],
+          "answer": 0,
+          "explain": "reset은 지금 브랜치(main) 이름표만 옮겨요. docs/login-guide 이름표는 움직이지 않아서 29bd96c를 잃지 않아요. 브랜치를 지우지 않았으면 `git merge docs/login-guide`로 다시 합칠 수 있어요.",
+          "page": 34
+        },
+        {
+          "id": "r3",
+          "q": "되돌리는 방법을 고르는 기준으로 맞는 것은 무엇인가요?",
+          "choices": [
+            "push 전이든 후든 늘 `git reset --hard`",
+            "push 전이면 revert, push 후면 reset",
+            "push 전이면 reset, push 후면 revert",
+            "merge 커밋은 되돌릴 수 없어요"
+          ],
+          "answer": 2,
+          "explain": "기준은 push했는지예요. push 전이면 reset, push 후면 revert예요. 충돌이 나서 merge가 멈춘 상태면 `git merge --abort`로 합치기 전으로 돌아가요.",
+          "page": 37
+        }
+      ]
+    },
+    {
+      "part": "충돌 풀기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "충돌이 나는 경우는 무엇인가요?",
+          "choices": [
+            "두 브랜치가 서로 다른 파일을 고쳤을 때",
+            "두 브랜치가 같은 파일의 같은 줄을 다르게 고쳤을 때",
+            "같은 파일의 멀리 떨어진 줄을 각자 고쳤을 때",
+            "브랜치를 새로 만들었을 때"
+          ],
+          "answer": 1,
+          "explain": "양쪽 브랜치가 같은 곳을 다르게 고쳤을 때만 충돌이 나요. 다른 파일이나 멀리 떨어진 줄은 Git이 알아서 합쳐요. 바로 옆 줄도 한 덩어리로 봐서 충돌이 나요.",
+          "page": 39
+        },
+        {
+          "id": "c2",
+          "q": "main에서 merge하다 충돌이 났어요. 아래 표시에서 `=======` 위쪽 `# 로그인 페이지`는 누구 내용인가요?",
+          "code": "<<<<<<< HEAD\n# 로그인 페이지\n=======\n# 로그인하기\n>>>>>>> feature/login-title",
+          "choices": [
+            "합치려는 브랜치 feature/login-title의 내용",
+            "GitHub의 내용",
+            "Git이 두 내용을 섞어 만든 내용",
+            "지금 내 브랜치 main의 내용"
+          ],
+          "answer": 3,
+          "explain": "HEAD는 지금 서 있는 브랜치예요. 위쪽이 내 것(main), 아래쪽이 가져오려는 것(feature/login-title)이에요. 남길 내용으로 고치고 표시 세 줄을 지운 뒤 add, commit 해요.",
+          "page": 43
+        },
+        {
+          "id": "c3",
+          "q": "충돌을 풀다 꼬였어요. 합치기 전 모습으로 돌아가는 명령은 무엇인가요?",
+          "choices": [
+            "`git merge --abort`",
+            "`git branch -d main`",
+            "`git checkout -b main`",
+            "`git commit -m \"취소\"`"
+          ],
+          "answer": 0,
+          "explain": "`git merge --abort`는 출력 없이 합치기 전으로 돌려놔요. 그 뒤 `git status`가 `nothing to commit, working tree clean`으로 깨끗해져요. pull 하다 난 충돌도 똑같이 돌아가요.",
+          "page": 45
+        }
+      ]
+    },
+    {
+      "part": "GitHub에서 함께",
+      "questions": [
+        {
+          "id": "g1",
+          "q": "feature/login-button 브랜치를 GitHub에 올려 Pull Request를 만들려고 해요. 어떤 명령을 치나요?",
+          "choices": [
+            "`git push origin main`",
+            "`git push -u origin feature/login-button`",
+            "`git push origin feature/login-button`",
+            "`git pull origin feature/login-button`"
+          ],
+          "answer": 2,
+          "explain": "`git push origin 브랜치이름`으로 브랜치째 올려요. `-u`는 붙이지 않고 어디로, 무엇을 끝까지 적어요. 팀에서는 main에 직접 push하지 않고 PR로 합쳐요.",
+          "page": 48
+        },
+        {
+          "id": "g2",
+          "q": "GitHub에서 Merge pull request를 누른 뒤 main에서 `git fetch origin`을 쳤어요. 무엇이 바뀌나요?",
+          "code": "   a4c0a4f..0e04baf  main -> origin/main",
+          "choices": [
+            "내 main과 작업 폴더가 GitHub과 같아져요",
+            "origin/main 이름표만 앞으로 가고 내 main과 작업 폴더는 그대로예요",
+            "내 커밋이 GitHub으로 올라가요",
+            "feature/login-button이 지워져요"
+          ],
+          "answer": 1,
+          "explain": "fetch는 GitHub의 새 커밋을 받아서 origin/main 이름표만 옮겨요. 내 main에 합치려면 `git pull origin main`을 쳐요. 내 main에 새 커밋이 없었으니 Fast-forward로 받아요.",
+          "page": 51
+        },
+        {
+          "id": "g3",
+          "q": "PR이 합쳐졌고 다음 작업 feature/login-error를 시작하려고 해요. 새 브랜치를 만들기 전에 할 일은 무엇인가요?",
+          "choices": [
+            "지금 있는 feature/login-button에서 바로 `git checkout -b feature/login-error`",
+            "`git push origin main`으로 main을 먼저 올려요",
+            "`git merge --abort`로 정리해요",
+            "`git checkout main`, `git fetch origin`, `git pull origin main`으로 main을 최신으로 맞춰요"
+          ],
+          "answer": 3,
+          "explain": "pull 하기 전의 main에서 따면 방금 합친 커밋이 없는 채로 시작해서 나중에 충돌이 나기 쉬워요. 최신 main에서 새 브랜치를 만드는 흐름이 GitHub Flow예요.",
+          "page": 55
+        }
+      ]
+    },
+    {
+      "part": "충돌 시나리오",
+      "questions": [
+        {
+          "id": "s1",
+          "q": "merge했더니 아래 메시지가 나왔어요. 어떤 상황인가요?",
+          "code": "CONFLICT (modify/delete): old-login.md deleted in chore/remove-old-login and modified in HEAD.",
+          "choices": [
+            "한쪽은 파일을 지우고 한쪽은 고쳤어요",
+            "두 브랜치가 같은 이름의 새 파일을 만들었어요",
+            "같은 줄을 다르게 고쳤어요",
+            "갈라진 상태에서 pull했어요"
+          ],
+          "answer": 0,
+          "explain": "modify/delete는 지움 vs 고침 충돌이에요. 파일 안에 충돌 표시가 없고 지울지 남길지만 정해요. 지우려면 `git rm old-login.md`, 남기려면 `git add old-login.md` 뒤 커밋해요.",
+          "page": 59
+        },
+        {
+          "id": "s2",
+          "q": "push가 거절돼서 `git pull origin main`을 쳤더니 아래처럼 멈췄어요. 처음 한 번 쳐 둘 설정은 무엇인가요?",
+          "code": "fatal: Need to specify how to reconcile divergent branches.",
+          "choices": [
+            "`git config --global pull.rebase true`",
+            "`git config --global pull.ff only`",
+            "`git config --global pull.rebase false`",
+            "`git push --force origin main`"
+          ],
+          "answer": 2,
+          "explain": "`pull.rebase false`는 pull할 때 merge로 합치라는 설정이에요. `--global`이라 내 컴퓨터의 모든 저장소에 한 번에 적용돼요. 설정한 뒤 다시 pull해요.",
+          "page": 64
+        },
+        {
+          "id": "s3",
+          "q": "PR 화면에 `This branch has conflicts that must be resolved`가 떠요. 수업에서는 어떻게 푸나요?",
+          "choices": [
+            "main에서 `git merge --abort`를 쳐요",
+            "`git checkout feature/login-title` 뒤 `git pull origin main`으로 받아 풀고 커밋한 다음 `git push origin feature/login-title`",
+            "PR을 닫고 main에 직접 push해요",
+            "`git branch -d feature/login-title`로 브랜치를 지워요"
+          ],
+          "answer": 1,
+          "explain": "main을 내 브랜치로 먼저 가져와서 충돌을 풀어요. 받는 쪽이 feature/login-title이라는 점이 merge와 같아요. push하면 PR 화면이 다시 Merge 할 수 있는 상태로 바뀌어요.",
+          "page": 67
+        }
+      ]
+    },
+    {
+      "part": "문제 해결",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "`git checkout -b feature/login`을 쳤더니 아래 에러가 나요. 어떻게 하나요?",
+          "code": "fatal: a branch named 'feature/login' already exists",
+          "choices": [
+            "`git checkout feature/login`처럼 `-b` 없이 옮겨 가요",
+            "`git branch feature/login`으로 한 번 더 만들어요",
+            "`git merge feature/login`을 쳐요",
+            "`git init`으로 저장소를 새로 만들어요"
+          ],
+          "answer": 0,
+          "explain": "already exists는 이미 있는 이름에 `-b`를 붙였을 때 나요. 같은 이름이 벌써 있으니 `-b` 없이 옮겨 가요. 반대로 없는 브랜치로 옮기면 `pathspec` 에러가 나요.",
+          "page": 69
+        },
+        {
+          "id": "p2",
+          "q": "`git branch -d feature/login`이 `is not fully merged.`로 멈췄어요. 수업에서 배운 방법은 무엇인가요?",
+          "choices": [
+            "`git reset --hard HEAD~1`부터 쳐요",
+            "브랜치를 지우지 않고 계속 둬야 해요",
+            "`git checkout feature/login` 뒤 `git branch -d feature/login`",
+            "`git checkout main`, `git merge feature/login` 뒤 `git branch -d feature/login`"
+          ],
+          "answer": 3,
+          "explain": "`-d`는 합치지 않은 커밋이 있으면 그 커밋을 잃지 않게 멈춰요. 먼저 main에 합친 뒤 지워요. PR을 merge했는데도 나면 main에서 `git pull origin main`으로 최신으로 맞추고 다시 지워 봐요.",
+          "page": 71
+        }
+      ]
+    }
+  ]
+}

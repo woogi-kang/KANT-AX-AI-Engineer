@@ -1,0 +1,248 @@
+{
+  "parts": [
+    {
+      "part": "왜 필요한가",
+      "questions": [
+        {
+          "id": "y1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def order(menu_name, size=\"M\"):\n    print(menu_name, size, end=\" \")\norder(\"latte\")\norder(\"latte\", \"L\")",
+          "choices": [
+            "`latte M latte M`",
+            "`latte M latte L`",
+            "`latte latte L`",
+            "`TypeError`가 나요"
+          ],
+          "answer": 1,
+          "explain": "def 줄에서 `size=\"M\"`으로 기본값을 정하면 부를 때 빼도 M이 들어가요. 넣으면 넣은 값 L로 바뀌어요.",
+          "page": 6,
+          "verify": "py"
+        },
+        {
+          "id": "y2",
+          "q": "함수 안과 밖의 변수에 대해 맞는 말은 무엇인가요?",
+          "choices": [
+            "함수 안에서는 밖의 변수가 보이고, 밖에서는 함수 안의 변수가 보이지 않아요",
+            "함수 밖에서도 함수 안의 변수를 읽을 수 있어요",
+            "함수 안에서는 밖의 변수를 읽을 수 없어요",
+            "함수가 끝나도 안에서 만든 변수는 남아 있어요"
+          ],
+          "answer": 0,
+          "explain": "함수 밖에서 만든 전역 변수는 안에서 읽을 수 있어요. 함수 안에서 만든 지역 변수는 함수가 끝나면 상자째 사라져서 밖에서 볼 수 없어요.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "part": "기본값과 키워드 인자",
+      "questions": [
+        {
+          "id": "k1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def order(menu_name, size=\"M\", qty=1):\n    print(f\"{menu_name} {size} {qty}잔\")\norder(\"latte\", qty=3)",
+          "choices": [
+            "`latte 3 1잔`",
+            "`latte M 1잔`",
+            "`latte M 3잔`",
+            "`latte qty 3잔`"
+          ],
+          "answer": 2,
+          "explain": "`qty=3`처럼 칸 이름을 붙인 키워드 인자는 그 칸에 바로 들어가요. 넣지 않은 size는 기본값 M 그대로예요. 이름 없이 `order(\"latte\", 3)`이라 적으면 3이 둘째 칸 size로 가요.",
+          "page": 7,
+          "verify": "py"
+        },
+        {
+          "id": "k2",
+          "q": "아래 def 줄을 실행하면 `SyntaxError: parameter without a default follows parameter with a default`가 나요. 어떻게 고치나요?",
+          "code": "def order(size=\"M\", menu_name):\n    print(menu_name, size)",
+          "choices": [
+            "`def order(size=\"M\", menu_name=):`",
+            "`def order(size, menu_name=\"M\"):`",
+            "`def order(\"M\", menu_name):`",
+            "`def order(menu_name, size=\"M\"):`"
+          ],
+          "answer": 3,
+          "explain": "기본값 없는 칸을 앞에, 기본값 있는 칸을 뒤에 둬요. 부를 때도 같은 규칙이라 이름 없는 값을 앞에, 키워드 인자를 뒤에 적어요.",
+          "page": 9
+        },
+        {
+          "id": "k3",
+          "q": "`sorted([5000, 4500, 6500], reverse=True)`에서 `reverse=True`는 무엇인가요?",
+          "choices": [
+            "기본값이 False인 칸에 이름을 붙여 넣은 키워드 인자예요",
+            "꼭 넣어야 하는 위치 인자예요",
+            "`sorted` 안의 지역 변수예요",
+            "전역 변수 `reverse`를 바꾸는 줄이에요"
+          ],
+          "answer": 0,
+          "explain": "reverse는 기본값이 False인 칸이라 평소에는 빼고 써요. print의 sep, end도 같은 키워드 인자예요.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "part": "지역 변수",
+      "questions": [
+        {
+          "id": "l1",
+          "q": "아래 코드를 실행하면 어떻게 되나요?",
+          "code": "def calc():\n    total = 4500 * 2\ncalc()\nprint(total)",
+          "choices": [
+            "`9000`이 찍혀요",
+            "`None`이 찍혀요",
+            "`NameError: name 'total' is not defined`가 나요",
+            "`UnboundLocalError`가 나요"
+          ],
+          "answer": 2,
+          "explain": "함수 안에서 만든 total은 지역 변수라 함수가 끝나면 사라져요. 밖에서 쓰려면 함수 안에서 `return total`로 돌려받아요.",
+          "page": 11
+        },
+        {
+          "id": "l2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def add_stamp():\n    stamp = 0\n    stamp += 1\n    print(stamp, end=\" \")\nadd_stamp()\nadd_stamp()\nadd_stamp()",
+          "choices": [
+            "`1 2 3`",
+            "`1 1 1`",
+            "`0 0 0`",
+            "`3`"
+          ],
+          "answer": 1,
+          "explain": "지역 변수는 부를 때마다 새로 생겨서 `stamp = 0`부터 다시 시작해요. 지난번 값을 기억하지 못해서 도장이 쌓이지 않아요.",
+          "page": 13,
+          "verify": "py"
+        }
+      ]
+    },
+    {
+      "part": "전역 변수",
+      "questions": [
+        {
+          "id": "g1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "price = 4500\ndef set_price():\n    price = 5000\n    print(\"안:\", price, end=\" \")\nset_price()\nprint(\"밖:\", price)",
+          "choices": [
+            "`안: 5000 밖: 5000`",
+            "`안: 4500 밖: 4500`",
+            "`안: 5000 밖: 4500`",
+            "`UnboundLocalError`가 나요"
+          ],
+          "answer": 2,
+          "explain": "함수 안에서 `=`로 값을 넣으면 같은 이름의 지역 변수가 새로 생겨요. 이름만 같은 다른 상자라서 바깥 price는 4500 그대로예요.",
+          "page": 15,
+          "verify": "py"
+        },
+        {
+          "id": "g2",
+          "q": "아래 코드를 실행하면 어떤 오류가 나나요?",
+          "code": "count = 0\ndef visit():\n    count = count + 1\nvisit()",
+          "choices": [
+            "`NameError: name 'count' is not defined`",
+            "`UnboundLocalError: cannot access local variable 'count' where it is not associated with a value`",
+            "`TypeError: visit() missing 1 required positional argument: 'count'`",
+            "오류 없이 count가 1이 돼요"
+          ],
+          "answer": 1,
+          "explain": "함수 안에 `count =`이 있으면 count는 처음부터 지역 변수예요. 오른쪽 `count + 1`을 계산하려고 지역 count를 읽는데 아직 값이 없어서 UnboundLocalError가 나요.",
+          "page": 16
+        },
+        {
+          "id": "g3",
+          "q": "방문자 수 count를 함수로 1씩 늘리려고 해요. 수업에서 권하는 방법은 무엇인가요?",
+          "choices": [
+            "함수 첫 줄에 `global count`를 적어요",
+            "함수 안에서 `count = 0`부터 다시 시작해요",
+            "`def visit(count): return count + 1`로 만들고 `count = visit(count)`로 받아요",
+            "함수 밖에서 `count += 1`을 따로 적고 함수는 쓰지 않아요"
+          ],
+          "answer": 2,
+          "explain": "global도 되지만 어느 함수가 바꿨는지 찾기 어려워요. 인자로 넣고 return으로 돌려받으면 count가 바뀌는 줄이 밖에 그대로 보여요.",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "part": "리스트와 딕셔너리 넘기기",
+      "questions": [
+        {
+          "id": "c1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def add_item(cart, name):\n    cart.append(name)\nmy_cart = [\"coffee\"]\nadd_item(my_cart, \"cake\")\nprint(my_cart)",
+          "choices": [
+            "`['coffee', 'cake']`",
+            "`['coffee']`",
+            "`['cake']`",
+            "`None`"
+          ],
+          "answer": 0,
+          "explain": "리스트를 넘기면 복사본이 아니라 같은 리스트가 들어가요. my_cart와 cart는 이름만 둘이고 리스트는 하나라서 return 없이도 원본이 바뀌어요.",
+          "page": 19,
+          "verify": "py"
+        },
+        {
+          "id": "c2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def add_one(n):\n    n += 1\nx = 1\nadd_one(x)\nprint(x)",
+          "choices": [
+            "`2`",
+            "`None`",
+            "`NameError`가 나요",
+            "`1`"
+          ],
+          "answer": 3,
+          "explain": "`n += 1`은 n이라는 이름에 새 값을 넣는 일이라 밖의 x와는 상관이 없어요. append처럼 받은 리스트 자체를 고칠 때만 밖도 바뀌어요.",
+          "page": 20,
+          "verify": "py"
+        },
+        {
+          "id": "c3",
+          "q": "함수에 넘긴 장바구니 리스트의 원본은 그대로 두고, 메뉴를 더한 새 리스트만 받고 싶어요. 함수 안에서 어떻게 하나요?",
+          "choices": [
+            "`cart.append(name)` 뒤 `return cart`",
+            "`global cart`를 적고 append해요",
+            "`new_cart = cart.copy()` 뒤 `new_cart.append(name)`, `return new_cart`",
+            "`new_cart = cart` 뒤 `new_cart.append(name)`, `return new_cart`"
+          ],
+          "answer": 2,
+          "explain": "`copy()`로 복사본을 만들어 고친 뒤 돌려주면 원본은 그대로예요. `new_cart = cart`는 이름만 하나 더 붙인 거라 원본도 같이 바뀌어요.",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "part": "실습",
+      "questions": [
+        {
+          "id": "p1",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def take_order(stock, name, qty=1):\n    if stock[name] < qty:\n        return False\n    stock[name] -= qty\n    return True\nstock = {\"coffee\": 3, \"latte\": 1}\ntake_order(stock, \"coffee\", 2)\ntake_order(stock, \"latte\")\ntake_order(stock, \"latte\")\nprint(stock)",
+          "choices": [
+            "`{'coffee': 3, 'latte': 1}`",
+            "`{'coffee': 1, 'latte': 0}`",
+            "`{'coffee': 1, 'latte': -1}`",
+            "`{'coffee': 2, 'latte': 0}`"
+          ],
+          "answer": 1,
+          "explain": "coffee는 2개가 나가 1이 남아요. latte는 qty를 빼서 기본값 1개가 나가 0이 되고, 다음 주문은 재고가 모자라 `return False`로 바로 끝나요. 받은 딕셔너리 칸을 고쳐서 밖의 stock이 바뀌어요.",
+          "page": 23,
+          "verify": "py"
+        },
+        {
+          "id": "p2",
+          "q": "아래 코드를 실행하면 무엇이 찍히나요?",
+          "code": "def add_point(points, name, amount, rate=5):\n    points[name] = points.get(name, 0) + amount * rate // 100\npoints = {\"kim\": 300}\nadd_point(points, \"lee\", 6500)\nadd_point(points, \"lee\", 10000, rate=10)\nprint(points)",
+          "choices": [
+            "`{'kim': 300, 'lee': 825}`",
+            "`{'kim': 300, 'lee': 1000}`",
+            "`{'kim': 300, 'lee': 1325}`",
+            "`KeyError: 'lee'`"
+          ],
+          "answer": 2,
+          "explain": "처음 온 lee는 키가 없어서 `get(name, 0)`으로 0에서 시작해 6500원의 5%인 325를 받아요. 다음은 `rate=10`이라 1000을 더해 1325예요. 대괄호로 바로 꺼냈다면 KeyError가 났을 거예요.",
+          "page": 25,
+          "verify": "py"
+        }
+      ]
+    }
+  ]
+}

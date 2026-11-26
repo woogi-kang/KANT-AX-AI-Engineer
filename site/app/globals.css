@@ -318,3 +318,5 @@ a.chip:hover { border-color: var(--ac); }
 .legal-t th, .legal-t td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
 .note { color: var(--mute); font-size: 13.5px; }
 @media (max-width: 560px) { .legal-2 { grid-template-columns: 1fr; } }
+/* 표지 그림: img의 height 속성이 비율(16:9)을 덮지 않게 해요 */
+img.cv { height: auto; }
