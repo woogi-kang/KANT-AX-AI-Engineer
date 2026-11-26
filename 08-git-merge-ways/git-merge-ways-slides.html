@@ -13,10 +13,15 @@ x-shape[kind=ellipse]{border-radius:50%}
 table{border-collapse:collapse;width:100%}
 td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
 aside{display:none}
+.cp-cover{position:absolute;bottom:56px;font:400 22px/1.4 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:nowrap;pointer-events:none}
 html,body{margin:0;height:100%;background:#E9E7E1;transition:background .3s;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
 #pl-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
 #pl-stage>section{position:absolute;left:0;top:0;visibility:hidden}
 #pl-stage>section.on{visibility:visible}
+#pl-cp{position:absolute;right:28px;bottom:16px;z-index:40;margin:0;font:400 15px/1.4 'Noto Sans KR',Arial,sans-serif;white-space:nowrap;pointer-events:none;color:rgba(29,35,48,.5)}
+#pl-cp.dark{color:rgba(246,245,241,.5)}
+#pl-cp.off{display:none}
+#pl-cp.chip{padding:2px 10px;border-radius:7px;background:var(--cpbg);right:18px;bottom:14px}
 [data-build-in]{transition:opacity .45s ease,transform .45s ease}
 .pending{opacity:0!important}
 .pending.rise{transform:translateY(40px)!important}
@@ -148,7 +153,7 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <div id="cvn-Q" style="position:absolute;left:1700px;top:560px;width:80px;height:80px;border-radius:50%;background:#FDFCF9;border:5px dashed #7A8394;color:#7A8394;display:flex;align-items:center;justify-content:center"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:34px;font-weight:700;line-height:1;color:inherit">?</p></div>
 <p style="position:absolute;left:1060px;top:700px;width:680px;font-size:30px;font-weight:700;line-height:1.4;color:#BFC6D4">갈라진 두 길을 어떻게 이을까요</p>
 <aside>갈라진 두 길을 잇는 방법은 네 가지예요. 03에서 fast-forward와 merge 커밋 두 가지를 봤어요. 오늘은 같은 예시 하나로 rebase와 squash까지 네 가지를 나란히 놓고 결과 그림을 비교해요. git pull이 이 중 무엇을 하는지, GitHub PR의 Merge 버튼 세 개가 각각 무엇인지도 이어서 봐요.</aside>
-</section>
+<p class="cp-cover" style="left: 128px; color: rgba(246, 245, 241, 0.55);">© 2026 Taewook Kang (woogi). 허락 없이 복제, 재배포, 판매할 수 없어요.</p></section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;padding:96px;display:flex;flex-direction:column">
 <h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">오늘의 순서</h2>
 <div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:210px;width:1728px;height:92px;display:flex;flex-direction:row;align-items:center;gap:32px"><p style="width:60px;flex:none;font-size:44px;font-weight:900;color:#2459C9">1</p><p style="width:620px;flex:none;font-size:36px;font-weight:700;color:#1D2330">갈라지지 않았을 때</p><p style="flex:1;font-size:30px;color:#4A5262">fast-forward, --no-ff</p><p style="width:160px;flex:none;font-size:28px;color:#6A7180;text-align:right">7–8쪽</p></div>
@@ -1258,6 +1263,7 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="position:absolute;left:96px;top:900px;width:1728px;font-size:30px;font-weight:700;line-height:1.5;color:#1D2330">헷갈리면 merge를 써요. 다음 챕터 <span style="color:#2459C9">09 uv로 파이썬 시작하기</span>에서는 파이썬 프로젝트를 만들어요.</p>
 <aside>수업에서는 merge를 기본으로 쓰고, 나머지는 기록을 읽을 수 있을 만큼 알아 두면 돼요. 출발점이 같으면 어느 방법으로 합쳐도 파일 내용은 같아요. 다른 건 기록 모양과 해시예요. pull은 pull.rebase false로 merge, PR은 팀이 정한 버튼 하나를 써요. rebase는 push 전 내 브랜치에만 써요. 충돌은 어느 방법이든 같은 줄에서 나요.</aside>
 </section>
+<p id="pl-cp">© 2026 Taewook Kang (woogi) · 무단 복제·배포 금지</p>
 </div>
 <button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
 <button id="pl-copy" data-tip="복사" aria-label="복사"><svg class="cp" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg><svg class="ok" viewBox="0 0 24 24"><polyline points="5,12.5 10,17.5 19,7"/></svg></button>
@@ -1269,7 +1275,7 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <script>const PDF_NAME="git-merge-ways-slides.pdf";
 
 const stage=document.getElementById('pl-stage');
-const slides=[...stage.children];
+const slides=[...stage.children].filter(el=>el.tagName==="SECTION");
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
 const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off','wipe','slam','slide','stagger','count','mark','path','morph','lspot','lspot-off','run','run-off','zoom','zoom-off','blur','blur-off','text','pan','kenburns','pulse','grow','shine','shake'];
@@ -1669,7 +1675,7 @@ function textRects(){
 }
 function placeCopy(r,w){
   // the side arrows and the bottom bar show while the mouse moves, so the button keeps off them too
-  const h=w,g=Math.round(w*.24),txt=textRects().concat(['pl-hl','pl-hr','pl-bar'].map(id=>$(id).getBoundingClientRect()));
+  const h=w,g=Math.round(w*.24),txt=textRects().concat(['pl-hl','pl-hr','pl-bar','pl-cp'].map(id=>$(id).getBoundingClientRect()));
   const spots=[[r.right-g-w,r.top+g],[r.right-g-w,r.bottom-g-h],[r.right+g,r.top],[r.right-w/2,r.top-h/2],[r.right-w,r.top-g-h],[r.right-w,r.bottom+g],[r.right-w/2,r.bottom-h/2],[r.left-g-w,r.top],[r.left-w/2,r.top-h/2]];
   const inView=([x,y])=>x>=4&&y>=4&&x+w<=innerWidth-4&&y+h<=innerHeight-4;
   const hits=([x,y])=>txt.filter(c=>c.right>x-3&&c.left<x+w+3&&c.bottom>y-3&&c.top<y+h+3).length;
@@ -1760,6 +1766,21 @@ function bandColor(){
   const c=(getComputedStyle(slides[cur]).backgroundColor.match(/[\d.]+/g)||[]).map(Number);
   const [r,g,b]=c.length>=3&&c[3]!==0?c:[246,245,241],f=(.3*r+.59*g+.11*b)>128?.95:.7;
   document.body.style.background='rgb('+[r,g,b].map(v=>Math.round(v*f)).join(',')+')';
+  // the copyright line in the bottom-right corner follows the slide's shade; the cover has its own line
+  // where a box of the slide (a window drawn to the slide's edge) runs under it, it sits on a chip of the slide's colour
+  const cp=$('pl-cp');cp.classList.toggle('dark',f<.9);cp.classList.toggle('off',cur===0);
+  cp.style.setProperty('--cpbg','rgb('+[r,g,b].join(',')+')');cp.classList.toggle('chip',cur>0&&cpUnder(slides[cur]));
+}
+function cpUnder(sec){
+  if(sec._cpu!==undefined)return sec._cpu;
+  const k=stage._s,S=sec.getBoundingClientRect(),cp=$('pl-cp'),w=cp.offsetWidth+16,h=cp.offsetHeight+8;
+  const z={l:1920-28-w+8,t:1080-16-h+4,r:1920-20,b:1080-12};
+  return sec._cpu=[...sec.querySelectorAll('*')].some(el=>{
+    if(el.closest('aside'))return false;const cs=getComputedStyle(el);
+    if(cs.backgroundColor==='rgba(0, 0, 0, 0)'&&cs.borderTopWidth==='0px'&&!/^(IMG|svg)$/i.test(el.tagName))return false;
+    const q=el.getBoundingClientRect(),x=(q.left-S.left)/k,y=(q.top-S.top)/k,qw=q.width/k,qh=q.height/k;
+    if(!qw||!qh||(qw>=1900&&qh>=1000))return false;
+    return x<z.r&&x+qw>z.l&&y<z.b&&y+qh>z.t;});
 }
 bandColor();
 // The arrows and the bottom bar show while the mouse moves and hide 2 seconds after it stops,

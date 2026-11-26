@@ -21,13 +21,17 @@
 //   slide is shown, step after each build. Use it for buttons students press on the slide.
 const fs = require('fs');
 const path = require('path');
-const { renderDeck } = require('./deckrender');
+const { renderDeck, PLAYER_LINE } = require('./deckrender');
 const [dir, out] = process.argv.slice(2);
 
 const PLAYER_CSS = `html,body{margin:0;height:100%;background:#E9E7E1;transition:background .3s;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
 #pl-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
 #pl-stage>section{position:absolute;left:0;top:0;visibility:hidden}
 #pl-stage>section.on{visibility:visible}
+#pl-cp{position:absolute;right:28px;bottom:16px;z-index:40;margin:0;font:400 15px/1.4 'Noto Sans KR',Arial,sans-serif;white-space:nowrap;pointer-events:none;color:rgba(29,35,48,.5)}
+#pl-cp.dark{color:rgba(246,245,241,.5)}
+#pl-cp.off{display:none}
+#pl-cp.chip{padding:2px 10px;border-radius:7px;background:var(--cpbg);right:18px;bottom:14px}
 [data-build-in]{transition:opacity .45s ease,transform .45s ease}
 .pending{opacity:0!important}
 .pending.rise{transform:translateY(40px)!important}
@@ -142,7 +146,7 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 
 const PLAYER_JS = `
 const stage=document.getElementById('pl-stage');
-const slides=[...stage.children];
+const slides=[...stage.children].filter(el=>el.tagName==="SECTION");
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
 const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off','wipe','slam','slide','stagger','count','mark','path','morph','lspot','lspot-off','run','run-off','zoom','zoom-off','blur','blur-off','text','pan','kenburns','pulse','grow','shine','shake'];
@@ -542,7 +546,7 @@ function textRects(){
 }
 function placeCopy(r,w){
   // the side arrows and the bottom bar show while the mouse moves, so the button keeps off them too
-  const h=w,g=Math.round(w*.24),txt=textRects().concat(['pl-hl','pl-hr','pl-bar'].map(id=>$(id).getBoundingClientRect()));
+  const h=w,g=Math.round(w*.24),txt=textRects().concat(['pl-hl','pl-hr','pl-bar','pl-cp'].map(id=>$(id).getBoundingClientRect()));
   const spots=[[r.right-g-w,r.top+g],[r.right-g-w,r.bottom-g-h],[r.right+g,r.top],[r.right-w/2,r.top-h/2],[r.right-w,r.top-g-h],[r.right-w,r.bottom+g],[r.right-w/2,r.bottom-h/2],[r.left-g-w,r.top],[r.left-w/2,r.top-h/2]];
   const inView=([x,y])=>x>=4&&y>=4&&x+w<=innerWidth-4&&y+h<=innerHeight-4;
   const hits=([x,y])=>txt.filter(c=>c.right>x-3&&c.left<x+w+3&&c.bottom>y-3&&c.top<y+h+3).length;
@@ -633,6 +637,21 @@ function bandColor(){
   const c=(getComputedStyle(slides[cur]).backgroundColor.match(/[\\d.]+/g)||[]).map(Number);
   const [r,g,b]=c.length>=3&&c[3]!==0?c:[246,245,241],f=(.3*r+.59*g+.11*b)>128?.95:.7;
   document.body.style.background='rgb('+[r,g,b].map(v=>Math.round(v*f)).join(',')+')';
+  // the copyright line in the bottom-right corner follows the slide's shade; the cover has its own line
+  // where a box of the slide (a window drawn to the slide's edge) runs under it, it sits on a chip of the slide's colour
+  const cp=$('pl-cp');cp.classList.toggle('dark',f<.9);cp.classList.toggle('off',cur===0);
+  cp.style.setProperty('--cpbg','rgb('+[r,g,b].join(',')+')');cp.classList.toggle('chip',cur>0&&cpUnder(slides[cur]));
+}
+function cpUnder(sec){
+  if(sec._cpu!==undefined)return sec._cpu;
+  const k=stage._s,S=sec.getBoundingClientRect(),cp=$('pl-cp'),w=cp.offsetWidth+16,h=cp.offsetHeight+8;
+  const z={l:1920-28-w+8,t:1080-16-h+4,r:1920-20,b:1080-12};
+  return sec._cpu=[...sec.querySelectorAll('*')].some(el=>{
+    if(el.closest('aside'))return false;const cs=getComputedStyle(el);
+    if(cs.backgroundColor==='rgba(0, 0, 0, 0)'&&cs.borderTopWidth==='0px'&&!/^(IMG|svg)$/i.test(el.tagName))return false;
+    const q=el.getBoundingClientRect(),x=(q.left-S.left)/k,y=(q.top-S.top)/k,qw=q.width/k,qh=q.height/k;
+    if(!qw||!qh||(qw>=1900&&qh>=1000))return false;
+    return x<z.r&&x+qw>z.l&&y<z.b&&y+qh>z.t;});
 }
 bandColor();
 // The arrows and the bottom bar show while the mouse moves and hide 2 seconds after it stops,
@@ -662,6 +681,7 @@ ${PLAYER_CSS}</style></head>
 <body>
 <div id="pl-stage">
 ${sections}
+<p id="pl-cp">${PLAYER_LINE}</p>
 </div>
 <button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
 <button id="pl-copy" data-tip="복사" aria-label="복사"><svg class="cp" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg><svg class="ok" viewBox="0 0 24 24"><polyline points="5,12.5 10,17.5 19,7"/></svg></button>

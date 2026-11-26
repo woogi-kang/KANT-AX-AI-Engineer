@@ -15,7 +15,15 @@ x-icon svg,x-shape svg{display:block;width:100%;height:100%}
 x-shape[kind=ellipse]{border-radius:50%}
 table{border-collapse:collapse;width:100%}
 td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
-aside{display:none}`;
+aside{display:none}
+.cp-cover{position:absolute;bottom:56px;font:400 22px/1.4 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:nowrap;pointer-events:none}`;
+
+// Copyright lines. The cover (first slide) carries COVER_LINE at its bottom; the player puts PLAYER_LINE in the
+// bottom-right corner of the other slides, and export.js prints PDF_LINE in a strip under every PDF page.
+const OWNER = '© 2026 Taewook Kang (woogi)';
+const COVER_LINE = OWNER + '. 허락 없이 복제, 재배포, 판매할 수 없어요.';
+const PLAYER_LINE = OWNER + ' · 무단 복제·배포 금지';
+const PDF_LINE = OWNER + ' · 개인 학습용 · 무단 복제·재배포·판매 금지';
 
 function loadIcons() {
   const dir = path.join(__dirname, 'icons');
@@ -62,7 +70,23 @@ async function renderDeck(dir, extraCss = '') {
       el.replaceWith(svg);
     }
   }, loadIcons());
+  // the cover line lines up with the cover's leftmost text and takes a muted shade of the cover's text colour
+  await page.evaluate(line => {
+    const sec = document.querySelector('section');
+    if (!sec) return;
+    const S = sec.getBoundingClientRect();
+    const lefts = [...sec.querySelectorAll('h1,h2,p')].filter(el => !el.closest('aside') && el.textContent.trim())
+      .map(el => el.getBoundingClientRect().left - S.left).filter(x => x >= 0);
+    const c = (getComputedStyle(sec).backgroundColor.match(/[\d.]+/g) || []).map(Number);
+    const dark = c.length >= 3 && c[3] !== 0 && (.3 * c[0] + .59 * c[1] + .11 * c[2]) < 128;
+    const el = document.createElement('p');
+    el.className = 'cp-cover';
+    el.textContent = line;
+    el.style.left = Math.round(lefts.length ? Math.min(...lefts) : 128) + 'px';
+    el.style.color = dark ? 'rgba(246,245,241,.55)' : 'rgba(29,35,48,.55)';
+    sec.appendChild(el);
+  }, COVER_LINE);
   return { deck, browser, page, FONTS, BASE_CSS };
 }
 
-module.exports = { renderDeck };
+module.exports = { renderDeck, COVER_LINE, PLAYER_LINE, PDF_LINE };
