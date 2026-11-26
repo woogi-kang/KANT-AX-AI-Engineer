@@ -14,7 +14,8 @@ npm ci
 npm run dev      # http://localhost:3000 (로드맵 레포를 받고 그림을 복사한 뒤 켜요)
 npm run build    # out/에 정적 파일을 만들고, 페이지가 빠짐없이 생겼는지 세고, 실습 칸을 모두 실행해 수업 출력과 견줘요
 cd out && python3 -m http.server 8766 &   # 만든 사이트 띄우기
-npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, 깨진 링크를 찾아요
+npm run qa       # 모든 화면을 1440, 390 폭으로 열어 넘침, 오류, 깨진 링크를 찾아요 (THEME=dark 로 어두운 화면)
+npm run qa:click # 찾기, 거르기, 플레이어, 실습 칸, 확인 문제, 테마, 휴대폰 목차를 눌러 봐요
 ```
 
 ## 내용이 오는 곳
