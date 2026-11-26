@@ -1,0 +1,45 @@
+/* 시작하기 화면에만 쓰는 모양 */
+.st-pick { margin-top: 28px; }
+.st-pick .tile b { font-size: 15px; }
+.st-p1 { margin-top: 16px; }
+.st-path { margin-top: 56px; }
+.st-path h2 { font-size: 26px; }
+.st-steps { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.st-steps li { display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: var(--card); min-width: 0; }
+.st-steps .sn { width: 28px; height: 28px; border-radius: 50%; background: var(--ac); color: var(--ac-ink); display: grid; place-items: center; font-family: var(--font-mono); font-size: 13px; font-weight: 700; }
+.st-steps small { font-size: 13px; font-weight: 700; color: var(--mute); }
+.st-steps b { font-size: 16.5px; line-height: 1.45; }
+.st-cmd { display: block; font-size: 13px; line-height: 1.5; padding: 10px 12px; border-radius: 8px; overflow-x: auto; white-space: nowrap; }
+.st-case { margin-top: 12px; flex-direction: row; justify-content: space-between; align-items: center; }
+.st-sub { margin-top: 28px; }
+.st-sub .sh h3 { font-size: 18px; }
+.st-sub .cnt { white-space: normal; text-align: right; }
+.st-det { font-size: 15px; }
+.st-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; }
+.st-links a { display: inline-flex; gap: 4px; align-items: center; color: var(--ac); font-weight: 600; }
+.st-links svg { width: 14px; height: 14px; }
+.st-src { margin-top: 40px; }
+.st-src a { text-decoration: underline; }
+.st-steps li:nth-child(3):last-child { grid-column: auto; }
+@media (max-width: 860px) {
+  .st-steps { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .st-path h2 { font-size: 22px; }
+  .st-sub .sh { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .st-sub .cnt { text-align: left; }
+}
+.st-path .eyebrow { font-family: var(--font-sans); font-size: 14px; }
+.st-steps li.wide { grid-column: span 2; }
+@media (max-width: 860px) { .st-steps li.wide { grid-column: auto; } }
+@media (max-width: 560px) {
+  .st-sub .tiles.t4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .st-sub .tiles.t4 .lc .bd { padding: 10px; gap: 6px; }
+  .st-sub .tiles.t4 .lc b { font-size: 14px; }
+  .st-pick.t6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .st-steps li { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 12px; row-gap: 2px; padding: 14px 16px; }
+  .st-steps .sn { grid-row: span 2; }
+  .st-steps b { font-size: 15.5px; }
+}

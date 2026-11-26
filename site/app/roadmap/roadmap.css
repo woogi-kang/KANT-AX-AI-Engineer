@@ -1,0 +1,4 @@
+/* 로드맵 전체 화면에만 쓰는 모양 */
+.rm-cf { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; }
+.rm-q { font-size: 13.5px; color: var(--sub); line-height: 1.45; }
+.stage .eyebrow { font-family: var(--font-sans); font-size: 14px; }

@@ -1,0 +1,90 @@
+/* 로드맵 주제 화면에만 쓰는 모양(핸드북 시안 v16 "로드맵 주제") */
+.tpc .tpnum { font-size: 17px; letter-spacing: -0.02em; }
+.tpc .ask { margin-top: 16px; font-size: 20px; font-weight: 600; line-height: 1.5; color: var(--ink); max-width: 760px; padding-left: 16px; border-left: 4px solid var(--ac); }
+.tpc details.more .prose { color: var(--sub); }
+
+/* 같은 단계 주제 줄 */
+.tpc .sibs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
+.tpc .sibs a { display: flex; gap: 8px; align-items: center; flex: none; height: 44px; padding: 0 14px 0 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); font-size: 14px; font-weight: 600; color: var(--sub); white-space: nowrap; }
+.tpc .sibs a:hover { border-color: var(--ac); color: var(--ink); }
+.tpc .sibs a[aria-current] { border-color: var(--ac); background: var(--ac-s); color: var(--ac); }
+
+/* 알아야 할 것 */
+.tpc .know { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.tpc .kn { display: flex; justify-content: space-between; gap: 14px; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: var(--card); min-width: 0; }
+.tpc .kn > span:first-child { font-size: 15px; line-height: 1.45; min-width: 0; }
+.tpc .kn-chips { justify-content: flex-end; flex: none; max-width: 52%; }
+.tpc .kn-soon { font-style: normal; font-size: 13px; color: var(--mute); white-space: nowrap; flex: none; }
+.tpc .soonline { margin-top: 12px; font-size: 14px; color: var(--mute); }
+
+/* 프로젝트: 결과물과 근거 */
+.tpc .goal2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tpc .tile.big { padding: 22px; gap: 10px; }
+.tpc .tile.big small { font-size: 13.5px; font-weight: 700; color: var(--mute); }
+.tpc .tile.big b { font-size: 19px; line-height: 1.45; }
+
+/* 흐름 그림 */
+.tpc .flowbox { border: 1px solid var(--line); border-radius: 14px; background: var(--side); padding: 18px; }
+.tpc .flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; counter-reset: f; }
+.tpc .flow li { position: relative; display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line); border-radius: 12px; background: var(--card); padding: 12px; min-width: 0; }
+.tpc .flow .fl-n { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--ac); color: var(--ac-ink); display: grid; place-items: center; font-family: var(--font-mono); font-size: 13px; font-weight: 700; }
+.tpc .flow .fl-t { display: flex; flex-direction: column; min-width: 0; }
+.tpc .flow b { font-size: 15px; line-height: 1.4; }
+.tpc .flow small { font-size: 13px; color: var(--sub); line-height: 1.4; margin-top: 2px; }
+.tpc .flowbox .loop { margin: 12px 0 0; font-size: 14px; color: var(--sub); font-weight: 600; }
+.tpc .prose .flowbox { margin: 12px 0; }
+
+/* 카드, 산출물 */
+.tpc .dcards .tile small { font-size: 14px; color: var(--sub); line-height: 1.5; }
+.tpc .outs .tile { flex-direction: row; align-items: flex-start; gap: 10px; padding: 14px 16px; font-size: 15px; line-height: 1.45; }
+.tpc .outs .tile svg { width: 18px; height: 18px; color: var(--ac); margin-top: 3px; flex: none; }
+
+/* 통과 기준과 중단 신호 */
+.tpc .ckcols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tpc .ck { border-radius: 14px; padding: 18px 20px; border: 1px solid transparent; min-width: 0; }
+.tpc .ck.ok { background: var(--ok-s); }
+.tpc .ck.stop { background: var(--warn-s); }
+.tpc .ck h3 { display: flex; gap: 8px; align-items: center; font-size: 17px; }
+.tpc .ck.ok h3 { color: var(--ok); }
+.tpc .ck.stop h3 { color: var(--warn); }
+.tpc .ck h3 svg { width: 20px; height: 20px; }
+.tpc .ck ul { margin: 10px 0 0; padding-left: 20px; font-size: 15px; line-height: 1.55; color: var(--ink); }
+.tpc .ck li { margin: 4px 0; }
+
+/* 양식 */
+.tpc .tmpls { display: flex; flex-wrap: wrap; gap: 10px; }
+.tpc .tmpls .tile { flex-direction: row; align-items: center; gap: 10px; padding: 10px 16px 10px 10px; }
+.tpc .tmpls .tile b { font-size: 15px; }
+
+/* 접는 문서 절 */
+.tpc .doc .in { font-size: 15.5px; }
+.tpc .doc details { scroll-margin-top: calc(var(--top-h) + 12px); }
+.tpc .src { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--mute); margin-top: 16px; }
+.tpc .src a, .tpc .src span { display: flex; gap: 6px; align-items: center; }
+.tpc .src svg { width: 15px; height: 15px; }
+.tpc .src a:hover { color: var(--ac); }
+
+/* 이전, 다음 */
+.tpc .tpn a { padding: 14px 18px; }
+.tpc .tpn b { font-size: 16px; line-height: 1.35; }
+
+@media (max-width: 860px) {
+.tpc .know { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+.tpc .ask { font-size: 18px; }
+.tpc .kn { flex-direction: column; align-items: flex-start; gap: 8px; }
+.tpc .kn-chips { justify-content: flex-start; max-width: none; }
+.tpc .goal2, .tpc .ckcols { grid-template-columns: minmax(0, 1fr); }
+.tpc .tile.big b { font-size: 17px; }
+.tpc .flow { grid-template-columns: minmax(0, 1fr); }
+.tpc .flowbox { padding: 12px; }
+}
+@media (max-width: 560px) { .tpc .sibs { flex-wrap: nowrap; margin-right: -16px; padding-right: 16px; } }
+.tpc .eyebrow { font-family: var(--font-sans); font-size: 14px; }
+@media (max-width: 560px) {
+  .tpc .tiles.t4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .tpc .tiles.t4 .lc .bd { padding: 10px; gap: 6px; }
+  .tpc .tiles.t4 .lc b { font-size: 14px; }
+}
+@media (max-width: 560px) { .tpc .prose .table-wrap table { min-width: 560px; } .st-det .table-wrap table { min-width: 560px; } }

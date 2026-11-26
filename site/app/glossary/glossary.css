@@ -1,0 +1,38 @@
+/* 용어 사전 화면에만 쓰는 모양 */
+.gl-tools { margin-top: 24px; position: sticky; top: var(--top-h); z-index: 5; background: var(--bg); padding: 12px 0 4px; }
+.gl-find { display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 8px 0 16px; border: 1px solid var(--line2); border-radius: 12px; background: var(--card); max-width: 620px; }
+.gl-find:focus-within { border-color: var(--ac); }
+.gl-find > svg { width: 20px; height: 20px; color: var(--mute); flex: none; }
+.gl-find input { flex: 1; min-width: 0; border: 0; background: none; font: inherit; font-size: 16px; color: var(--ink); outline: none; }
+.gl-find input::-webkit-search-cancel-button { display: none; }
+.gl-tools .fchips { margin: 12px 0 0; }
+.gl-count { font-size: 13.5px; color: var(--mute); margin-top: 8px; }
+.gl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 8px; }
+.gl-card { display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; background: var(--card); min-width: 0; scroll-margin-top: calc(var(--top-h) + 150px); }
+.gl-card:target { border-color: var(--ac); box-shadow: 0 0 0 3px var(--ac-s); }
+.gl-card h2 { font-size: 21px; }
+.gl-mean { font-size: 15.5px; line-height: 1.6; }
+.gl-ask { display: flex; gap: 8px; align-items: flex-start; font-size: 14.5px; color: var(--sub); background: var(--side); border-radius: 10px; padding: 10px 12px; line-height: 1.5; }
+.gl-ask svg { width: 18px; height: 18px; color: var(--ac); flex: none; margin-top: 2px; }
+.gl-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px; }
+.gl-topic { font-family: var(--font-sans); font-size: 13.5px; padding: 3px 10px 3px 4px; }
+.gl-topic .ict.sm { width: 22px; height: 22px; border-radius: 6px; }
+.gl-topic .ict.sm svg { width: 13px; height: 13px; }
+.gl-topic .ict.num { font-size: 10.5px; }
+.gl-codes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.gl-codes .tile { gap: 8px; }
+.gl-codes code { align-self: flex-start; font-size: 15px; font-weight: 700; padding: 3px 8px; }
+.gl-codes b { font-size: 15px; line-height: 1.45; }
+.gl-codes small { display: flex; gap: 6px; align-items: flex-start; font-size: 13.5px; color: var(--sub); line-height: 1.5; }
+.gl-codes small svg { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--ac); }
+.gl-note { margin-top: 14px; font-size: 14.5px; color: var(--sub); max-width: 760px; }
+.gl-src { margin-top: 32px; }
+.gl-src a { text-decoration: underline; }
+@media (max-width: 1240px) { .gl-codes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 860px) { .gl-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) {
+  .gl-codes { grid-template-columns: minmax(0, 1fr); }
+  .gl-tools .fchips button { height: 34px; padding: 0 12px; font-size: 14px; }
+  .gl-card { padding: 16px; }
+}
+.gl-codes .gl-cname { align-self: flex-start; font-size: 15px; font-weight: 700; padding: 3px 8px; background: var(--code); border-radius: 4px; }
