@@ -67,6 +67,10 @@ export default function ChapterPractice({ dir, no }: { dir: string; no: string }
     }
   }
   if (!count) return null;
+  // 데이터 순서(실행 흐름)와 상관없이 화면은 덱 쪽 순서로 보여 줘요.
+  const first = (pt: PartView) => Math.min(...pt.cells.map((c) => c.page ?? 9999));
+  for (const pt of parts) pt.cells.sort((a, b) => (a.page ?? 9999) - (b.page ?? 9999));
+  parts.sort((a, b) => first(a) - first(b));
   return (
     <section className="sec practice" id="practice" aria-labelledby="practice-h">
       <SecHead title={<span id="practice-h">바로 쳐 보기</span>} right={<span className="cnt">실습 칸 {count}개</span>} />
