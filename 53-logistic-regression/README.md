@@ -3,6 +3,11 @@
 > 머신러닝 기초 수업 노트북(`05_ml.ipynb`)을 한 챕터로 정리했어요. 50, 51에서는 점수(숫자)를 맞혔어요. 이번에는 같은 학생 10명으로 "60점을 넘었나(합격, 불합격)"를 맞히고, 합격할 확률이 몇 %인지 구해요. 분류와 회귀의 차이, 확률, S자 곡선이 0과 1 사이에 머무는 이유, 0.5 기준을 그림과 실제 숫자로 먼저 풀어요.
 
 <!-- curriculum:top -->
+
+| 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
+| --- | --- | --- |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/53-logistic-regression/logistic-regression-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/53-logistic-regression/logistic-regression-slides.pdf) | [52 · 사진으로 사람 맞히기 (얼굴 데이터와 KNN)](../52-face-knn) | 준비 중 |
+
 <!-- /curriculum:top -->
 
 ## 학습 목표
@@ -285,4 +290,7 @@ node ../tools/export.js slides logistic-regression-slides.pdf
 ---
 
 <!-- curriculum:nav -->
+
+[← 이전: 52 · 사진으로 사람 맞히기 (얼굴 데이터와 KNN)](../52-face-knn) · [커리큘럼](../README.md)
+
 <!-- /curriculum:nav -->
