@@ -1,0 +1,356 @@
+
+$ uv --version
+uv 0.11.32 (x86_64-unknown-linux-gnu)
+
+$ uv init ml-basics
+Initialized project `ml-basics` at `ROOT/ml-basics`
+
+$ cd ml-basics
+
+$ uv add numpy pandas
+Using CPython 3.13.18 interpreter at: /usr/local/bin/python3.13
+Creating virtual environment at: .venv
+Resolved 5 packages in 87ms
+Installed 4 packages in 18ms
+ + numpy==2.5.5
+ + pandas==3.1.1
+ + python-dateutil==4.0.0
+ + tzdata==2026.6
+
+$ uv add --dev ipykernel
+Resolved 36 packages in 232ms
+Installed 27 packages in 66ms
+ + asttokens==3.0.2
+ + comm==0.2.3
+ + debugpy==1.8.22
+ + executing==2.3.0
+ + ipykernel==7.4.0
+ + ipython==9.19.1
+ + ipython-pygments-lexers==1.1.1
+ + jedi==0.20.1
+ + jupyter-client==8.10.0
+ + jupyter-core==5.9.1
+ + matplotlib-inline==0.2.2
+ + nest-asyncio2==1.7.4
+ + packaging==26.4
+ + parso==0.8.7
+ + pexpect==4.9.0
+ + platformdirs==4.14.8
+ + prompt-toolkit==3.0.53
+ + psutil==7.2.2
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.4
+ + pygments==2.21.0
+ + pyzmq==27.3.0
+ + stack-data==0.6.3
+ + tornado==6.6.1
+ + traitlets==5.16.1
+ + typing-extensions==4.16.0
+ + wcwidth==0.9.5
+
+$ uv add seaborn matplotlib
+Resolved 44 packages in 178ms
+Installed 8 packages in 11ms
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + fonttools==4.68.0
+ + kiwisolver==1.5.1
+ + matplotlib==3.11.2
+ + pillow==13.0.0
+ + pyparsing==3.3.3
+ + seaborn==0.13.2
+
+$ uv add scikit-learn
+Resolved 50 packages in 114ms
+Installed 6 packages in 17ms
+ + cloudpickle==3.1.3
+ + joblib==1.6.0
+ + narwhals==2.29.0
+ + scikit-learn==1.9.1
+ + scipy==1.18.1
+ + threadpoolctl==3.8.0
+
+$ mkdir datasets
+
+$ cp CHAPTER/datasets/usa_housing.csv CHAPTER/datasets/office.csv datasets/
+
+$ ls datasets
+office.csv
+usa_housing.csv
+
+$ cat pyproject.toml
+[project]
+name = "ml-basics"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.5",
+    "pandas>=3.1.1",
+    "scikit-learn>=1.9.1",
+    "seaborn>=0.13.2",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+]
+
+Python 3.13.18
+scikit-learn 1.9.1
+=== main: model.ipynb, 수업 순서 그대로
+--- [1] 'import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'office = pd.read_csv("datasets/office.csv")\nprint(office.shape)\noffice.head()'
+(200, 2)
+
+        area         price
+0  70.307143  38248.214420
+1  48.527099  25847.194363
+2  75.808865  39103.989157
+3  65.328922  33988.014850
+4  26.121528  17594.687426
+--- [4] 'from sklearn.linear_model import LinearRegression\n\nmodel = LinearRegression()\n\nX = office[["area"]]\ny = office["price"]\nmodel.fit(X, y)\n\nprint("기울기 w:", model.coef_[0], "정답: 450")\nprint("절편 b:", model.intercept_, "정답: 5000")'
+기울기 w: 465.6735571178265 정답: 450
+절편 b: 4727.983834181516 정답: 5000
+
+--- [5] 'new = pd.DataFrame({"area": [33, 59]})\nmodel.predict(new).round(-1)'
+array([20100., 32200.])
+--- [6] 'y_pred = model.predict(X)\n\nline = X.sort_values("area")\nline_pred = model.predict(line)\n\nplt.figure(figsize=(8, 5))\nplt.scatter(office["area"], office["price"], alpha=0.6, label="실제 시세")\nplt.plot(line["area"], line_pred, color="red", label="모델의 직선")\nplt.title("오피스텔 시세 200건")\nplt.xlabel("면적")\nplt.ylabel("가격")\nplt.legend()\nplt.show()'
+<image saved tools/img/main-1.png>
+<Figure size 1600x1000 with 1 Axes>
+--- [7] 'from sklearn.metrics import mean_absolute_error, mean_squared_error, root_mean_squared_error, r2_score\n\nprint(f"MAE = {mean_absolute_error(y, y_pred):,.0f}")\nprint(f"MSE = {mean_squared_error(y, y_pred):,.0f}")\nprint(f"RMSE = {root_mean_squared_error(y, y_pred):,.0f}")\nprint(f"R2 = {r2_score(y, y_pred)}")'
+MAE = 2,510
+MSE = 17,697,259
+RMSE = 4,207
+R2 = 0.8041321769128468
+
+--- [8] 'special = [17, 134, 178, 172, 122]\n\nnormal = np.ones(len(office), dtype=bool)\nnormal[special] = False\nprint("특이 매물:", special)\nprint("정상 매물:", normal.sum())'
+특이 매물: [17, 134, 178, 172, 122]
+정상 매물: 195
+
+--- [9] 'all_rows = np.ones(len(office), dtype=bool)\ncases = [("전체 200건", all_rows), ("특이 매물 뺀 195건", normal)]\n\nfor name, mask in cases:\n    y_true = y[mask]\n    y_hat = y_pred[mask]\n    mae = mean_absolute_error(y_true, y_hat)\n    rmse = root_mean_squared_error(y_true, y_hat)\n    r2 = r2_score(y_true, y_hat)\n    print(f"{name} MAE {mae:,.0f} | RMSE {rmse:,.0f} | R2 {r2:.2f}")'
+전체 200건 MAE 2,510 | RMSE 4,207 | R2 0.80
+특이 매물 뺀 195건 MAE 2,033 | RMSE 2,567 | R2 0.92
+
+--- [10] 'model'
+LinearRegression()
+--- [11] 'print(X.shape, y.shape)'
+(200, 1) (200,)
+
+--- [12] 'X.head(3)'
+        area
+0  70.307143
+1  48.527099
+2  75.808865
+--- [13] 'y.head(3)'
+0    38248.214420
+1    25847.194363
+2    39103.989157
+Name: price, dtype: float64
+--- [14] 'print(type(X))\nprint(type(y))'
+<class 'pandas.DataFrame'>
+<class 'pandas.Series'>
+
+--- [15] 'model.coef_'
+array([465.67355712])
+--- [16] 'model.intercept_'
+np.float64(4727.983834181516)
+--- [17] 'print(33 * model.coef_[0] + model.intercept_)\nprint(59 * model.coef_[0] + model.intercept_)'
+20095.211219069788
+32202.723704133277
+
+--- [18] 'model.predict(new)'
+array([20095.21121907, 32202.72370413])
+--- [19] 'new'
+   area
+0    33
+1    59
+--- [20] 'print(len(y_pred))\nprint(y_pred[:3])'
+200
+[37468.16127849 27325.77044835 40030.16756398]
+
+--- [21] 'line.head(3)'
+          area
+51   20.478548
+149  21.404785
+84   21.476285
+--- [22] 'errors = y - y_pred\ntable = pd.DataFrame({"정답": y, "예측": y_pred, "오차": errors}).round(0)\ntable.head()'
+        정답       예측      오차
+0  38248.0  37468.0   780.0
+1  25847.0  27326.0 -1479.0
+2  39104.0  40030.0  -926.0
+3  33988.0  35150.0 -1162.0
+4  17595.0  16892.0   703.0
+--- [23] 'print("오차 합:", errors.sum().round(6))'
+오차 합: 0.0
+
+--- [24] 'print("오차 절댓값 평균:", errors.abs().mean())'
+오차 절댓값 평균: 2510.4045478767703
+
+--- [25] 'print("오차 제곱 평균:", (errors ** 2).mean())\nprint("그 제곱근:", ((errors ** 2).mean()) ** 0.5)'
+오차 제곱 평균: 17697258.786302574
+그 제곱근: 4206.810999593703
+
+--- [26] 'base = np.full(len(y), y.mean())\nprint("평균만 찍은 R2:", r2_score(y, base))\nprint("1 - 모델 오차 / 평균 오차:", 1 - (errors ** 2).sum() / ((y - y.mean()) ** 2).sum())'
+평균만 찍은 R2: 0.0
+1 - 모델 오차 / 평균 오차: 0.8041321769128468
+
+--- [27] 'print("상관계수:", office["area"].corr(office["price"]))\nprint("상관계수 제곱:", office["area"].corr(office["price"]) ** 2)'
+상관계수: 0.8967341729369117
+상관계수 제곱: 0.8041321769128471
+
+--- [28] 'print(normal[14:20])'
+[ True  True  True False  True  True]
+
+--- [29] 'office.loc[special]'
+          area         price
+17   24.148122  37426.654741
+134  58.409507  52044.278126
+178  77.959022  65581.560038
+172  36.637731  43556.978899
+122  25.488881  34299.996393
+--- [30] 'big = table[table["오차"] > 10000]\nbig'
+          정답       예측       오차
+17   37427.0  15973.0  21454.0
+122  34300.0  16597.0  17703.0
+134  52044.0  31928.0  20117.0
+172  43557.0  21789.0  21768.0
+178  65582.0  41031.0  24550.0
+--- [31] 'table["오차"].abs().sort_values(ascending=False).head(7)'
+178    24550.0
+172    21768.0
+17     21454.0
+134    20117.0
+122    17703.0
+97      6551.0
+52      6417.0
+Name: 오차, dtype: float64
+--- [32] 'plt.figure(figsize=(8, 5))\nplt.scatter(office["area"], office["price"], alpha=0.6, label="정상 매물")\nplt.scatter(office.loc[special, "area"], office.loc[special, "price"], color="orange", s=80, label="특이 매물 5건")\nplt.plot(line["area"], line_pred, color="red", label="모델의 직선")\nplt.xlabel("면적")\nplt.ylabel("가격")\nplt.legend()\nplt.show()'
+<image saved tools/img/main-2.png>
+<Figure size 1600x1000 with 1 Axes>
+--- [33] 'plt.figure(figsize=(8, 5))\nplt.scatter(office["area"], office["price"], alpha=0.6)\nplt.plot(office["area"], y_pred, color="red")\nplt.show()'
+<image saved tools/img/main-3.png>
+<Figure size 1600x1000 with 1 Axes>
+=== notfit: fit 전에 predict
+--- [1] 'import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt'
+--- [2] 'office = pd.read_csv("datasets/office.csv")'
+--- [3] 'from sklearn.linear_model import LinearRegression\n\nmodel = LinearRegression()\nnew = pd.DataFrame({"area": [33, 59]})\nmodel.predict(new)'
+NotFittedError: This LinearRegression instance is not fitted yet. Call 'fit' with appropriate arguments before using this estimator.
+=== e-1d: X를 1차원으로
+--- [1] 'import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'office = pd.read_csv("datasets/office.csv")'
+--- [4] 'from sklearn.linear_model import LinearRegression\n\nmodel = LinearRegression()\n\nX = office[["area"]]\ny = office["price"]\nmodel.fit(X, y)'
+LinearRegression()
+--- [5] 'model.fit(office["area"], office["price"])'
+ValueError: Expected a 2-dimensional container but got <class 'pandas.Series'> instead. Pass a DataFrame containing a single row (i.e. single sample) or a single column (i.e. single feature) instead.
+--- [6] 'model.fit(y, X)'
+ValueError: Expected a 2-dimensional container but got <class 'pandas.Series'> instead. Pass a DataFrame containing a single row (i.e. single sample) or a single column (i.e. single feature) instead.
+=== e-pred: predict에 숫자만, 리스트로
+--- [1] 'import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'office = pd.read_csv("datasets/office.csv")'
+--- [4] 'from sklearn.linear_model import LinearRegression\n\nmodel = LinearRegression()\n\nX = office[["area"]]\ny = office["price"]\nmodel.fit(X, y)'
+LinearRegression()
+--- [5] 'model.predict(33)'
+<stderr>ROOT/nb-check/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2830: UserWarning: X does not have valid feature names, but LinearRegression was fitted with feature names
+  warnings.warn(
+
+ValueError: Expected 2D array, got scalar array instead:
+array=33.
+Reshape your data either using array.reshape(-1, 1) if your data has a single feature or array.reshape(1, -1) if it contains a single sample.
+--- [6] 'model.predict([[33], [59]])'
+<stderr>ROOT/nb-check/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2830: UserWarning: X does not have valid feature names, but LinearRegression was fitted with feature names
+  warnings.warn(
+
+array([20095.21121907, 32202.72370413])
+--- [7] 'model.predict(pd.DataFrame({"size": [33, 59]}))'
+ValueError: The feature names should match those that were passed during fit.
+Feature names unseen at fit time:
+- size
+Feature names seen at fit time, yet now missing:
+- area
+
+=== e-mask: special을 넣은 원래 셀
+--- [1] 'import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'office = pd.read_csv("datasets/office.csv")'
+--- [4] 'from sklearn.linear_model import LinearRegression\n\nmodel = LinearRegression()\n\nX = office[["area"]]\ny = office["price"]\nmodel.fit(X, y)'
+LinearRegression()
+--- [5] 'y_pred = model.predict(X)'
+--- [6] 'from sklearn.metrics import mean_absolute_error, mean_squared_error, root_mean_squared_error, r2_score'
+--- [7] 'special = [17, 134, 178, 172, 122]\n\nnormal = np.ones(len(office), dtype=bool)\nnormal[special] = False\nprint("특이 매물:", special)\nprint("정상 매물:", normal.sum())'
+특이 매물: [17, 134, 178, 172, 122]
+정상 매물: 195
+
+--- [8] 'all_rows = np.ones(len(office), dtype=bool)\ncases = [("전체 200건", all_rows), ("특이 매물 뺀 195건", special)]\n\nfor name, mask in cases:\n    y_true = y[mask]\n    y_hat = y_pred[mask]\n    mae = mean_absolute_error(y_true, y_hat)\n    rmse = root_mean_squared_error(y_true, y_hat)\n    r2 = r2_score(y_true, y_hat)\n    print(f"{name} MAE {mae:,.0f} | RMSE {rmse:,.0f} | R2 {r2:.2f}")'
+전체 200건 MAE 2,510 | RMSE 4,207 | R2 0.80
+특이 매물 뺀 195건 MAE 21,118 | RMSE 21,236 | R2 -2.55
+
+--- [9] 'print(y[special].shape, y[normal].shape)'
+(5,) (195,)
+
+=== e-order: 인자 순서를 바꾸면
+--- [1] 'import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'office = pd.read_csv("datasets/office.csv")'
+--- [4] 'from sklearn.linear_model import LinearRegression\n\nmodel = LinearRegression()\n\nX = office[["area"]]\ny = office["price"]\nmodel.fit(X, y)'
+LinearRegression()
+--- [5] 'y_pred = model.predict(X)'
+--- [6] 'from sklearn.metrics import mean_absolute_error, mean_squared_error, root_mean_squared_error, r2_score'
+--- [7] 'print("MAE", mean_absolute_error(y, y_pred), mean_absolute_error(y_pred, y))\nprint("R2 ", r2_score(y, y_pred), r2_score(y_pred, y))'
+MAE 2510.4045478767703 2510.4045478767703
+R2  0.8041321769128468 0.7564233484113125
+
+=== x-normal: 특이 매물 빼고 다시 학습
+--- [1] 'import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'office = pd.read_csv("datasets/office.csv")'
+--- [4] 'from sklearn.linear_model import LinearRegression\n\nmodel = LinearRegression()\n\nX = office[["area"]]\ny = office["price"]\nmodel.fit(X, y)'
+LinearRegression()
+--- [5] 'special = [17, 134, 178, 172, 122]\n\nnormal = np.ones(len(office), dtype=bool)\nnormal[special] = False'
+--- [6] 'clean = office[normal]\nmodel2 = LinearRegression()\nmodel2.fit(clean[["area"]], clean["price"])\nprint("기울기:", model.coef_[0].round(1), "=>", model2.coef_[0].round(1))\nprint("절편:", model.intercept_.round(0), "=>", model2.intercept_.round(0))'
+기울기: 465.7 => 476.0
+절편: 4728.0 => 3647.0
+
+--- [7] 'new = pd.DataFrame({"area": [33, 59]})\nprint(model.predict(new).round(-1))\nprint(model2.predict(new).round(-1))'
+[20100. 32200.]
+[19350. 31730.]
+
+=== x-house: 미국 집값을 면적으로
+--- [1] 'import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'house = pd.read_csv("datasets/usa_housing.csv")\nsmall = house[(house["YearBuilt"] > 2015) & (house["CrimeRate"] < 45)]\nprint(house.shape, small.shape)'
+(300, 10) (10, 10)
+
+--- [4] 'from sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import r2_score\n\nhm = LinearRegression()\nhm.fit(house[["SquareFeet"]], house["Price"])\np300 = hm.predict(house[["SquareFeet"]])\nprint("300채 R2:", round(r2_score(house["Price"], p300), 3))'
+300채 R2: 0.007
+
+--- [5] 'sm = LinearRegression()\nsm.fit(small[["SquareFeet"]], small["Price"])\np10 = sm.predict(small[["SquareFeet"]])\nprint("10채 R2:", round(r2_score(small["Price"], p10), 2))\np_all = sm.predict(house[["SquareFeet"]])\nprint("10채 직선으로 300채:", round(r2_score(house["Price"], p_all), 2))'
+10채 R2: 0.8
+10채 직선으로 300채: -0.85
+
+--- [6] 'line = house[["SquareFeet"]].sort_values("SquareFeet")\n\nplt.figure(figsize=(8, 5))\nplt.scatter(house["SquareFeet"], house["Price"], alpha=0.4, label="전체 300채")\nplt.scatter(small["SquareFeet"], small["Price"], color="red", s=50, label="2015 이후 건축 10채")\nplt.plot(line["SquareFeet"], hm.predict(line), color="blue", label="300채로 배운 직선")\nplt.plot(line["SquareFeet"], sm.predict(line), color="red", label="10채로 배운 직선")\nplt.xlabel("면적")\nplt.ylabel("가격")\nplt.legend()\nplt.show()'
+<image saved tools/img/xhouse-1.png>
+<Figure size 1600x1000 with 1 Axes>
+=== x-quote: 오피스텔 견적표
+--- [1] 'import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'office = pd.read_csv("datasets/office.csv")'
+--- [4] 'from sklearn.linear_model import LinearRegression\n\nmodel = LinearRegression()\n\nX = office[["area"]]\ny = office["price"]\nmodel.fit(X, y)'
+LinearRegression()
+--- [5] 'quote = pd.DataFrame({"area": [25, 40, 60, 80]})\nquote["예상 가격"] = model.predict(quote).round(-1)\nquote'
+   area    예상 가격
+0    25  16370.0
+1    40  23350.0
+2    60  32670.0
+3    80  41980.0
+--- [6] 'from sklearn.metrics import mean_absolute_error\nmae = mean_absolute_error(y, model.predict(X))\nquote["아래"] = (quote["예상 가격"] - mae).round(-1)\nquote["위"] = (quote["예상 가격"] + mae).round(-1)\nquote'
+   area    예상 가격       아래        위
+0    25  16370.0  13860.0  18880.0
+1    40  23350.0  20840.0  25860.0
+2    60  32670.0  30160.0  35180.0
+3    80  41980.0  39470.0  44490.0

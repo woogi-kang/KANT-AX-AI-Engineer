@@ -1,0 +1,15 @@
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
+<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">한 장으로 보는 오늘의 코드</h2>
+<div style="position:absolute;left:96px;top:180px;width:1728px;height:122px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#1E5FA8">불러오기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;white-space:pre">from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler</p></div>
+<div style="position:absolute;left:96px;top:318px;width:1728px;height:86px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#A0620A">학습용과 채점용으로 나누기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;white-space:pre">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)</p></div>
+<div style="position:absolute;left:96px;top:420px;width:1728px;height:158px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#0F7C86">크기 맞추기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;white-space:pre">scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)</p></div>
+<div style="position:absolute;left:96px;top:594px;width:1728px;height:158px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#A23B72">SGD로 학습하고 채점</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;white-space:pre">sgd = SGDRegressor(loss="squared_error", learning_rate="constant", eta0=0.01, max_iter=3000, random_state=42)
+sgd.fit(X_train_scaled, y_train)
+r2_score(y_test, sgd.predict(X_test_scaled))</p></div>
+<div style="position:absolute;left:96px;top:768px;width:1728px;height:86px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#5A3BB8">가로 막대</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;white-space:pre">plt.barh(이름들, 길이들, color="blue")</p></div>
+<p style="position:absolute;left:96px;top:890px;width:1728px;font-size:30px;font-weight:700;line-height:1.5;color:#1D2330">fit은 학습용에만, 채점용과 새 학생은 transform만 써요.</p>
+<aside>오늘 쓴 코드를 한 장에 모았어요. 나누고, 학습용으로 자를 만들어 크기를 맞추고, 학습하고, 채점용으로 채점해요. fit이 들어간 줄에는 늘 학습용만 들어가요.</aside>
+</section>
