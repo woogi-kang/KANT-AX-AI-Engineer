@@ -1,0 +1,468 @@
+
+$ uv --version
+uv 0.11.32 (x86_64-unknown-linux-gnu)
+
+$ uv init ml-basics
+Initialized project `ml-basics` at `/tmp/claude-0/split-demo/ml-basics`
+
+$ cd ml-basics
+
+$ uv add numpy pandas
+Using CPython 3.13.18 interpreter at: /usr/local/bin/python3.13
+Creating virtual environment at: .venv
+Resolved 5 packages in 7ms
+Installed 4 packages in 18ms
+ + numpy==2.5.5
+ + pandas==3.1.1
+ + python-dateutil==4.0.0
+ + tzdata==2026.6
+
+$ uv add --dev ipykernel
+Resolved 36 packages in 17ms
+Installed 27 packages in 88ms
+ + asttokens==3.0.2
+ + comm==0.2.3
+ + debugpy==1.8.22
+ + executing==2.3.0
+ + ipykernel==7.4.0
+ + ipython==9.19.1
+ + ipython-pygments-lexers==1.1.1
+ + jedi==0.20.1
+ + jupyter-client==8.10.0
+ + jupyter-core==5.9.1
+ + matplotlib-inline==0.2.2
+ + nest-asyncio2==1.7.4
+ + packaging==26.4
+ + parso==0.8.7
+ + pexpect==4.9.0
+ + platformdirs==4.14.8
+ + prompt-toolkit==3.0.53
+ + psutil==7.2.2
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.4
+ + pygments==2.21.0
+ + pyzmq==27.3.0
+ + stack-data==0.6.3
+ + tornado==6.6.1
+ + traitlets==5.16.1
+ + typing-extensions==4.16.0
+ + wcwidth==0.9.5
+
+$ uv add seaborn matplotlib
+Resolved 44 packages in 21ms
+Installed 8 packages in 14ms
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + fonttools==4.69.1
+ + kiwisolver==1.5.1
+ + matplotlib==3.11.2
+ + pillow==13.0.0
+ + pyparsing==3.3.3
+ + seaborn==0.13.2
+
+$ uv add scikit-learn
+Resolved 50 packages in 18ms
+Installed 6 packages in 26ms
+ + cloudpickle==3.1.3
+ + joblib==1.6.0
+ + narwhals==2.29.0
+ + scikit-learn==1.9.1
+ + scipy==1.18.1
+ + threadpoolctl==3.8.0
+
+$ mkdir datasets
+
+$ cp /home/user/TeamSparta-KANT-AX-AI-Engineer/51-train-test-split/tools/../datasets/office.csv datasets/
+
+$ cat pyproject.toml
+[project]
+name = "ml-basics"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.5",
+    "pandas>=3.1.1",
+    "scikit-learn>=1.9.1",
+    "seaborn>=0.13.2",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+]
+
+Python 3.13.18
+scikit-learn 1.9.1
+=== main: 수업 셀 48~58 순서
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'df'
+   study_hours  sleep_hours  practice_count  score
+0            1            6              10     47
+1            2            8              15     58
+2            3            5              20     60
+3            4            7              25     76
+4            5            8              30     87
+5            2            5              12     49
+6            3            8              28     73
+7            5            6              22     77
+8            4            6              32     79
+9            1            8               8     52
+--- [5] 'model = LinearRegression()\nmodel.fit(X, y)\ny_pred = model.predict(X)\nprint(f"MAE: {mean_absolute_error(y, y_pred):.4f}")\nprint(f"R2: {r2_score(y, y_pred):.4f}")'
+MAE: 1.1739
+R2: 0.9900
+
+--- [6] 'from sklearn.model_selection import train_test_split\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X,\n    y,\n    test_size=0.3,\n    random_state=42\n)\n\nprint("X_train:", X_train.shape)\nprint("X_test:", X_test.shape)\nprint("y_train:", y_train.shape)\nprint("y_test:", y_test.shape)'
+X_train: (7, 3)
+X_test: (3, 3)
+y_train: (7,)
+y_test: (3,)
+
+--- [7] 'print("학습용 학생:", list(X_train.index))\nprint("채점용 학생:", list(X_test.index))'
+학습용 학생: [0, 7, 2, 9, 4, 3, 6]
+채점용 학생: [8, 1, 5]
+
+--- [8] 'X_test'
+   study_hours  sleep_hours  practice_count
+8            4            6              32
+1            2            8              15
+5            2            5              12
+--- [9] 'y_test'
+8    79
+1    58
+5    49
+Name: score, dtype: int64
+--- [10] 'test_model = LinearRegression()\ntest_model.fit(X_train, y_train)\n\ntest_pred = test_model.predict(X_test)\n\nprint(f"MAE: {mean_absolute_error(y_test, test_pred):.4f}")\nprint(f"MSE: {mean_squared_error(y_test, test_pred):.4f}")\nprint(f"R2: {r2_score(y_test, test_pred):.4f}")'
+MAE: 3.0870
+MSE: 10.6380
+R2: 0.9327
+
+--- [11] 'print("정답:", list(y_test))\nprint("예측:", test_pred.round(1))'
+정답: [79, 58, 49]
+예측: [74.9 61.5 50.6]
+
+--- [12] 'train_pred = test_model.predict(X_train)\nprint(f"학습용 7명 R2: {r2_score(y_train, train_pred):.4f}")\nprint(f"채점용 3명 R2: {r2_score(y_test, test_pred):.4f}")'
+학습용 7명 R2: 0.9992
+채점용 3명 R2: 0.9327
+
+--- [13] 'print("기울기 w:", test_model.coef_.round(2))\nprint("절편 b:", test_model.intercept_.round(2))'
+기울기 w: [6.43 3.23 0.41]
+절편 b: 16.71
+
+--- [14] 'X.describe().round(2)'
+       study_hours  sleep_hours  practice_count
+count        10.00        10.00           10.00
+mean          3.00         6.70           20.20
+std           1.49         1.25            8.63
+min           1.00         5.00            8.00
+25%           2.00         6.00           12.75
+50%           3.00         6.50           21.00
+75%           4.00         8.00           27.25
+max           5.00         8.00           32.00
+--- [15] 'from sklearn.preprocessing import StandardScaler\n\nscaler = StandardScaler()\n\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\nscaled_df = pd.DataFrame(X_train_scaled, columns=features)\nscaled_df.round(2)'
+   study_hours  sleep_hours  practice_count
+0        -1.38        -0.76           -1.32
+1         1.20        -0.76            0.20
+2        -0.09        -1.65           -0.05
+3        -1.38         1.02           -1.58
+4         1.20         1.02            1.21
+5         0.55         0.13            0.58
+6        -0.09         1.02            0.96
+--- [16] 'X_train_scaled[:2]'
+array([[-1.38086193, -0.76200076, -1.32182189],
+       [ 1.196747  , -0.76200076,  0.19917864]])
+--- [17] 'print("평균:", scaler.mean_.round(2))\nprint("표준편차:", scaler.scale_.round(2))'
+평균: [ 3.14  6.86 20.43]
+표준편차: [1.55 1.12 7.89]
+
+--- [18] 'x = X_train["study_hours"]\nprint(list(x))\nprint("평균:", x.mean().round(2))\nprint("표준편차:", x.std(ddof=0).round(2))\nprint("첫 학생:", ((x.iloc[0] - x.mean()) / x.std(ddof=0)).round(2))'
+[1, 5, 3, 1, 5, 4, 3]
+평균: 3.14
+표준편차: 1.55
+첫 학생: -1.38
+
+--- [19] 'scaled_df.describe().round(2)'
+       study_hours  sleep_hours  practice_count
+count         7.00         7.00            7.00
+mean          0.00         0.00            0.00
+std           1.08         1.08            1.08
+min          -1.38        -1.65           -1.58
+25%          -0.74        -0.76           -0.69
+50%          -0.09         0.13            0.20
+75%           0.87         1.02            0.77
+max           1.20         1.02            1.21
+--- [20] 'print("평균:", X_train_scaled.mean(axis=0).round(2))\nprint("표준편차:", X_train_scaled.std(axis=0).round(2))'
+평균: [0. 0. 0.]
+표준편차: [1. 1. 1.]
+
+--- [21] 'pd.DataFrame(X_test_scaled, columns=features, index=X_test.index).round(2)'
+   study_hours  sleep_hours  practice_count
+8         0.55        -0.76            1.47
+1        -0.74         1.02           -0.69
+5        -0.74        -1.65           -1.07
+--- [22] 'sgd = SGDRegressor(\n    loss="squared_error",\n    learning_rate="constant",\n    eta0=0.01,\n    max_iter=3000,\n    random_state=42\n)\n\nsgd.fit(X_train_scaled, y_train)\n\nsgd_pred = sgd.predict(X_test_scaled)\n\nprint(f"MAE: {mean_absolute_error(y_test, sgd_pred):.4f}")\nprint(f"MSE: {mean_squared_error(y_test, sgd_pred):.4f}")\nprint(f"R2: {r2_score(y_test, sgd_pred):.4f}")'
+MAE: 2.8169
+MSE: 8.5966
+R2: 0.9456
+
+--- [23] 'print("반복한 epoch:", sgd.n_iter_)\nprint("기울기 w:", sgd.coef_.round(2))\nprint("절편 b:", sgd.intercept_.round(2))'
+반복한 epoch: 197
+기울기 w: [9.37 3.47 3.86]
+절편 b: [67.43]
+
+--- [24] 'sgd = SGDRegressor(\n    loss="squared_error",\n    learning_rate="constant",\n    eta0=0.01,\n    random_state=42\n)\n\nepochs = 500\nhistory = []\n\nfor epoch in range(epochs):\n    sgd.partial_fit(X_train_scaled, y_train)\n    pred = sgd.predict(X_train_scaled)\n    history.append({\n        "epoch": epoch + 1,\n        "w1": sgd.coef_[0],\n        "w2": sgd.coef_[1],\n        "w3": sgd.coef_[2],\n        "bias": sgd.intercept_[0],\n        "mse": mean_squared_error(y_train, pred),\n    })\n\nhistory_df = pd.DataFrame(history)\nhistory_df.round(2).tail()'
+     epoch    w1    w2    w3   bias   mse
+495    496  9.92  3.62  3.29  67.42  0.14
+496    497  9.92  3.62  3.29  67.42  0.14
+497    498  9.92  3.62  3.29  67.42  0.14
+498    499  9.93  3.62  3.29  67.42  0.14
+499    500  9.93  3.62  3.29  67.42  0.14
+--- [25] 'history_df.round(2).head(3)'
+   epoch    w1    w2    w3   bias      mse
+0      1  0.81  0.34  0.82   4.65  4084.14
+1      2  1.52  0.64  1.53   8.98  3527.52
+2      3  2.14  0.90  2.15  13.01  3048.06
+--- [26] 'plt.figure(figsize=(6, 4))\nplt.plot(history_df["epoch"], history_df["mse"])\nplt.title("학습 곡선")\nplt.xlabel("epoch")\nplt.ylabel("MSE")\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/51-train-test-split/tools/img/main-1.png>
+<Figure size 1200x800 with 1 Axes>
+--- [27] 'fig, ax = plt.subplots(figsize=(10, 5))\n\nax.plot(history_df["epoch"], history_df["w1"], label="study")\nax.plot(history_df["epoch"], history_df["w2"], label="sleep")\nax.plot(history_df["epoch"], history_df["w3"], label="count")\n\nax.set_title("기울기 w1, w2, w3의 변화")\nax.set_xlabel("epoch")\nax.legend()\nax.grid(alpha=0.3)\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/51-train-test-split/tools/img/main-2.png>
+<Figure size 2000x1000 with 1 Axes>
+--- [28] 'coef_df = pd.DataFrame({\n    "feature": features,\n    "weight": sgd.coef_,\n})\n\nplt.figure(figsize=(6, 4))\nplt.barh(coef_df["feature"], coef_df["weight"], color="blue")\nplt.title("스케일링한 열의 기울기")\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/51-train-test-split/tools/img/main-3.png>
+<Figure size 1200x800 with 1 Axes>
+--- [29] 'test_model = LinearRegression()\ntest_model.fit(X_train, y_train)\n\ntest_pred = test_model.predict(X_test)\n\nprint(f"MAE: {mean_absolute_error(y_test, test_pred):.4f}")\nprint(f"MSE: {mean_squared_error(y_test, test_pred):.4f}")\nprint(f"R2: {r2_score(y_test, test_pred):.4f}")'
+MAE: 3.0870
+MSE: 10.6380
+R2: 0.9327
+
+--- [30] 'raw_coef = pd.DataFrame({\n    "feature": features,\n    "weight": test_model.coef_,\n})\n\nplt.figure(figsize=(6, 4))\nplt.barh(raw_coef["feature"], raw_coef["weight"], color="gray")\nplt.title("스케일링 안 한 열의 기울기")\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/51-train-test-split/tools/img/main-4.png>
+<Figure size 1200x800 with 1 Axes>
+=== seed: random_state 없이 두 번
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'from sklearn.model_selection import train_test_split'
+--- [5] 'X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)\nprint("채점용 학생:", list(X_test.index))'
+채점용 학생: [7, 0, 2]
+
+--- [6] 'X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)\nprint("채점용 학생:", list(X_test.index))'
+채점용 학생: [3, 5, 0]
+
+--- [7] 'X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)\nprint("채점용 학생:", list(X_test.index))'
+채점용 학생: [8, 1, 5]
+
+--- [8] 'X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)\nprint("채점용 학생:", list(X_test.index))'
+채점용 학생: [8, 1, 5]
+
+=== sizes: test_size 바꿔 보기
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'from sklearn.model_selection import train_test_split'
+--- [5] 'for size in [0.2, 0.3, 0.5]:\n    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=size, random_state=42)\n    print(size, "→ 학습용", len(X_train), "명, 채점용", len(X_test), "명")'
+0.2 → 학습용 8 명, 채점용 2 명
+0.3 → 학습용 7 명, 채점용 3 명
+0.5 → 학습용 5 명, 채점용 5 명
+
+--- [6] 'X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=3, random_state=42)\nprint(len(X_train), len(X_test))'
+7 3
+
+=== sgd-raw: 스케일링 없이 SGD
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'from sklearn.model_selection import train_test_split\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X,\n    y,\n    test_size=0.3,\n    random_state=42\n)\n\nprint("X_train:", X_train.shape)\nprint("X_test:", X_test.shape)\nprint("y_train:", y_train.shape)\nprint("y_test:", y_test.shape)'
+X_train: (7, 3)
+X_test: (3, 3)
+y_train: (7,)
+y_test: (3,)
+
+--- [5] 'raw = SGDRegressor(\n    loss="squared_error",\n    learning_rate="constant",\n    eta0=0.01,\n    max_iter=3000,\n    random_state=42\n)\n\nraw.fit(X_train, y_train)\nprint("기울기 w:", raw.coef_)\nprint("예측:", raw.predict(X_test))'
+기울기 w: [ 3.36938078e+10 -4.74775486e+10  1.16018067e+10]
+예측: [ 2.15788250e+11 -1.43785177e+11 -3.61579513e+10]
+
+=== e-order: 네 칸 순서를 바꿔 적기
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'from sklearn.model_selection import train_test_split\n\nX_train, y_train, X_test, y_test = train_test_split(\n    X, y, test_size=0.3, random_state=42\n)\nprint("y_train:", y_train.shape)'
+y_train: (3, 3)
+
+--- [5] 'm = LinearRegression()\nm.fit(X_train, y_train)'
+ValueError: Found input variables with inconsistent numbers of samples: [7, 3]
+=== e-refit: 채점용에 fit_transform
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'from sklearn.model_selection import train_test_split\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X,\n    y,\n    test_size=0.3,\n    random_state=42\n)\n\nprint("X_train:", X_train.shape)\nprint("X_test:", X_test.shape)\nprint("y_train:", y_train.shape)\nprint("y_test:", y_test.shape)'
+X_train: (7, 3)
+X_test: (3, 3)
+y_train: (7,)
+y_test: (3,)
+
+--- [5] 'from sklearn.preprocessing import StandardScaler\n\nscaler = StandardScaler()\n\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\nscaled_df = pd.DataFrame(X_train_scaled, columns=features)\nscaled_df.round(2)'
+   study_hours  sleep_hours  practice_count
+0        -1.38        -0.76           -1.32
+1         1.20        -0.76            0.20
+2        -0.09        -1.65           -0.05
+3        -1.38         1.02           -1.58
+4         1.20         1.02            1.21
+5         0.55         0.13            0.58
+6        -0.09         1.02            0.96
+--- [6] 'sgd = SGDRegressor(\n    loss="squared_error",\n    learning_rate="constant",\n    eta0=0.01,\n    max_iter=3000,\n    random_state=42\n)\n\nsgd.fit(X_train_scaled, y_train)\n\nsgd_pred = sgd.predict(X_test_scaled)\n\nprint(f"MAE: {mean_absolute_error(y_test, sgd_pred):.4f}")\nprint(f"R2: {r2_score(y_test, sgd_pred):.4f}")'
+MAE: 2.8169
+R2: 0.9456
+
+--- [7] 'wrong = StandardScaler().fit_transform(X_test)\nprint(pd.DataFrame(X_test_scaled, columns=features).round(2))\nprint(pd.DataFrame(wrong, columns=features).round(2))'
+   study_hours  sleep_hours  practice_count
+0         0.55        -0.76            1.47
+1        -0.74         1.02           -0.69
+2        -0.74        -1.65           -1.07
+   study_hours  sleep_hours  practice_count
+0         1.41        -0.27            1.40
+1        -0.71         1.34           -0.53
+2        -0.71        -1.07           -0.87
+
+--- [8] 'wrong_pred = sgd.predict(wrong)\nprint("정답:", list(y_test))\nprint("transform:", sgd_pred.round(1))\nprint("fit_transform:", wrong_pred.round(1))\nprint(f"R2: {r2_score(y_test, wrong_pred):.4f}")'
+정답: [79, 58, 49]
+transform: [75.6 61.4 50.7]
+fit_transform: [85.2 63.4 53.7]
+R2: 0.8114
+
+=== e-noscale: 스케일링 안 한 표를 predict
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'from sklearn.model_selection import train_test_split\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X,\n    y,\n    test_size=0.3,\n    random_state=42\n)\n\nprint("X_train:", X_train.shape)\nprint("X_test:", X_test.shape)\nprint("y_train:", y_train.shape)\nprint("y_test:", y_test.shape)'
+X_train: (7, 3)
+X_test: (3, 3)
+y_train: (7,)
+y_test: (3,)
+
+--- [5] 'from sklearn.preprocessing import StandardScaler\n\nscaler = StandardScaler()\n\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\nscaled_df = pd.DataFrame(X_train_scaled, columns=features)\nscaled_df.round(2)'
+   study_hours  sleep_hours  practice_count
+0        -1.38        -0.76           -1.32
+1         1.20        -0.76            0.20
+2        -0.09        -1.65           -0.05
+3        -1.38         1.02           -1.58
+4         1.20         1.02            1.21
+5         0.55         0.13            0.58
+6        -0.09         1.02            0.96
+--- [6] 'sgd = SGDRegressor(\n    loss="squared_error",\n    learning_rate="constant",\n    eta0=0.01,\n    max_iter=3000,\n    random_state=42\n)\n\nsgd.fit(X_train_scaled, y_train)\n\nsgd_pred = sgd.predict(X_test_scaled)\n\nprint(f"MAE: {mean_absolute_error(y_test, sgd_pred):.4f}")\nprint(f"R2: {r2_score(y_test, sgd_pred):.4f}")'
+MAE: 2.8169
+R2: 0.9456
+
+--- [7] 'bad = sgd.predict(X_test)\nprint("예측:", bad.round(1))'
+예측: [249.3 171.9 149.9]
+
+<stderr>/tmp/claude-0/split-demo/nb-check/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2823: UserWarning: X has feature names, but SGDRegressor was fitted without feature names
+  warnings.warn(
+
+=== e-read: 스케일링한 기울기 읽기
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'from sklearn.model_selection import train_test_split\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X,\n    y,\n    test_size=0.3,\n    random_state=42\n)\n\nprint("X_train:", X_train.shape)\nprint("X_test:", X_test.shape)\nprint("y_train:", y_train.shape)\nprint("y_test:", y_test.shape)'
+X_train: (7, 3)
+X_test: (3, 3)
+y_train: (7,)
+y_test: (3,)
+
+--- [5] 'from sklearn.preprocessing import StandardScaler\n\nscaler = StandardScaler()\n\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\nscaled_df = pd.DataFrame(X_train_scaled, columns=features)\nscaled_df.round(2)'
+   study_hours  sleep_hours  practice_count
+0        -1.38        -0.76           -1.32
+1         1.20        -0.76            0.20
+2        -0.09        -1.65           -0.05
+3        -1.38         1.02           -1.58
+4         1.20         1.02            1.21
+5         0.55         0.13            0.58
+6        -0.09         1.02            0.96
+--- [6] 'sgd = SGDRegressor(\n    loss="squared_error",\n    learning_rate="constant",\n    eta0=0.01,\n    max_iter=3000,\n    random_state=42\n)\n\nsgd.fit(X_train_scaled, y_train)\n\nsgd_pred = sgd.predict(X_test_scaled)\n\nprint(f"MAE: {mean_absolute_error(y_test, sgd_pred):.4f}")\nprint(f"MSE: {mean_squared_error(y_test, sgd_pred):.4f}")\nprint(f"R2: {r2_score(y_test, sgd_pred):.4f}")'
+MAE: 2.8169
+MSE: 8.5966
+R2: 0.9456
+
+--- [7] 'print("공부 시간 표준편차:", scaler.scale_[0].round(2), "시간")\nprint("기울기 w1:", sgd.coef_[0].round(2))'
+공부 시간 표준편차: 1.55 시간
+기울기 w1: 9.37
+
+--- [8] 'a = pd.DataFrame({"study_hours": [3, 4], "sleep_hours": [7, 7], "practice_count": [20, 20]})\npa = sgd.predict(scaler.transform(a))\nprint("3시간, 4시간:", pa.round(2), "차이:", (pa[1] - pa[0]).round(2))'
+3시간, 4시간: [66.8  72.83] 차이: 6.04
+
+=== x-new: 새 학생 예측
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'from sklearn.model_selection import train_test_split\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X,\n    y,\n    test_size=0.3,\n    random_state=42\n)\n\nprint("X_train:", X_train.shape)\nprint("X_test:", X_test.shape)\nprint("y_train:", y_train.shape)\nprint("y_test:", y_test.shape)'
+X_train: (7, 3)
+X_test: (3, 3)
+y_train: (7,)
+y_test: (3,)
+
+--- [5] 'from sklearn.preprocessing import StandardScaler\n\nscaler = StandardScaler()\n\nX_train_scaled = scaler.fit_transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n\nscaled_df = pd.DataFrame(X_train_scaled, columns=features)\nscaled_df.round(2)'
+   study_hours  sleep_hours  practice_count
+0        -1.38        -0.76           -1.32
+1         1.20        -0.76            0.20
+2        -0.09        -1.65           -0.05
+3        -1.38         1.02           -1.58
+4         1.20         1.02            1.21
+5         0.55         0.13            0.58
+6        -0.09         1.02            0.96
+--- [6] 'sgd = SGDRegressor(\n    loss="squared_error",\n    learning_rate="constant",\n    eta0=0.01,\n    max_iter=3000,\n    random_state=42\n)\n\nsgd.fit(X_train_scaled, y_train)\n\nsgd_pred = sgd.predict(X_test_scaled)\n\nprint(f"MAE: {mean_absolute_error(y_test, sgd_pred):.4f}")\nprint(f"MSE: {mean_squared_error(y_test, sgd_pred):.4f}")\nprint(f"R2: {r2_score(y_test, sgd_pred):.4f}")'
+MAE: 2.8169
+MSE: 8.5966
+R2: 0.9456
+
+--- [7] 'test_model = LinearRegression()\ntest_model.fit(X_train, y_train)\n\ntest_pred = test_model.predict(X_test)\n\nprint(f"MAE: {mean_absolute_error(y_test, test_pred):.4f}")\nprint(f"MSE: {mean_squared_error(y_test, test_pred):.4f}")\nprint(f"R2: {r2_score(y_test, test_pred):.4f}")'
+MAE: 3.0870
+MSE: 10.6380
+R2: 0.9327
+
+--- [8] 'new = pd.DataFrame({\n    "study_hours": [4],\n    "sleep_hours": [7],\n    "practice_count": [30],\n})\nnew_scaled = scaler.transform(new)\nprint(new_scaled.round(2))\nprint("SGD:", sgd.predict(new_scaled).round(2))\nprint("LinearRegression:", test_model.predict(new).round(2))'
+[[0.55 0.13 1.21]]
+SGD: [77.73]
+LinearRegression: [77.32]
+
+--- [9] 'sgd.predict(new)'
+<stderr>/tmp/claude-0/split-demo/nb-check/.venv/lib/python3.13/site-packages/sklearn/utils/validation.py:2823: UserWarning: X has feature names, but SGDRegressor was fitted without feature names
+  warnings.warn(
+
+array([245.03857652])
+=== x-seed: random_state마다 채점 점수
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'from sklearn.model_selection import train_test_split'
+--- [5] 'for seed in [0, 1, 2, 3, 42]:\n    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=seed)\n    m = LinearRegression()\n    m.fit(X_train, y_train)\n    r2 = r2_score(y_test, m.predict(X_test))\n    print(f"random_state={seed:2} 채점용 {list(X_test.index)} R2 {r2:.2f}")'
+random_state= 0 채점용 [2, 8, 4] R2 0.97
+random_state= 1 채점용 [2, 9, 6] R2 0.89
+random_state= 2 채점용 [4, 1, 5] R2 0.98
+random_state= 3 채점용 [5, 4, 1] R2 0.98
+random_state=42 채점용 [8, 1, 5] R2 0.93
+
+=== x-office: 오피스텔 200건 나눠 채점, 스케일링한 SGD
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LinearRegression, SGDRegressor\nfrom sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\nfeatures = ["study_hours", "sleep_hours", "practice_count"]\nX = df[features]\ny = df["score"]'
+--- [4] 'from sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler'
+--- [5] 'office = pd.read_csv("datasets/office.csv")\nXo = office[["area"]]\nyo = office["price"]\n\nXo_train, Xo_test, yo_train, yo_test = train_test_split(Xo, yo, test_size=0.2, random_state=42)\nprint(Xo_train.shape, Xo_test.shape)'
+(160, 1) (40, 1)
+
+--- [6] 'lr = LinearRegression()\nlr.fit(Xo_train, yo_train)\nprint(f"학습용 R2: {r2_score(yo_train, lr.predict(Xo_train)):.3f}")\nprint(f"채점용 R2: {r2_score(yo_test, lr.predict(Xo_test)):.3f}")\nprint(f"채점용 MAE: {mean_absolute_error(yo_test, lr.predict(Xo_test)):.0f}")'
+학습용 R2: 0.784
+채점용 R2: 0.917
+채점용 MAE: 1899
+
+--- [7] 'raw = SGDRegressor(loss="squared_error", learning_rate="constant", eta0=0.01, max_iter=3000, random_state=42)\nraw.fit(Xo_train, yo_train)\nprint("스케일링 없이:", raw.coef_)'
+스케일링 없이: [-4.29642687e+11]
+
+--- [8] 'sc = StandardScaler()\nXo_train_s = sc.fit_transform(Xo_train)\nXo_test_s = sc.transform(Xo_test)\n\nsg = SGDRegressor(loss="squared_error", learning_rate="constant", eta0=0.01, max_iter=3000, random_state=42)\nsg.fit(Xo_train_s, yo_train)\nprint(f"스케일링하고: 채점용 R2 {r2_score(yo_test, sg.predict(Xo_test_s)):.3f}")\nprint(f"채점용 MAE: {mean_absolute_error(yo_test, sg.predict(Xo_test_s)):.0f}")'
+스케일링하고: 채점용 R2 0.916
+채점용 MAE: 1904
+

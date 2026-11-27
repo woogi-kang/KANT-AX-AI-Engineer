@@ -1,0 +1,178 @@
+<section id="strat" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A23B72">4. KNN 학습하고 채점하기</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">stratify가 없으면 채점용이 0장인 사람이 생겨요</h2>
+<p data-build-in="fade order 0" style="position:absolute;left:96px;top:280px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:30px;font-weight:700;line-height:1.3;color:#B26A00;white-space:nowrap">stratify=faces.target: 모두 2장이나 3장</p>
+<div data-build-in="wipe order 0" data-delay="0" style="position:absolute;left:120px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:128px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="15" style="position:absolute;left:162px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:170px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="30" style="position:absolute;left:204px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:212px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="45" style="position:absolute;left:246px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:254px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="60" style="position:absolute;left:288px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:296px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="75" style="position:absolute;left:330px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:338px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="90" style="position:absolute;left:372px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:380px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="105" style="position:absolute;left:414px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:422px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="120" style="position:absolute;left:456px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:464px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="135" style="position:absolute;left:498px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:506px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="150" style="position:absolute;left:540px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:548px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="165" style="position:absolute;left:582px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:590px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="180" style="position:absolute;left:624px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:632px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="195" style="position:absolute;left:666px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:674px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="210" style="position:absolute;left:708px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:716px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="225" style="position:absolute;left:750px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:758px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="240" style="position:absolute;left:792px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:800px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="255" style="position:absolute;left:834px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:842px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="270" style="position:absolute;left:876px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:884px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="285" style="position:absolute;left:918px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:926px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="300" style="position:absolute;left:960px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:968px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="315" style="position:absolute;left:1002px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1010px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="330" style="position:absolute;left:1044px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1052px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="345" style="position:absolute;left:1086px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1094px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="360" style="position:absolute;left:1128px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1136px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="375" style="position:absolute;left:1170px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1178px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="390" style="position:absolute;left:1212px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1220px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="405" style="position:absolute;left:1254px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1262px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="420" style="position:absolute;left:1296px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1304px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="435" style="position:absolute;left:1338px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1346px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="450" style="position:absolute;left:1380px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1388px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="465" style="position:absolute;left:1422px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1430px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="480" style="position:absolute;left:1464px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1472px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="495" style="position:absolute;left:1506px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1514px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="510" style="position:absolute;left:1548px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1556px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="525" style="position:absolute;left:1590px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1598px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="540" style="position:absolute;left:1632px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1640px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="555" style="position:absolute;left:1674px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1682px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 0" data-delay="570" style="position:absolute;left:1716px;top:380px;width:34px;height:90px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1724px;top:346px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 0" data-delay="585" style="position:absolute;left:1758px;top:410px;width:34px;height:60px;border-radius:4px;background:#B26A00"></div>
+<p data-build-in="fade order 0" style="position:absolute;left:1766px;top:376px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="fade order 0" style="position:absolute;left:110px;top:470px;width:1690px;height:3px;background:#9AA0AB"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:96px;top:550px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:30px;font-weight:700;line-height:1.3;color:#6A7180;white-space:nowrap">stratify 없이: 0장부터 7장까지</p>
+<div data-build-in="wipe order 1" data-delay="0" style="position:absolute;left:120px;top:740px;width:34px;height:120px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:128px;top:706px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">4</p>
+<div data-build-in="wipe order 1" data-delay="15" style="position:absolute;left:162px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:170px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="30" style="position:absolute;left:204px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:212px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="45" style="position:absolute;left:246px;top:740px;width:34px;height:120px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:254px;top:706px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">4</p>
+<div data-build-in="wipe order 1" data-delay="60" style="position:absolute;left:288px;top:770px;width:34px;height:90px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:296px;top:736px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 1" data-delay="75" style="position:absolute;left:330px;top:770px;width:34px;height:90px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:338px;top:736px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 1" data-delay="90" style="position:absolute;left:372px;top:830px;width:34px;height:30px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:380px;top:796px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">1</p>
+<div data-build-in="wipe order 1" data-delay="105" style="position:absolute;left:414px;top:650px;width:34px;height:210px;border-radius:4px;background:#A33131"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:422px;top:616px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#A33131;white-space:nowrap">7</p>
+<div data-build-in="wipe order 1" data-delay="120" style="position:absolute;left:456px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:464px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="135" style="position:absolute;left:498px;top:770px;width:34px;height:90px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:506px;top:736px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 1" data-delay="150" style="position:absolute;left:540px;top:770px;width:34px;height:90px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:548px;top:736px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 1" data-delay="165" style="position:absolute;left:582px;top:740px;width:34px;height:120px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:590px;top:706px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">4</p>
+<div data-build-in="wipe order 1" data-delay="180" style="position:absolute;left:624px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:632px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="195" style="position:absolute;left:666px;top:830px;width:34px;height:30px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:674px;top:796px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">1</p>
+<div data-build-in="wipe order 1" data-delay="210" style="position:absolute;left:708px;top:770px;width:34px;height:90px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:716px;top:736px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 1" data-delay="225" style="position:absolute;left:750px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:758px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="240" style="position:absolute;left:792px;top:860px;width:34px;height:0px;border-radius:4px;background:#A33131"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:800px;top:826px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#A33131;white-space:nowrap">0</p>
+<div data-build-in="wipe order 1" data-delay="255" style="position:absolute;left:834px;top:770px;width:34px;height:90px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:842px;top:736px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 1" data-delay="270" style="position:absolute;left:876px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:884px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="285" style="position:absolute;left:918px;top:830px;width:34px;height:30px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:926px;top:796px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">1</p>
+<div data-build-in="wipe order 1" data-delay="300" style="position:absolute;left:960px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:968px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="315" style="position:absolute;left:1002px;top:830px;width:34px;height:30px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1010px;top:796px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">1</p>
+<div data-build-in="wipe order 1" data-delay="330" style="position:absolute;left:1044px;top:740px;width:34px;height:120px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1052px;top:706px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">4</p>
+<div data-build-in="wipe order 1" data-delay="345" style="position:absolute;left:1086px;top:740px;width:34px;height:120px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1094px;top:706px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">4</p>
+<div data-build-in="wipe order 1" data-delay="360" style="position:absolute;left:1128px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1136px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="375" style="position:absolute;left:1170px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1178px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="390" style="position:absolute;left:1212px;top:740px;width:34px;height:120px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1220px;top:706px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">4</p>
+<div data-build-in="wipe order 1" data-delay="405" style="position:absolute;left:1254px;top:770px;width:34px;height:90px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1262px;top:736px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 1" data-delay="420" style="position:absolute;left:1296px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1304px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="435" style="position:absolute;left:1338px;top:830px;width:34px;height:30px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1346px;top:796px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">1</p>
+<div data-build-in="wipe order 1" data-delay="450" style="position:absolute;left:1380px;top:830px;width:34px;height:30px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1388px;top:796px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">1</p>
+<div data-build-in="wipe order 1" data-delay="465" style="position:absolute;left:1422px;top:830px;width:34px;height:30px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1430px;top:796px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">1</p>
+<div data-build-in="wipe order 1" data-delay="480" style="position:absolute;left:1464px;top:770px;width:34px;height:90px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1472px;top:736px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 1" data-delay="495" style="position:absolute;left:1506px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1514px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="510" style="position:absolute;left:1548px;top:830px;width:34px;height:30px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1556px;top:796px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">1</p>
+<div data-build-in="wipe order 1" data-delay="525" style="position:absolute;left:1590px;top:830px;width:34px;height:30px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1598px;top:796px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">1</p>
+<div data-build-in="wipe order 1" data-delay="540" style="position:absolute;left:1632px;top:800px;width:34px;height:60px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1640px;top:766px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">2</p>
+<div data-build-in="wipe order 1" data-delay="555" style="position:absolute;left:1674px;top:770px;width:34px;height:90px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1682px;top:736px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">3</p>
+<div data-build-in="wipe order 1" data-delay="570" style="position:absolute;left:1716px;top:710px;width:34px;height:150px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1724px;top:676px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">5</p>
+<div data-build-in="wipe order 1" data-delay="585" style="position:absolute;left:1758px;top:740px;width:34px;height:120px;border-radius:4px;background:#6A7180"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1766px;top:706px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:22px;font-weight:700;line-height:1.3;color:#4A5262;white-space:nowrap">4</p>
+<div data-build-in="fade order 1" style="position:absolute;left:110px;top:860px;width:1690px;height:3px;background:#9AA0AB"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:124px;top:872px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:20px;font-weight:700;line-height:1.3;color:#6A7180;white-space:nowrap">0</p>
+<p data-build-in="fade order 1" style="position:absolute;left:538px;top:872px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:20px;font-weight:700;line-height:1.3;color:#6A7180;white-space:nowrap">10</p>
+<p data-build-in="fade order 1" style="position:absolute;left:790px;top:872px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:20px;font-weight:700;line-height:1.3;color:#6A7180;white-space:nowrap">16</p>
+<p data-build-in="fade order 1" style="position:absolute;left:958px;top:872px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:20px;font-weight:700;line-height:1.3;color:#6A7180;white-space:nowrap">20</p>
+<p data-build-in="fade order 1" style="position:absolute;left:1378px;top:872px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:20px;font-weight:700;line-height:1.3;color:#6A7180;white-space:nowrap">30</p>
+<p data-build-in="fade order 1" style="position:absolute;left:1756px;top:872px;font-family:'Noto Sans KR', Arial, sans-serif;font-size:20px;font-weight:700;line-height:1.3;color:#6A7180;white-space:nowrap">39</p>
+<p data-build-in="fade order 2" style="position:absolute;left:702px;top:610px;width:220px;text-align:center;font-size:26px;font-weight:700;line-height:1.3;color:#A33131">16번 사람<br>채점용 0장 ↓</p>
+<p style="position:absolute;left:1100px;top:280px;width:724px;font-size:24px;line-height:1.5;color:#4A5262;word-break:keep-all">막대 하나가 한 사람, 높이는 채점용 장수예요.</p>
+<p id="caption" data-build-in="rise order 3" style="position:absolute;left:96px;top:960px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">stratify 없이 나누면 정확도 83.00%, stratify로 나누면 87.00%예요(다음 장).</p>
+<aside>stratify를 넣은 경우와 뺀 경우를 사람마다 채점용 장수로 비교했어요. 위는 stratify를 넣어서 모든 사람이 2장이나 3장씩 채점용이에요. 아래는 random_state 42만 주고 그냥 섞어서 나눈 결과예요. 16번 사람은 채점용이 0장이라 채점에서 빠지고, 7번 사람은 7장이 채점용이라 학습용에 3장만 남아요. 학습용 사진이 적은 사람은 맞히기도 어려워요. 같은 K=5 모델로 채점하면 stratify 없이는 83.00%, stratify로 나누면 87.00%예요. 분류에서는 정답 종류마다 고르게 나누려고 stratify를 붙여요. 이 비교 셀은 이해를 도우려고 더했어요. 출력은 실제로 실행한 결과예요.</aside>
+</section>

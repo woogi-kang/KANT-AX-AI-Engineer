@@ -1,0 +1,24 @@
+<section id="knnname" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
+<p id="eyebrow" style="position:absolute;left:96px;top:48px;width:1728px;font-size:26px;font-weight:700;color:#A23B72">4. KNN 학습하고 채점하기</p>
+<h2 id="title" style="position:absolute;left:96px;top:92px;width:1728px;font-size:56px;font-weight:700;line-height:1.2;color:#1D2330">KNeighborsClassifier는 이름이 하는 일을 말해요</h2>
+<div id="c-ki" style="position:absolute;left:96px;top:196px;width:1300px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;flex-direction:row;gap:10px;align-items:stretch"><div style="width:7px;flex:none;border-radius:4px;background:#2F7DE1"></div><p style="width:58px;flex:none;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:22px;color:#6A7180;text-align:right;padding-top:12px">[12]</p><div style="flex:1;position:relative;background:#FFFFFF;border:2px solid #E1DED6;border-radius:10px;padding:8px 18px 8px;display:flex;flex-direction:column"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:30px;line-height:1.45;white-space:pre;color:#1D2330">from sklearn.neighbors import KNeighborsClassifier</p><p style="position:absolute;right:14px;bottom:8px;font-size:18px;color:#6A7180">Python</p></div></div>
+</div>
+<div data-build-in="fade order 1" style="position:absolute;left:289px;top:206px;width:310px;height:44px;border-radius:6px;background:rgba(30,95,168,0.18);border-bottom:4px solid #1E5FA8"></div>
+<p data-build-in="fade order 1" style="position:absolute;left:1430px;top:209px;white-space:nowrap;font-size:26px;font-weight:700;line-height:1.45;color:#1E5FA8">← neighbors 서랍: 이웃 모델</p>
+<p data-build-in="rise order 2" style="position:absolute;left:200px;top:340px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:110px;font-weight:700;line-height:1.2;color:#A0620A;white-space:nowrap">K</p>
+<div data-build-in="fade order 2" style="position:absolute;left:200px;top:488px;width:66px;height:6px;border-radius:3px;background:#A0620A"></div>
+<p data-build-in="fade order 2" data-delay="120" style="position:absolute;left:33px;top:520px;width:400px;text-align:center;font-size:44px;font-weight:700;color:#A0620A">K장</p>
+<p data-build-in="fade order 2" data-delay="200" style="position:absolute;left:33px;top:590px;width:400px;text-align:center;font-size:28px;line-height:1.4;color:#4A5262;word-break:keep-all">몇 장에게 물을지</p>
+<p data-build-in="rise order 3" style="position:absolute;left:376.0px;top:340px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:110px;font-weight:700;line-height:1.2;color:#1E5FA8;white-space:nowrap">Neighbors</p>
+<div data-build-in="fade order 3" style="position:absolute;left:376.0px;top:488px;width:594px;height:6px;border-radius:3px;background:#1E5FA8"></div>
+<p data-build-in="fade order 3" data-delay="120" style="position:absolute;left:473px;top:520px;width:400px;text-align:center;font-size:44px;font-weight:700;color:#1E5FA8">이웃</p>
+<p data-build-in="fade order 3" data-delay="200" style="position:absolute;left:473px;top:590px;width:400px;text-align:center;font-size:28px;line-height:1.4;color:#4A5262;word-break:keep-all">가까운 사진</p>
+<p data-build-in="rise order 4" style="position:absolute;left:1080.0px;top:340px;font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:110px;font-weight:700;line-height:1.2;color:#A23B72;white-space:nowrap">Classifier</p>
+<div data-build-in="fade order 4" style="position:absolute;left:1080.0px;top:488px;width:660px;height:6px;border-radius:3px;background:#A23B72"></div>
+<p data-build-in="fade order 4" data-delay="120" style="position:absolute;left:1210px;top:520px;width:400px;text-align:center;font-size:44px;font-weight:700;color:#A23B72">분류기</p>
+<p data-build-in="fade order 4" data-delay="200" style="position:absolute;left:1210px;top:590px;width:400px;text-align:center;font-size:28px;line-height:1.4;color:#4A5262;word-break:keep-all">정해진 번호 중 하나를 골라요</p>
+<p data-build-in="fade order 5" style="position:absolute;left:96px;top:780px;width:1728px;font-size:30px;line-height:1.5;color:#1D2330;word-break:keep-all">48의 LinearRegression은 Regression(회귀)으로 끝나서 숫자를 맞혀요. 이름 끝을 보면 회귀 모델인지 분류 모델인지 알 수 있어요.</p>
+<p id="caption" data-build-in="rise order 6" style="position:absolute;left:96px;top:950px;width:1728px;font-size:34px;font-weight:700;line-height:1.4;color:#1D2330">이웃 K장에게 물어서 고르는 분류기, 줄여서 KNN이에요.</p>
+<aside>KNN 모델을 불러와요. scikit-learn의 neighbors 서랍에 있어요. 이름을 쪼개 읽으면 하는 일이 보여요. K는 몇 장에게 물을지 정하는 숫자, Neighbors는 이웃, Classifier는 분류기예요. 대문자로 시작하니 28에서 배운 클래스이고, 48의 LinearRegression처럼 괄호를 붙여 모델을 만들어요. LinearRegression은 끝이 Regression이라 숫자를 맞히는 회귀 모델이고, 이 모델은 끝이 Classifier라 번호를 고르는 분류 모델이에요.</aside>
+</section>

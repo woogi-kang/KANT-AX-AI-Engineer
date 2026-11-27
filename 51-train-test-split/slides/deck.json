@@ -1,0 +1,95 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-26T09:00:00Z"
+  },
+  "lists": "css",
+  "title": "처음 보는 데이터로 채점하기 (나누기와 스케일링)",
+  "order": [
+    "cover",
+    "toc",
+    "setup",
+    "start",
+    "why",
+    "exam",
+    "big",
+    "import",
+    "split",
+    "args",
+    "which",
+    "seed",
+    "fittest",
+    "compare",
+    "sgdraw",
+    "describe",
+    "standardize",
+    "scaler",
+    "fitvt",
+    "check",
+    "sgd",
+    "loop",
+    "curve",
+    "barh",
+    "vs",
+    "e-order",
+    "e-refit",
+    "e-noscale",
+    "e-read",
+    "x-new",
+    "x-seed",
+    "x-office",
+    "trouble",
+    "recap",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "why"
+    },
+    "p3": {
+      "description": "열의 크기 맞추기",
+      "start": "sgdraw"
+    },
+    "p4": {
+      "description": "SGD로 세 열 배우기",
+      "start": "sgd"
+    },
+    "p5": {
+      "description": "오류와 함정",
+      "start": "e-order"
+    },
+    "p6": {
+      "description": "실제 상황",
+      "start": "x-new"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    },
+    "recap": {
+      "description": "정리",
+      "start": "recap"
+    },
+    "p2": {
+      "description": "나눠서 채점하기",
+      "start": "import"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
