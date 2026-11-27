@@ -2,7 +2,7 @@
 import { useId, useRef, useState } from "react";
 import { Check, X, RotateCcw, Presentation } from "lucide-react";
 
-export type ViewQ = { id: string; q: string; code?: string; choices: string[]; answer: number; explain: string; page: number };
+export type ViewQ = { id: string; q: string; code?: string; codeHtml?: string; choices: string[]; answer: number; explain: string; page: number };
 export type ViewPart = { name: string; range: string; questions: ViewQ[] };
 
 const go = (page: number) => dispatchEvent(new CustomEvent("deck-go", { detail: page }));
@@ -106,7 +106,7 @@ function Question({ q, n, pick, onPick }: { q: ViewQ; n: number; pick?: number; 
       </div>
       {q.code && (
         <pre className="qz-code">
-          <code>{q.code}</code>
+          {q.codeHtml ? <code className="hl" dangerouslySetInnerHTML={{ __html: q.codeHtml }} /> : <code>{q.code}</code>}
         </pre>
       )}
       <div className="qz-choices" role="group" aria-label={`${n}번 문제 보기`}>

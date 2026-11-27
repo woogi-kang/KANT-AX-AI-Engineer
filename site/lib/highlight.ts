@@ -74,3 +74,28 @@ export function rehypeHighlight() {
     }
   };
 }
+
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+/** 문제 칸처럼 마크다운 밖의 코드 글을 색 칸 HTML(code 안쪽)로 바꿔요. 언어를 모르면 글자만 그대로 돌려줘요.
+ *  "~/kant $ 명령"처럼 프롬프트가 있는 터미널 기록은 프롬프트를 흐리게, 명령만 bash 색으로 칠하고 출력 줄은 그대로 둬요. */
+export async function highlightCode(code: string, fallback: string | null): Promise<string> {
+  const h = await getHl();
+  const inner = (text: string, lang: string) => {
+    const html = h.codeToHtml(text, { lang, theme: "site" });
+    return html.replace(/^<pre[^>]*><code[^>]*>/, "").replace(/<\/code><\/pre>$/, "");
+  };
+  const lines = code.replace(/\n$/, "").split("\n");
+  if (lines.some((l) => /^\S*\s?\$ /.test(l))) {
+    return lines
+      .map((l) => {
+        const m = /^(\S*\s?\$ )(.*)$/.exec(l);
+        return m ? `<span style="color:var(--syn-cm)">${esc(m[1])}</span>${inner(m[2], "bash").replace(/^<span class="line">/, "").replace(/<\/span>$/, "")}` : esc(l);
+      })
+      .join("\n");
+  }
+  const first = lines.find((l) => l.trim() && !/^\s*(#|--)/.test(l)) ?? "";
+  const lang = guessLang(first) ?? fallback;
+  if (!lang) return esc(code);
+  return inner(code.replace(/\n$/, ""), lang);
+}
