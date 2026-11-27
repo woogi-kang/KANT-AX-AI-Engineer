@@ -91,9 +91,6 @@ export default async function JobsPage() {
         </div>
         <div className="lb-stat">
           <span>
-            <b>{P.length}</b>모은 공고
-          </span>
-          <span>
             <b className="lb-ok">{open}</b>모집 중
           </span>
           <span>

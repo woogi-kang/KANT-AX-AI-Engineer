@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Play } from "lucide-react";
 import { roadmap, readRmJson, ghBlob } from "@/lib/roadmap";
 import { caseIcon } from "@/lib/site";
-import { Crumb, Diff, Ic, Ict, More, PageHead } from "@/components/ui";
+import { Crumb, Diff, Ic, Ict, PageHead } from "@/components/ui";
 import LibTiles from "@/components/LibTiles";
 import LibFilter from "@/components/LibFilter";
 import "./library.css";
@@ -21,18 +21,6 @@ export default function LibraryPage() {
     <>
       <Crumb items={[["사례와 자료", "/library/"], ["업무 사례"]]} />
       <PageHead icon={<Ict n="briefcase" size="lg" />} title="업무 사례" lede="업무 하나를 처음부터 끝까지 설계해 본 사례예요. 실제 회사의 성과가 아니라 연습용 설계예요." />
-      <More label="사례를 읽기 전에">
-        <p>
-          공개한 근거는 재현할 수 있는 공개 시뮬레이션 {runN}개와 실행 전 설계 문서 {r.cases.length - runN}개예요. 지금 공개한 결과는 모두 외부 시스템을 바꾸지 않아요.
-        </p>
-        <p>목표 실행 범위와 설계 P단계는 앞으로 연습할 최대 범위예요. 구현을 마쳤거나 조직에서 운영한다는 뜻이 아니에요.</p>
-        <p>
-          카드의 번호는 책임이 커지는 추천 학습 순서예요. 사례의 우열이 아니에요. 원문:{" "}
-          <a className="lk" href={ghBlob("case-studies/README.md")}>
-            case-studies/README.md
-          </a>
-        </p>
-      </More>
       <LibTiles on="cases" />
       <LibFilter
         target="#case-list"
@@ -71,6 +59,9 @@ export default function LibraryPage() {
           </Link>
         ))}
       </div>
+      <p className="lb-note">
+        카드 오른쪽 위 번호는 책임이 커지는 추천 학습 순서예요. 원문: <a className="lk" href={ghBlob("case-studies/README.md")}>case-studies/README.md</a>
+      </p>
     </>
   );
 }

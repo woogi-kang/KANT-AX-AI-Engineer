@@ -10,7 +10,9 @@ const OSS = [
   ["JetBrains Mono, D2Coding", "코드 글꼴 (D2Coding은 한글만)", "SIL OFL 1.1"],
   ["Lucide", "아이콘", "ISC"],
   ["devicon", "도구 컬러 로고", "MIT"],
-  ["Simple Icons", "uv 로고, 공개·실패 사례의 회사 로고", "CC0 1.0"],
+  ["Simple Icons", "uv 로고, 일부 사례 회사 로고", "CC0 1.0"],
+  ["VectorLogoZone, CNCF Landscape", "사례 회사 로고", "로고는 각 회사의 상표"],
+  ["KRDS", "대한민국 정부 상징(국내 정부 기관 사례)", "KRDS 이용약관"],
   ["ax-engineer-roadmap", "로드맵, 사례, 템플릿, 채용 현황 내용", "MIT"],
   ["Next.js, React", "사이트 틀", "MIT"],
   ["unified, remark, rehype", "README를 화면으로 바꾸기", "MIT"],
@@ -82,7 +84,7 @@ export default function LegalPage() {
         Git, GitHub, Python, uv, Jupyter, Docker, NGINX, MySQL, PostgreSQL, NumPy, pandas 로고와 이름은 각 상표권자의 것이에요. 이 사이트는 어떤 도구를 배우는지 알려 주는 데만 쓰고, 상표권자와 제휴하거나 후원받지 않아요.
       </p>
       <p className="note" style={{ marginTop: 8 }}>
-        사례와 자료의 회사 로고(LG, 삼성, Siemens, Bosch, Accenture 등)는 Simple Icons에 실린 공식 마크로, 어느 회사의 공개 사례인지 알아보는 데만 써요. 로고가 없는 회사는 이름 첫 글자로 보여 줘요. 상표는 각 회사의 것이고, 이 사이트는 그 회사들과 관계가 없어요.
+        사례와 자료의 조직 로고는 어느 조직의 공개 기록인지 알아보는 데만 써요. 국내 정부 기관 사례에는 대한민국 정부 상징을 붙였어요. 로고가 없는 조직은 이름 첫 글자로 보여 줘요. 상표와 상징은 각 소유자의 것이고, 이 사이트는 그 조직들과 관계가 없어요.
       </p>
     </>
   );

@@ -261,8 +261,8 @@ a.lb-job-t:hover { color: var(--ac); }
 .om-long.om-sm { font-size: 11.5px; }
 .om-long.om-lg { font-size: 24px; }
 .om-logo { background: var(--logo-bg); border: 1px solid var(--line); }
-.om-logo svg { width: 62%; height: 62%; }
-.om-fill { border-color: transparent; }
+.om-logo { overflow: hidden; }
+.om-logo img { display: block; width: 70%; height: 70%; object-fit: contain; }
 .om-t-gov svg { width: 48%; height: 48%; }
 .om-t-a { background: var(--ac-s); color: var(--ac); }
 .om-t-b { background: var(--ok-s); color: var(--ok); }
@@ -384,7 +384,7 @@ section > .lb-limit { margin-top: 18px; }
   .lf-sels .lf-sel select { width: auto; flex: 1; }
   .lb-result { padding: 14px 16px; gap: 12px; }
 }
-.om-wide svg { width: 84%; height: 84%; }
+.om-wide img { width: 86%; height: 86%; }
 .lb-tpls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .lb-tplc { display: flex; gap: 16px; align-items: flex-start; border: 1px solid var(--line); border-radius: 16px; padding: 18px; background: var(--card); min-width: 0; }
 .lb-tplc:hover { border-color: var(--ac); }
@@ -419,3 +419,8 @@ section > .lb-limit { margin-top: 18px; }
   .lb-tabs .tile .num { font-size: 16px; }
   .lb-tabs .tile b { font-size: 14px; white-space: nowrap; }
 }
+/* 로고 칸 2차: 조금 크게, 가로로 긴 워드마크는 칸 폭을 거의 다 써요 */
+.om-md { width: 64px; height: 64px; }
+.om-logo.om-wide img { width: 92%; height: 92%; }
+.om-logo.om-wide { padding: 0 2px; }
+@media (max-width: 560px) { .om-md { width: 52px; height: 52px; } }

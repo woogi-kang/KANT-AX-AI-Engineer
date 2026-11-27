@@ -204,30 +204,43 @@ function splitPub(md: string) {
 
 /* ---------- 조직 로고 ---------- */
 /**
- * 사례 번호 → Simple Icons(CC0) 아이콘 이름. 조직의 공식 브랜드 마크가 Simple Icons에 있을 때만 적어요.
- * LG유플러스는 LG 그룹 심벌을, 삼성SDS는 삼성 워드마크를, GE Appliances는 GE 마크를 같이 써요.
- * 없는 조직은 첫 글자(공공기관은 건물 아이콘)로 대신해요. 상표는 각 소유자의 것이에요.
+ * 사례 번호 → 로고 파일(assets/orgs/이름.svg, 사이트에서는 /img/orgs/). 출처와 사용 범위는 assets/orgs/SOURCES.md에 적어요.
+ * LG유플러스는 LG 그룹 심벌을 같이 써요. 국내 정부 기관은 대한민국 정부 상징이에요.
+ * 없는 조직은 이름 첫 글자(해외 공공기관은 건물 아이콘)로 대신해요. 상표는 각 소유자의 것이에요.
  */
 export const ORG_LOGO: Record<string, string> = {
+  K01: "kr-gov",
   K04: "lg",
+  K05: "samsung-sds",
   K07: "lg",
+  K08: "sk-telecom",
+  K09: "sk-telecom",
   K10: "lg",
   K16: "lg",
-  K05: "samsung",
+  G01: "morgan-stanley",
+  G02: "ibm",
   G03: "siemens",
   G05: "bosch",
+  G06: "walmart",
   G10: "accenture",
   G15: "klarna",
-  G16: "virginatlantic",
+  G16: "virgin-atlantic",
   G17: "zapier",
-  G23: "generalelectric",
+  G23: "ge",
+  FK02: "kr-gov",
   FK03: "samsung",
+  FK04: "kr-gov",
   FG01: "mcdonalds",
-  FG02: "aircanada",
+  FG02: "air-canada",
+  FG06: "deloitte",
   FG07: "replit",
   FG08: "cnet",
   FG10: "zillow",
+  FG12: "amazon",
 };
+/** 가로로 긴 워드마크 로고 */
+export const ORG_WIDE = new Set(["samsung-sds", "sk-telecom", "morgan-stanley", "deloitte"]);
+export const ORG_NAME: Record<string, string> = { "kr-gov": "대한민국 정부 상징" };
 /** 도입 단계 배지 색: 운영은 초록, 제한 운영·시범은 파랑, 그 밖은 회색 */
 export const stageTone = (s: string) => (s === "operation" ? "ok" : s === "limited-operation" || s === "pilot" ? "ac" : "");
 /** 성과 검증 배지 색 */
