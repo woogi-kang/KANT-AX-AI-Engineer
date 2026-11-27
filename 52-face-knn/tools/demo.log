@@ -1,0 +1,263 @@
+
+$ uv --version
+uv 0.11.32 (x86_64-unknown-linux-gnu)
+
+$ uv init ml-basics
+Initialized project `ml-basics` at `/tmp/claude-0/knn-demo/ml-basics`
+
+$ cd ml-basics
+
+$ uv add numpy pandas
+Using CPython 3.13.18 interpreter at: /usr/local/bin/python3.13
+Creating virtual environment at: .venv
+Resolved 5 packages in 10ms
+Installed 4 packages in 20ms
+ + numpy==2.5.5
+ + pandas==3.1.1
+ + python-dateutil==4.0.0
+ + tzdata==2026.6
+
+$ uv add --dev ipykernel
+Resolved 36 packages in 18ms
+Installed 27 packages in 56ms
+ + asttokens==3.0.2
+ + comm==0.2.3
+ + debugpy==1.8.22
+ + executing==2.3.0
+ + ipykernel==7.4.0
+ + ipython==9.19.1
+ + ipython-pygments-lexers==1.1.1
+ + jedi==0.20.1
+ + jupyter-client==8.10.0
+ + jupyter-core==5.9.1
+ + matplotlib-inline==0.2.2
+ + nest-asyncio2==1.7.4
+ + packaging==26.4
+ + parso==0.8.7
+ + pexpect==4.9.0
+ + platformdirs==4.14.8
+ + prompt-toolkit==3.0.53
+ + psutil==7.2.2
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.4
+ + pygments==2.21.0
+ + pyzmq==27.3.0
+ + stack-data==0.6.3
+ + tornado==6.6.1
+ + traitlets==5.16.1
+ + typing-extensions==4.16.0
+ + wcwidth==0.9.5
+
+$ uv add seaborn matplotlib
+Resolved 44 packages in 20ms
+Installed 8 packages in 8ms
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + fonttools==4.69.1
+ + kiwisolver==1.5.1
+ + matplotlib==3.11.2
+ + pillow==13.0.0
+ + pyparsing==3.3.3
+ + seaborn==0.13.2
+
+$ uv add scikit-learn
+Resolved 50 packages in 22ms
+Installed 6 packages in 33ms
+ + cloudpickle==3.1.3
+ + joblib==1.6.0
+ + narwhals==2.29.0
+ + scikit-learn==1.9.1
+ + scipy==1.18.1
+ + threadpoolctl==3.8.0
+
+$ mkdir datasets
+
+$ cat pyproject.toml
+[project]
+name = "ml-basics"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.5",
+    "pandas>=3.1.1",
+    "scikit-learn>=1.9.1",
+    "seaborn>=0.13.2",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+]
+
+Python 3.13.18
+scikit-learn 1.9.1
+=== load: first time downloads, second time reads the folder
+--- [1] 'import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import fetch_olivetti_faces'
+--- [2] 'faces = fetch_olivetti_faces(data_home="./datasets")'
+downloading Olivetti faces from https://ndownloader.figshare.com/files/5976027 to ./datasets
+
+--- [3] 'faces = fetch_olivetti_faces(data_home="./datasets")'
+--- [4] 'print("사진 묶음 크기:", faces.images.shape)\nprint("정답 묶음 크기:", faces.target.shape)\nprint("사람 번호:", np.unique(faces.target))'
+사진 묶음 크기: (400, 64, 64)
+정답 묶음 크기: (400,)
+사람 번호: [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+ 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39]
+
+--- [5] 'print("첫 사진 맨 윗줄 앞 5칸:", faces.images[0][0][:5].round(2))\nprint("가장 어두운 값:", faces.images.min())\nprint("가장 밝은 값:", faces.images.max())'
+첫 사진 맨 윗줄 앞 5칸: [0.31 0.37 0.42 0.44 0.53]
+가장 어두운 값: 0.0
+가장 밝은 값: 1.0
+
+=== pictures
+--- [1] 'import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import fetch_olivetti_faces'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'faces = fetch_olivetti_faces(data_home="./datasets")'
+--- [4] 'plt.figure(figsize=(3, 3))\nplt.imshow(faces.images[0], cmap="gray", vmin=0, vmax=1)\nplt.title(f"Person {faces.target[0]}")\nplt.axis("off")\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/pic-1.png>
+<Figure size 600x600 with 1 Axes>
+--- [5] 'fig, axes = plt.subplots(1, 2, figsize=(6, 3))\naxes[0].imshow(faces.images[0], cmap="gray", vmin=0, vmax=1)\naxes[0].set_title("vmin=0, vmax=1")\naxes[1].imshow(faces.images[0])\naxes[1].set_title("아무것도 안 적으면")\naxes[0].axis("off")\naxes[1].axis("off")\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/pic-2.png>
+<Figure size 1200x600 with 2 Axes>
+--- [6] 'corner = faces.images[0][20:28, 20:28]\n\nfig, ax = plt.subplots(figsize=(5, 5))\nax.imshow(corner, cmap="gray", vmin=0, vmax=1)\n\nfor r in range(8):\n    for c in range(8):\n        v = corner[r, c]\n        ax.text(c, r, f"{v:.1f}", ha="center", va="center", color="red")\n\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/pic-3.png>
+<Figure size 1000x1000 with 1 Axes>
+--- [7] 'def show_person(person):\n    pics = faces.images[faces.target == person]\n    fig, axes = plt.subplots(1, 10, figsize=(15, 2))\n    for i in range(10):\n        axes[i].imshow(pics[i], cmap="gray", vmin=0, vmax=1)\n        axes[i].axis("off")\n    plt.show()\n\nshow_person(39)'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/pic-4.png>
+<Figure size 3000x400 with 10 Axes>
+--- [8] 'fig, axes = plt.subplots(4, 10, figsize=(15, 8))\n\nfor person, ax in enumerate(axes.flat):\n    first = faces.images[faces.target == person][0]\n    ax.imshow(first, cmap="gray", vmin=0, vmax=1)\n    ax.set_title(person, fontsize=10)\n    ax.axis("off")\n\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/pic-5.png>
+<Figure size 3000x1600 with 40 Axes>
+=== distance
+--- [1] 'import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import fetch_olivetti_faces'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'faces = fetch_olivetti_faces(data_home="./datasets")'
+--- [4] 'new = np.array([0.2, 0.8, 0.5])\na = np.array([0.3, 0.6, 0.5])\nb = np.array([0.9, 0.1, 0.4])\n\nprint("new - a:", (new - a).round(2))\nprint("제곱:", ((new - a) ** 2).round(2))\nprint("더하기:", ((new - a) ** 2).sum().round(2))\nprint("거리 a:", np.sqrt(((new - a) ** 2).sum()).round(2))\nprint("거리 b:", np.sqrt(((new - b) ** 2).sum()).round(2))'
+new - a: [-0.1  0.2  0. ]
+제곱: [0.01 0.04 0.  ]
+더하기: 0.05
+거리 a: 0.22
+거리 b: 0.99
+
+--- [5] 'X = faces.data\ny = faces.target\n\nprint("X:", X.shape)\nprint("y:", y.shape)\nprint("같은 사진인가요?", np.array_equal(X[0].reshape(64, 64), faces.images[0]))'
+X: (400, 4096)
+y: (400,)
+같은 사진인가요? True
+
+--- [6] 'print("229번 사람:", y[229], " 228번 사람:", y[228], " 0번 사람:", y[0])\nprint("229번과 228번 거리:", np.sqrt(((X[229] - X[228]) ** 2).sum()).round(2))\nprint("229번과 0번 거리:", np.sqrt(((X[229] - X[0]) ** 2).sum()).round(2))'
+229번 사람: 22  228번 사람: 22  0번 사람: 0
+229번과 228번 거리: 6.26
+229번과 0번 거리: 9.76
+
+--- [7] 'print("0번, 1번, 10번 사람:", y[0], y[1], y[10])\nprint("0번과 1번 거리 (같은 사람):", np.sqrt(((X[0] - X[1]) ** 2).sum()).round(2))\nprint("0번과 10번 거리 (다른 사람):", np.sqrt(((X[0] - X[10]) ** 2).sum()).round(2))'
+0번, 1번, 10번 사람: 0 0 1
+0번과 1번 거리 (같은 사람): 12.7
+0번과 10번 거리 (다른 사람): 10.36
+
+--- [8] 'fig, axes = plt.subplots(1, 3, figsize=(6, 2.4))\nfor k, n in enumerate([0, 1, 10]):\n    axes[k].imshow(faces.images[n], cmap="gray", vmin=0, vmax=1)\n    axes[k].set_title(f"{n}번: Person {y[n]}")\n    axes[k].axis("off")\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/dist-1.png>
+<Figure size 1200x480 with 3 Axes>
+=== knn one photo
+--- [1] 'import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import fetch_olivetti_faces'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'faces = fetch_olivetti_faces(data_home="./datasets")'
+--- [4] 'X = faces.data\ny = faces.target\n\nprint("X:", X.shape)\nprint("y:", y.shape)\nprint("같은 사진인가요?", np.array_equal(X[0].reshape(64, 64), faces.images[0]))'
+X: (400, 4096)
+y: (400,)
+같은 사진인가요? True
+
+--- [5] 'from sklearn.neighbors import KNeighborsClassifier'
+--- [6] 'new_index = 229\nnew_photo = X[new_index]\n\nknown = np.arange(400) != new_index\nprint(known[227:232])\n\nX_known, y_known = X[known], y[known]\nprint("X_known:", X_known.shape)'
+[ True  True False  True  True]
+X_known: (399, 4096)
+
+--- [7] 'K = 3\n\nmodel = KNeighborsClassifier(n_neighbors=K)\nmodel.fit(X_known, y_known)'
+KNeighborsClassifier(n_neighbors=3)
+--- [8] 'dist, idx = model.kneighbors([new_photo], n_neighbors=K)\nprint("idx:", idx)\nprint("가장 가까운 이웃:", y_known[idx[0]])\nprint("이웃과의 거리:", dist[0].round(2))'
+idx: [[179 228 225]]
+가장 가까운 이웃: [17 22 22]
+이웃과의 거리: [6.07 6.26 6.44]
+
+--- [9] 'pred = model.predict([new_photo])\nprint("pred:", pred)\nprint("예측한 사람:", pred[0])\nprint("실제 정답:", y[new_index])'
+pred: [22]
+예측한 사람: 22
+실제 정답: 22
+
+--- [10] 'fig, axes = plt.subplots(1, K + 1, figsize=(8, 2.4))\naxes[0].imshow(new_photo.reshape(64, 64), cmap="gray", vmin=0, vmax=1)\naxes[0].set_title(f"새 사진: {y[new_index]}")\naxes[0].axis("off")\n\nfor i in range(K):\n    j = idx[0][i]\n    axes[i + 1].imshow(X_known[j].reshape(64, 64), cmap="gray", vmin=0, vmax=1)\n    axes[i + 1].set_title(f"Person {y_known[j]}")\n    axes[i + 1].axis("off")\n\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/one-1.png>
+<Figure size 1600x480 with 4 Axes>
+--- [11] 'fig, axes = plt.subplots(1, K + 1, figsize=(8, 2.4))\naxes[0].imshow(new_photo.reshape(64, 64), cmap="gray", vmin=0, vmax=1)\naxes[0].set_title(f"새 사진: {y[new_index]}")\naxes[0].axis("off")\n\nfor i in range(K):\n    j = idx[0][i]\n    axes[i + 1].imshow(X_known[j].reshape(64, 64), cmap="gray", vmin=0, vmax=1)\n    axes[i + 1].set_title(f"Person {y[new_index]}")\n    axes[i + 1].axis("off")\n\nplt.show()'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/one-2.png>
+<Figure size 1600x480 with 4 Axes>
+--- [12] 'for k in [1, 3, 5, 7]:\n    m = KNeighborsClassifier(n_neighbors=k)\n    m.fit(X_known, y_known)\n    d, i = m.kneighbors([new_photo], n_neighbors=k)\n    print(f"K={k} 이웃 {y_known[i[0]]} 예측 {m.predict([new_photo])[0]}")'
+K=1 이웃 [17] 예측 17
+K=3 이웃 [17 22 22] 예측 22
+K=5 이웃 [17 22 22 22 17] 예측 22
+
+K=7 이웃 [17 22 22 22 17 17  3] 예측 17
+
+--- [13] 'model.predict(new_photo)'
+ValueError: Expected 2D array, got 1D array instead:
+array=[0.17355372 0.1322314  0.11157025 ... 0.3264463  0.30165288 0.24380165].
+Reshape your data either using array.reshape(-1, 1) if your data has a single feature or array.reshape(1, -1) if it contains a single sample.
+=== split and score
+--- [1] 'import numpy as np\nimport matplotlib.pyplot as plt\nfrom sklearn.datasets import fetch_olivetti_faces'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'faces = fetch_olivetti_faces(data_home="./datasets")'
+--- [4] 'X = faces.data\ny = faces.target\n\nprint("X:", X.shape)\nprint("y:", y.shape)\nprint("같은 사진인가요?", np.array_equal(X[0].reshape(64, 64), faces.images[0]))'
+X: (400, 4096)
+y: (400,)
+같은 사진인가요? True
+
+--- [5] 'from sklearn.neighbors import KNeighborsClassifier'
+--- [6] 'from sklearn.model_selection import train_test_split\n\nX_train, X_test, y_train, y_test = train_test_split(\n    faces.data,\n    faces.target,\n    test_size=0.25,\n    random_state=42,\n    stratify=faces.target\n)\n\nprint("학습용:", X_train.shape, " 채점용:", X_test.shape)\nprint("사람마다 채점용 장수:", np.bincount(y_test))'
+학습용: (300, 4096)  채점용: (100, 4096)
+사람마다 채점용 장수: [2 3 3 3 2 3 2 3 2 2 3 3 2 2 3 2 2 2 3 2 3 3 3 3 2 2 2 2 3 3 3 2 3 2 2 3 3
+ 2 3 2]
+
+--- [7] 'Xa, Xb, ya, yb = train_test_split(faces.data, faces.target, test_size=0.25, random_state=42)\nprint("사람마다 채점용 장수:", np.bincount(yb, minlength=40))'
+사람마다 채점용 장수: [4 2 2 4 3 3 1 7 2 3 3 4 2 1 3 2 0 3 2 1 2 1 4 4 2 2 4 3 2 1 1 1 3 2 1 1 2
+ 3 5 4]
+
+--- [8] 'K = 5\nmodel = KNeighborsClassifier(n_neighbors=K)\nmodel.fit(X_train, y_train)\n\naccuracy = model.score(X_test, y_test)\nprint(f"예측 정확도: {accuracy:.2%}")'
+예측 정확도: 87.00%
+
+--- [9] 'pred = model.predict(X_test)\nprint("정답:", y_test[:8])\nprint("예측:", pred[:8])\nprint("맞았나:", (pred == y_test)[:8])\nprint("맞힌 장수:", (pred == y_test).sum(), "/", len(y_test))\nprint("비율:", (pred == y_test).mean())'
+정답: [24  5 15 30 37 15 36  4]
+예측: [24  5  0 30 37  0 36  4]
+맞았나: [ True  True False  True  True False  True  True]
+맞힌 장수: 87 / 100
+비율: 0.87
+
+--- [10] 'mb = KNeighborsClassifier(n_neighbors=5)\nmb.fit(Xa, ya)\nprint(f"stratify 없이: {mb.score(Xb, yb):.2%}")'
+stratify 없이: 83.00%
+
+--- [11] 'big = KNeighborsClassifier(n_neighbors=500)\nbig.fit(X_train, y_train)\nbig.predict(X_test)'
+ValueError: Expected n_neighbors <= n_samples_fit, but n_neighbors = 500, n_samples_fit = 300, n_samples = 100
+--- [12] 'train_test_split(faces.data, faces.target, test_size=0.05, random_state=42, stratify=faces.target)'
+ValueError: The test_size = 20 should be greater or equal to the number of classes = 40
+--- [13] 'for k in [1, 3, 5, 7, 9]:\n    m = KNeighborsClassifier(n_neighbors=k)\n    m.fit(X_train, y_train)\n    print(f"K={k}: {m.score(X_test, y_test):.2%}")'
+K=1: 95.00%
+K=3: 92.00%
+K=5: 87.00%
+K=7: 79.00%
+K=9: 76.00%
+
+--- [14] 'wrong = pred != y_test\nprint("틀린 장수:", wrong.sum())\nprint("정답:", y_test[wrong])\nprint("예측:", pred[wrong])'
+틀린 장수: 13
+정답: [15 15  2  0 21  3 28 34  0 16 23  2  9]
+예측: [ 0  0 39 17 38 39 20  4 15 24 20 24  7]
+
+--- [15] 'def show_person(person):\n    pics = faces.images[faces.target == person]\n    fig, axes = plt.subplots(1, 10, figsize=(15, 2))\n    for i in range(10):\n        axes[i].imshow(pics[i], cmap="gray", vmin=0, vmax=1)\n        axes[i].axis("off")\n    plt.show()\n\nshow_person(39)'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/score-1.png>
+<Figure size 3000x400 with 10 Axes>
+--- [16] 'show_person(0)\nshow_person(15)'
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/score-2.png>
+<Figure size 3000x400 with 10 Axes>
+<image saved /home/user/TeamSparta-KANT-AX-AI-Engineer/52-face-knn/tools/img/score-3.png>
+<Figure size 3000x400 with 10 Axes>
+
+$ ls datasets
+olivetti_py3.pkz

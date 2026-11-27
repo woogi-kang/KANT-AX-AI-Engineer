@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/51-train-test-split/train-test-split-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/51-train-test-split/train-test-split-slides.pdf) | [50 · 다중 선형 회귀와 ML 기초 정리](../50-multiple-regression) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/51-train-test-split/train-test-split-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/51-train-test-split/train-test-split-slides.pdf) | [50 · 다중 선형 회귀와 ML 기초 정리](../50-multiple-regression) | [52 · 사진으로 사람 맞히기 (얼굴 데이터와 KNN)](../52-face-knn) |
 
 <!-- /curriculum:top -->
 
@@ -271,6 +271,6 @@ node ../tools/export.js slides train-test-split-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 50 · 다중 선형 회귀와 ML 기초 정리](../50-multiple-regression) · [커리큘럼](../README.md)
+[← 이전: 50 · 다중 선형 회귀와 ML 기초 정리](../50-multiple-regression) · [커리큘럼](../README.md) · [다음: 52 · 사진으로 사람 맞히기 (얼굴 데이터와 KNN) →](../52-face-knn)
 
 <!-- /curriculum:nav -->
