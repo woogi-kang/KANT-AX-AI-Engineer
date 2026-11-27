@@ -204,43 +204,67 @@ function splitPub(md: string) {
 
 /* ---------- 조직 로고 ---------- */
 /**
- * 사례 번호 → 로고 파일(assets/orgs/이름.svg, 사이트에서는 /img/orgs/). 출처와 사용 범위는 assets/orgs/SOURCES.md에 적어요.
- * LG유플러스는 LG 그룹 심벌을 같이 써요. 국내 정부 기관은 대한민국 정부 상징이에요.
+ * 사례 번호 → 로고 파일(assets/orgs/의 svg, png, jpg 파일, 사이트에서는 /img/orgs/). 출처와 사용 범위는 assets/orgs/SOURCES.md에 적어요.
+ * 회사마다 자기 로고를 써요(LG유플러스와 LG전자, 삼성SDS와 삼성전자처럼). 국내 정부 기관은 대한민국 정부 상징이에요.
  * 없는 조직은 이름 첫 글자(해외 공공기관은 건물 아이콘)로 대신해요. 상표는 각 소유자의 것이에요.
  */
 export const ORG_LOGO: Record<string, string> = {
-  K01: "kr-gov",
-  K04: "lg",
-  K05: "samsung-sds",
-  K07: "lg",
-  K08: "sk-telecom",
-  K09: "sk-telecom",
-  K10: "lg",
-  K16: "lg",
-  G01: "morgan-stanley",
-  G02: "ibm",
-  G03: "siemens",
-  G05: "bosch",
-  G06: "walmart",
-  G10: "accenture",
-  G15: "klarna",
-  G16: "virgin-atlantic",
-  G17: "zapier",
-  G23: "ge",
-  FK02: "kr-gov",
-  FK03: "samsung",
-  FK04: "kr-gov",
-  FG01: "mcdonalds",
-  FG02: "air-canada",
-  FG06: "deloitte",
-  FG07: "replit",
-  FG08: "cnet",
-  FG10: "zillow",
-  FG12: "amazon",
+  K01: "kr-gov.svg",
+  K02: "shinhan.svg",
+  K03: "shinhan.svg",
+  K04: "lg-uplus.svg",
+  K05: "samsung-sds.svg",
+  K06: "posco.svg",
+  K07: "lg-electronics.svg",
+  K08: "sk-telecom.svg",
+  K09: "sk-telecom.svg",
+  K10: "lg-uplus.svg",
+  K12: "hyundai-motor-group.svg",
+  K13: "hyundai-motor-group.svg",
+  K14: "hyundai-motor-group.svg",
+  K15: "dongwon.svg",
+  K16: "lg-electronics.svg",
+  G01: "morgan-stanley.svg",
+  G02: "ibm.svg",
+  G03: "siemens.svg",
+  G04: "jabil.svg",
+  G05: "bosch.svg",
+  G06: "walmart.svg",
+  G07: "carmax.svg",
+  G10: "accenture.svg",
+  G11: "exl.svg",
+  G12: "buenos-aires.svg",
+  G13: "lumen.svg",
+  G14: "moderna.svg",
+  G15: "klarna.svg",
+  G16: "virgin-atlantic.svg",
+  G17: "zapier.svg",
+  G18: "bundesagentur.png",
+  G20: "dxc.svg",
+  G21: "carvana.svg",
+  G22: "pictet.jpg",
+  G23: "ge-appliances.png",
+  G24: "minglabs.png",
+  FK01: "scatterlab.png",
+  FK02: "kr-gov.svg",
+  FK03: "samsung-electronics.svg",
+  FK04: "kr-gov.svg",
+  FG01: "mcdonalds.svg",
+  FG02: "air-canada.svg",
+  FG03: "nyc.svg",
+  FG04: "commbank.svg",
+  FG05: "uk-dbt.jpg",
+  FG06: "deloitte.svg",
+  FG07: "replit.svg",
+  FG08: "cnet.svg",
+  FG10: "zillow.svg",
+  FG12: "amazon.svg",
 };
 /** 가로로 긴 워드마크 로고 */
-export const ORG_WIDE = new Set(["samsung-sds", "sk-telecom", "morgan-stanley", "deloitte"]);
-export const ORG_NAME: Record<string, string> = { "kr-gov": "대한민국 정부 상징" };
+export const ORG_WIDE = new Set(["samsung-sds.svg", "sk-telecom.svg", "morgan-stanley.svg", "deloitte.svg", "lg-uplus.svg", "lg-electronics.svg", "posco.svg", "hyundai-motor-group.svg", "dongwon.svg", "siemens.svg", "bosch.svg", "walmart.svg", "carmax.svg", "accenture.svg", "moderna.svg", "dxc.svg", "buenos-aires.svg", "virgin-atlantic.svg", "samsung-electronics.svg", "lumen.svg", "ibm.svg", "klarna.svg", "nyc.svg"]);
+/** 자기 바탕색이 있는 정사각 아이콘: 칸을 꽉 채워요 */
+export const ORG_FULL = new Set(["jabil.svg", "carvana.svg", "bundesagentur.png", "minglabs.png", "scatterlab.png", "uk-dbt.jpg"]);
+export const ORG_NAME: Record<string, string> = { "kr-gov.svg": "대한민국 정부 상징" };
 /** 도입 단계 배지 색: 운영은 초록, 제한 운영·시범은 파랑, 그 밖은 회색 */
 export const stageTone = (s: string) => (s === "operation" ? "ok" : s === "limited-operation" || s === "pilot" ? "ac" : "");
 /** 성과 검증 배지 색 */

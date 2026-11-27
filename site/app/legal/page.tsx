@@ -11,7 +11,7 @@ const OSS = [
   ["Lucide", "아이콘", "ISC"],
   ["devicon", "도구 컬러 로고", "MIT"],
   ["Simple Icons", "uv 로고, 일부 사례 회사 로고", "CC0 1.0"],
-  ["VectorLogoZone, CNCF Landscape", "사례 회사 로고", "로고는 각 회사의 상표"],
+  ["svg-logos, ticker-logos, VectorLogoZone, CNCF Landscape, GitHub 조직 프로필 그림", "사례 회사 로고", "로고는 각 회사의 상표"],
   ["KRDS", "대한민국 정부 상징(국내 정부 기관 사례)", "KRDS 이용약관"],
   ["ax-engineer-roadmap", "로드맵, 사례, 템플릿, 채용 현황 내용", "MIT"],
   ["Next.js, React", "사이트 틀", "MIT"],

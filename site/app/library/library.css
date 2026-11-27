@@ -424,3 +424,6 @@ section > .lb-limit { margin-top: 18px; }
 .om-logo.om-wide img { width: 92%; height: 92%; }
 .om-logo.om-wide { padding: 0 2px; }
 @media (max-width: 560px) { .om-md { width: 52px; height: 52px; } }
+/* 자기 바탕색이 있는 아이콘은 칸을 꽉 채워요 */
+.om-logo.om-full { padding: 0; }
+.om-logo.om-full img { width: 100%; height: 100%; object-fit: cover; }

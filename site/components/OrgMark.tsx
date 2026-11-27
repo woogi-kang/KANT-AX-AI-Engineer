@@ -1,7 +1,7 @@
 // 사례 조직의 로고 칸이에요. 로고 파일(assets/orgs/, 출처는 SOURCES.md)이 있으면 칸에 맞춰 줄여 보여 주고,
 // 없으면 이름 첫 글자(해외 공공기관은 건물 아이콘)를 보여 줘요. 로고는 어느 조직의 사례인지 알아보는 데만 써요.
 import { Landmark } from "lucide-react";
-import { ORG_LOGO, ORG_NAME, ORG_WIDE, isPublicOrg } from "@/lib/library";
+import { ORG_FULL, ORG_LOGO, ORG_NAME, ORG_WIDE, isPublicOrg } from "@/lib/library";
 
 /** 첫 글자: 앞의 대문자 묶음(SK, HSAD, IBM), 영어는 두 낱말 머리글자, 한글은 첫 글자 */
 export const initials = (org: string) => {
@@ -19,9 +19,9 @@ export default function OrgMark({ id, org, size = "md" }: { id: string; org: str
   if (f) {
     const name = ORG_NAME[f] ?? org.replace(/\s*\([^)]*\)\s*/g, "");
     return (
-      <span className={`om om-${size} om-logo${ORG_WIDE.has(f) ? " om-wide" : ""}`} title={`${name} 로고`}>
+      <span className={`om om-${size} om-logo${ORG_WIDE.has(f) ? " om-wide" : ""}${ORG_FULL.has(f) ? " om-full" : ""}`} title={`${name} 로고`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`/img/orgs/${f}.svg`} alt={`${name} 로고`} loading="lazy" decoding="async" />
+        <img src={`/img/orgs/${f}`} alt={`${name} 로고`} loading="lazy" decoding="async" />
       </span>
     );
   }
