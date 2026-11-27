@@ -7,6 +7,7 @@ import { library } from "@/lib/library";
 import { Crumb, Ic, Ict, More, PageHead, SecHead } from "@/components/ui";
 import LibTiles from "@/components/LibTiles";
 import LibFilter from "@/components/LibFilter";
+import OrgMark from "@/components/OrgMark";
 import "../library.css";
 
 export const metadata: Metadata = { title: "채용 현황" };
@@ -88,23 +89,20 @@ export default async function JobsPage() {
             접수 시작 {m.from} ~ {m.to} · 확인 {m.checked} · {collected.join(", ")}
           </span>
         </div>
-        <div className="tiles t4 lb-facts">
-          <div className="tile">
-            <span className="num">{P.length}</span>
-            <small>모은 공고</small>
-          </div>
-          <div className="tile">
-            <span className="num lb-ok">{open}</span>
-            <small>모집 중 ({m.checked} 기준)</small>
-          </div>
-          <div className="tile">
-            <span className="num">{P.length - open}</span>
-            <small>마감</small>
-          </div>
-          <div className="tile">
-            <span className="num">{m.excluded}</span>
-            <small>범위 밖이라 뺀 공고 · 보류 {m.held}</small>
-          </div>
+        <div className="lb-stat">
+          <span>
+            <b>{P.length}</b>모은 공고
+          </span>
+          <span>
+            <b className="lb-ok">{open}</b>모집 중
+          </span>
+          <span>
+            <b>{P.length - open}</b>마감
+          </span>
+          <span>
+            <b>{m.excluded}</b>범위 밖이라 뺀 공고
+          </span>
+          <span className="lb-stat-d">모집 상태는 {m.checked} 기준 · 보류 {m.held}건</span>
         </div>
         <p className="lb-warn">
           <Ic n="info" />
@@ -172,7 +170,9 @@ export default async function JobsPage() {
         />
         <ul className="lb-jobs" id="job-list">
           {P.map((p) => (
-            <li key={p.id} data-item="" data-role={p.role} data-st={p.open ? "open" : "closed"} data-q={`${p.company} ${p.title} ${p.location} ${p.experience} ${p.employment}`}>
+            <li key={p.id} className="lb-job" data-item="" data-role={p.role} data-st={p.open ? "open" : "closed"} data-q={`${p.company} ${p.title} ${p.location} ${p.experience} ${p.employment}`}>
+              <OrgMark id="" org={p.company} size="sm" />
+              <div className="lb-job-b">
               <div className="lb-job-h">
                 <span className="badge">{lib.ROLE_KO[p.role] ?? p.role}</span>
                 <span className={p.open ? "badge ok" : "badge"}>{p.open ? "모집 중" : "마감"}</span>
@@ -198,6 +198,7 @@ export default async function JobsPage() {
                 <span>{p.employment}</span>
                 <span className="lb-num">마감 {p.deadline || "미확인"}</span>
               </span>
+              </div>
             </li>
           ))}
         </ul>

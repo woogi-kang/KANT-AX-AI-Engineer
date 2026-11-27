@@ -1,11 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ExternalLink } from "lucide-react";
-import { roadmap, readRm, ghBlob, sections, strip } from "@/lib/roadmap";
+import { ArrowRight } from "lucide-react";
+import { roadmap, readRm, sections, strip } from "@/lib/roadmap";
 import { Crumb, Ic, Ict, PageHead } from "@/components/ui";
 import LibTiles from "@/components/LibTiles";
-import CopyText from "@/components/CopyText";
 import "../library.css";
+
+/** 양식마다 하는 일을 보여 주는 아이콘 */
+const TPL_ICON: Record<string, string> = {
+  "workflow-discovery-card": "search",
+  "use-case-scorecard": "gauge",
+  "execution-contract": "signature",
+  "experiment-card": "flask-conical",
+  "evidence-ledger": "notebook-pen",
+  "case-study-template": "book-open",
+  "reusable-skill-card": "repeat",
+  "ui-integration-checklist": "monitor-check",
+};
 
 export const metadata: Metadata = { title: "실무 템플릿" };
 
@@ -27,41 +38,31 @@ export default function TemplatesPage() {
             <span className="lb-qn">{k + 1}</span>
             <h2>{w}</h2>
           </div>
-          <div className="tiles t2">
+          <div className="lb-tpls">
             {r.templates
               .filter((t) => t.when === w)
               .map((t) => {
                 const md = readRm(t.path);
                 const n = sections(md).length;
                 return (
-                  <div key={t.slug} className="tile lb-tpl">
-                    <Link className="lb-tpl-h" href={`/library/templates/${t.slug}/`}>
-                      <Ict n="file-text" />
-                      <span className="lb-tpl-t">
-                        <b>{t.t}</b>
-                        <small>{n}개 항목</small>
-                      </span>
-                      <ArrowRight className="i lb-go" aria-hidden="true" />
-                    </Link>
-                    {purpose(md) && <p className="lb-pur">{purpose(md)}</p>}
-                    <div className="acts">
-                      <Link className="btn" href={`/library/templates/${t.slug}/`}>
-                        양식 보기
-                      </Link>
-                      <CopyText text={md} label="마크다운 복사" />
-                      <a className="btn" href={ghBlob(t.path)} target="_blank" rel="noopener">
-                        원문
-                        <ExternalLink aria-hidden="true" />
-                      </a>
-                    </div>
-                  </div>
+                  <Link key={t.slug} className="lb-tplc" href={`/library/templates/${t.slug}/`}>
+                    <span className="lb-tplc-i">
+                      <Ic n={TPL_ICON[t.slug] ?? "file-text"} />
+                    </span>
+                    <span className="lb-org-b">
+                      <b>{t.t}</b>
+                      {purpose(md) && <span className="lb-org-w">{purpose(md)}</span>}
+                      <span className="lb-org-m">{n}개 항목</span>
+                    </span>
+                    <ArrowRight className="i lb-go" aria-hidden="true" />
+                  </Link>
                 );
               })}
           </div>
         </section>
       ))}
       <section className="sec">
-        <Link className="use" href="/library/failures/#capstone">
+        <Link className="use" href="/library/failures/#캡스톤-설계에-쓰는-점검표">
           <Ict n="list-checks" />
           <span>
             <b>캡스톤 설계 점검표</b>

@@ -3,10 +3,11 @@ import Link from "next/link";
 import { ChevronDown, ChevronLeft, ChevronRight, ExternalLink, Play } from "lucide-react";
 import { roadmap, ghBlob, readRmJson, ROADMAP_URL } from "@/lib/roadmap";
 import { renderRoadmapMd } from "@/lib/markdown";
-import { autonomyLevels, autonomyRange, caseDetail, library, projectStages, regionKo } from "@/lib/library";
+import { autonomyLevels, autonomyRange, caseDetail, library, projectStages } from "@/lib/library";
 import { caseIcon } from "@/lib/site";
 import { Crumb, Diff, Ic, Ict, More, PageHead, SecHead } from "@/components/ui";
 import CopyText from "@/components/CopyText";
+import OrgMark from "@/components/OrgMark";
 import "../../library.css";
 
 type Params = { params: Promise<{ id: string }> };
@@ -87,7 +88,7 @@ export default async function CasePage({ params }: Params) {
         </div>
         <div className="tile">
           <small>확인일</small>
-          <b className="mono">{c.json.verified_at}</b>
+          <b className="lb-num lb-date">{c.json.verified_at}</b>
         </div>
       </div>
 
@@ -274,41 +275,51 @@ export default async function CasePage({ params }: Params) {
         {fails.length === 0 && pubs.length === 0 && (
           <p className="lb-note">
             연결한 기록이 없어요.{" "}
-            <Link className="lk" href="/library/failures/#capstone">
+            <Link className="lk" href="/library/failures/#캡스톤-설계에-쓰는-점검표">
               캡스톤 설계 점검표
             </Link>
             의 여덟 질문으로 점검해요.
           </p>
         )}
-        <div className="tiles t2">
-          {fails.map((f) => (
-            <Link key={f.id} className="tile lb-rel" href={`/library/failures/#${f.id}`}>
-              <span className="lb-rel-h">
-                <Ict n="triangle-exclamation-point" size="sm" />
-                <span className="mono muted">{f.id}</span>
-                {f.outcome.map((o) => (
-                  <span key={o} className="badge err">
-                    {lib.outShort(o)}
+        {fails.length > 0 && (
+          <>
+            <h3 className="lb-h3">멈추거나 되돌린 기록</h3>
+            <div className="lb-orgs lb-orgs-sm">
+              {fails.map((f) => (
+                <Link key={f.id} className="lb-org-card" href={`/library/failures/${f.id}/`}>
+                  <OrgMark id={f.id} org={f.org} size="sm" />
+                  <span className="lb-org-b">
+                    <b>{f.org}</b>
+                    <span className="lb-org-m">
+                      {f.outcome.map((o) => (
+                        <span key={o} className="badge err">
+                          {lib.outShort(o)}
+                        </span>
+                      ))}
+                      <span>{f.domain}</span>
+                    </span>
                   </span>
-                ))}
-              </span>
-              <b>{f.org}</b>
-              <small>{f.check}</small>
-            </Link>
-          ))}
-          {pubs.map((p) => (
-            <Link key={p.id} className="tile lb-rel" href={`/library/public/#${p.id}`}>
-              <span className="lb-rel-h">
-                <Ict n="file-check" size="sm" />
-                <span className="mono muted">{p.id}</span>
-                <span className="badge">{regionKo(p.region)}</span>
-                <span className="badge ac">{lib.stageKo(p.stage)}</span>
-              </span>
-              <b>{p.org}</b>
-              <small>{p.w}</small>
-            </Link>
-          ))}
-        </div>
+                </Link>
+              ))}
+            </div>
+          </>
+        )}
+        {pubs.length > 0 && (
+          <>
+            <h3 className="lb-h3">운영하고 있다고 공개한 기록</h3>
+            <div className="lb-orgs lb-orgs-sm">
+              {pubs.map((p) => (
+                <Link key={p.id} className="lb-org-card" href={`/library/public/${p.id}/`}>
+                  <OrgMark id={p.id} org={p.org} size="sm" />
+                  <span className="lb-org-b">
+                    <b>{p.org}</b>
+                    <span className="lb-org-w">{p.w}</span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </>
+        )}
         {c.failureNote && (
           <More label="실패 사례 점검 원문">
             <div className="prose" dangerouslySetInnerHTML={{ __html: failHtml }} />

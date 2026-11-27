@@ -72,21 +72,9 @@ export default function LibFilter({ target, groups, search, unit = "개" }: { ta
           <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={search} aria-label={search} />
         </label>
       )}
-      {groups.map((g) =>
-        g.kind === "select" ? (
-          <label key={g.key} className="lf-sel">
-            <span>{g.label}</span>
-            <select value={v[g.key]} onChange={(e) => set(g.key, e.target.value)}>
-              <option value="all">전체</option>
-              {g.options.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                  {o.count !== undefined ? ` (${o.count})` : ""}
-                </option>
-              ))}
-            </select>
-          </label>
-        ) : (
+      {groups
+        .filter((g) => g.kind !== "select")
+        .map((g) => (
           <div key={g.key} className="lf-row">
             <span className="lf-l">{g.label}</span>
             <div className="fchips" role="group" aria-label={g.label}>
@@ -102,7 +90,26 @@ export default function LibFilter({ target, groups, search, unit = "개" }: { ta
               ))}
             </div>
           </div>
-        ),
+        ))}
+      {groups.some((g) => g.kind === "select") && (
+        <div className="lf-sels">
+          {groups
+            .filter((g) => g.kind === "select")
+            .map((g) => (
+              <label key={g.key} className={v[g.key] !== "all" ? "lf-sel on" : "lf-sel"}>
+                <span>{g.label}</span>
+                <select value={v[g.key]} onChange={(e) => set(g.key, e.target.value)}>
+                  <option value="all">전체</option>
+                  {g.options.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                      {o.count !== undefined ? ` (${o.count})` : ""}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ))}
+        </div>
       )}
       <div className="lf-st" aria-live="polite">
         {shown !== null && (

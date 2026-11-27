@@ -174,7 +174,65 @@ export type PubCase = {
   related: string[];
   /** public-ax-cases.md의 그 사례 절 */
   md: string;
+  /** 절의 굵은 이름 목록(- **문제**: …) */
+  parts: { label: string; md: string }[];
+  /** 목록 뒤에 붙은 추가 확인, 정정, 원문 대조 문단 */
+  notes: { kind: string; tag: string; md: string }[];
 };
+
+/** 사례 절을 굵은 이름 목록과 뒤에 붙은 확인 문단으로 나눠요. */
+function splitPub(md: string) {
+  const parts: { label: string; md: string }[] = [];
+  const notes: { kind: string; tag: string; md: string }[] = [];
+  for (const block of md.split(/\n\s*\n/)) {
+    const b = block.trim();
+    if (!b) continue;
+    if (/^- \*\*/.test(b)) {
+      for (const line of b.split("\n")) {
+        const m = /^- \*\*(.+?)\*\*\s*:?\s*(.*)$/.exec(line);
+        if (m) parts.push({ label: m[1].replace(/:$/, ""), md: m[2] });
+        else if (parts.length) parts[parts.length - 1].md += " " + line.trim();
+      }
+      continue;
+    }
+    const m = /^([가-힣 ]+?) `([^`]+)`\s*(.*)$/s.exec(b);
+    if (m) notes.push({ kind: m[1].trim(), tag: m[2], md: m[3].replace(/^:\s*/, "") });
+    else notes.push({ kind: "", tag: "", md: b });
+  }
+  return { parts, notes };
+}
+
+/* ---------- 조직 로고 ---------- */
+/**
+ * 사례 번호 → Simple Icons(CC0) 아이콘 이름. 조직의 공식 브랜드 마크가 Simple Icons에 있을 때만 적어요.
+ * LG유플러스는 LG 그룹 심벌을, 삼성SDS는 삼성 워드마크를, GE Appliances는 GE 마크를 같이 써요.
+ * 없는 조직은 첫 글자(공공기관은 건물 아이콘)로 대신해요. 상표는 각 소유자의 것이에요.
+ */
+export const ORG_LOGO: Record<string, string> = {
+  K04: "lg",
+  K07: "lg",
+  K10: "lg",
+  K16: "lg",
+  K05: "samsung",
+  G03: "siemens",
+  G05: "bosch",
+  G10: "accenture",
+  G15: "klarna",
+  G16: "virginatlantic",
+  G17: "zapier",
+  G23: "generalelectric",
+  FK03: "samsung",
+  FG01: "mcdonalds",
+  FG02: "aircanada",
+  FG07: "replit",
+  FG08: "cnet",
+  FG10: "zillow",
+};
+/** 도입 단계 배지 색: 운영은 초록, 제한 운영·시범은 파랑, 그 밖은 회색 */
+export const stageTone = (s: string) => (s === "operation" ? "ok" : s === "limited-operation" || s === "pilot" ? "ac" : "");
+/** 성과 검증 배지 색 */
+export const verifyTone = (v: string) => (v === "cross-checked" ? "ok" : v === "self-reported" ? "warn" : "");
+export const isPublicOrg = (org: string) => /위원회|교육부|노동부|Department|Bundesagentur|City|시$/.test(org.replace(/\s*\([^)]*\)\s*/g, ""));
 export type FailCase = {
   id: string;
   region: string;
@@ -235,6 +293,7 @@ function build() {
       urls: uniq([...c.source_urls, ...c.claims.flatMap((x) => x.source_urls)]),
       related: c.related_cases ?? [],
       md: pubSec(c.id),
+      ...splitPub(pubSec(c.id)),
     };
   });
   const stageKo = (s: string) => axisKo("도입", STAGE_CODE[s] ?? s);

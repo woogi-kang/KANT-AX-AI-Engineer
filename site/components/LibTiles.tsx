@@ -7,7 +7,7 @@ import { Ict } from "./ui";
 export default function LibTiles({ on }: { on: LibKey }) {
   const n = libCounts();
   return (
-    <nav className="tiles t5" style={{ marginTop: 24 }} aria-label="사례와 자료 묶음">
+    <nav className="tiles t5 lb-tabs" style={{ marginTop: 24 }} aria-label="사례와 자료 묶음">
       {(Object.keys(LIB_IC) as LibKey[]).map((k) => (
         <Link key={k} className={k === on ? "tile on" : "tile"} href={LIB_HREF[k]} aria-current={k === on ? "page" : undefined}>
           <span className="libt">
