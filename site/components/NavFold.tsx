@@ -24,6 +24,10 @@ export default function NavFold({ id, href, head, hrefs, count, children }: { id
   const here = hrefs.includes(q);
   const router = useRouter();
   const [open, setOpen] = useState(here);
+  // 첫 항목 화면을 미리 받아 둬서 단계 이름을 누르면 바로 넘어가요(챕터 링크가 화면에 보일 때 받는 것과 같아요)
+  useEffect(() => {
+    if (!here) router.prefetch(href);
+  }, [here, href, router]);
   useEffect(() => {
     const saved = readSaved()[id];
     setOpen(here || saved === true);
