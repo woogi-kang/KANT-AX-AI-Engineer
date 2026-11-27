@@ -51,8 +51,7 @@ export default function SideNav() {
         <NavFold
           key={s.no}
           id={`lec-${s.no}`}
-          href={`/lectures/#stage-${s.no}`}
-          allLabel="이 단계 모두 보기"
+          href={s.chapters[0].href}
           head={
             <>
               <Logo k={s.logo} size={18} />

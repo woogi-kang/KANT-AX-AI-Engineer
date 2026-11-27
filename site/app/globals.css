@@ -336,6 +336,5 @@ img.cv { height: auto; }
 .side .fold-h > svg { width: 16px; height: 16px; color: var(--mute); flex: none; transition: transform 0.15s; }
 .side .fold.open > .fold-h > svg { transform: rotate(180deg); }
 .side .fold.here > .fold-h { color: var(--ink); font-weight: 600; }
-.side .sub a.fold-all { color: var(--ac); font-weight: 600; font-size: 13.5px; }
 @media (prefers-reduced-motion: reduce) { .side .fold-h > svg { transition: none; } }
 @media (max-width: 860px) { .side .fold-h { padding-top: 9px; padding-bottom: 9px; } }
