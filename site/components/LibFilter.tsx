@@ -128,7 +128,7 @@ export default function LibFilter({ target, groups, search, unit = "개" }: { ta
             }}
           >
             <X aria-hidden="true" />
-            거르기 지우기
+            필터 초기화
           </button>
         )}
       </div>

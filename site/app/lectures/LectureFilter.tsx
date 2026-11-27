@@ -74,7 +74,7 @@ export default function LectureFilter({ tracks, levels, total }: { tracks: Opt[]
                 setLevel("all");
               }}
             >
-              거르기 지우기
+              필터 초기화
             </button>
           </>
         ) : (
