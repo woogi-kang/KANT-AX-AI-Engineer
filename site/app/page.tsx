@@ -81,7 +81,7 @@ export default function Home() {
                   <Logos ks={logosOf(list).slice(0, 4)} size={26} />
                   <b>{s.title}</b>
                   <small>
-                    {s.from}–{s.to} · {list.length}챕터
+                    {s.range} · {list.length}챕터
                   </small>
                 </div>
               </Link>

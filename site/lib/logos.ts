@@ -53,7 +53,13 @@ export const chapterLogo = (no: string, track: string) => chapterLogos(no, track
 
 /** 여러 챕터의 대표 로고를 나오는 순서대로, 겹치지 않게 */
 export function logosOf(chapters: { no: string; track: string }[]): LogoKey[] {
+  // 많이 나오는 로고부터(같으면 먼저 나온 순서). 단계 맨 앞 챕터가 그 단계 대표가 아닐 때도 있어서요(예: 파이썬 단계의 09 uv)
   const out: LogoKey[] = [];
-  for (const c of chapters) for (const k of chapterLogos(c.no, c.track)) if (!out.includes(k)) out.push(k);
-  return out;
+  const n = new Map<LogoKey, number>();
+  for (const c of chapters)
+    for (const k of chapterLogos(c.no, c.track)) {
+      if (!out.includes(k)) out.push(k);
+      n.set(k, (n.get(k) ?? 0) + 1);
+    }
+  return out.map((k, i) => [k, i] as const).sort((a, b) => n.get(b[0])! - n.get(a[0])! || a[1] - b[1]).map(([k]) => k);
 }

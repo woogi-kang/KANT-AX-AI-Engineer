@@ -6,7 +6,6 @@ import { logosOf, chapterLogo } from "@/lib/logos";
 import { Crumb, Cover, extraCoverSrc, Ict, Logo, Logos, PageHead } from "@/components/ui";
 import LecCard from "@/components/LecCard";
 import LectureFilter from "./LectureFilter";
-import { shortTitle } from "@/lib/site";
 import "./lectures.css";
 
 export const metadata: Metadata = { title: "강의", description: "터미널, Git, 파이썬, Docker, 데이터베이스까지 배우는 순서대로 모은 기초 강의예요." };
@@ -31,8 +30,8 @@ export default function LecturesPage() {
               <div className="th">
                 <Logos ks={logosOf(list).slice(0, 3)} size={32} />
                 <div>
-                  <span className="eyebrow" data-cnt={`${s.no}단계 · ${s.from}–${s.to} · ${list.length}챕터`}>
-                    {s.no}단계 · {s.from}–{s.to} · {list.length}챕터
+                  <span className="eyebrow" data-cnt={`${s.no}단계 · ${s.range} · ${list.length}챕터`}>
+                    {s.no}단계 · {s.range} · {list.length}챕터
                   </span>
                   <h2>{s.title}</h2>
                 </div>
@@ -66,7 +65,7 @@ export default function LecturesPage() {
               <Cover src={extraCoverSrc(e.dir)} />
               <div className="bd">
                 <b>{e.title}</b>
-                <small>관련 챕터 {e.relatedChapters.map((c) => `${c.no} ${shortTitle(c.title)}`).join(", ")}</small>
+                <small>관련 챕터 {e.relatedChapters.map((c) => `${c.no} ${c.title}`).join(", ")}</small>
               </div>
             </Link>
           ))}

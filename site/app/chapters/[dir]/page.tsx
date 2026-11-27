@@ -7,7 +7,7 @@ import { chapterTopics } from "@/lib/links";
 import { topicBySlug } from "@/lib/roadmap";
 import { chapterLogos } from "@/lib/logos";
 import { renderInline, plainInline } from "@/lib/inline";
-import { AREA_IC, shortTitle } from "@/lib/site";
+import { AREA_IC } from "@/lib/site";
 import { Cover, coverSrc, Crumb, Ict, Logo, More, partSrc, SecHead } from "@/components/ui";
 import Player from "@/components/Player";
 import PartGo from "@/components/PartGo";
@@ -59,11 +59,12 @@ export default async function ChapterPage({ params }: Params) {
           <span className="eyebrow">
             {c.no} · {c.track} · {c.level}
           </span>
-          <h1>{shortTitle(c.title)}</h1>
+          <h1>{c.title}</h1>
+          {c.deckTitle !== c.title && <span className="th-deck">수업 자료 제목 · {c.deckTitle}</span>}
         </div>
       </div>
       <p className="lede" dangerouslySetInnerHTML={{ __html: renderInline(c.goal) }} />
-      <Player src={deck} cover={coverSrc(c.no)} title={c.title} />
+      <Player src={deck} cover={coverSrc(c.no)} title={c.deckTitle} />
       <div className="acts">
         <a href={deck} target="_blank" rel="noopener">
           <Presentation aria-hidden="true" />
@@ -167,7 +168,7 @@ export default async function ChapterPage({ params }: Params) {
             <span>
               <small>이전</small>
               <b>
-                {c.prev.no} {shortTitle(c.prev.title)}
+                {c.prev.no} {c.prev.title}
               </b>
             </span>
           </Link>
@@ -180,7 +181,7 @@ export default async function ChapterPage({ params }: Params) {
             <span>
               <small>다음</small>
               <b>
-                {c.next.no} {shortTitle(c.next.title)}
+                {c.next.no} {c.next.title}
               </b>
             </span>
           </Link>

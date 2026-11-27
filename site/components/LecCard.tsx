@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Chapter } from "@/lib/content";
 import { chapterLogos } from "@/lib/logos";
-import { shortTitle } from "@/lib/site";
 import { Cover, coverSrc, Logos } from "./ui";
 
 /** 챕터 표지 카드 */
@@ -12,7 +11,7 @@ export default function LecCard({ c, logoSize = 24, sub }: { c: Chapter; logoSiz
       <div className="bd">
         <Logos ks={chapterLogos(c.no, c.track)} size={logoSize} />
         <b>
-          {c.no} {shortTitle(c.title)}
+          {c.no} {c.title}
         </b>
         {sub && <small>{sub}</small>}
       </div>

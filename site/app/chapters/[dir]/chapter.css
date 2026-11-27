@@ -6,3 +6,6 @@
   .parts-grid .part .pt { flex-direction: column; gap: 2px; padding: 8px 10px; }
   .parts-grid .part b { font-size: 13.5px; }
 }
+
+/* 사이트 이름 아래 덱과 README의 원래 제목 */
+.th-deck { display: block; margin-top: 4px; font-size: 13px; color: var(--mute); overflow-wrap: anywhere; }

@@ -19,6 +19,7 @@ type RawChapter = {
   slides: string;
   level: LevelName;
   keyword?: string;
+  short?: string; // 사이트 목차와 화면에 쓰는 짧은 이름. 없으면 title을 써요
 };
 type RawExtra = { dir: string; title: string; related: string[]; summary: string; slides: string };
 type RawUpdate = { dir: string; date: string; title: string; summary: string };
@@ -27,6 +28,8 @@ type Raw = { pages: string; stages: RawStage[]; chapters: RawChapter[]; extras: 
 
 export type ChapterRef = { dir: string; no: string; title: string };
 export type Chapter = RawChapter & {
+  /** 덱과 README의 원래 제목(title은 사이트 이름 short로 바꿔 둬요) */
+  deckTitle: string;
   no: string;
   trackKey: TrackKey;
   stageNo: number;
@@ -37,7 +40,7 @@ export type Chapter = RawChapter & {
   next: ChapterRef | null;
 };
 export type Group = { title: string; from: string; to: string; chapters: Chapter[] };
-export type Stage = { no: number; title: string; summary: string; groups: Group[]; from: string; to: string; count: number };
+export type Stage = { no: number; title: string; summary: string; groups: Group[]; from: string; to: string; range: string; count: number };
 export type Extra = RawExtra & { relatedChapters: ChapterRef[] };
 export type Update = RawUpdate;
 export type NewsItem = {
@@ -80,6 +83,8 @@ export function load() {
     if (!(c.level in LEVELS)) throw new Error(`${c.dir}: 레벨이 없어요. curriculum.json에 level을 적어 주세요`);
     return {
       ...c,
+      title: c.short ?? c.title,
+      deckTitle: c.title,
       no: c.dir.slice(0, 2),
       trackKey: TRACKS[c.track],
       stageNo: 0,
@@ -109,6 +114,16 @@ export function load() {
     });
     const from = groups[0].from;
     const to = groups[groups.length - 1].to;
+    // 번호가 이어지지 않는 단계도 있어요(예: 01–08, 11). 이어진 묶음끼리 "–"로 적어요
+    const nos = groups.flatMap((g) => g.chapters.map((c) => parseInt(c.no, 10))).sort((a, b) => a - b);
+    const runs: [number, number][] = [];
+    for (const n of nos) {
+      const last = runs[runs.length - 1];
+      if (last && n === last[1] + 1) last[1] = n;
+      else runs.push([n, n]);
+    }
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const range = runs.map(([a, b]) => (a === b ? pad(a) : `${pad(a)}–${pad(b)}`)).join(", ");
     return {
       no: si + 1,
       title: s.title,
@@ -116,6 +131,7 @@ export function load() {
       groups,
       from,
       to,
+      range,
       count: groups.reduce((n, g) => n + g.chapters.length, 0),
     };
   });
