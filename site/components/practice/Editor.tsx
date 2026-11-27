@@ -50,6 +50,8 @@ export default function Editor({ value, lang, label, onChange, onRun, onFocus, v
             drawSelection(),
             hl.indentUnit.of("    "),
             hl.syntaxHighlighting(lz.classHighlighter),
+            // 함수 이름도 교안 코드 칸(lib/highlight.ts)처럼 색을 달리해요
+            hl.syntaxHighlighting(lz.tagHighlighter([{ tag: [lz.tags.function(lz.tags.variableName), lz.tags.function(lz.tags.propertyName)], class: "tok-fn" }])),
             hl.bracketMatching(),
             lang_,
             EditorState.tabSize.of(4),

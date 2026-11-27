@@ -55,3 +55,25 @@
   --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }
+
+/* 코드 문법 색(IDE처럼): 교안 코드 칸(lib/highlight.ts)과 실습 편집기(practice.css)가 같이 써요 */
+:root {
+  --syn-fg: #24292f;
+  --syn-kw: #cf222e;
+  --syn-str: #116329;
+  --syn-num: #0550ae;
+  --syn-fn: #8250df;
+  --syn-var: #953800;
+  --syn-cm: #6a737d;
+  --syn-pn: #57606a;
+}
+:root[data-theme="dark"] {
+  --syn-fg: #e6edf3;
+  --syn-kw: #ff7b72;
+  --syn-str: #7ee787;
+  --syn-num: #79c0ff;
+  --syn-fn: #d2a8ff;
+  --syn-var: #ffa657;
+  --syn-cm: #8b949e;
+  --syn-pn: #b1bac4;
+}

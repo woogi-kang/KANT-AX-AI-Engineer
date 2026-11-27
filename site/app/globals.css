@@ -338,3 +338,6 @@ img.cv { height: auto; }
 .side .fold.here > .fold-h { color: var(--ink); font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .side .fold-h > svg { transition: none; } }
 @media (max-width: 860px) { .side .fold-h { padding-top: 9px; padding-bottom: 9px; } }
+
+/* 코드 문법 색: lib/highlight.ts가 빌드할 때 색 칸마다 tokens.css의 --syn-* 색을 적어 둬요 */
+code.hl { color: var(--syn-fg); }

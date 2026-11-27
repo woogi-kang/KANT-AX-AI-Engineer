@@ -13,6 +13,7 @@ import rehypeStringify from "rehype-stringify";
 import { visit } from "unist-util-visit";
 import type { Root, Element } from "hast";
 import { ROOT, REPO_URL } from "./content";
+import { rehypeHighlight } from "./highlight";
 
 /** 레포 안 경로(README가 있는 폴더 기준)를 사이트 주소로 바꿔요. */
 export function mapRepoLink(fromDir: string, href: string): string {
@@ -87,7 +88,7 @@ export async function renderMarkdown(md: string, map: Mapper = (h) => h, plugins
     .use(rehypeSlug)
     .use(rewrite, map);
   for (const p of plugins) u = u.use(p);
-  const file = await u.use(rehypeStringify).process(md);
+  const file = await u.use(rehypeHighlight).use(rehypeStringify).process(md);
   return String(file);
 }
 

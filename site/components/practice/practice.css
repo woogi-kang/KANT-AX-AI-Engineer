@@ -25,12 +25,16 @@
 .pc-ed .cm-cursor { border-left-color: var(--ink); }
 .pc-ed .cm-selectionBackground, .pc-ed .cm-focused .cm-selectionBackground { background: color-mix(in srgb, var(--ac) 24%, transparent) !important; }
 .pc-ed .cm-matchingBracket { background: color-mix(in srgb, var(--ac) 18%, transparent); outline: none; }
-.pc-ed .tok-keyword, .pc-ed .tok-operatorKeyword { color: var(--ac); font-weight: 600; }
-.pc-ed .tok-string, .pc-ed .tok-string2 { color: var(--ok); }
-.pc-ed .tok-number, .pc-ed .tok-bool, .pc-ed .tok-atom { color: var(--warn); }
-.pc-ed .tok-comment { color: var(--mute); font-style: italic; }
-.pc-ed .tok-variableName.tok-definition, .pc-ed .tok-definition { color: var(--ink); font-weight: 600; }
-.pc-ed .tok-typeName, .pc-ed .tok-className { color: var(--err); }
+.pc-ed .cm-content { color: var(--syn-fg); }
+/* 문법 색은 교안 코드 칸과 같은 --syn-* 색(app/tokens.css)이에요 */
+.pc-ed .tok-keyword, .pc-ed .tok-operatorKeyword { color: var(--syn-kw); }
+.pc-ed .tok-string, .pc-ed .tok-string2 { color: var(--syn-str); }
+.pc-ed .tok-number, .pc-ed .tok-bool, .pc-ed .tok-atom { color: var(--syn-num); }
+.pc-ed .tok-comment { color: var(--syn-cm); font-style: italic; }
+.pc-ed .tok-fn { color: var(--syn-fn); }
+.pc-ed .tok-variableName.tok-definition, .pc-ed .tok-definition { color: var(--syn-var); }
+.pc-ed .tok-typeName, .pc-ed .tok-className { color: var(--syn-fn); }
+.pc-ed .tok-punctuation, .pc-ed .tok-operator { color: var(--syn-pn); }
 
 /* 버튼 줄 */
 .pc-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }

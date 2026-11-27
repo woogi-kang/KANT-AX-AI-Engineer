@@ -4,6 +4,7 @@
 // - "실습"의 ### 단계에는 번호 칸을 붙여요.
 import type { Root, Element, ElementContent, Text } from "hast";
 import { toString } from "hast-util-to-string";
+import { guessLang } from "./highlight";
 
 const h = (tagName: string, className: string | string[] | null, children: ElementContent[] = [], props: Record<string, unknown> = {}): Element => ({
   type: "element",
@@ -41,13 +42,17 @@ function rows(table: Element) {
 const tableOf = (n: ElementContent): Element | null => (is(n, "table") ? (n as Element) : is(n, "div") && is((n as Element).children[0], "table") ? ((n as Element).children[0] as Element) : null);
 
 /** 명령 칸: 코드 하나만 있으면 복사할 수 있는 코드 줄로, 아니면 그대로 */
-function cmdCard(code: Element, desc: Element) {
+function cmdCard(code: Element, desc: Element, keys = false) {
   const only = code.children.filter((c) => !(c.type === "text" && !c.value.trim()));
   const codes = only.filter((c) => isEl(c, "code"));
   const head =
     only.length === 1 && codes.length === 1
-      ? h("div", "cmd-c", [h("code", null, (codes[0] as Element).children), copyButton("명령 복사")])
-      : h("div", ["cmd-c", "multi"], code.children);
+      ? h("div", "cmd-c", [h("code", null, (codes[0] as Element).children, keys ? {} : { dataHl: guessLang(toString(codes[0])) ?? undefined }), copyButton("명령 복사")])
+      : h(
+          "div",
+          ["cmd-c", "multi"],
+          keys ? code.children : code.children.map((c) => (isEl(c, "code") ? { ...c, properties: { ...c.properties, dataHl: guessLang(toString(c)) ?? undefined } } : c)),
+        );
   return h("div", "cmd", [head, h("div", "cmd-d", desc.children)]);
 }
 
@@ -67,7 +72,7 @@ export function rehypeLesson() {
       if (tb && /^(명령어 요약|단축키 요약)/.test(sec)) {
         const { body } = rows(tb);
         if (body.every((r) => r.length === 2)) {
-          out.push(h("div", "cmds", body.map(([a, b]) => cmdCard(a, b))));
+          out.push(h("div", "cmds", body.map(([a, b]) => cmdCard(a, b, /^단축키/.test(sec)))));
           continue;
         }
       }
