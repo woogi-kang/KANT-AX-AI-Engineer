@@ -34,9 +34,9 @@ function Chips({ nos, byNo }: { nos: string[]; byNo: Map<string, Chapter> }) {
       {nos.map((n) => {
         const c = byNo.get(n)!;
         return (
-          <Link key={n} className="chip" href={`/chapters/${c.dir}/`} title={`${n} ${c.title}`}>
+          <Link key={n} className="chip" href={`/chapters/${c.dir}/`} title={`${c.stageTitle} ${c.seq} · 수업 자료 ${n}`}>
             <Logo k={chapterLogo(n, c.track)} size={18} />
-            {n}
+            {c.title}
           </Link>
         );
       })}

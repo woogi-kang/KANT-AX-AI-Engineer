@@ -30,8 +30,8 @@ export default function LecturesPage() {
               <div className="th">
                 <Logos ks={logosOf(list).slice(0, 3)} size={32} />
                 <div>
-                  <span className="eyebrow" data-cnt={`${s.no}단계 · ${s.range} · ${list.length}챕터`}>
-                    {s.no}단계 · {s.range} · {list.length}챕터
+                  <span className="eyebrow" data-cnt={`${s.no}단계 · ${list.length}챕터 · 수업 자료 ${s.range}`}>
+                    {s.no}단계 · {list.length}챕터 · 수업 자료 {s.range}
                   </span>
                   <h2>{s.title}</h2>
                 </div>
@@ -65,7 +65,7 @@ export default function LecturesPage() {
               <Cover src={extraCoverSrc(e.dir)} />
               <div className="bd">
                 <b>{e.title}</b>
-                <small>관련 챕터 {e.relatedChapters.map((c) => `${c.no} ${c.title}`).join(", ")}</small>
+                <small>관련 강의 {e.relatedChapters.map((c) => `${c.stageTitle} ${c.seq}. ${c.title}`).join(", ")}</small>
               </div>
             </Link>
           ))}

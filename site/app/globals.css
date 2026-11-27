@@ -341,3 +341,7 @@ img.cv { height: auto; }
 
 /* 코드 문법 색: lib/highlight.ts가 빌드할 때 색 칸마다 tokens.css의 --syn-* 색을 적어 둬요 */
 code.hl { color: var(--syn-fg); }
+
+/* 단계마다 1부터 세는 번호 옆의 덱 원래 번호 */
+.side .dn { margin-left: auto; padding-left: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--mute); opacity: 0.7; flex: none; }
+.side .n { min-width: 15px; text-align: center; }

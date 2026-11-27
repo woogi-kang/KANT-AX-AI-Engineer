@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Play } from "lucide-react";
 
 /**
@@ -8,6 +8,23 @@ import { Play } from "lucide-react";
  */
 export default function Player({ src, cover, title }: { src: string; cover: string; title: string }) {
   const [page, setPage] = useState<number | null>(null);
+  const frame = useRef<HTMLIFrameElement>(null);
+  // 플레이어가 열려 있는데 키 입력이 바깥 페이지에 있으면 F로 플레이어 칸을 전체 화면으로 열어요
+  useEffect(() => {
+    if (page === null) return;
+    const key = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey || e.key.toLowerCase() !== "f") return;
+      const t = e.target as HTMLElement;
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable) return;
+      const f = frame.current;
+      if (!f) return;
+      e.preventDefault();
+      if (document.fullscreenElement) document.exitFullscreen();
+      else f.requestFullscreen().then(() => f.contentWindow?.focus());
+    };
+    addEventListener("keydown", key);
+    return () => removeEventListener("keydown", key);
+  }, [page]);
   useEffect(() => {
     const go = (e: Event) => {
       setPage((e as CustomEvent<number>).detail || 1);
@@ -28,7 +45,15 @@ export default function Player({ src, cover, title }: { src: string; cover: stri
           </span>
         </button>
       ) : (
-        <iframe key={page} src={`${src}${page > 1 ? `#${page}` : ""}`} title={`${title} 슬라이드`} allow="fullscreen" />
+        <iframe
+          ref={frame}
+          key={page}
+          src={`${src}${page > 1 ? `#${page}` : ""}`}
+          title={`${title} 슬라이드`}
+          allow="fullscreen"
+          allowFullScreen
+          onLoad={(e) => e.currentTarget.contentWindow?.focus()}
+        />
       )}
     </div>
   );

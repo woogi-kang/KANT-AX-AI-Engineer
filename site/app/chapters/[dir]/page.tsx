@@ -25,7 +25,7 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const c = getChapter((await params).dir);
-  return { title: `${c.no} ${c.title}`, description: plainInline(c.goal) };
+  return { title: `${c.title} · ${c.stageTitle} ${c.seq}`, description: plainInline(c.goal) };
 }
 
 // 표지 플레이어, 파트 카드(파트 첫 장 그림, 누르면 그 쪽으로), 학습 목표, 로드맵 주제, 실습 칸, 확인 문제, 교안, 이전/다음 챕터.
@@ -52,15 +52,17 @@ export default async function ChapterPage({ params }: Params) {
   ];
   return (
     <>
-      <Crumb items={[["강의", "/lectures/"], [`${c.stageNo}. ${c.stageTitle}`, `/lectures/#stage-${c.stageNo}`], [c.no]]} />
+      <Crumb items={[["강의", "/lectures/"], [`${c.stageNo}. ${c.stageTitle}`, `/lectures/#stage-${c.stageNo}`], [`${c.seq}강`]]} />
       <div className="th">
         <Logo k={logos[0]} size={56} />
         <div>
           <span className="eyebrow">
-            {c.no} · {c.track} · {c.level}
+            {c.stageTitle} {c.seq}강 · {c.level}
           </span>
           <h1>{c.title}</h1>
-          {c.deckTitle !== c.title && <span className="th-deck">수업 자료 제목 · {c.deckTitle}</span>}
+          <span className="th-deck">
+            수업 자료 {c.no} · {c.deckTitle}
+          </span>
         </div>
       </div>
       <p className="lede" dangerouslySetInnerHTML={{ __html: renderInline(c.goal) }} />
@@ -166,9 +168,9 @@ export default async function ChapterPage({ params }: Params) {
           <Link href={`/chapters/${c.prev.dir}/`}>
             <Cover src={coverSrc(c.prev.no)} />
             <span>
-              <small>이전</small>
+              <small>이전{c.prev.stageNo !== c.stageNo && ` · ${c.prev.stageTitle}`}</small>
               <b>
-                {c.prev.no} {c.prev.title}
+                {c.prev.seq}. {c.prev.title}
               </b>
             </span>
           </Link>
@@ -179,9 +181,9 @@ export default async function ChapterPage({ params }: Params) {
           <Link className="r" href={`/chapters/${c.next.dir}/`}>
             <Cover src={coverSrc(c.next.no)} />
             <span>
-              <small>다음</small>
+              <small>다음{c.next.stageNo !== c.stageNo && ` · ${c.next.stageTitle}`}</small>
               <b>
-                {c.next.no} {c.next.title}
+                {c.next.seq}. {c.next.title}
               </b>
             </span>
           </Link>

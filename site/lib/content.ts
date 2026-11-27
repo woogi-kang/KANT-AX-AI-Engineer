@@ -26,11 +26,13 @@ type RawUpdate = { dir: string; date: string; title: string; summary: string };
 type RawStage = { title: string; summary: string; groups: { title: string; from: string; to: string }[] };
 type Raw = { pages: string; stages: RawStage[]; chapters: RawChapter[]; extras: RawExtra[]; updates: RawUpdate[] };
 
-export type ChapterRef = { dir: string; no: string; title: string };
+export type ChapterRef = { dir: string; no: string; title: string; seq: number; stageNo: number; stageTitle: string };
 export type Chapter = RawChapter & {
   /** 덱과 README의 원래 제목(title은 사이트 이름 short로 바꿔 둬요) */
   deckTitle: string;
   no: string;
+  /** 단계 안에서 1부터 세는 사이트 번호(no는 덱 원래 번호) */
+  seq: number;
   trackKey: TrackKey;
   stageNo: number;
   stageTitle: string;
@@ -86,6 +88,7 @@ export function load() {
       title: c.short ?? c.title,
       deckTitle: c.title,
       no: c.dir.slice(0, 2),
+      seq: 0,
       trackKey: TRACKS[c.track],
       stageNo: 0,
       stageTitle: "",
@@ -95,17 +98,15 @@ export function load() {
       next: null,
     };
   });
-  const ref = (c: Chapter): ChapterRef => ({ dir: c.dir, no: c.no, title: c.title });
-  chapters.forEach((c, i) => {
-    c.prev = i > 0 ? ref(chapters[i - 1]) : null;
-    c.next = i < chapters.length - 1 ? ref(chapters[i + 1]) : null;
-  });
+  const ref = (c: Chapter): ChapterRef => ({ dir: c.dir, no: c.no, title: c.title, seq: c.seq, stageNo: c.stageNo, stageTitle: c.stageTitle });
 
   const stages: Stage[] = raw.stages.map((s, si) => {
+    let seq = 0;
     const groups = s.groups.map((g) => {
       const list = chapters.filter((c) => c.no >= g.from && c.no <= g.to);
       for (const c of list) {
         if (c.stageNo) throw new Error(`${c.dir}: 묶음 두 곳에 들어 있어요`);
+        c.seq = ++seq;
         c.stageNo = si + 1;
         c.stageTitle = s.title;
         c.groupTitle = g.title;
@@ -137,6 +138,13 @@ export function load() {
   });
   const loose = chapters.filter((c) => !c.stageNo).map((c) => c.dir);
   if (loose.length) throw new Error(`단계 묶음에 없는 챕터: ${loose.join(", ")}. curriculum.json의 stages에 넣어 주세요`);
+
+  // 이전, 다음은 사이트 순서(단계, 단계 안 번호)로 이어요. 덱 번호로 이으면 단계 사이를 오가요
+  const order = [...chapters].sort((a, b) => a.stageNo - b.stageNo || a.seq - b.seq);
+  order.forEach((c, i) => {
+    c.prev = i > 0 ? ref(order[i - 1]) : null;
+    c.next = i < order.length - 1 ? ref(order[i + 1]) : null;
+  });
 
   const byDir = new Map(chapters.map((c) => [c.dir, c]));
   const extras: Extra[] = raw.extras.map((e) => ({
@@ -175,7 +183,7 @@ export function news(): NewsItem[] {
       .map((c) => ({
         kind: "chapter" as const,
         date: c.added as string,
-        title: `${c.no} · ${c.title}`,
+        title: `${c.stageTitle} ${c.seq} · ${c.title}`,
         summary: c.goal,
         href: `/chapters/${c.dir}/`,
         tag: "새 챕터",

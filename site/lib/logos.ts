@@ -16,6 +16,8 @@ export const LOGOS = {
   postgresql: { title: "PostgreSQL", file: "postgresql" },
   numpy: { title: "NumPy", file: "numpy" },
   pandas: { title: "pandas", file: "pandas" },
+  matplotlib: { title: "Matplotlib", file: "matplotlib" },
+  sklearn: { title: "scikit-learn", file: "scikitlearn" },
 } as const;
 export type LogoKey = keyof typeof LOGOS;
 export const logoSrc = (k: LogoKey) => `/img/logos/${LOGOS[k].file}.svg`;
@@ -32,8 +34,14 @@ const BY_CHAPTER: Record<string, LogoKey> = {
   "44": "python",
   "45": "numpy",
   "46": "pandas",
+  "47": "matplotlib",
+  "48": "sklearn",
+  "49": "sklearn",
+  "50": "sklearn",
+  "51": "sklearn",
+  "52": "sklearn",
 };
-const SECOND: Record<string, LogoKey> = { "06": "github", "31": "docker", "33": "docker", "34": "docker", "44": "postgresql", "45": "pandas" };
+const SECOND: Record<string, LogoKey> = { "06": "github", "31": "docker", "33": "docker", "34": "docker", "44": "postgresql", "45": "pandas", "47": "numpy", "50": "pandas" };
 const BY_TRACK: Record<string, LogoKey> = {
   터미널: "terminal",
   Git: "git",

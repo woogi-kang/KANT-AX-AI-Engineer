@@ -63,8 +63,9 @@ export default function SideNav() {
         >
           {s.chapters.map((c) => (
             <NavLink key={c.href} href={c.href}>
-              <span className="n">{c.no}</span>
+              <span className="n">{c.seq}</span>
               {c.t}
+              <span className="dn" title={`수업 자료 ${c.no}`}>{c.no}</span>
             </NavLink>
           ))}
         </NavFold>

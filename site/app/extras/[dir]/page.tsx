@@ -77,7 +77,7 @@ export default async function ExtraPage({ params }: Params) {
           <div className="tiles t4">
             {e.relatedChapters.map((r) => {
               const c = getChapter(r.dir);
-              return <LecCard key={c.dir} c={c} sub={`${c.track} · ${c.level}`} />;
+              return <LecCard key={c.dir} c={c} sub={`${c.stageTitle} · ${c.level}`} />;
             })}
           </div>
         </section>

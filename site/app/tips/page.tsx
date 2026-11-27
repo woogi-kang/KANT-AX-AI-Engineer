@@ -26,7 +26,7 @@ export default function TipsPage() {
                 <Logos ks={logos} size={24} />
                 <b>{e.title}</b>
                 <small className="clamp2">{plainInline(e.summary)}</small>
-                <small>관련 챕터 {e.relatedChapters.map((c) => c.no).join(", ")}</small>
+                <small>관련 강의 {e.relatedChapters.map((c) => `${c.stageTitle} ${c.seq}`).join(", ")}</small>
               </div>
             </Link>
           );

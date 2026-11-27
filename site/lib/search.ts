@@ -32,7 +32,7 @@ export function searchItems(): SearchItem[] {
   const r = roadmap();
   return [
     ...r.topics.map((t) => ({ t: t.t, s: `로드맵 ${t.stage}단계 · ${stageShort(r.stages[t.stage - 1].title)}`, h: `/roadmap/${t.slug}/`, k: `${t.q ?? ""} ${body(t.path)}` })),
-    ...chapters.map((c) => ({ t: `${c.no} ${c.title}`, s: `강의 · ${c.track}`, h: `/chapters/${c.dir}/`, k: plain(`${c.deckTitle} ${c.keyword ?? ""} ${c.goal} ${c.commands ?? ""}`) })),
+    ...chapters.map((c) => ({ t: `${c.seq}. ${c.title}`, s: `강의 · ${c.stageTitle}`, h: `/chapters/${c.dir}/`, k: plain(`${c.no} ${c.deckTitle} ${c.keyword ?? ""} ${c.goal} ${c.commands ?? ""}`) })),
     ...extras.map((e) => ({ t: e.title, s: "꿀팁", h: `/extras/${e.dir}/`, k: plain(e.summary) })),
     ...r.cases.map((c) => ({ t: c.t, s: `${LIB_NAME.cases} · ${c.area}`, h: `/library/cases/${c.id}/`, k: `${c.industry} ${c.scope} ${body(c.path)}` })),
     ...r.publicCases.map((c) => ({ t: `${c.org}: ${c.w}`, s: LIB_NAME.public, h: `/library/public/#${c.id}`, k: c.ind })),

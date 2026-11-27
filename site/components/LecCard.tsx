@@ -11,9 +11,11 @@ export default function LecCard({ c, logoSize = 24, sub }: { c: Chapter; logoSiz
       <div className="bd">
         <Logos ks={chapterLogos(c.no, c.track)} size={logoSize} />
         <b>
-          {c.no} {c.title}
+          {c.seq}. {c.title}
         </b>
-        {sub && <small>{sub}</small>}
+        <small>
+          {sub ?? c.stageTitle} · 수업 자료 {c.no}
+        </small>
       </div>
     </Link>
   );
