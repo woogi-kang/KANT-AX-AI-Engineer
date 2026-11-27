@@ -8,6 +8,7 @@ import Player from "@/components/Player";
 import PartGo from "@/components/PartGo";
 import LecCard from "@/components/LecCard";
 import Lesson, { lessonSections } from "@/components/Lesson";
+import StudyTabs from "@/components/StudyTabs";
 import "../../chapters/[dir]/chapter.css";
 
 type Params = { params: Promise<{ dir: string }> };
@@ -48,9 +49,11 @@ export default async function ExtraPage({ params }: Params) {
         </a>
       </div>
 
+      <StudyTabs tabs={[{ id: "overview", label: "구성", count: parts.length ? `${parts.length}` : undefined }, ...(secs.length ? [{ id: "lesson", label: "교안" }] : [])]}>
+      <div data-panel="overview" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview">
       {parts.length > 0 && (
         <section className="sec">
-          <SecHead title="구성" right={<span className="cnt">파트 {parts.length}개</span>} />
+          <p className="study-lead">파트를 누르면 위 슬라이드가 그 쪽에서 열려요.</p>
           <div className="tiles t4 parts-grid">
             {parts.map((p) => (
               <PartGo key={p.from} page={p.from} className="part" label={`${p.name}, ${p.from}쪽부터 슬라이드 보기`}>
@@ -80,7 +83,13 @@ export default async function ExtraPage({ params }: Params) {
         </section>
       )}
 
-      <Lesson secs={secs} />
+      </div>
+      {secs.length > 0 && (
+        <div data-panel="lesson" id="panel-lesson" role="tabpanel" aria-labelledby="tab-lesson">
+          <Lesson secs={secs} />
+        </div>
+      )}
+      </StudyTabs>
     </>
   );
 }

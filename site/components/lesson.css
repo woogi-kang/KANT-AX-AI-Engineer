@@ -54,3 +54,27 @@
   .lesson .fix dd + dt { margin-top: 6px; }
   .lesson .cb pre { font-size: 13px; }
 }
+
+/* 교안: 왼쪽 절 목록 + 고른 절 하나 */
+.lesson-v2 { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 32px; align-items: start; scroll-margin-top: calc(var(--top-h) + 60px); }
+.ls-toc { position: sticky; top: calc(var(--top-h) + 68px); display: flex; flex-direction: column; gap: 2px; }
+.ls-toc button { all: unset; box-sizing: border-box; cursor: pointer; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 9px 12px; border-radius: 8px; font-size: 15px; font-weight: 500; color: var(--sub); border-left: 2px solid transparent; }
+.ls-toc button:hover { background: var(--hover); color: var(--ink); }
+.ls-toc button[aria-current="true"] { color: var(--ac); font-weight: 700; background: var(--ac-s); }
+.ls-toc button:focus-visible { outline: 2px solid var(--ac); outline-offset: 1px; }
+.ls-toc small { font-family: var(--font-mono); font-size: 12px; color: var(--mute); font-weight: 500; white-space: nowrap; }
+.ls-sec { scroll-margin-top: calc(var(--top-h) + 60px); min-width: 0; }
+.ls-sec > h2 { font-size: 22px; margin: 2px 0 12px; }
+.ls-sec .prose { font-size: 16px; line-height: 1.75; max-width: 760px; }
+.ls-sec .prose > :first-child { margin-top: 0; }
+.ls-sec .prose h3 { font-size: 18px; margin-top: 30px; }
+.ls-sec .prose .cmds, .ls-sec .prose .fixes, .ls-sec .prose .table-wrap { max-width: none; }
+
+@media (max-width: 900px) {
+  .lesson-v2 { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .ls-toc { position: static; flex-direction: row; flex-wrap: wrap; gap: 6px; }
+  .ls-toc button { border: 1px solid var(--line2); border-radius: 18px; padding: 7px 13px; font-size: 14px; }
+  .ls-toc button[aria-current="true"] { border-color: var(--ac-line); }
+  .ls-sec > h2 { font-size: 20px; }
+  .ls-sec .prose { font-size: 15.5px; }
+}

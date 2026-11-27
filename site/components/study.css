@@ -1,0 +1,29 @@
+/* 챕터 화면 슬라이드 아래 공부 칸 탭(components/StudyTabs.tsx) */
+.study { margin-top: 36px; scroll-margin-top: var(--top-h); }
+.study-bar { position: sticky; top: var(--top-h); z-index: 5; display: flex; gap: 4px; background: var(--bg); border-bottom: 1px solid var(--line); margin: 0 -4px; padding: 0 4px; overflow-x: auto; scrollbar-width: none; }
+.study-bar::-webkit-scrollbar { display: none; }
+.study-bar button { all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; height: 52px; padding: 0 16px; font-size: 16px; font-weight: 600; color: var(--sub); border-bottom: 2.5px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.study-bar button:hover { color: var(--ink); }
+.study-bar button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ac); }
+.study-bar button:focus-visible { outline: 2px solid var(--ac); outline-offset: -4px; border-radius: 6px; }
+.study-n { font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: var(--mute); background: var(--hover); border-radius: 10px; padding: 1px 7px; }
+.study-bar button[aria-selected="true"] .study-n { color: var(--ac); background: var(--ac-s); }
+
+/* 고른 탭만 보여요 */
+.study [data-panel] { display: none; padding-top: 22px; min-height: 60vh; }
+.study[data-active="overview"] [data-panel="overview"],
+.study[data-active="practice"] [data-panel="practice"],
+.study[data-active="quiz"] [data-panel="quiz"],
+.study[data-active="lesson"] [data-panel="lesson"] { display: block; }
+/* 탭 이름이 곧 제목이라 칸 안의 큰 제목은 숨겨요 */
+.study [data-panel] > .sec { margin-top: 0; }
+.study [data-panel] > .sec + .sec { margin-top: 28px; }
+.study [data-panel="practice"] > .sec > .sh:first-child, .study [data-panel="quiz"] > .sec > .sh:first-child { display: none; }
+.study-lead { color: var(--sub); font-size: 15px; margin: 0 0 14px; }
+
+@media (max-width: 560px) {
+  .study { margin-top: 28px; }
+  .study-bar { gap: 0; margin: 0 -16px; padding: 0 8px; }
+  .study-bar button { height: 48px; padding: 0 11px; font-size: 15px; gap: 5px; }
+  .study [data-panel] { padding-top: 18px; }
+}
