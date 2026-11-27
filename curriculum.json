@@ -153,7 +153,10 @@
      "commands": "`sns.scatterplot(ax=axes[0])` `df.corr()` `sns.heatmap(annot=True, vmin=-1, vmax=1)` `X = df[[\"a\", \"b\", \"c\"]]` `model.coef_`", "slides": "multiple-regression-slides.html"},
     {"dir": "51-train-test-split", "title": "처음 보는 데이터로 채점하기 (나누기와 스케일링)", "track": "파이썬",
      "goal": "train_test_split으로 학습용과 채점용을 나눠 처음 보는 데이터로 채점하고, StandardScaler로 열의 크기를 맞춰 SGD로 세 열을 학습해요",
-     "commands": "`train_test_split(X, y, test_size=0.3, random_state=42)` `scaler.fit_transform(X_train)` `scaler.transform(X_test)`", "slides": "train-test-split-slides.html"}
+     "commands": "`train_test_split(X, y, test_size=0.3, random_state=42)` `scaler.fit_transform(X_train)` `scaler.transform(X_test)`", "slides": "train-test-split-slides.html"},
+    {"dir": "52-face-knn", "title": "사진으로 사람 맞히기 (얼굴 데이터와 KNN)", "track": "파이썬",
+     "goal": "얼굴 사진이 숫자 표라는 것과 거리를 손으로 계산해 보고, 가장 가까운 사진들의 다수결로 사람을 맞히는 KNN을 학습하고 채점해요",
+     "commands": "`fetch_olivetti_faces(data_home=\"./datasets\")` `plt.imshow(사진, cmap=\"gray\", vmin=0, vmax=1)` `KNeighborsClassifier(n_neighbors=5)` `model.score(X_test, y_test)`", "slides": "face-knn-slides.html"}
   ],
   "extras": [
     {"dir": "terminal-path-help", "title": "터미널 환경에 적응하기", "related": ["01-linux-terminal", "02-git-basics", "09-python-uv"],

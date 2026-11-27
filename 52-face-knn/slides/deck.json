@@ -1,0 +1,98 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-27T09:00:00Z"
+  },
+  "lists": "css",
+  "title": "사진으로 사람 맞히기 (얼굴 데이터와 KNN)",
+  "order": [
+    "cover",
+    "toc",
+    "setup",
+    "start",
+    "why",
+    "big",
+    "bundle",
+    "pixel",
+    "imshow",
+    "cmap",
+    "person",
+    "grid",
+    "tiny",
+    "tinycode",
+    "flat",
+    "realdist",
+    "vote",
+    "knnname",
+    "known",
+    "fit",
+    "neigh",
+    "pred",
+    "kchange",
+    "split",
+    "strat",
+    "score",
+    "byhand",
+    "vs",
+    "e-1d",
+    "e-title",
+    "e-big",
+    "e-small",
+    "e-trap",
+    "x-k",
+    "x-wrong",
+    "trouble",
+    "recap",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "why"
+    },
+    "p5": {
+      "description": "오류와 함정",
+      "start": "e-1d"
+    },
+    "p6": {
+      "description": "실제 상황",
+      "start": "x-k"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    },
+    "recap": {
+      "description": "정리",
+      "start": "recap"
+    },
+    "p2": {
+      "description": "사진은 숫자 표",
+      "start": "bundle"
+    },
+    "p3": {
+      "description": "거리와 이웃",
+      "start": "tiny"
+    },
+    "p4": {
+      "description": "KNN 학습하고 채점하기",
+      "start": "knnname"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}
