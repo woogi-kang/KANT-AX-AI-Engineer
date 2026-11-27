@@ -321,3 +321,15 @@ a.chip:hover { border-color: var(--ac); }
 @media (max-width: 560px) { .legal-2 { grid-template-columns: 1fr; } }
 /* 표지 그림: img의 height 속성이 비율(16:9)을 덮지 않게 해요 */
 img.cv { height: auto; }
+/* 목차의 펼치고 접는 묶음(components/NavFold.tsx) */
+.side .fold-h { display: flex; align-items: center; gap: 2px; }
+.side .fold-h > a { flex: 1; min-width: 0; }
+.side .fold-h > button { all: unset; box-sizing: border-box; flex: none; display: inline-flex; align-items: center; gap: 4px; height: 30px; padding: 0 6px 0 8px; border-radius: 7px; color: var(--mute); cursor: pointer; }
+.side .fold-h > button:hover { background: var(--hover); color: var(--ink); }
+.side .fold-h > button:focus-visible { outline: 2px solid var(--ac); outline-offset: -2px; }
+.side .fold-h > button svg { width: 16px; height: 16px; transition: transform 0.15s; }
+.side .fold.open .fold-h > button svg { transform: rotate(180deg); }
+.side .fold-n { font-family: var(--font-mono); font-size: 11.5px; }
+.side .fold.here > .fold-h > a { color: var(--ink); font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .side .fold-h > button svg { transition: none; } }
+@media (max-width: 860px) { .side .fold-h > button { height: 38px; padding: 0 10px; } }

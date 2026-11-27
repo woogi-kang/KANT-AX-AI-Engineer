@@ -2,6 +2,7 @@ import { navData } from "@/lib/nav";
 import { Ic, Logo } from "./ui";
 import NavLink from "./NavLink";
 import NavGroup from "./NavGroup";
+import NavFold from "./NavFold";
 
 /** 왼쪽 전체 목차. 좁은 화면에서는 머리글의 목차 버튼으로 열어요. */
 export default function SideNav() {
@@ -47,20 +48,26 @@ export default function SideNav() {
         전체 강의
       </NavLink>
       {d.lectures.map((s) => (
-        <div key={s.no}>
-          <NavLink href={`/lectures/#stage-${s.no}`}>
-            <Logo k={s.logo} size={18} />
-            {s.title}
-          </NavLink>
-          <NavGroup hrefs={s.chapters.map((c) => c.href)}>
-            {s.chapters.map((c) => (
-              <NavLink key={c.href} href={c.href}>
-                <span className="n">{c.no}</span>
-                {c.t}
-              </NavLink>
-            ))}
-          </NavGroup>
-        </div>
+        <NavFold
+          key={s.no}
+          id={`lec-${s.no}`}
+          href={`/lectures/#stage-${s.no}`}
+          head={
+            <>
+              <Logo k={s.logo} size={18} />
+              {s.title}
+            </>
+          }
+          hrefs={s.chapters.map((c) => c.href)}
+          count={s.chapters.length}
+        >
+          {s.chapters.map((c) => (
+            <NavLink key={c.href} href={c.href}>
+              <span className="n">{c.no}</span>
+              {c.t}
+            </NavLink>
+          ))}
+        </NavFold>
       ))}
       <NavLink href="/tips/" exact={false}>
         <Ic n="lightbulb" />
