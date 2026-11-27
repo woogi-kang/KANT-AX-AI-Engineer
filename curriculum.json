@@ -1,5 +1,9 @@
 {
   "pages": "https://woogi-kang.github.io/KANT-AX-AI-Engineer",
+  "fields": [
+    { "title": "기초", "icon": "blocks", "stages": ["터미널과 Git", "파이썬", "Docker", "데이터베이스와 SQL"] },
+    { "title": "데이터와 AI", "icon": "brain-circuit", "stages": ["데이터 분석", "머신러닝"] }
+  ],
   "stages": [
     {"title": "터미널과 Git", "summary": "터미널로 파일을 다루고, Git과 GitHub으로 혼자 또 같이 기록을 남겨요.",
      "groups": [{"title": "터미널", "from": "01", "to": "01"}, {"title": "Git 혼자 쓰기", "from": "02", "to": "05"}, {"title": "Git 같이 쓰기", "from": "06", "to": "08"}, {"title": "터미널에서 GitHub", "from": "11", "to": "11"}]},

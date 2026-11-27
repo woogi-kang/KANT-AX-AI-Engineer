@@ -50,9 +50,10 @@ export default async function ChapterPage({ params }: Params) {
     ...(qzN ? [{ id: "quiz", label: "확인 문제", count: `${qzN}` }] : []),
     ...(secs.length ? [{ id: "lesson", label: "교안" }] : []),
   ];
+  const field = load().fields.find((f) => f.stages.some((st) => st.no === c.stageNo));
   return (
     <>
-      <Crumb items={[["강의", "/lectures/"], [`${c.stageNo}. ${c.stageTitle}`, `/lectures/#stage-${c.stageNo}`], [`${c.seq}강`]]} />
+      <Crumb items={[["강의", "/lectures/"], ...(field ? [[field.title, `/lectures/#stage-${field.stages[0].no}`] as [string, string]] : []), [c.stageTitle, `/lectures/#stage-${c.stageNo}`], [`${c.seq}강`]]} />
       <div className="th">
         <Logo k={logos[0]} size={56} />
         <div>

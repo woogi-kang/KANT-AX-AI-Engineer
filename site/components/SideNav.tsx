@@ -47,26 +47,44 @@ export default function SideNav() {
         <Ic n="presentation" />
         전체 강의
       </NavLink>
-      {d.lectures.map((s) => (
+      {d.lectures.map((f) => (
         <NavFold
-          key={s.no}
-          id={`lec-${s.no}`}
-          href={s.chapters[0].href}
+          key={f.no}
+          id={`field-${f.no}`}
+          className="field"
+          go={false}
+          href={f.stages[0].chapters[0].href}
           head={
             <>
-              <Logo k={s.logo} size={18} />
-              {s.title}
+              <Ic n={f.icon} />
+              {f.title}
             </>
           }
-          hrefs={s.chapters.map((c) => c.href)}
-          count={s.chapters.length}
+          hrefs={f.stages.flatMap((s) => s.chapters.map((c) => c.href))}
+          count={f.count}
         >
-          {s.chapters.map((c) => (
-            <NavLink key={c.href} href={c.href}>
-              <span className="n">{c.seq}</span>
-              {c.t}
-              <span className="dn" title={`수업 자료 ${c.no}`}>{c.no}</span>
-            </NavLink>
+          {f.stages.map((s) => (
+            <NavFold
+              key={s.no}
+              id={`lec-${s.no}`}
+              href={s.chapters[0].href}
+              head={
+                <>
+                  <Logo k={s.logo} size={18} />
+                  {s.title}
+                </>
+              }
+              hrefs={s.chapters.map((c) => c.href)}
+              count={s.chapters.length}
+            >
+              {s.chapters.map((c) => (
+                <NavLink key={c.href} href={c.href}>
+                  <span className="n">{c.seq}</span>
+                  {c.t}
+                  <span className="dn" title={`수업 자료 ${c.no}`}>{c.no}</span>
+                </NavLink>
+              ))}
+            </NavFold>
           ))}
         </NavFold>
       ))}

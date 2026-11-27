@@ -359,3 +359,11 @@ html[data-side="closed"] .main { margin: 0 auto; }
   html[data-side="closed"] .main { margin: 0; }
   html[data-side="closed"] .shell > .side { visibility: visible; overflow: auto; padding: 20px 12px 40px; border-right: 1px solid var(--line); }
 }
+
+/* 강의 분야(가장 큰 칸) 안에 단계, 단계 안에 강의. 세 겹이라 들여쓰기를 줄여요 */
+.side .fold.field > .fold-h { color: var(--ink); font-weight: 700; }
+.side .fold.field > .fold-h > .fold-t > svg { width: 17px; height: 17px; color: var(--mute); flex: none; }
+.side .fold.field.here > .fold-h > .fold-t > svg { color: var(--ac); }
+.side .fold.field > .sub { margin: 2px 0 6px 18px; padding-left: 4px; }
+.side .fold.field > .sub .sub { margin-left: 16px; }
+.side .fold.field > .sub .fold-h { padding-left: 8px; }

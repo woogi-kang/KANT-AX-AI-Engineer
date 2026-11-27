@@ -24,7 +24,8 @@ type RawChapter = {
 type RawExtra = { dir: string; title: string; related: string[]; summary: string; slides: string };
 type RawUpdate = { dir: string; date: string; title: string; summary: string };
 type RawStage = { title: string; summary: string; groups: { title: string; from: string; to: string }[] };
-type Raw = { pages: string; stages: RawStage[]; chapters: RawChapter[]; extras: RawExtra[]; updates: RawUpdate[] };
+type RawField = { title: string; icon: string; stages: string[] };
+type Raw = { pages: string; fields: RawField[]; stages: RawStage[]; chapters: RawChapter[]; extras: RawExtra[]; updates: RawUpdate[] };
 
 export type ChapterRef = { dir: string; no: string; title: string; seq: number; stageNo: number; stageTitle: string };
 export type Chapter = RawChapter & {
@@ -43,6 +44,8 @@ export type Chapter = RawChapter & {
 };
 export type Group = { title: string; from: string; to: string; chapters: Chapter[] };
 export type Stage = { no: number; title: string; summary: string; groups: Group[]; from: string; to: string; range: string; count: number };
+/** 분야: 단계 여러 개를 묶은 가장 큰 칸(기초, 데이터와 AI, 앞으로 프론트엔드, 백엔드 …) */
+export type Field = { no: number; title: string; icon: string; stages: Stage[]; count: number };
 export type Extra = RawExtra & { relatedChapters: ChapterRef[] };
 export type Update = RawUpdate;
 export type NewsItem = {
@@ -56,6 +59,7 @@ export type NewsItem = {
 
 let cache: {
   pages: string;
+  fields: Field[];
   stages: Stage[];
   chapters: Chapter[];
   extras: Extra[];
@@ -156,7 +160,21 @@ export function load() {
     }),
   }));
 
-  cache = { pages: raw.pages, stages, chapters, extras, updates: raw.updates };
+  const used = new Set<string>();
+  const fields: Field[] = raw.fields.map((f, fi) => {
+    const list = f.stages.map((t) => {
+      const s = stages.find((x) => x.title === t);
+      if (!s) throw new Error(`분야 ${f.title}: 없는 단계 ${t}`);
+      if (used.has(t)) throw new Error(`단계 ${t}가 분야 두 곳에 들어 있어요`);
+      used.add(t);
+      return s;
+    });
+    return { no: fi + 1, title: f.title, icon: f.icon, stages: list, count: list.reduce((n, s) => n + s.count, 0) };
+  });
+  const lost = stages.filter((s) => !used.has(s.title)).map((s) => s.title);
+  if (lost.length) throw new Error(`분야에 없는 단계: ${lost.join(", ")}. curriculum.json의 fields에 넣어 주세요`);
+
+  cache = { pages: raw.pages, fields, stages, chapters, extras, updates: raw.updates };
   return cache;
 }
 
