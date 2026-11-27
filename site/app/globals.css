@@ -345,3 +345,17 @@ code.hl { color: var(--syn-fg); }
 /* 단계마다 1부터 세는 번호 옆의 덱 원래 번호 */
 .side .dn { margin-left: auto; padding-left: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--mute); opacity: 0.7; flex: none; }
 .side .n { min-width: 15px; text-align: center; }
+
+/* 넓은 화면에서 목차 접기. 단추는 목차 칸 오른쪽 끝에 그대로 있어서 접어도 자리가 바뀌지 않아요 */
+.side-tg { position: absolute; left: calc(var(--side-w) - 46px); top: 50%; transform: translateY(-50%); }
+.brand { padding-right: 52px; }
+html[data-side="closed"] .shell { grid-template-columns: 0 minmax(0, 1fr); }
+html[data-side="closed"] .shell > .side { visibility: hidden; overflow: hidden; padding: 0; border: 0; }
+html[data-side="closed"] .main { margin: 0 auto; }
+@media (max-width: 860px) {
+  .side-tg { display: none; }
+  .brand { padding-right: 0; }
+  html[data-side="closed"] .shell { grid-template-columns: minmax(0, 1fr); }
+  html[data-side="closed"] .main { margin: 0; }
+  html[data-side="closed"] .shell > .side { visibility: visible; overflow: auto; padding: 20px 12px 40px; border-right: 1px solid var(--line); }
+}

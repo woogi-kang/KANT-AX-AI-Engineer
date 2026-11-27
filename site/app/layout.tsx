@@ -9,6 +9,7 @@ import SideNav from "@/components/SideNav";
 import TopMenu from "@/components/TopMenu";
 import ThemeToggle from "@/components/ThemeToggle";
 import NavToggle from "@/components/NavToggle";
+import SideToggle from "@/components/SideToggle";
 import SearchDialog from "@/components/SearchDialog";
 import Footer from "@/components/Footer";
 import { NAME } from "@/lib/site";
@@ -25,7 +26,7 @@ export const viewport: Viewport = {
 };
 
 // 처음에는 밝은 화면이에요. 오른쪽 위 버튼으로 고른 화면은 이 브라우저에 남겨 둬요.
-const boot = `try{var t=localStorage.getItem('theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch(e){}`;
+const boot = `try{var t=localStorage.getItem('theme');document.documentElement.dataset.theme=t==='dark'?'dark':'light'}catch(e){}try{if(localStorage.getItem('side-closed')==='1')document.documentElement.dataset.side='closed'}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </span>
             <b>{NAME}</b>
           </Link>
+          <SideToggle />
           <button className="sf" type="button" data-search aria-label="찾기">
             <Search className="i" aria-hidden="true" />
             <span>주제, 챕터, 명령어, 사례 찾기</span>
