@@ -52,6 +52,7 @@ export default function SideNav() {
           key={s.no}
           id={`lec-${s.no}`}
           href={`/lectures/#stage-${s.no}`}
+          allLabel="이 단계 모두 보기"
           head={
             <>
               <Logo k={s.logo} size={18} />

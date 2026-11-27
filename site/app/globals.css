@@ -290,6 +290,12 @@ a.chip:hover { border-color: var(--ac); }
 .player .cover-btn { all: unset; position: absolute; inset: 0; cursor: pointer; }
 .player .cover-btn:focus-visible { outline: 3px solid var(--ac); outline-offset: -3px; }
 .player img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* 비디오 재생 버튼처럼 표지를 살짝 어둡게 덮어 "슬라이드 보기" 버튼이 잘 보이게 해요. 마우스를 올리면 조금 더 어두워져요 */
+.player .cover-btn::before { content: ""; position: absolute; inset: 0; z-index: 1; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.38) 100%); transition: background-color 0.2s; }
+.player .cover-btn:hover::before, .player .cover-btn:focus-visible::before { background-color: rgba(0, 0, 0, 0.12); }
+.player .play { z-index: 2; transition: transform 0.2s; }
+.player .cover-btn:hover .play { transform: translate(-50%, -50%) scale(1.04); }
+@media (prefers-reduced-motion: reduce) { .player .cover-btn::before, .player .play { transition: none; } }
 .player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .player .play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; gap: 10px; align-items: center; height: 60px; padding: 0 28px; border-radius: 30px; background: #fff; color: #1d2330; font-weight: 800; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); font-size: 18px; white-space: nowrap; }
 .player .play svg { width: 22px; height: 22px; fill: currentColor; }
@@ -321,15 +327,15 @@ a.chip:hover { border-color: var(--ac); }
 @media (max-width: 560px) { .legal-2 { grid-template-columns: 1fr; } }
 /* 표지 그림: img의 height 속성이 비율(16:9)을 덮지 않게 해요 */
 img.cv { height: auto; }
-/* 목차의 펼치고 접는 묶음(components/NavFold.tsx) */
-.side .fold-h { display: flex; align-items: center; gap: 2px; }
-.side .fold-h > a { flex: 1; min-width: 0; }
-.side .fold-h > button { all: unset; box-sizing: border-box; flex: none; display: inline-flex; align-items: center; gap: 4px; height: 30px; padding: 0 6px 0 8px; border-radius: 7px; color: var(--mute); cursor: pointer; }
-.side .fold-h > button:hover { background: var(--hover); color: var(--ink); }
-.side .fold-h > button:focus-visible { outline: 2px solid var(--ac); outline-offset: -2px; }
-.side .fold-h > button svg { width: 16px; height: 16px; transition: transform 0.15s; }
-.side .fold.open .fold-h > button svg { transform: rotate(180deg); }
-.side .fold-n { font-family: var(--font-mono); font-size: 11.5px; }
-.side .fold.here > .fold-h > a { color: var(--ink); font-weight: 600; }
-@media (prefers-reduced-motion: reduce) { .side .fold-h > button svg { transition: none; } }
-@media (max-width: 860px) { .side .fold-h > button { height: 38px; padding: 0 10px; } }
+/* 목차의 펼치고 접는 묶음(components/NavFold.tsx): 줄 전체가 펼치기 단추예요 */
+.side .fold-h { all: unset; box-sizing: border-box; width: 100%; display: flex; gap: 10px; align-items: center; padding: 6px 8px 6px 10px; border-radius: 7px; color: var(--sub); cursor: pointer; }
+.side .fold-h:hover { background: var(--hover); color: var(--ink); }
+.side .fold-h:focus-visible { outline: 2px solid var(--ac); outline-offset: -2px; }
+.side .fold-t { flex: 1; min-width: 0; display: flex; gap: 10px; align-items: center; }
+.side .fold-n { font-family: var(--font-mono); font-size: 11.5px; color: var(--mute); }
+.side .fold-h > svg { width: 16px; height: 16px; color: var(--mute); flex: none; transition: transform 0.15s; }
+.side .fold.open > .fold-h > svg { transform: rotate(180deg); }
+.side .fold.here > .fold-h { color: var(--ink); font-weight: 600; }
+.side .sub a.fold-all { color: var(--ac); font-weight: 600; font-size: 13.5px; }
+@media (prefers-reduced-motion: reduce) { .side .fold-h > svg { transition: none; } }
+@media (max-width: 860px) { .side .fold-h { padding-top: 9px; padding-bottom: 9px; } }
