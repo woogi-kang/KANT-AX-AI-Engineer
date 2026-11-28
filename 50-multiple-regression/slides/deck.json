@@ -1,0 +1,91 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-25T13:00:00Z"
+  },
+  "lists": "css",
+  "title": "다중 선형 회귀와 ML 기초 정리",
+  "order": [
+    "cover",
+    "toc",
+    "setup",
+    "font",
+    "why",
+    "big",
+    "formula",
+    "terms",
+    "data",
+    "seaborn",
+    "subplots",
+    "sargs",
+    "sread",
+    "corr",
+    "heat",
+    "vmin",
+    "minus",
+    "xy",
+    "fit",
+    "coefread",
+    "predict",
+    "score",
+    "truepred",
+    "each",
+    "sleep",
+    "vs48",
+    "e-order",
+    "e-key",
+    "e-ax",
+    "e-font",
+    "x-plan",
+    "x-err",
+    "trouble",
+    "recap",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "why"
+    },
+    "p3": {
+      "description": "세 열로 학습하기",
+      "start": "xy"
+    },
+    "p4": {
+      "description": "한 열 모델과 비교",
+      "start": "each"
+    },
+    "p5": {
+      "description": "오류와 함정",
+      "start": "e-order"
+    },
+    "p6": {
+      "description": "실제 상황",
+      "start": "x-plan"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    },
+    "p2": {
+      "description": "그래프로 먼저 보기",
+      "start": "data"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

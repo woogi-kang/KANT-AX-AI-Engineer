@@ -1,0 +1,16 @@
+<section id="cheatsheet" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
+<h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">한 장으로 보는 오늘의 코드</h2>
+<div style="position:absolute;left:96px;top:180px;width:1728px;height:124px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#1E5FA8">데이터 받기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;white-space:pre">from sklearn.datasets import fetch_olivetti_faces
+faces = fetch_olivetti_faces(data_home="./datasets")</p></div>
+<div style="position:absolute;left:96px;top:318px;width:1728px;height:88px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#A0620A">사진 그리기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;white-space:pre">plt.imshow(faces.images[0], cmap="gray", vmin=0, vmax=1)</p></div>
+<div style="position:absolute;left:96px;top:420px;width:1728px;height:124px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#0F7C86">나누기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;white-space:pre">X_train, X_test, y_train, y_test = train_test_split(
+    faces.data, faces.target, test_size=0.25, random_state=42, stratify=faces.target)</p></div>
+<div style="position:absolute;left:96px;top:558px;width:1728px;height:196px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#A23B72">KNN 학습과 채점</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;white-space:pre">from sklearn.neighbors import KNeighborsClassifier
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train, y_train)
+model.score(X_test, y_test)</p></div>
+<div style="position:absolute;left:96px;top:768px;width:1728px;height:124px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-bottom:2px solid #E1DED6"><p style="font-size:26px;font-weight:700;color:#5A3BB8">사진 한 장 맞히기</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:24px;font-weight:700;line-height:1.5;color:#1D2330;white-space:pre">model.kneighbors([new_photo])
+model.predict([new_photo])</p></div>
+<p style="position:absolute;left:96px;top:922px;width:1728px;font-size:30px;font-weight:700;line-height:1.5;color:#1D2330">사진 한 장을 넣을 때는 늘 대괄호로 한 겹 더 감싸요.</p>
+<aside>오늘 쓴 코드를 한 장에 모았어요. 데이터를 받고, 사진을 그려 보고, 나누고, KNN으로 학습하고 채점해요. 사진 한 장을 넣을 때는 늘 대괄호로 감싸요.</aside>
+</section>

@@ -1,0 +1,835 @@
+
+$ uv --version
+uv 0.11.32 (x86_64-unknown-linux-gnu)
+
+$ uv init ml-basics
+Initialized project `ml-basics` at `ROOT/ml-basics`
+
+$ cd ml-basics
+
+$ uv add numpy pandas
+Using CPython 3.13.18 interpreter at: /usr/local/bin/python3.13
+Creating virtual environment at: .venv
+Resolved 5 packages in 6ms
+Installed 4 packages in 22ms
+ + numpy==2.5.5
+ + pandas==3.1.1
+ + python-dateutil==4.0.0
+ + tzdata==2026.6
+
+$ uv add --dev ipykernel
+Resolved 36 packages in 19ms
+Installed 27 packages in 96ms
+ + asttokens==3.0.2
+ + comm==0.2.3
+ + debugpy==1.8.22
+ + executing==2.3.0
+ + ipykernel==7.4.0
+ + ipython==9.19.1
+ + ipython-pygments-lexers==1.1.1
+ + jedi==0.20.1
+ + jupyter-client==8.10.0
+ + jupyter-core==5.9.1
+ + matplotlib-inline==0.2.2
+ + nest-asyncio2==1.7.4
+ + packaging==26.4
+ + parso==0.8.7
+ + pexpect==4.9.0
+ + platformdirs==4.14.8
+ + prompt-toolkit==3.0.53
+ + psutil==7.2.2
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.4
+ + pygments==2.21.0
+ + pyzmq==27.3.0
+ + stack-data==0.6.3
+ + tornado==6.6.1
+ + traitlets==5.16.1
+ + typing-extensions==4.16.0
+ + wcwidth==0.9.5
+
+$ uv add seaborn matplotlib
+Resolved 44 packages in 17ms
+Installed 8 packages in 13ms
+ + contourpy==1.4.0
+ + cycler==0.12.1
+ + fonttools==4.68.0
+ + kiwisolver==1.5.1
+ + matplotlib==3.11.2
+ + pillow==13.0.0
+ + pyparsing==3.3.3
+ + seaborn==0.13.2
+
+$ uv add scikit-learn
+Resolved 50 packages in 18ms
+Installed 6 packages in 34ms
+ + cloudpickle==3.1.3
+ + joblib==1.6.0
+ + narwhals==2.29.0
+ + scikit-learn==1.9.1
+ + scipy==1.18.1
+ + threadpoolctl==3.8.0
+
+$ cat pyproject.toml
+[project]
+name = "ml-basics"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.5",
+    "pandas>=3.1.1",
+    "scikit-learn>=1.9.1",
+    "seaborn>=0.13.2",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+]
+
+Python 3.13.18
+scikit-learn 1.9.1
+seaborn 0.13.2
+=== main: multi.ipynb, 수업 순서 그대로 뒤에 학습 단계
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})\ndf'
+   study_hours  sleep_hours  practice_count  score
+0            1            6              10     47
+1            2            8              15     58
+2            3            5              20     60
+3            4            7              25     76
+4            5            8              30     87
+5            2            5              12     49
+6            3            8              28     73
+7            5            6              22     77
+8            4            6              32     79
+9            1            8               8     52
+--- [4] 'from sklearn.linear_model import LinearRegression\n\none = LinearRegression()\none.fit(df[["study_hours"]], df["score"])\nprint("기울기:", one.coef_[0], "절편:", one.intercept_)\ntwo = df.loc[[1, 5]]\nprint(two)\nprint("예측:", one.predict(two[["study_hours"]]))'
+기울기: 8.899999999999997 절편: 39.10000000000001
+   study_hours  sleep_hours  practice_count  score
+1            2            8              15     58
+5            2            5              12     49
+예측: [56.9 56.9]
+
+--- [5] 'fig, axes = plt.subplots(1, 3, figsize=(16, 5))\n\nsns.scatterplot(data=df, x="study_hours", y="score", ax=axes[0])\nsns.scatterplot(data=df, x="sleep_hours", y="score", ax=axes[1])\nsns.scatterplot(data=df, x="practice_count", y="score", ax=axes[2])\n\nplt.show()'
+<image saved 50/tools/img/main-1.png>
+<Figure size 3200x1000 with 3 Axes>
+--- [6] 'corr = df.corr()\ncorr.round(2)'
+                study_hours  sleep_hours  practice_count  score
+study_hours            1.00         0.00            0.85   0.93
+sleep_hours            0.00         1.00            0.14   0.29
+practice_count         0.85         0.14            1.00   0.93
+score                  0.93         0.29            0.93   1.00
+--- [7] 'plt.figure(figsize=(7, 5))\n\nsns.heatmap(\n    corr,\n    annot=True,\n    vmin=-1,\n    vmax=1,\n    fmt=".2f"\n)\n\nplt.show()'
+<image saved 50/tools/img/main-2.png>
+<Figure size 1400x1000 with 2 Axes>
+--- [8] 'X = df[["study_hours", "sleep_hours", "practice_count"]]\ny = df["score"]\nprint(X.shape, y.shape)'
+(10, 3) (10,)
+
+--- [9] 'model = LinearRegression()\nmodel.fit(X, y)\n\nprint("기울기 w:", model.coef_)\nprint("절편 b:", model.intercept_)'
+기울기 w: [5.80222725 2.68100001 0.63219852]
+절편 b: 17.660208080206637
+
+--- [10] 'print("공부 1시간:", model.coef_[0].round(2))\nprint("수면 1시간:", model.coef_[1].round(2))\nprint("문제 1개:", model.coef_[2].round(2))'
+공부 1시간: 5.8
+수면 1시간: 2.68
+문제 1개: 0.63
+
+--- [11] 'new = pd.DataFrame({"study_hours": [3], "sleep_hours": [7], "practice_count": [20]})\nmodel.predict(new)'
+array([66.4778603])
+--- [12] 'w = model.coef_\nb = model.intercept_\nprint(3 * w[0] + 7 * w[1] + 20 * w[2] + b)'
+66.47786029820003
+
+--- [13] 'from sklearn.metrics import mean_absolute_error, r2_score\n\ny_pred = model.predict(X)\nprint(f"세 열 MAE {mean_absolute_error(y, y_pred):.2f} | R2 {r2_score(y, y_pred):.2f}")\n\np1 = one.predict(df[["study_hours"]])\nprint(f"공부 열 MAE {mean_absolute_error(y, p1):.2f} | R2 {r2_score(y, p1):.2f}")'
+세 열 MAE 1.17 | R2 0.99
+공부 열 MAE 4.26 | R2 0.87
+
+--- [14] 'plt.figure(figsize=(6, 5))\nplt.scatter(y, y_pred, s=60, label="학생 10명")\nplt.plot([40, 90], [40, 90], color="red", label="정답 = 예측")\nplt.xlabel("정답 점수")\nplt.ylabel("예측 점수")\nplt.legend()\nplt.show()'
+<image saved 50/tools/img/main-3.png>
+<Figure size 1200x1000 with 1 Axes>
+--- [15] 'cols = ["study_hours", "sleep_hours", "practice_count"]\nfor col in cols:\n    m = LinearRegression()\n    m.fit(df[[col]], y)\n    r2 = r2_score(y, m.predict(df[[col]]))\n    print(f"{col:15} 혼자 기울기 {m.coef_[0]:5.2f} | R2 {r2:.2f}")'
+study_hours     혼자 기울기  8.90 | R2 0.87
+sleep_hours     혼자 기울기  3.29 | R2 0.08
+practice_count  혼자 기울기  1.54 | R2 0.87
+
+--- [16] 'two_cols = ["study_hours", "practice_count"]\nm2 = LinearRegression()\nm2.fit(df[two_cols], y)\nprint(f"수면 뺀 두 열 R2 {r2_score(y, m2.predict(df[two_cols])):.2f}")\nprint(f"세 열 R2 {r2_score(y, y_pred):.2f}")'
+수면 뺀 두 열 R2 0.94
+세 열 R2 0.99
+
+--- [17] 'plan = pd.DataFrame({\n    "study_hours":    [2, 3, 2, 2],\n    "sleep_hours":    [6, 6, 7, 6],\n    "practice_count": [15, 15, 15, 25]\n})\npred = model.predict(plan)\nplan["예상 점수"] = pred.round(1)\nplan'
+   study_hours  sleep_hours  practice_count  예상 점수
+0            2            6              15   54.8
+1            3            6              15   60.6
+2            2            7              15   57.5
+3            2            6              25   61.2
+--- [18] 'table = df.copy()\ntable["예측"] = y_pred.round(1)\ntable["오차"] = (table["score"] - table["예측"]).round(1)\ntable["오차 크기"] = table["오차"].abs()\ntable.sort_values(by="오차 크기", ascending=False).head(3)'
+   study_hours  sleep_hours  practice_count  score    예측   오차  오차 크기
+1            2            8              15     58  60.2 -2.2    2.2
+9            1            8               8     52  50.0  2.0    2.0
+8            4            6              32     79  77.2  1.8    1.8
+--- [19] 'print(type(axes))\nprint(axes.shape)'
+<class 'numpy.ndarray'>
+(3,)
+
+--- [20] 'X.head(3)'
+   study_hours  sleep_hours  practice_count
+0            1            6              10
+1            2            8              15
+2            3            5              20
+--- [21] 'model.coef_.shape'
+(3,)
+--- [22] 'new'
+   study_hours  sleep_hours  practice_count
+0            3            7              20
+--- [23] 'more = pd.DataFrame({\n    "study_hours":    [3, 4, 3, 3],\n    "sleep_hours":    [7, 7, 8, 7],\n    "practice_count": [20, 20, 20, 21]\n})\nmodel.predict(more).round(2)'
+array([66.48, 72.28, 69.16, 67.11])
+=== heat-nov: vmin, vmax 없이
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})'
+--- [4] 'corr = df.corr()'
+--- [5] 'plt.figure(figsize=(7, 5))\n\nsns.heatmap(\n    corr,\n    annot=True,\n    fmt=".2f"\n)\n\nplt.show()'
+<image saved 50/tools/img/nov-1.png>
+<Figure size 1400x1000 with 2 Axes>
+=== heat-nofmt: annot만
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})'
+--- [4] 'corr = df.corr()'
+--- [5] 'plt.figure(figsize=(7, 5))\n\nsns.heatmap(\n    corr,\n    annot=True,\n    vmin=-1,\n    vmax=1\n)\n\nplt.show()'
+<image saved 50/tools/img/nofmt-1.png>
+<Figure size 1400x1000 with 2 Axes>
+=== minus: unicode_minus 없이
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})'
+--- [4] 'corr = df.corr()'
+--- [5] 'plt.figure(figsize=(7, 5))\n\nsns.heatmap(\n    corr,\n    annot=True,\n    vmin=-1,\n    vmax=1,\n    fmt=".2f"\n)\n\nplt.show()'
+<stderr>ROOT/nb-check/.venv/lib/python3.13/site-packages/seaborn/utils.py:61: UserWarning: Glyph 8722 (\N{MINUS SIGN}) missing from font(s) NanumGothic.
+  fig.canvas.draw()
+ROOT/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 8722 (\N{MINUS SIGN}) missing from font(s) NanumGothic.
+  fig.canvas.print_figure(bytes_io, **kw)
+
+<image saved 50/tools/img/minus-1.png>
+<Figure size 1400x1000 with 2 Axes>
+=== e-font: 수업 코드 AppleGothic 그대로
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns'
+--- [2] 'plt.rcParams["font.family"] = "AppleGothic"'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})'
+--- [4] 'plt.figure(figsize=(6, 4))\nplt.scatter(df["study_hours"], df["score"])\nplt.title("공부 시간과 점수")\nplt.xlabel("공부 시간")\nplt.ylabel("점수")\nplt.show()'
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>ROOT/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 51216 (\N{HANGUL SYLLABLE JEOM}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+ROOT/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 49688 (\N{HANGUL SYLLABLE SU}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>ROOT/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 44277 (\N{HANGUL SYLLABLE GONG}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+ROOT/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 48512 (\N{HANGUL SYLLABLE BU}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+ROOT/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 49884 (\N{HANGUL SYLLABLE SI}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+ROOT/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 44036 (\N{HANGUL SYLLABLE GAN}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+ROOT/nb-check/.venv/lib/python3.13/site-packages/IPython/core/pylabtools.py:158: UserWarning: Glyph 44284 (\N{HANGUL SYLLABLE GWA}) missing from font(s) DejaVu Sans.
+  fig.canvas.print_figure(bytes_io, **kw)
+findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<stderr>findfont: Font family 'AppleGothic' not found.
+
+<image saved 50/tools/img/efont-1.png>
+<Figure size 1200x800 with 1 Axes>
+=== e-ax: ax= 없이
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})'
+--- [4] 'fig, axes = plt.subplots(1, 3, figsize=(16, 5))\n\nsns.scatterplot(data=df, x="study_hours", y="score")\nsns.scatterplot(data=df, x="sleep_hours", y="score")\nsns.scatterplot(data=df, x="practice_count", y="score")\n\nplt.show()'
+<image saved 50/tools/img/eax-1.png>
+<Figure size 3200x1000 with 3 Axes>
+=== e-order: predict 표의 열 순서와 빠진 열
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})'
+--- [4] 'from sklearn.linear_model import LinearRegression\n\none = LinearRegression()\none.fit(df[["study_hours"]], df["score"])'
+LinearRegression()
+--- [5] 'X = df[["study_hours", "sleep_hours", "practice_count"]]\ny = df["score"]\nprint(X.shape, y.shape)'
+(10, 3) (10,)
+
+--- [6] 'model = LinearRegression()\nmodel.fit(X, y)'
+LinearRegression()
+--- [7] 'model.predict(pd.DataFrame({"sleep_hours": [7], "study_hours": [3], "practice_count": [20]}))'
+ValueError: The feature names should match those that were passed during fit.
+Feature names must be in the same order as they were in fit.
+
+--- [8] 'model.predict(pd.DataFrame({"study_hours": [3], "practice_count": [20]}))'
+ValueError: The feature names should match those that were passed during fit.
+Feature names seen at fit time, yet now missing:
+- sleep_hours
+
+--- [9] 'model.predict(pd.DataFrame({"study_hours": [3], "sleep_hours": [7], "practice_count": [20]}))'
+array([66.4778603])
+=== e-key: 대괄호 한 겹
+--- [1] 'import pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns'
+--- [2] 'import platform\n\nos_name = platform.system()\nif os_name == "Windows":\n    plt.rcParams["font.family"] = "Malgun Gothic"\nelif os_name == "Darwin":\n    plt.rcParams["font.family"] = "AppleGothic"\nplt.rcParams["axes.unicode_minus"] = False'
+--- [3] 'df = pd.DataFrame({\n    "study_hours":    [1, 2, 3, 4, 5, 2, 3, 5, 4, 1],\n    "sleep_hours":    [6, 8, 5, 7, 8, 5, 8, 6, 6, 8],\n    "practice_count": [10, 15, 20, 25, 30, 12, 28, 22, 32, 8],\n    "score":          [47, 58, 60, 76, 87, 49, 73, 77, 79, 52]\n})'
+--- [4] 'from sklearn.linear_model import LinearRegression\n\none = LinearRegression()\none.fit(df[["study_hours"]], df["score"])'
+LinearRegression()
+--- [5] 'X = df[["study_hours", "sleep_hours", "practice_count"]]\ny = df["score"]\nprint(X.shape, y.shape)'
+(10, 3) (10,)
+
+--- [6] 'model = LinearRegression()\nmodel.fit(X, y)'
+LinearRegression()
+--- [7] 'df["study_hours", "sleep_hours"]'
+KeyError: ('study_hours', 'sleep_hours')
+--- [8] 'model.fit(df["study_hours"], y)'
+ValueError: Expected a 2-dimensional container but got <class 'pandas.Series'> instead. Pass a DataFrame containing a single row (i.e. single sample) or a single column (i.e. single feature) instead.
