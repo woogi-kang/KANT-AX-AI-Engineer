@@ -224,7 +224,8 @@ students.sort_values("pass_proba", ascending=False)
 | `from sklearn.linear_model import LogisticRegression` | 로지스틱 회귀 불러오기 |
 | `LogisticRegression(max_iter=1000)` | 반복 횟수 한도 1000으로 모델 만들기 |
 | `model.classes_` | 보기 순서 (`[False, True]`) |
-| `model.coef_[0]` / `model.intercept_` | 열마다 가중치 / 절편 |
+| `model.coef_[0]` | 열마다 가중치 |
+| `model.intercept_` | 절편 |
 | `model.decision_function(new_scaled)` | 가중치를 곱해 더한 합계 |
 | `model.predict(new_scaled)` | True 또는 False |
 | `model.predict_proba(new_scaled)[0, 1]` | 첫 학생의 합격 확률 |
