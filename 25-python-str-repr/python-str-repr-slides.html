@@ -13,7 +13,7 @@ x-shape[kind=ellipse]{border-radius:50%}
 table{border-collapse:collapse;width:100%}
 td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
 aside{display:none}
-.cp-cover{position:absolute;bottom:56px;font:400 22px/1.4 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:nowrap;pointer-events:none}
+.cp-cover{position:absolute;bottom:52px;font:400 20px/1.5 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:pre;pointer-events:none}
 html,body{margin:0;height:100%;background:#E9E7E1;transition:background .3s;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
 #pl-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
 #pl-stage>section{position:absolute;left:0;top:0;visibility:hidden}
@@ -150,7 +150,8 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </div>
 <div data-build-in="shine order 2" data-target="cov-code" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>24에서 붕어빵 틀을 만들었어요. 그런데 붕어빵을 통째로 print하면 꺾쇠괄호 안에 낯선 글자가 나왔어요. 이번 챕터는 그 글자를 우리가 원하는 글자로 바꿔요. 파이썬이 정해진 순간에 알아서 부르는 메서드 두 개, __str__과 __repr__을 배워요. 왜 필요한지, 언제 불리는지, 둘이 어떻게 다른지를 차례로 봐요. 그다음 붕어빵을 여러 개 담아 정렬하고, 판매할 때마다 재고가 줄어드는 노점을 만들어요.</aside>
-<p class="cp-cover" style="left: 128px; color: rgba(246, 245, 241, 0.55);">© 2026 Taewook Kang (woogi). 허락 없이 복제, 재배포, 판매할 수 없어요.</p></section>
+<p class="cp-cover" style="left: 128px; color: rgba(246, 245, 241, 0.55);">© 2026 메모리즈(강태욱). 개인 학습 목적에 한해 볼 수 있어요.
+복제, 재배포, 상업적 이용, AI 학습용 수집은 허락이 필요해요.</p></section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;word-break:keep-all;padding:96px;display:flex;flex-direction:column">
 <h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>
 <div data-build-in="stagger order 1" data-gap="90" style="position:absolute;left:40px;top:30px;width:1840px">
@@ -724,7 +725,7 @@ return { leave: stop };
 <p style="position:absolute;left:96px;top:900px;width:1728px;font-size:30px;font-weight:500;line-height:1.5;color:#4A5262">다음 챕터: 26에서 틀을 물려받아 슈크림 붕어빵 틀을 만들어요.</p>
 <aside>이번 챕터에서 배운 것을 한 장에 모았어요. __str__과 __repr__은 파이썬이 정해진 순간에 알아서 부르는 메서드예요. print와 str과 f-string은 __str__을, 셀 마지막 줄과 리스트 안의 값은 __repr__을 찾아요. 둘 다 꼭 글자를 return해요. 하나만 만든다면 __repr__이에요. 붕어빵 여러 개는 22의 key로 정렬하고, 메서드 안에서 재고 같은 상태를 바꿔요. 26에서는 이 틀을 물려받아 새 틀을 만드는 상속을 배워요.</aside>
 </section>
-<p id="pl-cp">© 2026 Taewook Kang (woogi) · 무단 복제·배포 금지</p>
+<p id="pl-cp">© 2026 메모리즈(강태욱) · 개인 학습용 · 무단 복제·배포 금지</p>
 </div>
 <button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
 <button id="pl-copy" data-tip="복사" aria-label="복사"><svg class="cp" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg><svg class="ok" viewBox="0 0 24 24"><polyline points="5,12.5 10,17.5 19,7"/></svg></button>

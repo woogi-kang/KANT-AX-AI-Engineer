@@ -13,7 +13,7 @@ x-shape[kind=ellipse]{border-radius:50%}
 table{border-collapse:collapse;width:100%}
 td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
 aside{display:none}
-.cp-cover{position:absolute;bottom:56px;font:400 22px/1.4 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:nowrap;pointer-events:none}
+.cp-cover{position:absolute;bottom:52px;font:400 20px/1.5 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:pre;pointer-events:none}
 html,body{margin:0;height:100%;background:#E9E7E1;transition:background .3s;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
 #pl-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
 #pl-stage>section{position:absolute;left:0;top:0;visibility:hidden}
@@ -163,7 +163,8 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="position:absolute;left:1058px;top:752px;width:680px;font-size:26px;line-height:1.5;color:#4A5262">열마다 남은 빈칸 수예요. 정리한 뒤에는 모두 0이에요.</p>
 <div data-build-in="shine order 2" data-target="cov-card" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>오늘은 머신러닝에 넣기 전에 데이터를 다듬는 법을 배워요. seaborn에 들어 있는 타이타닉 승객 891명의 표로 연습해요. 빈칸을 찾아 채우고, 튀는 값을 골라내고, 겹친 행을 세고, 그래프로 확인해요. 오른쪽 카드는 열마다 빈칸 수를 센 결과예요. 정리를 마치면 네 열 모두 0이 돼요.</aside>
-<p class="cp-cover" style="left: 128px; color: rgba(246, 245, 241, 0.55);">© 2026 Taewook Kang (woogi). 허락 없이 복제, 재배포, 판매할 수 없어요.</p></section>
+<p class="cp-cover" style="left: 128px; color: rgba(246, 245, 241, 0.55);">© 2026 메모리즈(강태욱). 개인 학습 목적에 한해 볼 수 있어요.
+복제, 재배포, 상업적 이용, AI 학습용 수집은 허락이 필요해요.</p></section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
 <h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>
 <div style="position:absolute;left:96px;top:230px;width:844px;height:160px;display:flex;flex-direction:row;align-items:center;gap:28px;border-bottom:2px solid #E1DED6"><p style="width:70px;font-size:72px;font-weight:900;color:#1E5FA8">1</p><x-icon name="Lightbulb" style="width:52px;height:52px;color:#1E5FA8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -976,7 +977,7 @@ IQR</p></div>
 <p style="position:absolute;left:96px;top:850px;width:1728px;font-size:32px;font-weight:700;line-height:1.5;color:#1D2330">채운 뒤에는 다시 세고, 지우기 전에는 누구인지 봐요.<br><span style="color:#6A7180">다음: 머신러닝 기초에서 정리한 표를 모델에 넣어요.</span></p>
 <aside>빈칸은 isnull().sum()으로 세고, 숫자는 평균이나 중앙값, 글자는 최빈값으로 채워요. 같은 정보가 다른 열에 있으면 거기서 가져오고, category 열은 칸을 먼저 늘려요. 튀는 값은 IQR 울타리로 후보를 찾은 뒤 누구인지 보고 정해요. 중복은 세어 보고 같은 기록인지 확인한 뒤 지워요. 마지막으로 그래프로 분포를 확인해요. 다음 머신러닝 수업에서 이 표를 모델에 넣어요.</aside>
 </section>
-<p id="pl-cp">© 2026 Taewook Kang (woogi) · 무단 복제·배포 금지</p>
+<p id="pl-cp">© 2026 메모리즈(강태욱) · 개인 학습용 · 무단 복제·배포 금지</p>
 </div>
 <button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
 <button id="pl-copy" data-tip="복사" aria-label="복사"><svg class="cp" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg><svg class="ok" viewBox="0 0 24 24"><polyline points="5,12.5 10,17.5 19,7"/></svg></button>

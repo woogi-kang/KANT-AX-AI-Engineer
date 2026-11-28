@@ -1,5 +1,5 @@
 // 릴리스 노트에 넣을 그림을 실제 덱(41)으로 만들어요.
-// 사용법 (레포 맨 위에서): node updates/2026-11-26-copyright/tools/shots.js
+// 사용법 (레포 맨 위에서): node updates/2026-11-28-copyright/tools/shots.js
 // 1) 표지 맨 아래 한 줄 2) 슬라이드 오른쪽 아래 작은 줄 3) PDF 쪽 아래 띠 (pdftoppm, ImageMagick 필요)
 const { chromium } = require('playwright');
 const { execFileSync } = require('child_process');

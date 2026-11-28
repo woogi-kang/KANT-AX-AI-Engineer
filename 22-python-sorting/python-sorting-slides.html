@@ -13,7 +13,7 @@ x-shape[kind=ellipse]{border-radius:50%}
 table{border-collapse:collapse;width:100%}
 td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
 aside{display:none}
-.cp-cover{position:absolute;bottom:56px;font:400 22px/1.4 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:nowrap;pointer-events:none}
+.cp-cover{position:absolute;bottom:52px;font:400 20px/1.5 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:pre;pointer-events:none}
 html,body{margin:0;height:100%;background:#E9E7E1;transition:background .3s;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
 #pl-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
 #pl-stage>section{position:absolute;left:0;top:0;visibility:hidden}
@@ -151,7 +151,8 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 </div>
 <div data-build-in="shine order 2" data-target="cov-code" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <aside>이번 챕터는 key로 줄 세우는 기준을 직접 정해요. 13에서 sorted와 sort, max와 min을 써 봤어요. 그때는 숫자는 작은 순, 글자는 abc 순으로만 줄 세웠어요. 이번에는 길이순, 가격순, 판매량 많은 순처럼 기준을 바꿔요. 21에서 배운 lambda를 key에 넣는 게 이번 챕터의 중심이에요. 튜플 리스트와 딕셔너리도 원하는 기준으로 줄 세워요.</aside>
-<p class="cp-cover" style="left: 128px; color: rgba(246, 245, 241, 0.55);">© 2026 Taewook Kang (woogi). 허락 없이 복제, 재배포, 판매할 수 없어요.</p></section>
+<p class="cp-cover" style="left: 128px; color: rgba(246, 245, 241, 0.55);">© 2026 메모리즈(강태욱). 개인 학습 목적에 한해 볼 수 있어요.
+복제, 재배포, 상업적 이용, AI 학습용 수집은 허락이 필요해요.</p></section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
 <h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>
 <div data-build-in="rise order 1" data-delay="0" style="position:absolute;left:96px;top:220px;width:840px;height:200px;display:flex;flex-direction:row;align-items:center;gap:28px;border-bottom:2px solid #E1DED6"><p style="width:70px;flex:none;font-size:72px;font-weight:900;line-height:1;color:#1E5FA8">1</p><x-icon name="Lightbulb" style="width:48px;height:48px;color:#1E5FA8"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -735,7 +736,7 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p data-build-in="rise order 2" style="position:absolute;left:96px;top:850px;width:1728px;font-size:30px;font-weight:500;color:#4A5262">다음 챕터 23에서는 리스트 컴프리헨션으로 고르고 바꾸기를 한 줄에 적어요.</p>
 <aside>key에 함수를 넣으면 그 결과로 비교한다는 것 하나로 이번 챕터를 묶을 수 있어요. sorted는 새 리스트를 주고 sort는 원본을 바꿔요. 튜플은 앞 칸부터 비교하니까 기준이 둘이면 튜플을 돌려주는 lambda를 써요. 딕셔너리는 get이나 items로 값 기준 정렬을 해요. max와 min도 key와 default를 받아요. 23에서는 21의 map, filter를 더 읽기 쉽게 쓰는 리스트 컴프리헨션을 배워요.</aside>
 </section>
-<p id="pl-cp">© 2026 Taewook Kang (woogi) · 무단 복제·배포 금지</p>
+<p id="pl-cp">© 2026 메모리즈(강태욱) · 개인 학습용 · 무단 복제·배포 금지</p>
 </div>
 <button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
 <button id="pl-copy" data-tip="복사" aria-label="복사"><svg class="cp" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg><svg class="ok" viewBox="0 0 24 24"><polyline points="5,12.5 10,17.5 19,7"/></svg></button>

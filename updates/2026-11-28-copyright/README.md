@@ -1,4 +1,4 @@
-# 2026-11-26 · 슬라이드와 PDF에 저작권 안내가 추가되었어요
+# 2026-11-28 · 슬라이드와 PDF에 저작권 안내가 추가되었어요
 
 모든 챕터와 번외 슬라이드, PDF, 레포에 저작권 안내가 들어갔어요. 슬라이드 내용과 보는 방법은 그대로예요. 혼자 공부하고, PDF를 인쇄하고, 친구에게 주소를 알려 주는 것은 지금처럼 자유롭게 할 수 있어요.
 
@@ -33,7 +33,7 @@ PDF는 쪽마다 슬라이드 아래에 얇은 띠가 붙어요. 왼쪽에 저�
 
 ## 강사용
 
-그림은 실제 덱(41)으로 만들었어요. 플레이어(`tools/build_player.js`), PDF(`tools/export.js`), 표지 줄(`tools/deckrender.js`)이 바뀌면 레포 맨 위에서 `node updates/2026-11-26-copyright/tools/shots.js`로 다시 만들어요.
+그림은 실제 덱(41)으로 만들었어요. 플레이어(`tools/build_player.js`), PDF(`tools/export.js`), 표지 줄(`tools/deckrender.js`)이 바뀌면 레포 맨 위에서 `node updates/2026-11-28-copyright/tools/shots.js`로 다시 만들어요.
 
 ---
 

@@ -16,14 +16,14 @@ x-shape[kind=ellipse]{border-radius:50%}
 table{border-collapse:collapse;width:100%}
 td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
 aside{display:none}
-.cp-cover{position:absolute;bottom:56px;font:400 22px/1.4 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:nowrap;pointer-events:none}`;
+.cp-cover{position:absolute;bottom:52px;font:400 20px/1.5 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:pre;pointer-events:none}`;
 
 // Copyright lines. The cover (first slide) carries COVER_LINE at its bottom; the player puts PLAYER_LINE in the
 // bottom-right corner of the other slides, and export.js prints PDF_LINE in a strip under every PDF page.
-const OWNER = '© 2026 Taewook Kang (woogi)';
-const COVER_LINE = OWNER + '. 허락 없이 복제, 재배포, 판매할 수 없어요.';
-const PLAYER_LINE = OWNER + ' · 무단 복제·배포 금지';
-const PDF_LINE = OWNER + ' · 개인 학습용 · 무단 복제·재배포·판매 금지';
+const OWNER = '© 2026 메모리즈(강태욱)';
+const COVER_LINE = OWNER + '. 개인 학습 목적에 한해 볼 수 있어요.\n복제, 재배포, 상업적 이용, AI 학습용 수집은 허락이 필요해요.';
+const PLAYER_LINE = OWNER + ' · 개인 학습용 · 무단 복제·배포 금지';
+const PDF_LINE = OWNER + '. All rights reserved. 개인 학습 목적에 한해 볼 수 있어요. 복제, 재배포, 상업적 이용, AI 학습용 수집은 허락이 필요해요.';
 
 function loadIcons() {
   const dir = path.join(__dirname, 'icons');
