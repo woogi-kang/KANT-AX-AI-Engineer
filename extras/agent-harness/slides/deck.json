@@ -1,0 +1,72 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-24T10:00:00Z"
+  },
+  "lists": "css",
+  "title": "AI 에이전트 하네스 만들기",
+  "order": [
+    "cover",
+    "toc",
+    "why",
+    "big",
+    "loop",
+    "min",
+    "trend",
+    "prompt",
+    "context",
+    "loop2",
+    "graph",
+    "harness",
+    "claude-md",
+    "effect",
+    "rule-good",
+    "window",
+    "agents-table",
+    "agents-real",
+    "tools",
+    "mcp",
+    "perm",
+    "hooks",
+    "hook-run",
+    "verify",
+    "skills",
+    "subagents",
+    "where",
+    "pitfalls",
+    "ex-repo",
+    "ex-build",
+    "ex-move",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "why"
+    },
+    "p2": {
+      "description": "AI 엔지니어링의 흐름",
+      "start": "trend"
+    },
+    "p6": {
+      "description": "함정과 실제 예",
+      "start": "pitfalls"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

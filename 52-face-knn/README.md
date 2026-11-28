@@ -6,7 +6,7 @@
 
 | 슬&#8288;라&#8288;이&#8288;드 | 이전 챕터 | 다음 챕터 |
 | --- | --- | --- |
-| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/52-face-knn/face-knn-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/52-face-knn/face-knn-slides.pdf) | [51 · 처음 보는 데이터로 채점하기 (나누기와 스케일링)](../51-train-test-split) | 준비 중 |
+| [브라우저로 열기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/52-face-knn/face-knn-slides.html) · [PDF 받기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/52-face-knn/face-knn-slides.pdf) | [51 · 처음 보는 데이터로 채점하기 (나누기와 스케일링)](../51-train-test-split) | [53 · 합격할 확률 구하기 (로지스틱 회귀)](../53-logistic-regression) |
 
 <!-- /curriculum:top -->
 
@@ -277,6 +277,6 @@ node ../tools/export.js slides face-knn-slides.pdf
 
 <!-- curriculum:nav -->
 
-[← 이전: 51 · 처음 보는 데이터로 채점하기 (나누기와 스케일링)](../51-train-test-split) · [커리큘럼](../README.md)
+[← 이전: 51 · 처음 보는 데이터로 채점하기 (나누기와 스케일링)](../51-train-test-split) · [커리큘럼](../README.md) · [다음: 53 · 합격할 확률 구하기 (로지스틱 회귀) →](../53-logistic-regression)
 
 <!-- /curriculum:nav -->

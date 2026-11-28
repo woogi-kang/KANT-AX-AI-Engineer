@@ -1,0 +1,4 @@
+{"name":"Bash","input":{"command":"ls -la && cat *.py && python3 main.py","description":"List files, show code, run main.py"}}
+{"name":"Bash","input":{"command":"ls -la && cat *.py","description":"List files and show Python code"}}
+{"name":"Edit","input":{"replace_all":false,"file_path":"/tmp/agent-demo/cafe-order/main.py","old_string":"    total = prices[item]","new_string":"    total += prices[item]"}}
+{"name":"Bash","input":{"command":"python3 main.py","description":"Run main.py to verify the fix"}}

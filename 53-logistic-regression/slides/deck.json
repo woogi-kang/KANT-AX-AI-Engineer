@@ -1,0 +1,99 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-27T09:00:00Z"
+  },
+  "lists": "css",
+  "title": "합격할 확률 구하기 (로지스틱 회귀)",
+  "order": [
+    "cover",
+    "toc",
+    "setup",
+    "start",
+    "why",
+    "kinds",
+    "prob",
+    "big",
+    "target",
+    "assign",
+    "review51",
+    "stratify",
+    "stratify-cmp",
+    "iloc",
+    "scaled",
+    "import",
+    "model",
+    "classes",
+    "coef",
+    "new",
+    "zsum",
+    "sigmoid",
+    "sigwhy",
+    "predict",
+    "proba",
+    "threshold",
+    "score",
+    "vs",
+    "e-cont",
+    "e-two",
+    "e-raw",
+    "e-small",
+    "e-sleep",
+    "x-table",
+    "x-practice",
+    "x-range",
+    "trouble",
+    "recap",
+    "cheatsheet"
+  ],
+  "sections": {
+    "intro": {
+      "description": "들어가기",
+      "start": "cover"
+    },
+    "p1": {
+      "description": "왜 필요한가",
+      "start": "why"
+    },
+    "p3": {
+      "description": "모델 학습하기",
+      "start": "import"
+    },
+    "p5": {
+      "description": "오류와 함정",
+      "start": "e-cont"
+    },
+    "p6": {
+      "description": "실제 상황",
+      "start": "x-table"
+    },
+    "trouble": {
+      "description": "정리",
+      "start": "trouble"
+    },
+    "recap": {
+      "description": "정리",
+      "start": "recap"
+    },
+    "p2": {
+      "description": "정답 만들고 나누기",
+      "start": "target"
+    },
+    "p4": {
+      "description": "확률 구하기",
+      "start": "new"
+    }
+  },
+  "faces": {
+    "noto-sans-kr": {
+      "family": "Noto Sans KR",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

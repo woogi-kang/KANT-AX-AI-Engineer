@@ -60,6 +60,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | [50 · 다중 선형 회귀와 ML 기초 정리](./50-multiple-regression) | 파&#8288;이&#8288;썬 | seaborn 산점도와 상관계수 히트맵으로 열을 살펴보고, 입력 열 셋으로 점수를 예측한 뒤 45~50의 머신러닝 기초를 한 장으로 정리해요 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/50-multiple-regression/multiple-regression-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/50-multiple-regression/multiple-regression-slides.pdf) |
 | [51 · 처음 보는 데이터로 채점하기 (나누기와 스케일링)](./51-train-test-split) | 파&#8288;이&#8288;썬 | train_test_split으로 학습용과 채점용을 나눠 처음 보는 데이터로 채점하고, StandardScaler로 열의 크기를 맞춰 SGD로 세 열을 학습해요 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/51-train-test-split/train-test-split-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/51-train-test-split/train-test-split-slides.pdf) |
 | [52 · 사진으로 사람 맞히기 (얼굴 데이터와 KNN)](./52-face-knn) | 파&#8288;이&#8288;썬 | 얼굴 사진이 숫자 표라는 것과 거리를 손으로 계산해 보고, 가장 가까운 사진들의 다수결로 사람을 맞히는 KNN을 학습하고 채점해요 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/52-face-knn/face-knn-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/52-face-knn/face-knn-slides.pdf) |
+| [53 · 합격할 확률 구하기 (로지스틱 회귀)](./53-logistic-regression) | 파&#8288;이&#8288;썬 | 합격과 불합격처럼 보기 중에 고르는 분류를 배우고, 로지스틱 회귀로 새 학생이 합격할 확률을 구해요 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/53-logistic-regression/logistic-regression-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/53-logistic-regression/logistic-regression-slides.pdf) |
 
 <!-- /curriculum:chapters -->
 
@@ -74,6 +75,7 @@ KANT AX/AI 엔지니어 트랙의 공식 학습 자료 저장소예요. 터미�
 | 제&#8288;목 | 다루는 내용 | 슬&#8288;라&#8288;이&#8288;드 | P&#8288;D&#8288;F |
 | --- | --- | --- | --- |
 | [터미널 환경에 적응하기](./extras/terminal-path-help) | 탐색기와 터미널 맞춰 보기(`cd ..` `cd -` `cd ~`), 위치에 따라 달라지는 명령, `-h`와 `--help`, origin과 main 이름의 관례, git과 uv 도움말 읽기 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/terminal-path-help/terminal-path-help-slides.pdf) |
+| [AI 에이전트 하네스 만들기](./extras/agent-harness) | Claude Code로 보는 규칙 파일(CLAUDE.md, AGENTS.md), 도구와 MCP, 권한과 훅, 검사, 스킬, 서브에이전트. 프롬프트, 컨텍스트, 루프, 그래프로 넓어진 AI 엔지니어링의 흐름 | [열&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/agent-harness/agent-harness-slides.html) | [받&#8288;기](https://woogi-kang.github.io/KANT-AX-AI-Engineer/extras/agent-harness/agent-harness-slides.pdf) |
 
 <!-- /curriculum:extras -->
 

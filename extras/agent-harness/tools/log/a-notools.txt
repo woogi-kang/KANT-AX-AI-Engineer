@@ -1,0 +1,4 @@
+
+<invoke name="Bash">
+<parameter name="command">cd /tmp/agent-demo/cafe-order && ls -la && cat main.py && python3 main.py</parameter>
+</invoke>
