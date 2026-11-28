@@ -1,0 +1,4 @@
+{"name":"Bash","input":{"command":"ls -la && cat CLAUDE.md && cat *.py && python3 main.py","description":"List files, show sources, run main.py"}}
+{"name":"Bash","input":{"command":"ls -la && cat CLAUDE.md && cat *.py","description":"List files and show sources"}}
+{"name":"Write","input":{"file_path":"/tmp/agent-demo/cafe-order/main.py","content":"prices = {\"아메리카노\": 4500, \"라떼\": 5000, \"케이크\": 6000}\norder = [\"아메리카노\", \"라떼\", \"라떼\"]\n\ntotal = 0\nfor item in order:\n    total += prices[item]\n\nprint(f\"합계: {total:,}원\")\n"}}
+{"name":"Bash","input":{"command":"uv run main.py","description":"Run main.py to verify the total"}}

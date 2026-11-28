@@ -1,0 +1,12 @@
+diff --git a/main.py b/main.py
+index 0a78d0f..aa74a23 100644
+--- a/main.py
++++ b/main.py
+@@ -3,6 +3,6 @@ order = ["아메리카노", "라떼", "라떼"]
+ 
+ total = 0
+ for item in order:
+-    total = prices[item]
++    total += prices[item]
+ 
+ print("합계:", total)
