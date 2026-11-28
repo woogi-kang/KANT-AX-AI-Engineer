@@ -13,10 +13,15 @@ x-shape[kind=ellipse]{border-radius:50%}
 table{border-collapse:collapse;width:100%}
 td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
 aside{display:none}
+.cp-cover{position:absolute;bottom:52px;font:400 20px/1.5 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:pre;pointer-events:none}
 html,body{margin:0;height:100%;background:#E9E7E1;transition:background .3s;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
 #pl-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
 #pl-stage>section{position:absolute;left:0;top:0;visibility:hidden}
 #pl-stage>section.on{visibility:visible}
+#pl-cp{position:absolute;right:28px;bottom:16px;z-index:40;margin:0;font:400 15px/1.4 'Noto Sans KR',Arial,sans-serif;white-space:nowrap;pointer-events:none;color:rgba(29,35,48,.5)}
+#pl-cp.dark{color:rgba(246,245,241,.5)}
+#pl-cp.off{display:none}
+#pl-cp.chip{padding:2px 10px;border-radius:7px;background:var(--cpbg);right:18px;bottom:14px}
 [data-build-in]{transition:opacity .45s ease,transform .45s ease}
 .pending{opacity:0!important}
 .pending.rise{transform:translateY(40px)!important}
@@ -138,7 +143,8 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <div data-build-in="shine order 2" data-target="cov-1-2" style="position:absolute;left:0px;top:0px;width:1px;height:1px"></div>
 <div style="position:absolute;left:1209px;top:742px;display:flex;flex-direction:row;align-items:center;gap:28px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:44px;font-weight:700;color:#E6A3C8;white-space:pre">scores[1][2]</p><x-shape kind="arrow-right" style="width: 56px; height: 32px; flex: 0 0 auto; background: none;"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,30 60,30 60,0 100,50 60,100 60,70 0,70" fill="rgb(90, 97, 114)"></polygon></svg></x-shape><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:44px;font-weight:700;color:#E6E9EF">88</p></div>
 <aside>이번 챕터는 리스트를 두 가지로 더 써 봐요. 1파트는 in과 not in으로 값이 들어 있는지 True, False로 묻는 법이에요. 2파트는 리스트 안에 리스트를 넣은 2차원 리스트로 성적표 같은 표 모양 데이터를 다뤄요. 3파트에서 둘을 섞어 성적표, 좌석표, 카페 판매표를 만들어요. 모든 예제는 12, 13에서 쓰던 노트북에 이어서 적고 실행해요.</aside>
-</section>
+<p class="cp-cover" style="left: 128px; color: rgba(246, 245, 241, 0.55);">© 2026 메모리즈(강태욱). 개인 학습 목적에 한해 볼 수 있어요.
+복제, 재배포, 상업적 이용, AI 학습용 수집은 허락이 필요해요.</p></section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
 <h2 style="position:absolute;left:96px;top:72px;font-size:64px;font-weight:700;line-height:1.15;color:#1D2330">오늘의 순서</h2>
 <div style="position:absolute;left:96px;top:236px;width:1728px;height:184px;display:flex;flex-direction:row;align-items:center;gap:40px;border-bottom:2px solid #E1DED6"><p style="width:80px;flex:none;font-size:80px;font-weight:900;line-height:1;color:#0F7C86">1</p><div style="flex:1;display:flex;flex-direction:column;gap:10px"><p style="font-size:44px;font-weight:700;color:#1D2330">in과 not in</p><p style="font-size:28px;line-height:1.45;color:#4A5262">리스트, 튜플, 문자열에서 들어 있는지 묻기, and와 or로 섞기, 한 겹만 보는 in</p></div><p style="width:200px;flex:none;text-align:right;font-size:30px;font-weight:700;color:#6A7180">4–8쪽</p></div>
@@ -688,6 +694,7 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="position:absolute;left:96px;top:900px;font-size:30px;font-weight:700;color:#6A7180">다음 챕터 15에서는 번호 대신 키로 값을 꺼내는 딕셔너리를 배워요.</p>
 <aside>이번 챕터에서 쓴 코드를 한 장에 모았어요. in과 not in은 True, False로 답하고, 바깥 한 겹만 본다는 것을 기억해요. 2차원 리스트는 앞 번호가 행, 뒤 번호가 열이에요. 노트북에 이 장의 내용을 마크다운 셀로 정리해 두면 복습할 때 같이 봐요. 15에서는 번호 대신 이름으로 값을 꺼내는 딕셔너리를 배우고, 17에서 배울 if 문은 in이 만든 True, False로 할 일을 골라요.</aside>
 </section>
+<p id="pl-cp">© 2026 메모리즈(강태욱) · 개인 학습용 · 무단 복제·배포 금지</p>
 </div>
 <button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
 <button id="pl-copy" data-tip="복사" aria-label="복사"><svg class="cp" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg><svg class="ok" viewBox="0 0 24 24"><polyline points="5,12.5 10,17.5 19,7"/></svg></button>
@@ -699,7 +706,7 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <script>const PDF_NAME="python-2d-lists-slides.pdf";
 
 const stage=document.getElementById('pl-stage');
-const slides=[...stage.children];
+const slides=[...stage.children].filter(el=>el.tagName==="SECTION");
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
 const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off','wipe','slam','slide','stagger','count','mark','path','morph','lspot','lspot-off','run','run-off','zoom','zoom-off','blur','blur-off','text','pan','kenburns','pulse','grow','shine','shake'];
@@ -1099,7 +1106,7 @@ function textRects(){
 }
 function placeCopy(r,w){
   // the side arrows and the bottom bar show while the mouse moves, so the button keeps off them too
-  const h=w,g=Math.round(w*.24),txt=textRects().concat(['pl-hl','pl-hr','pl-bar'].map(id=>$(id).getBoundingClientRect()));
+  const h=w,g=Math.round(w*.24),txt=textRects().concat(['pl-hl','pl-hr','pl-bar','pl-cp'].map(id=>$(id).getBoundingClientRect()));
   const spots=[[r.right-g-w,r.top+g],[r.right-g-w,r.bottom-g-h],[r.right+g,r.top],[r.right-w/2,r.top-h/2],[r.right-w,r.top-g-h],[r.right-w,r.bottom+g],[r.right-w/2,r.bottom-h/2],[r.left-g-w,r.top],[r.left-w/2,r.top-h/2]];
   const inView=([x,y])=>x>=4&&y>=4&&x+w<=innerWidth-4&&y+h<=innerHeight-4;
   const hits=([x,y])=>txt.filter(c=>c.right>x-3&&c.left<x+w+3&&c.bottom>y-3&&c.top<y+h+3).length;
@@ -1190,6 +1197,21 @@ function bandColor(){
   const c=(getComputedStyle(slides[cur]).backgroundColor.match(/[\d.]+/g)||[]).map(Number);
   const [r,g,b]=c.length>=3&&c[3]!==0?c:[246,245,241],f=(.3*r+.59*g+.11*b)>128?.95:.7;
   document.body.style.background='rgb('+[r,g,b].map(v=>Math.round(v*f)).join(',')+')';
+  // the copyright line in the bottom-right corner follows the slide's shade; the cover has its own line
+  // where a box of the slide (a window drawn to the slide's edge) runs under it, it sits on a chip of the slide's colour
+  const cp=$('pl-cp');cp.classList.toggle('dark',f<.9);cp.classList.toggle('off',cur===0);
+  cp.style.setProperty('--cpbg','rgb('+[r,g,b].join(',')+')');cp.classList.toggle('chip',cur>0&&cpUnder(slides[cur]));
+}
+function cpUnder(sec){
+  if(sec._cpu!==undefined)return sec._cpu;
+  const k=stage._s,S=sec.getBoundingClientRect(),cp=$('pl-cp'),w=cp.offsetWidth+16,h=cp.offsetHeight+8;
+  const z={l:1920-28-w+8,t:1080-16-h+4,r:1920-20,b:1080-12};
+  return sec._cpu=[...sec.querySelectorAll('*')].some(el=>{
+    if(el.closest('aside'))return false;const cs=getComputedStyle(el);
+    if(cs.backgroundColor==='rgba(0, 0, 0, 0)'&&cs.borderTopWidth==='0px'&&!/^(IMG|svg)$/i.test(el.tagName))return false;
+    const q=el.getBoundingClientRect(),x=(q.left-S.left)/k,y=(q.top-S.top)/k,qw=q.width/k,qh=q.height/k;
+    if(!qw||!qh||(qw>=1900&&qh>=1000))return false;
+    return x<z.r&&x+qw>z.l&&y<z.b&&y+qh>z.t;});
 }
 bandColor();
 // The arrows and the bottom bar show while the mouse moves and hide 2 seconds after it stops,

@@ -13,10 +13,15 @@ x-shape[kind=ellipse]{border-radius:50%}
 table{border-collapse:collapse;width:100%}
 td,th{padding:0.35em 0.6em;text-align:left;border-bottom:1px solid #ccc;vertical-align:top}
 aside{display:none}
+.cp-cover{position:absolute;bottom:52px;font:400 20px/1.5 'Noto Sans KR',Arial,sans-serif;letter-spacing:0;white-space:pre;pointer-events:none}
 html,body{margin:0;height:100%;background:#E9E7E1;transition:background .3s;overflow:hidden;font-family:'Noto Sans KR',Arial,sans-serif}
 #pl-stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;background:#F6F5F1}
 #pl-stage>section{position:absolute;left:0;top:0;visibility:hidden}
 #pl-stage>section.on{visibility:visible}
+#pl-cp{position:absolute;right:28px;bottom:16px;z-index:40;margin:0;font:400 15px/1.4 'Noto Sans KR',Arial,sans-serif;white-space:nowrap;pointer-events:none;color:rgba(29,35,48,.5)}
+#pl-cp.dark{color:rgba(246,245,241,.5)}
+#pl-cp.off{display:none}
+#pl-cp.chip{padding:2px 10px;border-radius:7px;background:var(--cpbg);right:18px;bottom:14px}
 [data-build-in]{transition:opacity .45s ease,transform .45s ease}
 .pending{opacity:0!important}
 .pending.rise{transform:translateY(40px)!important}
@@ -136,7 +141,8 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <p style="font-size:38px;line-height:1.45;color:#BFC6D4">주문 세 건을<br>영수증 한 장으로 찍어요</p>
 <div id="cv-paper" style="position:absolute;left:1150px;top:150px;width:660px;background:#FFFFFF;border-radius:6px;box-shadow:0 1px 0 #E1DED6,0 18px 40px rgba(29,35,48,0.14);padding:44px 44px 44px"><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">=================================</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">            KANT <span style="display:inline-block;width:1.2em;text-align:center">카</span><span style="display:inline-block;width:1.2em;text-align:center">페</span>            </p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">=================================</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330"><span style="display:inline-block;width:1.2em;text-align:center">메</span><span style="display:inline-block;width:1.2em;text-align:center">뉴</span><span style="display:inline-block;width:1.2em;text-align:center">명</span>        <span style="display:inline-block;width:1.2em;text-align:center">단</span><span style="display:inline-block;width:1.2em;text-align:center">가</span> <span style="display:inline-block;width:1.2em;text-align:center">수</span><span style="display:inline-block;width:1.2em;text-align:center">량</span>      <span style="display:inline-block;width:1.2em;text-align:center">금</span><span style="display:inline-block;width:1.2em;text-align:center">액</span></p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">---------------------------------</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">coffee       4,500    2     9,000</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">latte        5,000    1     5,000</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">cake         6,500    3    19,500</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">---------------------------------</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330"><span style="display:inline-block;width:1.2em;text-align:center">합</span><span style="display:inline-block;width:1.2em;text-align:center">계</span>                       33,500</p><p style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-size:27px;line-height:39px;white-space:pre;color:#1D2330">=================================</p></div>
 <aside>이번 챕터가 끝나면 오른쪽 영수증을 셀 하나로 찍을 수 있어요. 12에서 변수, 타입, 계산, 비교를 배웠어요. 1파트는 문자열을 자르고 f-string으로 출력 모양을 맞춰요. 2파트는 주문을 리스트와 튜플에 담고 for로 하나씩 꺼내요. 3파트에서 둘을 합쳐 영수증을 완성해요. 영수증은 3파트 셀을 실제로 실행한 결과예요.</aside>
-</section>
+<p class="cp-cover" style="left: 128px; color: rgba(246, 245, 241, 0.55);">© 2026 메모리즈(강태욱). 개인 학습 목적에 한해 볼 수 있어요.
+복제, 재배포, 상업적 이용, AI 학습용 수집은 허락이 필요해요.</p></section>
 <section id="toc" data-transition="fade" style="background:#F6F5F1;color:#1D2330;font-family:'Noto Sans KR', Arial, sans-serif;font-variant-ligatures:none;padding:96px;display:flex;flex-direction:column">
 <h2 style="position:absolute;left:96px;top:80px;font-size:60px;font-weight:700;line-height:1.2;color:#1D2330">오늘의 순서</h2>
 <div data-build-in="stagger order 1" data-gap="110"><div style="position:absolute;left:96px;top:210px;width:1728px;height:132px;border-bottom:1px solid #D9D5CB"><div style="position:absolute;left:0;top:30px;width:8px;height:72px;border-radius:4px;background:#1F8A4C"></div><p style="position:absolute;left:34px;top:34px;width:60px;font-size:48px;font-weight:900;line-height:64px;color:#1F8A4C">1</p><p style="position:absolute;left:104px;top:38px;width:460px;font-size:34px;font-weight:700;line-height:56px;color:#1D2330">문자열과 출력</p><p style="position:absolute;left:584px;top:44px;width:960px;font-size:26px;line-height:44px;color:#4A5262">자르기, sep과 end, %, format(), f-string, 칸 수, 소수점, 콤마</p><p style="position:absolute;left:1544px;top:44px;width:184px;font-size:26px;font-weight:700;line-height:44px;text-align:right;color:#1F8A4C">5–17쪽</p></div><div style="position:absolute;left:96px;top:342px;width:1728px;height:132px;border-bottom:1px solid #D9D5CB"><div style="position:absolute;left:0;top:30px;width:8px;height:72px;border-radius:4px;background:#A23B72"></div><p style="position:absolute;left:34px;top:34px;width:60px;font-size:48px;font-weight:900;line-height:64px;color:#A23B72">2</p><p style="position:absolute;left:104px;top:38px;width:460px;font-size:34px;font-weight:700;line-height:56px;color:#1D2330">리스트, 튜플, for</p><p style="position:absolute;left:584px;top:44px;width:960px;font-size:26px;line-height:44px;color:#4A5262">[ ]와 ( ), 메서드, split과 join, 주문 데이터, 꺼내 담기, for</p><p style="position:absolute;left:1544px;top:44px;width:184px;font-size:26px;font-weight:700;line-height:44px;text-align:right;color:#A23B72">18–35쪽</p></div><div style="position:absolute;left:96px;top:474px;width:1728px;height:132px;border-bottom:1px solid #D9D5CB"><div style="position:absolute;left:0;top:30px;width:8px;height:72px;border-radius:4px;background:#2459C9"></div><p style="position:absolute;left:34px;top:34px;width:60px;font-size:48px;font-weight:900;line-height:64px;color:#2459C9">3</p><p style="position:absolute;left:104px;top:38px;width:460px;font-size:34px;font-weight:700;line-height:56px;color:#1D2330">영수증 만들기</p><p style="position:absolute;left:584px;top:44px;width:960px;font-size:26px;line-height:44px;color:#4A5262">주문 한 줄, for로 영수증 한 장, 주문 메모 정리</p><p style="position:absolute;left:1544px;top:44px;width:184px;font-size:26px;font-weight:700;line-height:44px;text-align:right;color:#2459C9">36–38쪽</p></div><div style="position:absolute;left:96px;top:606px;width:1728px;height:132px;border-bottom:1px solid #D9D5CB"><div style="position:absolute;left:0;top:30px;width:8px;height:72px;border-radius:4px;background:#6A7180"></div><p style="position:absolute;left:34px;top:34px;width:60px;font-size:48px;font-weight:900;line-height:64px;color:#6A7180"></p><p style="position:absolute;left:104px;top:38px;width:460px;font-size:34px;font-weight:700;line-height:56px;color:#1D2330">정리</p><p style="position:absolute;left:584px;top:44px;width:960px;font-size:26px;line-height:44px;color:#4A5262">막힐 때, 언제 무엇을 쓰는지</p><p style="position:absolute;left:1544px;top:44px;width:184px;font-size:26px;font-weight:700;line-height:44px;text-align:right;color:#6A7180">39–40쪽</p></div></div>
@@ -1504,6 +1510,7 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <div style="position:absolute;left:96px;top:830px;width:1728px;height:150px;background:#EDEBE4;border-radius:18px;padding:30px 36px;display:flex;flex-direction:column;gap:10px"><p style="font-size:26px;font-weight:700;color:#A23B72">다음: 14 · 파이썬 기초 3</p><p style="font-size:28px;color:#1D2330"><span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330;white-space:pre">in</span>, <span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330;white-space:pre">not in</span>으로 묻기와 <span style="font-family:'JetBrains Mono', 'Noto Sans KR', monospace;font-weight:700;color:#1D2330;white-space:pre">scores[1][2]</span> 같은 2차원 리스트를 정리해요.</p></div>
 <aside>이번 챕터에서 배운 것을 언제 쓰는지 한 장에 모았어요. 문자열은 번호로 꺼내고 자르고, f-string으로 칸, 소수점, 콤마를 맞춰요. 값 여러 개는 리스트에 담아 메서드로 고치고, 바꾸지 않을 묶음은 튜플에 담아요. split과 join으로 글자와 리스트를 오가요. for로 하나씩 꺼내 되풀이해요. 14에서는 in과 2차원 리스트를 더 연습해요.</aside>
 </section>
+<p id="pl-cp">© 2026 메모리즈(강태욱) · 개인 학습용 · 무단 복제·배포 금지</p>
 </div>
 <button id="pl-hl" class="hint" aria-label="이전 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,5 8,12 15,19"/></svg></button><button id="pl-hr" class="hint" aria-label="다음 쪽"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,5 16,12 9,19"/></svg></button>
 <button id="pl-copy" data-tip="복사" aria-label="복사"><svg class="cp" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7.5a2 2 0 0 0 2 2h2.5"/></svg><svg class="ok" viewBox="0 0 24 24"><polyline points="5,12.5 10,17.5 19,7"/></svg></button>
@@ -1515,7 +1522,7 @@ body.ui #pl-bar,#pl-bar:focus-within,#pl-bar.keep{opacity:1}
 <script>const PDF_NAME="python-strings-lists-slides.pdf";
 
 const stage=document.getElementById('pl-stage');
-const slides=[...stage.children];
+const slides=[...stage.children].filter(el=>el.tagName==="SECTION");
 const $=id=>document.getElementById(id);
 let cur=0, step=0;
 const HL_KINDS=['draw','type','spot','spot-off','cursor','click','cursor-off','wipe','slam','slide','stagger','count','mark','path','morph','lspot','lspot-off','run','run-off','zoom','zoom-off','blur','blur-off','text','pan','kenburns','pulse','grow','shine','shake'];
@@ -1915,7 +1922,7 @@ function textRects(){
 }
 function placeCopy(r,w){
   // the side arrows and the bottom bar show while the mouse moves, so the button keeps off them too
-  const h=w,g=Math.round(w*.24),txt=textRects().concat(['pl-hl','pl-hr','pl-bar'].map(id=>$(id).getBoundingClientRect()));
+  const h=w,g=Math.round(w*.24),txt=textRects().concat(['pl-hl','pl-hr','pl-bar','pl-cp'].map(id=>$(id).getBoundingClientRect()));
   const spots=[[r.right-g-w,r.top+g],[r.right-g-w,r.bottom-g-h],[r.right+g,r.top],[r.right-w/2,r.top-h/2],[r.right-w,r.top-g-h],[r.right-w,r.bottom+g],[r.right-w/2,r.bottom-h/2],[r.left-g-w,r.top],[r.left-w/2,r.top-h/2]];
   const inView=([x,y])=>x>=4&&y>=4&&x+w<=innerWidth-4&&y+h<=innerHeight-4;
   const hits=([x,y])=>txt.filter(c=>c.right>x-3&&c.left<x+w+3&&c.bottom>y-3&&c.top<y+h+3).length;
@@ -2006,6 +2013,21 @@ function bandColor(){
   const c=(getComputedStyle(slides[cur]).backgroundColor.match(/[\d.]+/g)||[]).map(Number);
   const [r,g,b]=c.length>=3&&c[3]!==0?c:[246,245,241],f=(.3*r+.59*g+.11*b)>128?.95:.7;
   document.body.style.background='rgb('+[r,g,b].map(v=>Math.round(v*f)).join(',')+')';
+  // the copyright line in the bottom-right corner follows the slide's shade; the cover has its own line
+  // where a box of the slide (a window drawn to the slide's edge) runs under it, it sits on a chip of the slide's colour
+  const cp=$('pl-cp');cp.classList.toggle('dark',f<.9);cp.classList.toggle('off',cur===0);
+  cp.style.setProperty('--cpbg','rgb('+[r,g,b].join(',')+')');cp.classList.toggle('chip',cur>0&&cpUnder(slides[cur]));
+}
+function cpUnder(sec){
+  if(sec._cpu!==undefined)return sec._cpu;
+  const k=stage._s,S=sec.getBoundingClientRect(),cp=$('pl-cp'),w=cp.offsetWidth+16,h=cp.offsetHeight+8;
+  const z={l:1920-28-w+8,t:1080-16-h+4,r:1920-20,b:1080-12};
+  return sec._cpu=[...sec.querySelectorAll('*')].some(el=>{
+    if(el.closest('aside'))return false;const cs=getComputedStyle(el);
+    if(cs.backgroundColor==='rgba(0, 0, 0, 0)'&&cs.borderTopWidth==='0px'&&!/^(IMG|svg)$/i.test(el.tagName))return false;
+    const q=el.getBoundingClientRect(),x=(q.left-S.left)/k,y=(q.top-S.top)/k,qw=q.width/k,qh=q.height/k;
+    if(!qw||!qh||(qw>=1900&&qh>=1000))return false;
+    return x<z.r&&x+qw>z.l&&y<z.b&&y+qh>z.t;});
 }
 bandColor();
 // The arrows and the bottom bar show while the mouse moves and hide 2 seconds after it stops,
